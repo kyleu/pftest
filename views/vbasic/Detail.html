@@ -1,0 +1,35 @@
+{% import (
+  "github.com/kyleu/pftest/app"
+  "github.com/kyleu/pftest/app/basic"
+  "github.com/kyleu/pftest/app/controller/cutil"
+  "github.com/kyleu/pftest/views/components"
+  "github.com/kyleu/pftest/views/layout"
+) %}
+
+{% code type Detail struct {
+  layout.Basic
+  Model *basic.Basic
+} %}
+
+{% func (p *Detail) Body(as *app.State, ps *cutil.PageState) %}
+  <div class="card">
+    <div class="right"><a href="{%s p.Model.WebPath() %}/edit"><button>Edit</button></a></div>
+    <h3>{%= components.SVGRefIcon(`star`, ps) %} Basic [{%s p.Model.String() %}]</h3>
+    <table>
+      <tbody>
+        <tr>
+          <th class="shrink" title="UUID in format (00000000-0000-0000-0000-000000000000)">ID</th>
+          <td>{%s p.Model.ID.String() %}</td>
+        </tr>
+        <tr>
+          <th class="shrink" title="String text">Name</th>
+          <td>{%s p.Model.Name %}</td>
+        </tr>
+        <tr>
+          <th class="shrink" title="Date and time, in almost any format">Created</th>
+          <td>{%= components.DisplayTimestamp(&p.Model.Created) %}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+{% endfunc %}

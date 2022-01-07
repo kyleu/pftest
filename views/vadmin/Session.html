@@ -1,0 +1,30 @@
+{% import (
+  "fmt"
+
+  "github.com/kyleu/pftest/app"
+  "github.com/kyleu/pftest/app/controller/cutil"
+  "github.com/kyleu/pftest/views/layout"
+) %}
+
+{% code type Session struct { layout.Basic } %}
+
+{% func (p *Session) Body(as *app.State, ps *cutil.PageState) %}
+  <div class="card">
+    <h3>Session</h3>
+    <em>{%d len(ps.Session) %} values</em>
+  </div>
+  {%- if len(ps.Session) > 0 -%}
+  <div class="card">
+    <h3>Values</h3>
+    <ul>
+    {%- for k, v := range ps.Session -%}
+      <li>{%s k %}: {%s fmt.Sprint(v) %}</li>
+    {%- endfor -%}
+    </ul>
+  </div>
+  {%- else -%}
+  <div class="card">
+    <em>Empty session</em>
+  </div>
+  {%- endif -%}
+{% endfunc %}

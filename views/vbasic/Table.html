@@ -1,0 +1,29 @@
+{% import (
+  "github.com/kyleu/pftest/app"
+  "github.com/kyleu/pftest/app/basic"
+  "github.com/kyleu/pftest/app/controller/cutil"
+  "github.com/kyleu/pftest/app/lib/filter"
+  "github.com/kyleu/pftest/views/components"
+) %}
+
+{% func Table(models basic.Basics, params filter.ParamSet, as *app.State, ps *cutil.PageState) %}
+  {%- code prms := params.Get("basic", nil, ps.Logger) -%}
+  <table>
+    <thead>
+      <tr>
+        {%= components.TableHeaderSimple("basic", "id", "ID", "UUID in format (00000000-0000-0000-0000-000000000000)", prms, ps.URI, ps) %}
+        {%= components.TableHeaderSimple("basic", "name", "Name", "String text", prms, ps.URI, ps) %}
+        {%= components.TableHeaderSimple("basic", "created", "Created", "Date and time, in almost any format", prms, ps.URI, ps) %}
+      </tr>
+    </thead>
+    <tbody>
+      {%- for _, model := range models -%}
+      <tr>
+        <td><a href="/basic/{%s model.ID.String() %}/{%s model.Name %}">{%s model.ID.String() %}</a></td>
+        <td><a href="/basic/{%s model.ID.String() %}/{%s model.Name %}">{%s model.Name %}</a></td>
+        <td>{%= components.DisplayTimestamp(&model.Created) %}</td>
+      </tr>
+      {%- endfor -%}
+    </tbody>
+  </table>
+{% endfunc %}

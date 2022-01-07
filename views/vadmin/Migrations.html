@@ -1,0 +1,26 @@
+{% import (
+  "strings"
+
+  "github.com/kyleu/pftest/app"
+  "github.com/kyleu/pftest/app/lib/database/migrate"
+  "github.com/kyleu/pftest/app/controller/cutil"
+  "github.com/kyleu/pftest/views/layout"
+) %}
+
+{% code type Migrations struct {
+  layout.Basic
+  Migrations migrate.MigrationFiles
+} %}
+
+{% func (p *Migrations) Body(as *app.State, ps *cutil.PageState) %}
+  <div class="card">
+    <h3>Database Migrations</h3>
+  </div>
+  {%- for _, mf := range p.Migrations -%}
+  <div class="card">
+    <h3>{%s mf.Title %}</h3>
+    {%s= cutil.FormatLangIgnoreErrors(strings.TrimSpace(mf.Content), "sql") %}
+  </div>
+ {%- endfor -%}
+{% endfunc %}
+

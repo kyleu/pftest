@@ -1,0 +1,9 @@
+{% import (
+  "time"
+
+  "github.com/kyleu/pftest/app/util"
+) %}
+
+{% func DisplayTimestamp(value *time.Time) %}{% stripspace %}
+    {%s util.TimeToFull(value) %}
+{% endstripspace %}{% endfunc %}

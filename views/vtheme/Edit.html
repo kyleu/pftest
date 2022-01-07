@@ -1,0 +1,33 @@
+{% import (
+  "github.com/kyleu/pftest/app"
+  "github.com/kyleu/pftest/app/controller/cutil"
+  "github.com/kyleu/pftest/app/lib/theme"
+  "github.com/kyleu/pftest/app/util"
+  "github.com/kyleu/pftest/views/components"
+  "github.com/kyleu/pftest/views/layout"
+) %}
+
+{% code type Edit struct {
+  layout.Basic
+  Theme *theme.Theme
+} %}
+
+{% func (p *Edit) Body(as *app.State, ps *cutil.PageState) %}
+  <form action="" method="post">
+    <div class="card">
+      <div class="right"><a href="#modal-theme"><button type="button">JSON</button></a></div>
+      <h3>{% if p.Theme.Key == theme.KeyNew %}New Theme{% else %}Theme Edit{% endif %}</h3>
+      <table class="mt">
+        <tbody>
+          {%= components.TableInput("key", "Key", p.Theme.Key, 5) %}
+        </tbody>
+      </table>
+    </div>
+    {%= Editor(util.AppName, p.Theme, as, ps) %}
+    <div class="card">
+      <button type="submit">Save All Changes</button>
+      <a href="/theme/{%u p.Theme.Key %}"><button type="button">Reset</button></a>
+    </div>
+  </form>
+  {%= components.JSONModal("theme", "Theme JSON", p.Theme, 1) %}
+{% endfunc %}

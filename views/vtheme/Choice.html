@@ -1,0 +1,23 @@
+{% import (
+  "github.com/kyleu/pftest/app/controller/cutil"
+  "github.com/kyleu/pftest/app/lib/theme"
+  "github.com/kyleu/pftest/views/vutil"
+) %}
+
+{% func Choice(themes theme.Themes, selected string, indent int, ps *cutil.PageState) %}{% stripspace %}
+  {%= vutil.Indent(true, indent) %}
+  <div class="choice mt">
+    {% for _, t := range themes %}
+      {%= vutil.Indent(true, indent + 1) %}
+      <label title="{%s t.Key %}">
+        {% if t.Key == selected %}
+          <input type="radio" name="theme" value="{%s t.Key %}" checked="checked" />
+        {% else %}
+          <input type="radio" name="theme" value="{%s t.Key %}" />
+        {% endif %}
+        {%= MockupTheme(t, true, indent + 2, ps) %}
+      </label>
+    {% endfor %}
+  {%= vutil.Indent(true, indent) %}
+  </div>
+{% endstripspace %}{% endfunc %}

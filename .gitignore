@@ -1,0 +1,11 @@
+# $PF_IGNORE$
+/.vscode
+/.idea
+/.scannerwork
+/build
+/tmp
+
+**/*.html.go
+**/*.sql.go
+
+/client/node_modules
