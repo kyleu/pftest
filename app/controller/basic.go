@@ -85,7 +85,6 @@ func BasicEdit(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrap(err, "unable to parse Basic from form")
 		}
 		frm.ID = ret.ID
-		frm.Name = ret.Name
 		err = as.Services.Basic.Update(ps.Context, nil, frm)
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to update Basic [%s]", frm.String())
@@ -105,11 +104,7 @@ func basicFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageState) 
 		return nil, errors.Errorf("argument [id] (%s) is not a valid UUID", idArgStr)
 	}
 	idArg := *idArgP
-	nameArg, err := rcRequiredString(rc, "name", false)
-	if err != nil {
-		return nil, errors.Wrap(err, "must provide [name] as an argument")
-	}
-	return as.Services.Basic.Get(ps.Context, nil, idArg, nameArg)
+	return as.Services.Basic.Get(ps.Context, nil, idArg)
 }
 
 func basicFromForm(rc *fasthttp.RequestCtx, setPK bool) (*basic.Basic, error) {

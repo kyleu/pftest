@@ -19,8 +19,8 @@
     <tbody>
       {%- for _, model := range models -%}
       <tr>
-        <td><a href="/basic/{%s model.ID.String() %}/{%s model.Name %}">{%s model.ID.String() %}</a></td>
-        <td><a href="/basic/{%s model.ID.String() %}/{%s model.Name %}">{%s model.Name %}</a></td>
+        <td><a href="/basic/{%s model.ID.String() %}">{%s model.ID.String() %}</a></td>
+        <td>{%s model.Name %}</td>
         <td>{%= components.DisplayTimestamp(&model.Created) %}</td>
       </tr>
       {%- endfor -%}

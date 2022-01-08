@@ -1,21 +1,22 @@
-package basic
+package timestamp
 
 import (
 	"context"
 	"time"
 
-	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
 
 	"github.com/kyleu/pftest/app/lib/database"
+	"github.com/kyleu/pftest/app/util"
 )
 
-func (s *Service) Create(ctx context.Context, tx *sqlx.Tx, models ...*Basic) error {
+func (s *Service) Create(ctx context.Context, tx *sqlx.Tx, models ...*Timestamp) error {
 	if len(models) == 0 {
 		return nil
 	}
 	for _, model := range models {
 		model.Created = time.Now()
+		model.Updated = util.NowPointer()
 	}
 	q := database.SQLInsert(table, columns, len(models), "")
 	vals := make([]interface{}, 0, len(models)*len(columns))
@@ -25,20 +26,22 @@ func (s *Service) Create(ctx context.Context, tx *sqlx.Tx, models ...*Basic) err
 	return s.db.Insert(ctx, q, tx, vals...)
 }
 
-func (s *Service) Update(ctx context.Context, tx *sqlx.Tx, model *Basic) error {
-	q := database.SQLUpdate(table, columns, "id = $4", "")
+func (s *Service) Update(ctx context.Context, tx *sqlx.Tx, model *Timestamp) error {
+	model.Updated = util.NowPointer()
+	q := database.SQLUpdate(table, columns, "id = $5", "")
 	data := model.ToData()
 	data = append(data, model.ID)
 	_, ret := s.db.Update(ctx, q, tx, 1, data...)
 	return ret
 }
 
-func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, models ...*Basic) error {
+func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, models ...*Timestamp) error {
 	if len(models) == 0 {
 		return nil
 	}
 	for _, model := range models {
 		model.Created = time.Now()
+		model.Updated = util.NowPointer()
 	}
 	q := database.SQLUpsert(table, columns, len(models), []string{"id"}, columns, "")
 	var data []interface{}
@@ -48,8 +51,16 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, models ...*Basic) error
 	return s.db.Insert(ctx, q, tx, data...)
 }
 
-func (s *Service) Delete(ctx context.Context, tx *sqlx.Tx, id uuid.UUID) error {
-	q := database.SQLDelete(table, "id = $1")
-	_, err := s.db.Delete(ctx, q, tx, 1, id)
+// Delete doesn't actually delete, it only sets [deleted]
+func (s *Service) Delete(ctx context.Context, tx *sqlx.Tx, id string) error {
+	q := database.SQLUpdate(table, []string{"deleted"}, "id = $2", "")
+	_, err := s.db.Update(ctx, q, tx, 1, time.Now(), id)
 	return err
+}
+
+func addDeletedClause(wc string, includeDeleted bool) string {
+	if includeDeleted {
+		return wc
+	}
+	return wc + " and \"deleted\" is null"
 }

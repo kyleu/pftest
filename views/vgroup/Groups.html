@@ -1,0 +1,40 @@
+{% import (
+  "github.com/kyleu/pftest/app"
+  "github.com/kyleu/pftest/app/controller/cutil"
+  "github.com/kyleu/pftest/app/util"
+  "github.com/kyleu/pftest/views/components"
+  "github.com/kyleu/pftest/views/layout"
+) %}
+
+{% code type Groups struct {
+  layout.Basic
+  Groups []*util.KeyValInt
+} %}
+
+{% func (p *Groups) Body(as *app.State, ps *cutil.PageState) %}
+  <div class="card">
+    <h3>{%= components.SVGRefIcon(`star`, ps) %} Group Groups</h3>
+    <div class="mt">
+      {%- if len(p.Groups) == 0 -%}
+      <em>No groups available</em>
+      {%- else -%}
+      <table>
+        <thead>
+          <tr>
+            <th>Group</th>
+            <th>Group Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          {%- for _, x := range p.Groups -%}
+          <tr>
+            <td><a href="/group/group/{%s x.Key %}">{%s x.Key %}</a></td>
+            <td>{%v x.Count %}</td>
+          </tr>
+          {%- endfor -%}
+        </tbody>
+      </table>
+      {%- endif -%}
+    </div>
+  </div>
+{% endfunc %}

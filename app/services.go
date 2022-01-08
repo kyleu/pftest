@@ -5,13 +5,21 @@ import (
 	"context"
 
 	"github.com/kyleu/pftest/app/basic"
+	"github.com/kyleu/pftest/app/group"
 	"github.com/kyleu/pftest/app/lib/database/migrate"
+	"github.com/kyleu/pftest/app/softdel"
+	"github.com/kyleu/pftest/app/timestamp"
+	"github.com/kyleu/pftest/app/version"
 	"github.com/kyleu/pftest/queries/migrations"
 	"github.com/pkg/errors"
 )
 
 type Services struct {
-	Basic *basic.Service
+	Basic     *basic.Service
+	Timestamp *timestamp.Service
+	Softdel   *softdel.Service
+	Version   *version.Service
+	Group     *group.Service
 }
 
 func NewServices(ctx context.Context, st *State) (*Services, error) {
@@ -22,5 +30,9 @@ func NewServices(ctx context.Context, st *State) (*Services, error) {
 	}
 
 	b := basic.NewService(st.DB, st.Logger)
-	return &Services{Basic: b}, nil
+	t := timestamp.NewService(st.DB, st.Logger)
+	s := softdel.NewService(st.DB, st.Logger)
+	v := version.NewService(st.DB, st.Logger)
+	g := group.NewService(st.DB, st.Logger)
+	return &Services{Basic: b, Timestamp: t, Softdel: s, Version: v, Group: g}, nil
 }

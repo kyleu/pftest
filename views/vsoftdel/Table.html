@@ -1,0 +1,31 @@
+{% import (
+  "github.com/kyleu/pftest/app"
+  "github.com/kyleu/pftest/app/controller/cutil"
+  "github.com/kyleu/pftest/app/lib/filter"
+  "github.com/kyleu/pftest/app/softdel"
+  "github.com/kyleu/pftest/views/components"
+) %}
+
+{% func Table(models softdel.Softdels, params filter.ParamSet, as *app.State, ps *cutil.PageState) %}
+  {%- code prms := params.Get("softdel", nil, ps.Logger) -%}
+  <table>
+    <thead>
+      <tr>
+        {%= components.TableHeaderSimple("softdel", "id", "ID", "String text", prms, ps.URI, ps) %}
+        {%= components.TableHeaderSimple("softdel", "created", "Created", "Date and time, in almost any format", prms, ps.URI, ps) %}
+        {%= components.TableHeaderSimple("softdel", "updated", "Updated", "Date and time, in almost any format (optional)", prms, ps.URI, ps) %}
+        {%= components.TableHeaderSimple("softdel", "deleted", "Deleted", "Date and time, in almost any format (optional)", prms, ps.URI, ps) %}
+      </tr>
+    </thead>
+    <tbody>
+      {%- for _, model := range models -%}
+      <tr>
+        <td><a href="/softdel/{%s model.ID %}">{%s model.ID %}</a></td>
+        <td>{%= components.DisplayTimestamp(&model.Created) %}</td>
+        <td>{%= components.DisplayTimestamp(model.Updated) %}</td>
+        <td>{%= components.DisplayTimestamp(model.Deleted) %}</td>
+      </tr>
+      {%- endfor -%}
+    </tbody>
+  </table>
+{% endfunc %}

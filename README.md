@@ -1,5 +1,5 @@
 <!--- $PF_IGNORE$ -->
-# TODO Example
+# Test Project
 ![app logo](./assets/favicon.png)
 
 

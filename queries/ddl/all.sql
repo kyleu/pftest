@@ -1,0 +1,15 @@
+-- {% func DropAll() %}
+-- {%= GroupDrop() %}
+-- {%= SoftdelDrop() %}
+-- {%= VersionDrop() %}
+-- {%= TimestampDrop() %}
+-- {%= BasicDrop() %}
+-- {% endfunc %}
+
+-- {% func CreateAll() %}
+-- {%= BasicCreate() %}
+-- {%= TimestampCreate() %}
+-- {%= VersionCreate() %}
+-- {%= SoftdelCreate() %}
+-- {%= GroupCreate() %}
+-- {% endfunc %}

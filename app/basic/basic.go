@@ -1,7 +1,6 @@
 package basic
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/google/uuid"
@@ -15,8 +14,8 @@ type Basic struct {
 	Created time.Time `json:"created"`
 }
 
-func New(id uuid.UUID, name string) *Basic {
-	return &Basic{ID: id, Name: name}
+func New(id uuid.UUID) *Basic {
+	return &Basic{ID: id}
 }
 
 func FromMap(m util.ValueMap, setPK bool) (*Basic, error) {
@@ -27,20 +26,20 @@ func FromMap(m util.ValueMap, setPK bool) (*Basic, error) {
 		if err != nil {
 			return nil, err
 		}
-		ret.Name, err = m.ParseString("name")
-		if err != nil {
-			return nil, err
-		}
+	}
+	ret.Name, err = m.ParseString("name")
+	if err != nil {
+		return nil, err
 	}
 	return ret, nil
 }
 
 func (b *Basic) String() string {
-	return fmt.Sprintf("%s::%s", b.ID.String(), b.Name)
+	return b.ID.String()
 }
 
 func (b *Basic) WebPath() string {
-	return "/basic" + "/" + b.ID.String() + "/" + b.Name
+	return "/basic" + "/" + b.ID.String()
 }
 
 func (b *Basic) ToData() []interface{} {

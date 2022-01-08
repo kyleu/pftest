@@ -1,0 +1,126 @@
+package controller
+
+import (
+	"fmt"
+
+	"github.com/pkg/errors"
+	"github.com/valyala/fasthttp"
+
+	"github.com/kyleu/pftest/app"
+	"github.com/kyleu/pftest/app/controller/cutil"
+	"github.com/kyleu/pftest/app/version"
+	"github.com/kyleu/pftest/views/vversion"
+)
+
+func VersionList(rc *fasthttp.RequestCtx) {
+	act("version.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ps.Title = "Versions"
+		params := cutil.ParamSetFromRequest(rc)
+		ret, err := as.Services.Version.List(ps.Context, nil, params.Get("version", nil, ps.Logger))
+		if err != nil {
+			return "", err
+		}
+		ps.Data = ret
+		return render(rc, as, &vversion.List{Models: ret, Params: params}, ps, "version")
+	})
+}
+
+func VersionDetail(rc *fasthttp.RequestCtx) {
+	act("version.detail", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := versionFromPath(rc, as, ps)
+		if err != nil {
+			return "", err
+		}
+		params := cutil.ParamSetFromRequest(rc)
+		revisions, err := as.Services.Version.GetAllRevisions(ps.Context, nil, ret.ID, params.Get("version", nil, ps.Logger), false)
+		ps.Title = ret.String()
+		ps.Data = ret
+		return render(rc, as, &vversion.Detail{Model: ret, Revisions: revisions, Params: params}, ps, "version", ret.String())
+	})
+}
+
+func VersionRevision(rc *fasthttp.RequestCtx) {
+	act("version.revision", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := versionFromPath(rc, as, ps)
+		if err != nil {
+			return "", err
+		}
+		ps.Title = ret.String()
+		ps.Data = ret
+		return render(rc, as, &vversion.Detail{Model: ret}, ps, "version", ret.String())
+	})
+}
+
+func VersionCreateForm(rc *fasthttp.RequestCtx) {
+	act("version.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret := &version.Version{}
+		ps.Title = "Create [Version]"
+		ps.Data = ret
+		return render(rc, as, &vversion.Edit{Model: ret, IsNew: true}, ps, "version", "Create")
+	})
+}
+
+func VersionCreate(rc *fasthttp.RequestCtx) {
+	act("version.create", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := versionFromForm(rc, true)
+		if err != nil {
+			return "", errors.Wrap(err, "unable to parse Version from form")
+		}
+		err = as.Services.Version.Create(ps.Context, nil, ret)
+		if err != nil {
+			return "", errors.Wrap(err, "unable to save newly-created Version")
+		}
+		msg := fmt.Sprintf("Version [%s] created", ret.String())
+		return flashAndRedir(true, msg, ret.WebPath(), rc, ps)
+	})
+}
+
+func VersionEditForm(rc *fasthttp.RequestCtx) {
+	act("version.edit.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+		rc.SetUserValue("includeDeleted", true)
+		ret, err := versionFromPath(rc, as, ps)
+		if err != nil {
+			return "", err
+		}
+		ps.Title = "Edit [" + ret.String() + "]"
+		ps.Data = ret
+		return render(rc, as, &vversion.Edit{Model: ret}, ps, "version", ret.String())
+	})
+}
+
+func VersionEdit(rc *fasthttp.RequestCtx) {
+	act("version.edit", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+		rc.SetUserValue("includeDeleted", true)
+		ret, err := versionFromPath(rc, as, ps)
+		if err != nil {
+			return "", err
+		}
+		frm, err := versionFromForm(rc, false)
+		if err != nil {
+			return "", errors.Wrap(err, "unable to parse Version from form")
+		}
+		frm.ID = ret.ID
+		err = as.Services.Version.Update(ps.Context, nil, frm)
+		if err != nil {
+			return "", errors.Wrapf(err, "unable to update Version [%s]", frm.String())
+		}
+		msg := fmt.Sprintf("Version [%s] updated", frm.String())
+		return flashAndRedir(true, msg, frm.WebPath(), rc, ps)
+	})
+}
+
+func versionFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageState) (*version.Version, error) {
+	idArg, err := rcRequiredString(rc, "id", false)
+	if err != nil {
+		return nil, errors.Wrap(err, "must provide [id] as an argument")
+	}
+	return as.Services.Version.Get(ps.Context, nil, idArg)
+}
+
+func versionFromForm(rc *fasthttp.RequestCtx, setPK bool) (*version.Version, error) {
+	frm, err := cutil.ParseForm(rc)
+	if err != nil {
+		return nil, errors.Wrap(err, "unable to parse form")
+	}
+	return version.FromMap(frm, setPK)
+}

@@ -3,9 +3,9 @@
 -- {% func Migration1InitialDatabase(debug bool) %}
 
 -- {%- if debug -%}
--- {%= ddl.BasicDrop() %}
+-- {%= ddl.DropAll() %}
 -- {%- endif -%}
 
--- {%= ddl.BasicCreate() %}
+-- {%= ddl.CreateAll() %}
 
 -- {% endfunc %}

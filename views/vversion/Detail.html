@@ -1,0 +1,78 @@
+{% import (
+  "github.com/kyleu/pftest/app"
+  "github.com/kyleu/pftest/app/controller/cutil"
+  "github.com/kyleu/pftest/app/lib/filter"
+  "github.com/kyleu/pftest/app/version"
+  "github.com/kyleu/pftest/views/components"
+  "github.com/kyleu/pftest/views/layout"
+) %}
+
+{% code type Detail struct {
+  layout.Basic
+  Model *version.Version
+  Revisions version.Versions
+  Params filter.ParamSet
+} %}
+
+{% func (p *Detail) Body(as *app.State, ps *cutil.PageState) %}
+  <div class="card">
+    <div class="right"><a href="{%s p.Model.WebPath() %}/edit"><button>Edit</button></a></div>
+    <h3>{%= components.SVGRefIcon(`star`, ps) %} Version [{%s p.Model.String() %}]</h3>
+    <table>
+      <tbody>
+        <tr>
+          <th class="shrink" title="String text">ID</th>
+          <td>{%s p.Model.ID %}</td>
+        </tr>
+        <tr>
+          <th class="shrink" title="Integer">Revision</th>
+          <td>{%d p.Model.Revision %}</td>
+        </tr>
+        <tr>
+          <th class="shrink" title="String text">Const</th>
+          <td>{%s p.Model.Const %}</td>
+        </tr>
+        <tr>
+          <th class="shrink" title="JSON object">Var</th>
+          <td>{%= components.JSON(p.Model.Var) %}</td>
+        </tr>
+        <tr>
+          <th class="shrink" title="Date and time, in almost any format">Created</th>
+          <td>{%= components.DisplayTimestamp(&p.Model.Created) %}</td>
+        </tr>
+        <tr>
+          <th class="shrink" title="Date and time, in almost any format (optional)">Updated</th>
+          <td>{%= components.DisplayTimestamp(p.Model.Updated) %}</td>
+        </tr>
+        <tr>
+          <th class="shrink" title="Date and time, in almost any format (optional)">Deleted</th>
+          <td>{%= components.DisplayTimestamp(p.Model.Deleted) %}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  {%- if len(p.Revisions) > 1 -%}
+  <div class="card">
+    <h3>Revisions</h3>
+    {%- code prms := p.Params.Get("version", nil, ps.Logger) -%}
+    <table>
+      <thead>
+        <tr>
+          {%= components.TableHeaderSimple("version", "id", "ID", "String text", prms, ps.URI, ps) %}
+          {%= components.TableHeaderSimple("version", "revision", "Revision", "Integer", prms, ps.URI, ps) %}
+          {%= components.TableHeaderSimple("version", "created", "Created", "Date and time, in almost any format", prms, ps.URI, ps) %}
+        </tr>
+      </thead>
+      <tbody>
+        {%- for _, model := range p.Revisions -%}
+        <tr>
+          <td><a href="/version/{%s model.ID %}/revision/{%d model.Revision %}">{%s model.ID %}</a></td>
+          <td><a href="/version/{%s model.ID %}/revision/{%d model.Revision %}">{%d model.Revision %}</a></td>
+          <td>{%= components.DisplayTimestamp(&model.Created) %}</td>
+        </tr>
+        {%- endfor -%}
+      </tbody>
+    </table>
+  </div>
+  {%- endif -%}
+{% endfunc %}

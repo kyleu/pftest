@@ -1,4 +1,4 @@
-package basic
+package timestamp
 
 import (
 	"go.uber.org/zap"
@@ -13,11 +13,11 @@ type Service struct {
 }
 
 func NewService(db *database.Service, logger *zap.SugaredLogger) *Service {
-	logger = logger.With("svc", "basic")
-	filter.AllowedColumns["basic"] = columns
+	logger = logger.With("svc", "timestamp")
+	filter.AllowedColumns["timestamp"] = columns
 	return &Service{db: db, logger: logger}
 }
 
 func filters(orig *filter.Params) *filter.Params {
-	return orig.Sanitize("basic", &filter.Ordering{Column: "created"})
+	return orig.Sanitize("timestamp", )
 }

@@ -44,7 +44,7 @@
             "package": "basic",
             "description": "Basic Model",
             "icon": "star",
-            "ordering": "created desc",
+            "ordering": [{"column": "created"}],
             "search": ["lower(id::text)", "lower(name)"],
             "columns": [
               {
@@ -56,6 +56,26 @@
               {
                 "name": "name",
                 "type": "string",
+                "search": true
+              },
+              {
+                "name": "created",
+                "type": "timestamp",
+                "sqlDefault": "now()",
+                "tags": ["created"]
+              }
+            ]
+          },
+          {
+            "name": "timestamp",
+            "package": "timestamp",
+            "description": "Timestamps",
+            "icon": "star",
+            "tags": ["softDelete"],
+            "columns": [
+              {
+                "name": "id",
+                "type": "text",
                 "pk": true,
                 "search": true
               },
@@ -64,6 +84,154 @@
                 "type": "timestamp",
                 "sqlDefault": "now()",
                 "tags": ["created"]
+              },
+              {
+                "name": "updated",
+                "type": "timestamp",
+                "sqlDefault": "now()",
+                "tags": ["updated"],
+                "nullable":true
+              },
+              {
+                "name": "deleted",
+                "type": "timestamp",
+                "sqlDefault": "now()",
+                "tags": ["deleted"],
+                "nullable":true
+              }
+            ]
+          },
+          {
+            "name": "version",
+            "package": "version",
+            "description": "Versioned table",
+            "icon": "star",
+            "ordering": [{"column": "created_at"}],
+            "history": "revision",
+            "columns": [
+              {
+                "name": "id",
+                "type": "text",
+                "pk": true,
+                "search": true
+              },
+              {
+                "name": "revision",
+                "type": "int",
+                "tags": ["revision"],
+                "sqlDefault": "1"
+              },
+              {
+                "name": "const",
+                "type": "string",
+                "search": true,
+                "tags": ["const"]
+              },
+              {
+                "name": "var",
+                "type": "map",
+                "search": true
+              },
+              {
+                "name": "created",
+                "type": "timestamp",
+                "sqlDefault": "now()",
+                "tags": ["created"]
+              },
+              {
+                "name": "updated",
+                "type": "timestamp",
+                "sqlDefault": "now()",
+                "tags": ["updated"],
+                "nullable":true
+              },
+              {
+                "name": "deleted",
+                "type": "timestamp",
+                "sqlDefault": "now()",
+                "tags": ["deleted"],
+                "nullable":true
+              }
+            ]
+          },
+          {
+            "name": "softdel",
+            "package": "softdel",
+            "description": "Soft-deleted table",
+            "icon": "star",
+            "ordering": [{"column": "created_at"}],
+            "tags": ["softDelete"],
+            "columns": [
+              {
+                "name": "id",
+                "type": "text",
+                "pk": true,
+                "search": true
+              },
+              {
+                "name": "created",
+                "type": "timestamp",
+                "sqlDefault": "now()",
+                "tags": ["created"]
+              },
+              {
+                "name": "updated",
+                "type": "timestamp",
+                "sqlDefault": "now()",
+                "tags": ["updated"],
+                "nullable":true
+              },
+              {
+                "name": "deleted",
+                "type": "timestamp",
+                "sqlDefault": "now()",
+                "tags": ["deleted"],
+                "nullable":true
+              }
+            ]
+          },
+          {
+            "name": "group",
+            "package": "group",
+            "description": "Grouped table",
+            "icon": "star",
+            "columns": [
+              {
+                "name": "id",
+                "type": "text",
+                "pk": true,
+                "search": true
+              },
+              {
+                "name": "group",
+                "type": "string",
+                "search": true,
+                "tags": ["grouped"]
+              },
+              {
+                "name": "data",
+                "type": "map",
+                "search": true
+              },
+              {
+                "name": "created",
+                "type": "timestamp",
+                "sqlDefault": "now()",
+                "tags": ["created"]
+              },
+              {
+                "name": "updated",
+                "type": "timestamp",
+                "sqlDefault": "now()",
+                "tags": ["updated"],
+                "nullable":true
+              },
+              {
+                "name": "deleted",
+                "type": "timestamp",
+                "sqlDefault": "now()",
+                "tags": ["deleted"],
+                "nullable":true
               }
             ]
           }
