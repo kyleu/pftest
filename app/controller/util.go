@@ -18,7 +18,7 @@ import (
 
 var initialIcons = []string{"searchbox"}
 
-func rcRequiredString(rc *fasthttp.RequestCtx, key string, allowEmpty bool) (string, error) {
+func RCRequiredString(rc *fasthttp.RequestCtx, key string, allowEmpty bool) (string, error) {
 	v, ok := rc.UserValue(key).(string)
 	if !ok || ((!allowEmpty) && v == "") {
 		return v, errors.Errorf("must provide [%s] in path", key)
@@ -26,8 +26,8 @@ func rcRequiredString(rc *fasthttp.RequestCtx, key string, allowEmpty bool) (str
 	return v, nil
 }
 
-func rcRequiredBool(rc *fasthttp.RequestCtx, key string) (bool, error) {
-	ret, err := rcRequiredString(rc, key, true)
+func RCRequiredBool(rc *fasthttp.RequestCtx, key string) (bool, error) {
+	ret, err := RCRequiredString(rc, key, true)
 	if err != nil {
 		return false, err
 	}

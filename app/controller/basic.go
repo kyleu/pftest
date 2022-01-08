@@ -95,7 +95,7 @@ func BasicEdit(rc *fasthttp.RequestCtx) {
 }
 
 func basicFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageState) (*basic.Basic, error) {
-	idArgStr, err := rcRequiredString(rc, "id", false)
+	idArgStr, err := RCRequiredString(rc, "id", false)
 	if err != nil {
 		return nil, errors.Wrap(err, "must provide [id] as an argument")
 	}

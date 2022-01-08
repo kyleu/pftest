@@ -51,7 +51,7 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, models ...*Softdel) err
 	return s.db.Insert(ctx, q, tx, data...)
 }
 
-// Delete doesn't actually delete, it only sets [deleted]
+// Delete doesn't actually delete, it only sets [deleted].
 func (s *Service) Delete(ctx context.Context, tx *sqlx.Tx, id string) error {
 	q := database.SQLUpdate(table, []string{"deleted"}, "id = $2", "")
 	_, err := s.db.Update(ctx, q, tx, 1, time.Now(), id)

@@ -94,7 +94,7 @@ func SoftdelEdit(rc *fasthttp.RequestCtx) {
 }
 
 func softdelFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageState) (*softdel.Softdel, error) {
-	idArg, err := rcRequiredString(rc, "id", false)
+	idArg, err := RCRequiredString(rc, "id", false)
 	if err != nil {
 		return nil, errors.Wrap(err, "must provide [id] as an argument")
 	}

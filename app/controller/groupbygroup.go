@@ -26,7 +26,7 @@ func GroupGroupList(rc *fasthttp.RequestCtx) {
 
 func GroupListByGroup(rc *fasthttp.RequestCtx) {
 	act("group.group.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		groupArg, err := rcRequiredString(rc, "group", false)
+		groupArg, err := RCRequiredString(rc, "group", false)
 		if err != nil {
 			return "", errors.Wrap(err, "must provide [group] as an argument")
 		}
@@ -43,7 +43,7 @@ func GroupListByGroup(rc *fasthttp.RequestCtx) {
 
 func GroupDetailByGroup(rc *fasthttp.RequestCtx) {
 	act("group.group.detail", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		groupArg, err := rcRequiredString(rc, "group", false)
+		groupArg, err := RCRequiredString(rc, "group", false)
 		if err != nil {
 			return "", errors.Wrap(err, "must provide [group] as an argument")
 		}
@@ -62,7 +62,7 @@ func GroupDetailByGroup(rc *fasthttp.RequestCtx) {
 
 func GroupCreateFormByGroup(rc *fasthttp.RequestCtx) {
 	act("group.group.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		groupArg, err := rcRequiredString(rc, "group", false)
+		groupArg, err := RCRequiredString(rc, "group", false)
 		if err != nil {
 			return "", errors.Wrap(err, "must provide [group] as an argument")
 		}
@@ -75,7 +75,7 @@ func GroupCreateFormByGroup(rc *fasthttp.RequestCtx) {
 
 func GroupCreateByGroup(rc *fasthttp.RequestCtx) {
 	act("group.group.create", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		groupArg, err := rcRequiredString(rc, "group", false)
+		groupArg, err := RCRequiredString(rc, "group", false)
 		if err != nil {
 			return "", errors.Wrap(err, "must provide [group] as an argument")
 		}
@@ -97,7 +97,7 @@ func GroupCreateByGroup(rc *fasthttp.RequestCtx) {
 
 func GroupEditFormByGroup(rc *fasthttp.RequestCtx) {
 	act("group.group.edit.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		groupArg, err := rcRequiredString(rc, "group", false)
+		groupArg, err := RCRequiredString(rc, "group", false)
 		if err != nil {
 			return "", errors.Wrap(err, "must provide [group] as an argument")
 		}
@@ -116,7 +116,7 @@ func GroupEditFormByGroup(rc *fasthttp.RequestCtx) {
 
 func GroupEditByGroup(rc *fasthttp.RequestCtx) {
 	act("group.group.edit", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		groupArg, err := rcRequiredString(rc, "group", false)
+		groupArg, err := RCRequiredString(rc, "group", false)
 		if err != nil {
 			return "", errors.Wrap(err, "must provide [group] as an argument")
 		}

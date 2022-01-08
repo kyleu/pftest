@@ -35,9 +35,11 @@ func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, id uuid.UUID) (*Basic, e
 	return ret.ToBasic(), nil
 }
 
+const searchClause = "(lower(id::text) like $1 or lower(name) like $1)"
+
 func (s *Service) Search(ctx context.Context, q string, tx *sqlx.Tx, params *filter.Params) (Basics, error) {
 	params = filters(params)
-	wc := "(lower(id::text) like $1 or lower(name) like $1)"
+	wc := searchClause
 	sql := database.SQLSelect(columnsString, table, wc, params.OrderByString(), params.Limit, params.Offset)
 	ret := dtos{}
 	err := s.db.Select(ctx, &ret, sql, tx, "%"+strings.ToLower(q)+"%")

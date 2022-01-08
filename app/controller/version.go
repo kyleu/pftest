@@ -110,7 +110,7 @@ func VersionEdit(rc *fasthttp.RequestCtx) {
 }
 
 func versionFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageState) (*version.Version, error) {
-	idArg, err := rcRequiredString(rc, "id", false)
+	idArg, err := RCRequiredString(rc, "id", false)
 	if err != nil {
 		return nil, errors.Wrap(err, "must provide [id] as an argument")
 	}

@@ -19,5 +19,5 @@ func NewService(db *database.Service, logger *zap.SugaredLogger) *Service {
 }
 
 func filters(orig *filter.Params) *filter.Params {
-	return orig.Sanitize("group", )
+	return orig.Sanitize("group")
 }

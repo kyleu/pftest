@@ -94,7 +94,7 @@ func TimestampEdit(rc *fasthttp.RequestCtx) {
 }
 
 func timestampFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageState) (*timestamp.Timestamp, error) {
-	idArg, err := rcRequiredString(rc, "id", false)
+	idArg, err := RCRequiredString(rc, "id", false)
 	if err != nil {
 		return nil, errors.Wrap(err, "must provide [id] as an argument")
 	}
