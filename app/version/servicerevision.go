@@ -28,7 +28,8 @@ func (s *Service) GetAllRevisions(ctx context.Context, tx *sqlx.Tx, id string, p
 func (s *Service) GetRevision(ctx context.Context, tx *sqlx.Tx, id string, revision int) (*Version, error) {
 	wc := "id = $1 and revision = $2"
 	ret := &dto{}
-	sql := database.SQLSelectSimple(columnsString, tablesJoined, wc)
+	tablesJoinedParam := fmt.Sprintf("%q v join %q vr on v.id = vr.version_id", table, tableRevision)
+	sql := database.SQLSelectSimple(columnsString, tablesJoinedParam, wc)
 	err := s.db.Get(ctx, ret, sql, tx, id, revision)
 	if err != nil {
 		return nil, err

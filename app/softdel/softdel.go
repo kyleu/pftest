@@ -21,12 +21,12 @@ func FromMap(m util.ValueMap, setPK bool) (*Softdel, error) {
 	ret := &Softdel{}
 	var err error
 	if setPK {
-		ret.ID, err = m.ParseString("id")
+		ret.ID, err = m.ParseString("id", true, true)
 		if err != nil {
 			return nil, err
 		}
 	}
-	ret.Deleted, err = m.ParseTimeOpt("deleted")
+	ret.Deleted, err = m.ParseTime("deleted", true, true)
 	if err != nil {
 		return nil, err
 	}

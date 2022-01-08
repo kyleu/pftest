@@ -106,7 +106,7 @@
             "package": "version",
             "description": "Versioned table",
             "icon": "star",
-            "ordering": [{"column": "created_at"}],
+            "ordering": [{"column": "created"}],
             "history": "revision",
             "columns": [
               {
@@ -159,7 +159,7 @@
             "package": "softdel",
             "description": "Soft-deleted table",
             "icon": "star",
-            "ordering": [{"column": "created_at"}],
+            "ordering": [{"column": "created"}],
             "tags": ["softDelete"],
             "columns": [
               {

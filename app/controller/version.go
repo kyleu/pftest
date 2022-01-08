@@ -41,7 +41,12 @@ func VersionDetail(rc *fasthttp.RequestCtx) {
 
 func VersionRevision(rc *fasthttp.RequestCtx) {
 	act("version.revision", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret, err := versionFromPath(rc, as, ps)
+		latest, err := versionFromPath(rc, as, ps)
+		if err != nil {
+			return "", err
+		}
+		revision, err := RCRequiredInt(rc, "revision")
+		ret, err := as.Services.Version.GetRevision(ps.Context, nil, latest.ID, revision)
 		if err != nil {
 			return "", err
 		}

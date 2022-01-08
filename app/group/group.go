@@ -23,20 +23,20 @@ func FromMap(m util.ValueMap, setPK bool) (*Group, error) {
 	ret := &Group{}
 	var err error
 	if setPK {
-		ret.ID, err = m.ParseString("id")
+		ret.ID, err = m.ParseString("id", true, true)
 		if err != nil {
 			return nil, err
 		}
 	}
-	ret.Group, err = m.ParseString("group")
+	ret.Group, err = m.ParseString("group", true, true)
 	if err != nil {
 		return nil, err
 	}
-	ret.Data, err = m.ParseMap("data")
+	ret.Data, err = m.ParseMap("data", true, true)
 	if err != nil {
 		return nil, err
 	}
-	ret.Deleted, err = m.ParseTimeOpt("deleted")
+	ret.Deleted, err = m.ParseTime("deleted", true, true)
 	if err != nil {
 		return nil, err
 	}

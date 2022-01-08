@@ -19,5 +19,5 @@ func NewService(db *database.Service, logger *zap.SugaredLogger) *Service {
 }
 
 func filters(orig *filter.Params) *filter.Params {
-	return orig.Sanitize("version", &filter.Ordering{Column: "created_at"})
+	return orig.Sanitize("version", &filter.Ordering{Column: "created"})
 }

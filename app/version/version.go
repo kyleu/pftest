@@ -24,20 +24,20 @@ func FromMap(m util.ValueMap, setPK bool) (*Version, error) {
 	ret := &Version{}
 	var err error
 	if setPK {
-		ret.ID, err = m.ParseString("id")
+		ret.ID, err = m.ParseString("id", true, true)
 		if err != nil {
 			return nil, err
 		}
 	}
-	ret.Const, err = m.ParseString("const")
+	ret.Const, err = m.ParseString("const", true, true)
 	if err != nil {
 		return nil, err
 	}
-	ret.Var, err = m.ParseMap("var")
+	ret.Var, err = m.ParseMap("var", true, true)
 	if err != nil {
 		return nil, err
 	}
-	ret.Deleted, err = m.ParseTimeOpt("deleted")
+	ret.Deleted, err = m.ParseTime("deleted", true, true)
 	if err != nil {
 		return nil, err
 	}

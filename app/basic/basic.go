@@ -22,12 +22,13 @@ func FromMap(m util.ValueMap, setPK bool) (*Basic, error) {
 	ret := &Basic{}
 	var err error
 	if setPK {
-		ret.ID, err = m.ParseUUID("id")
+		retID, err := m.ParseUUID("id", true, true)
 		if err != nil {
 			return nil, err
 		}
+		ret.ID = *retID
 	}
-	ret.Name, err = m.ParseString("name")
+	ret.Name, err = m.ParseString("name", true, true)
 	if err != nil {
 		return nil, err
 	}
