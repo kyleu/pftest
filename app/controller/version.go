@@ -114,6 +114,21 @@ func VersionEdit(rc *fasthttp.RequestCtx) {
 	})
 }
 
+func VersionDelete(rc *fasthttp.RequestCtx) {
+	act("version.delete", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := versionFromPath(rc, as, ps)
+		if err != nil {
+			return "", err
+		}
+		err = as.Services.Version.Delete(ps.Context, nil, ret.ID)
+		if err != nil {
+			return "", errors.Wrapf(err, "unable to delete Version [%s]", ret.String())
+		}
+		msg := fmt.Sprintf("Version [%s] deleted", ret.String())
+		return flashAndRedir(true, msg, "/version", rc, ps)
+	})
+}
+
 func versionFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageState) (*version.Version, error) {
 	idArg, err := RCRequiredString(rc, "id", false)
 	if err != nil {

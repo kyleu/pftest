@@ -7,6 +7,7 @@ import (
 	"github.com/kyleu/pftest/app/basic"
 	"github.com/kyleu/pftest/app/group"
 	"github.com/kyleu/pftest/app/lib/database/migrate"
+	"github.com/kyleu/pftest/app/mixed_case"
 	"github.com/kyleu/pftest/app/softdel"
 	"github.com/kyleu/pftest/app/timestamp"
 	"github.com/kyleu/pftest/app/version"
@@ -20,6 +21,7 @@ type Services struct {
 	Softdel   *softdel.Service
 	Version   *version.Service
 	Group     *group.Service
+	MixedCase *mixed_case.Service
 }
 
 func NewServices(ctx context.Context, st *State) (*Services, error) {
@@ -34,5 +36,6 @@ func NewServices(ctx context.Context, st *State) (*Services, error) {
 	s := softdel.NewService(st.DB, st.Logger)
 	v := version.NewService(st.DB, st.Logger)
 	g := group.NewService(st.DB, st.Logger)
-	return &Services{Basic: b, Timestamp: t, Softdel: s, Version: v, Group: g}, nil
+	mc := mixed_case.NewService(st.DB, st.Logger)
+	return &Services{Basic: b, Timestamp: t, Softdel: s, Version: v, Group: g, MixedCase: mc}, nil
 }

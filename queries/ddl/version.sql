@@ -18,10 +18,10 @@ create table if not exists "version_revision" (
   "revision" int not null default 1,
   "var" jsonb not null,
   "created" timestamp not null default now(),
-  foreign key ("version_id") references version ("id"),
+  foreign key ("version_id") references version("id"),
   primary key ("version_id", "revision")
 );
-create index if not exists "version_revision__version_id_idx" on "version_revision" ("version_id");
+create index if not exists "version_revision__version_id_idx" on "version_revision"("version_id");
 
-create index if not exists "version_revision__version_id_idx" on "version_revision" ("version_id");
+create index if not exists "version_revision__version_id_idx" on "version_revision"("version_id");
 -- {% endfunc %}

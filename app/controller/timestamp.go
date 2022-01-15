@@ -93,6 +93,21 @@ func TimestampEdit(rc *fasthttp.RequestCtx) {
 	})
 }
 
+func TimestampDelete(rc *fasthttp.RequestCtx) {
+	act("timestamp.delete", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := timestampFromPath(rc, as, ps)
+		if err != nil {
+			return "", err
+		}
+		err = as.Services.Timestamp.Delete(ps.Context, nil, ret.ID)
+		if err != nil {
+			return "", errors.Wrapf(err, "unable to delete Timestamp [%s]", ret.String())
+		}
+		msg := fmt.Sprintf("Timestamp [%s] deleted", ret.String())
+		return flashAndRedir(true, msg, "/timestamp", rc, ps)
+	})
+}
+
 func timestampFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageState) (*timestamp.Timestamp, error) {
 	idArg, err := RCRequiredString(rc, "id", false)
 	if err != nil {

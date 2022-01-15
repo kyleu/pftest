@@ -15,13 +15,13 @@
 
 {% func (p *Edit) Body(as *app.State, ps *cutil.PageState) %}
   <div class="card">
-    <div class="right"><a href="{%s p.Model.WebPath() %}/delete" onclick="return confirm('Are you sure you wish to delete Group [{%s p.Model.String() %}]?')"><button>Delete</button></a></div>
     {%- if p.IsNew -%}
     <h3>{%= components.SVGRefIcon(`star`, ps) %} New Group</h3>
     {%- else -%}
+    <div class="right"><a href="{%s p.Model.WebPath() %}/delete" onclick="return confirm('Are you sure you wish to delete Group [{%s p.Model.String() %}]?')"><button>Delete</button></a></div>
     <h3>{%= components.SVGRefIcon(`star`, ps) %} Edit Group [{%s p.Model.String() %}]</h3>
     {%- endif -%}
-    <form action="" method="post">
+    <form action="" class="mt" method="post">
       <table>
         <tbody>
           {% if p.IsNew %}{%= components.TableInput("id", "ID", p.Model.ID, 5, "String text") %}{% endif %}

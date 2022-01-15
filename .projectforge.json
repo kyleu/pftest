@@ -234,6 +234,30 @@
                 "nullable":true
               }
             ]
+          },
+          {
+            "name": "mixed_case",
+            "package": "mixed_case",
+            "description": "Table and columns with mixed casing",
+            "icon": "star",
+            "columns": [
+              {
+                "name": "id",
+                "type": "text",
+                "pk": true,
+                "search": true
+              },
+              {
+                "name": "test_field",
+                "type": "string",
+                "search": true
+              },
+              {
+                "name": "another_field",
+                "type": "string",
+                "search": true
+              }
+            ]
           }
         ]
       }

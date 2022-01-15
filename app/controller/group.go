@@ -93,6 +93,21 @@ func GroupEdit(rc *fasthttp.RequestCtx) {
 	})
 }
 
+func GroupDelete(rc *fasthttp.RequestCtx) {
+	act("group.delete", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := groupFromPath(rc, as, ps)
+		if err != nil {
+			return "", err
+		}
+		err = as.Services.Group.Delete(ps.Context, nil, ret.ID)
+		if err != nil {
+			return "", errors.Wrapf(err, "unable to delete Group [%s]", ret.String())
+		}
+		msg := fmt.Sprintf("Group [%s] deleted", ret.String())
+		return flashAndRedir(true, msg, "/group", rc, ps)
+	})
+}
+
 func groupFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageState) (*group.Group, error) {
 	idArg, err := RCRequiredString(rc, "id", false)
 	if err != nil {

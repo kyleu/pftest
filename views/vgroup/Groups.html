@@ -29,7 +29,7 @@
           {%- for _, x := range p.Groups -%}
           <tr>
             <td><a href="/group/group/{%s x.Key %}">{%s x.Key %}</a></td>
-            <td>{%v x.Count %}</td>
+            <td>{%d x.Count %}</td>
           </tr>
           {%- endfor -%}
         </tbody>

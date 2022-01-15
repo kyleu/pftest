@@ -143,3 +143,25 @@ func GroupEditByGroup(rc *fasthttp.RequestCtx) {
 		return flashAndRedir(true, msg, frm.WebPath(), rc, ps)
 	})
 }
+
+func GroupDeleteByGroup(rc *fasthttp.RequestCtx) {
+	act("group.group.delete", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+		groupArg, err := RCRequiredString(rc, "group", false)
+		if err != nil {
+			return "", errors.Wrap(err, "must provide [group] as an argument")
+		}
+		ret, err := groupFromPath(rc, as, ps)
+		if err != nil {
+			return "", err
+		}
+		if ret.Group != groupArg {
+			return "", errors.New("unauthorized: incorrect [group]")
+		}
+		err = as.Services.Group.Delete(ps.Context, nil, ret.ID)
+		if err != nil {
+			return "", errors.Wrapf(err, "unable to delete Group [%s]", ret.String())
+		}
+		msg := fmt.Sprintf("Group [%s] deleted", ret.String())
+		return flashAndRedir(true, msg, "/group", rc, ps)
+	})
+}

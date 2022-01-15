@@ -26,6 +26,7 @@ func MenuFor(ctx context.Context, isAuthed bool, isAdmin bool, as *app.State) (m
 		&menu.Item{Key: "group", Title: "Groups", Description: "Grouped table", Icon: "star", Route: "/group", Children: menu.Items{
 			&menu.Item{Key: "group", Title: "Groups", Description: "Groups from groups", Icon: "star", Route: "/group/group"},
 		}},
+		&menu.Item{Key: "mixed_case", Title: "MixedCases", Description: "Table and columns with mixed casing", Icon: "star", Route: "/mixed_case"},
 	)
 	// $PF_INJECT_END(codegen)$
 	// $PF_SECTION_START(routes_end)$

@@ -93,6 +93,21 @@ func SoftdelEdit(rc *fasthttp.RequestCtx) {
 	})
 }
 
+func SoftdelDelete(rc *fasthttp.RequestCtx) {
+	act("softdel.delete", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := softdelFromPath(rc, as, ps)
+		if err != nil {
+			return "", err
+		}
+		err = as.Services.Softdel.Delete(ps.Context, nil, ret.ID)
+		if err != nil {
+			return "", errors.Wrapf(err, "unable to delete Softdel [%s]", ret.String())
+		}
+		msg := fmt.Sprintf("Softdel [%s] deleted", ret.String())
+		return flashAndRedir(true, msg, "/softdel", rc, ps)
+	})
+}
+
 func softdelFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageState) (*softdel.Softdel, error) {
 	idArg, err := RCRequiredString(rc, "id", false)
 	if err != nil {

@@ -28,6 +28,8 @@ func FromMap(m util.ValueMap, setPK bool) (*Version, error) {
 		if err != nil {
 			return nil, err
 		}
+		// $PF_SECTION_START(pkchecks)$
+		// $PF_SECTION_END(pkchecks)$
 	}
 	ret.Const, err = m.ParseString("const", true, true)
 	if err != nil {
@@ -41,6 +43,8 @@ func FromMap(m util.ValueMap, setPK bool) (*Version, error) {
 	if err != nil {
 		return nil, err
 	}
+	// $PF_SECTION_START(extrachecks)$
+	// $PF_SECTION_END(extrachecks)$
 	return ret, nil
 }
 

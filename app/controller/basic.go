@@ -94,6 +94,21 @@ func BasicEdit(rc *fasthttp.RequestCtx) {
 	})
 }
 
+func BasicDelete(rc *fasthttp.RequestCtx) {
+	act("basic.delete", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := basicFromPath(rc, as, ps)
+		if err != nil {
+			return "", err
+		}
+		err = as.Services.Basic.Delete(ps.Context, nil, ret.ID)
+		if err != nil {
+			return "", errors.Wrapf(err, "unable to delete Basic [%s]", ret.String())
+		}
+		msg := fmt.Sprintf("Basic [%s] deleted", ret.String())
+		return flashAndRedir(true, msg, "/basic", rc, ps)
+	})
+}
+
 func basicFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageState) (*basic.Basic, error) {
 	idArgStr, err := RCRequiredString(rc, "id", false)
 	if err != nil {
