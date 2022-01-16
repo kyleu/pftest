@@ -15,10 +15,10 @@
 {% func (p *Edit) Body(as *app.State, ps *cutil.PageState) %}
   <div class="card">
     {%- if p.IsNew -%}
-    <h3>{%= components.SVGRefIcon(`star`, ps) %} New MixedCase</h3>
+    <h3>{%= components.SVGRefIcon(`star`, ps) %} New Mixed Case</h3>
     {%- else -%}
-    <div class="right"><a href="{%s p.Model.WebPath() %}/delete" onclick="return confirm('Are you sure you wish to delete MixedCase [{%s p.Model.String() %}]?')"><button>Delete</button></a></div>
-    <h3>{%= components.SVGRefIcon(`star`, ps) %} Edit MixedCase [{%s p.Model.String() %}]</h3>
+    <div class="right"><a href="{%s p.Model.WebPath() %}/delete" onclick="return confirm('Are you sure you wish to delete mixed case [{%s p.Model.String() %}]?')"><button>Delete</button></a></div>
+    <h3>{%= components.SVGRefIcon(`star`, ps) %} Edit Mixed Case [{%s p.Model.String() %}]</h3>
     {%- endif -%}
     <form action="" class="mt" method="post">
       <table>

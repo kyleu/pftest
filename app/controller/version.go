@@ -122,7 +122,7 @@ func VersionDelete(rc *fasthttp.RequestCtx) {
 		}
 		err = as.Services.Version.Delete(ps.Context, nil, ret.ID)
 		if err != nil {
-			return "", errors.Wrapf(err, "unable to delete Version [%s]", ret.String())
+			return "", errors.Wrapf(err, "unable to delete version [%s]", ret.String())
 		}
 		msg := fmt.Sprintf("Version [%s] deleted", ret.String())
 		return flashAndRedir(true, msg, "/version", rc, ps)

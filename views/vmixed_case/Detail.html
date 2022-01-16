@@ -14,7 +14,7 @@
 {% func (p *Detail) Body(as *app.State, ps *cutil.PageState) %}
   <div class="card">
     <div class="right"><a href="{%s p.Model.WebPath() %}/edit"><button>Edit</button></a></div>
-    <h3>{%= components.SVGRefIcon(`star`, ps) %} MixedCase [{%s p.Model.String() %}]</h3>
+    <h3>{%= components.SVGRefIcon(`star`, ps) %} Mixed Case [{%s p.Model.String() %}]</h3>
     <table>
       <tbody>
         <tr>

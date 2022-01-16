@@ -1,14 +1,19 @@
 package timestamp
 
 import (
+	"fmt"
 	"strings"
 	"time"
+
+	"github.com/kyleu/pftest/app/util"
 )
 
 var (
 	table         = "timestamp"
+	tableQuoted   = fmt.Sprintf("%q", table)
 	columns       = []string{"id", "created", "updated", "deleted"}
-	columnsString = strings.Join(columns, ", ")
+	columnsQuoted = util.StringArrayQuoted(columns)
+	columnsString = strings.Join(columnsQuoted, ", ")
 )
 
 type dto struct {

@@ -80,7 +80,7 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, models ...*Version) err
 }
 
 func (s *Service) upsertCore(ctx context.Context, tx *sqlx.Tx, models ...*Version) error {
-	q := database.SQLUpsert(table, columnsCore, len(models), []string{"id"}, columnsCore, "")
+	q := database.SQLUpsert(tableQuoted, columnsCore, len(models), []string{"id"}, columnsCore, "")
 	data := make([]interface{}, 0, len(columnsCore)*len(models))
 	for _, model := range models {
 		data = append(data, model.ToDataCore()...)
@@ -90,7 +90,7 @@ func (s *Service) upsertCore(ctx context.Context, tx *sqlx.Tx, models ...*Versio
 }
 
 func (s *Service) insertRevision(ctx context.Context, tx *sqlx.Tx, models ...*Version) error {
-	q := database.SQLInsert(tableRevision, columnsRevision, len(models), "")
+	q := database.SQLInsert(tableRevisionQuoted, columnsRevision, len(models), "")
 	data := make([]interface{}, 0, len(columnsRevision)*len(models))
 	for _, model := range models {
 		data = append(data, model.ToDataRevision()...)
@@ -99,7 +99,7 @@ func (s *Service) insertRevision(ctx context.Context, tx *sqlx.Tx, models ...*Ve
 }
 
 func (s *Service) Delete(ctx context.Context, tx *sqlx.Tx, id string) error {
-	q := database.SQLDelete(table, "id = $1")
+	q := database.SQLDelete(tableQuoted, "\"id\" = $1")
 	_, err := s.db.Delete(ctx, q, tx, 1, id)
 	return err
 }

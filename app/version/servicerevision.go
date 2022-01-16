@@ -14,7 +14,7 @@ import (
 
 func (s *Service) GetAllRevisions(ctx context.Context, tx *sqlx.Tx, id string, params *filter.Params, includeDeleted bool) (Versions, error) {
 	params = filters(params)
-	wc := "id = $1"
+	wc := "\"id\" = $1"
 	tablesJoinedParam := fmt.Sprintf("%q v join %q vr on v.id = vr.version_id", table, tableRevision)
 	sql := database.SQLSelect(columnsString, tablesJoinedParam, wc, params.OrderByString(), params.Limit, params.Offset)
 	ret := dtos{}
@@ -26,7 +26,7 @@ func (s *Service) GetAllRevisions(ctx context.Context, tx *sqlx.Tx, id string, p
 }
 
 func (s *Service) GetRevision(ctx context.Context, tx *sqlx.Tx, id string, revision int) (*Version, error) {
-	wc := "id = $1 and revision = $2"
+	wc := "\"id\" = $1 and \"revision\" = $2"
 	ret := &dto{}
 	tablesJoinedParam := fmt.Sprintf("%q v join %q vr on v.id = vr.version_id", table, tableRevision)
 	sql := database.SQLSelectSimple(columnsString, tablesJoinedParam, wc)
@@ -42,7 +42,7 @@ func (s *Service) getCurrentRevisions(ctx context.Context, tx *sqlx.Tx, models .
 	for i := range models {
 		stmts = append(stmts, fmt.Sprintf("id = $%d", i+1))
 	}
-	q := database.SQLSelectSimple("id, current_revision", table, strings.Join(stmts, " or "))
+	q := database.SQLSelectSimple("id, current_revision", tableQuoted, strings.Join(stmts, " or "))
 	vals := make([]interface{}, 0, len(models))
 	for _, model := range models {
 		vals = append(vals, model.ID)

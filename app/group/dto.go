@@ -2,6 +2,7 @@ package group
 
 import (
 	"encoding/json"
+	"fmt"
 	"strings"
 	"time"
 
@@ -10,8 +11,10 @@ import (
 
 var (
 	table         = "group"
+	tableQuoted   = fmt.Sprintf("%q", table)
 	columns       = []string{"id", "group", "data", "created", "updated", "deleted"}
-	columnsString = strings.Join(columns, ", ")
+	columnsQuoted = util.StringArrayQuoted(columns)
+	columnsString = strings.Join(columnsQuoted, ", ")
 )
 
 type dto struct {

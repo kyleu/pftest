@@ -18,7 +18,7 @@
     {%- if p.IsNew -%}
     <h3>{%= components.SVGRefIcon(`star`, ps) %} New Group</h3>
     {%- else -%}
-    <div class="right"><a href="{%s p.Model.WebPath() %}/delete" onclick="return confirm('Are you sure you wish to delete Group [{%s p.Model.String() %}]?')"><button>Delete</button></a></div>
+    <div class="right"><a href="{%s p.Model.WebPath() %}/delete" onclick="return confirm('Are you sure you wish to delete group [{%s p.Model.String() %}]?')"><button>Delete</button></a></div>
     <h3>{%= components.SVGRefIcon(`star`, ps) %} Edit Group [{%s p.Model.String() %}]</h3>
     {%- endif -%}
     <form action="" class="mt" method="post">

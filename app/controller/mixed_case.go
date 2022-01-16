@@ -101,7 +101,7 @@ func MixedCaseDelete(rc *fasthttp.RequestCtx) {
 		}
 		err = as.Services.MixedCase.Delete(ps.Context, nil, ret.ID)
 		if err != nil {
-			return "", errors.Wrapf(err, "unable to delete MixedCase [%s]", ret.String())
+			return "", errors.Wrapf(err, "unable to delete mixed case [%s]", ret.String())
 		}
 		msg := fmt.Sprintf("MixedCase [%s] deleted", ret.String())
 		return flashAndRedir(true, msg, "/mixedCase", rc, ps)

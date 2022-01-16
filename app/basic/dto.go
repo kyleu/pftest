@@ -1,16 +1,21 @@
 package basic
 
 import (
+	"fmt"
 	"strings"
 	"time"
 
 	"github.com/google/uuid"
+
+	"github.com/kyleu/pftest/app/util"
 )
 
 var (
 	table         = "basic"
+	tableQuoted   = fmt.Sprintf("%q", table)
 	columns       = []string{"id", "name", "created"}
-	columnsString = strings.Join(columns, ", ")
+	columnsQuoted = util.StringArrayQuoted(columns)
+	columnsString = strings.Join(columnsQuoted, ", ")
 )
 
 type dto struct {

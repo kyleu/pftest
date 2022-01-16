@@ -101,7 +101,7 @@ func TimestampDelete(rc *fasthttp.RequestCtx) {
 		}
 		err = as.Services.Timestamp.Delete(ps.Context, nil, ret.ID)
 		if err != nil {
-			return "", errors.Wrapf(err, "unable to delete Timestamp [%s]", ret.String())
+			return "", errors.Wrapf(err, "unable to delete timestamp [%s]", ret.String())
 		}
 		msg := fmt.Sprintf("Timestamp [%s] deleted", ret.String())
 		return flashAndRedir(true, msg, "/timestamp", rc, ps)

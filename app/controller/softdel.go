@@ -101,7 +101,7 @@ func SoftdelDelete(rc *fasthttp.RequestCtx) {
 		}
 		err = as.Services.Softdel.Delete(ps.Context, nil, ret.ID)
 		if err != nil {
-			return "", errors.Wrapf(err, "unable to delete Softdel [%s]", ret.String())
+			return "", errors.Wrapf(err, "unable to delete softdel [%s]", ret.String())
 		}
 		msg := fmt.Sprintf("Softdel [%s] deleted", ret.String())
 		return flashAndRedir(true, msg, "/softdel", rc, ps)

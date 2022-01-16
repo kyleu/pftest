@@ -1,11 +1,18 @@
 package mixed_case
 
-import "strings"
+import (
+	"fmt"
+	"strings"
+
+	"github.com/kyleu/pftest/app/util"
+)
 
 var (
 	table         = "mixed_case"
+	tableQuoted   = fmt.Sprintf("%q", table)
 	columns       = []string{"id", "test_field", "another_field"}
-	columnsString = strings.Join(columns, ", ")
+	columnsQuoted = util.StringArrayQuoted(columns)
+	columnsString = strings.Join(columnsQuoted, ", ")
 )
 
 type dto struct {

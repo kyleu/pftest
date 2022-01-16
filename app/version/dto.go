@@ -11,14 +11,17 @@ import (
 
 var (
 	table         = "version"
+	tableQuoted   = fmt.Sprintf("%q", table)
 	columns       = []string{"id", "revision", "const", "var", "created", "updated", "deleted"}
-	columnsString = strings.Join(columns, ", ")
+	columnsQuoted = util.StringArrayQuoted(columns)
+	columnsString = strings.Join(columnsQuoted, ", ")
 
-	columnsCore     = []string{"id", "current_revision", "const", "updated", "deleted"}
-	columnsRevision = []string{"version_id", "revision", "var", "created"}
+	columnsCore     = util.StringArrayQuoted([]string{"id", "current_revision", "const", "updated", "deleted"})
+	columnsRevision = util.StringArrayQuoted([]string{"version_id", "revision", "var", "created"})
 
-	tableRevision = table + "_revision"
-	tablesJoined  = fmt.Sprintf("%q v join %q vr on v.id = vr.version_id and v.current_revision = vr.revision", table, tableRevision)
+	tableRevision       = table + "_revision"
+	tableRevisionQuoted = fmt.Sprintf("%q", tableRevision)
+	tablesJoined        = fmt.Sprintf(`%s v join %s vr on v."id" = vr."version_id" and v."current_revision" = vr."revision"`, tableQuoted, tableRevisionQuoted)
 )
 
 type dto struct {

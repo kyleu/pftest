@@ -14,19 +14,19 @@ import (
 func (s *Service) List(ctx context.Context, tx *sqlx.Tx, params *filter.Params) (Groups, error) {
 	params = filters(params)
 	wc := ""
-	sql := database.SQLSelect(columnsString, table, wc, params.OrderByString(), params.Limit, params.Offset)
+	sql := database.SQLSelect(columnsString, tableQuoted, wc, params.OrderByString(), params.Limit, params.Offset)
 	ret := dtos{}
 	err := s.db.Select(ctx, &ret, sql, tx)
 	if err != nil {
-		return nil, errors.Wrap(err, "unable to get Groups")
+		return nil, errors.Wrap(err, "unable to get groups")
 	}
 	return ret.ToGroups(), nil
 }
 
 func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, id string) (*Group, error) {
-	wc := "id = $1"
+	wc := "\"id\" = $1"
 	ret := &dto{}
-	sql := database.SQLSelectSimple(columnsString, table, wc)
+	sql := database.SQLSelectSimple(columnsString, tableQuoted, wc)
 	err := s.db.Get(ctx, ret, sql, tx, id)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to get group by id [%s]", id)
@@ -36,19 +36,19 @@ func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, id string) (*Group, erro
 
 func (s *Service) GetGroups(ctx context.Context, tx *sqlx.Tx) ([]*util.KeyValInt, error) {
 	wc := ""
-	sql := database.SQLSelectGrouped("vendor as key, count(*) as val", table, wc, "group", "group", 0, 0)
+	sql := database.SQLSelectGrouped("\"group\" as key, count(*) as val", tableQuoted, wc, "\"group\"", "\"group\"", 0, 0)
 	var ret []*util.KeyValInt
 	err := s.db.Select(ctx, &ret, sql, tx)
 	if err != nil {
-		return nil, errors.Wrap(err, "unable to get Groups")
+		return nil, errors.Wrap(err, "unable to get groups by group")
 	}
 	return ret, nil
 }
 
 func (s *Service) GetByGroup(ctx context.Context, tx *sqlx.Tx, group string, params *filter.Params) (Groups, error) {
 	params = filters(params)
-	wc := "group = $1"
-	sql := database.SQLSelect(columnsString, table, wc, params.OrderByString(), params.Limit, params.Offset)
+	wc := "\"group\" = $1"
+	sql := database.SQLSelect(columnsString, tableQuoted, wc, params.OrderByString(), params.Limit, params.Offset)
 	ret := dtos{}
 	err := s.db.Select(ctx, &ret, sql, tx, group)
 	if err != nil {

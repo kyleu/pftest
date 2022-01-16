@@ -22,10 +22,11 @@ func FromMap(m util.ValueMap, setPK bool) (*Basic, error) {
 	ret := &Basic{}
 	var err error
 	if setPK {
-		ret.ID, err = m.ParseUUID("id", true, true)
+		retID, err := m.ParseUUID("id", true, true)
 		if err != nil {
 			return nil, err
 		}
+		ret.ID = *retID
 		// $PF_SECTION_START(pkchecks)$
 		// $PF_SECTION_END(pkchecks)$
 	}

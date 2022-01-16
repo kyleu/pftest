@@ -159,7 +159,7 @@ func GroupDeleteByGroup(rc *fasthttp.RequestCtx) {
 		}
 		err = as.Services.Group.Delete(ps.Context, nil, ret.ID)
 		if err != nil {
-			return "", errors.Wrapf(err, "unable to delete Group [%s]", ret.String())
+			return "", errors.Wrapf(err, "unable to delete group [%s]", ret.String())
 		}
 		msg := fmt.Sprintf("Group [%s] deleted", ret.String())
 		return flashAndRedir(true, msg, "/group", rc, ps)

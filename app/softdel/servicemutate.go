@@ -18,8 +18,8 @@ func (s *Service) Create(ctx context.Context, tx *sqlx.Tx, models ...*Softdel) e
 		model.Created = time.Now()
 		model.Updated = util.NowPointer()
 	}
-	q := database.SQLInsert(table, columns, len(models), "")
-	vals := make([]interface{}, 0, len(models)*len(columns))
+	q := database.SQLInsert(tableQuoted, columnsQuoted, len(models), "")
+	vals := make([]interface{}, 0, len(models)*len(columnsQuoted))
 	for _, arg := range models {
 		vals = append(vals, arg.ToData()...)
 	}
@@ -28,7 +28,7 @@ func (s *Service) Create(ctx context.Context, tx *sqlx.Tx, models ...*Softdel) e
 
 func (s *Service) Update(ctx context.Context, tx *sqlx.Tx, model *Softdel) error {
 	model.Updated = util.NowPointer()
-	q := database.SQLUpdate(table, columns, "id = $5", "")
+	q := database.SQLUpdate(tableQuoted, columnsQuoted, "\"id\" = $5", "")
 	data := model.ToData()
 	data = append(data, model.ID)
 	_, ret := s.db.Update(ctx, q, tx, 1, data...)
@@ -43,7 +43,7 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, models ...*Softdel) err
 		model.Created = time.Now()
 		model.Updated = util.NowPointer()
 	}
-	q := database.SQLUpsert(table, columns, len(models), []string{"id"}, columns, "")
+	q := database.SQLUpsert(tableQuoted, columnsQuoted, len(models), []string{"id"}, columns, "")
 	var data []interface{}
 	for _, model := range models {
 		data = append(data, model.ToData()...)
@@ -53,7 +53,7 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, models ...*Softdel) err
 
 // Delete doesn't actually delete, it only sets [deleted].
 func (s *Service) Delete(ctx context.Context, tx *sqlx.Tx, id string) error {
-	q := database.SQLUpdate(table, []string{"deleted"}, "id = $2", "")
+	q := database.SQLUpdate(tableQuoted, []string{"deleted"}, "\"id\" = $2", "")
 	_, err := s.db.Update(ctx, q, tx, 1, time.Now(), id)
 	return err
 }

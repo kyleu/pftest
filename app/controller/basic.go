@@ -102,7 +102,7 @@ func BasicDelete(rc *fasthttp.RequestCtx) {
 		}
 		err = as.Services.Basic.Delete(ps.Context, nil, ret.ID)
 		if err != nil {
-			return "", errors.Wrapf(err, "unable to delete Basic [%s]", ret.String())
+			return "", errors.Wrapf(err, "unable to delete basic [%s]", ret.String())
 		}
 		msg := fmt.Sprintf("Basic [%s] deleted", ret.String())
 		return flashAndRedir(true, msg, "/basic", rc, ps)

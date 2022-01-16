@@ -238,6 +238,7 @@
           {
             "name": "mixed_case",
             "package": "mixed_case",
+            "title": "Mixed Case",
             "description": "Table and columns with mixed casing",
             "icon": "star",
             "columns": [
