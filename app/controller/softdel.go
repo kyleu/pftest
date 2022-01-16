@@ -46,6 +46,15 @@ func SoftdelCreateForm(rc *fasthttp.RequestCtx) {
 	})
 }
 
+func SoftdelCreateFormRandom(rc *fasthttp.RequestCtx) {
+	act("softdel.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret := softdel.Random()
+		ps.Title = "Create Random [Softdel]"
+		ps.Data = ret
+		return render(rc, as, &vsoftdel.Edit{Model: ret, IsNew: true}, ps, "softdel", "Create")
+	})
+}
+
 func SoftdelCreate(rc *fasthttp.RequestCtx) {
 	act("softdel.create", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := softdelFromForm(rc, true)

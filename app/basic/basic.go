@@ -18,6 +18,14 @@ func New(id uuid.UUID) *Basic {
 	return &Basic{ID: id}
 }
 
+func Random() *Basic {
+	return &Basic{
+		ID:      util.UUID(),
+		Name:    util.RandomString(12),
+		Created: time.Now(),
+	}
+}
+
 func FromMap(m util.ValueMap, setPK bool) (*Basic, error) {
 	ret := &Basic{}
 	var err error

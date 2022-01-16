@@ -17,6 +17,15 @@ func New(id string) *Softdel {
 	return &Softdel{ID: id}
 }
 
+func Random() *Softdel {
+	return &Softdel{
+		ID:      util.RandomString(12),
+		Created: time.Now(),
+		Updated: util.NowPointer(),
+		Deleted: util.NowPointer(),
+	}
+}
+
 func FromMap(m util.ValueMap, setPK bool) (*Softdel, error) {
 	ret := &Softdel{}
 	var err error

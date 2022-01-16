@@ -47,6 +47,15 @@ func BasicCreateForm(rc *fasthttp.RequestCtx) {
 	})
 }
 
+func BasicCreateFormRandom(rc *fasthttp.RequestCtx) {
+	act("basic.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret := basic.Random()
+		ps.Title = "Create Random [Basic]"
+		ps.Data = ret
+		return render(rc, as, &vbasic.Edit{Model: ret, IsNew: true}, ps, "basic", "Create")
+	})
+}
+
 func BasicCreate(rc *fasthttp.RequestCtx) {
 	act("basic.create", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := basicFromForm(rc, true)

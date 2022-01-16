@@ -1,0 +1,28 @@
+{% import (
+  "github.com/kyleu/pftest/app"
+  "github.com/kyleu/pftest/app/controller/cutil"
+  "github.com/kyleu/pftest/app/lib/filter"
+  "github.com/kyleu/pftest/app/trouble"
+  "github.com/kyleu/pftest/views/components"
+  "github.com/kyleu/pftest/views/layout"
+) %}
+
+{% code type List struct {
+  layout.Basic
+  Models trouble.Troubles
+  Params filter.ParamSet
+} %}
+
+{% func (p *List) Body(as *app.State, ps *cutil.PageState) %}
+  <div class="card">
+    <div class="right"><a href="/trouble/new"><button>New</button></a></div>
+    <h3>{%= components.SVGRefIcon(`star`, ps) %} Troubles</h3>
+    <div class="mt">
+      {%- if len(p.Models) == 0 -%}
+      <em>No troubles available</em>
+      {%- else -%}
+      {%= Table(p.Models, p.Params, as, ps) %}
+      {%- endif -%}
+    </div>
+  </div>
+{% endfunc %}

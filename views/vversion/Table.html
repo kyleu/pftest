@@ -13,8 +13,8 @@
       <tr>
         {%= components.TableHeaderSimple("version", "id", "ID", "String text", prms, ps.URI, ps) %}
         {%= components.TableHeaderSimple("version", "revision", "Revision", "Integer", prms, ps.URI, ps) %}
-        {%= components.TableHeaderSimple("version", "const", "Const", "String text", prms, ps.URI, ps) %}
-        {%= components.TableHeaderSimple("version", "var", "Var", "JSON object", prms, ps.URI, ps) %}
+        {%= components.TableHeaderSimple("version", "constcol", "Constcol", "String text", prms, ps.URI, ps) %}
+        {%= components.TableHeaderSimple("version", "varcol", "Varcol", "JSON object", prms, ps.URI, ps) %}
         {%= components.TableHeaderSimple("version", "created", "Created", "Date and time, in almost any format", prms, ps.URI, ps) %}
         {%= components.TableHeaderSimple("version", "updated", "Updated", "Date and time, in almost any format (optional)", prms, ps.URI, ps) %}
         {%= components.TableHeaderSimple("version", "deleted", "Deleted", "Date and time, in almost any format (optional)", prms, ps.URI, ps) %}
@@ -25,8 +25,8 @@
       <tr>
         <td><a href="/version/{%s model.ID %}">{%s model.ID %}</a></td>
         <td>{%d model.Revision %}</td>
-        <td>{%s model.Const %}</td>
-        <td>{%= components.JSON(model.Var) %}</td>
+        <td>{%s model.Constcol %}</td>
+        <td>{%= components.JSON(model.Varcol) %}</td>
         <td>{%= components.DisplayTimestamp(&model.Created) %}</td>
         <td>{%= components.DisplayTimestamp(model.Updated) %}</td>
         <td>{%= components.DisplayTimestamp(model.Deleted) %}</td>

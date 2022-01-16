@@ -46,6 +46,15 @@ func GroupCreateForm(rc *fasthttp.RequestCtx) {
 	})
 }
 
+func GroupCreateFormRandom(rc *fasthttp.RequestCtx) {
+	act("group.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret := group.Random()
+		ps.Title = "Create Random [Group]"
+		ps.Data = ret
+		return render(rc, as, &vgroup.Edit{Model: ret, IsNew: true}, ps, "group", "Create")
+	})
+}
+
 func GroupCreate(rc *fasthttp.RequestCtx) {
 	act("group.create", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := groupFromForm(rc, true)

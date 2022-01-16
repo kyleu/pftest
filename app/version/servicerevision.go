@@ -16,9 +16,9 @@ func (s *Service) GetAllRevisions(ctx context.Context, tx *sqlx.Tx, id string, p
 	params = filters(params)
 	wc := "\"id\" = $1"
 	tablesJoinedParam := fmt.Sprintf("%q v join %q vr on v.id = vr.version_id", table, tableRevision)
-	sql := database.SQLSelect(columnsString, tablesJoinedParam, wc, params.OrderByString(), params.Limit, params.Offset)
+	q := database.SQLSelect(columnsString, tablesJoinedParam, wc, params.OrderByString(), params.Limit, params.Offset)
 	ret := dtos{}
-	err := s.db.Select(ctx, &ret, sql, tx, id)
+	err := s.db.Select(ctx, &ret, q, tx, id)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to get Versions")
 	}
@@ -29,8 +29,8 @@ func (s *Service) GetRevision(ctx context.Context, tx *sqlx.Tx, id string, revis
 	wc := "\"id\" = $1 and \"revision\" = $2"
 	ret := &dto{}
 	tablesJoinedParam := fmt.Sprintf("%q v join %q vr on v.id = vr.version_id", table, tableRevision)
-	sql := database.SQLSelectSimple(columnsString, tablesJoinedParam, wc)
-	err := s.db.Get(ctx, ret, sql, tx, id, revision)
+	q := database.SQLSelectSimple(columnsString, tablesJoinedParam, wc)
+	err := s.db.Get(ctx, ret, q, tx, id, revision)
 	if err != nil {
 		return nil, err
 	}
@@ -40,9 +40,9 @@ func (s *Service) GetRevision(ctx context.Context, tx *sqlx.Tx, id string, revis
 func (s *Service) getCurrentRevisions(ctx context.Context, tx *sqlx.Tx, models ...*Version) (map[string]int, error) {
 	stmts := make([]string, 0, len(models))
 	for i := range models {
-		stmts = append(stmts, fmt.Sprintf("id = $%d", i+1))
+		stmts = append(stmts, fmt.Sprintf(`"id" = $%d`, i+1))
 	}
-	q := database.SQLSelectSimple("id, current_revision", tableQuoted, strings.Join(stmts, " or "))
+	q := database.SQLSelectSimple(`"id", "current_revision"`, tableQuoted, strings.Join(stmts, " or "))
 	vals := make([]interface{}, 0, len(models))
 	for _, model := range models {
 		vals = append(vals, model.ID)

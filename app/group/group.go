@@ -19,6 +19,17 @@ func New(id string) *Group {
 	return &Group{ID: id}
 }
 
+func Random() *Group {
+	return &Group{
+		ID:      util.RandomString(12),
+		Group:   util.RandomString(12),
+		Data:    util.RandomValueMap(4),
+		Created: time.Now(),
+		Updated: util.NowPointer(),
+		Deleted: util.NowPointer(),
+	}
+}
+
 func FromMap(m util.ValueMap, setPK bool) (*Group, error) {
 	ret := &Group{}
 	var err error

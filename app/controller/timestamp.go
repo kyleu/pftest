@@ -46,6 +46,15 @@ func TimestampCreateForm(rc *fasthttp.RequestCtx) {
 	})
 }
 
+func TimestampCreateFormRandom(rc *fasthttp.RequestCtx) {
+	act("timestamp.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret := timestamp.Random()
+		ps.Title = "Create Random [Timestamp]"
+		ps.Data = ret
+		return render(rc, as, &vtimestamp.Edit{Model: ret, IsNew: true}, ps, "timestamp", "Create")
+	})
+}
+
 func TimestampCreate(rc *fasthttp.RequestCtx) {
 	act("timestamp.create", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := timestampFromForm(rc, true)

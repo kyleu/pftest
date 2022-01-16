@@ -1,0 +1,50 @@
+package trouble
+
+import (
+	"fmt"
+	"strings"
+	"time"
+
+	"github.com/kyleu/pftest/app/util"
+)
+
+var (
+	table         = "trouble"
+	tableQuoted   = fmt.Sprintf("%q", table)
+	columns       = []string{"from", "where", "selectcol", "limit", "group", "delete"}
+	columnsQuoted = util.StringArrayQuoted(columns)
+	columnsString = strings.Join(columnsQuoted, ", ")
+
+	columnsCore     = util.StringArrayQuoted([]string{"from", "where", "current_selectcol", "limit", "delete"})
+	columnsSelectcol = util.StringArrayQuoted([]string{"trouble_from", "trouble_where", "selectcol", "group"})
+
+	tableSelectcol       = table + "_selectcol"
+	tableSelectcolQuoted = fmt.Sprintf("%q", tableSelectcol)
+	tablesJoined        = fmt.Sprintf(`%s t join %s tr on t."from" = tr."trouble_from" and t."where" = tr."trouble_where" and t."current_selectcol" = tr."selectcol"`, tableQuoted, tableSelectcolQuoted)
+)
+
+type dto struct {
+	From      string     `db:"from"`
+	Where     int        `db:"where"`
+	Selectcol int        `db:"selectcol"`
+	Limit     string     `db:"limit"`
+	Group     string     `db:"group"`
+	Delete    *time.Time `db:"delete"`
+}
+
+func (d *dto) ToTrouble() *Trouble {
+	if d == nil {
+		return nil
+	}
+	return &Trouble{From: d.From, Where: d.Where, Selectcol: d.Selectcol, Limit: d.Limit, Group: d.Group, Delete: d.Delete}
+}
+
+type dtos []*dto
+
+func (x dtos) ToTroubles() Troubles {
+	ret := make(Troubles, 0, len(x))
+	for _, d := range x {
+		ret = append(ret, d.ToTrouble())
+	}
+	return ret
+}

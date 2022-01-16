@@ -17,6 +17,15 @@ func New(id string) *Timestamp {
 	return &Timestamp{ID: id}
 }
 
+func Random() *Timestamp {
+	return &Timestamp{
+		ID:      util.RandomString(12),
+		Created: time.Now(),
+		Updated: util.NowPointer(),
+		Deleted: util.NowPointer(),
+	}
+}
+
 func FromMap(m util.ValueMap, setPK bool) (*Timestamp, error) {
 	ret := &Timestamp{}
 	var err error

@@ -122,13 +122,13 @@
                 "sqlDefault": "1"
               },
               {
-                "name": "const",
+                "name": "constcol",
                 "type": "string",
                 "search": true,
                 "tags": ["const"]
               },
               {
-                "name": "var",
+                "name": "varcol",
                 "type": "map",
                 "search": true
               },
@@ -257,6 +257,52 @@
                 "name": "another_field",
                 "type": "string",
                 "search": true
+              }
+            ]
+          },
+          {
+            "name": "trouble",
+            "package": "trouble",
+            "description": "Columns with scary names",
+            "icon": "star",
+            "tags": ["softDelete"],
+            "history": "revision",
+            "columns": [
+              {
+                "name": "from",
+                "type": "text",
+                "pk": true,
+                "search": true
+              },
+              {
+                "name": "where",
+                "type": "int",
+                "pk": true,
+                "search": true
+              },
+              {
+                "name": "selectcol",
+                "type": "int",
+                "tags": ["revision"],
+                "sqlDefault": "1"
+              },
+              {
+                "name": "limit",
+                "type": "string",
+                "search": true,
+                "tags": ["const"]
+              },
+              {
+                "name": "group",
+                "type": "string",
+                "search": true
+              },
+              {
+                "name": "delete",
+                "type": "timestamp",
+                "sqlDefault": "now()",
+                "tags": ["deleted"],
+                "nullable":true
               }
             ]
           }

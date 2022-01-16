@@ -16,12 +16,14 @@
 {% func (p *Edit) Body(as *app.State, ps *cutil.PageState) %}
   <div class="card">
     {%- if p.IsNew -%}
+    <div class="right"><a href="/group/random"><button>Random</button></a></div>
     <h3>{%= components.SVGRefIcon(`star`, ps) %} New Group</h3>
+    <form action="/group/new" class="mt" method="post">
     {%- else -%}
     <div class="right"><a href="{%s p.Model.WebPath() %}/delete" onclick="return confirm('Are you sure you wish to delete group [{%s p.Model.String() %}]?')"><button>Delete</button></a></div>
     <h3>{%= components.SVGRefIcon(`star`, ps) %} Edit Group [{%s p.Model.String() %}]</h3>
-    {%- endif -%}
     <form action="" class="mt" method="post">
+    {%- endif -%}
       <table>
         <tbody>
           {% if p.IsNew %}{%= components.TableInput("id", "ID", p.Model.ID, 5, "String text") %}{% endif %}

@@ -15,9 +15,9 @@ import (
 func (s *Service) List(ctx context.Context, tx *sqlx.Tx, params *filter.Params) (Basics, error) {
 	params = filters(params)
 	wc := ""
-	sql := database.SQLSelect(columnsString, tableQuoted, wc, params.OrderByString(), params.Limit, params.Offset)
+	q := database.SQLSelect(columnsString, tableQuoted, wc, params.OrderByString(), params.Limit, params.Offset)
 	ret := dtos{}
-	err := s.db.Select(ctx, &ret, sql, tx)
+	err := s.db.Select(ctx, &ret, q, tx)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to get basics")
 	}
@@ -27,22 +27,22 @@ func (s *Service) List(ctx context.Context, tx *sqlx.Tx, params *filter.Params) 
 func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, id uuid.UUID) (*Basic, error) {
 	wc := "\"id\" = $1"
 	ret := &dto{}
-	sql := database.SQLSelectSimple(columnsString, tableQuoted, wc)
-	err := s.db.Get(ctx, ret, sql, tx, id)
+	q := database.SQLSelectSimple(columnsString, tableQuoted, wc)
+	err := s.db.Get(ctx, ret, q, tx, id)
 	if err != nil {
-		return nil, errors.Wrapf(err, "unable to get basic by id [%s]", id)
+		return nil, errors.Wrapf(err, "unable to get basic by id [%v]", id)
 	}
 	return ret.ToBasic(), nil
 }
 
 const searchClause = "(lower(id::text) like $1 or lower(name) like $1)"
 
-func (s *Service) Search(ctx context.Context, q string, tx *sqlx.Tx, params *filter.Params) (Basics, error) {
+func (s *Service) Search(ctx context.Context, query string, tx *sqlx.Tx, params *filter.Params) (Basics, error) {
 	params = filters(params)
 	wc := searchClause
-	sql := database.SQLSelect(columnsString, tableQuoted, wc, params.OrderByString(), params.Limit, params.Offset)
+	q := database.SQLSelect(columnsString, tableQuoted, wc, params.OrderByString(), params.Limit, params.Offset)
 	ret := dtos{}
-	err := s.db.Select(ctx, &ret, sql, tx, "%"+strings.ToLower(q)+"%")
+	err := s.db.Select(ctx, &ret, q, tx, "%"+strings.ToLower(query)+"%")
 	if err != nil {
 		return nil, err
 	}

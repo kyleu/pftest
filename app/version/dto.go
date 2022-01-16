@@ -12,12 +12,12 @@ import (
 var (
 	table         = "version"
 	tableQuoted   = fmt.Sprintf("%q", table)
-	columns       = []string{"id", "revision", "const", "var", "created", "updated", "deleted"}
+	columns       = []string{"id", "revision", "constcol", "varcol", "created", "updated", "deleted"}
 	columnsQuoted = util.StringArrayQuoted(columns)
 	columnsString = strings.Join(columnsQuoted, ", ")
 
-	columnsCore     = util.StringArrayQuoted([]string{"id", "current_revision", "const", "updated", "deleted"})
-	columnsRevision = util.StringArrayQuoted([]string{"version_id", "revision", "var", "created"})
+	columnsCore     = util.StringArrayQuoted([]string{"id", "current_revision", "constcol", "updated", "deleted"})
+	columnsRevision = util.StringArrayQuoted([]string{"version_id", "revision", "varcol", "created"})
 
 	tableRevision       = table + "_revision"
 	tableRevisionQuoted = fmt.Sprintf("%q", tableRevision)
@@ -27,8 +27,8 @@ var (
 type dto struct {
 	ID       string          `db:"id"`
 	Revision int             `db:"revision"`
-	Const    string          `db:"const"`
-	Var      json.RawMessage `db:"var"`
+	Constcol string          `db:"constcol"`
+	Varcol   json.RawMessage `db:"varcol"`
 	Created  time.Time       `db:"created"`
 	Updated  *time.Time      `db:"updated"`
 	Deleted  *time.Time      `db:"deleted"`
@@ -38,9 +38,9 @@ func (d *dto) ToVersion() *Version {
 	if d == nil {
 		return nil
 	}
-	varArg := util.ValueMap{}
-	_ = util.FromJSON(d.Var, &varArg)
-	return &Version{ID: d.ID, Revision: d.Revision, Const: d.Const, Var: varArg, Created: d.Created, Updated: d.Updated, Deleted: d.Deleted}
+	varcolArg := util.ValueMap{}
+	_ = util.FromJSON(d.Varcol, &varcolArg)
+	return &Version{ID: d.ID, Revision: d.Revision, Constcol: d.Constcol, Varcol: varcolArg, Created: d.Created, Updated: d.Updated, Deleted: d.Deleted}
 }
 
 type dtos []*dto

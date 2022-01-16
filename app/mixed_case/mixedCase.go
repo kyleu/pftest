@@ -12,6 +12,14 @@ func New(id string) *MixedCase {
 	return &MixedCase{ID: id}
 }
 
+func Random() *MixedCase {
+	return &MixedCase{
+		ID:           util.RandomString(12),
+		TestField:    util.RandomString(12),
+		AnotherField: util.RandomString(12),
+	}
+}
+
 func FromMap(m util.ValueMap, setPK bool) (*MixedCase, error) {
 	ret := &MixedCase{}
 	var err error

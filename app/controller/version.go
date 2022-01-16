@@ -65,6 +65,15 @@ func VersionCreateForm(rc *fasthttp.RequestCtx) {
 	})
 }
 
+func VersionCreateFormRandom(rc *fasthttp.RequestCtx) {
+	act("version.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret := version.Random()
+		ps.Title = "Create Random [Version]"
+		ps.Data = ret
+		return render(rc, as, &vversion.Edit{Model: ret, IsNew: true}, ps, "version", "Create")
+	})
+}
+
 func VersionCreate(rc *fasthttp.RequestCtx) {
 	act("version.create", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := versionFromForm(rc, true)

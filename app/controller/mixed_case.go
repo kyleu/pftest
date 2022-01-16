@@ -46,6 +46,15 @@ func MixedCaseCreateForm(rc *fasthttp.RequestCtx) {
 	})
 }
 
+func MixedCaseCreateFormRandom(rc *fasthttp.RequestCtx) {
+	act("mixed_case.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret := mixed_case.Random()
+		ps.Title = "Create Random [MixedCase]"
+		ps.Data = ret
+		return render(rc, as, &vmixed_case.Edit{Model: ret, IsNew: true}, ps, "mixed_case", "Create")
+	})
+}
+
 func MixedCaseCreate(rc *fasthttp.RequestCtx) {
 	act("mixed_case.create", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := mixed_caseFromForm(rc, true)

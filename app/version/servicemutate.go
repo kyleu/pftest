@@ -80,7 +80,8 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, models ...*Version) err
 }
 
 func (s *Service) upsertCore(ctx context.Context, tx *sqlx.Tx, models ...*Version) error {
-	q := database.SQLUpsert(tableQuoted, columnsCore, len(models), []string{"id"}, columnsCore, "")
+	conflicts := util.StringArrayQuoted([]string{"id"})
+	q := database.SQLUpsert(tableQuoted, columnsCore, len(models), conflicts, columnsCore, "")
 	data := make([]interface{}, 0, len(columnsCore)*len(models))
 	for _, model := range models {
 		data = append(data, model.ToDataCore()...)

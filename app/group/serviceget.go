@@ -14,9 +14,9 @@ import (
 func (s *Service) List(ctx context.Context, tx *sqlx.Tx, params *filter.Params) (Groups, error) {
 	params = filters(params)
 	wc := ""
-	sql := database.SQLSelect(columnsString, tableQuoted, wc, params.OrderByString(), params.Limit, params.Offset)
+	q := database.SQLSelect(columnsString, tableQuoted, wc, params.OrderByString(), params.Limit, params.Offset)
 	ret := dtos{}
-	err := s.db.Select(ctx, &ret, sql, tx)
+	err := s.db.Select(ctx, &ret, q, tx)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to get groups")
 	}
@@ -26,19 +26,19 @@ func (s *Service) List(ctx context.Context, tx *sqlx.Tx, params *filter.Params) 
 func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, id string) (*Group, error) {
 	wc := "\"id\" = $1"
 	ret := &dto{}
-	sql := database.SQLSelectSimple(columnsString, tableQuoted, wc)
-	err := s.db.Get(ctx, ret, sql, tx, id)
+	q := database.SQLSelectSimple(columnsString, tableQuoted, wc)
+	err := s.db.Get(ctx, ret, q, tx, id)
 	if err != nil {
-		return nil, errors.Wrapf(err, "unable to get group by id [%s]", id)
+		return nil, errors.Wrapf(err, "unable to get group by id [%v]", id)
 	}
 	return ret.ToGroup(), nil
 }
 
 func (s *Service) GetGroups(ctx context.Context, tx *sqlx.Tx) ([]*util.KeyValInt, error) {
 	wc := ""
-	sql := database.SQLSelectGrouped("\"group\" as key, count(*) as val", tableQuoted, wc, "\"group\"", "\"group\"", 0, 0)
+	q := database.SQLSelectGrouped("\"group\" as key, count(*) as val", tableQuoted, wc, "\"group\"", "\"group\"", 0, 0)
 	var ret []*util.KeyValInt
-	err := s.db.Select(ctx, &ret, sql, tx)
+	err := s.db.Select(ctx, &ret, q, tx)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to get groups by group")
 	}
@@ -48,9 +48,9 @@ func (s *Service) GetGroups(ctx context.Context, tx *sqlx.Tx) ([]*util.KeyValInt
 func (s *Service) GetByGroup(ctx context.Context, tx *sqlx.Tx, group string, params *filter.Params) (Groups, error) {
 	params = filters(params)
 	wc := "\"group\" = $1"
-	sql := database.SQLSelect(columnsString, tableQuoted, wc, params.OrderByString(), params.Limit, params.Offset)
+	q := database.SQLSelect(columnsString, tableQuoted, wc, params.OrderByString(), params.Limit, params.Offset)
 	ret := dtos{}
-	err := s.db.Select(ctx, &ret, sql, tx, group)
+	err := s.db.Select(ctx, &ret, q, tx, group)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to get groups by group [%s]", group)
 	}
