@@ -1,0 +1,49 @@
+package capital
+
+import (
+	"fmt"
+	"strings"
+	"time"
+
+	"github.com/kyleu/pftest/app/util"
+)
+
+var (
+	table         = "Capital"
+	tableQuoted   = fmt.Sprintf("%q", table)
+	columns       = []string{"ID", "Name", "Birthday", "Version", "Deathday"}
+	columnsQuoted = util.StringArrayQuoted(columns)
+	columnsString = strings.Join(columnsQuoted, ", ")
+
+	columnsCore     = util.StringArrayQuoted([]string{"ID", "current_Version"})
+	columnsVersion = util.StringArrayQuoted([]string{"Capital_ID", "Version", "Name", "Birthday", "Deathday"})
+
+	tableVersion       = table + "_Version"
+	tableVersionQuoted = fmt.Sprintf("%q", tableVersion)
+	tablesJoined        = fmt.Sprintf(`%s C join %s Cr on C."ID" = Cr."Capital_ID" and C."current_Version" = Cr."Version"`, tableQuoted, tableVersionQuoted)
+)
+
+type dto struct {
+	ID       string     `db:"ID"`
+	Name     string     `db:"Name"`
+	Birthday time.Time  `db:"Birthday"`
+	Version  int        `db:"Version"`
+	Deathday *time.Time `db:"Deathday"`
+}
+
+func (d *dto) ToCapital() *Capital {
+	if d == nil {
+		return nil
+	}
+	return &Capital{ID: d.ID, Name: d.Name, Birthday: d.Birthday, Version: d.Version, Deathday: d.Deathday}
+}
+
+type dtos []*dto
+
+func (x dtos) ToCapitals() Capitals {
+	ret := make(Capitals, 0, len(x))
+	for _, d := range x {
+		ret = append(ret, d.ToCapital())
+	}
+	return ret
+}

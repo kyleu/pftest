@@ -236,6 +236,44 @@
             ]
           },
           {
+            "name": "Capital",
+            "package": "capital",
+            "title": "Capital",
+            "description": "Proper case table",
+            "history": "revision",
+            "icon": "star",
+            "columns": [
+              {
+                "name": "ID",
+                "type": "text",
+                "pk": true,
+                "search": true
+              },
+              {
+                "name": "Name",
+                "type": "string",
+                "search": true
+              },
+              {
+                "name": "Birthday",
+                "type": "timestamp",
+                "search": true
+              },
+              {
+                "name": "Version",
+                "type": "int",
+                "tags": ["revision"],
+                "sqlDefault": "1"
+              },
+              {
+                "name": "Deathday",
+                "type": "timestamp",
+                "nullable": true,
+                "search": true
+              }
+            ]
+          },
+          {
             "name": "mixed_case",
             "package": "mixed_case",
             "title": "Mixed Case",

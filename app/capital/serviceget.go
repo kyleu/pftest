@@ -1,0 +1,34 @@
+package capital
+
+import (
+	"context"
+
+	"github.com/jmoiron/sqlx"
+	"github.com/pkg/errors"
+
+	"github.com/kyleu/pftest/app/lib/database"
+	"github.com/kyleu/pftest/app/lib/filter"
+)
+
+func (s *Service) List(ctx context.Context, tx *sqlx.Tx, params *filter.Params) (Capitals, error) {
+	params = filters(params)
+	wc := ""
+	q := database.SQLSelect(columnsString, tablesJoined, wc, params.OrderByString(), params.Limit, params.Offset)
+	ret := dtos{}
+	err := s.db.Select(ctx, &ret, q, tx)
+	if err != nil {
+		return nil, errors.Wrap(err, "unable to get capitals")
+	}
+	return ret.ToCapitals(), nil
+}
+
+func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, id string) (*Capital, error) {
+	wc := "\"ID\" = $1"
+	ret := &dto{}
+	q := database.SQLSelectSimple(columnsString, tablesJoined, wc)
+	err := s.db.Get(ctx, ret, q, tx, id)
+	if err != nil {
+		return nil, errors.Wrapf(err, "unable to get capital by id [%v]", id)
+	}
+	return ret.ToCapital(), nil
+}

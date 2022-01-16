@@ -1,6 +1,7 @@
 -- {% func DropAll() %}
 -- {%= TroubleDrop() %}
 -- {%= MixedCaseDrop() %}
+-- {%= CapitalDrop() %}
 -- {%= GroupDrop() %}
 -- {%= SoftdelDrop() %}
 -- {%= VersionDrop() %}
@@ -14,6 +15,7 @@
 -- {%= VersionCreate() %}
 -- {%= SoftdelCreate() %}
 -- {%= GroupCreate() %}
+-- {%= CapitalCreate() %}
 -- {%= MixedCaseCreate() %}
 -- {%= TroubleCreate() %}
 -- {% endfunc %}

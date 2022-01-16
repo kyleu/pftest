@@ -1,0 +1,70 @@
+{% import (
+  "github.com/kyleu/pftest/app"
+  "github.com/kyleu/pftest/app/capital"
+  "github.com/kyleu/pftest/app/controller/cutil"
+  "github.com/kyleu/pftest/app/lib/filter"
+  "github.com/kyleu/pftest/views/components"
+  "github.com/kyleu/pftest/views/layout"
+) %}
+
+{% code type Detail struct {
+  layout.Basic
+  Model *capital.Capital
+  Versions capital.Capitals
+  Params filter.ParamSet
+} %}
+
+{% func (p *Detail) Body(as *app.State, ps *cutil.PageState) %}
+  <div class="card">
+    <div class="right"><a href="{%s p.Model.WebPath() %}/edit"><button>Edit</button></a></div>
+    <h3>{%= components.SVGRefIcon(`star`, ps) %} Capital [{%s p.Model.String() %}]</h3>
+    <table>
+      <tbody>
+        <tr>
+          <th class="shrink" title="String text">ID</th>
+          <td>{%s p.Model.ID %}</td>
+        </tr>
+        <tr>
+          <th class="shrink" title="String text">Name</th>
+          <td>{%s p.Model.Name %}</td>
+        </tr>
+        <tr>
+          <th class="shrink" title="Date and time, in almost any format">Birthday</th>
+          <td>{%= components.DisplayTimestamp(&p.Model.Birthday) %}</td>
+        </tr>
+        <tr>
+          <th class="shrink" title="Integer">Version</th>
+          <td>{%d p.Model.Version %}</td>
+        </tr>
+        <tr>
+          <th class="shrink" title="Date and time, in almost any format (optional)">Deathday</th>
+          <td>{%= components.DisplayTimestamp(p.Model.Deathday) %}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  {%- if len(p.Versions) > 1 -%}
+  <div class="card">
+    <h3>Versions</h3>
+    {%- code prms := p.Params.Get("capital", nil, ps.Logger) -%}
+    <table>
+      <thead>
+        <tr>
+          {%= components.TableHeaderSimple("capital", "ID", "ID", "String text", prms, ps.URI, ps) %}
+          {%= components.TableHeaderSimple("capital", "Version", "Version", "Integer", prms, ps.URI, ps) %}
+        </tr>
+      </thead>
+      <tbody>
+        {%- for _, model := range p.Versions -%}
+        <tr>
+          <td><a href="/capital/{%s model.ID %}/version/{%d model.Version %}">{%s model.ID %}</a></td>
+          <td><a href="/capital/{%s model.ID %}/version/{%d model.Version %}">{%d model.Version %}</a></td>
+        </tr>
+        {%- endfor -%}
+      </tbody>
+    </table>
+  </div>
+  {%- endif -%}
+  {%- comment %}$PF_SECTION_START(extra)${% endcomment -%}
+  {%- comment %}$PF_SECTION_END(extra)${% endcomment -%}
+{% endfunc %}
