@@ -5,7 +5,6 @@ import (
 	"sort"
 
 	"github.com/kyleu/pftest/app/lib/schema/field"
-
 	"github.com/kyleu/pftest/app/util"
 )
 

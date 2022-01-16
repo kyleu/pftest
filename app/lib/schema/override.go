@@ -5,10 +5,11 @@ import (
 	"sort"
 	"strings"
 
+	"github.com/pkg/errors"
+
 	"github.com/kyleu/pftest/app/lib/schema/field"
 	"github.com/kyleu/pftest/app/lib/schema/model"
 	"github.com/kyleu/pftest/app/util"
-	"github.com/pkg/errors"
 )
 
 const (
