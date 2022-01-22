@@ -1,3 +1,4 @@
+// Content managed by Project Forge, see [projectforge.md] for details.
 package controller
 
 import (
@@ -12,9 +13,11 @@ import (
 	"github.com/kyleu/pftest/views/vversion"
 )
 
+const versionDefaultTitle = "Versions"
+
 func VersionList(rc *fasthttp.RequestCtx) {
 	act("version.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ps.Title = "Versions"
+		ps.Title = versionDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
 		ret, err := as.Services.Version.List(ps.Context, nil, params.Get("version", nil, ps.Logger))
 		if err != nil {
@@ -27,15 +30,18 @@ func VersionList(rc *fasthttp.RequestCtx) {
 
 func VersionDetail(rc *fasthttp.RequestCtx) {
 	act("version.detail", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+		params := cutil.ParamSetFromRequest(rc)
 		ret, err := versionFromPath(rc, as, ps)
 		if err != nil {
 			return "", err
 		}
-		params := cutil.ParamSetFromRequest(rc)
 		revisions, err := as.Services.Version.GetAllRevisions(ps.Context, nil, ret.ID, params.Get("version", nil, ps.Logger), false)
+		if err != nil {
+			return "", err
+		}
 		ps.Title = ret.String()
 		ps.Data = ret
-		return render(rc, as, &vversion.Detail{Model: ret, Revisions: revisions, Params: params}, ps, "version", ret.String())
+		return render(rc, as, &vversion.Detail{Model: ret, Revisions: revisions}, ps, "version", ret.String())
 	})
 }
 
@@ -46,6 +52,9 @@ func VersionRevision(rc *fasthttp.RequestCtx) {
 			return "", err
 		}
 		revision, err := RCRequiredInt(rc, "revision")
+		if err != nil {
+			return "", err
+		}
 		ret, err := as.Services.Version.GetRevision(ps.Context, nil, latest.ID, revision)
 		if err != nil {
 			return "", err

@@ -1,3 +1,4 @@
+// Content managed by Project Forge, see [projectforge.md] for details.
 package capital
 
 import (
@@ -15,7 +16,7 @@ import (
 func (s *Service) GetAllVersions(ctx context.Context, tx *sqlx.Tx, id string, params *filter.Params, includeDeleted bool) (Capitals, error) {
 	params = filters(params)
 	wc := "\"ID\" = $1"
-	tablesJoinedParam := fmt.Sprintf("%q C join %q Cr on C.ID = Cr.Capital_ID", table, tableVersion)
+	tablesJoinedParam := fmt.Sprintf("%q c join %q cr on c.\"ID\" = cr.\"Capital_ID\"", table, tableVersion)
 	q := database.SQLSelect(columnsString, tablesJoinedParam, wc, params.OrderByString(), params.Limit, params.Offset)
 	ret := dtos{}
 	err := s.db.Select(ctx, &ret, q, tx, id)
@@ -28,7 +29,7 @@ func (s *Service) GetAllVersions(ctx context.Context, tx *sqlx.Tx, id string, pa
 func (s *Service) GetVersion(ctx context.Context, tx *sqlx.Tx, id string, version int) (*Capital, error) {
 	wc := "\"ID\" = $1 and \"Version\" = $2"
 	ret := &dto{}
-	tablesJoinedParam := fmt.Sprintf("%q C join %q Cr on C.ID = Cr.Capital_ID", table, tableVersion)
+	tablesJoinedParam := fmt.Sprintf("%q c join %q cr on c.\"ID\" = cr.\"Capital_ID\"", table, tableVersion)
 	q := database.SQLSelectSimple(columnsString, tablesJoinedParam, wc)
 	err := s.db.Get(ctx, ret, q, tx, id, version)
 	if err != nil {

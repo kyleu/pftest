@@ -1,3 +1,4 @@
+<!-- Content managed by Project Forge, see [projectforge.md] for details. -->
 {% import (
   "github.com/kyleu/pftest/app"
   "github.com/kyleu/pftest/app/controller/cutil"
@@ -15,14 +16,12 @@
 
 {% func (p *List) Body(as *app.State, ps *cutil.PageState) %}
   <div class="card">
-    <div class="right"><a href="/trouble/new"><button>New</button></a></div>
+    <div class="right"><a href="/troub/le/new"><button>New</button></a></div>
     <h3>{%= components.SVGRefIcon(`star`, ps) %} Troubles</h3>
-    <div class="mt">
-      {%- if len(p.Models) == 0 -%}
-      <em>No troubles available</em>
-      {%- else -%}
-      {%= Table(p.Models, p.Params, as, ps) %}
-      {%- endif -%}
-    </div>
+    {%- if len(p.Models) == 0 -%}
+    <div class="mt"><em>No troubles available</em></div>
+    {%- else -%}
+    {%= Table(p.Models, p.Params, as, ps) %}
+    {%- endif -%}
   </div>
 {% endfunc %}

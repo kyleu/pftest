@@ -1,3 +1,4 @@
+// Content managed by Project Forge, see [projectforge.md] for details.
 package controller
 
 import (
@@ -13,9 +14,11 @@ import (
 	"github.com/kyleu/pftest/views/vtrouble"
 )
 
+const troubleDefaultTitle = "Troubles"
+
 func TroubleList(rc *fasthttp.RequestCtx) {
 	act("trouble.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ps.Title = "Troubles"
+		ps.Title = troubleDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
 		ret, err := as.Services.Trouble.List(ps.Context, nil, params.Get("trouble", nil, ps.Logger), cutil.RequestCtxBool(rc, "includeDeleted"))
 		if err != nil {
@@ -28,15 +31,18 @@ func TroubleList(rc *fasthttp.RequestCtx) {
 
 func TroubleDetail(rc *fasthttp.RequestCtx) {
 	act("trouble.detail", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+		params := cutil.ParamSetFromRequest(rc)
 		ret, err := troubleFromPath(rc, as, ps)
 		if err != nil {
 			return "", err
 		}
-		params := cutil.ParamSetFromRequest(rc)
 		selectcols, err := as.Services.Trouble.GetAllSelectcols(ps.Context, nil, ret.From, ret.Where, params.Get("trouble", nil, ps.Logger), false)
+		if err != nil {
+			return "", err
+		}
 		ps.Title = ret.String()
 		ps.Data = ret
-		return render(rc, as, &vtrouble.Detail{Model: ret, Selectcols: selectcols, Params: params}, ps, "trouble", ret.String())
+		return render(rc, as, &vtrouble.Detail{Model: ret, Selectcols: selectcols}, ps, "trouble", ret.String())
 	})
 }
 
@@ -47,6 +53,9 @@ func TroubleSelectcol(rc *fasthttp.RequestCtx) {
 			return "", err
 		}
 		selectcol, err := RCRequiredInt(rc, "selectcol")
+		if err != nil {
+			return "", err
+		}
 		ret, err := as.Services.Trouble.GetSelectcol(ps.Context, nil, latest.From, latest.Where, selectcol)
 		if err != nil {
 			return "", err

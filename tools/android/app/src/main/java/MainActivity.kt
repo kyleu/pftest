@@ -1,3 +1,4 @@
+// Content managed by Project Forge, see [projectforge.md] for details.
 package com.kyleu.pftest
 
 import android.os.Bundle

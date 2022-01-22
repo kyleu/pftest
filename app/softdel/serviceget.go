@@ -1,3 +1,4 @@
+// Content managed by Project Forge, see [projectforge.md] for details.
 package softdel
 
 import (
@@ -26,7 +27,7 @@ func (s *Service) List(ctx context.Context, tx *sqlx.Tx, params *filter.Params, 
 }
 
 func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, id string, includeDeleted bool) (*Softdel, error) {
-	wc := "\"id\" = $1"
+	wc := defaultWC
 	wc = addDeletedClause(wc, includeDeleted)
 	ret := &dto{}
 	q := database.SQLSelectSimple(columnsString, tableQuoted, wc)

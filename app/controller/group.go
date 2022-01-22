@@ -1,3 +1,4 @@
+// Content managed by Project Forge, see [projectforge.md] for details.
 package controller
 
 import (
@@ -12,9 +13,11 @@ import (
 	"github.com/kyleu/pftest/views/vgroup"
 )
 
+const groupDefaultTitle = "Groups"
+
 func GroupList(rc *fasthttp.RequestCtx) {
 	act("group.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ps.Title = "Groups"
+		ps.Title = groupDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
 		ret, err := as.Services.Group.List(ps.Context, nil, params.Get("group", nil, ps.Logger))
 		if err != nil {

@@ -1,3 +1,4 @@
+// Content managed by Project Forge, see [projectforge.md] for details.
 package controller
 
 import (
@@ -12,7 +13,7 @@ import (
 
 func MenuFor(ctx context.Context, isAuthed bool, isAdmin bool, as *app.State) (menu.Items, error) {
 	ctx, span := telemetry.StartSpan(ctx, "menu", "menu:generate")
-	defer span.End()
+	defer span.Complete()
 
 	var ret menu.Items
 	// $PF_SECTION_START(routes_start)$
@@ -27,8 +28,8 @@ func MenuFor(ctx context.Context, isAuthed bool, isAdmin bool, as *app.State) (m
 			&menu.Item{Key: "group", Title: "Groups", Description: "Groups from groups", Icon: "star", Route: "/group/group"},
 		}},
 		&menu.Item{Key: "capital", Title: "Capitals", Description: "Proper case table", Icon: "star", Route: "/capital"},
-		&menu.Item{Key: "mixed_case", Title: "Mixed Cases", Description: "Table and columns with mixed casing", Icon: "star", Route: "/mixed_case"},
-		&menu.Item{Key: "trouble", Title: "Troubles", Description: "Columns with scary names", Icon: "star", Route: "/trouble"},
+		&menu.Item{Key: "mixedcase", Title: "Mixed Cases", Description: "Table and columns with mixed casing", Icon: "star", Route: "/mixedcase"},
+		&menu.Item{Key: "trouble", Title: "Troubles", Description: "Columns with scary names", Icon: "star", Route: "/troub/le"},
 	)
 	// $PF_INJECT_END(codegen)$
 	// $PF_SECTION_START(routes_end)$

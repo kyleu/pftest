@@ -1,3 +1,4 @@
+// Content managed by Project Forge, see [projectforge.md] for details.
 package trouble
 
 import (
@@ -14,13 +15,14 @@ var (
 	columns       = []string{"from", "where", "selectcol", "limit", "group", "delete"}
 	columnsQuoted = util.StringArrayQuoted(columns)
 	columnsString = strings.Join(columnsQuoted, ", ")
+	defaultWC     = "\"from\" = $1 and \"where\" = $2"
 
-	columnsCore     = util.StringArrayQuoted([]string{"from", "where", "current_selectcol", "limit", "delete"})
+	columnsCore      = util.StringArrayQuoted([]string{"from", "where", "current_selectcol", "limit", "delete"})
 	columnsSelectcol = util.StringArrayQuoted([]string{"trouble_from", "trouble_where", "selectcol", "group"})
 
 	tableSelectcol       = table + "_selectcol"
 	tableSelectcolQuoted = fmt.Sprintf("%q", tableSelectcol)
-	tablesJoined        = fmt.Sprintf(`%s t join %s tr on t."from" = tr."trouble_from" and t."where" = tr."trouble_where" and t."current_selectcol" = tr."selectcol"`, tableQuoted, tableSelectcolQuoted)
+	tablesJoined         = fmt.Sprintf(`%q t join %q tr on t."from" = tr."trouble_from" and t."where" = tr."trouble_where" and t."current_selectcol" = tr."selectcol"`, table, tableSelectcol) // nolint
 )
 
 type dto struct {

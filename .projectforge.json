@@ -275,7 +275,7 @@
           },
           {
             "name": "mixed_case",
-            "package": "mixed_case",
+            "package": "mixedcase",
             "title": "Mixed Case",
             "description": "Table and columns with mixed casing",
             "icon": "star",
@@ -305,6 +305,7 @@
             "icon": "star",
             "tags": ["softDelete"],
             "history": "revision",
+            "route": "troub/le",
             "columns": [
               {
                 "name": "from",
@@ -391,6 +392,7 @@
   "build": {
     "publish": true,
     "desktop": true,
+    "headers": true,
     "notarize": true,
     "signing": true,
     "android": true,

@@ -1,3 +1,4 @@
+// Content managed by Project Forge, see [projectforge.md] for details.
 package softdel
 
 import (
@@ -44,6 +45,15 @@ func FromMap(m util.ValueMap, setPK bool) (*Softdel, error) {
 	// $PF_SECTION_START(extrachecks)$
 	// $PF_SECTION_END(extrachecks)$
 	return ret, nil
+}
+
+func (s *Softdel) Clone() *Softdel {
+	return &Softdel{
+		ID:      s.ID,
+		Created: s.Created,
+		Updated: s.Updated,
+		Deleted: s.Deleted,
+	}
 }
 
 func (s *Softdel) String() string {

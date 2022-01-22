@@ -1,4 +1,5 @@
-package mixed_case
+// Content managed by Project Forge, see [projectforge.md] for details.
+package mixedcase
 
 import "github.com/kyleu/pftest/app/util"
 
@@ -44,12 +45,20 @@ func FromMap(m util.ValueMap, setPK bool) (*MixedCase, error) {
 	return ret, nil
 }
 
+func (m *MixedCase) Clone() *MixedCase {
+	return &MixedCase{
+		ID:           m.ID,
+		TestField:    m.TestField,
+		AnotherField: m.AnotherField,
+	}
+}
+
 func (m *MixedCase) String() string {
 	return m.ID
 }
 
 func (m *MixedCase) WebPath() string {
-	return "/mixed_case" + "/" + m.ID
+	return "/mixedcase" + "/" + m.ID
 }
 
 func (m *MixedCase) ToData() []interface{} {

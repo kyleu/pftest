@@ -1,3 +1,4 @@
+// Content managed by Project Forge, see [projectforge.md] for details.
 package group
 
 import (
@@ -56,6 +57,17 @@ func FromMap(m util.ValueMap, setPK bool) (*Group, error) {
 	// $PF_SECTION_START(extrachecks)$
 	// $PF_SECTION_END(extrachecks)$
 	return ret, nil
+}
+
+func (g *Group) Clone() *Group {
+	return &Group{
+		ID:      g.ID,
+		Group:   g.Group,
+		Data:    g.Data,
+		Created: g.Created,
+		Updated: g.Updated,
+		Deleted: g.Deleted,
+	}
 }
 
 func (g *Group) String() string {

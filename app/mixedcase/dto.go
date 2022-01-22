@@ -1,4 +1,5 @@
-package mixed_case
+// Content managed by Project Forge, see [projectforge.md] for details.
+package mixedcase
 
 import (
 	"fmt"
@@ -13,6 +14,7 @@ var (
 	columns       = []string{"id", "test_field", "another_field"}
 	columnsQuoted = util.StringArrayQuoted(columns)
 	columnsString = strings.Join(columnsQuoted, ", ")
+	defaultWC     = "\"id\" = $1"
 )
 
 type dto struct {

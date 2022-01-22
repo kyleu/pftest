@@ -1,3 +1,4 @@
+-- Content managed by Project Forge, see [projectforge.md] for details.
 -- {% func CreateDatabase() %}
 create role "pftest" with login password 'pftest';
 

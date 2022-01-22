@@ -1,3 +1,4 @@
+// Content managed by Project Forge, see [projectforge.md] for details.
 package capital
 
 import (
@@ -43,9 +44,9 @@ func FromMap(m util.ValueMap, setPK bool) (*Capital, error) {
 	if err != nil {
 		return nil, err
 	}
-	retBirthday, err := m.ParseTime("birthday", true, true)
-	if err != nil {
-		return nil, err
+	retBirthday, e := m.ParseTime("birthday", true, true)
+	if e != nil {
+		return nil, e
 	}
 	ret.Birthday = *retBirthday
 	ret.Deathday, err = m.ParseTime("deathday", true, true)
@@ -57,24 +58,34 @@ func FromMap(m util.ValueMap, setPK bool) (*Capital, error) {
 	return ret, nil
 }
 
-func (C *Capital) String() string {
-	return C.ID
+func (c *Capital) Clone() *Capital {
+	return &Capital{
+		ID:       c.ID,
+		Name:     c.Name,
+		Birthday: c.Birthday,
+		Version:  c.Version,
+		Deathday: c.Deathday,
+	}
 }
 
-func (C *Capital) WebPath() string {
-	return "/capital" + "/" + C.ID
+func (c *Capital) String() string {
+	return c.ID
 }
 
-func (C *Capital) ToData() []interface{} {
-	return []interface{}{C.ID, C.Name, C.Birthday, C.Version, C.Deathday}
+func (c *Capital) WebPath() string {
+	return "/capital" + "/" + c.ID
 }
 
-func (C *Capital) ToDataCore() []interface{} {
-	return []interface{}{C.ID, C.Version}
+func (c *Capital) ToData() []interface{} {
+	return []interface{}{c.ID, c.Name, c.Birthday, c.Version, c.Deathday}
 }
 
-func (C *Capital) ToDataVersion() []interface{} {
-	return []interface{}{C.ID, C.Version, C.Name, C.Birthday, C.Deathday}
+func (c *Capital) ToDataCore() []interface{} {
+	return []interface{}{c.ID, c.Version}
+}
+
+func (c *Capital) ToDataVersion() []interface{} {
+	return []interface{}{c.ID, c.Version, c.Name, c.Birthday, c.Deathday}
 }
 
 type Capitals []*Capital

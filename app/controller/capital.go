@@ -1,3 +1,4 @@
+// Content managed by Project Forge, see [projectforge.md] for details.
 package controller
 
 import (
@@ -12,9 +13,11 @@ import (
 	"github.com/kyleu/pftest/views/vcapital"
 )
 
+const capitalDefaultTitle = "Capitals"
+
 func CapitalList(rc *fasthttp.RequestCtx) {
 	act("capital.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ps.Title = "Capitals"
+		ps.Title = capitalDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
 		ret, err := as.Services.Capital.List(ps.Context, nil, params.Get("capital", nil, ps.Logger))
 		if err != nil {
@@ -27,15 +30,18 @@ func CapitalList(rc *fasthttp.RequestCtx) {
 
 func CapitalDetail(rc *fasthttp.RequestCtx) {
 	act("capital.detail", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+		params := cutil.ParamSetFromRequest(rc)
 		ret, err := capitalFromPath(rc, as, ps)
 		if err != nil {
 			return "", err
 		}
-		params := cutil.ParamSetFromRequest(rc)
 		versions, err := as.Services.Capital.GetAllVersions(ps.Context, nil, ret.ID, params.Get("capital", nil, ps.Logger), false)
+		if err != nil {
+			return "", err
+		}
 		ps.Title = ret.String()
 		ps.Data = ret
-		return render(rc, as, &vcapital.Detail{Model: ret, Versions: versions, Params: params}, ps, "capital", ret.String())
+		return render(rc, as, &vcapital.Detail{Model: ret, Versions: versions}, ps, "capital", ret.String())
 	})
 }
 
@@ -46,6 +52,9 @@ func CapitalVersion(rc *fasthttp.RequestCtx) {
 			return "", err
 		}
 		version, err := RCRequiredInt(rc, "version")
+		if err != nil {
+			return "", err
+		}
 		ret, err := as.Services.Capital.GetVersion(ps.Context, nil, latest.ID, version)
 		if err != nil {
 			return "", err

@@ -1,3 +1,4 @@
+// Content managed by Project Forge, see [projectforge.md] for details.
 package version
 
 import (
@@ -100,7 +101,7 @@ func (s *Service) insertRevision(ctx context.Context, tx *sqlx.Tx, models ...*Ve
 }
 
 func (s *Service) Delete(ctx context.Context, tx *sqlx.Tx, id string) error {
-	q := database.SQLDelete(tableQuoted, "\"id\" = $1")
+	q := database.SQLDelete(tableQuoted, defaultWC)
 	_, err := s.db.Delete(ctx, q, tx, 1, id)
 	return err
 }

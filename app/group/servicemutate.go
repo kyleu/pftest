@@ -1,3 +1,4 @@
+// Content managed by Project Forge, see [projectforge.md] for details.
 package group
 
 import (
@@ -28,7 +29,7 @@ func (s *Service) Create(ctx context.Context, tx *sqlx.Tx, models ...*Group) err
 
 func (s *Service) Update(ctx context.Context, tx *sqlx.Tx, model *Group) error {
 	model.Updated = util.NowPointer()
-	q := database.SQLUpdate(tableQuoted, columnsQuoted, "\"id\" = $7", "")
+	q := database.SQLUpdate(tableQuoted, columnsQuoted, defaultWC, "")
 	data := model.ToData()
 	data = append(data, model.ID)
 	_, ret := s.db.Update(ctx, q, tx, 1, data...)
@@ -52,7 +53,7 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, models ...*Group) error
 }
 
 func (s *Service) Delete(ctx context.Context, tx *sqlx.Tx, id string) error {
-	q := database.SQLDelete(tableQuoted, "\"id\" = $1")
+	q := database.SQLDelete(tableQuoted, defaultWC)
 	_, err := s.db.Delete(ctx, q, tx, 1, id)
 	return err
 }

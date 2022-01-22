@@ -1,3 +1,4 @@
+<!-- Content managed by Project Forge, see [projectforge.md] for details. -->
 {% import (
   "github.com/kyleu/pftest/app"
   "github.com/kyleu/pftest/app/basic"
@@ -17,12 +18,10 @@
   <div class="card">
     <div class="right"><a href="/basic/new"><button>New</button></a></div>
     <h3>{%= components.SVGRefIcon(`star`, ps) %} Basics</h3>
-    <div class="mt">
-      {%- if len(p.Models) == 0 -%}
-      <em>No basics available</em>
-      {%- else -%}
-      {%= Table(p.Models, p.Params, as, ps) %}
-      {%- endif -%}
-    </div>
+    {%- if len(p.Models) == 0 -%}
+    <div class="mt"><em>No basics available</em></div>
+    {%- else -%}
+    {%= Table(p.Models, p.Params, as, ps) %}
+    {%- endif -%}
   </div>
 {% endfunc %}

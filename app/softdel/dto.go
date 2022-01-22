@@ -1,3 +1,4 @@
+// Content managed by Project Forge, see [projectforge.md] for details.
 package softdel
 
 import (
@@ -14,6 +15,7 @@ var (
 	columns       = []string{"id", "created", "updated", "deleted"}
 	columnsQuoted = util.StringArrayQuoted(columns)
 	columnsString = strings.Join(columnsQuoted, ", ")
+	defaultWC     = "\"id\" = $1"
 )
 
 type dto struct {

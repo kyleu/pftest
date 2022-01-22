@@ -1,3 +1,4 @@
+<!--- Content managed by Project Forge, see [projectforge.md] for details. -->
 # [migration]
 
 This is a module for [Project Forge](https://projectforge.dev). It provides database migrations and a common PostgreSQL or SQLite database

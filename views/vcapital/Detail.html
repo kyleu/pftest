@@ -1,3 +1,4 @@
+<!-- Content managed by Project Forge, see [projectforge.md] for details. -->
 {% import (
   "github.com/kyleu/pftest/app"
   "github.com/kyleu/pftest/app/capital"
@@ -10,15 +11,15 @@
 {% code type Detail struct {
   layout.Basic
   Model *capital.Capital
-  Versions capital.Capitals
   Params filter.ParamSet
+  Versions capital.Capitals
 } %}
 
 {% func (p *Detail) Body(as *app.State, ps *cutil.PageState) %}
   <div class="card">
     <div class="right"><a href="{%s p.Model.WebPath() %}/edit"><button>Edit</button></a></div>
     <h3>{%= components.SVGRefIcon(`star`, ps) %} Capital [{%s p.Model.String() %}]</h3>
-    <table>
+    <table class="mt">
       <tbody>
         <tr>
           <th class="shrink" title="String text">ID</th>
@@ -47,7 +48,7 @@
   <div class="card">
     <h3>Versions</h3>
     {%- code prms := p.Params.Get("capital", nil, ps.Logger) -%}
-    <table>
+    <table class="mt">
       <thead>
         <tr>
           {%= components.TableHeaderSimple("capital", "ID", "ID", "String text", prms, ps.URI, ps) %}

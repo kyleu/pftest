@@ -1,3 +1,4 @@
+// Content managed by Project Forge, see [projectforge.md] for details.
 package controller
 
 import (
@@ -14,7 +15,7 @@ import (
 
 func GroupGroupList(rc *fasthttp.RequestCtx) {
 	act("group.group.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ps.Title = "Groups"
+		ps.Title = "[Groups] by group"
 		ret, err := as.Services.Group.GetGroups(ps.Context, nil)
 		if err != nil {
 			return "", err
@@ -30,7 +31,7 @@ func GroupListByGroup(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", errors.Wrap(err, "must provide [group] as an argument")
 		}
-		ps.Title = "Groups"
+		ps.Title = groupDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
 		ret, err := as.Services.Group.GetByGroup(ps.Context, nil, groupArg, params.Get("group", nil, ps.Logger))
 		if err != nil {
@@ -67,7 +68,7 @@ func GroupCreateFormByGroup(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrap(err, "must provide [group] as an argument")
 		}
 		ret := &group.Group{Group: groupArg}
-		ps.Title = "Create [Group]"
+		ps.Title = fmt.Sprintf("Create [Group] for group [%s]", groupArg)
 		ps.Data = ret
 		return render(rc, as, &vgroup.Edit{Model: ret, IsNew: true}, ps, "group", "group", "Create")
 	})

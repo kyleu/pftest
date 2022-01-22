@@ -1,3 +1,4 @@
+// Content managed by Project Forge, see [projectforge.md] for details.
 package trouble
 
 import (
@@ -26,7 +27,7 @@ func (s *Service) List(ctx context.Context, tx *sqlx.Tx, params *filter.Params, 
 }
 
 func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, from string, where int, includeDeleted bool) (*Trouble, error) {
-	wc := "\"from\" = $1 and \"where\" = $2"
+	wc := defaultWC
 	wc = addDeletedClause(wc, includeDeleted)
 	ret := &dto{}
 	q := database.SQLSelectSimple(columnsString, tablesJoined, wc)
@@ -39,26 +40,26 @@ func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, from string, where int, 
 
 func (s *Service) GetByFrom(ctx context.Context, tx *sqlx.Tx, from string, params *filter.Params, includeDeleted bool) (Troubles, error) {
 	params = filters(params)
-	wc := "\"from\" = $1"
+	wc := defaultWC
 	wc = addDeletedClause(wc, includeDeleted)
 	q := database.SQLSelect(columnsString, tablesJoined, wc, params.OrderByString(), params.Limit, params.Offset)
 	ret := dtos{}
 	err := s.db.Select(ctx, &ret, q, tx, from)
 	if err != nil {
-		return nil, errors.Wrapf(err, "unable to get troubles by from [%s]", from)
+		return nil, errors.Wrapf(err, "unable to get troubles by from [%v]", from)
 	}
 	return ret.ToTroubles(), nil
 }
 
 func (s *Service) GetByWhere(ctx context.Context, tx *sqlx.Tx, where int, params *filter.Params, includeDeleted bool) (Troubles, error) {
 	params = filters(params)
-	wc := "\"where\" = $1"
+	wc := defaultWC
 	wc = addDeletedClause(wc, includeDeleted)
 	q := database.SQLSelect(columnsString, tablesJoined, wc, params.OrderByString(), params.Limit, params.Offset)
 	ret := dtos{}
 	err := s.db.Select(ctx, &ret, q, tx, where)
 	if err != nil {
-		return nil, errors.Wrapf(err, "unable to get troubles by where [%s]", where)
+		return nil, errors.Wrapf(err, "unable to get troubles by where [%v]", where)
 	}
 	return ret.ToTroubles(), nil
 }

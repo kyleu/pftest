@@ -1,3 +1,4 @@
+// Content managed by Project Forge, see [projectforge.md] for details.
 package controller
 
 import (
@@ -12,9 +13,11 @@ import (
 	"github.com/kyleu/pftest/views/vtimestamp"
 )
 
+const timestampDefaultTitle = "Timestamps"
+
 func TimestampList(rc *fasthttp.RequestCtx) {
 	act("timestamp.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ps.Title = "Timestamps"
+		ps.Title = timestampDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
 		ret, err := as.Services.Timestamp.List(ps.Context, nil, params.Get("timestamp", nil, ps.Logger), cutil.RequestCtxBool(rc, "includeDeleted"))
 		if err != nil {

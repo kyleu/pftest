@@ -1,3 +1,4 @@
+// Content managed by Project Forge, see [projectforge.md] for details.
 package basic
 
 import (
@@ -30,9 +31,9 @@ func FromMap(m util.ValueMap, setPK bool) (*Basic, error) {
 	ret := &Basic{}
 	var err error
 	if setPK {
-		retID, err := m.ParseUUID("id", true, true)
-		if err != nil {
-			return nil, err
+		retID, e := m.ParseUUID("id", true, true)
+		if e != nil {
+			return nil, e
 		}
 		ret.ID = *retID
 		// $PF_SECTION_START(pkchecks)$
@@ -45,6 +46,14 @@ func FromMap(m util.ValueMap, setPK bool) (*Basic, error) {
 	// $PF_SECTION_START(extrachecks)$
 	// $PF_SECTION_END(extrachecks)$
 	return ret, nil
+}
+
+func (b *Basic) Clone() *Basic {
+	return &Basic{
+		ID:      b.ID,
+		Name:    b.Name,
+		Created: b.Created,
+	}
 }
 
 func (b *Basic) String() string {

@@ -1,3 +1,4 @@
+// Content managed by Project Forge, see [projectforge.md] for details.
 package trouble
 
 import (
@@ -96,7 +97,7 @@ func (s *Service) insertSelectcol(ctx context.Context, tx *sqlx.Tx, models ...*T
 
 // Delete doesn't actually delete, it only sets [delete].
 func (s *Service) Delete(ctx context.Context, tx *sqlx.Tx, from string, where int) error {
-	q := database.SQLUpdate(tableQuoted, []string{"delete"}, "\"from\" = $2 and \"where\" = $3", "")
+	q := database.SQLUpdate(tableQuoted, []string{"delete"}, defaultWC, "")
 	_, err := s.db.Update(ctx, q, tx, 1, time.Now(), from, where)
 	return err
 }

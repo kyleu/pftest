@@ -1,3 +1,4 @@
+// Content managed by Project Forge, see [projectforge.md] for details.
 package trouble
 
 import (
@@ -16,7 +17,7 @@ func (s *Service) GetAllSelectcols(ctx context.Context, tx *sqlx.Tx, from string
 	params = filters(params)
 	wc := "\"from\" = $1 and \"where\" = $2"
 	wc = addDeletedClause(wc, includeDeleted)
-	tablesJoinedParam := fmt.Sprintf("%q t join %q tr on t.from = tr.trouble_from and t.where = tr.trouble_where", table, tableSelectcol)
+	tablesJoinedParam := fmt.Sprintf("%q t join %q tr on t.\"from\" = tr.\"trouble_from\" and t.\"where\" = tr.\"trouble_where\"", table, tableSelectcol)
 	q := database.SQLSelect(columnsString, tablesJoinedParam, wc, params.OrderByString(), params.Limit, params.Offset)
 	ret := dtos{}
 	err := s.db.Select(ctx, &ret, q, tx, from, where)
@@ -29,7 +30,7 @@ func (s *Service) GetAllSelectcols(ctx context.Context, tx *sqlx.Tx, from string
 func (s *Service) GetSelectcol(ctx context.Context, tx *sqlx.Tx, from string, where int, selectcol int) (*Trouble, error) {
 	wc := "\"from\" = $1 and \"where\" = $2 and \"selectcol\" = $3"
 	ret := &dto{}
-	tablesJoinedParam := fmt.Sprintf("%q t join %q tr on t.from = tr.trouble_from and t.where = tr.trouble_where", table, tableSelectcol)
+	tablesJoinedParam := fmt.Sprintf("%q t join %q tr on t.\"from\" = tr.\"trouble_from\" and t.\"where\" = tr.\"trouble_where\"", table, tableSelectcol)
 	q := database.SQLSelectSimple(columnsString, tablesJoinedParam, wc)
 	err := s.db.Get(ctx, ret, q, tx, from, where, selectcol)
 	if err != nil {

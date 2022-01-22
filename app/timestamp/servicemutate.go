@@ -1,3 +1,4 @@
+// Content managed by Project Forge, see [projectforge.md] for details.
 package timestamp
 
 import (
@@ -28,7 +29,7 @@ func (s *Service) Create(ctx context.Context, tx *sqlx.Tx, models ...*Timestamp)
 
 func (s *Service) Update(ctx context.Context, tx *sqlx.Tx, model *Timestamp) error {
 	model.Updated = util.NowPointer()
-	q := database.SQLUpdate(tableQuoted, columnsQuoted, "\"id\" = $5", "")
+	q := database.SQLUpdate(tableQuoted, columnsQuoted, defaultWC, "")
 	data := model.ToData()
 	data = append(data, model.ID)
 	_, ret := s.db.Update(ctx, q, tx, 1, data...)
@@ -53,7 +54,7 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, models ...*Timestamp) e
 
 // Delete doesn't actually delete, it only sets [deleted].
 func (s *Service) Delete(ctx context.Context, tx *sqlx.Tx, id string) error {
-	q := database.SQLUpdate(tableQuoted, []string{"deleted"}, "\"id\" = $2", "")
+	q := database.SQLUpdate(tableQuoted, []string{"deleted"}, defaultWC, "")
 	_, err := s.db.Update(ctx, q, tx, 1, time.Now(), id)
 	return err
 }

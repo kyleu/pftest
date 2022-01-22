@@ -1,3 +1,4 @@
+// Content managed by Project Forge, see [projectforge.md] for details.
 package version
 
 import (
@@ -58,6 +59,18 @@ func FromMap(m util.ValueMap, setPK bool) (*Version, error) {
 	// $PF_SECTION_START(extrachecks)$
 	// $PF_SECTION_END(extrachecks)$
 	return ret, nil
+}
+
+func (v *Version) Clone() *Version {
+	return &Version{
+		ID:       v.ID,
+		Revision: v.Revision,
+		Constcol: v.Constcol,
+		Varcol:   v.Varcol,
+		Created:  v.Created,
+		Updated:  v.Updated,
+		Deleted:  v.Deleted,
+	}
 }
 
 func (v *Version) String() string {

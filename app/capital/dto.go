@@ -1,3 +1,4 @@
+// Content managed by Project Forge, see [projectforge.md] for details.
 package capital
 
 import (
@@ -14,13 +15,14 @@ var (
 	columns       = []string{"ID", "Name", "Birthday", "Version", "Deathday"}
 	columnsQuoted = util.StringArrayQuoted(columns)
 	columnsString = strings.Join(columnsQuoted, ", ")
+	defaultWC     = "\"ID\" = $1"
 
-	columnsCore     = util.StringArrayQuoted([]string{"ID", "current_Version"})
+	columnsCore    = util.StringArrayQuoted([]string{"ID", "current_Version"})
 	columnsVersion = util.StringArrayQuoted([]string{"Capital_ID", "Version", "Name", "Birthday", "Deathday"})
 
 	tableVersion       = table + "_Version"
 	tableVersionQuoted = fmt.Sprintf("%q", tableVersion)
-	tablesJoined        = fmt.Sprintf(`%s C join %s Cr on C."ID" = Cr."Capital_ID" and C."current_Version" = Cr."Version"`, tableQuoted, tableVersionQuoted)
+	tablesJoined       = fmt.Sprintf(`%q c join %q cr on c."ID" = cr."Capital_ID" and c."current_Version" = cr."Version"`, table, tableVersion) // nolint
 )
 
 type dto struct {

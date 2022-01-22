@@ -1,3 +1,4 @@
+// Content managed by Project Forge, see [projectforge.md] for details.
 package timestamp
 
 import (
@@ -44,6 +45,15 @@ func FromMap(m util.ValueMap, setPK bool) (*Timestamp, error) {
 	// $PF_SECTION_START(extrachecks)$
 	// $PF_SECTION_END(extrachecks)$
 	return ret, nil
+}
+
+func (t *Timestamp) Clone() *Timestamp {
+	return &Timestamp{
+		ID:      t.ID,
+		Created: t.Created,
+		Updated: t.Updated,
+		Deleted: t.Deleted,
+	}
 }
 
 func (t *Timestamp) String() string {

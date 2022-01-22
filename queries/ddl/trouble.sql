@@ -1,3 +1,4 @@
+<!-- Content managed by Project Forge, see [projectforge.md] for details. -->
 -- {% func TroubleDrop() %}
 drop table if exists "trouble_selectcol";
 drop table if exists "trouble";

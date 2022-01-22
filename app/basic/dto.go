@@ -1,3 +1,4 @@
+// Content managed by Project Forge, see [projectforge.md] for details.
 package basic
 
 import (
@@ -16,6 +17,7 @@ var (
 	columns       = []string{"id", "name", "created"}
 	columnsQuoted = util.StringArrayQuoted(columns)
 	columnsString = strings.Join(columnsQuoted, ", ")
+	defaultWC     = "\"id\" = $1"
 )
 
 type dto struct {

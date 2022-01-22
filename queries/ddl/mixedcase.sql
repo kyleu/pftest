@@ -1,3 +1,4 @@
+<!-- Content managed by Project Forge, see [projectforge.md] for details. -->
 -- {% func MixedCaseDrop() %}
 drop table if exists "mixed_case";
 -- {% endfunc %}

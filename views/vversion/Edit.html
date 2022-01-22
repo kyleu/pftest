@@ -1,3 +1,4 @@
+<!-- Content managed by Project Forge, see [projectforge.md] for details. -->
 {% import (
   "github.com/kyleu/pftest/app"
   "github.com/kyleu/pftest/app/controller/cutil"
@@ -24,7 +25,7 @@
     <h3>{%= components.SVGRefIcon(`star`, ps) %} Edit Version [{%s p.Model.String() %}]</h3>
     <form action="" class="mt" method="post">
     {%- endif -%}
-      <table>
+      <table class="mt">
         <tbody>
           {% if p.IsNew %}{%= components.TableInput("id", "ID", p.Model.ID, 5, "String text") %}{% endif %}
           {%= components.TableInputNumber("revision", "Revision", p.Model.Revision, 5, "Integer") %}

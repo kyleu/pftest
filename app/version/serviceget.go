@@ -1,3 +1,4 @@
+// Content managed by Project Forge, see [projectforge.md] for details.
 package version
 
 import (
@@ -23,7 +24,7 @@ func (s *Service) List(ctx context.Context, tx *sqlx.Tx, params *filter.Params) 
 }
 
 func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, id string) (*Version, error) {
-	wc := "\"id\" = $1"
+	wc := defaultWC
 	ret := &dto{}
 	q := database.SQLSelectSimple(columnsString, tablesJoined, wc)
 	err := s.db.Get(ctx, ret, q, tx, id)

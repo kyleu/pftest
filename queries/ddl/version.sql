@@ -1,3 +1,4 @@
+<!-- Content managed by Project Forge, see [projectforge.md] for details. -->
 -- {% func VersionDrop() %}
 drop table if exists "version_revision";
 drop table if exists "version";

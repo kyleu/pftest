@@ -1,3 +1,4 @@
+<!-- Content managed by Project Forge, see [projectforge.md] for details. -->
 {% import (
   "github.com/kyleu/pftest/app"
   "github.com/kyleu/pftest/app/controller/cutil"
@@ -10,15 +11,15 @@
 {% code type Detail struct {
   layout.Basic
   Model *trouble.Trouble
-  Selectcols trouble.Troubles
   Params filter.ParamSet
+  Selectcols trouble.Troubles
 } %}
 
 {% func (p *Detail) Body(as *app.State, ps *cutil.PageState) %}
   <div class="card">
     <div class="right"><a href="{%s p.Model.WebPath() %}/edit"><button>Edit</button></a></div>
     <h3>{%= components.SVGRefIcon(`star`, ps) %} Trouble [{%s p.Model.String() %}]</h3>
-    <table>
+    <table class="mt">
       <tbody>
         <tr>
           <th class="shrink" title="String text">From</th>
@@ -51,7 +52,7 @@
   <div class="card">
     <h3>Selectcols</h3>
     {%- code prms := p.Params.Get("trouble", nil, ps.Logger) -%}
-    <table>
+    <table class="mt">
       <thead>
         <tr>
           {%= components.TableHeaderSimple("trouble", "from", "From", "String text", prms, ps.URI, ps) %}
@@ -62,9 +63,9 @@
       <tbody>
         {%- for _, model := range p.Selectcols -%}
         <tr>
-          <td><a href="/trouble/{%s model.From %}/{%d model.Where %}/selectcol/{%d model.Selectcol %}">{%s model.From %}</a></td>
-          <td><a href="/trouble/{%s model.From %}/{%d model.Where %}/selectcol/{%d model.Selectcol %}">{%d model.Where %}</a></td>
-          <td><a href="/trouble/{%s model.From %}/{%d model.Where %}/selectcol/{%d model.Selectcol %}">{%d model.Selectcol %}</a></td>
+          <td><a href="/troub/le/{%s model.From %}/{%d model.Where %}/selectcol/{%d model.Selectcol %}">{%s model.From %}</a></td>
+          <td><a href="/troub/le/{%s model.From %}/{%d model.Where %}/selectcol/{%d model.Selectcol %}">{%d model.Where %}</a></td>
+          <td><a href="/troub/le/{%s model.From %}/{%d model.Where %}/selectcol/{%d model.Selectcol %}">{%d model.Selectcol %}</a></td>
         </tr>
         {%- endfor -%}
       </tbody>

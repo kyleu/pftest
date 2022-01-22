@@ -1,3 +1,4 @@
+<!-- Content managed by Project Forge, see [projectforge.md] for details. -->
 {% import (
   "github.com/kyleu/pftest/app"
   "github.com/kyleu/pftest/app/controller/cutil"
@@ -8,7 +9,7 @@
 
 {% func Table(models group.Groups, params filter.ParamSet, as *app.State, ps *cutil.PageState) %}
   {%- code prms := params.Get("group", nil, ps.Logger) -%}
-  <table>
+  <table class="mt">
     <thead>
       <tr>
         {%= components.TableHeaderSimple("group", "id", "ID", "String text", prms, ps.URI, ps) %}

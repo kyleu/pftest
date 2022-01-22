@@ -1,3 +1,4 @@
+// Content managed by Project Forge, see [projectforge.md] for details.
 package capital
 
 import (
@@ -94,7 +95,7 @@ func (s *Service) insertVersion(ctx context.Context, tx *sqlx.Tx, models ...*Cap
 }
 
 func (s *Service) Delete(ctx context.Context, tx *sqlx.Tx, id string) error {
-	q := database.SQLDelete(tableQuoted, "\"ID\" = $1")
+	q := database.SQLDelete(tableQuoted, defaultWC)
 	_, err := s.db.Delete(ctx, q, tx, 1, id)
 	return err
 }

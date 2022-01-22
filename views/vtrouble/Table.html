@@ -1,3 +1,4 @@
+<!-- Content managed by Project Forge, see [projectforge.md] for details. -->
 {% import (
   "github.com/kyleu/pftest/app"
   "github.com/kyleu/pftest/app/controller/cutil"
@@ -8,7 +9,7 @@
 
 {% func Table(models trouble.Troubles, params filter.ParamSet, as *app.State, ps *cutil.PageState) %}
   {%- code prms := params.Get("trouble", nil, ps.Logger) -%}
-  <table>
+  <table class="mt">
     <thead>
       <tr>
         {%= components.TableHeaderSimple("trouble", "from", "From", "String text", prms, ps.URI, ps) %}
@@ -22,8 +23,8 @@
     <tbody>
       {%- for _, model := range models -%}
       <tr>
-        <td><a href="/trouble/{%s model.From %}/{%d model.Where %}">{%s model.From %}</a></td>
-        <td><a href="/trouble/{%s model.From %}/{%d model.Where %}">{%d model.Where %}</a></td>
+        <td><a href="/troub/le/{%s model.From %}/{%d model.Where %}">{%s model.From %}</a></td>
+        <td><a href="/troub/le/{%s model.From %}/{%d model.Where %}">{%d model.Where %}</a></td>
         <td>{%d model.Selectcol %}</td>
         <td>{%s model.Limit %}</td>
         <td>{%s model.Group %}</td>

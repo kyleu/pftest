@@ -1,3 +1,4 @@
+<!-- Content managed by Project Forge, see [projectforge.md] for details. -->
 {% import (
   "github.com/kyleu/pftest/app"
   "github.com/kyleu/pftest/app/basic"
@@ -8,7 +9,7 @@
 
 {% func Table(models basic.Basics, params filter.ParamSet, as *app.State, ps *cutil.PageState) %}
   {%- code prms := params.Get("basic", nil, ps.Logger) -%}
-  <table>
+  <table class="mt">
     <thead>
       <tr>
         {%= components.TableHeaderSimple("basic", "id", "ID", "UUID in format (00000000-0000-0000-0000-000000000000)", prms, ps.URI, ps) %}

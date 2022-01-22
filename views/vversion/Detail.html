@@ -1,3 +1,4 @@
+<!-- Content managed by Project Forge, see [projectforge.md] for details. -->
 {% import (
   "github.com/kyleu/pftest/app"
   "github.com/kyleu/pftest/app/controller/cutil"
@@ -10,15 +11,15 @@
 {% code type Detail struct {
   layout.Basic
   Model *version.Version
-  Revisions version.Versions
   Params filter.ParamSet
+  Revisions version.Versions
 } %}
 
 {% func (p *Detail) Body(as *app.State, ps *cutil.PageState) %}
   <div class="card">
     <div class="right"><a href="{%s p.Model.WebPath() %}/edit"><button>Edit</button></a></div>
     <h3>{%= components.SVGRefIcon(`star`, ps) %} Version [{%s p.Model.String() %}]</h3>
-    <table>
+    <table class="mt">
       <tbody>
         <tr>
           <th class="shrink" title="String text">ID</th>
@@ -55,7 +56,7 @@
   <div class="card">
     <h3>Revisions</h3>
     {%- code prms := p.Params.Get("version", nil, ps.Logger) -%}
-    <table>
+    <table class="mt">
       <thead>
         <tr>
           {%= components.TableHeaderSimple("version", "id", "ID", "String text", prms, ps.URI, ps) %}

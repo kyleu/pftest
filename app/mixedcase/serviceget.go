@@ -1,4 +1,5 @@
-package mixed_case
+// Content managed by Project Forge, see [projectforge.md] for details.
+package mixedcase
 
 import (
 	"context"
@@ -23,7 +24,7 @@ func (s *Service) List(ctx context.Context, tx *sqlx.Tx, params *filter.Params) 
 }
 
 func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, id string) (*MixedCase, error) {
-	wc := "\"id\" = $1"
+	wc := defaultWC
 	ret := &dto{}
 	q := database.SQLSelectSimple(columnsString, tableQuoted, wc)
 	err := s.db.Get(ctx, ret, q, tx, id)

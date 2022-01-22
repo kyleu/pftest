@@ -1,3 +1,4 @@
+// Content managed by Project Forge, see [projectforge.md] for details.
 package trouble
 
 import (
@@ -63,12 +64,23 @@ func FromMap(m util.ValueMap, setPK bool) (*Trouble, error) {
 	return ret, nil
 }
 
+func (t *Trouble) Clone() *Trouble {
+	return &Trouble{
+		From:      t.From,
+		Where:     t.Where,
+		Selectcol: t.Selectcol,
+		Limit:     t.Limit,
+		Group:     t.Group,
+		Delete:    t.Delete,
+	}
+}
+
 func (t *Trouble) String() string {
 	return fmt.Sprintf("%s::%s", t.From, fmt.Sprint(t.Where))
 }
 
 func (t *Trouble) WebPath() string {
-	return "/trouble" + "/" + t.From + "/" + fmt.Sprint(t.Where)
+	return "/troub/le" + "/" + t.From + "/" + fmt.Sprint(t.Where)
 }
 
 func (t *Trouble) ToData() []interface{} {

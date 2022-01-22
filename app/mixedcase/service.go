@@ -1,4 +1,5 @@
-package mixed_case
+// Content managed by Project Forge, see [projectforge.md] for details.
+package mixedcase
 
 import (
 	"go.uber.org/zap"
@@ -14,10 +15,10 @@ type Service struct {
 
 func NewService(db *database.Service, logger *zap.SugaredLogger) *Service {
 	logger = logger.With("svc", "mixedCase")
-	filter.AllowedColumns["mixed_case"] = columns
+	filter.AllowedColumns["mixedcase"] = columns
 	return &Service{db: db, logger: logger}
 }
 
 func filters(orig *filter.Params) *filter.Params {
-	return orig.Sanitize("mixed_case")
+	return orig.Sanitize("mixedcase")
 }

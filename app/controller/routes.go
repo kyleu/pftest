@@ -1,3 +1,4 @@
+// Content managed by Project Forge, see [projectforge.md] for details.
 package controller
 
 import (
@@ -85,23 +86,23 @@ func AppRoutes() fasthttp.RequestHandler {
 	r.POST("/capital/{id}/edit", CapitalEdit)
 	r.GET("/capital/{id}/delete", CapitalDelete)
 	r.GET("/capital/{id}/Version/{Version}", CapitalVersion)
-	r.GET("/mixed_case", MixedCaseList)
-	r.GET("/mixed_case/random", MixedCaseCreateFormRandom)
-	r.GET("/mixed_case/new", MixedCaseCreateForm)
-	r.POST("/mixed_case/new", MixedCaseCreate)
-	r.GET("/mixed_case/{id}", MixedCaseDetail)
-	r.GET("/mixed_case/{id}/edit", MixedCaseEditForm)
-	r.POST("/mixed_case/{id}/edit", MixedCaseEdit)
-	r.GET("/mixed_case/{id}/delete", MixedCaseDelete)
-	r.GET("/trouble", TroubleList)
-	r.GET("/trouble/random", TroubleCreateFormRandom)
-	r.GET("/trouble/new", TroubleCreateForm)
-	r.POST("/trouble/new", TroubleCreate)
-	r.GET("/trouble/{from}/{where}", TroubleDetail)
-	r.GET("/trouble/{from}/{where}/edit", TroubleEditForm)
-	r.POST("/trouble/{from}/{where}/edit", TroubleEdit)
-	r.GET("/trouble/{from}/{where}/delete", TroubleDelete)
-	r.GET("/trouble/{from}/{where}/selectcol/{selectcol}", TroubleSelectcol)
+	r.GET("/mixedcase", MixedCaseList)
+	r.GET("/mixedcase/random", MixedCaseCreateFormRandom)
+	r.GET("/mixedcase/new", MixedCaseCreateForm)
+	r.POST("/mixedcase/new", MixedCaseCreate)
+	r.GET("/mixedcase/{id}", MixedCaseDetail)
+	r.GET("/mixedcase/{id}/edit", MixedCaseEditForm)
+	r.POST("/mixedcase/{id}/edit", MixedCaseEdit)
+	r.GET("/mixedcase/{id}/delete", MixedCaseDelete)
+	r.GET("/troub/le", TroubleList)
+	r.GET("/troub/le/random", TroubleCreateFormRandom)
+	r.GET("/troub/le/new", TroubleCreateForm)
+	r.POST("/troub/le/new", TroubleCreate)
+	r.GET("/troub/le/{from}/{where}", TroubleDetail)
+	r.GET("/troub/le/{from}/{where}/edit", TroubleEditForm)
+	r.POST("/troub/le/{from}/{where}/edit", TroubleEdit)
+	r.GET("/troub/le/{from}/{where}/delete", TroubleDelete)
+	r.GET("/troub/le/{from}/{where}/selectcol/{selectcol}", TroubleSelectcol)
 	// $PF_INJECT_END(codegen)$
 
 	// $PF_SECTION_START(routes)$

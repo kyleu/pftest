@@ -1,3 +1,4 @@
+// Content managed by Project Forge, see [projectforge.md] for details.
 package controller
 
 import (
@@ -13,9 +14,11 @@ import (
 	"github.com/kyleu/pftest/views/vbasic"
 )
 
+const basicDefaultTitle = "Basics"
+
 func BasicList(rc *fasthttp.RequestCtx) {
 	act("basic.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ps.Title = "Basics"
+		ps.Title = basicDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
 		ret, err := as.Services.Basic.List(ps.Context, nil, params.Get("basic", nil, ps.Logger))
 		if err != nil {

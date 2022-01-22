@@ -1,3 +1,4 @@
+// Content managed by Project Forge, see [projectforge.md] for details.
 package group
 
 import (
@@ -24,7 +25,7 @@ func (s *Service) List(ctx context.Context, tx *sqlx.Tx, params *filter.Params) 
 }
 
 func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, id string) (*Group, error) {
-	wc := "\"id\" = $1"
+	wc := defaultWC
 	ret := &dto{}
 	q := database.SQLSelectSimple(columnsString, tableQuoted, wc)
 	err := s.db.Get(ctx, ret, q, tx, id)
@@ -47,12 +48,12 @@ func (s *Service) GetGroups(ctx context.Context, tx *sqlx.Tx) ([]*util.KeyValInt
 
 func (s *Service) GetByGroup(ctx context.Context, tx *sqlx.Tx, group string, params *filter.Params) (Groups, error) {
 	params = filters(params)
-	wc := "\"group\" = $1"
+	wc := defaultWC
 	q := database.SQLSelect(columnsString, tableQuoted, wc, params.OrderByString(), params.Limit, params.Offset)
 	ret := dtos{}
 	err := s.db.Select(ctx, &ret, q, tx, group)
 	if err != nil {
-		return nil, errors.Wrapf(err, "unable to get groups by group [%s]", group)
+		return nil, errors.Wrapf(err, "unable to get groups by group [%v]", group)
 	}
 	return ret.ToGroups(), nil
 }

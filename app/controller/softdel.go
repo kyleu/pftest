@@ -1,3 +1,4 @@
+// Content managed by Project Forge, see [projectforge.md] for details.
 package controller
 
 import (
@@ -12,9 +13,11 @@ import (
 	"github.com/kyleu/pftest/views/vsoftdel"
 )
 
+const softdelDefaultTitle = "Softdels"
+
 func SoftdelList(rc *fasthttp.RequestCtx) {
 	act("softdel.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ps.Title = "Softdels"
+		ps.Title = softdelDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
 		ret, err := as.Services.Softdel.List(ps.Context, nil, params.Get("softdel", nil, ps.Logger), cutil.RequestCtxBool(rc, "includeDeleted"))
 		if err != nil {
