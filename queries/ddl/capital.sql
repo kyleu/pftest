@@ -1,4 +1,4 @@
-<!-- Content managed by Project Forge, see [projectforge.md] for details. -->
+-- Content managed by Project Forge, see [projectforge.md] for details.
 -- {% func CapitalDrop() %}
 drop table if exists "Capital_Version";
 drop table if exists "Capital";

@@ -18,7 +18,6 @@
         {%= components.TableHeaderSimple("version", "varcol", "Varcol", "JSON object", prms, ps.URI, ps) %}
         {%= components.TableHeaderSimple("version", "created", "Created", "Date and time, in almost any format", prms, ps.URI, ps) %}
         {%= components.TableHeaderSimple("version", "updated", "Updated", "Date and time, in almost any format (optional)", prms, ps.URI, ps) %}
-        {%= components.TableHeaderSimple("version", "deleted", "Deleted", "Date and time, in almost any format (optional)", prms, ps.URI, ps) %}
       </tr>
     </thead>
     <tbody>
@@ -30,7 +29,6 @@
         <td>{%= components.JSON(model.Varcol) %}</td>
         <td>{%= components.DisplayTimestamp(&model.Created) %}</td>
         <td>{%= components.DisplayTimestamp(model.Updated) %}</td>
-        <td>{%= components.DisplayTimestamp(model.Deleted) %}</td>
       </tr>
       {%- endfor -%}
     </tbody>

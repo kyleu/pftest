@@ -48,7 +48,7 @@ func (s *Service) GetGroups(ctx context.Context, tx *sqlx.Tx) ([]*util.KeyValInt
 
 func (s *Service) GetByGroup(ctx context.Context, tx *sqlx.Tx, group string, params *filter.Params) (Groups, error) {
 	params = filters(params)
-	wc := defaultWC
+	wc := "\"group\" = $1"
 	q := database.SQLSelect(columnsString, tableQuoted, wc, params.OrderByString(), params.Limit, params.Offset)
 	ret := dtos{}
 	err := s.db.Select(ctx, &ret, q, tx, group)

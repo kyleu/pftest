@@ -1,0 +1,42 @@
+<!-- Content managed by Project Forge, see [projectforge.md] for details. -->
+{% import (
+  "github.com/kyleu/pftest/app"
+  "github.com/kyleu/pftest/app/controller/cutil"
+  "github.com/kyleu/pftest/app/history"
+  "github.com/kyleu/pftest/views/components"
+  "github.com/kyleu/pftest/views/layout"
+) %}
+
+{% code type Detail struct {
+  layout.Basic
+  Model *history.History
+} %}
+
+{% func (p *Detail) Body(as *app.State, ps *cutil.PageState) %}
+  <div class="card">
+    <div class="right"><a href="{%s p.Model.WebPath() %}/edit"><button>Edit</button></a></div>
+    <h3>{%= components.SVGRefIcon(`star`, ps) %} History [{%s p.Model.String() %}]</h3>
+    <table class="mt">
+      <tbody>
+        <tr>
+          <th class="shrink" title="String text">ID</th>
+          <td>{%s p.Model.ID %}</td>
+        </tr>
+        <tr>
+          <th class="shrink" title="JSON object">Data</th>
+          <td>{%= components.JSON(p.Model.Data) %}</td>
+        </tr>
+        <tr>
+          <th class="shrink" title="Date and time, in almost any format">Created</th>
+          <td>{%= components.DisplayTimestamp(&p.Model.Created) %}</td>
+        </tr>
+        <tr>
+          <th class="shrink" title="Date and time, in almost any format (optional)">Updated</th>
+          <td>{%= components.DisplayTimestamp(p.Model.Updated) %}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  {%- comment %}$PF_SECTION_START(extra)${% endcomment -%}
+  {%- comment %}$PF_SECTION_END(extra)${% endcomment -%}
+{% endfunc %}

@@ -40,7 +40,7 @@ func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, from string, where int, 
 
 func (s *Service) GetByFrom(ctx context.Context, tx *sqlx.Tx, from string, params *filter.Params, includeDeleted bool) (Troubles, error) {
 	params = filters(params)
-	wc := defaultWC
+	wc := "\"from\" = $1"
 	wc = addDeletedClause(wc, includeDeleted)
 	q := database.SQLSelect(columnsString, tablesJoined, wc, params.OrderByString(), params.Limit, params.Offset)
 	ret := dtos{}
@@ -53,7 +53,7 @@ func (s *Service) GetByFrom(ctx context.Context, tx *sqlx.Tx, from string, param
 
 func (s *Service) GetByWhere(ctx context.Context, tx *sqlx.Tx, where int, params *filter.Params, includeDeleted bool) (Troubles, error) {
 	params = filters(params)
-	wc := defaultWC
+	wc := "\"where\" = $1"
 	wc = addDeletedClause(wc, includeDeleted)
 	q := database.SQLSelect(columnsString, tablesJoined, wc, params.OrderByString(), params.Limit, params.Offset)
 	ret := dtos{}

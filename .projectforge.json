@@ -20,6 +20,7 @@
     "oauth",
     "postgres",
     "search",
+    "sqleditor",
     "sqlite",
     "types",
     "upgrade"
@@ -144,12 +145,39 @@
                 "sqlDefault": "now()",
                 "tags": ["updated"],
                 "nullable":true
+              }
+            ]
+          },
+          {
+            "name": "history",
+            "package": "history",
+            "description": "History table",
+            "icon": "star",
+            "ordering": [{"column": "created"}],
+            "history": "history",
+            "columns": [
+              {
+                "name": "id",
+                "type": "text",
+                "pk": true,
+                "search": true
               },
               {
-                "name": "deleted",
+                "name": "data",
+                "type": "map",
+                "search": true
+              },
+              {
+                "name": "created",
                 "type": "timestamp",
                 "sqlDefault": "now()",
-                "tags": ["deleted"],
+                "tags": ["created"]
+              },
+              {
+                "name": "updated",
+                "type": "timestamp",
+                "sqlDefault": "now()",
+                "tags": ["updated"],
                 "nullable":true
               }
             ]

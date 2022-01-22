@@ -20,6 +20,7 @@ The following modules were used to build this project:
 - [oauth](./doc/module/oauth.md)
 - [postgres](./doc/module/postgres.md)
 - [search](./doc/module/search.md)
+- [sqleditor](./doc/module/sqleditor.md)
 - [sqlite](./doc/module/sqlite.md)
 - [types](./doc/module/types.md)
 - [upgrade](./doc/module/upgrade.md)

@@ -1,10 +1,11 @@
-<!-- Content managed by Project Forge, see [projectforge.md] for details. -->
+-- Content managed by Project Forge, see [projectforge.md] for details.
 -- {% func DropAll() %}
 -- {%= TroubleDrop() %}
 -- {%= MixedCaseDrop() %}
 -- {%= CapitalDrop() %}
 -- {%= GroupDrop() %}
 -- {%= SoftdelDrop() %}
+-- {%= HistoryDrop() %}
 -- {%= VersionDrop() %}
 -- {%= TimestampDrop() %}
 -- {%= BasicDrop() %}
@@ -14,6 +15,7 @@
 -- {%= BasicCreate() %}
 -- {%= TimestampCreate() %}
 -- {%= VersionCreate() %}
+-- {%= HistoryCreate() %}
 -- {%= SoftdelCreate() %}
 -- {%= GroupCreate() %}
 -- {%= CapitalCreate() %}

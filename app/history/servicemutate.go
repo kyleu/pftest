@@ -1,5 +1,5 @@
 // Content managed by Project Forge, see [projectforge.md] for details.
-package softdel
+package history
 
 import (
 	"context"
@@ -11,7 +11,7 @@ import (
 	"github.com/kyleu/pftest/app/util"
 )
 
-func (s *Service) Create(ctx context.Context, tx *sqlx.Tx, models ...*Softdel) error {
+func (s *Service) Create(ctx context.Context, tx *sqlx.Tx, models ...*History) error {
 	if len(models) == 0 {
 		return nil
 	}
@@ -27,7 +27,7 @@ func (s *Service) Create(ctx context.Context, tx *sqlx.Tx, models ...*Softdel) e
 	return s.db.Insert(ctx, q, tx, vals...)
 }
 
-func (s *Service) Update(ctx context.Context, tx *sqlx.Tx, model *Softdel) error {
+func (s *Service) Update(ctx context.Context, tx *sqlx.Tx, model *History) error {
 	model.Updated = util.NowPointer()
 	q := database.SQLUpdate(tableQuoted, columnsQuoted, "\"id\" = $5", "")
 	data := model.ToData()
@@ -36,7 +36,7 @@ func (s *Service) Update(ctx context.Context, tx *sqlx.Tx, model *Softdel) error
 	return ret
 }
 
-func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, models ...*Softdel) error {
+func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, models ...*History) error {
 	if len(models) == 0 {
 		return nil
 	}
@@ -52,16 +52,8 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, models ...*Softdel) err
 	return s.db.Insert(ctx, q, tx, data...)
 }
 
-// Delete doesn't actually delete, it only sets [deleted].
 func (s *Service) Delete(ctx context.Context, tx *sqlx.Tx, id string) error {
-	q := database.SQLUpdate(tableQuoted, []string{"deleted"}, defaultWC, "")
-	_, err := s.db.Update(ctx, q, tx, 1, time.Now(), id)
+	q := database.SQLDelete(tableQuoted, defaultWC)
+	_, err := s.db.Delete(ctx, q, tx, 1, id)
 	return err
-}
-
-func addDeletedClause(wc string, includeDeleted bool) string {
-	if includeDeleted {
-		return wc
-	}
-	return wc + " and \"deleted\" is null"
 }

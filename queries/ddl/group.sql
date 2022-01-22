@@ -1,4 +1,4 @@
-<!-- Content managed by Project Forge, see [projectforge.md] for details. -->
+-- Content managed by Project Forge, see [projectforge.md] for details.
 -- {% func GroupDrop() %}
 drop table if exists "group";
 -- {% endfunc %}

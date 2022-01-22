@@ -15,6 +15,7 @@ import (
 	"github.com/kyleu/pftest/app/controller"
 	"github.com/kyleu/pftest/app/lib/database"
 	"github.com/kyleu/pftest/app/lib/filesystem"
+	"github.com/kyleu/pftest/app/lib/telemetry"
 	"github.com/kyleu/pftest/app/util"
 )
 
@@ -49,13 +50,16 @@ func loadServer(flags *Flags, logger *zap.SugaredLogger) (fasthttp.RequestHandle
 		return nil, logger, err
 	}
 
-	db, err := database.OpenDefaultPostgres(logger)
+	ctx, span := telemetry.StartSpan(context.Background(), util.AppKey, "appinit")
+	defer span.Complete()
+
+	db, err := database.OpenDefaultPostgres(ctx, logger)
 	if err != nil {
 		return nil, logger, errors.Wrap(err, "unable to open database")
 	}
 	st.DB = db
 
-	svcs, err := app.NewServices(context.Background(), st)
+	svcs, err := app.NewServices(ctx, st)
 	if err != nil {
 		return nil, nil, errors.Wrap(err, "error creating services")
 	}

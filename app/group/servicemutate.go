@@ -29,7 +29,7 @@ func (s *Service) Create(ctx context.Context, tx *sqlx.Tx, models ...*Group) err
 
 func (s *Service) Update(ctx context.Context, tx *sqlx.Tx, model *Group) error {
 	model.Updated = util.NowPointer()
-	q := database.SQLUpdate(tableQuoted, columnsQuoted, defaultWC, "")
+	q := database.SQLUpdate(tableQuoted, columnsQuoted, "\"id\" = $7", "")
 	data := model.ToData()
 	data = append(data, model.ID)
 	_, ret := s.db.Update(ctx, q, tx, 1, data...)

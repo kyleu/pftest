@@ -2,6 +2,7 @@
 package timestamp
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/kyleu/pftest/app/util"
@@ -62,6 +63,23 @@ func (t *Timestamp) String() string {
 
 func (t *Timestamp) WebPath() string {
 	return "/timestamp" + "/" + t.ID
+}
+
+func (t *Timestamp) Diff(tx *Timestamp) util.Diffs {
+	var diffs util.Diffs
+	if t.ID != tx.ID {
+		diffs = append(diffs, util.NewDiff("id", t.ID, tx.ID))
+	}
+	if t.Created != tx.Created {
+		diffs = append(diffs, util.NewDiff("created", fmt.Sprint(t.Created), fmt.Sprint(tx.Created)))
+	}
+	if t.Updated != tx.Updated {
+		diffs = append(diffs, util.NewDiff("updated", fmt.Sprint(t.Updated), fmt.Sprint(tx.Updated)))
+	}
+	if t.Deleted != tx.Deleted {
+		diffs = append(diffs, util.NewDiff("deleted", fmt.Sprint(t.Deleted), fmt.Sprint(tx.Deleted)))
+	}
+	return diffs
 }
 
 func (t *Timestamp) ToData() []interface{} {

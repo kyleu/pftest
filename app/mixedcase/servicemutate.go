@@ -22,7 +22,7 @@ func (s *Service) Create(ctx context.Context, tx *sqlx.Tx, models ...*MixedCase)
 }
 
 func (s *Service) Update(ctx context.Context, tx *sqlx.Tx, model *MixedCase) error {
-	q := database.SQLUpdate(tableQuoted, columnsQuoted, defaultWC, "")
+	q := database.SQLUpdate(tableQuoted, columnsQuoted, "\"id\" = $4", "")
 	data := model.ToData()
 	data = append(data, model.ID)
 	_, ret := s.db.Update(ctx, q, tx, 1, data...)

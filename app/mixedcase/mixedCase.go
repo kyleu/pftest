@@ -61,6 +61,20 @@ func (m *MixedCase) WebPath() string {
 	return "/mixedcase" + "/" + m.ID
 }
 
+func (m *MixedCase) Diff(mx *MixedCase) util.Diffs {
+	var diffs util.Diffs
+	if m.ID != mx.ID {
+		diffs = append(diffs, util.NewDiff("id", m.ID, mx.ID))
+	}
+	if m.TestField != mx.TestField {
+		diffs = append(diffs, util.NewDiff("testField", m.TestField, mx.TestField))
+	}
+	if m.AnotherField != mx.AnotherField {
+		diffs = append(diffs, util.NewDiff("anotherField", m.AnotherField, mx.AnotherField))
+	}
+	return diffs
+}
+
 func (m *MixedCase) ToData() []interface{} {
 	return []interface{}{m.ID, m.TestField, m.AnotherField}
 }

@@ -83,6 +83,29 @@ func (t *Trouble) WebPath() string {
 	return "/troub/le" + "/" + t.From + "/" + fmt.Sprint(t.Where)
 }
 
+func (t *Trouble) Diff(tx *Trouble) util.Diffs {
+	var diffs util.Diffs
+	if t.From != tx.From {
+		diffs = append(diffs, util.NewDiff("from", t.From, tx.From))
+	}
+	if t.Where != tx.Where {
+		diffs = append(diffs, util.NewDiff("where", fmt.Sprint(t.Where), fmt.Sprint(tx.Where)))
+	}
+	if t.Selectcol != tx.Selectcol {
+		diffs = append(diffs, util.NewDiff("selectcol", fmt.Sprint(t.Selectcol), fmt.Sprint(tx.Selectcol)))
+	}
+	if t.Limit != tx.Limit {
+		diffs = append(diffs, util.NewDiff("limit", t.Limit, tx.Limit))
+	}
+	if t.Group != tx.Group {
+		diffs = append(diffs, util.NewDiff("group", t.Group, tx.Group))
+	}
+	if t.Delete != tx.Delete {
+		diffs = append(diffs, util.NewDiff("delete", fmt.Sprint(t.Delete), fmt.Sprint(tx.Delete)))
+	}
+	return diffs
+}
+
 func (t *Trouble) ToData() []interface{} {
 	return []interface{}{t.From, t.Where, t.Selectcol, t.Limit, t.Group, t.Delete}
 }

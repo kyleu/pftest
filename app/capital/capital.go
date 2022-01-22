@@ -2,6 +2,7 @@
 package capital
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/kyleu/pftest/app/util"
@@ -74,6 +75,26 @@ func (c *Capital) String() string {
 
 func (c *Capital) WebPath() string {
 	return "/capital" + "/" + c.ID
+}
+
+func (c *Capital) Diff(cx *Capital) util.Diffs {
+	var diffs util.Diffs
+	if c.ID != cx.ID {
+		diffs = append(diffs, util.NewDiff("id", c.ID, cx.ID))
+	}
+	if c.Name != cx.Name {
+		diffs = append(diffs, util.NewDiff("name", c.Name, cx.Name))
+	}
+	if c.Birthday != cx.Birthday {
+		diffs = append(diffs, util.NewDiff("birthday", fmt.Sprint(c.Birthday), fmt.Sprint(cx.Birthday)))
+	}
+	if c.Version != cx.Version {
+		diffs = append(diffs, util.NewDiff("version", fmt.Sprint(c.Version), fmt.Sprint(cx.Version)))
+	}
+	if c.Deathday != cx.Deathday {
+		diffs = append(diffs, util.NewDiff("deathday", fmt.Sprint(c.Deathday), fmt.Sprint(cx.Deathday)))
+	}
+	return diffs
 }
 
 func (c *Capital) ToData() []interface{} {

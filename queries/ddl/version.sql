@@ -1,4 +1,4 @@
-<!-- Content managed by Project Forge, see [projectforge.md] for details. -->
+-- Content managed by Project Forge, see [projectforge.md] for details.
 -- {% func VersionDrop() %}
 drop table if exists "version_revision";
 drop table if exists "version";
@@ -10,7 +10,6 @@ create table if not exists "version" (
   "current_revision" int not null default 1,
   "constcol" text not null,
   "updated" timestamp default now(),
-  "deleted" timestamp default now(),
   primary key ("id")
 );
 

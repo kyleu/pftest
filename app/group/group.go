@@ -2,6 +2,7 @@
 package group
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/kyleu/pftest/app/util"
@@ -76,6 +77,27 @@ func (g *Group) String() string {
 
 func (g *Group) WebPath() string {
 	return "/group" + "/" + g.ID
+}
+
+func (g *Group) Diff(gx *Group) util.Diffs {
+	var diffs util.Diffs
+	if g.ID != gx.ID {
+		diffs = append(diffs, util.NewDiff("id", g.ID, gx.ID))
+	}
+	if g.Group != gx.Group {
+		diffs = append(diffs, util.NewDiff("group", g.Group, gx.Group))
+	}
+	diffs = append(diffs, util.DiffObjects(g.Data, gx.Data, "data")...)
+	if g.Created != gx.Created {
+		diffs = append(diffs, util.NewDiff("created", fmt.Sprint(g.Created), fmt.Sprint(gx.Created)))
+	}
+	if g.Updated != gx.Updated {
+		diffs = append(diffs, util.NewDiff("updated", fmt.Sprint(g.Updated), fmt.Sprint(gx.Updated)))
+	}
+	if g.Deleted != gx.Deleted {
+		diffs = append(diffs, util.NewDiff("deleted", fmt.Sprint(g.Deleted), fmt.Sprint(gx.Deleted)))
+	}
+	return diffs
 }
 
 func (g *Group) ToData() []interface{} {

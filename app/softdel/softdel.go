@@ -2,6 +2,7 @@
 package softdel
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/kyleu/pftest/app/util"
@@ -62,6 +63,23 @@ func (s *Softdel) String() string {
 
 func (s *Softdel) WebPath() string {
 	return "/softdel" + "/" + s.ID
+}
+
+func (s *Softdel) Diff(sx *Softdel) util.Diffs {
+	var diffs util.Diffs
+	if s.ID != sx.ID {
+		diffs = append(diffs, util.NewDiff("id", s.ID, sx.ID))
+	}
+	if s.Created != sx.Created {
+		diffs = append(diffs, util.NewDiff("created", fmt.Sprint(s.Created), fmt.Sprint(sx.Created)))
+	}
+	if s.Updated != sx.Updated {
+		diffs = append(diffs, util.NewDiff("updated", fmt.Sprint(s.Updated), fmt.Sprint(sx.Updated)))
+	}
+	if s.Deleted != sx.Deleted {
+		diffs = append(diffs, util.NewDiff("deleted", fmt.Sprint(s.Deleted), fmt.Sprint(sx.Deleted)))
+	}
+	return diffs
 }
 
 func (s *Softdel) ToData() []interface{} {

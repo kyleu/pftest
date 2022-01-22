@@ -2,6 +2,7 @@
 package version
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/kyleu/pftest/app/util"
@@ -14,7 +15,6 @@ type Version struct {
 	Varcol   util.ValueMap `json:"varcol"`
 	Created  time.Time     `json:"created"`
 	Updated  *time.Time    `json:"updated,omitempty"`
-	Deleted  *time.Time    `json:"deleted,omitempty"`
 }
 
 func New(id string) *Version {
@@ -29,7 +29,6 @@ func Random() *Version {
 		Varcol:   util.RandomValueMap(4),
 		Created:  time.Now(),
 		Updated:  util.NowPointer(),
-		Deleted:  util.NowPointer(),
 	}
 }
 
@@ -52,10 +51,6 @@ func FromMap(m util.ValueMap, setPK bool) (*Version, error) {
 	if err != nil {
 		return nil, err
 	}
-	ret.Deleted, err = m.ParseTime("deleted", true, true)
-	if err != nil {
-		return nil, err
-	}
 	// $PF_SECTION_START(extrachecks)$
 	// $PF_SECTION_END(extrachecks)$
 	return ret, nil
@@ -69,7 +64,6 @@ func (v *Version) Clone() *Version {
 		Varcol:   v.Varcol,
 		Created:  v.Created,
 		Updated:  v.Updated,
-		Deleted:  v.Deleted,
 	}
 }
 
@@ -81,12 +75,33 @@ func (v *Version) WebPath() string {
 	return "/version" + "/" + v.ID
 }
 
+func (v *Version) Diff(vx *Version) util.Diffs {
+	var diffs util.Diffs
+	if v.ID != vx.ID {
+		diffs = append(diffs, util.NewDiff("id", v.ID, vx.ID))
+	}
+	if v.Revision != vx.Revision {
+		diffs = append(diffs, util.NewDiff("revision", fmt.Sprint(v.Revision), fmt.Sprint(vx.Revision)))
+	}
+	if v.Constcol != vx.Constcol {
+		diffs = append(diffs, util.NewDiff("constcol", v.Constcol, vx.Constcol))
+	}
+	diffs = append(diffs, util.DiffObjects(v.Varcol, vx.Varcol, "varcol")...)
+	if v.Created != vx.Created {
+		diffs = append(diffs, util.NewDiff("created", fmt.Sprint(v.Created), fmt.Sprint(vx.Created)))
+	}
+	if v.Updated != vx.Updated {
+		diffs = append(diffs, util.NewDiff("updated", fmt.Sprint(v.Updated), fmt.Sprint(vx.Updated)))
+	}
+	return diffs
+}
+
 func (v *Version) ToData() []interface{} {
-	return []interface{}{v.ID, v.Revision, v.Constcol, v.Varcol, v.Created, v.Updated, v.Deleted}
+	return []interface{}{v.ID, v.Revision, v.Constcol, v.Varcol, v.Created, v.Updated}
 }
 
 func (v *Version) ToDataCore() []interface{} {
-	return []interface{}{v.ID, v.Revision, v.Constcol, v.Updated, v.Deleted}
+	return []interface{}{v.ID, v.Revision, v.Constcol, v.Updated}
 }
 
 func (v *Version) ToDataRevision() []interface{} {

@@ -2,6 +2,7 @@
 package basic
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/google/uuid"
@@ -62,6 +63,20 @@ func (b *Basic) String() string {
 
 func (b *Basic) WebPath() string {
 	return "/basic" + "/" + b.ID.String()
+}
+
+func (b *Basic) Diff(bx *Basic) util.Diffs {
+	var diffs util.Diffs
+	if b.ID != bx.ID {
+		diffs = append(diffs, util.NewDiff("id", b.ID.String(), bx.ID.String()))
+	}
+	if b.Name != bx.Name {
+		diffs = append(diffs, util.NewDiff("name", b.Name, bx.Name))
+	}
+	if b.Created != bx.Created {
+		diffs = append(diffs, util.NewDiff("created", fmt.Sprint(b.Created), fmt.Sprint(bx.Created)))
+	}
+	return diffs
 }
 
 func (b *Basic) ToData() []interface{} {
