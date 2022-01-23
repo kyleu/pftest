@@ -37,14 +37,15 @@ func NewServices(ctx context.Context, st *State) (*Services, error) {
 		return nil, errors.Wrap(err, "unable to migrate database")
 	}
 
-	b := basic.NewService(st.DB, st.Logger)
-	t := timestamp.NewService(st.DB, st.Logger)
-	s := softdel.NewService(st.DB, st.Logger)
-	h := history.NewService(st.DB, st.Logger)
-	v := version.NewService(st.DB, st.Logger)
-	g := group.NewService(st.DB, st.Logger)
-	mc := mixedcase.NewService(st.DB, st.Logger)
-	tr := trouble.NewService(st.DB, st.Logger)
-	c := capital.NewService(st.DB, st.Logger)
-	return &Services{Basic: b, Timestamp: t, Softdel: s, History: h, Version: v, Group: g, MixedCase: mc, Trouble: tr, Capital: c}, nil
+	return &Services{
+		Basic:     basic.NewService(st.DB, st.Logger),
+		Timestamp: timestamp.NewService(st.DB, st.Logger),
+		Softdel:   softdel.NewService(st.DB, st.Logger),
+		History:   history.NewService(st.DB, st.Logger),
+		Version:   version.NewService(st.DB, st.Logger),
+		Group:     group.NewService(st.DB, st.Logger),
+		MixedCase: mixedcase.NewService(st.DB, st.Logger),
+		Trouble:   trouble.NewService(st.DB, st.Logger),
+		Capital:   capital.NewService(st.DB, st.Logger),
+	}, nil
 }
