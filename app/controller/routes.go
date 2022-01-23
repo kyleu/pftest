@@ -61,6 +61,7 @@ func AppRoutes() fasthttp.RequestHandler {
 	r.GET("/history/{id}/edit", HistoryEditForm)
 	r.POST("/history/{id}/edit", HistoryEdit)
 	r.GET("/history/{id}/delete", HistoryDelete)
+	r.GET("/history/{id}/history/{historyID}", HistoryHistory)
 	r.GET("/softdel", SoftdelList)
 	r.GET("/softdel/random", SoftdelCreateFormRandom)
 	r.GET("/softdel/new", SoftdelCreateForm)
@@ -76,7 +77,6 @@ func AppRoutes() fasthttp.RequestHandler {
 	r.GET("/group/group/{group}/{id}", GroupDetailByGroup)
 	r.GET("/group/group/{group}/{id}/edit", GroupEditFormByGroup)
 	r.POST("/group/group/{group}/{id}/edit", GroupEditByGroup)
-
 	r.GET("/group", GroupList)
 	r.GET("/group/random", GroupCreateFormRandom)
 	r.GET("/group/new", GroupCreateForm)

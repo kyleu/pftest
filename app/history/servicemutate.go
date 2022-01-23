@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/jmoiron/sqlx"
+	"github.com/pkg/errors"
 
 	"github.com/kyleu/pftest/app/lib/database"
 	"github.com/kyleu/pftest/app/util"
@@ -28,7 +29,17 @@ func (s *Service) Create(ctx context.Context, tx *sqlx.Tx, models ...*History) e
 }
 
 func (s *Service) Update(ctx context.Context, tx *sqlx.Tx, model *History) error {
+	curr, err := s.Get(ctx, tx, model.ID)
+	if err != nil {
+		return errors.Wrap(err, "can't get original history")
+	}
+	model.Created = curr.Created
 	model.Updated = util.NowPointer()
+
+	_, err = s.SaveHistory(ctx, tx, curr, model)
+	if err != nil {
+		return errors.Wrap(err, "unable to save history")
+	}
 	q := database.SQLUpdate(tableQuoted, columnsQuoted, "\"id\" = $5", "")
 	data := model.ToData()
 	data = append(data, model.ID)
@@ -41,8 +52,18 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, models ...*History) err
 		return nil
 	}
 	for _, model := range models {
-		model.Created = time.Now()
+		curr, err := s.Get(ctx, tx, model.ID)
+		if err == nil && curr != nil {
+			model.Created = curr.Created
+		} else {
+			model.Created = time.Now()
+		}
 		model.Updated = util.NowPointer()
+
+		_, err = s.SaveHistory(ctx, tx, curr, model)
+		if err != nil {
+			return errors.Wrap(err, "unable to save history")
+		}
 	}
 	q := database.SQLUpsert(tableQuoted, columnsQuoted, len(models), []string{"id"}, columns, "")
 	var data []interface{}

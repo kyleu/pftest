@@ -73,9 +73,6 @@ func (t *Timestamp) Diff(tx *Timestamp) util.Diffs {
 	if t.Created != tx.Created {
 		diffs = append(diffs, util.NewDiff("created", fmt.Sprint(t.Created), fmt.Sprint(tx.Created)))
 	}
-	if t.Updated != tx.Updated {
-		diffs = append(diffs, util.NewDiff("updated", fmt.Sprint(t.Updated), fmt.Sprint(tx.Updated)))
-	}
 	if t.Deleted != tx.Deleted {
 		diffs = append(diffs, util.NewDiff("deleted", fmt.Sprint(t.Deleted), fmt.Sprint(tx.Deleted)))
 	}

@@ -30,6 +30,8 @@ func (h *HistoryHistory) ToData() []interface{} {
 	}
 }
 
+type HistoryHistories []*HistoryHistory
+
 type historyDTO struct {
 	ID        uuid.UUID       `db:"id"`
 	HistoryID string          `db:"history_id"`
@@ -47,4 +49,14 @@ func (h *historyDTO) ToHistory() *HistoryHistory {
 	c := util.Diffs{}
 	_ = util.FromJSON(h.Changes, &c)
 	return &HistoryHistory{ID: h.ID, HistoryID: h.HistoryID, Old: o, New: n, Changes: c, Created: h.Created}
+}
+
+type historyDTOs []*historyDTO
+
+func (h historyDTOs) ToHistories() HistoryHistories {
+	ret := make(HistoryHistories, 0, len(h))
+	for _, x := range h {
+		ret = append(ret, x.ToHistory())
+	}
+	return ret
 }

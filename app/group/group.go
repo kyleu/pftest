@@ -91,9 +91,6 @@ func (g *Group) Diff(gx *Group) util.Diffs {
 	if g.Created != gx.Created {
 		diffs = append(diffs, util.NewDiff("created", fmt.Sprint(g.Created), fmt.Sprint(gx.Created)))
 	}
-	if g.Updated != gx.Updated {
-		diffs = append(diffs, util.NewDiff("updated", fmt.Sprint(g.Updated), fmt.Sprint(gx.Updated)))
-	}
 	if g.Deleted != gx.Deleted {
 		diffs = append(diffs, util.NewDiff("deleted", fmt.Sprint(g.Deleted), fmt.Sprint(gx.Deleted)))
 	}

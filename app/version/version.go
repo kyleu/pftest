@@ -90,9 +90,6 @@ func (v *Version) Diff(vx *Version) util.Diffs {
 	if v.Created != vx.Created {
 		diffs = append(diffs, util.NewDiff("created", fmt.Sprint(v.Created), fmt.Sprint(vx.Created)))
 	}
-	if v.Updated != vx.Updated {
-		diffs = append(diffs, util.NewDiff("updated", fmt.Sprint(v.Updated), fmt.Sprint(vx.Updated)))
-	}
 	return diffs
 }
 

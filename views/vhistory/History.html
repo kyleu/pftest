@@ -1,0 +1,73 @@
+<!-- Content managed by Project Forge, see [projectforge.md] for details. -->
+{% import (
+  "github.com/kyleu/pftest/app"
+  "github.com/kyleu/pftest/app/controller/cutil"
+  "github.com/kyleu/pftest/app/history"
+  "github.com/kyleu/pftest/app/lib/filter"
+  "github.com/kyleu/pftest/views/components"
+  "github.com/kyleu/pftest/views/layout"
+) %}
+
+{% code type History struct {
+  layout.Basic
+  Model *history.History
+  History *history.HistoryHistory
+} %}
+
+{% func (p *History) Body(as *app.State, ps *cutil.PageState) %}
+  <div class="card">
+    <h3>{%= components.SVGRefIcon(`star`, ps) %} History History [{%s p.History.ID.String() %}]</h3>
+    <table class="mt">
+      <tbody>
+        <tr>
+          <th class="shrink">ID</th>
+          <td>{%s p.History.ID.String() %}</td>
+        </tr>
+        <tr>
+          <th class="shrink">History ID</th>
+          <td><a href="{%s p.Model.WebPath() %}">{%s p.History.HistoryID %}</a></td>
+        </tr>
+        <tr>
+          <th class="shrink">Old</th>
+          <td>{%= components.JSON(p.History.Old) %}</td>
+        </tr>
+        <tr>
+          <th class="shrink">New</th>
+          <td>{%= components.JSON(p.History.New) %}</td>
+        </tr>
+        <tr>
+          <th class="shrink">Changes</th>
+          <td>{%= components.DisplayDiffs(p.History.Changes) %}</td>
+        </tr>
+        <tr>
+          <th class="shrink">Created</th>
+          <td>{%= components.DisplayTimestamp(&p.History.Created) %}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+{% endfunc %}
+
+{% func HistoryTable(model *history.History, histories history.HistoryHistories, params filter.ParamSet, as *app.State, ps *cutil.PageState) %}
+  {%- code prms := params.Get("history_history", nil, ps.Logger) -%}
+  <table class="mt">
+    <thead>
+      <tr>
+        {%= components.TableHeaderSimple("history_history", "id", "ID", "UUID in format (00000000-0000-0000-0000-000000000000)", prms, ps.URI, ps) %}
+        {%= components.TableHeaderSimple("history_history", "history_id", "History ID", "String text", prms, ps.URI, ps) %}
+        {%= components.TableHeaderSimple("history_history", "c", "Changes", "Object changes", prms, ps.URI, ps) %}
+        {%= components.TableHeaderSimple("history_history", "created", "Created", "Date and time, in almost any format", prms, ps.URI, ps) %}
+      </tr>
+    </thead>
+    <tbody>
+      {%- for _, h := range histories -%}
+      <tr>
+        <td><a href="{%s model.WebPath() %}/history/{%s h.ID.String() %}">{%s h.ID.String() %}</a></td>
+        <td><a href="{%s model.WebPath() %}">{%s h.HistoryID %}</a></td>
+        <td>{%= components.DisplayDiffs(h.Changes) %}</td>
+        <td>{%= components.DisplayTimestamp(&h.Created) %}</td>
+      </tr>
+      {%- endfor -%}
+    </tbody>
+  </table>
+{% endfunc %}

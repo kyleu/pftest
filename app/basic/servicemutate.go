@@ -7,6 +7,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
+	"github.com/pkg/errors"
 
 	"github.com/kyleu/pftest/app/lib/database"
 )
@@ -27,6 +28,11 @@ func (s *Service) Create(ctx context.Context, tx *sqlx.Tx, models ...*Basic) err
 }
 
 func (s *Service) Update(ctx context.Context, tx *sqlx.Tx, model *Basic) error {
+	curr, err := s.Get(ctx, tx, model.ID)
+	if err != nil {
+		return errors.Wrap(err, "can't get original history")
+	}
+	model.Created = curr.Created
 	q := database.SQLUpdate(tableQuoted, columnsQuoted, "\"id\" = $4", "")
 	data := model.ToData()
 	data = append(data, model.ID)
@@ -39,7 +45,12 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, models ...*Basic) error
 		return nil
 	}
 	for _, model := range models {
-		model.Created = time.Now()
+		curr, err := s.Get(ctx, tx, model.ID)
+		if err == nil && curr != nil {
+			model.Created = curr.Created
+		} else {
+			model.Created = time.Now()
+		}
 	}
 	q := database.SQLUpsert(tableQuoted, columnsQuoted, len(models), []string{"id"}, columns, "")
 	var data []interface{}

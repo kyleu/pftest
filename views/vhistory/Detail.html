@@ -3,6 +3,7 @@
   "github.com/kyleu/pftest/app"
   "github.com/kyleu/pftest/app/controller/cutil"
   "github.com/kyleu/pftest/app/history"
+  "github.com/kyleu/pftest/app/lib/filter"
   "github.com/kyleu/pftest/views/components"
   "github.com/kyleu/pftest/views/layout"
 ) %}
@@ -10,6 +11,8 @@
 {% code type Detail struct {
   layout.Basic
   Model *history.History
+  Histories history.HistoryHistories
+  Params filter.ParamSet
 } %}
 
 {% func (p *Detail) Body(as *app.State, ps *cutil.PageState) %}
@@ -37,6 +40,12 @@
       </tbody>
     </table>
   </div>
+  {%- if len(p.Histories) > 0 -%}
+  <div class="card">
+    <h3>Histories</h3>
+    {%= HistoryTable(p.Model, p.Histories, p.Params, as, ps) %}
+  </div>
+  {%- endif -%}
   {%- comment %}$PF_SECTION_START(extra)${% endcomment -%}
   {%- comment %}$PF_SECTION_END(extra)${% endcomment -%}
 {% endfunc %}

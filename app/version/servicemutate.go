@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/jmoiron/sqlx"
+	"github.com/pkg/errors"
 
 	"github.com/kyleu/pftest/app/lib/database"
 	"github.com/kyleu/pftest/app/util"
@@ -20,8 +21,8 @@ func (s *Service) Create(ctx context.Context, tx *sqlx.Tx, models ...*Version) e
 		return err
 	}
 	for _, model := range models {
-		model.Revision = revs[model.String()] + 1
 		model.Created = time.Now()
+		model.Revision = revs[model.String()] + 1
 		model.Updated = util.NowPointer()
 	}
 
@@ -42,6 +43,11 @@ func (s *Service) Update(ctx context.Context, tx *sqlx.Tx, model *Version) error
 		return err
 	}
 	model.Revision = revs[model.String()] + 1
+	curr, err := s.Get(ctx, tx, model.ID)
+	if err != nil {
+		return errors.Wrap(err, "can't get original history")
+	}
+	model.Created = curr.Created
 	model.Updated = util.NowPointer()
 
 	err = s.upsertCore(ctx, tx, model)
@@ -64,8 +70,13 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, models ...*Version) err
 		return err
 	}
 	for _, model := range models {
+		curr, err := s.Get(ctx, tx, model.ID)
+		if err == nil && curr != nil {
+			model.Created = curr.Created
+		} else {
+			model.Created = time.Now()
+		}
 		model.Revision = revs[model.String()] + 1
-		model.Created = time.Now()
 		model.Updated = util.NowPointer()
 	}
 

@@ -74,9 +74,6 @@ func (h *History) Diff(hx *History) util.Diffs {
 	if h.Created != hx.Created {
 		diffs = append(diffs, util.NewDiff("created", fmt.Sprint(h.Created), fmt.Sprint(hx.Created)))
 	}
-	if h.Updated != hx.Updated {
-		diffs = append(diffs, util.NewDiff("updated", fmt.Sprint(h.Updated), fmt.Sprint(hx.Updated)))
-	}
 	return diffs
 }
 

@@ -30,13 +30,18 @@ func HistoryList(rc *fasthttp.RequestCtx) {
 
 func HistoryDetail(rc *fasthttp.RequestCtx) {
 	act("history.detail", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+		params := cutil.ParamSetFromRequest(rc)
 		ret, err := historyFromPath(rc, as, ps)
+		if err != nil {
+			return "", err
+		}
+		hist, err := as.Services.History.GetHistories(ps.Context, nil, ret.ID)
 		if err != nil {
 			return "", err
 		}
 		ps.Title = ret.String()
 		ps.Data = ret
-		return render(rc, as, &vhistory.Detail{Model: ret}, ps, "history", ret.String())
+		return render(rc, as, &vhistory.Detail{Model: ret, Params: params, Histories: hist}, ps, "history", ret.String())
 	})
 }
 
@@ -117,6 +122,26 @@ func HistoryDelete(rc *fasthttp.RequestCtx) {
 		}
 		msg := fmt.Sprintf("History [%s] deleted", ret.String())
 		return flashAndRedir(true, msg, "/history", rc, ps)
+	})
+}
+
+func HistoryHistory(rc *fasthttp.RequestCtx) {
+	act("history.history", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := historyFromPath(rc, as, ps)
+		if err != nil {
+			return "", err
+		}
+		histID, err := RCRequiredUUID(rc, "historyID")
+		if err != nil {
+			return "", errors.Wrap(err, "must provide [historyID] as an argument")
+		}
+		hist, err := as.Services.History.GetHistory(ps.Context, nil, *histID)
+		if err != nil {
+			return "", err
+		}
+		ps.Title = hist.ID.String()
+		ps.Data = hist
+		return render(rc, as, &vhistory.History{Model: ret, History: hist}, ps, "history", ret.String(), hist.ID.String())
 	})
 }
 
