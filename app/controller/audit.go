@@ -16,6 +16,8 @@ import (
 
 const auditDefaultTitle = "Audits"
 
+var auditBreadcrumb = "Audit"
+
 func AuditList(rc *fasthttp.RequestCtx) {
 	act("audit.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ps.Title = auditDefaultTitle
@@ -25,7 +27,7 @@ func AuditList(rc *fasthttp.RequestCtx) {
 			return "", err
 		}
 		ps.Data = ret
-		return render(rc, as, &vaudit.List{Models: ret, Params: params}, ps, "audit")
+		return render(rc, as, &vaudit.List{Models: ret, Params: params}, ps, "admin", "Audit")
 	})
 }
 
@@ -42,7 +44,7 @@ func AuditDetail(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", errors.Wrap(err, "unable to retrieve child auditrecords")
 		}
-		return render(rc, as, &vaudit.Detail{Model: ret, Params: params, Records: records}, ps, "audit", ret.String())
+		return render(rc, as, &vaudit.Detail{Model: ret, Params: params, Records: records}, ps, "admin", auditBreadcrumb, ret.String())
 	})
 }
 
@@ -51,7 +53,7 @@ func AuditCreateForm(rc *fasthttp.RequestCtx) {
 		ret := &audit.Audit{}
 		ps.Title = "Create [Audit]"
 		ps.Data = ret
-		return render(rc, as, &vaudit.Edit{Model: ret, IsNew: true}, ps, "audit", "Create")
+		return render(rc, as, &vaudit.Edit{Model: ret, IsNew: true}, ps, "admin", auditBreadcrumb, "Create")
 	})
 }
 
@@ -60,7 +62,7 @@ func AuditCreateFormRandom(rc *fasthttp.RequestCtx) {
 		ret := audit.Random()
 		ps.Title = "Create Random [Audit]"
 		ps.Data = ret
-		return render(rc, as, &vaudit.Edit{Model: ret, IsNew: true}, ps, "audit", "Create")
+		return render(rc, as, &vaudit.Edit{Model: ret, IsNew: true}, ps, "admin", auditBreadcrumb, "Create")
 	})
 }
 
@@ -87,7 +89,7 @@ func AuditEditForm(rc *fasthttp.RequestCtx) {
 		}
 		ps.Title = "Edit [" + ret.String() + "]"
 		ps.Data = ret
-		return render(rc, as, &vaudit.Edit{Model: ret}, ps, "audit", ret.String())
+		return render(rc, as, &vaudit.Edit{Model: ret}, ps, "admin", auditBreadcrumb, ret.String())
 	})
 }
 
@@ -126,6 +128,18 @@ func AuditDelete(rc *fasthttp.RequestCtx) {
 	})
 }
 
+func RecordDetail(rc *fasthttp.RequestCtx) {
+	act("audit.record.detail", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := recordFromPath(rc, as, ps)
+		if err != nil {
+			return "", err
+		}
+		ps.Title = ret.String()
+		ps.Data = ret
+		return render(rc, as, &vaudit.RecordDetail{Model: ret}, ps, "admin", auditBreadcrumb, ret.String())
+	})
+}
+
 func auditFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageState) (*audit.Audit, error) {
 	idArgStr, err := RCRequiredString(rc, "id", false)
 	if err != nil {
@@ -145,4 +159,17 @@ func auditFromForm(rc *fasthttp.RequestCtx, setPK bool) (*audit.Audit, error) {
 		return nil, errors.Wrap(err, "unable to parse form")
 	}
 	return audit.FromMap(frm, setPK)
+}
+
+func recordFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageState) (*audit.Record, error) {
+	idArgStr, err := RCRequiredString(rc, "id", false)
+	if err != nil {
+		return nil, errors.Wrap(err, "must provide [id] as an argument")
+	}
+	idArgP := util.UUIDFromString(idArgStr)
+	if idArgP == nil {
+		return nil, errors.Errorf("argument [id] (%s) is not a valid UUID", idArgStr)
+	}
+	idArg := *idArgP
+	return as.Services.Audit.GetRecord(ps.Context, nil, idArg)
 }

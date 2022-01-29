@@ -123,6 +123,7 @@ func AppRoutes() fasthttp.RequestHandler {
 	r.GET("/admin/audit/random", AuditCreateFormRandom)
 	r.GET("/admin/audit/new", AuditCreateForm)
 	r.POST("/admin/audit/new", AuditCreate)
+	r.GET("/admin/audit/record/{id}", RecordDetail)
 	r.GET("/admin/audit/{id}", AuditDetail)
 	r.GET("/admin/audit/{id}/edit", AuditEditForm)
 	r.POST("/admin/audit/{id}/edit", AuditEdit)

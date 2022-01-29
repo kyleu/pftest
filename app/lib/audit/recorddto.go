@@ -13,35 +13,30 @@ import (
 )
 
 var (
-	recordTable         = "audit"
+	recordTable         = "audit_record"
 	recordTableQuoted   = fmt.Sprintf("%q", table)
-	recordColumns       = []string{"id", "app", "act", "client", "server", "user", "metadata", "message", "started", "completed"}
-	recordColumnsQuoted = util.StringArrayQuoted(columns)
+	recordColumns       = []string{"id", "audit_id", "t", "pk", "changes", "occurred"}
+	recordColumnsQuoted = util.StringArrayQuoted(recordColumns)
 	recordColumnsString = strings.Join(columnsQuoted, ", ")
 	recordDefaultWC     = "\"id\" = $1"
 )
 
 type recordDTO struct {
-	ID        uuid.UUID       `db:"id"`
-	AuditID   uuid.UUID       `db:"audit_id"`
-	App       string          `db:"app"`
-	Act       string          `db:"act"`
-	Client    string          `db:"client"`
-	Server    string          `db:"server"`
-	User      string          `db:"user"`
-	Metadata  json.RawMessage `db:"metadata"`
-	Message   string          `db:"message"`
-	Started   time.Time       `db:"started"`
-	Completed time.Time       `db:"completed"`
+	ID       uuid.UUID       `db:"id"`
+	AuditID  uuid.UUID       `db:"audit_id"`
+	T        string          `db:"t"`
+	Pk       string          `db:"pk"`
+	Changes  json.RawMessage `db:"changes"`
+	Occurred time.Time       `db:"occurred"`
 }
 
 func (d *recordDTO) ToRecord() *Record {
 	if d == nil {
 		return nil
 	}
-	metadataArg := util.ValueMap{}
-	_ = util.FromJSON(d.Metadata, &metadataArg)
-	return &Record{ID: d.ID, AuditID: d.AuditID, App: d.App, Act: d.Act, Client: d.Client, Server: d.Server, User: d.User, Metadata: metadataArg, Message: d.Message, Started: d.Started, Completed: d.Completed}
+	changesArg := util.ValueMap{}
+	_ = util.FromJSON(d.Changes, &changesArg)
+	return &Record{ID: d.ID, AuditID: d.AuditID, T: d.T, Pk: d.Pk, Changes: changesArg, Occurred: d.Occurred}
 }
 
 type recordDTOs []*recordDTO

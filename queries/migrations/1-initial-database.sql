@@ -3,9 +3,11 @@
 -- {% func Migration1InitialDatabase(debug bool) %}
 
 -- {%- if debug -%}
+-- {%= ddl.AuditDrop() %}
 -- {%= ddl.DropAll() %}
 -- {%- endif -%}
 
 -- {%= ddl.CreateAll() %}
+-- {%= ddl.AuditCreate() %}
 
 -- {% endfunc %}

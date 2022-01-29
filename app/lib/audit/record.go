@@ -11,17 +11,12 @@ import (
 )
 
 type Record struct {
-	ID        uuid.UUID     `json:"id"`
-	AuditID   uuid.UUID     `json:"auditID"`
-	App       string        `json:"app"`
-	Act       string        `json:"act"`
-	Client    string        `json:"client"`
-	Server    string        `json:"server"`
-	User      string        `json:"user"`
-	Metadata  util.ValueMap `json:"metadata"`
-	Message   string        `json:"message"`
-	Started   time.Time     `json:"started"`
-	Completed time.Time     `json:"completed"`
+	ID       uuid.UUID     `json:"id"`
+	AuditID  uuid.UUID     `json:"auditID"`
+	T        string        `json:"t"`
+	Pk       string        `json:"pk"`
+	Changes  util.ValueMap `json:"changes"`
+	Occurred time.Time     `json:"occurred"`
 }
 
 func NewRecord(id uuid.UUID) *Record {
@@ -30,17 +25,12 @@ func NewRecord(id uuid.UUID) *Record {
 
 func RandomRecord() *Record {
 	return &Record{
-		ID:        util.UUID(),
-		AuditID:   util.UUID(),
-		App:       util.RandomString(12),
-		Act:       util.RandomString(12),
-		Client:    util.RandomString(12),
-		Server:    util.RandomString(12),
-		User:      util.RandomString(12),
-		Metadata:  util.RandomValueMap(4),
-		Message:   util.RandomString(12),
-		Started:   time.Now(),
-		Completed: time.Now(),
+		ID:       util.UUID(),
+		AuditID:  util.UUID(),
+		T:        util.RandomString(12),
+		Pk:       util.RandomString(12),
+		Changes:  util.RandomValueMap(4),
+		Occurred: time.Now(),
 	}
 }
 
@@ -65,47 +55,24 @@ func RecordFromMap(m util.ValueMap, setPK bool) (*Record, error) {
 	if retAuditID != nil {
 		ret.AuditID = *retAuditID
 	}
-	ret.App, err = m.ParseString("app", true, true)
+	ret.T, err = m.ParseString("t", true, true)
 	if err != nil {
 		return nil, err
 	}
-	ret.Act, err = m.ParseString("act", true, true)
+	ret.Pk, err = m.ParseString("pk", true, true)
 	if err != nil {
 		return nil, err
 	}
-	ret.Client, err = m.ParseString("client", true, true)
+	ret.Changes, err = m.ParseMap("changes", true, true)
 	if err != nil {
 		return nil, err
 	}
-	ret.Server, err = m.ParseString("server", true, true)
-	if err != nil {
-		return nil, err
-	}
-	ret.User, err = m.ParseString("user", true, true)
-	if err != nil {
-		return nil, err
-	}
-	ret.Metadata, err = m.ParseMap("metadata", true, true)
-	if err != nil {
-		return nil, err
-	}
-	ret.Message, err = m.ParseString("message", true, true)
-	if err != nil {
-		return nil, err
-	}
-	retStarted, e := m.ParseTime("started", true, true)
+	retOccurred, e := m.ParseTime("occurred", true, true)
 	if e != nil {
 		return nil, e
 	}
-	if retStarted != nil {
-		ret.Started = *retStarted
-	}
-	retCompleted, e := m.ParseTime("completed", true, true)
-	if e != nil {
-		return nil, e
-	}
-	if retCompleted != nil {
-		ret.Completed = *retCompleted
+	if retOccurred != nil {
+		ret.Occurred = *retOccurred
 	}
 	// $PF_SECTION_START(extrachecks)$
 	// $PF_SECTION_END(extrachecks)$
@@ -114,17 +81,12 @@ func RecordFromMap(m util.ValueMap, setPK bool) (*Record, error) {
 
 func (a *Record) Clone() *Record {
 	return &Record{
-		ID:        a.ID,
-		AuditID:   a.AuditID,
-		App:       a.App,
-		Act:       a.Act,
-		Client:    a.Client,
-		Server:    a.Server,
-		User:      a.User,
-		Metadata:  a.Metadata,
-		Message:   a.Message,
-		Started:   a.Started,
-		Completed: a.Completed,
+		ID:       a.ID,
+		AuditID:  a.AuditID,
+		T:        a.T,
+		Pk:       a.Pk,
+		Changes:  a.Changes,
+		Occurred: a.Occurred,
 	}
 }
 
@@ -133,7 +95,7 @@ func (a *Record) String() string {
 }
 
 func (a *Record) WebPath() string {
-	return "/audit_record" + "/" + a.ID.String()
+	return "/admin/audit/record" + "/" + a.ID.String()
 }
 
 func (a *Record) Diff(ax *Record) util.Diffs {
@@ -144,36 +106,21 @@ func (a *Record) Diff(ax *Record) util.Diffs {
 	if a.AuditID != ax.AuditID {
 		diffs = append(diffs, util.NewDiff("auditID", a.AuditID.String(), ax.AuditID.String()))
 	}
-	if a.App != ax.App {
-		diffs = append(diffs, util.NewDiff("app", a.App, ax.App))
+	if a.T != ax.T {
+		diffs = append(diffs, util.NewDiff("t", a.T, ax.T))
 	}
-	if a.Act != ax.Act {
-		diffs = append(diffs, util.NewDiff("act", a.Act, ax.Act))
+	if a.Pk != ax.Pk {
+		diffs = append(diffs, util.NewDiff("pk", a.Pk, ax.Pk))
 	}
-	if a.Client != ax.Client {
-		diffs = append(diffs, util.NewDiff("client", a.Client, ax.Client))
-	}
-	if a.Server != ax.Server {
-		diffs = append(diffs, util.NewDiff("server", a.Server, ax.Server))
-	}
-	if a.User != ax.User {
-		diffs = append(diffs, util.NewDiff("user", a.User, ax.User))
-	}
-	diffs = append(diffs, util.DiffObjects(a.Metadata, ax.Metadata, "metadata")...)
-	if a.Message != ax.Message {
-		diffs = append(diffs, util.NewDiff("message", a.Message, ax.Message))
-	}
-	if a.Started != ax.Started {
-		diffs = append(diffs, util.NewDiff("started", fmt.Sprint(a.Started), fmt.Sprint(ax.Started)))
-	}
-	if a.Completed != ax.Completed {
-		diffs = append(diffs, util.NewDiff("completed", fmt.Sprint(a.Completed), fmt.Sprint(ax.Completed)))
+	diffs = append(diffs, util.DiffObjects(a.Changes, ax.Changes, "changes")...)
+	if a.Occurred != ax.Occurred {
+		diffs = append(diffs, util.NewDiff("occurred", fmt.Sprint(a.Occurred), fmt.Sprint(ax.Occurred)))
 	}
 	return diffs
 }
 
 func (a *Record) ToData() []interface{} {
-	return []interface{}{a.ID, a.AuditID, a.App, a.Act, a.Client, a.Server, a.User, a.Metadata, a.Message, a.Started, a.Completed}
+	return []interface{}{a.ID, a.AuditID, a.T, a.Pk, a.Changes, a.Occurred}
 }
 
 type Records []*Record

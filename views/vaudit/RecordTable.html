@@ -14,34 +14,24 @@
       <tr>
         {%= components.TableHeaderSimple("audit_record", "id", "ID", "UUID in format (00000000-0000-0000-0000-000000000000)", prms, ps.URI, ps) %}
         {%= components.TableHeaderSimple("audit_record", "audit_id", "Audit ID", "UUID in format (00000000-0000-0000-0000-000000000000)", prms, ps.URI, ps) %}
-        {%= components.TableHeaderSimple("audit_record", "app", "App", "String text", prms, ps.URI, ps) %}
-        {%= components.TableHeaderSimple("audit_record", "act", "Act", "String text", prms, ps.URI, ps) %}
-        {%= components.TableHeaderSimple("audit_record", "client", "Client", "String text", prms, ps.URI, ps) %}
-        {%= components.TableHeaderSimple("audit_record", "server", "Server", "String text", prms, ps.URI, ps) %}
-        {%= components.TableHeaderSimple("audit_record", "user", "User", "String text", prms, ps.URI, ps) %}
-        {%= components.TableHeaderSimple("audit_record", "metadata", "Metadata", "JSON object", prms, ps.URI, ps) %}
-        {%= components.TableHeaderSimple("audit_record", "message", "Message", "String text", prms, ps.URI, ps) %}
-        {%= components.TableHeaderSimple("audit_record", "started", "Started", "Date and time, in almost any format", prms, ps.URI, ps) %}
-        {%= components.TableHeaderSimple("audit_record", "completed", "Completed", "Date and time, in almost any format", prms, ps.URI, ps) %}
+        {%= components.TableHeaderSimple("audit_record", "t", "T", "String text", prms, ps.URI, ps) %}
+        {%= components.TableHeaderSimple("audit_record", "pk", "Pk", "String text", prms, ps.URI, ps) %}
+        {%= components.TableHeaderSimple("audit_record", "changes", "Changes", "JSON object", prms, ps.URI, ps) %}
+        {%= components.TableHeaderSimple("audit_record", "occurred", "Occurred", "Date and time, in almost any format", prms, ps.URI, ps) %}
       </tr>
     </thead>
     <tbody>
       {%- for _, model := range models -%}
       <tr>
-        <td><a href="/audit_record/{%= components.DisplayUUID(&model.ID) %}">{%= components.DisplayUUID(&model.ID) %}</a></td>
+        <td><a href="/admin/record/{%= components.DisplayUUID(&model.ID) %}">{%= components.DisplayUUID(&model.ID) %}</a></td>
         <td>
           <div class="icon">{%= components.DisplayUUID(&model.AuditID) %}</div>
-          <a title="Audit" href="{%s `/audit`+`/`+model.AuditID.String() %}">{%= components.SVGRefIcon("cog", ps) %}</a>
+          <a title="Audit" href="{%s `/admin/audit/`+model.AuditID.String() %}">{%= components.SVGRefIcon("cog", ps) %}</a>
         </td>
-        <td>{%s model.App %}</td>
-        <td>{%s model.Act %}</td>
-        <td>{%s model.Client %}</td>
-        <td>{%s model.Server %}</td>
-        <td>{%s model.User %}</td>
-        <td>{%= components.JSON(model.Metadata) %}</td>
-        <td>{%s model.Message %}</td>
-        <td>{%= components.DisplayTimestamp(&model.Started) %}</td>
-        <td>{%= components.DisplayTimestamp(&model.Completed) %}</td>
+        <td>{%s model.T %}</td>
+        <td>{%s model.Pk %}</td>
+        <td>{%= components.JSON(model.Changes) %}</td>
+        <td>{%= components.DisplayTimestamp(&model.Occurred) %}</td>
       </tr>
       {%- endfor -%}
     </tbody>
