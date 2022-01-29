@@ -8,6 +8,7 @@ For custom files or files you wish to change, simply omit or remove the comment 
 The following modules were used to build this project:
 
 - [android](./doc/module/android.md)
+- [audit](./doc/module/audit.md)
 - [core](./doc/module/core.md)
 - [database](./doc/module/database.md)
 - [desktop](./doc/module/desktop.md)

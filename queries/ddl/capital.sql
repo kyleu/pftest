@@ -20,7 +20,6 @@ create table if not exists "Capital_Version" (
   foreign key ("Capital_ID") references "Capital" ("ID"),
   primary key ("Capital_ID", "Version")
 );
-create index if not exists "Capital_Version__Capital_ID_idx" on "Capital_Version" ("Capital_ID");
 
 create index if not exists "Capital_Version__Capital_ID_idx" on "Capital_Version" ("Capital_ID");
 -- {% endfunc %}

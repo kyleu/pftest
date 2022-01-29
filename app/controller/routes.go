@@ -119,6 +119,15 @@ func AppRoutes() fasthttp.RequestHandler {
 	r.GET("/admin", Admin)
 	r.GET("/admin/sandbox", SandboxList)
 	r.GET("/admin/sandbox/{key}", SandboxRun)
+	r.GET("/admin/audit", AuditList)
+	r.GET("/admin/audit/random", AuditCreateFormRandom)
+	r.GET("/admin/audit/new", AuditCreateForm)
+	r.POST("/admin/audit/new", AuditCreate)
+	r.GET("/admin/audit/{id}", AuditDetail)
+	r.GET("/admin/audit/{id}/edit", AuditEditForm)
+	r.POST("/admin/audit/{id}/edit", AuditEdit)
+	r.GET("/admin/audit/{id}/delete", AuditDelete)
+	
 	r.GET("/admin/{path:*}", Admin)
 
 	r.GET("/favicon.ico", Favicon)

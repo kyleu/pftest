@@ -21,7 +21,6 @@ create table if not exists "version_revision" (
   foreign key ("version_id") references "version" ("id"),
   primary key ("version_id", "revision")
 );
-create index if not exists "version_revision__version_id_idx" on "version_revision" ("version_id");
 
 create index if not exists "version_revision__version_id_idx" on "version_revision" ("version_id");
 -- {% endfunc %}

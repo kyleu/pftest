@@ -4,6 +4,8 @@ package app
 import (
 	"context"
 
+	"github.com/kyleu/pftest/app/lib/audit"
+
 	"github.com/kyleu/pftest/app/basic"
 	"github.com/kyleu/pftest/app/capital"
 	"github.com/kyleu/pftest/app/group"
@@ -28,6 +30,7 @@ type Services struct {
 	MixedCase *mixedcase.Service
 	Trouble   *trouble.Service
 	Capital   *capital.Service
+	Audit     *audit.Service
 }
 
 func NewServices(ctx context.Context, st *State) (*Services, error) {
@@ -47,5 +50,6 @@ func NewServices(ctx context.Context, st *State) (*Services, error) {
 		MixedCase: mixedcase.NewService(st.DB, st.Logger),
 		Trouble:   trouble.NewService(st.DB, st.Logger),
 		Capital:   capital.NewService(st.DB, st.Logger),
+		Audit:     audit.NewService(st.DB, st.Logger),
 	}, nil
 }

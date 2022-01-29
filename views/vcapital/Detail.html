@@ -17,7 +17,10 @@
 
 {% func (p *Detail) Body(as *app.State, ps *cutil.PageState) %}
   <div class="card">
-    <div class="right"><a href="{%s p.Model.WebPath() %}/edit"><button>Edit</button></a></div>
+    <div class="right">
+      <a href="#modal-capital"><button type="button">JSON</button></a>
+      <a href="{%s p.Model.WebPath() %}/edit"><button>Edit</button></a>
+    </div>
     <h3>{%= components.SVGRefIcon(`star`, ps) %} Capital [{%s p.Model.String() %}]</h3>
     <table class="mt">
       <tbody>
@@ -68,4 +71,5 @@
   {%- endif -%}
   {%- comment %}$PF_SECTION_START(extra)${% endcomment -%}
   {%- comment %}$PF_SECTION_END(extra)${% endcomment -%}
+  {%= components.JSONModal("capital", "Capital JSON", p.Model, 1) %}
 {% endfunc %}

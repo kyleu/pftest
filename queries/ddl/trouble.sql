@@ -26,6 +26,7 @@ create table if not exists "trouble_selectcol" (
   foreign key ("trouble_from", "trouble_where") references "trouble" ("from", "where"),
   primary key ("trouble_from", "trouble_where", "selectcol")
 );
+
 create index if not exists "trouble_selectcol__trouble_from_trouble_where_idx" on "trouble_selectcol" ("trouble_from", "trouble_where");
 
 create index if not exists "trouble_selectcol__trouble_from_idx" on "trouble_selectcol" ("trouble_from");

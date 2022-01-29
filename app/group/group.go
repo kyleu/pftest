@@ -28,7 +28,7 @@ func Random() *Group {
 		Data:    util.RandomValueMap(4),
 		Created: time.Now(),
 		Updated: util.NowPointer(),
-		Deleted: util.NowPointer(),
+		Deleted: nil,
 	}
 }
 

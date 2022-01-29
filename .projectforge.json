@@ -8,6 +8,7 @@
   "port": 41000,
   "modules": [
     "android",
+    "audit",
     "core",
     "database",
     "desktop",

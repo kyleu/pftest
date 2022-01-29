@@ -24,7 +24,7 @@ func Random() *Timestamp {
 		ID:      util.RandomString(12),
 		Created: time.Now(),
 		Updated: util.NowPointer(),
-		Deleted: util.NowPointer(),
+		Deleted: nil,
 	}
 }
 

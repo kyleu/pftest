@@ -36,7 +36,9 @@ func FromMap(m util.ValueMap, setPK bool) (*Basic, error) {
 		if e != nil {
 			return nil, e
 		}
-		ret.ID = *retID
+		if retID != nil {
+			ret.ID = *retID
+		}
 		// $PF_SECTION_START(pkchecks)$
 		// $PF_SECTION_END(pkchecks)$
 	}

@@ -28,7 +28,7 @@ func Random() *Trouble {
 		Selectcol: util.RandomInt(10000),
 		Limit:     util.RandomString(12),
 		Group:     util.RandomString(12),
-		Delete:    util.NowPointer(),
+		Delete:    nil,
 	}
 }
 

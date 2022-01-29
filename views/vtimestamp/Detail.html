@@ -14,7 +14,10 @@
 
 {% func (p *Detail) Body(as *app.State, ps *cutil.PageState) %}
   <div class="card">
-    <div class="right"><a href="{%s p.Model.WebPath() %}/edit"><button>Edit</button></a></div>
+    <div class="right">
+      <a href="#modal-timestamp"><button type="button">JSON</button></a>
+      <a href="{%s p.Model.WebPath() %}/edit"><button>Edit</button></a>
+    </div>
     <h3>{%= components.SVGRefIcon(`star`, ps) %} Timestamp [{%s p.Model.String() %}]</h3>
     <table class="mt">
       <tbody>
@@ -39,4 +42,5 @@
   </div>
   {%- comment %}$PF_SECTION_START(extra)${% endcomment -%}
   {%- comment %}$PF_SECTION_END(extra)${% endcomment -%}
+  {%= components.JSONModal("timestamp", "Timestamp JSON", p.Model, 1) %}
 {% endfunc %}

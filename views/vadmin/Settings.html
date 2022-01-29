@@ -31,6 +31,13 @@
   </div>
 
   <div class="card">
+    <h3>Audits</h3>
+    <ul>
+      <li><a href="/admin/audit">View audit logs</a></li>
+    </ul>
+  </div>
+
+  <div class="card">
     <div class="right"><a href="#modal-mem"><button type="button">Memory Usage</button></a></div>
     {%= components.JSONModal("mem", "Memory Usage", p.Mem, 1) %}
     <h3>Admin Functions</h3>
@@ -48,7 +55,9 @@
 
   <div class="card">
     <h3>Themes</h3>
-    <p><a href="/theme">Edit Themes</a></p>
+    <ul>
+      <li><a href="/theme">Edit Themes</a></li>
+    </ul>
   </div>
 
   {%= vauth.Authentication(as) %}

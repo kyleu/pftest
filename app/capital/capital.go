@@ -49,7 +49,9 @@ func FromMap(m util.ValueMap, setPK bool) (*Capital, error) {
 	if e != nil {
 		return nil, e
 	}
-	ret.Birthday = *retBirthday
+	if retBirthday != nil {
+		ret.Birthday = *retBirthday
+	}
 	ret.Deathday, err = m.ParseTime("deathday", true, true)
 	if err != nil {
 		return nil, err
