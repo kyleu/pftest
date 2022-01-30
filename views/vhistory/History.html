@@ -53,10 +53,10 @@
   <table class="mt">
     <thead>
       <tr>
-        {%= components.TableHeaderSimple("history_history", "id", "ID", "UUID in format (00000000-0000-0000-0000-000000000000)", prms, ps.URI, ps) %}
+        {%= components.TableHeaderSimple("history_history", "id", "ID", "System-generated history UUID identifier", prms, ps.URI, ps) %}
         {%= components.TableHeaderSimple("history_history", "history_id", "History ID", "String text", prms, ps.URI, ps) %}
         {%= components.TableHeaderSimple("history_history", "c", "Changes", "Object changes", prms, ps.URI, ps) %}
-        {%= components.TableHeaderSimple("history_history", "created", "Created", "Date and time, in almost any format", prms, ps.URI, ps) %}
+        {%= components.TableHeaderSimple("history_history", "created", "Created", "Time when history was created", prms, ps.URI, ps) %}
       </tr>
     </thead>
     <tbody>

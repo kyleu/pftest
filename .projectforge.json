@@ -78,7 +78,7 @@
             "columns": [
               {
                 "name": "id",
-                "type": "text",
+                "type": "string",
                 "pk": true,
                 "search": true
               },
@@ -114,7 +114,7 @@
             "columns": [
               {
                 "name": "id",
-                "type": "text",
+                "type": "string",
                 "pk": true,
                 "search": true
               },
@@ -160,7 +160,7 @@
             "columns": [
               {
                 "name": "id",
-                "type": "text",
+                "type": "string",
                 "pk": true,
                 "search": true
               },
@@ -194,7 +194,7 @@
             "columns": [
               {
                 "name": "id",
-                "type": "text",
+                "type": "string",
                 "pk": true,
                 "search": true
               },
@@ -228,7 +228,7 @@
             "columns": [
               {
                 "name": "id",
-                "type": "text",
+                "type": "string",
                 "pk": true,
                 "search": true
               },
@@ -275,7 +275,7 @@
             "columns": [
               {
                 "name": "ID",
-                "type": "text",
+                "type": "string",
                 "pk": true,
                 "search": true
               },
@@ -312,7 +312,7 @@
             "columns": [
               {
                 "name": "id",
-                "type": "text",
+                "type": "string",
                 "pk": true,
                 "search": true
               },
@@ -339,7 +339,7 @@
             "columns": [
               {
                 "name": "from",
-                "type": "text",
+                "type": "string",
                 "pk": true,
                 "search": true
               },
