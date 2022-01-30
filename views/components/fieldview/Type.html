@@ -1,0 +1,8 @@
+<!-- Content managed by Project Forge, see [projectforge.md] for details. -->
+{% import (
+  "github.com/kyleu/pftest/app/lib/types"
+) %}
+
+{% func Type(v types.Type) %}{% stripspace %}
+  {%s v.String() %}
+{% endstripspace %}{% endfunc %}

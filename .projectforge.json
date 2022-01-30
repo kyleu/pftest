@@ -20,6 +20,7 @@
     "notarize",
     "oauth",
     "postgres",
+    "schema",
     "search",
     "sqleditor",
     "sqlite",

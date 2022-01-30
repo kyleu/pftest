@@ -1,7 +1,7 @@
 -- Content managed by Project Forge, see [projectforge.md] for details.
 -- {% func AuditDrop() %}
-drop table if exists "audit";
 drop table if exists "audit_record";
+drop table if exists "audit";
 -- {% endfunc %}
 
 -- {% func AuditCreate() %}

@@ -8,7 +8,7 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/kyleu/pftest/app/lib/schema/model"
-	"github.com/kyleu/pftest/app/lib/schema/types"
+	"github.com/kyleu/pftest/app/lib/types"
 )
 
 const (
