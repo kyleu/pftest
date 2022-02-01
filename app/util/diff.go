@@ -65,6 +65,18 @@ func DiffObjects(l interface{}, r interface{}, path ...string) Diffs {
 			rv := rm[k]
 			ret = append(ret, DiffObjects(v, rv, append(append([]string{}, path...), k)...)...)
 		}
+	case []interface{}:
+		rm, _ := r.([]interface{})
+		for idx, v := range t {
+			rv := rm[idx]
+			ret = append(ret, DiffObjects(v, rv, append([]string{}, path...)...)...)
+		}
+	case Diffs:
+		rm, _ := r.(Diffs)
+		for idx, v := range t {
+			rv := rm[idx]
+			ret = append(ret, DiffObjects(v, rv, append([]string{}, path...)...)...)
+		}
 	case int:
 		i, _ := r.(int)
 		if t != i {

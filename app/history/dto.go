@@ -32,7 +32,12 @@ func (d *dto) ToHistory() *History {
 	}
 	dataArg := util.ValueMap{}
 	_ = util.FromJSON(d.Data, &dataArg)
-	return &History{ID: d.ID, Data: dataArg, Created: d.Created, Updated: d.Updated}
+	return &History{
+		ID:      d.ID,
+		Data:    dataArg,
+		Created: d.Created,
+		Updated: d.Updated,
+	}
 }
 
 type dtos []*dto

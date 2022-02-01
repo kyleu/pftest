@@ -6,6 +6,7 @@ import (
 
 	"github.com/kyleu/pftest/app/lib/database"
 	"github.com/kyleu/pftest/app/lib/filter"
+	"github.com/kyleu/pftest/app/util"
 )
 
 type Service struct {
@@ -16,13 +17,12 @@ type Service struct {
 func NewService(db *database.Service, logger *zap.SugaredLogger) *Service {
 	logger = logger.With("svc", "audit")
 	filter.AllowedColumns["audit"] = columns
+	filter.AllowedColumns["audit_record"] = recordColumns
 	return &Service{db: db, logger: logger}
 }
 
-func filters(orig *filter.Params) *filter.Params {
-	return orig.Sanitize("audit", &filter.Ordering{Column: "started"})
-}
-
-func recordFilters(orig *filter.Params) *filter.Params {
-	return orig.Sanitize("audit_record", &filter.Ordering{Column: "occurred"})
+func Apply(a *Audit, r Records) (*Audit, Records, error) {
+	ret := &Audit{ID: util.UUID()}
+	records := Records{}
+	return ret, records, nil
 }

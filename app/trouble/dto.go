@@ -38,7 +38,14 @@ func (d *dto) ToTrouble() *Trouble {
 	if d == nil {
 		return nil
 	}
-	return &Trouble{From: d.From, Where: d.Where, Selectcol: d.Selectcol, Limit: d.Limit, Group: d.Group, Delete: d.Delete}
+	return &Trouble{
+		From:      d.From,
+		Where:     d.Where,
+		Selectcol: d.Selectcol,
+		Limit:     d.Limit,
+		Group:     d.Group,
+		Delete:    d.Delete,
+	}
 }
 
 type dtos []*dto

@@ -29,7 +29,12 @@ func (d *dto) ToSoftdel() *Softdel {
 	if d == nil {
 		return nil
 	}
-	return &Softdel{ID: d.ID, Created: d.Created, Updated: d.Updated, Deleted: d.Deleted}
+	return &Softdel{
+		ID:      d.ID,
+		Created: d.Created,
+		Updated: d.Updated,
+		Deleted: d.Deleted,
+	}
 }
 
 type dtos []*dto

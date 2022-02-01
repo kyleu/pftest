@@ -34,7 +34,14 @@ func (d *dto) ToGroup() *Group {
 	}
 	dataArg := util.ValueMap{}
 	_ = util.FromJSON(d.Data, &dataArg)
-	return &Group{ID: d.ID, Group: d.Group, Data: dataArg, Created: d.Created, Updated: d.Updated, Deleted: d.Deleted}
+	return &Group{
+		ID:      d.ID,
+		Group:   d.Group,
+		Data:    dataArg,
+		Created: d.Created,
+		Updated: d.Updated,
+		Deleted: d.Deleted,
+	}
 }
 
 type dtos []*dto

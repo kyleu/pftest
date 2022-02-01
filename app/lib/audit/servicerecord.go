@@ -13,7 +13,7 @@ import (
 )
 
 func (s *Service) RecordsForAudit(ctx context.Context, tx *sqlx.Tx, auditID uuid.UUID, params *filter.Params) (Records, error) {
-	params = recordFilters(params)
+	params = params.Sanitize("audit_record", &filter.Ordering{Column: "occurred"})
 	wc := `"audit_id" = $1`
 	q := database.SQLSelect(recordColumnsString, recordTableQuoted, wc, params.OrderByString(), params.Limit, params.Offset)
 	ret := recordDTOs{}

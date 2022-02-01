@@ -41,7 +41,14 @@ func (d *dto) ToVersion() *Version {
 	}
 	varcolArg := util.ValueMap{}
 	_ = util.FromJSON(d.Varcol, &varcolArg)
-	return &Version{ID: d.ID, Revision: d.Revision, Constcol: d.Constcol, Varcol: varcolArg, Created: d.Created, Updated: d.Updated}
+	return &Version{
+		ID:       d.ID,
+		Revision: d.Revision,
+		Constcol: d.Constcol,
+		Varcol:   varcolArg,
+		Created:  d.Created,
+		Updated:  d.Updated,
+	}
 }
 
 type dtos []*dto

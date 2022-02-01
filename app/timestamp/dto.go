@@ -29,7 +29,12 @@ func (d *dto) ToTimestamp() *Timestamp {
 	if d == nil {
 		return nil
 	}
-	return &Timestamp{ID: d.ID, Created: d.Created, Updated: d.Updated, Deleted: d.Deleted}
+	return &Timestamp{
+		ID:      d.ID,
+		Created: d.Created,
+		Updated: d.Updated,
+		Deleted: d.Deleted,
+	}
 }
 
 type dtos []*dto

@@ -37,7 +37,13 @@ func (d *dto) ToCapital() *Capital {
 	if d == nil {
 		return nil
 	}
-	return &Capital{ID: d.ID, Name: d.Name, Birthday: d.Birthday, Version: d.Version, Deathday: d.Deathday}
+	return &Capital{
+		ID:       d.ID,
+		Name:     d.Name,
+		Birthday: d.Birthday,
+		Version:  d.Version,
+		Deathday: d.Deathday,
+	}
 }
 
 type dtos []*dto

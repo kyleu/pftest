@@ -50,7 +50,7 @@ func loadServer(flags *Flags, logger *zap.SugaredLogger) (fasthttp.RequestHandle
 		return nil, logger, err
 	}
 
-	ctx, span := telemetry.StartSpan(context.Background(), util.AppKey, "appinit")
+	ctx, span, logger := telemetry.StartSpan(context.Background(), "app:init", logger)
 	defer span.Complete()
 
 	db, err := database.OpenDefaultPostgres(ctx, logger)

@@ -30,7 +30,11 @@ func (d *dto) ToBasic() *Basic {
 	if d == nil {
 		return nil
 	}
-	return &Basic{ID: d.ID, Name: d.Name, Created: d.Created}
+	return &Basic{
+		ID:      d.ID,
+		Name:    d.Name,
+		Created: d.Created,
+	}
 }
 
 type dtos []*dto

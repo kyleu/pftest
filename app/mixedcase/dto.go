@@ -27,7 +27,11 @@ func (d *dto) ToMixedCase() *MixedCase {
 	if d == nil {
 		return nil
 	}
-	return &MixedCase{ID: d.ID, TestField: d.TestField, AnotherField: d.AnotherField}
+	return &MixedCase{
+		ID:           d.ID,
+		TestField:    d.TestField,
+		AnotherField: d.AnotherField,
+	}
 }
 
 type dtos []*dto
