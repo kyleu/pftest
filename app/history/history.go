@@ -2,7 +2,6 @@
 package history
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/kyleu/pftest/app/util"
@@ -51,7 +50,7 @@ func FromMap(m util.ValueMap, setPK bool) (*History, error) {
 func (h *History) Clone() *History {
 	return &History{
 		ID:      h.ID,
-		Data:    h.Data,
+		Data:    h.Data.Clone(),
 		Created: h.Created,
 		Updated: h.Updated,
 	}
@@ -72,7 +71,7 @@ func (h *History) Diff(hx *History) util.Diffs {
 	}
 	diffs = append(diffs, util.DiffObjects(h.Data, hx.Data, "data")...)
 	if h.Created != hx.Created {
-		diffs = append(diffs, util.NewDiff("created", fmt.Sprint(h.Created), fmt.Sprint(hx.Created)))
+		diffs = append(diffs, util.NewDiff("created", h.Created.String(), hx.Created.String()))
 	}
 	return diffs
 }

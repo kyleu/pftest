@@ -71,7 +71,7 @@ func (s *Softdel) Diff(sx *Softdel) util.Diffs {
 		diffs = append(diffs, util.NewDiff("id", s.ID, sx.ID))
 	}
 	if s.Created != sx.Created {
-		diffs = append(diffs, util.NewDiff("created", fmt.Sprint(s.Created), fmt.Sprint(sx.Created)))
+		diffs = append(diffs, util.NewDiff("created", s.Created.String(), sx.Created.String()))
 	}
 	if s.Deleted != sx.Deleted {
 		diffs = append(diffs, util.NewDiff("deleted", fmt.Sprint(s.Deleted), fmt.Sprint(sx.Deleted)))

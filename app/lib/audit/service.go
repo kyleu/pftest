@@ -2,6 +2,10 @@
 package audit
 
 import (
+	"context"
+	"fmt"
+
+	"github.com/pkg/errors"
 	"go.uber.org/zap"
 
 	"github.com/kyleu/pftest/app/lib/database"
@@ -21,8 +25,33 @@ func NewService(db *database.Service, logger *zap.SugaredLogger) *Service {
 	return &Service{db: db, logger: logger}
 }
 
-func Apply(a *Audit, r Records) (*Audit, Records, error) {
-	ret := &Audit{ID: util.UUID()}
-	records := Records{}
-	return ret, records, nil
+func (s *Service) ApplyObj(ctx context.Context, a *Audit, l interface{}, r interface{}, md util.ValueMap) (*Audit, Records, error) {
+	o := r
+	if o == nil {
+		o = l
+	}
+	d := util.DiffObjects(l, r, "")
+	rec := NewRecord(a.ID, fmt.Sprintf("%T", o), fmt.Sprint(o), d, md)
+	return s.Apply(ctx, a, rec)
+}
+
+func (s *Service) Apply(ctx context.Context, a *Audit, r ...*Record) (*Audit, Records, error) {
+	tx, err := s.db.StartTransaction()
+	defer func() { _ = tx.Rollback() }()
+	if err != nil {
+		return nil, nil, errors.Wrap(err, "unable to start transaction")
+	}
+	err = s.Create(ctx, tx, a)
+	if err != nil {
+		return nil, nil, errors.Wrap(err, "unable to insert audit")
+	}
+	err = s.CreateRecords(ctx, tx, r...)
+	if err != nil {
+		return nil, nil, errors.Wrap(err, "unable to insert audit records")
+	}
+	err = tx.Commit()
+	if err != nil {
+		return nil, nil, errors.Wrap(err, "unable to commit transaction")
+	}
+	return a, r, nil
 }

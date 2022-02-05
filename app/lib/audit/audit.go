@@ -23,8 +23,8 @@ type Audit struct {
 	Completed time.Time     `json:"completed"`
 }
 
-func New(app string, act string, client string, server string, user string, md util.ValueMap, msg string) *Audit {
-	return &Audit{ID: util.UUID(), App: app, Act: act, Client: client, Server: server, User: user, Metadata: md, Message: msg, Started: time.Now()}
+func New(act string, client string, server string, user string, md util.ValueMap, msg string) *Audit {
+	return &Audit{ID: util.UUID(), App: util.AppKey, Act: act, Client: client, Server: server, User: user, Metadata: md, Message: msg, Started: time.Now()}
 }
 
 func Random() *Audit {

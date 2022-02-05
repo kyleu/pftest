@@ -21,6 +21,7 @@ func MenuFor(ctx context.Context, isAuthed bool, isAdmin bool, as *app.State) (m
 	// $PF_INJECT_START(codegen)$
 	ret = append(ret,
 		&menu.Item{Key: "basic", Title: "Basics", Description: "Basic Model", Icon: "star", Route: "/basic"},
+		&menu.Item{Key: "audited", Title: "Auditeds", Description: "Audited Model", Icon: "star", Route: "/audited"},
 		&menu.Item{Key: "timestamp", Title: "Timestamps", Description: "Timestamps", Icon: "star", Route: "/timestamp"},
 		&menu.Item{Key: "version", Title: "Versions", Description: "Versioned table", Icon: "star", Route: "/version"},
 		&menu.Item{Key: "history", Title: "Histories", Description: "History table", Icon: "star", Route: "/history"},

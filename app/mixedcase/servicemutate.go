@@ -25,8 +25,11 @@ func (s *Service) Update(ctx context.Context, tx *sqlx.Tx, model *MixedCase) err
 	q := database.SQLUpdate(tableQuoted, columnsQuoted, "\"id\" = $4", "")
 	data := model.ToData()
 	data = append(data, model.ID)
-	_, ret := s.db.Update(ctx, q, tx, 1, data...)
-	return ret
+	_, err := s.db.Update(ctx, q, tx, 1, data...)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, models ...*MixedCase) error {

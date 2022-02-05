@@ -61,7 +61,7 @@ func (v *Version) Clone() *Version {
 		ID:       v.ID,
 		Revision: v.Revision,
 		Constcol: v.Constcol,
-		Varcol:   v.Varcol,
+		Varcol:   v.Varcol.Clone(),
 		Created:  v.Created,
 		Updated:  v.Updated,
 	}
@@ -88,7 +88,7 @@ func (v *Version) Diff(vx *Version) util.Diffs {
 	}
 	diffs = append(diffs, util.DiffObjects(v.Varcol, vx.Varcol, "varcol")...)
 	if v.Created != vx.Created {
-		diffs = append(diffs, util.NewDiff("created", fmt.Sprint(v.Created), fmt.Sprint(vx.Created)))
+		diffs = append(diffs, util.NewDiff("created", v.Created.String(), vx.Created.String()))
 	}
 	return diffs
 }

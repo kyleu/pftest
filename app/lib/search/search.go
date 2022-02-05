@@ -33,7 +33,18 @@ func Search(ctx context.Context, as *app.State, params *Params) (result.Results,
 		}
 		return res, nil
 	}
-	allProviders = append(allProviders, basicFunc)
+	auditedFunc := func(ctx context.Context, as *app.State, params *Params) (result.Results, error) {
+		models, err := as.Services.Audited.Search(ctx, params.Q, nil, params.PS.Get("audited", nil, as.Logger))
+		if err != nil {
+			return nil, errors.Wrap(err, "")
+		}
+		res := make(result.Results, 0, len(models))
+		for _, m := range models {
+			res = append(res, result.NewResult("audited", m.String(), m.WebPath(), m.String(), "star", m, params.Q))
+		}
+		return res, nil
+	}
+	allProviders = append(allProviders, basicFunc, auditedFunc)
 	// $PF_INJECT_END(codegen)$
 
 	if len(allProviders) == 0 {

@@ -71,7 +71,7 @@ func (t *Timestamp) Diff(tx *Timestamp) util.Diffs {
 		diffs = append(diffs, util.NewDiff("id", t.ID, tx.ID))
 	}
 	if t.Created != tx.Created {
-		diffs = append(diffs, util.NewDiff("created", fmt.Sprint(t.Created), fmt.Sprint(tx.Created)))
+		diffs = append(diffs, util.NewDiff("created", t.Created.String(), tx.Created.String()))
 	}
 	if t.Deleted != tx.Deleted {
 		diffs = append(diffs, util.NewDiff("deleted", fmt.Sprint(t.Deleted), fmt.Sprint(tx.Deleted)))

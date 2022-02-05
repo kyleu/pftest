@@ -45,7 +45,7 @@ func (s *Service) Update(ctx context.Context, tx *sqlx.Tx, model *Version) error
 	model.Revision = revs[model.String()] + 1
 	curr, err := s.Get(ctx, tx, model.ID)
 	if err != nil {
-		return errors.Wrap(err, "can't get original history")
+		return errors.Wrapf(err, "can't get original version [%s]", model.String())
 	}
 	model.Created = curr.Created
 	model.Updated = util.NowPointer()

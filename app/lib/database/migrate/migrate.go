@@ -8,7 +8,6 @@ import (
 	"github.com/pkg/errors"
 	"go.uber.org/zap"
 
-
 	"github.com/kyleu/pftest/app/lib/database"
 	"github.com/kyleu/pftest/app/lib/telemetry"
 	"github.com/kyleu/pftest/app/util"

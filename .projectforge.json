@@ -70,6 +70,28 @@
             ]
           },
           {
+            "name": "audited",
+            "package": "audited",
+            "description": "Audited Model",
+            "icon": "star",
+            "ordering": [{"column": "created"}],
+            "search": ["lower(id::text)", "lower(name)"],
+            "tags": ["audit"],
+            "columns": [
+              {
+                "name": "id",
+                "type": "uuid",
+                "pk": true,
+                "search": true
+              },
+              {
+                "name": "name",
+                "type": "string",
+                "search": true
+              }
+            ]
+          },
+          {
             "name": "timestamp",
             "package": "timestamp",
             "description": "Timestamps",

@@ -33,3 +33,15 @@ func (s *Service) GetRecord(ctx context.Context, tx *sqlx.Tx, id uuid.UUID) (*Re
 	}
 	return ret.ToRecord(), nil
 }
+
+func (s *Service) CreateRecords(ctx context.Context, tx *sqlx.Tx, models ...*Record) error {
+	if len(models) == 0 {
+		return nil
+	}
+	q := database.SQLInsert(recordTableQuoted, recordColumnsQuoted, len(models), "")
+	vals := make([]interface{}, 0, len(models)*len(recordColumnsQuoted))
+	for _, arg := range models {
+		vals = append(vals, arg.ToData()...)
+	}
+	return s.db.Insert(ctx, q, tx, vals...)
+}

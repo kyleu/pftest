@@ -64,7 +64,7 @@ func (g *Group) Clone() *Group {
 	return &Group{
 		ID:      g.ID,
 		Group:   g.Group,
-		Data:    g.Data,
+		Data:    g.Data.Clone(),
 		Created: g.Created,
 		Updated: g.Updated,
 		Deleted: g.Deleted,
@@ -89,7 +89,7 @@ func (g *Group) Diff(gx *Group) util.Diffs {
 	}
 	diffs = append(diffs, util.DiffObjects(g.Data, gx.Data, "data")...)
 	if g.Created != gx.Created {
-		diffs = append(diffs, util.NewDiff("created", fmt.Sprint(g.Created), fmt.Sprint(gx.Created)))
+		diffs = append(diffs, util.NewDiff("created", g.Created.String(), gx.Created.String()))
 	}
 	if g.Deleted != gx.Deleted {
 		diffs = append(diffs, util.NewDiff("deleted", fmt.Sprint(g.Deleted), fmt.Sprint(gx.Deleted)))

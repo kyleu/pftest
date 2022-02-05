@@ -1,0 +1,27 @@
+<!-- Content managed by Project Forge, see [projectforge.md] for details. -->
+{% import (
+  "github.com/kyleu/pftest/app"
+  "github.com/kyleu/pftest/app/audited"
+  "github.com/kyleu/pftest/app/controller/cutil"
+  "github.com/kyleu/pftest/app/lib/filter"
+  "github.com/kyleu/pftest/views/components"
+  "github.com/kyleu/pftest/views/layout"
+) %}
+
+{% code type List struct {
+  layout.Basic
+  Models audited.Auditeds
+  Params filter.ParamSet
+} %}
+
+{% func (p *List) Body(as *app.State, ps *cutil.PageState) %}
+  <div class="card">
+    <div class="right"><a href="/audited/new"><button>New</button></a></div>
+    <h3>{%= components.SVGRefIcon(`star`, ps) %} Auditeds</h3>
+    {%- if len(p.Models) == 0 -%}
+    <div class="mt"><em>No auditeds available</em></div>
+    {%- else -%}
+    {%= Table(p.Models, p.Params, as, ps) %}
+    {%- endif -%}
+  </div>
+{% endfunc %}

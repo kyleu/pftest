@@ -2,7 +2,6 @@
 package basic
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/google/uuid"
@@ -76,7 +75,7 @@ func (b *Basic) Diff(bx *Basic) util.Diffs {
 		diffs = append(diffs, util.NewDiff("name", b.Name, bx.Name))
 	}
 	if b.Created != bx.Created {
-		diffs = append(diffs, util.NewDiff("created", fmt.Sprint(b.Created), fmt.Sprint(bx.Created)))
+		diffs = append(diffs, util.NewDiff("created", b.Created.String(), bx.Created.String()))
 	}
 	return diffs
 }

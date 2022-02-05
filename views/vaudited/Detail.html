@@ -1,0 +1,38 @@
+<!-- Content managed by Project Forge, see [projectforge.md] for details. -->
+{% import (
+  "github.com/kyleu/pftest/app"
+  "github.com/kyleu/pftest/app/audited"
+  "github.com/kyleu/pftest/app/controller/cutil"
+  "github.com/kyleu/pftest/views/components"
+  "github.com/kyleu/pftest/views/layout"
+) %}
+
+{% code type Detail struct {
+  layout.Basic
+  Model *audited.Audited
+} %}
+
+{% func (p *Detail) Body(as *app.State, ps *cutil.PageState) %}
+  <div class="card">
+    <div class="right">
+      <a href="#modal-audited"><button type="button">JSON</button></a>
+      <a href="{%s p.Model.WebPath() %}/edit"><button>Edit</button></a>
+    </div>
+    <h3>{%= components.SVGRefIcon(`star`, ps) %} Audited [{%s p.Model.String() %}]</h3>
+    <table class="mt">
+      <tbody>
+        <tr>
+          <th class="shrink" title="UUID in format (00000000-0000-0000-0000-000000000000)">ID</th>
+          <td>{%= components.DisplayUUID(&p.Model.ID) %}</td>
+        </tr>
+        <tr>
+          <th class="shrink" title="String text">Name</th>
+          <td>{%s p.Model.Name %}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  {%- comment %}$PF_SECTION_START(extra)${% endcomment -%}
+  {%- comment %}$PF_SECTION_END(extra)${% endcomment -%}
+  {%= components.JSONModal("audited", "Audited JSON", p.Model, 1) %}
+{% endfunc %}

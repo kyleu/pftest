@@ -88,7 +88,7 @@ func (c *Capital) Diff(cx *Capital) util.Diffs {
 		diffs = append(diffs, util.NewDiff("name", c.Name, cx.Name))
 	}
 	if c.Birthday != cx.Birthday {
-		diffs = append(diffs, util.NewDiff("birthday", fmt.Sprint(c.Birthday), fmt.Sprint(cx.Birthday)))
+		diffs = append(diffs, util.NewDiff("birthday", c.Birthday.String(), cx.Birthday.String()))
 	}
 	if c.Version != cx.Version {
 		diffs = append(diffs, util.NewDiff("version", fmt.Sprint(c.Version), fmt.Sprint(cx.Version)))
