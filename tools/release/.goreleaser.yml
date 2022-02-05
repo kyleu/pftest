@@ -25,7 +25,7 @@ brews:
     description: "This app is pretty much totally generated via Project Forge"
     license: "CC0"
     skip_upload: "false"
-    install: "bin.install \"program\""
+    install: "bin.install \"pftest\""
 
 changelog:
   skip: true
