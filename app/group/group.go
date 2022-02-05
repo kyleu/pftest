@@ -92,7 +92,7 @@ func (g *Group) Diff(gx *Group) util.Diffs {
 		diffs = append(diffs, util.NewDiff("created", g.Created.String(), gx.Created.String()))
 	}
 	if g.Deleted != gx.Deleted {
-		diffs = append(diffs, util.NewDiff("deleted", fmt.Sprint(g.Deleted), fmt.Sprint(gx.Deleted)))
+		diffs = append(diffs, util.NewDiff("deleted", fmt.Sprint(g.Deleted), fmt.Sprint(gx.Deleted))) // nolint:gocritic // it's nullable
 	}
 	return diffs
 }

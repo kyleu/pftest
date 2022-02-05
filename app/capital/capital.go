@@ -94,7 +94,7 @@ func (c *Capital) Diff(cx *Capital) util.Diffs {
 		diffs = append(diffs, util.NewDiff("version", fmt.Sprint(c.Version), fmt.Sprint(cx.Version)))
 	}
 	if c.Deathday != cx.Deathday {
-		diffs = append(diffs, util.NewDiff("deathday", fmt.Sprint(c.Deathday), fmt.Sprint(cx.Deathday)))
+		diffs = append(diffs, util.NewDiff("deathday", fmt.Sprint(c.Deathday), fmt.Sprint(cx.Deathday))) // nolint:gocritic // it's nullable
 	}
 	return diffs
 }

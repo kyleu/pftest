@@ -48,8 +48,8 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, models ...*Basic) error
 		return nil
 	}
 	for _, model := range models {
-		curr, err := s.Get(ctx, tx, model.ID)
-		if err == nil && curr != nil {
+		curr, e := s.Get(ctx, tx, model.ID)
+		if e == nil && curr != nil {
 			model.Created = curr.Created
 		} else {
 			model.Created = time.Now()

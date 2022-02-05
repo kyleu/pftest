@@ -50,8 +50,8 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, models ...*Timestamp) e
 		return nil
 	}
 	for _, model := range models {
-		curr, err := s.Get(ctx, tx, model.ID, true)
-		if err == nil && curr != nil {
+		curr, e := s.Get(ctx, tx, model.ID, true)
+		if e == nil && curr != nil {
 			model.Created = curr.Created
 		} else {
 			model.Created = time.Now()

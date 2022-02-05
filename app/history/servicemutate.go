@@ -36,9 +36,9 @@ func (s *Service) Update(ctx context.Context, tx *sqlx.Tx, model *History) error
 	model.Created = curr.Created
 	model.Updated = util.NowPointer()
 
-	_, err = s.SaveHistory(ctx, tx, curr, model)
-	if err != nil {
-		return errors.Wrap(err, "unable to save history")
+	_, hErr := s.SaveHistory(ctx, tx, curr, model)
+	if hErr != nil {
+		return errors.Wrap(hErr, "unable to save history")
 	}
 	q := database.SQLUpdate(tableQuoted, columnsQuoted, "\"id\" = $5", "")
 	data := model.ToData()
@@ -55,17 +55,17 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, models ...*History) err
 		return nil
 	}
 	for _, model := range models {
-		curr, err := s.Get(ctx, tx, model.ID)
-		if err == nil && curr != nil {
+		curr, e := s.Get(ctx, tx, model.ID)
+		if e == nil && curr != nil {
 			model.Created = curr.Created
 		} else {
 			model.Created = time.Now()
 		}
 		model.Updated = util.NowPointer()
 
-		_, err = s.SaveHistory(ctx, tx, curr, model)
-		if err != nil {
-			return errors.Wrap(err, "unable to save history")
+		_, hErr := s.SaveHistory(ctx, tx, curr, model)
+		if hErr != nil {
+			return errors.Wrap(hErr, "unable to save history")
 		}
 	}
 	q := database.SQLUpsert(tableQuoted, columnsQuoted, len(models), []string{"id"}, columns, "")

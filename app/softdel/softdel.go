@@ -74,7 +74,7 @@ func (s *Softdel) Diff(sx *Softdel) util.Diffs {
 		diffs = append(diffs, util.NewDiff("created", s.Created.String(), sx.Created.String()))
 	}
 	if s.Deleted != sx.Deleted {
-		diffs = append(diffs, util.NewDiff("deleted", fmt.Sprint(s.Deleted), fmt.Sprint(sx.Deleted)))
+		diffs = append(diffs, util.NewDiff("deleted", fmt.Sprint(s.Deleted), fmt.Sprint(sx.Deleted))) // nolint:gocritic // it's nullable
 	}
 	return diffs
 }

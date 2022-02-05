@@ -2,6 +2,7 @@
 package util
 
 const (
+	BoolTrue   = "true"
 	AppKey     = "pftest"
 	AppName    = "Test Project"
 	AppSummary = "A Test application, built with Project Forge"
