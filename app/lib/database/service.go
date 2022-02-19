@@ -31,19 +31,24 @@ type Service struct {
 	DatabaseName string  `json:"database,omitempty"`
 	SchemaName   string  `json:"schema,omitempty"`
 	Username     string  `json:"username,omitempty"`
+	Debug        bool    `json:"debug,omitempty"`
 	Type         *DBType `json:"type"`
 	db           *sqlx.DB
 	metrics      *dbmetrics.Metrics
 	logger       *zap.SugaredLogger
 }
 
-func NewService(typ *DBType, key string, dbName string, schName string, username string, db *sqlx.DB, logger *zap.SugaredLogger) (*Service, error) {
+func NewService(typ *DBType, key string, dbName string, schName string, username string, debug bool, db *sqlx.DB, logger *zap.SugaredLogger) (*Service, error) {
+	if logger == nil {
+		return nil, errors.New("logger must be provided to database service")
+	}
+	logger = logger.With("database", dbName, "user", username)
 	m, err := dbmetrics.NewMetrics(key, db)
 	if err != nil {
-		logger.Warnf("unable to register database metrics for [%s]: %+v", key, err)
+		logger.Warnf(fmt.Sprintf("unable to register database metrics for [%s]: %+v", key, err))
 	}
 
-	ret := &Service{Key: key, DatabaseName: dbName, SchemaName: schName, Username: username, Type: typ, db: db, metrics: m, logger: logger}
+	ret := &Service{Key: key, DatabaseName: dbName, SchemaName: schName, Username: username, Debug: debug, Type: typ, db: db, metrics: m, logger: logger}
 	err = ret.Healthcheck(db)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to run healthcheck")
@@ -52,7 +57,8 @@ func NewService(typ *DBType, key string, dbName string, schName string, username
 }
 
 func (s *Service) Healthcheck(db *sqlx.DB) error {
-	res, err := db.Query(queries.Healthcheck())
+	q := queries.Healthcheck()
+	res, err := db.Query(q)
 	if err != nil || res.Err() != nil {
 		if err == nil {
 			err = res.Err()
@@ -60,15 +66,15 @@ func (s *Service) Healthcheck(db *sqlx.DB) error {
 		if strings.Contains(err.Error(), "does not exist") {
 			return errors.Wrapf(err, "database does not exist; run the following:\n"+schema.CreateDatabase())
 		}
-		return errors.Wrapf(err, "unable to run healthcheck [%s]", queries.Healthcheck())
+		return errors.Wrapf(err, "unable to run healthcheck [%s]", q)
 	}
 	defer func() { _ = res.Close() }()
 	return nil
 }
 
 func (s *Service) StartTransaction() (*sqlx.Tx, error) {
-	if s.logger != nil {
-		s.logger.Info("opening transaction")
+	if s.Debug {
+		s.logger.Debug("opening transaction")
 	}
 	return s.db.Beginx()
 }
@@ -86,8 +92,8 @@ func errMessage(t string, q string, values []interface{}) string {
 }
 
 func (s *Service) logQuery(msg string, q string, values []interface{}) {
-	if s.logger != nil {
-		s.logger.Infof("%s {\n  SQL: %s\n  Values: %s\n}", msg, strings.TrimSpace(q), valueStrings(values))
+	if s.Debug {
+		s.logger.Debugf("%s {\n  SQL: %s\n  Values: %s\n}", msg, strings.TrimSpace(q), valueStrings(values))
 	}
 }
 
