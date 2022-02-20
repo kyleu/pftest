@@ -7,6 +7,7 @@ import (
 	"github.com/kyleu/pftest/app"
 	"github.com/kyleu/pftest/app/controller/cutil"
 	"github.com/kyleu/pftest/app/lib/user"
+	"github.com/kyleu/pftest/app/util"
 	"github.com/kyleu/pftest/views/verror"
 )
 
@@ -25,8 +26,10 @@ func NotFound(rc *fasthttp.RequestCtx) {
 		if ps.Title == "" {
 			ps.Title = "Page not found"
 		}
+		bc := util.StringSplitAndTrim(string(rc.URI().Path()), "/")
+		bc = append(bc, "Not Found")
 		ps.Data = ps.Title
-		return render(rc, as, &verror.NotFound{Path: path}, ps, "Not Found")
+		return render(rc, as, &verror.NotFound{Path: path}, ps, bc...)
 	})
 }
 
@@ -40,7 +43,9 @@ func Unauthorized(rc *fasthttp.RequestCtx, reason string, accounts user.Accounts
 		if ps.Title == "" {
 			ps.Title = "Unauthorized"
 		}
+		bc := util.StringSplitAndTrim(string(rc.URI().Path()), "/")
+		bc = append(bc, "Unauthorized")
 		ps.Data = ps.Title
-		return render(rc, as, &verror.Unauthorized{Path: path, Message: reason, Accounts: accounts}, ps, "Unauthorized")
+		return render(rc, as, &verror.Unauthorized{Path: path, Message: reason, Accounts: accounts}, ps, bc...)
 	}
 }
