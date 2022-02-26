@@ -24,7 +24,7 @@
     <h3>{%= components.SVGRefIcon(`star`, ps) %} Edit Timestamp [{%s p.Model.String() %}]</h3>
     <form action="" class="mt" method="post">
     {%- endif -%}
-      <table class="mt">
+      <table class="mt expanded">
         <tbody>
           {% if p.IsNew %}{%= components.TableInput("id", "ID", p.Model.ID, 5, "String text") %}{% endif %}
           {%= components.TableInputTimestamp("deleted", "Deleted", p.Model.Deleted, 5, "Date and time, in almost any format (optional)") %}
