@@ -21,6 +21,8 @@ EXPOSE 41000
 # marketing port
 EXPOSE 41001
 
+WORKDIR /
+
 ENTRYPOINT ["/pftest", "-a", "0.0.0.0"]
 
 COPY pftest /

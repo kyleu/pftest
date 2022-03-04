@@ -24,7 +24,7 @@
       {%- for _, model := range models -%}
       <tr>
         <td><a href="/group/{%s model.ID %}">{%s model.ID %}</a></td>
-        <td>{%s model.Group %}</td>
+        <td><a href="/group/group/{%s model.Group %}">{%s model.Group %}</a></td>
         <td>{%= components.JSON(model.Data) %}</td>
         <td>{%= components.DisplayTimestamp(&model.Created) %}</td>
         <td>{%= components.DisplayTimestamp(model.Updated) %}</td>
