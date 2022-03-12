@@ -2,6 +2,8 @@
 package site
 
 import (
+	"fmt"
+
 	"github.com/valyala/fasthttp"
 
 	"github.com/kyleu/pftest/app"
@@ -22,6 +24,12 @@ func Handle(path []string, rc *fasthttp.RequestCtx, as *app.State, ps *cutil.Pag
 	var page layout.Page
 	var err error
 	switch path[0] {
+	case util.AppKey:
+		msg := "\n  " +
+			"<meta name=\"go-import\" content=\"github.com/kyleu/pftest git %s\">\n  " +
+			"<meta name=\"go-source\" content=\"github.com/kyleu/pftest %s %s/tree/master{/dir} %s/blob/master{/dir}/{file}#L{line}\">"
+		ps.HeaderContent = fmt.Sprintf(msg, util.AppSource, util.AppSource, util.AppSource, util.AppSource)
+		return "", &vsite.GoSource{}, path, nil
 	case keyDownload:
 		dls := download.GetLinks(as.BuildInfo.Version)
 		ps.Data = map[string]interface{}{"base": "https://github.com/kyleu/pftest/releases/download/v" + as.BuildInfo.Version, "links": dls}

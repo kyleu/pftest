@@ -19,7 +19,8 @@ func VersionList(rc *fasthttp.RequestCtx) {
 	act("version.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ps.Title = versionDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
-		ret, err := as.Services.Version.List(ps.Context, nil, params.Get("version", nil, ps.Logger))
+		prms := params.Get("version", nil, ps.Logger)
+		ret, err := as.Services.Version.List(ps.Context, nil, prms)
 		if err != nil {
 			return "", err
 		}
@@ -41,7 +42,11 @@ func VersionDetail(rc *fasthttp.RequestCtx) {
 		}
 		ps.Title = ret.String()
 		ps.Data = ret
-		return render(rc, as, &vversion.Detail{Model: ret, Revisions: revisions}, ps, "version", ret.String())
+		return render(rc, as, &vversion.Detail{
+			Model:     ret,
+			Params:    params,
+			Revisions: revisions,
+		}, ps, "version", ret.String())
 	})
 }
 

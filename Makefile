@@ -16,11 +16,11 @@ templates:
 
 .PHONY: build
 build: templates ## Build all binaries
-	@go build -gcflags "all=-N -l" -o build/debug/ .
+	@go build -gcflags "all=-N -l" -o build/debug/pftest .
 
 .PHONY: build-release
 build-release: templates ## Build all binaries without debug information, clean up after
-	@go build -ldflags '-s -w' -trimpath -o build/release/ .
+	@go build -ldflags '-s -w' -trimpath -o build/release/pftest .
 
 .PHONY: lint
 lint: ## Run linter

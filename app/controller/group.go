@@ -19,7 +19,8 @@ func GroupList(rc *fasthttp.RequestCtx) {
 	act("group.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ps.Title = groupDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
-		ret, err := as.Services.Group.List(ps.Context, nil, params.Get("group", nil, ps.Logger))
+		prms := params.Get("group", nil, ps.Logger)
+		ret, err := as.Services.Group.List(ps.Context, nil, prms)
 		if err != nil {
 			return "", err
 		}

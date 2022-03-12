@@ -20,7 +20,8 @@ func AuditedList(rc *fasthttp.RequestCtx) {
 	act("audited.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ps.Title = auditedDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
-		ret, err := as.Services.Audited.List(ps.Context, nil, params.Get("audited", nil, ps.Logger))
+		prms := params.Get("audited", nil, ps.Logger)
+		ret, err := as.Services.Audited.List(ps.Context, nil, prms)
 		if err != nil {
 			return "", err
 		}

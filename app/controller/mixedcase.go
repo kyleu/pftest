@@ -19,7 +19,8 @@ func MixedCaseList(rc *fasthttp.RequestCtx) {
 	act("mixedcase.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ps.Title = mixedCaseDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
-		ret, err := as.Services.MixedCase.List(ps.Context, nil, params.Get("mixedcase", nil, ps.Logger))
+		prms := params.Get("mixedcase", nil, ps.Logger)
+		ret, err := as.Services.MixedCase.List(ps.Context, nil, prms)
 		if err != nil {
 			return "", err
 		}

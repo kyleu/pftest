@@ -1,5 +1,5 @@
 // Content managed by Project Forge, see [projectforge.md] for details.
-package main
+package main // import github.com/kyleu/pftest
 
 import (
 	"os"

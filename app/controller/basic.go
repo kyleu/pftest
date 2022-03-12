@@ -20,7 +20,8 @@ func BasicList(rc *fasthttp.RequestCtx) {
 	act("basic.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ps.Title = basicDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
-		ret, err := as.Services.Basic.List(ps.Context, nil, params.Get("basic", nil, ps.Logger))
+		prms := params.Get("basic", nil, ps.Logger)
+		ret, err := as.Services.Basic.List(ps.Context, nil, prms)
 		if err != nil {
 			return "", err
 		}

@@ -33,7 +33,8 @@ func GroupListByGroup(rc *fasthttp.RequestCtx) {
 		}
 		ps.Title = groupDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
-		ret, err := as.Services.Group.GetByGroup(ps.Context, nil, groupArg, params.Get("group", nil, ps.Logger))
+		prms := params.Get("group", nil, ps.Logger)
+		ret, err := as.Services.Group.GetByGroup(ps.Context, nil, groupArg, prms)
 		if err != nil {
 			return "", err
 		}

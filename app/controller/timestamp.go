@@ -19,7 +19,8 @@ func TimestampList(rc *fasthttp.RequestCtx) {
 	act("timestamp.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ps.Title = timestampDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
-		ret, err := as.Services.Timestamp.List(ps.Context, nil, params.Get("timestamp", nil, ps.Logger), cutil.RequestCtxBool(rc, "includeDeleted"))
+		prms := params.Get("timestamp", nil, ps.Logger)
+		ret, err := as.Services.Timestamp.List(ps.Context, nil, prms, cutil.RequestCtxBool(rc, "includeDeleted"))
 		if err != nil {
 			return "", err
 		}

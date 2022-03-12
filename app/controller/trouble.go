@@ -20,7 +20,8 @@ func TroubleList(rc *fasthttp.RequestCtx) {
 	act("trouble.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ps.Title = troubleDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
-		ret, err := as.Services.Trouble.List(ps.Context, nil, params.Get("trouble", nil, ps.Logger), cutil.RequestCtxBool(rc, "includeDeleted"))
+		prms := params.Get("trouble", nil, ps.Logger)
+		ret, err := as.Services.Trouble.List(ps.Context, nil, prms, cutil.RequestCtxBool(rc, "includeDeleted"))
 		if err != nil {
 			return "", err
 		}
@@ -42,7 +43,11 @@ func TroubleDetail(rc *fasthttp.RequestCtx) {
 		}
 		ps.Title = ret.String()
 		ps.Data = ret
-		return render(rc, as, &vtrouble.Detail{Model: ret, Selectcols: selectcols}, ps, "trouble", ret.String())
+		return render(rc, as, &vtrouble.Detail{
+			Model:      ret,
+			Params:     params,
+			Selectcols: selectcols,
+		}, ps, "trouble", ret.String())
 	})
 }
 
