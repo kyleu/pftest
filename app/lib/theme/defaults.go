@@ -2,16 +2,16 @@
 package theme
 
 import (
-	"os"
+	"github.com/kyleu/pftest/app/util"
 )
 
 var ThemeDefault = func() *Theme {
 	nbl := "#beb1d7"
-	if o := os.Getenv("app_nav_color_light"); o != "" {
+	if o := util.GetEnv("app_nav_color_light"); o != "" {
 		nbl = o
 	}
 	nbd := "#3f384e"
-	if o := os.Getenv("app_nav_color_dark"); o != "" {
+	if o := util.GetEnv("app_nav_color_dark"); o != "" {
 		nbd = o
 	}
 
