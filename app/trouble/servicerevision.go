@@ -45,7 +45,7 @@ func (s *Service) getCurrentSelectcols(ctx context.Context, tx *sqlx.Tx, models 
 		stmts = append(stmts, fmt.Sprintf(`"from" = $%d and "where" = $%d`, (i*2)+1, (i*2)+2))
 	}
 	q := database.SQLSelectSimple(`"from", "where", "current_selectcol"`, tableQuoted, strings.Join(stmts, " or "))
-	vals := make([]interface{}, 0, len(models))
+	vals := make([]any, 0, len(models))
 	for _, model := range models {
 		vals = append(vals, model.From, model.Where)
 	}

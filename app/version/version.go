@@ -93,16 +93,16 @@ func (v *Version) Diff(vx *Version) util.Diffs {
 	return diffs
 }
 
-func (v *Version) ToData() []interface{} {
-	return []interface{}{v.ID, v.Revision, v.Constcol, v.Varcol, v.Created, v.Updated}
+func (v *Version) ToData() []any {
+	return []any{v.ID, v.Revision, v.Constcol, v.Varcol, v.Created, v.Updated}
 }
 
-func (v *Version) ToDataCore() []interface{} {
-	return []interface{}{v.ID, v.Revision, v.Constcol, v.Updated}
+func (v *Version) ToDataCore() []any {
+	return []any{v.ID, v.Revision, v.Constcol, v.Updated}
 }
 
-func (v *Version) ToDataRevision() []interface{} {
-	return []interface{}{v.ID, v.Revision, v.Varcol, v.Created}
+func (v *Version) ToDataRevision() []any {
+	return []any{v.ID, v.Revision, v.Varcol, v.Created}
 }
 
 type Versions []*Version

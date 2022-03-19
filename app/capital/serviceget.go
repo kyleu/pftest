@@ -33,3 +33,21 @@ func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, id string) (*Capital, er
 	}
 	return ret.ToCapital(), nil
 }
+
+func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, IDs ...string) (Capitals, error) {
+	if len(IDs) == 0 {
+		return Capitals{}, nil
+	}
+	wc := database.SQLInClause("ID", len(IDs), 0)
+	ret := dtos{}
+	q := database.SQLSelectSimple(columnsString, tableQuoted, wc)
+	vals := make([]any, 0, len(IDs))
+	for _, x := range IDs {
+		vals = append(vals, x)
+	}
+	err := s.db.Select(ctx, &ret, q, tx, vals...)
+	if err != nil {
+		return nil, errors.Wrapf(err, "unable to get Capitals for [%d] IDs", len(IDs))
+	}
+	return ret.ToCapitals(), nil
+}

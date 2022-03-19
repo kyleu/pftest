@@ -35,6 +35,24 @@ func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, id string) (*Group, erro
 	return ret.ToGroup(), nil
 }
 
+func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, ids ...string) (Groups, error) {
+	if len(ids) == 0 {
+		return Groups{}, nil
+	}
+	wc := database.SQLInClause("id", len(ids), 0)
+	ret := dtos{}
+	q := database.SQLSelectSimple(columnsString, tableQuoted, wc)
+	vals := make([]any, 0, len(ids))
+	for _, x := range ids {
+		vals = append(vals, x)
+	}
+	err := s.db.Select(ctx, &ret, q, tx, vals...)
+	if err != nil {
+		return nil, errors.Wrapf(err, "unable to get Groups for [%d] ids", len(ids))
+	}
+	return ret.ToGroups(), nil
+}
+
 func (s *Service) GetGroups(ctx context.Context, tx *sqlx.Tx) ([]*util.KeyValInt, error) {
 	wc := ""
 	q := database.SQLSelectGrouped("\"group\" as key, count(*) as val", tableQuoted, wc, "\"group\"", "\"group\"", 0, 0)

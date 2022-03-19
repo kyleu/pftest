@@ -106,16 +106,16 @@ func (t *Trouble) Diff(tx *Trouble) util.Diffs {
 	return diffs
 }
 
-func (t *Trouble) ToData() []interface{} {
-	return []interface{}{t.From, t.Where, t.Selectcol, t.Limit, t.Group, t.Delete}
+func (t *Trouble) ToData() []any {
+	return []any{t.From, t.Where, t.Selectcol, t.Limit, t.Group, t.Delete}
 }
 
-func (t *Trouble) ToDataCore() []interface{} {
-	return []interface{}{t.From, t.Where, t.Selectcol, t.Limit, t.Delete}
+func (t *Trouble) ToDataCore() []any {
+	return []any{t.From, t.Where, t.Selectcol, t.Limit, t.Delete}
 }
 
-func (t *Trouble) ToDataSelectcol() []interface{} {
-	return []interface{}{t.From, t.Where, t.Selectcol, t.Group}
+func (t *Trouble) ToDataSelectcol() []any {
+	return []any{t.From, t.Where, t.Selectcol, t.Group}
 }
 
 type Troubles []*Trouble

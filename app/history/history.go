@@ -76,8 +76,8 @@ func (h *History) Diff(hx *History) util.Diffs {
 	return diffs
 }
 
-func (h *History) ToData() []interface{} {
-	return []interface{}{h.ID, h.Data, h.Created, h.Updated}
+func (h *History) ToData() []any {
+	return []any{h.ID, h.Data, h.Created, h.Updated}
 }
 
 type Histories []*History

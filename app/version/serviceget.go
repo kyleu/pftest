@@ -33,3 +33,21 @@ func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, id string) (*Version, er
 	}
 	return ret.ToVersion(), nil
 }
+
+func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, ids ...string) (Versions, error) {
+	if len(ids) == 0 {
+		return Versions{}, nil
+	}
+	wc := database.SQLInClause("id", len(ids), 0)
+	ret := dtos{}
+	q := database.SQLSelectSimple(columnsString, tableQuoted, wc)
+	vals := make([]any, 0, len(ids))
+	for _, x := range ids {
+		vals = append(vals, x)
+	}
+	err := s.db.Select(ctx, &ret, q, tx, vals...)
+	if err != nil {
+		return nil, errors.Wrapf(err, "unable to get Versions for [%d] ids", len(ids))
+	}
+	return ret.ToVersions(), nil
+}

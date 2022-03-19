@@ -78,7 +78,7 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, models ...*Trouble) err
 func (s *Service) upsertCore(ctx context.Context, tx *sqlx.Tx, models ...*Trouble) error {
 	conflicts := util.StringArrayQuoted([]string{"from", "where"})
 	q := database.SQLUpsert(tableQuoted, columnsCore, len(models), conflicts, columnsCore, "")
-	data := make([]interface{}, 0, len(columnsCore)*len(models))
+	data := make([]any, 0, len(columnsCore)*len(models))
 	for _, model := range models {
 		data = append(data, model.ToDataCore()...)
 	}
@@ -88,7 +88,7 @@ func (s *Service) upsertCore(ctx context.Context, tx *sqlx.Tx, models ...*Troubl
 
 func (s *Service) insertSelectcol(ctx context.Context, tx *sqlx.Tx, models ...*Trouble) error {
 	q := database.SQLInsert(tableSelectcolQuoted, columnsSelectcol, len(models), "")
-	data := make([]interface{}, 0, len(columnsSelectcol)*len(models))
+	data := make([]any, 0, len(columnsSelectcol)*len(models))
 	for _, model := range models {
 		data = append(data, model.ToDataSelectcol()...)
 	}

@@ -79,8 +79,8 @@ func (t *Timestamp) Diff(tx *Timestamp) util.Diffs {
 	return diffs
 }
 
-func (t *Timestamp) ToData() []interface{} {
-	return []interface{}{t.ID, t.Created, t.Updated, t.Deleted}
+func (t *Timestamp) ToData() []any {
+	return []any{t.ID, t.Created, t.Updated, t.Deleted}
 }
 
 type Timestamps []*Timestamp

@@ -75,8 +75,8 @@ func (m *MixedCase) Diff(mx *MixedCase) util.Diffs {
 	return diffs
 }
 
-func (m *MixedCase) ToData() []interface{} {
-	return []interface{}{m.ID, m.TestField, m.AnotherField}
+func (m *MixedCase) ToData() []any {
+	return []any{m.ID, m.TestField, m.AnotherField}
 }
 
 type MixedCases []*MixedCase

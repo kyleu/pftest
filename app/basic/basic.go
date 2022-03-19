@@ -80,8 +80,8 @@ func (b *Basic) Diff(bx *Basic) util.Diffs {
 	return diffs
 }
 
-func (b *Basic) ToData() []interface{} {
-	return []interface{}{b.ID, b.Name, b.Created}
+func (b *Basic) ToData() []any {
+	return []any{b.ID, b.Name, b.Created}
 }
 
 type Basics []*Basic

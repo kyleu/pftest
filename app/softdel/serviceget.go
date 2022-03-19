@@ -37,3 +37,21 @@ func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, id string, includeDelete
 	}
 	return ret.ToSoftdel(), nil
 }
+
+func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, includeDeleted bool, ids ...string) (Softdels, error) {
+	if len(ids) == 0 {
+		return Softdels{}, nil
+	}
+	wc := database.SQLInClause("id", len(ids), 0)
+	ret := dtos{}
+	q := database.SQLSelectSimple(columnsString, tableQuoted, wc)
+	vals := make([]any, 0, len(ids))
+	for _, x := range ids {
+		vals = append(vals, x)
+	}
+	err := s.db.Select(ctx, &ret, q, tx, vals...)
+	if err != nil {
+		return nil, errors.Wrapf(err, "unable to get Softdels for [%d] ids", len(ids))
+	}
+	return ret.ToSoftdels(), nil
+}

@@ -19,8 +19,8 @@ type HistoryHistory struct {
 	Created   time.Time     `json:"created"`
 }
 
-func (h *HistoryHistory) ToData() []interface{} {
-	return []interface{}{
+func (h *HistoryHistory) ToData() []any {
+	return []any{
 		h.ID,
 		h.HistoryID,
 		util.ToJSONBytes(h.Old, true),

@@ -72,8 +72,8 @@ func (a *Audited) Diff(ax *Audited) util.Diffs {
 	return diffs
 }
 
-func (a *Audited) ToData() []interface{} {
-	return []interface{}{a.ID, a.Name}
+func (a *Audited) ToData() []any {
+	return []any{a.ID, a.Name}
 }
 
 type Auditeds []*Audited

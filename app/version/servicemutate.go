@@ -94,7 +94,7 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, models ...*Version) err
 func (s *Service) upsertCore(ctx context.Context, tx *sqlx.Tx, models ...*Version) error {
 	conflicts := util.StringArrayQuoted([]string{"id"})
 	q := database.SQLUpsert(tableQuoted, columnsCore, len(models), conflicts, columnsCore, "")
-	data := make([]interface{}, 0, len(columnsCore)*len(models))
+	data := make([]any, 0, len(columnsCore)*len(models))
 	for _, model := range models {
 		data = append(data, model.ToDataCore()...)
 	}
@@ -104,7 +104,7 @@ func (s *Service) upsertCore(ctx context.Context, tx *sqlx.Tx, models ...*Versio
 
 func (s *Service) insertRevision(ctx context.Context, tx *sqlx.Tx, models ...*Version) error {
 	q := database.SQLInsert(tableRevisionQuoted, columnsRevision, len(models), "")
-	data := make([]interface{}, 0, len(columnsRevision)*len(models))
+	data := make([]any, 0, len(columnsRevision)*len(models))
 	for _, model := range models {
 		data = append(data, model.ToDataRevision()...)
 	}

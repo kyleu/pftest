@@ -97,8 +97,8 @@ func (g *Group) Diff(gx *Group) util.Diffs {
 	return diffs
 }
 
-func (g *Group) ToData() []interface{} {
-	return []interface{}{g.ID, g.Group, g.Data, g.Created, g.Updated, g.Deleted}
+func (g *Group) ToData() []any {
+	return []any{g.ID, g.Group, g.Data, g.Created, g.Updated, g.Deleted}
 }
 
 type Groups []*Group

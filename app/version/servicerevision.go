@@ -44,7 +44,7 @@ func (s *Service) getCurrentRevisions(ctx context.Context, tx *sqlx.Tx, models .
 		stmts = append(stmts, fmt.Sprintf(`"id" = $%d`, i+1))
 	}
 	q := database.SQLSelectSimple(`"id", "current_revision"`, tableQuoted, strings.Join(stmts, " or "))
-	vals := make([]interface{}, 0, len(models))
+	vals := make([]any, 0, len(models))
 	for _, model := range models {
 		vals = append(vals, model.ID)
 	}

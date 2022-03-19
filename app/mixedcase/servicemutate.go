@@ -14,7 +14,7 @@ func (s *Service) Create(ctx context.Context, tx *sqlx.Tx, models ...*MixedCase)
 		return nil
 	}
 	q := database.SQLInsert(tableQuoted, columnsQuoted, len(models), "")
-	vals := make([]interface{}, 0, len(models)*len(columnsQuoted))
+	vals := make([]any, 0, len(models)*len(columnsQuoted))
 	for _, arg := range models {
 		vals = append(vals, arg.ToData()...)
 	}
@@ -37,7 +37,7 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, models ...*MixedCase) e
 		return nil
 	}
 	q := database.SQLUpsert(tableQuoted, columnsQuoted, len(models), []string{"id"}, columns, "")
-	var data []interface{}
+	var data []any
 	for _, model := range models {
 		data = append(data, model.ToData()...)
 	}

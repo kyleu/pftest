@@ -99,16 +99,16 @@ func (c *Capital) Diff(cx *Capital) util.Diffs {
 	return diffs
 }
 
-func (c *Capital) ToData() []interface{} {
-	return []interface{}{c.ID, c.Name, c.Birthday, c.Version, c.Deathday}
+func (c *Capital) ToData() []any {
+	return []any{c.ID, c.Name, c.Birthday, c.Version, c.Deathday}
 }
 
-func (c *Capital) ToDataCore() []interface{} {
-	return []interface{}{c.ID, c.Version}
+func (c *Capital) ToDataCore() []any {
+	return []any{c.ID, c.Version}
 }
 
-func (c *Capital) ToDataVersion() []interface{} {
-	return []interface{}{c.ID, c.Version, c.Name, c.Birthday, c.Deathday}
+func (c *Capital) ToDataVersion() []any {
+	return []any{c.ID, c.Version, c.Name, c.Birthday, c.Deathday}
 }
 
 type Capitals []*Capital

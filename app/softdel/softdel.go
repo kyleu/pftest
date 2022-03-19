@@ -79,8 +79,8 @@ func (s *Softdel) Diff(sx *Softdel) util.Diffs {
 	return diffs
 }
 
-func (s *Softdel) ToData() []interface{} {
-	return []interface{}{s.ID, s.Created, s.Updated, s.Deleted}
+func (s *Softdel) ToData() []any {
+	return []any{s.ID, s.Created, s.Updated, s.Deleted}
 }
 
 type Softdels []*Softdel
