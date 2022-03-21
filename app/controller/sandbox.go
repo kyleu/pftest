@@ -8,6 +8,7 @@ import (
 	"github.com/kyleu/pftest/app"
 	"github.com/kyleu/pftest/app/controller/cutil"
 	"github.com/kyleu/pftest/app/lib/sandbox"
+	"github.com/kyleu/pftest/app/lib/telemetry"
 	"github.com/kyleu/pftest/views/vsandbox"
 )
 
@@ -25,11 +26,16 @@ func SandboxRun(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
+
 		sb := sandbox.AllSandboxes.Get(key)
 		if sb == nil {
 			return ersp("no sandbox with key [%s]", key)
 		}
-		ret, err := sb.Run(ps.Context, as, ps.Logger.With(zap.String("sandbox", key)))
+
+		ctx, span, logger := telemetry.StartSpan(ps.Context, "sandbox."+key, ps.Logger)
+		defer span.Complete()
+
+		ret, err := sb.Run(ctx, as, logger.With(zap.String("sandbox", key)))
 		if err != nil {
 			return "", err
 		}
