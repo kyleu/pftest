@@ -19,7 +19,7 @@ func (s *Service) GetAllRevisions(ctx context.Context, tx *sqlx.Tx, id string, p
 	tablesJoinedParam := fmt.Sprintf("%q v join %q vr on v.\"id\" = vr.\"version_id\"", table, tableRevision)
 	q := database.SQLSelect(columnsString, tablesJoinedParam, wc, params.OrderByString(), params.Limit, params.Offset)
 	ret := dtos{}
-	err := s.db.Select(ctx, &ret, q, tx, id)
+	err := s.db.Select(ctx, &ret, q, tx, s.logger, id)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to get Versions")
 	}
@@ -31,7 +31,7 @@ func (s *Service) GetRevision(ctx context.Context, tx *sqlx.Tx, id string, revis
 	ret := &dto{}
 	tablesJoinedParam := fmt.Sprintf("%q v join %q vr on v.\"id\" = vr.\"version_id\"", table, tableRevision)
 	q := database.SQLSelectSimple(columnsString, tablesJoinedParam, wc)
-	err := s.db.Get(ctx, ret, q, tx, id, revision)
+	err := s.db.Get(ctx, ret, q, tx, s.logger, id, revision)
 	if err != nil {
 		return nil, err
 	}
@@ -52,7 +52,7 @@ func (s *Service) getCurrentRevisions(ctx context.Context, tx *sqlx.Tx, models .
 		ID              string `db:"id"`
 		CurrentRevision int    `db:"current_revision"`
 	}
-	err := s.db.Select(ctx, &results, q, tx, vals...)
+	err := s.db.Select(ctx, &results, q, tx, s.logger, vals...)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to get Versions")
 	}

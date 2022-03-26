@@ -16,7 +16,7 @@ func (s *Service) List(ctx context.Context, tx *sqlx.Tx, params *filter.Params) 
 	wc := ""
 	q := database.SQLSelect(columnsString, tablesJoined, wc, params.OrderByString(), params.Limit, params.Offset)
 	ret := dtos{}
-	err := s.db.Select(ctx, &ret, q, tx)
+	err := s.db.Select(ctx, &ret, q, tx, s.logger)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to get versions")
 	}
@@ -27,7 +27,7 @@ func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, id string) (*Version, er
 	wc := defaultWC
 	ret := &dto{}
 	q := database.SQLSelectSimple(columnsString, tablesJoined, wc)
-	err := s.db.Get(ctx, ret, q, tx, id)
+	err := s.db.Get(ctx, ret, q, tx, s.logger, id)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to get version by id [%v]", id)
 	}
@@ -45,7 +45,7 @@ func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, ids ...string) (
 	for _, x := range ids {
 		vals = append(vals, x)
 	}
-	err := s.db.Select(ctx, &ret, q, tx, vals...)
+	err := s.db.Select(ctx, &ret, q, tx, s.logger, vals...)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to get Versions for [%d] ids", len(ids))
 	}

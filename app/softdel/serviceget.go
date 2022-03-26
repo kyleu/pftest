@@ -19,7 +19,7 @@ func (s *Service) List(ctx context.Context, tx *sqlx.Tx, params *filter.Params, 
 	}
 	q := database.SQLSelect(columnsString, tableQuoted, wc, params.OrderByString(), params.Limit, params.Offset)
 	ret := dtos{}
-	err := s.db.Select(ctx, &ret, q, tx)
+	err := s.db.Select(ctx, &ret, q, tx, s.logger)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to get softdels")
 	}
@@ -31,7 +31,7 @@ func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, id string, includeDelete
 	wc = addDeletedClause(wc, includeDeleted)
 	ret := &dto{}
 	q := database.SQLSelectSimple(columnsString, tableQuoted, wc)
-	err := s.db.Get(ctx, ret, q, tx, id)
+	err := s.db.Get(ctx, ret, q, tx, s.logger, id)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to get softdel by id [%v]", id)
 	}
@@ -49,7 +49,7 @@ func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, includeDeleted b
 	for _, x := range ids {
 		vals = append(vals, x)
 	}
-	err := s.db.Select(ctx, &ret, q, tx, vals...)
+	err := s.db.Select(ctx, &ret, q, tx, s.logger, vals...)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to get Softdels for [%d] ids", len(ids))
 	}

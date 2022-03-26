@@ -18,7 +18,7 @@ func (s *Service) List(ctx context.Context, tx *sqlx.Tx, params *filter.Params) 
 	wc := ""
 	q := database.SQLSelect(columnsString, tableQuoted, wc, params.OrderByString(), params.Limit, params.Offset)
 	ret := dtos{}
-	err := s.db.Select(ctx, &ret, q, tx)
+	err := s.db.Select(ctx, &ret, q, tx, s.logger)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to get auditeds")
 	}
@@ -29,7 +29,7 @@ func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, id uuid.UUID) (*Audited,
 	wc := defaultWC
 	ret := &dto{}
 	q := database.SQLSelectSimple(columnsString, tableQuoted, wc)
-	err := s.db.Get(ctx, ret, q, tx, id)
+	err := s.db.Get(ctx, ret, q, tx, s.logger, id)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to get audited by id [%v]", id)
 	}
@@ -47,7 +47,7 @@ func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, ids ...uuid.UUID
 	for _, x := range ids {
 		vals = append(vals, x)
 	}
-	err := s.db.Select(ctx, &ret, q, tx, vals...)
+	err := s.db.Select(ctx, &ret, q, tx, s.logger, vals...)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to get Auditeds for [%d] ids", len(ids))
 	}
@@ -61,7 +61,7 @@ func (s *Service) Search(ctx context.Context, query string, tx *sqlx.Tx, params 
 	wc := searchClause
 	q := database.SQLSelect(columnsString, tableQuoted, wc, params.OrderByString(), params.Limit, params.Offset)
 	ret := dtos{}
-	err := s.db.Select(ctx, &ret, q, tx, "%"+strings.ToLower(query)+"%")
+	err := s.db.Select(ctx, &ret, q, tx, s.logger, "%"+strings.ToLower(query)+"%")
 	if err != nil {
 		return nil, err
 	}

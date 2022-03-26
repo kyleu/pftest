@@ -27,7 +27,7 @@ var (
 func (s *Service) GetHistory(ctx context.Context, tx *sqlx.Tx, id uuid.UUID) (*HistoryHistory, error) {
 	q := database.SQLSelectSimple(historyColumnsString, historyTableQuoted, "id = $1")
 	ret := historyDTO{}
-	err := s.db.Get(ctx, &ret, q, tx, id)
+	err := s.db.Get(ctx, &ret, q, tx, s.logger, id)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to get history history [%s]", id.String())
 	}
@@ -37,7 +37,7 @@ func (s *Service) GetHistory(ctx context.Context, tx *sqlx.Tx, id uuid.UUID) (*H
 func (s *Service) GetHistories(ctx context.Context, tx *sqlx.Tx, id string) (HistoryHistories, error) {
 	q := database.SQLSelectSimple(historyColumnsString, historyTableQuoted, "history_id = $1")
 	ret := historyDTOs{}
-	err := s.db.Select(ctx, &ret, q, tx, id)
+	err := s.db.Select(ctx, &ret, q, tx, s.logger, id)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to get histories by id [%v]", id)
 	}
@@ -55,7 +55,7 @@ func (s *Service) SaveHistory(ctx context.Context, tx *sqlx.Tx, o *History, n *H
 		Created:   time.Now(),
 	}
 	hist := h.ToHistory()
-	err := s.db.Insert(ctx, q, tx, hist.ToData()...)
+	err := s.db.Insert(ctx, q, tx, s.logger, hist.ToData()...)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to insert history")
 	}

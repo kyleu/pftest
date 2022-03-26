@@ -82,7 +82,7 @@ func (s *Service) upsertCore(ctx context.Context, tx *sqlx.Tx, models ...*Troubl
 	for _, model := range models {
 		data = append(data, model.ToDataCore()...)
 	}
-	_, err := s.db.Update(ctx, q, tx, 1, data...)
+	_, err := s.db.Update(ctx, q, tx, 1, s.logger, data...)
 	return err
 }
 
@@ -92,13 +92,13 @@ func (s *Service) insertSelectcol(ctx context.Context, tx *sqlx.Tx, models ...*T
 	for _, model := range models {
 		data = append(data, model.ToDataSelectcol()...)
 	}
-	return s.db.Insert(ctx, q, tx, data...)
+	return s.db.Insert(ctx, q, tx, s.logger, data...)
 }
 
 // Delete doesn't actually delete, it only sets [delete].
 func (s *Service) Delete(ctx context.Context, tx *sqlx.Tx, from string, where int) error {
 	q := database.SQLUpdate(tableQuoted, []string{"delete"}, defaultWC, "")
-	_, err := s.db.Update(ctx, q, tx, 1, time.Now(), from, where)
+	_, err := s.db.Update(ctx, q, tx, 1, s.logger, time.Now(), from, where)
 	return err
 }
 

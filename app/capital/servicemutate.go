@@ -81,7 +81,7 @@ func (s *Service) upsertCore(ctx context.Context, tx *sqlx.Tx, models ...*Capita
 	for _, model := range models {
 		data = append(data, model.ToDataCore()...)
 	}
-	_, err := s.db.Update(ctx, q, tx, 1, data...)
+	_, err := s.db.Update(ctx, q, tx, 1, s.logger, data...)
 	return err
 }
 
@@ -91,11 +91,11 @@ func (s *Service) insertVersion(ctx context.Context, tx *sqlx.Tx, models ...*Cap
 	for _, model := range models {
 		data = append(data, model.ToDataVersion()...)
 	}
-	return s.db.Insert(ctx, q, tx, data...)
+	return s.db.Insert(ctx, q, tx, s.logger, data...)
 }
 
 func (s *Service) Delete(ctx context.Context, tx *sqlx.Tx, id string) error {
 	q := database.SQLDelete(tableQuoted, defaultWC)
-	_, err := s.db.Delete(ctx, q, tx, 1, id)
+	_, err := s.db.Delete(ctx, q, tx, 1, s.logger, id)
 	return err
 }

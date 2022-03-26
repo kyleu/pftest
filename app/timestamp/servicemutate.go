@@ -25,7 +25,7 @@ func (s *Service) Create(ctx context.Context, tx *sqlx.Tx, models ...*Timestamp)
 	for _, arg := range models {
 		vals = append(vals, arg.ToData()...)
 	}
-	return s.db.Insert(ctx, q, tx, vals...)
+	return s.db.Insert(ctx, q, tx, s.logger, vals...)
 }
 
 func (s *Service) Update(ctx context.Context, tx *sqlx.Tx, model *Timestamp) error {
@@ -38,7 +38,7 @@ func (s *Service) Update(ctx context.Context, tx *sqlx.Tx, model *Timestamp) err
 	q := database.SQLUpdate(tableQuoted, columnsQuoted, "\"id\" = $5", "")
 	data := model.ToData()
 	data = append(data, model.ID)
-	_, err = s.db.Update(ctx, q, tx, 1, data...)
+	_, err = s.db.Update(ctx, q, tx, 1, s.logger, data...)
 	if err != nil {
 		return err
 	}
@@ -63,13 +63,13 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, models ...*Timestamp) e
 	for _, model := range models {
 		data = append(data, model.ToData()...)
 	}
-	return s.db.Insert(ctx, q, tx, data...)
+	return s.db.Insert(ctx, q, tx, s.logger, data...)
 }
 
 // Delete doesn't actually delete, it only sets [deleted].
 func (s *Service) Delete(ctx context.Context, tx *sqlx.Tx, id string) error {
 	q := database.SQLUpdate(tableQuoted, []string{"deleted"}, defaultWC, "")
-	_, err := s.db.Update(ctx, q, tx, 1, time.Now(), id)
+	_, err := s.db.Update(ctx, q, tx, 1, s.logger, time.Now(), id)
 	return err
 }
 
