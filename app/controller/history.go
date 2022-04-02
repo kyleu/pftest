@@ -19,7 +19,7 @@ func HistoryList(rc *fasthttp.RequestCtx) {
 	act("history.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ps.Title = historyDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
-		prms := params.Get("history", nil, ps.Logger)
+		prms := params.Get("history", nil, ps.Logger).Sanitize("history")
 		ret, err := as.Services.History.List(ps.Context, nil, prms)
 		if err != nil {
 			return "", err

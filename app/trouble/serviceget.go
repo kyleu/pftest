@@ -27,7 +27,7 @@ func (s *Service) List(ctx context.Context, tx *sqlx.Tx, params *filter.Params, 
 }
 
 func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, from string, where int, includeDeleted bool) (*Trouble, error) {
-	wc := defaultWC
+	wc := defaultWC(0)
 	wc = addDeletedClause(wc, includeDeleted)
 	ret := &dto{}
 	q := database.SQLSelectSimple(columnsString, tablesJoined, wc)

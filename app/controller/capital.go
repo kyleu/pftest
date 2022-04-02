@@ -19,7 +19,7 @@ func CapitalList(rc *fasthttp.RequestCtx) {
 	act("capital.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ps.Title = capitalDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
-		prms := params.Get("capital", nil, ps.Logger)
+		prms := params.Get("capital", nil, ps.Logger).Sanitize("capital")
 		ret, err := as.Services.Capital.List(ps.Context, nil, prms)
 		if err != nil {
 			return "", err
@@ -36,7 +36,7 @@ func CapitalDetail(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		versions, err := as.Services.Capital.GetAllVersions(ps.Context, nil, ret.ID, params.Get("capital", nil, ps.Logger), false)
+		versions, err := as.Services.Capital.GetAllVersions(ps.Context, nil, ret.ID, params.Get("capital", nil, ps.Logger).Sanitize("capital"), false)
 		if err != nil {
 			return "", err
 		}

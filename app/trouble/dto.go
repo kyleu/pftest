@@ -15,7 +15,6 @@ var (
 	columns       = []string{"from", "where", "selectcol", "limit", "group", "delete"}
 	columnsQuoted = util.StringArrayQuoted(columns)
 	columnsString = strings.Join(columnsQuoted, ", ")
-	defaultWC     = "\"from\" = $1 and \"where\" = $2"
 
 	columnsCore      = util.StringArrayQuoted([]string{"from", "where", "current_selectcol", "limit", "delete"})
 	columnsSelectcol = util.StringArrayQuoted([]string{"trouble_from", "trouble_where", "selectcol", "group"})
@@ -56,4 +55,9 @@ func (x dtos) ToTroubles() Troubles {
 		ret = append(ret, d.ToTrouble())
 	}
 	return ret
+}
+
+
+func defaultWC(idx int) string {
+	return fmt.Sprintf("\"from\" = $%d and \"where\" = $%d", idx + 1,idx + 2)
 }

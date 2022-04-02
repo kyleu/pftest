@@ -68,7 +68,8 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, models ...*Softdel) err
 
 // Delete doesn't actually delete, it only sets [deleted].
 func (s *Service) Delete(ctx context.Context, tx *sqlx.Tx, id string) error {
-	q := database.SQLUpdate(tableQuoted, []string{"deleted"}, defaultWC, "")
+	cols := []string{"deleted"}
+	q := database.SQLUpdate(tableQuoted, cols, defaultWC(len(cols)), "")
 	_, err := s.db.Update(ctx, q, tx, 1, s.logger, time.Now(), id)
 	return err
 }

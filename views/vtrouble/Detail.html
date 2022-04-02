@@ -54,7 +54,7 @@
   {%- if len(p.Selectcols) > 1 -%}
   <div class="card">
     <h3>Selectcols</h3>
-    {%- code prms := p.Params.Get("trouble", nil, ps.Logger) -%}
+    {%- code prms := p.Params.Get("trouble", nil, ps.Logger).Sanitize("trouble") -%}
     <table class="mt">
       <thead>
         <tr>

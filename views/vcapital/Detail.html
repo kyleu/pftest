@@ -50,7 +50,7 @@
   {%- if len(p.Versions) > 1 -%}
   <div class="card">
     <h3>Versions</h3>
-    {%- code prms := p.Params.Get("capital", nil, ps.Logger) -%}
+    {%- code prms := p.Params.Get("capital", nil, ps.Logger).Sanitize("capital") -%}
     <table class="mt">
       <thead>
         <tr>

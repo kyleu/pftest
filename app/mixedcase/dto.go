@@ -14,7 +14,6 @@ var (
 	columns       = []string{"id", "test_field", "another_field"}
 	columnsQuoted = util.StringArrayQuoted(columns)
 	columnsString = strings.Join(columnsQuoted, ", ")
-	defaultWC     = "\"id\" = $1"
 )
 
 type dto struct {
@@ -42,4 +41,9 @@ func (x dtos) ToMixedCases() MixedCases {
 		ret = append(ret, d.ToMixedCase())
 	}
 	return ret
+}
+
+
+func defaultWC(idx int) string {
+	return fmt.Sprintf("\"id\" = $%d", idx + 1)
 }

@@ -16,7 +16,6 @@ var (
 	columns       = []string{"id", "group", "data", "created", "updated", "deleted"}
 	columnsQuoted = util.StringArrayQuoted(columns)
 	columnsString = strings.Join(columnsQuoted, ", ")
-	defaultWC     = "\"id\" = $1"
 )
 
 type dto struct {
@@ -52,4 +51,9 @@ func (x dtos) ToGroups() Groups {
 		ret = append(ret, d.ToGroup())
 	}
 	return ret
+}
+
+
+func defaultWC(idx int) string {
+	return fmt.Sprintf("\"id\" = $%d", idx + 1)
 }

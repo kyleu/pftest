@@ -95,7 +95,7 @@ func (s *Service) insertVersion(ctx context.Context, tx *sqlx.Tx, models ...*Cap
 }
 
 func (s *Service) Delete(ctx context.Context, tx *sqlx.Tx, id string) error {
-	q := database.SQLDelete(tableQuoted, defaultWC)
+	q := database.SQLDelete(tableQuoted, defaultWC(0))
 	_, err := s.db.Delete(ctx, q, tx, 1, s.logger, id)
 	return err
 }

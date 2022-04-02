@@ -14,7 +14,6 @@ import (
 
 	"github.com/kyleu/pftest/app/lib/telemetry"
 	"github.com/kyleu/pftest/app/lib/telemetry/dbmetrics"
-	"github.com/kyleu/pftest/app/util"
 	"github.com/kyleu/pftest/queries"
 	"github.com/kyleu/pftest/queries/schema"
 )
@@ -49,14 +48,14 @@ func NewService(typ *DBType, key string, dbName string, schName string, username
 	}
 
 	ret := &Service{Key: key, DatabaseName: dbName, SchemaName: schName, Username: username, Debug: debug, Type: typ, db: db, metrics: m}
-	err = ret.Healthcheck(db)
+	err = ret.Healthcheck(dbName, db)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to run healthcheck")
 	}
 	return ret, nil
 }
 
-func (s *Service) Healthcheck(db *sqlx.DB) error {
+func (s *Service) Healthcheck(dbName string, db *sqlx.DB) error {
 	q := queries.Healthcheck()
 	res, err := db.Query(q)
 	if err != nil || res.Err() != nil {
@@ -64,11 +63,7 @@ func (s *Service) Healthcheck(db *sqlx.DB) error {
 			err = res.Err()
 		}
 		if strings.Contains(err.Error(), "does not exist") {
-			if s.Key == util.AppKey {
-				return errors.Wrapf(err, "database does not exist; run the following:\n"+schema.CreateDatabase())
-			} else {
-				return errors.Wrapf(err, "database does not exist")
-			}
+			return errors.Wrapf(err, "database does not exist; run the following:\n"+schema.CreateDatabase())
 		}
 		return errors.Wrapf(err, "unable to run healthcheck [%s]", q)
 	}

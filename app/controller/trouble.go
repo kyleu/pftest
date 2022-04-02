@@ -20,7 +20,7 @@ func TroubleList(rc *fasthttp.RequestCtx) {
 	act("trouble.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ps.Title = troubleDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
-		prms := params.Get("trouble", nil, ps.Logger)
+		prms := params.Get("trouble", nil, ps.Logger).Sanitize("trouble")
 		ret, err := as.Services.Trouble.List(ps.Context, nil, prms, cutil.RequestCtxBool(rc, "includeDeleted"))
 		if err != nil {
 			return "", err
@@ -37,7 +37,7 @@ func TroubleDetail(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		selectcols, err := as.Services.Trouble.GetAllSelectcols(ps.Context, nil, ret.From, ret.Where, params.Get("trouble", nil, ps.Logger), false)
+		selectcols, err := as.Services.Trouble.GetAllSelectcols(ps.Context, nil, ret.From, ret.Where, params.Get("trouble", nil, ps.Logger).Sanitize("trouble"), false)
 		if err != nil {
 			return "", err
 		}

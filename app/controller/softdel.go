@@ -19,7 +19,7 @@ func SoftdelList(rc *fasthttp.RequestCtx) {
 	act("softdel.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ps.Title = softdelDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
-		prms := params.Get("softdel", nil, ps.Logger)
+		prms := params.Get("softdel", nil, ps.Logger).Sanitize("softdel")
 		ret, err := as.Services.Softdel.List(ps.Context, nil, prms, cutil.RequestCtxBool(rc, "includeDeleted"))
 		if err != nil {
 			return "", err

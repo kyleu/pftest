@@ -26,7 +26,7 @@ func (s *Service) List(ctx context.Context, tx *sqlx.Tx, params *filter.Params) 
 }
 
 func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, id uuid.UUID) (*Audited, error) {
-	wc := defaultWC
+	wc := defaultWC(0)
 	ret := &dto{}
 	q := database.SQLSelectSimple(columnsString, tableQuoted, wc)
 	err := s.db.Get(ctx, ret, q, tx, s.logger, id)

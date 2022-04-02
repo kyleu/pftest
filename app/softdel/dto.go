@@ -15,7 +15,6 @@ var (
 	columns       = []string{"id", "created", "updated", "deleted"}
 	columnsQuoted = util.StringArrayQuoted(columns)
 	columnsString = strings.Join(columnsQuoted, ", ")
-	defaultWC     = "\"id\" = $1"
 )
 
 type dto struct {
@@ -45,4 +44,9 @@ func (x dtos) ToSoftdels() Softdels {
 		ret = append(ret, d.ToSoftdel())
 	}
 	return ret
+}
+
+
+func defaultWC(idx int) string {
+	return fmt.Sprintf("\"id\" = $%d", idx + 1)
 }

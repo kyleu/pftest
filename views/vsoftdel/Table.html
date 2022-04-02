@@ -8,7 +8,7 @@
 ) %}
 
 {% func Table(models softdel.Softdels, params filter.ParamSet, as *app.State, ps *cutil.PageState) %}
-  {%- code prms := params.Get("softdel", nil, ps.Logger) -%}
+  {%- code prms := params.Get("softdel", nil, ps.Logger).Sanitize("softdel") -%}
   <table class="mt">
     <thead>
       <tr>

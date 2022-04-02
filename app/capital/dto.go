@@ -15,7 +15,6 @@ var (
 	columns       = []string{"ID", "Name", "Birthday", "Version", "Deathday"}
 	columnsQuoted = util.StringArrayQuoted(columns)
 	columnsString = strings.Join(columnsQuoted, ", ")
-	defaultWC     = "\"ID\" = $1"
 
 	columnsCore    = util.StringArrayQuoted([]string{"ID", "current_Version"})
 	columnsVersion = util.StringArrayQuoted([]string{"Capital_ID", "Version", "Name", "Birthday", "Deathday"})
@@ -54,4 +53,9 @@ func (x dtos) ToCapitals() Capitals {
 		ret = append(ret, d.ToCapital())
 	}
 	return ret
+}
+
+
+func defaultWC(idx int) string {
+	return fmt.Sprintf("\"ID\" = $%d", idx + 1)
 }

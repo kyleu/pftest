@@ -16,7 +16,6 @@ var (
 	columns       = []string{"id", "revision", "constcol", "varcol", "created", "updated"}
 	columnsQuoted = util.StringArrayQuoted(columns)
 	columnsString = strings.Join(columnsQuoted, ", ")
-	defaultWC     = "\"id\" = $1"
 
 	columnsCore     = util.StringArrayQuoted([]string{"id", "current_revision", "constcol", "updated"})
 	columnsRevision = util.StringArrayQuoted([]string{"version_id", "revision", "varcol", "created"})
@@ -59,4 +58,9 @@ func (x dtos) ToVersions() Versions {
 		ret = append(ret, d.ToVersion())
 	}
 	return ret
+}
+
+
+func defaultWC(idx int) string {
+	return fmt.Sprintf("\"id\" = $%d", idx + 1)
 }

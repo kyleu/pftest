@@ -16,7 +16,6 @@ var (
 	columns       = []string{"id", "data", "created", "updated"}
 	columnsQuoted = util.StringArrayQuoted(columns)
 	columnsString = strings.Join(columnsQuoted, ", ")
-	defaultWC     = "\"id\" = $1"
 )
 
 type dto struct {
@@ -48,4 +47,9 @@ func (x dtos) ToHistories() Histories {
 		ret = append(ret, d.ToHistory())
 	}
 	return ret
+}
+
+
+func defaultWC(idx int) string {
+	return fmt.Sprintf("\"id\" = $%d", idx + 1)
 }

@@ -8,7 +8,7 @@
 ) %}
 
 {% func Table(models version.Versions, params filter.ParamSet, as *app.State, ps *cutil.PageState) %}
-  {%- code prms := params.Get("version", nil, ps.Logger) -%}
+  {%- code prms := params.Get("version", nil, ps.Logger).Sanitize("version") -%}
   <table class="mt">
     <thead>
       <tr>

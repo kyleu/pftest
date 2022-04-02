@@ -54,7 +54,7 @@
   {%- if len(p.Revisions) > 1 -%}
   <div class="card">
     <h3>Revisions</h3>
-    {%- code prms := p.Params.Get("version", nil, ps.Logger) -%}
+    {%- code prms := p.Params.Get("version", nil, ps.Logger).Sanitize("version") -%}
     <table class="mt">
       <thead>
         <tr>
