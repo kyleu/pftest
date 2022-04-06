@@ -38,6 +38,17 @@ func Search(ctx context.Context, as *app.State, params *Params) (result.Results,
 		}
 		return res, nil
 	}
+	referenceFunc := func(ctx context.Context, as *app.State, params *Params, logger *zap.SugaredLogger) (result.Results, error) {
+		models, err := as.Services.Reference.Search(ctx, params.Q, nil, params.PS.Get("reference", nil, as.Logger))
+		if err != nil {
+			return nil, errors.Wrap(err, "")
+		}
+		res := make(result.Results, 0, len(models))
+		for _, m := range models {
+			res = append(res, result.NewResult("reference", m.String(), m.WebPath(), m.String(), "star", m, params.Q))
+		}
+		return res, nil
+	}
 	auditedFunc := func(ctx context.Context, as *app.State, params *Params, logger *zap.SugaredLogger) (result.Results, error) {
 		models, err := as.Services.Audited.Search(ctx, params.Q, nil, params.PS.Get("audited", nil, as.Logger))
 		if err != nil {
@@ -49,7 +60,7 @@ func Search(ctx context.Context, as *app.State, params *Params) (result.Results,
 		}
 		return res, nil
 	}
-	allProviders = append(allProviders, basicFunc, auditedFunc)
+	allProviders = append(allProviders, basicFunc, referenceFunc, auditedFunc)
 	// $PF_INJECT_END(codegen)$
 	if len(allProviders) == 0 {
 		return nil, []error{errors.New("no search providers configured")}

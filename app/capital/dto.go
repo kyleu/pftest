@@ -55,7 +55,6 @@ func (x dtos) ToCapitals() Capitals {
 	return ret
 }
 
-
 func defaultWC(idx int) string {
-	return fmt.Sprintf("\"ID\" = $%d", idx + 1)
+	return fmt.Sprintf("\"ID\" = $%d", idx+1)
 }

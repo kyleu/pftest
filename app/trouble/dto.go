@@ -57,7 +57,6 @@ func (x dtos) ToTroubles() Troubles {
 	return ret
 }
 
-
 func defaultWC(idx int) string {
-	return fmt.Sprintf("\"from\" = $%d and \"where\" = $%d", idx + 1,idx + 2)
+	return fmt.Sprintf("\"from\" = $%d and \"where\" = $%d", idx+1, idx+2)
 }

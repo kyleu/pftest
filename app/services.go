@@ -6,6 +6,7 @@ import (
 
 	"github.com/kyleu/pftest/app/audited"
 	"github.com/kyleu/pftest/app/lib/audit"
+	"github.com/kyleu/pftest/app/reference"
 
 	"github.com/kyleu/pftest/app/basic"
 	"github.com/kyleu/pftest/app/capital"
@@ -23,6 +24,7 @@ import (
 
 type Services struct {
 	Basic     *basic.Service
+	Reference *reference.Service
 	Audited   *audited.Service
 	Timestamp *timestamp.Service
 	Softdel   *softdel.Service
@@ -46,6 +48,7 @@ func NewServices(ctx context.Context, st *State) (*Services, error) {
 
 	return &Services{
 		Basic:     basic.NewService(st.DB, st.Logger),
+		Reference: reference.NewService(st.DB, st.Logger),
 		Audited:   audited.NewService(st.DB, aud, st.Logger),
 		Timestamp: timestamp.NewService(st.DB, st.Logger),
 		Softdel:   softdel.NewService(st.DB, st.Logger),

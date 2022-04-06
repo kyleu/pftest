@@ -46,7 +46,6 @@ func (x dtos) ToBasics() Basics {
 	return ret
 }
 
-
 func defaultWC(idx int) string {
-	return fmt.Sprintf("\"id\" = $%d", idx + 1)
+	return fmt.Sprintf("\"id\" = $%d", idx+1)
 }

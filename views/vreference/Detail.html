@@ -1,0 +1,46 @@
+<!-- Content managed by Project Forge, see [projectforge.md] for details. -->
+{% import (
+  "github.com/kyleu/pftest/app"
+  "github.com/kyleu/pftest/app/controller/cutil"
+  "github.com/kyleu/pftest/app/reference"
+  "github.com/kyleu/pftest/views/components"
+  "github.com/kyleu/pftest/views/layout"
+) %}
+
+{% code type Detail struct {
+  layout.Basic
+  Model *reference.Reference
+} %}
+
+{% func (p *Detail) Body(as *app.State, ps *cutil.PageState) %}
+  <div class="card">
+    <div class="right">
+      <a href="#modal-reference"><button type="button">JSON</button></a>
+      <a href="{%s p.Model.WebPath() %}/edit"><button>Edit</button></a>
+    </div>
+    <h3>{%= components.SVGRefIcon(`star`, ps) %} Reference [{%s p.Model.String() %}]</h3>
+    <table class="mt">
+      <tbody>
+        <tr>
+          <th class="shrink" title="UUID in format (00000000-0000-0000-0000-000000000000)">ID</th>
+          <td>{%= components.DisplayUUID(&p.Model.ID) %}</td>
+        </tr>
+        <tr>
+          <th class="shrink" title="[Custom], as a JSON object">Custom</th>
+          <td>{%= components.JSON(p.Model.Custom) %}</td>
+        </tr>
+        <tr>
+          <th class="shrink" title="[SelfCustom], as a JSON object">Self</th>
+          <td>{%= components.JSON(p.Model.Self) %}</td>
+        </tr>
+        <tr>
+          <th class="shrink" title="Date and time, in almost any format">Created</th>
+          <td>{%= components.DisplayTimestamp(&p.Model.Created) %}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  {%- comment %}$PF_SECTION_START(extra)${% endcomment -%}
+  {%- comment %}$PF_SECTION_END(extra)${% endcomment -%}
+  {%= components.JSONModal("reference", "Reference JSON", p.Model, 1) %}
+{% endfunc %}

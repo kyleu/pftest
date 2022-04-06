@@ -1,0 +1,32 @@
+<!-- Content managed by Project Forge, see [projectforge.md] for details. -->
+{% import (
+  "github.com/kyleu/pftest/app"
+  "github.com/kyleu/pftest/app/controller/cutil"
+  "github.com/kyleu/pftest/app/lib/filter"
+  "github.com/kyleu/pftest/app/reference"
+  "github.com/kyleu/pftest/views/components"
+) %}
+
+{% func Table(models reference.References, params filter.ParamSet, as *app.State, ps *cutil.PageState) %}
+  {%- code prms := params.Get("reference", nil, ps.Logger).Sanitize("reference") -%}
+  <table class="mt">
+    <thead>
+      <tr>
+        {%= components.TableHeaderSimple("reference", "id", "ID", "UUID in format (00000000-0000-0000-0000-000000000000)", prms, ps.URI, ps) %}
+        {%= components.TableHeaderSimple("reference", "custom", "Custom", "[Custom], as a JSON object", prms, ps.URI, ps) %}
+        {%= components.TableHeaderSimple("reference", "self", "Self", "[SelfCustom], as a JSON object", prms, ps.URI, ps) %}
+        {%= components.TableHeaderSimple("reference", "created", "Created", "Date and time, in almost any format", prms, ps.URI, ps) %}
+      </tr>
+    </thead>
+    <tbody>
+      {%- for _, model := range models -%}
+      <tr>
+        <td><a href="/reference/{%= components.DisplayUUID(&model.ID) %}">{%= components.DisplayUUID(&model.ID) %}</a></td>
+        <td>{%= components.JSON(model.Custom) %}</td>
+        <td>{%= components.JSON(model.Self) %}</td>
+        <td>{%= components.DisplayTimestamp(&model.Created) %}</td>
+      </tr>
+      {%- endfor -%}
+    </tbody>
+  </table>
+{% endfunc %}

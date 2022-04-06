@@ -9,11 +9,13 @@
 -- {%= VersionDrop() %}
 -- {%= TimestampDrop() %}
 -- {%= AuditedDrop() %}
+-- {%= ReferenceDrop() %}
 -- {%= BasicDrop() %}
 -- {% endfunc %}
 
 -- {% func CreateAll() %}
 -- {%= BasicCreate() %}
+-- {%= ReferenceCreate() %}
 -- {%= AuditedCreate() %}
 -- {%= TimestampCreate() %}
 -- {%= VersionCreate() %}
