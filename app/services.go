@@ -61,3 +61,7 @@ func NewServices(ctx context.Context, st *State) (*Services, error) {
 		Audit:     audit.NewService(st.DB, st.Logger),
 	}, nil
 }
+
+func (s *Services) Close(_ context.Context) error {
+	return nil
+}

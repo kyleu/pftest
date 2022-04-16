@@ -44,22 +44,26 @@ func FromMap(m util.ValueMap, setPK bool) (*Reference, error) {
 		// $PF_SECTION_START(pkchecks)$
 		// $PF_SECTION_END(pkchecks)$
 	}
-	tmpCustom, err := m.ParseMap("custom", true, true)
+	tmpCustom, err := m.ParseString("custom", true, true)
 	if err != nil {
 		return nil, err
 	}
-	err = util.CycleJSON(tmpCustom, ret.Custom)
+	customArg := &foo.Custom{}
+	err = util.FromJSON([]byte(tmpCustom), customArg)
 	if err != nil {
 		return nil, err
 	}
-	tmpSelf, err := m.ParseMap("self", true, true)
+	ret.Custom = customArg
+	tmpSelf, err := m.ParseString("self", true, true)
 	if err != nil {
 		return nil, err
 	}
-	err = util.CycleJSON(tmpSelf, ret.Self)
+	selfArg := &SelfCustom{}
+	err = util.FromJSON([]byte(tmpSelf), selfArg)
 	if err != nil {
 		return nil, err
 	}
+	ret.Self = selfArg
 	// $PF_SECTION_START(extrachecks)$
 	// $PF_SECTION_END(extrachecks)$
 	return ret, nil

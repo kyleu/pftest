@@ -11,6 +11,7 @@
     "audit",
     "core",
     "database",
+    "databaseui",
     "desktop",
     "export",
     "ios",
@@ -23,7 +24,6 @@
     "sandbox",
     "schema",
     "search",
-    "sqleditor",
     "sqlite",
     "types",
     "upgrade"

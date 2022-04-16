@@ -14,6 +14,7 @@ import (
 
 	"github.com/kyleu/pftest/app/lib/telemetry"
 	"github.com/kyleu/pftest/app/lib/telemetry/dbmetrics"
+	"github.com/kyleu/pftest/app/util"
 	"github.com/kyleu/pftest/queries"
 	"github.com/kyleu/pftest/queries/schema"
 )
@@ -33,6 +34,8 @@ type Service struct {
 	Username     string  `json:"username,omitempty"`
 	Debug        bool    `json:"debug,omitempty"`
 	Type         *DBType `json:"type"`
+	ReadOnly     bool    `json:"readonly,omitempty"`
+	tracing      string
 	db           *sqlx.DB
 	metrics      *dbmetrics.Metrics
 }
@@ -52,6 +55,7 @@ func NewService(typ *DBType, key string, dbName string, schName string, username
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to run healthcheck")
 	}
+	register(ret, logger)
 	return ret, nil
 }
 
@@ -90,9 +94,26 @@ func errMessage(t string, q string, values []any) string {
 	return fmt.Sprintf("error running %s sql [%s] with values [%s]", t, strings.TrimSpace(q), valueStrings(values))
 }
 
-func (s *Service) logQuery(ctx context.Context, msg string, q string, logger *zap.SugaredLogger, values []any) {
+type logFunc func(count int, msg string, err error, output ...any)
+
+func (s *Service) logQuery(ctx context.Context, msg string, q string, logger *zap.SugaredLogger, values []any) logFunc {
 	if s.Debug {
 		logger.Debugf("%s {\n  SQL: %s\n  Values: %s\n}", msg, strings.TrimSpace(q), valueStrings(values))
+	}
+	if s.tracing == "" {
+		return func(count int, msg string, err error, output ...any) {}
+	}
+	t := util.TimerStart()
+	return func(count int, msg string, err error, output ...any) {
+		go func() {
+			st, err := NewStatement(ctx, s, q, values, t.End())
+			if err == nil {
+				st.Complete(count, msg, err, output...)
+				s.addDebug(st)
+			} else {
+				logger.Warnf("error inserting trace history: %+v", err)
+			}
+		}()
 	}
 }
 
@@ -126,5 +147,6 @@ func (s *Service) Close() error {
 	if s.metrics != nil {
 		_ = s.metrics.Close()
 	}
+	unregister(s)
 	return s.db.Close()
 }

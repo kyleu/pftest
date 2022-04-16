@@ -6,7 +6,7 @@ Download any package from the [release page](https://github.com/kyleu/pftest/rel
 
 ### Homebrew
 ```
-brew install kyleu/kyleu/pftest 
+brew install kyleu/kyleu/pftest
 ```
 
 ### deb, rpm and apk packages

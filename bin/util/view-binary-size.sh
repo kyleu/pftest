@@ -9,4 +9,3 @@ cd $dir/../..
 
 make build-release
 go tool nm -size build/release/pftest | c++filt > ./tmp/nm.txt
-

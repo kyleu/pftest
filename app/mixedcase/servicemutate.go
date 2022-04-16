@@ -36,7 +36,7 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, models ...*MixedCase) e
 	if len(models) == 0 {
 		return nil
 	}
-	q := database.SQLUpsert(tableQuoted, columnsQuoted, len(models), []string{"id"}, columns, "")
+	q := database.SQLUpsert(tableQuoted, columnsQuoted, len(models), []string{"id"}, columnsQuoted, "")
 	var data []any
 	for _, model := range models {
 		data = append(data, model.ToData()...)

@@ -144,7 +144,10 @@ func AppRoutes() fasthttp.RequestHandler {
 	r.GET("/admin/audit/{id}/edit", AuditEditForm)
 	r.POST("/admin/audit/{id}/edit", AuditEdit)
 	r.GET("/admin/audit/{id}/delete", AuditDelete)
-	
+	r.GET("/admin/database", DatabaseList)
+	r.GET("/admin/database/{key}", DatabaseDetail)
+	r.GET("/admin/database/{key}/{act}", DatabaseAction)
+	r.POST("/admin/database/{key}/sql", DatabaseSQLRun)
 	r.GET("/admin/{path:*}", Admin)
 
 	r.GET("/favicon.ico", Favicon)
