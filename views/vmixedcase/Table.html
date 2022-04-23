@@ -25,6 +25,11 @@
         <td>{%s model.AnotherField %}</td>
       </tr>
       {%- endfor -%}
+      {%- if prms.HasNextPage(len(models) + prms.Offset) || prms.HasPreviousPage() -%}
+      <tr>
+        <td colspan="3">{%= components.Pagination(len(models) + prms.Offset, prms, ps.URI) %}</td>
+      </tr>
+      {%- endif -%}
     </tbody>
   </table>
 {% endfunc %}

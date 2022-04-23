@@ -1,5 +1,5 @@
 <!--- Content managed by Project Forge, see [projectforge.md] for details. -->
-# [export]
+# Export
 
 This is a module for [Project Forge](https://projectforge.dev). It generates code based on the project's schema.
 
