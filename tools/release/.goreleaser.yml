@@ -95,6 +95,9 @@ release:
     # $PF_SECTION_START(releasefiles)$
     # $PF_SECTION_END(releasefiles)$
 
+sboms:
+  - artifacts: archive
+
 signs:
   - artifacts: checksum
 

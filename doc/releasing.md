@@ -23,6 +23,10 @@ Packages for macOS and Linux will be pushed to Homebrew at `kyleu/homebrew-kyleu
 
 The build will produce `apk`, `deb`, and `rpm` packages for each supported Linux architecture
 
+### BOM
+
+The build will create a bill of materials for each binary
+
 ### Notarization
 
 Release binaries for macOS and iOS are notarized using Apple Notarization services

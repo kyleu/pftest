@@ -3,6 +3,7 @@ package softdel
 
 import (
 	"context"
+	"strings"
 
 	"github.com/jmoiron/sqlx"
 	"github.com/pkg/errors"
@@ -24,6 +25,25 @@ func (s *Service) List(ctx context.Context, tx *sqlx.Tx, params *filter.Params, 
 		return nil, errors.Wrap(err, "unable to get softdels")
 	}
 	return ret.ToSoftdels(), nil
+}
+
+func (s *Service) Count(ctx context.Context, tx *sqlx.Tx, whereClause string, includeDeleted bool, args ...any) (int, error) {
+	if strings.Contains(whereClause, "'") || strings.Contains(whereClause, ";") {
+		return 0, errors.Errorf("invalid where clause [%s]", whereClause)
+	}
+	if !includeDeleted {
+		if whereClause == "" {
+			whereClause = "\"deleted\" is null"
+		} else {
+			whereClause += "and " + "\"deleted\" is null"
+		}
+	}
+	q := database.SQLSelectSimple(columnsString, tableQuoted, whereClause)
+	ret, err := s.db.SingleInt(ctx, q, tx, s.logger, args...)
+	if err != nil {
+		return 0, errors.Wrap(err, "unable to get count of softdels")
+	}
+	return int(ret), nil
 }
 
 func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, id string, includeDeleted bool) (*Softdel, error) {

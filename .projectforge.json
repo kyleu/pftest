@@ -510,6 +510,7 @@
     "solaris": true,
     "homebrew": true,
     "nfpms": true,
+    "bom": true,
     "snapcraft": true
   }
 }

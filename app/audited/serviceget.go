@@ -25,6 +25,18 @@ func (s *Service) List(ctx context.Context, tx *sqlx.Tx, params *filter.Params) 
 	return ret.ToAuditeds(), nil
 }
 
+func (s *Service) Count(ctx context.Context, tx *sqlx.Tx, whereClause string, args ...any) (int, error) {
+	if strings.Contains(whereClause, "'") || strings.Contains(whereClause, ";") {
+		return 0, errors.Errorf("invalid where clause [%s]", whereClause)
+	}
+	q := database.SQLSelectSimple(columnsString, tableQuoted, whereClause)
+	ret, err := s.db.SingleInt(ctx, q, tx, s.logger, args...)
+	if err != nil {
+		return 0, errors.Wrap(err, "unable to get count of auditeds")
+	}
+	return int(ret), nil
+}
+
 func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, id uuid.UUID) (*Audited, error) {
 	wc := defaultWC(0)
 	ret := &dto{}

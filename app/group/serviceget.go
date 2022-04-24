@@ -3,6 +3,7 @@ package group
 
 import (
 	"context"
+	"strings"
 
 	"github.com/jmoiron/sqlx"
 	"github.com/pkg/errors"
@@ -22,6 +23,18 @@ func (s *Service) List(ctx context.Context, tx *sqlx.Tx, params *filter.Params) 
 		return nil, errors.Wrap(err, "unable to get groups")
 	}
 	return ret.ToGroups(), nil
+}
+
+func (s *Service) Count(ctx context.Context, tx *sqlx.Tx, whereClause string, args ...any) (int, error) {
+	if strings.Contains(whereClause, "'") || strings.Contains(whereClause, ";") {
+		return 0, errors.Errorf("invalid where clause [%s]", whereClause)
+	}
+	q := database.SQLSelectSimple(columnsString, tableQuoted, whereClause)
+	ret, err := s.db.SingleInt(ctx, q, tx, s.logger, args...)
+	if err != nil {
+		return 0, errors.Wrap(err, "unable to get count of groups")
+	}
+	return int(ret), nil
 }
 
 func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, id string) (*Group, error) {
