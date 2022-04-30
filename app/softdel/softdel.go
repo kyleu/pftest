@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"time"
 
+	"golang.org/x/exp/slices"
+
 	"github.com/kyleu/pftest/app/util"
 )
 
@@ -84,3 +86,7 @@ func (s *Softdel) ToData() []any {
 }
 
 type Softdels []*Softdel
+
+func (s Softdels) Clone() Softdels {
+	return slices.Clone(s)
+}

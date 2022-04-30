@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"time"
 
+	"golang.org/x/exp/slices"
+
 	"github.com/kyleu/pftest/app/util"
 )
 
@@ -119,3 +121,7 @@ func (t *Trouble) ToDataSelectcol() []any {
 }
 
 type Troubles []*Trouble
+
+func (t Troubles) Clone() Troubles {
+	return slices.Clone(t)
+}

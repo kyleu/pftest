@@ -70,12 +70,7 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, models ...*Version) err
 		return err
 	}
 	for _, model := range models {
-		curr, e := s.Get(ctx, tx, model.ID)
-		if e == nil && curr != nil {
-			model.Created = curr.Created
-		} else {
-			model.Created = time.Now()
-		}
+		model.Created = time.Now()
 		model.Revision = revs[model.String()] + 1
 		model.Updated = util.NowPointer()
 	}

@@ -48,12 +48,7 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, models ...*Basic) error
 		return nil
 	}
 	for _, model := range models {
-		curr, e := s.Get(ctx, tx, model.ID)
-		if e == nil && curr != nil {
-			model.Created = curr.Created
-		} else {
-			model.Created = time.Now()
-		}
+		model.Created = time.Now()
 	}
 	q := database.SQLUpsert(tableQuoted, columnsQuoted, len(models), []string{"id"}, columnsQuoted, "")
 	var data []any

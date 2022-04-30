@@ -64,3 +64,12 @@ func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, IDs ...string) (
 	}
 	return ret.ToCapitals(), nil
 }
+
+func (s *Service) ListSQL(ctx context.Context, tx *sqlx.Tx, sql string) (Capitals, error) {
+	ret := dtos{}
+	err := s.db.Select(ctx, &ret, sql, tx, s.logger)
+	if err != nil {
+		return nil, errors.Wrap(err, "unable to get capitals using custom SQL")
+	}
+	return ret.ToCapitals(), nil
+}

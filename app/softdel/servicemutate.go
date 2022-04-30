@@ -50,12 +50,7 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, models ...*Softdel) err
 		return nil
 	}
 	for _, model := range models {
-		curr, e := s.Get(ctx, tx, model.ID, true)
-		if e == nil && curr != nil {
-			model.Created = curr.Created
-		} else {
-			model.Created = time.Now()
-		}
+		model.Created = time.Now()
 		model.Updated = util.NowPointer()
 	}
 	q := database.SQLUpsert(tableQuoted, columnsQuoted, len(models), []string{"id"}, columnsQuoted, "")

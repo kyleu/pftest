@@ -75,3 +75,12 @@ func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, includeDeleted b
 	}
 	return ret.ToSoftdels(), nil
 }
+
+func (s *Service) ListSQL(ctx context.Context, tx *sqlx.Tx, sql string) (Softdels, error) {
+	ret := dtos{}
+	err := s.db.Select(ctx, &ret, sql, tx, s.logger)
+	if err != nil {
+		return nil, errors.Wrap(err, "unable to get softdels using custom SQL")
+	}
+	return ret.ToSoftdels(), nil
+}

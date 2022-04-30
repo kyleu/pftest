@@ -79,3 +79,12 @@ func (s *Service) Search(ctx context.Context, query string, tx *sqlx.Tx, params 
 	}
 	return ret.ToReferences(), nil
 }
+
+func (s *Service) ListSQL(ctx context.Context, tx *sqlx.Tx, sql string) (References, error) {
+	ret := dtos{}
+	err := s.db.Select(ctx, &ret, sql, tx, s.logger)
+	if err != nil {
+		return nil, errors.Wrap(err, "unable to get references using custom SQL")
+	}
+	return ret.ToReferences(), nil
+}

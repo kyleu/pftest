@@ -83,3 +83,12 @@ func (s *Service) GetByWhere(ctx context.Context, tx *sqlx.Tx, where int, params
 	}
 	return ret.ToTroubles(), nil
 }
+
+func (s *Service) ListSQL(ctx context.Context, tx *sqlx.Tx, sql string) (Troubles, error) {
+	ret := dtos{}
+	err := s.db.Select(ctx, &ret, sql, tx, s.logger)
+	if err != nil {
+		return nil, errors.Wrap(err, "unable to get troubles using custom SQL")
+	}
+	return ret.ToTroubles(), nil
+}

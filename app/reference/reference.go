@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"golang.org/x/exp/slices"
 
 	"github.com/kyleu/pftest/app/foo"
 	"github.com/kyleu/pftest/app/util"
@@ -104,3 +105,7 @@ func (r *Reference) ToData() []any {
 }
 
 type References []*Reference
+
+func (r References) Clone() References {
+	return slices.Clone(r)
+}

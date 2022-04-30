@@ -4,6 +4,8 @@ package history
 import (
 	"time"
 
+	"golang.org/x/exp/slices"
+
 	"github.com/kyleu/pftest/app/util"
 )
 
@@ -81,3 +83,7 @@ func (h *History) ToData() []any {
 }
 
 type Histories []*History
+
+func (h Histories) Clone() Histories {
+	return slices.Clone(h)
+}

@@ -64,3 +64,12 @@ func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, ids ...string) (
 	}
 	return ret.ToMixedCases(), nil
 }
+
+func (s *Service) ListSQL(ctx context.Context, tx *sqlx.Tx, sql string) (MixedCases, error) {
+	ret := dtos{}
+	err := s.db.Select(ctx, &ret, sql, tx, s.logger)
+	if err != nil {
+		return nil, errors.Wrap(err, "unable to get mixed cases using custom SQL")
+	}
+	return ret.ToMixedCases(), nil
+}

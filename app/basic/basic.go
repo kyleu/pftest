@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"golang.org/x/exp/slices"
 
 	"github.com/kyleu/pftest/app/util"
 )
@@ -85,3 +86,7 @@ func (b *Basic) ToData() []any {
 }
 
 type Basics []*Basic
+
+func (b Basics) Clone() Basics {
+	return slices.Clone(b)
+}

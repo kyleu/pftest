@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"time"
 
+	"golang.org/x/exp/slices"
+
 	"github.com/kyleu/pftest/app/util"
 )
 
@@ -84,3 +86,7 @@ func (t *Timestamp) ToData() []any {
 }
 
 type Timestamps []*Timestamp
+
+func (t Timestamps) Clone() Timestamps {
+	return slices.Clone(t)
+}

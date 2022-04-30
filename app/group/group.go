@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"time"
 
+	"golang.org/x/exp/slices"
+
 	"github.com/kyleu/pftest/app/util"
 )
 
@@ -102,3 +104,7 @@ func (g *Group) ToData() []any {
 }
 
 type Groups []*Group
+
+func (g Groups) Clone() Groups {
+	return slices.Clone(g)
+}

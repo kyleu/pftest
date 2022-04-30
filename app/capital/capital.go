@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"time"
 
+	"golang.org/x/exp/slices"
+
 	"github.com/kyleu/pftest/app/util"
 )
 
@@ -112,3 +114,7 @@ func (c *Capital) ToDataVersion() []any {
 }
 
 type Capitals []*Capital
+
+func (c Capitals) Clone() Capitals {
+	return slices.Clone(c)
+}

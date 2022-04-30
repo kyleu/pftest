@@ -3,6 +3,7 @@ package audited
 
 import (
 	"github.com/google/uuid"
+	"golang.org/x/exp/slices"
 
 	"github.com/kyleu/pftest/app/util"
 )
@@ -77,3 +78,7 @@ func (a *Audited) ToData() []any {
 }
 
 type Auditeds []*Audited
+
+func (a Auditeds) Clone() Auditeds {
+	return slices.Clone(a)
+}

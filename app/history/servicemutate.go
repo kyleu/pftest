@@ -55,18 +55,8 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, models ...*History) err
 		return nil
 	}
 	for _, model := range models {
-		curr, e := s.Get(ctx, tx, model.ID)
-		if e == nil && curr != nil {
-			model.Created = curr.Created
-		} else {
-			model.Created = time.Now()
-		}
+		model.Created = time.Now()
 		model.Updated = util.NowPointer()
-
-		_, hErr := s.SaveHistory(ctx, tx, curr, model)
-		if hErr != nil {
-			return errors.Wrap(hErr, "unable to save history")
-		}
 	}
 	q := database.SQLUpsert(tableQuoted, columnsQuoted, len(models), []string{"id"}, columnsQuoted, "")
 	var data []any

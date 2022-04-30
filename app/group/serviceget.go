@@ -88,3 +88,12 @@ func (s *Service) GetByGroup(ctx context.Context, tx *sqlx.Tx, group string, par
 	}
 	return ret.ToGroups(), nil
 }
+
+func (s *Service) ListSQL(ctx context.Context, tx *sqlx.Tx, sql string) (Groups, error) {
+	ret := dtos{}
+	err := s.db.Select(ctx, &ret, sql, tx, s.logger)
+	if err != nil {
+		return nil, errors.Wrap(err, "unable to get groups using custom SQL")
+	}
+	return ret.ToGroups(), nil
+}
