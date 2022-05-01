@@ -45,12 +45,18 @@
   {%= tableSizes(as, ps, p.Sizes) %}
   {%- case "sql" -%}
   <div class="card">
-    <h3>SQL Editor (read-only)</h3>
+    <h3>SQL Editor</h3>
     <form method="post" action="/admin/database/{%s p.Svc.Key %}/sql">
       <div class="mt expanded">
         <textarea name="sql" rows="12" placeholder="SQL statement">{%s p.SQL %}</textarea>
       </div>
+      {%- if p.Svc.ReadOnly -%}
       <input type="hidden" name="commit" value="false" />
+      {%- else -%}
+      <div class="mt">
+        <label><input type="checkbox" name="commit" value="true" {% if p.Commit %}checked="checked"{% endif %}/> Commit Changes</label>
+      </div>
+      {%- endif -%}
       <div class="mt">
         <button type="submit" name="action" value="run">Run</button>
         <button type="submit" name="action" value="analyze">Analyze</button>
@@ -109,72 +115,21 @@
       </tr>
       </thead>
       <tbody>
-        {%- for idx, s := range recent -%}
-        {%= debugStatement(as, ps, idx, s) %}
-        {%- endfor -%}
-      </tbody>
-    </table>
-    {%- endif -%}
-  </div>
-{% endfunc %}
-
-{% func debugStatement(as *app.State, ps *cutil.PageState, idx int, s *database.DebugStatement) %}
-  {%- code
-    sql := s.SQL
-    if len(sql) > 100 {
-      sql = s.SQL[:100] + "..."
-    }
-  -%}
+        {%- for _, s := range recent -%}
         <tr>
           <td>
-            <a href="#modal-activity-{%d idx %}">{%s sql %}</a>
-            <div id="modal-activity-{%d idx %}" class="modal" style="display: none;">
-              <a class="backdrop" href="#"></a>
-              <div class="modal-content">
-                <div class="modal-header">
-                  <a href="#" class="modal-close">×</a>
-                  <h2>Activity {%d idx %}</h2>
-                </div>
-                <div class="modal-body">
-                  <div class="right">{%s util.MicrosToMillis(s.Timing) %} elapsed</div>
-                  <h3>{%s s.Message %}</h3>
-                  <hr class="clear" />
-                  <div class="right">{%d s.Count %} rows returned</div>
-                  <h4>Out</h4>
-                  <div class="mt">{%= components.JSON(s.Out) %}</div>
-                  <hr />
-                  <h4>SQL</h4>
-                  {%- code out, _ := cutil.FormatLang(s.SQL, "sql") -%}
-                  <pre>{%s= out %}</pre>
-                  {%- if len(s.Values) > 0 -%}
-                  <hr />
-                  <h4>Values</h4>
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>Values</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {%- for idx, v := range s.Values -%}
-                      <tr>
-                        <td>{%d idx %}</td>
-                        <td>{%v v %}</td>
-                      </tr>
-                      {%- endfor -%}
-                    </tbody>
-                  </table>
-                  {%- endif -%}
-                </div>
-              </div>
-            </div>
+            <a href="?idx={%d s.Index %}">{%s s.SQLTrimmed(100) %}</a>
           </td>
           <td>{%d len(s.Values) %}</td>
           <td>{%d s.Count %}</td>
           <td>{%s s.Message %}</td>
           <td>{%s util.MicrosToMillis(s.Timing) %}</td>
         </tr>
+        {%- endfor -%}
+      </tbody>
+    </table>
+    {%- endif -%}
+  </div>
 {% endfunc %}
 
 {% func tableSizes(as *app.State, ps *cutil.PageState, sizes database.TableSizes) %}

@@ -6,7 +6,7 @@ import (
 
 	"go.uber.org/zap"
 
-	"github.com/kyleu/pftest/queries/db"
+	"github.com/kyleu/pftest/queries/schema"
 )
 
 type NumAndString struct {
@@ -63,7 +63,7 @@ func (ts sizeDTOs) ToSizes() TableSizes {
 }
 
 func (s *Service) Sizes(ctx context.Context, logger *zap.SugaredLogger) (TableSizes, error) {
-	q := db.SizeInfo()
+	q := schema.SizeInfo()
 	ret := sizeDTOs{}
 	err := s.Select(ctx, &ret, q, nil, logger)
 	if err != nil {
