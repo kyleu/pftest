@@ -106,6 +106,15 @@ func (r *Reference) ToData() []any {
 
 type References []*Reference
 
+func (r References) Get(id uuid.UUID) *Reference {
+	for _, x := range r {
+		if x.ID == id {
+			return x
+		}
+	}
+	return nil
+}
+
 func (r References) Clone() References {
 	return slices.Clone(r)
 }

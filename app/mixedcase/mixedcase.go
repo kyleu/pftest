@@ -85,6 +85,15 @@ func (m *MixedCase) ToData() []any {
 
 type MixedCases []*MixedCase
 
+func (m MixedCases) Get(id string) *MixedCase {
+	for _, x := range m {
+		if x.ID == id {
+			return x
+		}
+	}
+	return nil
+}
+
 func (m MixedCases) Clone() MixedCases {
 	return slices.Clone(m)
 }

@@ -105,6 +105,15 @@ func (g *Group) ToData() []any {
 
 type Groups []*Group
 
+func (g Groups) Get(id string) *Group {
+	for _, x := range g {
+		if x.ID == id {
+			return x
+		}
+	}
+	return nil
+}
+
 func (g Groups) Clone() Groups {
 	return slices.Clone(g)
 }

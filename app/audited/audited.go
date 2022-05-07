@@ -79,6 +79,15 @@ func (a *Audited) ToData() []any {
 
 type Auditeds []*Audited
 
+func (a Auditeds) Get(id uuid.UUID) *Audited {
+	for _, x := range a {
+		if x.ID == id {
+			return x
+		}
+	}
+	return nil
+}
+
 func (a Auditeds) Clone() Auditeds {
 	return slices.Clone(a)
 }

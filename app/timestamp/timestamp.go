@@ -87,6 +87,15 @@ func (t *Timestamp) ToData() []any {
 
 type Timestamps []*Timestamp
 
+func (t Timestamps) Get(id string) *Timestamp {
+	for _, x := range t {
+		if x.ID == id {
+			return x
+		}
+	}
+	return nil
+}
+
 func (t Timestamps) Clone() Timestamps {
 	return slices.Clone(t)
 }

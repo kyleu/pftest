@@ -84,6 +84,15 @@ func (h *History) ToData() []any {
 
 type Histories []*History
 
+func (h Histories) Get(id string) *History {
+	for _, x := range h {
+		if x.ID == id {
+			return x
+		}
+	}
+	return nil
+}
+
 func (h Histories) Clone() Histories {
 	return slices.Clone(h)
 }

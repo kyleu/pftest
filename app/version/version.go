@@ -109,6 +109,15 @@ func (v *Version) ToDataRevision() []any {
 
 type Versions []*Version
 
+func (v Versions) Get(id string) *Version {
+	for _, x := range v {
+		if x.ID == id {
+			return x
+		}
+	}
+	return nil
+}
+
 func (v Versions) Clone() Versions {
 	return slices.Clone(v)
 }

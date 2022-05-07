@@ -115,6 +115,15 @@ func (c *Capital) ToDataVersion() []any {
 
 type Capitals []*Capital
 
+func (c Capitals) Get(id string) *Capital {
+	for _, x := range c {
+		if x.ID == id {
+			return x
+		}
+	}
+	return nil
+}
+
 func (c Capitals) Clone() Capitals {
 	return slices.Clone(c)
 }

@@ -87,6 +87,15 @@ func (b *Basic) ToData() []any {
 
 type Basics []*Basic
 
+func (b Basics) Get(id uuid.UUID) *Basic {
+	for _, x := range b {
+		if x.ID == id {
+			return x
+		}
+	}
+	return nil
+}
+
 func (b Basics) Clone() Basics {
 	return slices.Clone(b)
 }

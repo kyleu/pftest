@@ -87,6 +87,15 @@ func (s *Softdel) ToData() []any {
 
 type Softdels []*Softdel
 
+func (s Softdels) Get(id string) *Softdel {
+	for _, x := range s {
+		if x.ID == id {
+			return x
+		}
+	}
+	return nil
+}
+
 func (s Softdels) Clone() Softdels {
 	return slices.Clone(s)
 }

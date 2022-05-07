@@ -122,6 +122,15 @@ func (t *Trouble) ToDataSelectcol() []any {
 
 type Troubles []*Trouble
 
+func (t Troubles) Get(from string, where int) *Trouble {
+	for _, x := range t {
+		if x.From == from && x.Where == where {
+			return x
+		}
+	}
+	return nil
+}
+
 func (t Troubles) Clone() Troubles {
 	return slices.Clone(t)
 }
