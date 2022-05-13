@@ -63,6 +63,10 @@ func (t *Timestamp) String() string {
 	return t.ID
 }
 
+func (t *Timestamp) TitleString() string {
+	return t.String()
+}
+
 func (t *Timestamp) WebPath() string {
 	return "/timestamp" + "/" + t.ID
 }

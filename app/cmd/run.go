@@ -2,12 +2,11 @@
 package cmd
 
 import (
-	"go.uber.org/zap"
-
 	"github.com/kyleu/pftest/app"
+	"github.com/kyleu/pftest/app/util"
 )
 
-func Run(bi *app.BuildInfo) (*zap.SugaredLogger, error) {
+func Run(bi *app.BuildInfo) (util.Logger, error) {
 	_buildInfo = bi
 
 	if err := rootCmd().Execute(); err != nil {

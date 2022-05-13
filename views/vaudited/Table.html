@@ -20,7 +20,7 @@
       {%- for _, model := range models -%}
       <tr>
         <td><a href="/audited/{%= components.DisplayUUID(&model.ID) %}">{%= components.DisplayUUID(&model.ID) %}</a></td>
-        <td>{%s model.Name %}</td>
+        <td><strong>{%s model.Name %}</strong></td>
       </tr>
       {%- endfor -%}
       {%- if prms.HasNextPage(len(models) + prms.Offset) || prms.HasPreviousPage() -%}

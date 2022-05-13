@@ -18,7 +18,8 @@
       <a href="#modal-audited"><button type="button">JSON</button></a>
       <a href="{%s p.Model.WebPath() %}/edit"><button>Edit</button></a>
     </div>
-    <h3>{%= components.SVGRefIcon(`star`, ps) %} Audited [{%s p.Model.String() %}]</h3>
+    <h3>{%= components.SVGRefIcon(`star`, ps) %} {%s p.Model.TitleString() %}</h3>
+    <div><a href="/audited"><em>Audited</em></a></div>
     <table class="mt">
       <tbody>
         <tr>
@@ -27,7 +28,7 @@
         </tr>
         <tr>
           <th class="shrink" title="String text">Name</th>
-          <td>{%s p.Model.Name %}</td>
+          <td><strong>{%s p.Model.Name %}</strong></td>
         </tr>
       </tbody>
     </table>

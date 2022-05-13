@@ -6,14 +6,13 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	"go.uber.org/zap"
 
 	"github.com/kyleu/pftest/app/lib/database"
 	"github.com/kyleu/pftest/app/lib/telemetry"
 	"github.com/kyleu/pftest/app/util"
 )
 
-func Migrate(ctx context.Context, s *database.Service, logger *zap.SugaredLogger) error {
+func Migrate(ctx context.Context, s *database.Service, logger util.Logger) error {
 	logger = logger.With("svc", "migrate")
 	ctx, span, logger := telemetry.StartSpan(ctx, "database:migrate", logger)
 	defer span.Complete()
@@ -41,7 +40,7 @@ func Migrate(ctx context.Context, s *database.Service, logger *zap.SugaredLogger
 	return nil
 }
 
-func run(ctx context.Context, maxIdx int, i int, file *MigrationFile, s *database.Service, logger *zap.SugaredLogger) error {
+func run(ctx context.Context, maxIdx int, i int, file *MigrationFile, s *database.Service, logger util.Logger) error {
 	idx := i + 1
 	switch {
 	case idx == maxIdx:
@@ -84,7 +83,7 @@ func run(ctx context.Context, maxIdx int, i int, file *MigrationFile, s *databas
 	return nil
 }
 
-func applyMigration(ctx context.Context, s *database.Service, idx int, file *MigrationFile, logger *zap.SugaredLogger) error {
+func applyMigration(ctx context.Context, s *database.Service, idx int, file *MigrationFile, logger util.Logger) error {
 	logger.Infof("applying database migration [%d]: %s", idx, file.Title)
 	sql, err := exec(ctx, file, s, logger)
 	if err != nil {

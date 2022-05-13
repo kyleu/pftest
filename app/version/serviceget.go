@@ -53,7 +53,7 @@ func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, ids ...string) (
 	}
 	wc := database.SQLInClause("id", len(ids), 0)
 	ret := dtos{}
-	q := database.SQLSelectSimple(columnsString, tableQuoted, wc)
+	q := database.SQLSelectSimple(columnsString, tablesJoined, wc)
 	vals := make([]any, 0, len(ids))
 	for _, x := range ids {
 		vals = append(vals, x)

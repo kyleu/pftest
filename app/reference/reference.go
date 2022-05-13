@@ -83,6 +83,10 @@ func (r *Reference) String() string {
 	return r.ID.String()
 }
 
+func (r *Reference) TitleString() string {
+	return r.String()
+}
+
 func (r *Reference) WebPath() string {
 	return "/reference" + "/" + r.ID.String()
 }

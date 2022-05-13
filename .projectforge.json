@@ -60,13 +60,54 @@
               {
                 "name": "name",
                 "type": "string",
-                "search": true
+                "search": true,
+                "tags": ["title"]
               },
               {
                 "name": "created",
                 "type": "timestamp",
                 "sqlDefault": "now()",
                 "tags": ["created"]
+              }
+            ]
+          },
+          {
+            "name": "relation",
+            "package": "relation",
+            "description": "Relation Model",
+            "icon": "star",
+            "ordering": [{"column": "created"}],
+            "search": ["lower(id::text)", "lower(name)"],
+            "columns": [
+              {
+                "name": "id",
+                "type": "uuid",
+                "pk": true,
+                "search": true
+              },
+              {
+                "name": "basic_id",
+                "type": "uuid"
+              },
+              {
+                "name": "name",
+                "type": "string",
+                "search": true,
+                "tags": ["title"]
+              },
+              {
+                "name": "created",
+                "type": "timestamp",
+                "sqlDefault": "now()",
+                "tags": ["created"]
+              }
+            ],
+            "relations": [
+              {
+                "name": "relation_fk",
+                "src": ["basic_id"],
+                "table": "basic",
+                "tgt": ["id"]
               }
             ]
           },
@@ -132,7 +173,8 @@
               {
                 "name": "name",
                 "type": "string",
-                "search": true
+                "search": true,
+                "tags": ["title"]
               }
             ]
           },
@@ -349,7 +391,8 @@
               {
                 "name": "Name",
                 "type": "string",
-                "search": true
+                "search": true,
+                "tags": ["title"]
               },
               {
                 "name": "Birthday",

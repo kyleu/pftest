@@ -23,7 +23,7 @@
       {%- for _, model := range models -%}
       <tr>
         <td><a href="/capital/{%s model.ID %}">{%s model.ID %}</a></td>
-        <td>{%s model.Name %}</td>
+        <td><strong>{%s model.Name %}</strong></td>
         <td>{%= components.DisplayTimestamp(&model.Birthday) %}</td>
         <td>{%d model.Version %}</td>
         <td>{%= components.DisplayTimestamp(model.Deathday) %}</td>

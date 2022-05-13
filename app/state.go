@@ -6,8 +6,6 @@ import (
 	"fmt"
 	"time"
 
-	"go.uber.org/zap"
-
 	"github.com/kyleu/pftest/app/lib/auth"
 	"github.com/kyleu/pftest/app/lib/database"
 	"github.com/kyleu/pftest/app/lib/filesystem"
@@ -38,7 +36,7 @@ type State struct {
 	Auth      *auth.Service
 	DB        *database.Service
 	Themes    *theme.Service
-	Logger    *zap.SugaredLogger
+	Logger    util.Logger
 	Services  *Services
 	Started   time.Time
 }
@@ -50,7 +48,7 @@ func (s State) Close(ctx context.Context) error {
 	return s.Services.Close(ctx)
 }
 
-func NewState(debug bool, bi *BuildInfo, f filesystem.FileLoader, enableTelemetry bool, logger *zap.SugaredLogger) (*State, error) {
+func NewState(debug bool, bi *BuildInfo, f filesystem.FileLoader, enableTelemetry bool, logger util.Logger) (*State, error) {
 	loc, err := time.LoadLocation("UTC")
 	if err != nil {
 		return nil, err

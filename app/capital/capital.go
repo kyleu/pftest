@@ -77,6 +77,10 @@ func (c *Capital) String() string {
 	return c.ID
 }
 
+func (c *Capital) TitleString() string {
+	return c.Name
+}
+
 func (c *Capital) WebPath() string {
 	return "/capital" + "/" + c.ID
 }

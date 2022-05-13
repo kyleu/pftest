@@ -77,6 +77,10 @@ func (g *Group) String() string {
 	return g.ID
 }
 
+func (g *Group) TitleString() string {
+	return g.String()
+}
+
 func (g *Group) WebPath() string {
 	return "/group" + "/" + g.ID
 }

@@ -21,7 +21,8 @@
       <a href="#modal-history"><button type="button">JSON</button></a>
       <a href="{%s p.Model.WebPath() %}/edit"><button>Edit</button></a>
     </div>
-    <h3>{%= components.SVGRefIcon(`star`, ps) %} History [{%s p.Model.String() %}]</h3>
+    <h3>{%= components.SVGRefIcon(`star`, ps) %} {%s p.Model.TitleString() %}</h3>
+    <div><a href="/history"><em>History</em></a></div>
     <table class="mt">
       <tbody>
         <tr>

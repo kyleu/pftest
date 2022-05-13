@@ -32,13 +32,23 @@ func BasicList(rc *fasthttp.RequestCtx) {
 
 func BasicDetail(rc *fasthttp.RequestCtx) {
 	act("basic.detail", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+		params := cutil.ParamSetFromRequest(rc)
 		ret, err := basicFromPath(rc, as, ps)
 		if err != nil {
 			return "", err
 		}
 		ps.Title = ret.String()
 		ps.Data = ret
-		return render(rc, as, &vbasic.Detail{Model: ret}, ps, "basic", ret.String())
+		relationPrms := params.Get("relation", nil, ps.Logger).Sanitize("relation")
+		relationsByBasicID, err := as.Services.Relation.GetByBasicID(ps.Context, nil, ret.ID, relationPrms)
+		if err != nil {
+			return "", errors.Wrap(err, "unable to retrieve child relations")
+		}
+		return render(rc, as, &vbasic.Detail{
+			Model:              ret,
+			Params:             params,
+			RelationsByBasicID: relationsByBasicID,
+		}, ps, "basic", ret.String())
 	})
 }
 

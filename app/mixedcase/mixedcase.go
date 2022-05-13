@@ -61,6 +61,10 @@ func (m *MixedCase) String() string {
 	return m.ID
 }
 
+func (m *MixedCase) TitleString() string {
+	return m.String()
+}
+
 func (m *MixedCase) WebPath() string {
 	return "/mixedcase" + "/" + m.ID
 }

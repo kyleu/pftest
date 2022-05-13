@@ -4,8 +4,7 @@ package database
 import (
 	"context"
 
-	"go.uber.org/zap"
-
+	"github.com/kyleu/pftest/app/util"
 	"github.com/kyleu/pftest/queries/schema"
 )
 
@@ -62,7 +61,7 @@ func (ts sizeDTOs) ToSizes() TableSizes {
 	return ret
 }
 
-func (s *Service) Sizes(ctx context.Context, logger *zap.SugaredLogger) (TableSizes, error) {
+func (s *Service) Sizes(ctx context.Context, logger util.Logger) (TableSizes, error) {
 	q := schema.SizeInfo()
 	ret := sizeDTOs{}
 	err := s.Select(ctx, &ret, q, nil, logger)

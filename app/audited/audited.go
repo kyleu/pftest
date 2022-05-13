@@ -58,6 +58,10 @@ func (a *Audited) String() string {
 	return a.ID.String()
 }
 
+func (a *Audited) TitleString() string {
+	return a.Name
+}
+
 func (a *Audited) WebPath() string {
 	return "/audited" + "/" + a.ID.String()
 }

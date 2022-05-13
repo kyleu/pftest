@@ -3,13 +3,18 @@
   "github.com/kyleu/pftest/app"
   "github.com/kyleu/pftest/app/basic"
   "github.com/kyleu/pftest/app/controller/cutil"
+  "github.com/kyleu/pftest/app/lib/filter"
+  "github.com/kyleu/pftest/app/relation"
   "github.com/kyleu/pftest/views/components"
   "github.com/kyleu/pftest/views/layout"
+  "github.com/kyleu/pftest/views/vrelation"
 ) %}
 
 {% code type Detail struct {
   layout.Basic
   Model *basic.Basic
+  Params filter.ParamSet
+  RelationsByBasicID relation.Relations
 } %}
 
 {% func (p *Detail) Body(as *app.State, ps *cutil.PageState) %}
@@ -18,7 +23,8 @@
       <a href="#modal-basic"><button type="button">JSON</button></a>
       <a href="{%s p.Model.WebPath() %}/edit"><button>Edit</button></a>
     </div>
-    <h3>{%= components.SVGRefIcon(`star`, ps) %} Basic [{%s p.Model.String() %}]</h3>
+    <h3>{%= components.SVGRefIcon(`star`, ps) %} {%s p.Model.TitleString() %}</h3>
+    <div><a href="/basic"><em>Basic</em></a></div>
     <table class="mt">
       <tbody>
         <tr>
@@ -27,7 +33,7 @@
         </tr>
         <tr>
           <th class="shrink" title="String text">Name</th>
-          <td>{%s p.Model.Name %}</td>
+          <td><strong>{%s p.Model.Name %}</strong></td>
         </tr>
         <tr>
           <th class="shrink" title="Date and time, in almost any format">Created</th>
@@ -38,5 +44,11 @@
   </div>
   {%- comment %}$PF_SECTION_START(extra)${% endcomment -%}
   {%- comment %}$PF_SECTION_END(extra)${% endcomment -%}
+  {%- if len(p.RelationsByBasicID) > 0 -%}
+  <div class="card">
+    <h3>{%= components.SVGRefIcon(`star`, ps) %} Related relations by [basic id]</h3>
+    {%= vrelation.Table(p.RelationsByBasicID, nil, p.Params, as, ps) %}
+  </div>
+  {%- endif -%}
   {%= components.JSONModal("basic", "Basic JSON", p.Model, 1) %}
 {% endfunc %}

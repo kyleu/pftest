@@ -10,11 +10,13 @@
 -- {%= TimestampDrop() %}
 -- {%= AuditedDrop() %}
 -- {%= ReferenceDrop() %}
+-- {%= RelationDrop() %}
 -- {%= BasicDrop() %}
 -- {% endfunc %}
 
 -- {% func CreateAll() %}
 -- {%= BasicCreate() %}
+-- {%= RelationCreate() %}
 -- {%= ReferenceCreate() %}
 -- {%= AuditedCreate() %}
 -- {%= TimestampCreate() %}

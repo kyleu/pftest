@@ -15,6 +15,7 @@ import (
 	"github.com/kyleu/pftest/app/lib/database/migrate"
 	"github.com/kyleu/pftest/app/mixedcase"
 	"github.com/kyleu/pftest/app/reference"
+	"github.com/kyleu/pftest/app/relation"
 	"github.com/kyleu/pftest/app/softdel"
 	"github.com/kyleu/pftest/app/timestamp"
 	"github.com/kyleu/pftest/app/trouble"
@@ -24,6 +25,7 @@ import (
 
 type Services struct {
 	Basic     *basic.Service
+	Relation  *relation.Service
 	Reference *reference.Service
 	Audited   *audited.Service
 	Timestamp *timestamp.Service
@@ -48,6 +50,7 @@ func NewServices(ctx context.Context, st *State) (*Services, error) {
 
 	return &Services{
 		Basic:     basic.NewService(st.DB, st.Logger),
+		Relation:  relation.NewService(st.DB, st.Logger),
 		Reference: reference.NewService(st.DB, st.Logger),
 		Audited:   audited.NewService(st.DB, aud, st.Logger),
 		Timestamp: timestamp.NewService(st.DB, st.Logger),

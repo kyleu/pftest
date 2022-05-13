@@ -63,6 +63,10 @@ func (s *Softdel) String() string {
 	return s.ID
 }
 
+func (s *Softdel) TitleString() string {
+	return s.String()
+}
+
 func (s *Softdel) WebPath() string {
 	return "/softdel" + "/" + s.ID
 }

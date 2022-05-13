@@ -63,6 +63,10 @@ func (b *Basic) String() string {
 	return b.ID.String()
 }
 
+func (b *Basic) TitleString() string {
+	return b.Name
+}
+
 func (b *Basic) WebPath() string {
 	return "/basic" + "/" + b.ID.String()
 }

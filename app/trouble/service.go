@@ -2,18 +2,17 @@
 package trouble
 
 import (
-	"go.uber.org/zap"
-
 	"github.com/kyleu/pftest/app/lib/database"
 	"github.com/kyleu/pftest/app/lib/filter"
+	"github.com/kyleu/pftest/app/util"
 )
 
 type Service struct {
 	db     *database.Service
-	logger *zap.SugaredLogger
+	logger util.Logger
 }
 
-func NewService(db *database.Service, logger *zap.SugaredLogger) *Service {
+func NewService(db *database.Service, logger util.Logger) *Service {
 	logger = logger.With("svc", "trouble")
 	filter.AllowedColumns["trouble"] = columns
 	return &Service{db: db, logger: logger}

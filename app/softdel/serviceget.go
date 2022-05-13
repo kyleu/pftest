@@ -63,6 +63,7 @@ func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, includeDeleted b
 		return Softdels{}, nil
 	}
 	wc := database.SQLInClause("id", len(ids), 0)
+	wc = addDeletedClause(wc, includeDeleted)
 	ret := dtos{}
 	q := database.SQLSelectSimple(columnsString, tableQuoted, wc)
 	vals := make([]any, 0, len(ids))

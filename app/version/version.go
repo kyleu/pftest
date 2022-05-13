@@ -73,6 +73,10 @@ func (v *Version) String() string {
 	return v.ID
 }
 
+func (v *Version) TitleString() string {
+	return v.String()
+}
+
 func (v *Version) WebPath() string {
 	return "/version" + "/" + v.ID
 }

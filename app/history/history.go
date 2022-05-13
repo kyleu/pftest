@@ -62,6 +62,10 @@ func (h *History) String() string {
 	return h.ID
 }
 
+func (h *History) TitleString() string {
+	return h.String()
+}
+
 func (h *History) WebPath() string {
 	return "/history" + "/" + h.ID
 }

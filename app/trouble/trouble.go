@@ -81,6 +81,10 @@ func (t *Trouble) String() string {
 	return fmt.Sprintf("%s::%s", t.From, fmt.Sprint(t.Where))
 }
 
+func (t *Trouble) TitleString() string {
+	return t.String()
+}
+
 func (t *Trouble) WebPath() string {
 	return "/troub/le" + "/" + t.From + "/" + fmt.Sprint(t.Where)
 }

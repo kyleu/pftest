@@ -21,7 +21,7 @@
       {%- for _, model := range models -%}
       <tr>
         <td><a href="/basic/{%= components.DisplayUUID(&model.ID) %}">{%= components.DisplayUUID(&model.ID) %}</a></td>
-        <td>{%s model.Name %}</td>
+        <td><strong>{%s model.Name %}</strong></td>
         <td>{%= components.DisplayTimestamp(&model.Created) %}</td>
       </tr>
       {%- endfor -%}
