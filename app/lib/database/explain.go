@@ -12,7 +12,7 @@ import (
 
 const explainPrefix = "explain "
 
-func (s *Service) Explain(ctx context.Context, q string, values []any, logger util.Logger) ([]string, error) {
+func (s *Service) Explain(ctx context.Context, q string, values []any, logger util.Logger) ([]util.ValueMap, error) {
 	q = strings.TrimSpace(q)
 	if !strings.HasPrefix(q, explainPrefix) {
 		q = explainPrefix + q
@@ -22,23 +22,14 @@ func (s *Service) Explain(ctx context.Context, q string, values []any, logger ut
 		return nil, errors.Wrap(err, "invalid explain result")
 	}
 	defer func() { _ = res.Close() }()
-	var ret []string
+	var ret []util.ValueMap
 	for res.Next() {
 		x := map[string]any{}
 		err = res.MapScan(x)
 		if err != nil {
 			return nil, errors.Wrap(err, "can't read results")
 		}
-		if len(x) != 1 {
-			return nil, errors.New("return from explain contains more than one column")
-		}
-		for _, v := range x {
-			s, ok := v.(string)
-			if !ok {
-				return nil, errors.Errorf("explain column is [%T], not [string]", v)
-			}
-			ret = append(ret, s)
-		}
+		ret = append(ret, x)
 	}
 
 	return ret, nil

@@ -1,0 +1,18 @@
+<!-- Content managed by Project Forge, see [projectforge.md] for details. -->
+{% import (
+  "github.com/kyleu/pftest/app"
+  "github.com/kyleu/pftest/app/controller/cutil"
+  "github.com/kyleu/pftest/views/layout"
+) %}
+
+{% code type MarkdownPage struct {
+  layout.Basic
+  Title string
+  HTML string
+} %}
+
+{% func (p *MarkdownPage) Body(as *app.State, ps *cutil.PageState) %}
+  <div class="card markdown">
+    {%s= p.HTML %}
+  </div>
+{% endfunc %}

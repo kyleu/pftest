@@ -140,6 +140,9 @@ func AppRoutes() fasthttp.RequestHandler {
 	// $PF_SECTION_START(routes)$
 	// $PF_SECTION_END(routes)$
 
+	r.GET("/docs", Docs)
+	r.GET("/docs/{path:*}", Docs)
+
 	r.GET("/admin", Admin)
 	r.GET("/admin/sandbox", SandboxList)
 	r.GET("/admin/sandbox/{key}", SandboxRun)

@@ -13,6 +13,7 @@ The following modules were used to build this project:
 - [database](./doc/module/database.md)
 - [databaseui](./doc/module/databaseui.md)
 - [desktop](./doc/module/desktop.md)
+- [docbrowse](./doc/module/docbrowse.md)
 - [export](./doc/module/export.md)
 - [ios](./doc/module/ios.md)
 - [marketing](./doc/module/marketing.md)
