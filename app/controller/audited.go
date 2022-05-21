@@ -21,10 +21,11 @@ func AuditedList(rc *fasthttp.RequestCtx) {
 		ps.Title = auditedDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
 		prms := params.Get("audited", nil, ps.Logger).Sanitize("audited")
-		ret, err := as.Services.Audited.List(ps.Context, nil, prms)
+		ret, err := as.Services.Audited.List(ps.Context, nil, prms, ps.Logger)
 		if err != nil {
 			return "", err
 		}
+		ps.Title = "Auditeds"
 		ps.Data = ret
 		return render(rc, as, &vaudited.List{Models: ret, Params: params}, ps, "audited")
 	})
@@ -36,7 +37,7 @@ func AuditedDetail(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = ret.String()
+		ps.Title = ret.TitleString()+" (Audited)"
 		ps.Data = ret
 		return render(rc, as, &vaudited.Detail{Model: ret}, ps, "audited", ret.String())
 	})
@@ -54,7 +55,7 @@ func AuditedCreateForm(rc *fasthttp.RequestCtx) {
 func AuditedCreateFormRandom(rc *fasthttp.RequestCtx) {
 	act("audited.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := audited.Random()
-		ps.Title = "Create Random [Audited]"
+		ps.Title = "Create Random Audited"
 		ps.Data = ret
 		return render(rc, as, &vaudited.Edit{Model: ret, IsNew: true}, ps, "audited", "Create")
 	})
@@ -66,7 +67,7 @@ func AuditedCreate(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", errors.Wrap(err, "unable to parse Audited from form")
 		}
-		err = as.Services.Audited.Create(ps.Context, nil, ret)
+		err = as.Services.Audited.Create(ps.Context, nil, ps.Logger, ret)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to save newly-created Audited")
 		}
@@ -81,7 +82,7 @@ func AuditedEditForm(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = "Edit [" + ret.String() + "]"
+		ps.Title = "Edit " + ret.String()
 		ps.Data = ret
 		return render(rc, as, &vaudited.Edit{Model: ret}, ps, "audited", ret.String())
 	})
@@ -98,7 +99,7 @@ func AuditedEdit(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrap(err, "unable to parse Audited from form")
 		}
 		frm.ID = ret.ID
-		err = as.Services.Audited.Update(ps.Context, nil, frm)
+		err = as.Services.Audited.Update(ps.Context, nil, frm, ps.Logger)
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to update Audited [%s]", frm.String())
 		}
@@ -113,7 +114,7 @@ func AuditedDelete(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		err = as.Services.Audited.Delete(ps.Context, nil, ret.ID)
+		err = as.Services.Audited.Delete(ps.Context, nil, ret.ID, ps.Logger)
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to delete audited [%s]", ret.String())
 		}
@@ -123,7 +124,7 @@ func AuditedDelete(rc *fasthttp.RequestCtx) {
 }
 
 func auditedFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageState) (*audited.Audited, error) {
-	idArgStr, err := RCRequiredString(rc, "id", false)
+	idArgStr, err := cutil.RCRequiredString(rc, "id", false)
 	if err != nil {
 		return nil, errors.Wrap(err, "must provide [id] as an argument")
 	}
@@ -132,7 +133,7 @@ func auditedFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageState
 		return nil, errors.Errorf("argument [id] (%s) is not a valid UUID", idArgStr)
 	}
 	idArg := *idArgP
-	return as.Services.Audited.Get(ps.Context, nil, idArg)
+	return as.Services.Audited.Get(ps.Context, nil, idArg, ps.Logger)
 }
 
 func auditedFromForm(rc *fasthttp.RequestCtx, setPK bool) (*audited.Audited, error) {

@@ -27,7 +27,7 @@ func Search(ctx context.Context, as *app.State, params *Params, logger util.Logg
 	// $PF_SECTION_END(search_functions)$
 	// $PF_INJECT_START(codegen)$
 	basicFunc := func(ctx context.Context, as *app.State, params *Params, logger util.Logger) (result.Results, error) {
-		models, err := as.Services.Basic.Search(ctx, params.Q, nil, params.PS.Get("basic", nil, as.Logger))
+		models, err := as.Services.Basic.Search(ctx, params.Q, nil, params.PS.Get("basic", nil, logger), logger)
 		if err != nil {
 			return nil, errors.Wrap(err, "")
 		}
@@ -38,7 +38,7 @@ func Search(ctx context.Context, as *app.State, params *Params, logger util.Logg
 		return res, nil
 	}
 	relationFunc := func(ctx context.Context, as *app.State, params *Params, logger util.Logger) (result.Results, error) {
-		models, err := as.Services.Relation.Search(ctx, params.Q, nil, params.PS.Get("relation", nil, as.Logger))
+		models, err := as.Services.Relation.Search(ctx, params.Q, nil, params.PS.Get("relation", nil, logger), logger)
 		if err != nil {
 			return nil, errors.Wrap(err, "")
 		}
@@ -49,7 +49,7 @@ func Search(ctx context.Context, as *app.State, params *Params, logger util.Logg
 		return res, nil
 	}
 	referenceFunc := func(ctx context.Context, as *app.State, params *Params, logger util.Logger) (result.Results, error) {
-		models, err := as.Services.Reference.Search(ctx, params.Q, nil, params.PS.Get("reference", nil, as.Logger))
+		models, err := as.Services.Reference.Search(ctx, params.Q, nil, params.PS.Get("reference", nil, logger), logger)
 		if err != nil {
 			return nil, errors.Wrap(err, "")
 		}
@@ -60,7 +60,7 @@ func Search(ctx context.Context, as *app.State, params *Params, logger util.Logg
 		return res, nil
 	}
 	auditedFunc := func(ctx context.Context, as *app.State, params *Params, logger util.Logger) (result.Results, error) {
-		models, err := as.Services.Audited.Search(ctx, params.Q, nil, params.PS.Get("audited", nil, as.Logger))
+		models, err := as.Services.Audited.Search(ctx, params.Q, nil, params.PS.Get("audited", nil, logger), logger)
 		if err != nil {
 			return nil, errors.Wrap(err, "")
 		}

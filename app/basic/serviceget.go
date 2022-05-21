@@ -11,44 +11,45 @@ import (
 
 	"github.com/kyleu/pftest/app/lib/database"
 	"github.com/kyleu/pftest/app/lib/filter"
+	"github.com/kyleu/pftest/app/util"
 )
 
-func (s *Service) List(ctx context.Context, tx *sqlx.Tx, params *filter.Params) (Basics, error) {
+func (s *Service) List(ctx context.Context, tx *sqlx.Tx, params *filter.Params, logger util.Logger) (Basics, error) {
 	params = filters(params)
 	wc := ""
 	q := database.SQLSelect(columnsString, tableQuoted, wc, params.OrderByString(), params.Limit, params.Offset)
 	ret := dtos{}
-	err := s.db.Select(ctx, &ret, q, tx, s.logger)
+	err := s.db.Select(ctx, &ret, q, tx, logger)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to get basics")
 	}
 	return ret.ToBasics(), nil
 }
 
-func (s *Service) Count(ctx context.Context, tx *sqlx.Tx, whereClause string, args ...any) (int, error) {
+func (s *Service) Count(ctx context.Context, tx *sqlx.Tx, whereClause string, logger util.Logger, args ...any) (int, error) {
 	if strings.Contains(whereClause, "'") || strings.Contains(whereClause, ";") {
 		return 0, errors.Errorf("invalid where clause [%s]", whereClause)
 	}
 	q := database.SQLSelectSimple(columnsString, tableQuoted, whereClause)
-	ret, err := s.db.SingleInt(ctx, q, tx, s.logger, args...)
+	ret, err := s.db.SingleInt(ctx, q, tx, logger, args...)
 	if err != nil {
 		return 0, errors.Wrap(err, "unable to get count of basics")
 	}
 	return int(ret), nil
 }
 
-func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, id uuid.UUID) (*Basic, error) {
+func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, id uuid.UUID, logger util.Logger) (*Basic, error) {
 	wc := defaultWC(0)
 	ret := &dto{}
 	q := database.SQLSelectSimple(columnsString, tableQuoted, wc)
-	err := s.db.Get(ctx, ret, q, tx, s.logger, id)
+	err := s.db.Get(ctx, ret, q, tx, logger, id)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to get basic by id [%v]", id)
 	}
 	return ret.ToBasic(), nil
 }
 
-func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, ids ...uuid.UUID) (Basics, error) {
+func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, logger util.Logger, ids ...uuid.UUID) (Basics, error) {
 	if len(ids) == 0 {
 		return Basics{}, nil
 	}
@@ -59,7 +60,7 @@ func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, ids ...uuid.UUID
 	for _, x := range ids {
 		vals = append(vals, x)
 	}
-	err := s.db.Select(ctx, &ret, q, tx, s.logger, vals...)
+	err := s.db.Select(ctx, &ret, q, tx, logger, vals...)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to get Basics for [%d] ids", len(ids))
 	}
@@ -68,21 +69,21 @@ func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, ids ...uuid.UUID
 
 const searchClause = "(lower(id::text) like $1 or lower(name) like $1)"
 
-func (s *Service) Search(ctx context.Context, query string, tx *sqlx.Tx, params *filter.Params) (Basics, error) {
+func (s *Service) Search(ctx context.Context, query string, tx *sqlx.Tx, params *filter.Params, logger util.Logger) (Basics, error) {
 	params = filters(params)
 	wc := searchClause
 	q := database.SQLSelect(columnsString, tableQuoted, wc, params.OrderByString(), params.Limit, params.Offset)
 	ret := dtos{}
-	err := s.db.Select(ctx, &ret, q, tx, s.logger, "%"+strings.ToLower(query)+"%")
+	err := s.db.Select(ctx, &ret, q, tx, logger, "%"+strings.ToLower(query)+"%")
 	if err != nil {
 		return nil, err
 	}
 	return ret.ToBasics(), nil
 }
 
-func (s *Service) ListSQL(ctx context.Context, tx *sqlx.Tx, sql string) (Basics, error) {
+func (s *Service) ListSQL(ctx context.Context, tx *sqlx.Tx, sql string, logger util.Logger) (Basics, error) {
 	ret := dtos{}
-	err := s.db.Select(ctx, &ret, sql, tx, s.logger)
+	err := s.db.Select(ctx, &ret, sql, tx, logger)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to get basics using custom SQL")
 	}

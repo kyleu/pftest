@@ -158,6 +158,7 @@ func AppRoutes() fasthttp.RequestHandler {
 	r.GET("/admin/database", DatabaseList)
 	r.GET("/admin/database/{key}", DatabaseDetail)
 	r.GET("/admin/database/{key}/{act}", DatabaseAction)
+	r.GET("/admin/database/{key}/tables/{schema}/{table}", DatabaseTableView)
 	r.POST("/admin/database/{key}/sql", DatabaseSQLRun)
 	r.GET("/admin/{path:*}", Admin)
 

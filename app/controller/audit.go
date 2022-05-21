@@ -141,7 +141,7 @@ func RecordDetail(rc *fasthttp.RequestCtx) {
 }
 
 func auditFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageState) (*audit.Audit, error) {
-	idArgStr, err := RCRequiredString(rc, "id", false)
+	idArgStr, err := cutil.RCRequiredString(rc, "id", false)
 	if err != nil {
 		return nil, errors.Wrap(err, "must provide [id] as an argument")
 	}
@@ -162,7 +162,7 @@ func auditFromForm(rc *fasthttp.RequestCtx, setPK bool) (*audit.Audit, error) {
 }
 
 func recordFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageState) (*audit.Record, error) {
-	idArgStr, err := RCRequiredString(rc, "id", false)
+	idArgStr, err := cutil.RCRequiredString(rc, "id", false)
 	if err != nil {
 		return nil, errors.Wrap(err, "must provide [id] as an argument")
 	}

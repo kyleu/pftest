@@ -20,10 +20,11 @@ func VersionList(rc *fasthttp.RequestCtx) {
 		ps.Title = versionDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
 		prms := params.Get("version", nil, ps.Logger).Sanitize("version")
-		ret, err := as.Services.Version.List(ps.Context, nil, prms)
+		ret, err := as.Services.Version.List(ps.Context, nil, prms, ps.Logger)
 		if err != nil {
 			return "", err
 		}
+		ps.Title = "Versions"
 		ps.Data = ret
 		return render(rc, as, &vversion.List{Models: ret, Params: params}, ps, "version")
 	})
@@ -36,11 +37,12 @@ func VersionDetail(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		revisions, err := as.Services.Version.GetAllRevisions(ps.Context, nil, ret.ID, params.Get("version", nil, ps.Logger).Sanitize("version"), false)
+		prms := params.Get("version", nil, ps.Logger).Sanitize("version")
+		revisions, err := as.Services.Version.GetAllRevisions(ps.Context, nil, ret.ID, prms, ps.Logger)
 		if err != nil {
 			return "", err
 		}
-		ps.Title = ret.String()
+		ps.Title = ret.TitleString()+" (Version)"
 		ps.Data = ret
 		return render(rc, as, &vversion.Detail{
 			Model:     ret,
@@ -56,11 +58,11 @@ func VersionRevision(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		revision, err := RCRequiredInt(rc, "revision")
+		revision, err := cutil.RCRequiredInt(rc, "revision")
 		if err != nil {
 			return "", err
 		}
-		ret, err := as.Services.Version.GetRevision(ps.Context, nil, latest.ID, revision)
+		ret, err := as.Services.Version.GetRevision(ps.Context, nil, latest.ID, revision, ps.Logger)
 		if err != nil {
 			return "", err
 		}
@@ -82,7 +84,7 @@ func VersionCreateForm(rc *fasthttp.RequestCtx) {
 func VersionCreateFormRandom(rc *fasthttp.RequestCtx) {
 	act("version.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := version.Random()
-		ps.Title = "Create Random [Version]"
+		ps.Title = "Create Random Version"
 		ps.Data = ret
 		return render(rc, as, &vversion.Edit{Model: ret, IsNew: true}, ps, "version", "Create")
 	})
@@ -94,7 +96,7 @@ func VersionCreate(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", errors.Wrap(err, "unable to parse Version from form")
 		}
-		err = as.Services.Version.Create(ps.Context, nil, ret)
+		err = as.Services.Version.Create(ps.Context, nil, ps.Logger, ret)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to save newly-created Version")
 		}
@@ -110,7 +112,7 @@ func VersionEditForm(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = "Edit [" + ret.String() + "]"
+		ps.Title = "Edit " + ret.String()
 		ps.Data = ret
 		return render(rc, as, &vversion.Edit{Model: ret}, ps, "version", ret.String())
 	})
@@ -128,7 +130,7 @@ func VersionEdit(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrap(err, "unable to parse Version from form")
 		}
 		frm.ID = ret.ID
-		err = as.Services.Version.Update(ps.Context, nil, frm)
+		err = as.Services.Version.Update(ps.Context, nil, frm, ps.Logger)
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to update Version [%s]", frm.String())
 		}
@@ -143,7 +145,7 @@ func VersionDelete(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		err = as.Services.Version.Delete(ps.Context, nil, ret.ID)
+		err = as.Services.Version.Delete(ps.Context, nil, ret.ID, ps.Logger)
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to delete version [%s]", ret.String())
 		}
@@ -153,11 +155,11 @@ func VersionDelete(rc *fasthttp.RequestCtx) {
 }
 
 func versionFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageState) (*version.Version, error) {
-	idArg, err := RCRequiredString(rc, "id", false)
+	idArg, err := cutil.RCRequiredString(rc, "id", false)
 	if err != nil {
 		return nil, errors.Wrap(err, "must provide [id] as an argument")
 	}
-	return as.Services.Version.Get(ps.Context, nil, idArg)
+	return as.Services.Version.Get(ps.Context, nil, idArg, ps.Logger)
 }
 
 func versionFromForm(rc *fasthttp.RequestCtx, setPK bool) (*version.Version, error) {

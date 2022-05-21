@@ -22,16 +22,17 @@ func RelationList(rc *fasthttp.RequestCtx) {
 		ps.Title = relationDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
 		prms := params.Get("relation", nil, ps.Logger).Sanitize("relation")
-		ret, err := as.Services.Relation.List(ps.Context, nil, prms)
+		ret, err := as.Services.Relation.List(ps.Context, nil, prms, ps.Logger)
 		if err != nil {
 			return "", err
 		}
+		ps.Title = "Relations"
 		ps.Data = ret
 		basicIDs := make([]uuid.UUID, 0, len(ret))
 		for _, x := range ret {
 			basicIDs = append(basicIDs, x.BasicID)
 		}
-		basics, err := as.Services.Basic.GetMultiple(ps.Context, nil, basicIDs...)
+		basics, err := as.Services.Basic.GetMultiple(ps.Context, nil, ps.Logger, basicIDs...)
 		if err != nil {
 			return "", err
 		}
@@ -45,7 +46,7 @@ func RelationDetail(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = ret.String()
+		ps.Title = ret.TitleString()+" (Relation)"
 		ps.Data = ret
 		return render(rc, as, &vrelation.Detail{Model: ret}, ps, "relation", ret.String())
 	})
@@ -63,7 +64,7 @@ func RelationCreateForm(rc *fasthttp.RequestCtx) {
 func RelationCreateFormRandom(rc *fasthttp.RequestCtx) {
 	act("relation.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := relation.Random()
-		ps.Title = "Create Random [Relation]"
+		ps.Title = "Create Random Relation"
 		ps.Data = ret
 		return render(rc, as, &vrelation.Edit{Model: ret, IsNew: true}, ps, "relation", "Create")
 	})
@@ -75,7 +76,7 @@ func RelationCreate(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", errors.Wrap(err, "unable to parse Relation from form")
 		}
-		err = as.Services.Relation.Create(ps.Context, nil, ret)
+		err = as.Services.Relation.Create(ps.Context, nil, ps.Logger, ret)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to save newly-created Relation")
 		}
@@ -90,7 +91,7 @@ func RelationEditForm(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = "Edit [" + ret.String() + "]"
+		ps.Title = "Edit " + ret.String()
 		ps.Data = ret
 		return render(rc, as, &vrelation.Edit{Model: ret}, ps, "relation", ret.String())
 	})
@@ -107,7 +108,7 @@ func RelationEdit(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrap(err, "unable to parse Relation from form")
 		}
 		frm.ID = ret.ID
-		err = as.Services.Relation.Update(ps.Context, nil, frm)
+		err = as.Services.Relation.Update(ps.Context, nil, frm, ps.Logger)
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to update Relation [%s]", frm.String())
 		}
@@ -122,7 +123,7 @@ func RelationDelete(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		err = as.Services.Relation.Delete(ps.Context, nil, ret.ID)
+		err = as.Services.Relation.Delete(ps.Context, nil, ret.ID, ps.Logger)
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to delete relation [%s]", ret.String())
 		}
@@ -132,7 +133,7 @@ func RelationDelete(rc *fasthttp.RequestCtx) {
 }
 
 func relationFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageState) (*relation.Relation, error) {
-	idArgStr, err := RCRequiredString(rc, "id", false)
+	idArgStr, err := cutil.RCRequiredString(rc, "id", false)
 	if err != nil {
 		return nil, errors.Wrap(err, "must provide [id] as an argument")
 	}
@@ -141,7 +142,7 @@ func relationFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageStat
 		return nil, errors.Errorf("argument [id] (%s) is not a valid UUID", idArgStr)
 	}
 	idArg := *idArgP
-	return as.Services.Relation.Get(ps.Context, nil, idArg)
+	return as.Services.Relation.Get(ps.Context, nil, idArg, ps.Logger)
 }
 
 func relationFromForm(rc *fasthttp.RequestCtx, setPK bool) (*relation.Relation, error) {

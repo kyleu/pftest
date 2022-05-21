@@ -7,9 +7,10 @@ import (
 	"github.com/jmoiron/sqlx"
 
 	"github.com/kyleu/pftest/app/lib/database"
+	"github.com/kyleu/pftest/app/util"
 )
 
-func (s *Service) Create(ctx context.Context, tx *sqlx.Tx, models ...*MixedCase) error {
+func (s *Service) Create(ctx context.Context, tx *sqlx.Tx, logger util.Logger, models ...*MixedCase) error {
 	if len(models) == 0 {
 		return nil
 	}
@@ -18,21 +19,21 @@ func (s *Service) Create(ctx context.Context, tx *sqlx.Tx, models ...*MixedCase)
 	for _, arg := range models {
 		vals = append(vals, arg.ToData()...)
 	}
-	return s.db.Insert(ctx, q, tx, s.logger, vals...)
+	return s.db.Insert(ctx, q, tx, logger, vals...)
 }
 
-func (s *Service) Update(ctx context.Context, tx *sqlx.Tx, model *MixedCase) error {
+func (s *Service) Update(ctx context.Context, tx *sqlx.Tx, model *MixedCase, logger util.Logger) error {
 	q := database.SQLUpdate(tableQuoted, columnsQuoted, "\"id\" = $4", "")
 	data := model.ToData()
 	data = append(data, model.ID)
-	_, err := s.db.Update(ctx, q, tx, 1, s.logger, data...)
+	_, err := s.db.Update(ctx, q, tx, 1, logger, data...)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, models ...*MixedCase) error {
+func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, logger util.Logger, models ...*MixedCase) error {
 	if len(models) == 0 {
 		return nil
 	}
@@ -41,11 +42,17 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, models ...*MixedCase) e
 	for _, model := range models {
 		data = append(data, model.ToData()...)
 	}
-	return s.db.Insert(ctx, q, tx, s.logger, data...)
+	return s.db.Insert(ctx, q, tx, logger, data...)
 }
 
-func (s *Service) Delete(ctx context.Context, tx *sqlx.Tx, id string) error {
+func (s *Service) Delete(ctx context.Context, tx *sqlx.Tx, id string, logger util.Logger) error {
 	q := database.SQLDelete(tableQuoted, defaultWC(0))
-	_, err := s.db.Delete(ctx, q, tx, 1, s.logger, id)
+	_, err := s.db.Delete(ctx, q, tx, 1, logger, id)
+	return err
+}
+
+func (s *Service) DeleteWhere(ctx context.Context, tx *sqlx.Tx, wc string, expected int, logger util.Logger, values ...any) error {
+	q := database.SQLDelete(tableQuoted, wc)
+	_, err := s.db.Delete(ctx, q, tx, expected, logger, values...)
 	return err
 }

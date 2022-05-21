@@ -24,27 +24,27 @@ var (
 	historyTableQuoted = fmt.Sprintf("%q", historyTable)
 )
 
-func (s *Service) GetHistory(ctx context.Context, tx *sqlx.Tx, id uuid.UUID) (*HistoryHistory, error) {
+func (s *Service) GetHistory(ctx context.Context, tx *sqlx.Tx, id uuid.UUID, logger util.Logger) (*HistoryHistory, error) {
 	q := database.SQLSelectSimple(historyColumnsString, historyTableQuoted, "id = $1")
 	ret := historyDTO{}
-	err := s.db.Get(ctx, &ret, q, tx, s.logger, id)
+	err := s.db.Get(ctx, &ret, q, tx, logger, id)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to get history history [%s]", id.String())
 	}
 	return ret.ToHistory(), nil
 }
 
-func (s *Service) GetHistories(ctx context.Context, tx *sqlx.Tx, id string) (HistoryHistories, error) {
+func (s *Service) GetHistories(ctx context.Context, tx *sqlx.Tx, id string, logger util.Logger) (HistoryHistories, error) {
 	q := database.SQLSelectSimple(historyColumnsString, historyTableQuoted, "history_id = $1")
 	ret := historyDTOs{}
-	err := s.db.Select(ctx, &ret, q, tx, s.logger, id)
+	err := s.db.Select(ctx, &ret, q, tx, logger, id)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to get histories by id [%v]", id)
 	}
 	return ret.ToHistories(), nil
 }
 
-func (s *Service) SaveHistory(ctx context.Context, tx *sqlx.Tx, o *History, n *History) (*HistoryHistory, error) {
+func (s *Service) SaveHistory(ctx context.Context, tx *sqlx.Tx, o *History, n *History, logger util.Logger) (*HistoryHistory, error) {
 	q := database.SQLInsert(historyTableQuoted, historyColumns, 1, "")
 	h := &historyDTO{
 		ID:        util.UUID(),
@@ -55,7 +55,7 @@ func (s *Service) SaveHistory(ctx context.Context, tx *sqlx.Tx, o *History, n *H
 		Created:   time.Now(),
 	}
 	hist := h.ToHistory()
-	err := s.db.Insert(ctx, q, tx, s.logger, hist.ToData()...)
+	err := s.db.Insert(ctx, q, tx, logger, hist.ToData()...)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to insert history")
 	}

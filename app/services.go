@@ -19,6 +19,7 @@ import (
 	"github.com/kyleu/pftest/app/softdel"
 	"github.com/kyleu/pftest/app/timestamp"
 	"github.com/kyleu/pftest/app/trouble"
+	"github.com/kyleu/pftest/app/util"
 	"github.com/kyleu/pftest/app/version"
 	"github.com/kyleu/pftest/queries/migrations"
 )
@@ -49,22 +50,22 @@ func NewServices(ctx context.Context, st *State) (*Services, error) {
 	aud := audit.NewService(st.DB, st.Logger)
 
 	return &Services{
-		Basic:     basic.NewService(st.DB, st.Logger),
-		Relation:  relation.NewService(st.DB, st.Logger),
-		Reference: reference.NewService(st.DB, st.Logger),
-		Audited:   audited.NewService(st.DB, aud, st.Logger),
-		Timestamp: timestamp.NewService(st.DB, st.Logger),
-		Softdel:   softdel.NewService(st.DB, st.Logger),
-		History:   history.NewService(st.DB, st.Logger),
-		Version:   version.NewService(st.DB, st.Logger),
-		Group:     group.NewService(st.DB, st.Logger),
-		MixedCase: mixedcase.NewService(st.DB, st.Logger),
-		Trouble:   trouble.NewService(st.DB, st.Logger),
-		Capital:   capital.NewService(st.DB, st.Logger),
+		Basic:     basic.NewService(st.DB),
+		Relation:  relation.NewService(st.DB),
+		Reference: reference.NewService(st.DB),
+		Audited:   audited.NewService(st.DB, aud),
+		Timestamp: timestamp.NewService(st.DB),
+		Softdel:   softdel.NewService(st.DB),
+		History:   history.NewService(st.DB),
+		Version:   version.NewService(st.DB),
+		Group:     group.NewService(st.DB),
+		MixedCase: mixedcase.NewService(st.DB),
+		Trouble:   trouble.NewService(st.DB),
+		Capital:   capital.NewService(st.DB),
 		Audit:     audit.NewService(st.DB, st.Logger),
 	}, nil
 }
 
-func (s *Services) Close(_ context.Context) error {
+func (s *Services) Close(_ context.Context, logger util.Logger) error {
 	return nil
 }

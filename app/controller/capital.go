@@ -20,10 +20,11 @@ func CapitalList(rc *fasthttp.RequestCtx) {
 		ps.Title = capitalDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
 		prms := params.Get("capital", nil, ps.Logger).Sanitize("capital")
-		ret, err := as.Services.Capital.List(ps.Context, nil, prms)
+		ret, err := as.Services.Capital.List(ps.Context, nil, prms, ps.Logger)
 		if err != nil {
 			return "", err
 		}
+		ps.Title = "Capitals"
 		ps.Data = ret
 		return render(rc, as, &vcapital.List{Models: ret, Params: params}, ps, "capital")
 	})
@@ -36,11 +37,12 @@ func CapitalDetail(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		versions, err := as.Services.Capital.GetAllVersions(ps.Context, nil, ret.ID, params.Get("capital", nil, ps.Logger).Sanitize("capital"), false)
+		prms := params.Get("capital", nil, ps.Logger).Sanitize("capital")
+		versions, err := as.Services.Capital.GetAllVersions(ps.Context, nil, ret.ID, prms, ps.Logger)
 		if err != nil {
 			return "", err
 		}
-		ps.Title = ret.String()
+		ps.Title = ret.TitleString()+" (Capital)"
 		ps.Data = ret
 		return render(rc, as, &vcapital.Detail{
 			Model:    ret,
@@ -56,11 +58,11 @@ func CapitalVersion(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		version, err := RCRequiredInt(rc, "version")
+		version, err := cutil.RCRequiredInt(rc, "version")
 		if err != nil {
 			return "", err
 		}
-		ret, err := as.Services.Capital.GetVersion(ps.Context, nil, latest.ID, version)
+		ret, err := as.Services.Capital.GetVersion(ps.Context, nil, latest.ID, version, ps.Logger)
 		if err != nil {
 			return "", err
 		}
@@ -82,7 +84,7 @@ func CapitalCreateForm(rc *fasthttp.RequestCtx) {
 func CapitalCreateFormRandom(rc *fasthttp.RequestCtx) {
 	act("capital.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := capital.Random()
-		ps.Title = "Create Random [Capital]"
+		ps.Title = "Create Random Capital"
 		ps.Data = ret
 		return render(rc, as, &vcapital.Edit{Model: ret, IsNew: true}, ps, "capital", "Create")
 	})
@@ -94,7 +96,7 @@ func CapitalCreate(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", errors.Wrap(err, "unable to parse Capital from form")
 		}
-		err = as.Services.Capital.Create(ps.Context, nil, ret)
+		err = as.Services.Capital.Create(ps.Context, nil, ps.Logger, ret)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to save newly-created Capital")
 		}
@@ -110,7 +112,7 @@ func CapitalEditForm(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = "Edit [" + ret.String() + "]"
+		ps.Title = "Edit " + ret.String()
 		ps.Data = ret
 		return render(rc, as, &vcapital.Edit{Model: ret}, ps, "capital", ret.String())
 	})
@@ -128,7 +130,7 @@ func CapitalEdit(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrap(err, "unable to parse Capital from form")
 		}
 		frm.ID = ret.ID
-		err = as.Services.Capital.Update(ps.Context, nil, frm)
+		err = as.Services.Capital.Update(ps.Context, nil, frm, ps.Logger)
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to update Capital [%s]", frm.String())
 		}
@@ -143,7 +145,7 @@ func CapitalDelete(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		err = as.Services.Capital.Delete(ps.Context, nil, ret.ID)
+		err = as.Services.Capital.Delete(ps.Context, nil, ret.ID, ps.Logger)
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to delete capital [%s]", ret.String())
 		}
@@ -153,11 +155,11 @@ func CapitalDelete(rc *fasthttp.RequestCtx) {
 }
 
 func capitalFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageState) (*capital.Capital, error) {
-	idArg, err := RCRequiredString(rc, "id", false)
+	idArg, err := cutil.RCRequiredString(rc, "id", false)
 	if err != nil {
 		return nil, errors.Wrap(err, "must provide [id] as an argument")
 	}
-	return as.Services.Capital.Get(ps.Context, nil, idArg)
+	return as.Services.Capital.Get(ps.Context, nil, idArg, ps.Logger)
 }
 
 func capitalFromForm(rc *fasthttp.RequestCtx, setPK bool) (*capital.Capital, error) {

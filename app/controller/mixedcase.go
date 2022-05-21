@@ -20,10 +20,11 @@ func MixedCaseList(rc *fasthttp.RequestCtx) {
 		ps.Title = mixedCaseDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
 		prms := params.Get("mixedcase", nil, ps.Logger).Sanitize("mixedcase")
-		ret, err := as.Services.MixedCase.List(ps.Context, nil, prms)
+		ret, err := as.Services.MixedCase.List(ps.Context, nil, prms, ps.Logger)
 		if err != nil {
 			return "", err
 		}
+		ps.Title = "Mixed Cases"
 		ps.Data = ret
 		return render(rc, as, &vmixedcase.List{Models: ret, Params: params}, ps, "mixedcase")
 	})
@@ -35,7 +36,7 @@ func MixedCaseDetail(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = ret.String()
+		ps.Title = ret.TitleString()+" (Mixed Case)"
 		ps.Data = ret
 		return render(rc, as, &vmixedcase.Detail{Model: ret}, ps, "mixedcase", ret.String())
 	})
@@ -53,7 +54,7 @@ func MixedCaseCreateForm(rc *fasthttp.RequestCtx) {
 func MixedCaseCreateFormRandom(rc *fasthttp.RequestCtx) {
 	act("mixedcase.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := mixedcase.Random()
-		ps.Title = "Create Random [MixedCase]"
+		ps.Title = "Create Random MixedCase"
 		ps.Data = ret
 		return render(rc, as, &vmixedcase.Edit{Model: ret, IsNew: true}, ps, "mixedcase", "Create")
 	})
@@ -65,7 +66,7 @@ func MixedCaseCreate(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", errors.Wrap(err, "unable to parse MixedCase from form")
 		}
-		err = as.Services.MixedCase.Create(ps.Context, nil, ret)
+		err = as.Services.MixedCase.Create(ps.Context, nil, ps.Logger, ret)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to save newly-created MixedCase")
 		}
@@ -80,7 +81,7 @@ func MixedCaseEditForm(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = "Edit [" + ret.String() + "]"
+		ps.Title = "Edit " + ret.String()
 		ps.Data = ret
 		return render(rc, as, &vmixedcase.Edit{Model: ret}, ps, "mixedcase", ret.String())
 	})
@@ -97,7 +98,7 @@ func MixedCaseEdit(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrap(err, "unable to parse MixedCase from form")
 		}
 		frm.ID = ret.ID
-		err = as.Services.MixedCase.Update(ps.Context, nil, frm)
+		err = as.Services.MixedCase.Update(ps.Context, nil, frm, ps.Logger)
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to update MixedCase [%s]", frm.String())
 		}
@@ -112,7 +113,7 @@ func MixedCaseDelete(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		err = as.Services.MixedCase.Delete(ps.Context, nil, ret.ID)
+		err = as.Services.MixedCase.Delete(ps.Context, nil, ret.ID, ps.Logger)
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to delete mixed case [%s]", ret.String())
 		}
@@ -122,11 +123,11 @@ func MixedCaseDelete(rc *fasthttp.RequestCtx) {
 }
 
 func mixedcaseFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageState) (*mixedcase.MixedCase, error) {
-	idArg, err := RCRequiredString(rc, "id", false)
+	idArg, err := cutil.RCRequiredString(rc, "id", false)
 	if err != nil {
 		return nil, errors.Wrap(err, "must provide [id] as an argument")
 	}
-	return as.Services.MixedCase.Get(ps.Context, nil, idArg)
+	return as.Services.MixedCase.Get(ps.Context, nil, idArg, ps.Logger)
 }
 
 func mixedcaseFromForm(rc *fasthttp.RequestCtx, setPK bool) (*mixedcase.MixedCase, error) {

@@ -7,6 +7,7 @@ drop table if exists "basic";
 create table if not exists "basic" (
   "id" uuid not null,
   "name" text not null,
+  "status" text not null,
   "created" timestamp not null default now(),
   primary key ("id")
 );

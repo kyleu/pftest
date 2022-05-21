@@ -21,10 +21,11 @@ func BasicList(rc *fasthttp.RequestCtx) {
 		ps.Title = basicDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
 		prms := params.Get("basic", nil, ps.Logger).Sanitize("basic")
-		ret, err := as.Services.Basic.List(ps.Context, nil, prms)
+		ret, err := as.Services.Basic.List(ps.Context, nil, prms, ps.Logger)
 		if err != nil {
 			return "", err
 		}
+		ps.Title = "Basics"
 		ps.Data = ret
 		return render(rc, as, &vbasic.List{Models: ret, Params: params}, ps, "basic")
 	})
@@ -37,10 +38,10 @@ func BasicDetail(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = ret.String()
+		ps.Title = ret.TitleString()+" (Basic)"
 		ps.Data = ret
 		relationPrms := params.Get("relation", nil, ps.Logger).Sanitize("relation")
-		relationsByBasicID, err := as.Services.Relation.GetByBasicID(ps.Context, nil, ret.ID, relationPrms)
+		relationsByBasicID, err := as.Services.Relation.GetByBasicID(ps.Context, nil, ret.ID, relationPrms, ps.Logger)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to retrieve child relations")
 		}
@@ -64,7 +65,7 @@ func BasicCreateForm(rc *fasthttp.RequestCtx) {
 func BasicCreateFormRandom(rc *fasthttp.RequestCtx) {
 	act("basic.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := basic.Random()
-		ps.Title = "Create Random [Basic]"
+		ps.Title = "Create Random Basic"
 		ps.Data = ret
 		return render(rc, as, &vbasic.Edit{Model: ret, IsNew: true}, ps, "basic", "Create")
 	})
@@ -76,7 +77,7 @@ func BasicCreate(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", errors.Wrap(err, "unable to parse Basic from form")
 		}
-		err = as.Services.Basic.Create(ps.Context, nil, ret)
+		err = as.Services.Basic.Create(ps.Context, nil, ps.Logger, ret)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to save newly-created Basic")
 		}
@@ -91,7 +92,7 @@ func BasicEditForm(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = "Edit [" + ret.String() + "]"
+		ps.Title = "Edit " + ret.String()
 		ps.Data = ret
 		return render(rc, as, &vbasic.Edit{Model: ret}, ps, "basic", ret.String())
 	})
@@ -108,7 +109,7 @@ func BasicEdit(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrap(err, "unable to parse Basic from form")
 		}
 		frm.ID = ret.ID
-		err = as.Services.Basic.Update(ps.Context, nil, frm)
+		err = as.Services.Basic.Update(ps.Context, nil, frm, ps.Logger)
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to update Basic [%s]", frm.String())
 		}
@@ -123,7 +124,7 @@ func BasicDelete(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		err = as.Services.Basic.Delete(ps.Context, nil, ret.ID)
+		err = as.Services.Basic.Delete(ps.Context, nil, ret.ID, ps.Logger)
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to delete basic [%s]", ret.String())
 		}
@@ -133,7 +134,7 @@ func BasicDelete(rc *fasthttp.RequestCtx) {
 }
 
 func basicFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageState) (*basic.Basic, error) {
-	idArgStr, err := RCRequiredString(rc, "id", false)
+	idArgStr, err := cutil.RCRequiredString(rc, "id", false)
 	if err != nil {
 		return nil, errors.Wrap(err, "must provide [id] as an argument")
 	}
@@ -142,7 +143,7 @@ func basicFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageState) 
 		return nil, errors.Errorf("argument [id] (%s) is not a valid UUID", idArgStr)
 	}
 	idArg := *idArgP
-	return as.Services.Basic.Get(ps.Context, nil, idArg)
+	return as.Services.Basic.Get(ps.Context, nil, idArg, ps.Logger)
 }
 
 func basicFromForm(rc *fasthttp.RequestCtx, setPK bool) (*basic.Basic, error) {

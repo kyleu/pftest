@@ -14,7 +14,7 @@ import (
 var (
 	table         = "basic"
 	tableQuoted   = fmt.Sprintf("%q", table)
-	columns       = []string{"id", "name", "created"}
+	columns       = []string{"id", "name", "status", "created"}
 	columnsQuoted = util.StringArrayQuoted(columns)
 	columnsString = strings.Join(columnsQuoted, ", ")
 )
@@ -22,6 +22,7 @@ var (
 type dto struct {
 	ID      uuid.UUID `db:"id"`
 	Name    string    `db:"name"`
+	Status  string    `db:"status"`
 	Created time.Time `db:"created"`
 }
 
@@ -32,6 +33,7 @@ func (d *dto) ToBasic() *Basic {
 	return &Basic{
 		ID:      d.ID,
 		Name:    d.Name,
+		Status:  d.Status,
 		Created: d.Created,
 	}
 }

@@ -21,10 +21,11 @@ func TroubleList(rc *fasthttp.RequestCtx) {
 		ps.Title = troubleDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
 		prms := params.Get("trouble", nil, ps.Logger).Sanitize("trouble")
-		ret, err := as.Services.Trouble.List(ps.Context, nil, prms, cutil.RequestCtxBool(rc, "includeDeleted"))
+		ret, err := as.Services.Trouble.List(ps.Context, nil, prms, cutil.QueryStringBool(rc, "includeDeleted"), ps.Logger)
 		if err != nil {
 			return "", err
 		}
+		ps.Title = "Troubles"
 		ps.Data = ret
 		return render(rc, as, &vtrouble.List{Models: ret, Params: params}, ps, "trouble")
 	})
@@ -37,11 +38,12 @@ func TroubleDetail(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		selectcols, err := as.Services.Trouble.GetAllSelectcols(ps.Context, nil, ret.From, ret.Where, params.Get("trouble", nil, ps.Logger).Sanitize("trouble"), false)
+		prms := params.Get("trouble", nil, ps.Logger).Sanitize("trouble")
+		selectcols, err := as.Services.Trouble.GetAllSelectcols(ps.Context, nil, ret.From, ret.Where, prms, false, ps.Logger)
 		if err != nil {
 			return "", err
 		}
-		ps.Title = ret.String()
+		ps.Title = ret.TitleString()+" (Trouble)"
 		ps.Data = ret
 		return render(rc, as, &vtrouble.Detail{
 			Model:      ret,
@@ -57,11 +59,11 @@ func TroubleSelectcol(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		selectcol, err := RCRequiredInt(rc, "selectcol")
+		selectcol, err := cutil.RCRequiredInt(rc, "selectcol")
 		if err != nil {
 			return "", err
 		}
-		ret, err := as.Services.Trouble.GetSelectcol(ps.Context, nil, latest.From, latest.Where, selectcol)
+		ret, err := as.Services.Trouble.GetSelectcol(ps.Context, nil, latest.From, latest.Where, selectcol, ps.Logger)
 		if err != nil {
 			return "", err
 		}
@@ -83,7 +85,7 @@ func TroubleCreateForm(rc *fasthttp.RequestCtx) {
 func TroubleCreateFormRandom(rc *fasthttp.RequestCtx) {
 	act("trouble.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := trouble.Random()
-		ps.Title = "Create Random [Trouble]"
+		ps.Title = "Create Random Trouble"
 		ps.Data = ret
 		return render(rc, as, &vtrouble.Edit{Model: ret, IsNew: true}, ps, "trouble", "Create")
 	})
@@ -95,7 +97,7 @@ func TroubleCreate(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", errors.Wrap(err, "unable to parse Trouble from form")
 		}
-		err = as.Services.Trouble.Create(ps.Context, nil, ret)
+		err = as.Services.Trouble.Create(ps.Context, nil, ps.Logger, ret)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to save newly-created Trouble")
 		}
@@ -111,7 +113,7 @@ func TroubleEditForm(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = "Edit [" + ret.String() + "]"
+		ps.Title = "Edit " + ret.String()
 		ps.Data = ret
 		return render(rc, as, &vtrouble.Edit{Model: ret}, ps, "trouble", ret.String())
 	})
@@ -130,7 +132,7 @@ func TroubleEdit(rc *fasthttp.RequestCtx) {
 		}
 		frm.From = ret.From
 		frm.Where = ret.Where
-		err = as.Services.Trouble.Update(ps.Context, nil, frm)
+		err = as.Services.Trouble.Update(ps.Context, nil, frm, ps.Logger)
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to update Trouble [%s]", frm.String())
 		}
@@ -145,7 +147,7 @@ func TroubleDelete(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		err = as.Services.Trouble.Delete(ps.Context, nil, ret.From, ret.Where)
+		err = as.Services.Trouble.Delete(ps.Context, nil, ret.From, ret.Where, ps.Logger)
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to delete trouble [%s]", ret.String())
 		}
@@ -155,11 +157,11 @@ func TroubleDelete(rc *fasthttp.RequestCtx) {
 }
 
 func troubleFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageState) (*trouble.Trouble, error) {
-	fromArg, err := RCRequiredString(rc, "from", false)
+	fromArg, err := cutil.RCRequiredString(rc, "from", false)
 	if err != nil {
 		return nil, errors.Wrap(err, "must provide [from] as an argument")
 	}
-	whereArgStr, err := RCRequiredString(rc, "where", false)
+	whereArgStr, err := cutil.RCRequiredString(rc, "where", false)
 	if err != nil {
 		return nil, errors.Wrap(err, "must provide [where] as an argument")
 	}
@@ -167,8 +169,8 @@ func troubleFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageState
 	if err != nil {
 		return nil, errors.Wrap(err, "field [where] must be a valid a valid integer")
 	}
-	includeDeleted := rc.UserValue("includeDeleted") != nil || cutil.RequestCtxBool(rc, "includeDeleted")
-	return as.Services.Trouble.Get(ps.Context, nil, fromArg, whereArg, includeDeleted)
+	includeDeleted := rc.UserValue("includeDeleted") != nil || cutil.QueryStringBool(rc, "includeDeleted")
+	return as.Services.Trouble.Get(ps.Context, nil, fromArg, whereArg, includeDeleted, ps.Logger)
 }
 
 func troubleFromForm(rc *fasthttp.RequestCtx, setPK bool) (*trouble.Trouble, error) {

@@ -10,9 +10,10 @@ import (
 
 	"github.com/kyleu/pftest/app/lib/database"
 	"github.com/kyleu/pftest/app/lib/filter"
+	"github.com/kyleu/pftest/app/util"
 )
 
-func (s *Service) List(ctx context.Context, tx *sqlx.Tx, params *filter.Params, includeDeleted bool) (Softdels, error) {
+func (s *Service) List(ctx context.Context, tx *sqlx.Tx, params *filter.Params, includeDeleted bool, logger util.Logger) (Softdels, error) {
 	params = filters(params)
 	wc := ""
 	if !includeDeleted {
@@ -20,14 +21,14 @@ func (s *Service) List(ctx context.Context, tx *sqlx.Tx, params *filter.Params, 
 	}
 	q := database.SQLSelect(columnsString, tableQuoted, wc, params.OrderByString(), params.Limit, params.Offset)
 	ret := dtos{}
-	err := s.db.Select(ctx, &ret, q, tx, s.logger)
+	err := s.db.Select(ctx, &ret, q, tx, logger)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to get softdels")
 	}
 	return ret.ToSoftdels(), nil
 }
 
-func (s *Service) Count(ctx context.Context, tx *sqlx.Tx, whereClause string, includeDeleted bool, args ...any) (int, error) {
+func (s *Service) Count(ctx context.Context, tx *sqlx.Tx, whereClause string, includeDeleted bool, logger util.Logger, args ...any) (int, error) {
 	if strings.Contains(whereClause, "'") || strings.Contains(whereClause, ";") {
 		return 0, errors.Errorf("invalid where clause [%s]", whereClause)
 	}
@@ -39,26 +40,26 @@ func (s *Service) Count(ctx context.Context, tx *sqlx.Tx, whereClause string, in
 		}
 	}
 	q := database.SQLSelectSimple(columnsString, tableQuoted, whereClause)
-	ret, err := s.db.SingleInt(ctx, q, tx, s.logger, args...)
+	ret, err := s.db.SingleInt(ctx, q, tx, logger, args...)
 	if err != nil {
 		return 0, errors.Wrap(err, "unable to get count of softdels")
 	}
 	return int(ret), nil
 }
 
-func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, id string, includeDeleted bool) (*Softdel, error) {
+func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, id string, includeDeleted bool, logger util.Logger) (*Softdel, error) {
 	wc := defaultWC(0)
 	wc = addDeletedClause(wc, includeDeleted)
 	ret := &dto{}
 	q := database.SQLSelectSimple(columnsString, tableQuoted, wc)
-	err := s.db.Get(ctx, ret, q, tx, s.logger, id)
+	err := s.db.Get(ctx, ret, q, tx, logger, id)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to get softdel by id [%v]", id)
 	}
 	return ret.ToSoftdel(), nil
 }
 
-func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, includeDeleted bool, ids ...string) (Softdels, error) {
+func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, includeDeleted bool, logger util.Logger, ids ...string) (Softdels, error) {
 	if len(ids) == 0 {
 		return Softdels{}, nil
 	}
@@ -70,16 +71,16 @@ func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, includeDeleted b
 	for _, x := range ids {
 		vals = append(vals, x)
 	}
-	err := s.db.Select(ctx, &ret, q, tx, s.logger, vals...)
+	err := s.db.Select(ctx, &ret, q, tx, logger, vals...)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to get Softdels for [%d] ids", len(ids))
 	}
 	return ret.ToSoftdels(), nil
 }
 
-func (s *Service) ListSQL(ctx context.Context, tx *sqlx.Tx, sql string) (Softdels, error) {
+func (s *Service) ListSQL(ctx context.Context, tx *sqlx.Tx, sql string, logger util.Logger) (Softdels, error) {
 	ret := dtos{}
-	err := s.db.Select(ctx, &ret, sql, tx, s.logger)
+	err := s.db.Select(ctx, &ret, sql, tx, logger)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to get softdels using custom SQL")
 	}

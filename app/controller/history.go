@@ -20,10 +20,11 @@ func HistoryList(rc *fasthttp.RequestCtx) {
 		ps.Title = historyDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
 		prms := params.Get("history", nil, ps.Logger).Sanitize("history")
-		ret, err := as.Services.History.List(ps.Context, nil, prms)
+		ret, err := as.Services.History.List(ps.Context, nil, prms, ps.Logger)
 		if err != nil {
 			return "", err
 		}
+		ps.Title = "Histories"
 		ps.Data = ret
 		return render(rc, as, &vhistory.List{Models: ret, Params: params}, ps, "history")
 	})
@@ -36,11 +37,11 @@ func HistoryDetail(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		hist, err := as.Services.History.GetHistories(ps.Context, nil, ret.ID)
+		hist, err := as.Services.History.GetHistories(ps.Context, nil, ret.ID, ps.Logger)
 		if err != nil {
 			return "", err
 		}
-		ps.Title = ret.String()
+		ps.Title = ret.TitleString()+" (History)"
 		ps.Data = ret
 		return render(rc, as, &vhistory.Detail{
 			Model:     ret,
@@ -62,7 +63,7 @@ func HistoryCreateForm(rc *fasthttp.RequestCtx) {
 func HistoryCreateFormRandom(rc *fasthttp.RequestCtx) {
 	act("history.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := history.Random()
-		ps.Title = "Create Random [History]"
+		ps.Title = "Create Random History"
 		ps.Data = ret
 		return render(rc, as, &vhistory.Edit{Model: ret, IsNew: true}, ps, "history", "Create")
 	})
@@ -74,7 +75,7 @@ func HistoryCreate(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", errors.Wrap(err, "unable to parse History from form")
 		}
-		err = as.Services.History.Create(ps.Context, nil, ret)
+		err = as.Services.History.Create(ps.Context, nil, ps.Logger, ret)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to save newly-created History")
 		}
@@ -89,7 +90,7 @@ func HistoryEditForm(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = "Edit [" + ret.String() + "]"
+		ps.Title = "Edit " + ret.String()
 		ps.Data = ret
 		return render(rc, as, &vhistory.Edit{Model: ret}, ps, "history", ret.String())
 	})
@@ -106,7 +107,7 @@ func HistoryEdit(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrap(err, "unable to parse History from form")
 		}
 		frm.ID = ret.ID
-		err = as.Services.History.Update(ps.Context, nil, frm)
+		err = as.Services.History.Update(ps.Context, nil, frm, ps.Logger)
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to update History [%s]", frm.String())
 		}
@@ -121,7 +122,7 @@ func HistoryDelete(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		err = as.Services.History.Delete(ps.Context, nil, ret.ID)
+		err = as.Services.History.Delete(ps.Context, nil, ret.ID, ps.Logger)
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to delete history [%s]", ret.String())
 		}
@@ -136,11 +137,11 @@ func HistoryHistory(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		histID, err := RCRequiredUUID(rc, "historyID")
+		histID, err := cutil.RCRequiredUUID(rc, "historyID")
 		if err != nil {
 			return "", errors.Wrap(err, "must provide [historyID] as an argument")
 		}
-		hist, err := as.Services.History.GetHistory(ps.Context, nil, *histID)
+		hist, err := as.Services.History.GetHistory(ps.Context, nil, *histID, ps.Logger)
 		if err != nil {
 			return "", err
 		}
@@ -151,11 +152,11 @@ func HistoryHistory(rc *fasthttp.RequestCtx) {
 }
 
 func historyFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageState) (*history.History, error) {
-	idArg, err := RCRequiredString(rc, "id", false)
+	idArg, err := cutil.RCRequiredString(rc, "id", false)
 	if err != nil {
 		return nil, errors.Wrap(err, "must provide [id] as an argument")
 	}
-	return as.Services.History.Get(ps.Context, nil, idArg)
+	return as.Services.History.Get(ps.Context, nil, idArg, ps.Logger)
 }
 
 func historyFromForm(rc *fasthttp.RequestCtx, setPK bool) (*history.History, error) {

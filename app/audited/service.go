@@ -5,19 +5,16 @@ import (
 	"github.com/kyleu/pftest/app/lib/audit"
 	"github.com/kyleu/pftest/app/lib/database"
 	"github.com/kyleu/pftest/app/lib/filter"
-	"github.com/kyleu/pftest/app/util"
 )
 
 type Service struct {
-	db     *database.Service
-	audit  *audit.Service
-	logger util.Logger
+	db    *database.Service
+	audit *audit.Service
 }
 
-func NewService(db *database.Service, aud *audit.Service, logger util.Logger) *Service {
-	logger = logger.With("svc", "audited")
+func NewService(db *database.Service, aud *audit.Service) *Service {
 	filter.AllowedColumns["audited"] = columns
-	return &Service{db: db, audit: aud, logger: logger}
+	return &Service{db: db, audit: aud}
 }
 
 func filters(orig *filter.Params) *filter.Params {

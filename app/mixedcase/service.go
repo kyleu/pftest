@@ -4,18 +4,15 @@ package mixedcase
 import (
 	"github.com/kyleu/pftest/app/lib/database"
 	"github.com/kyleu/pftest/app/lib/filter"
-	"github.com/kyleu/pftest/app/util"
 )
 
 type Service struct {
-	db     *database.Service
-	logger util.Logger
+	db *database.Service
 }
 
-func NewService(db *database.Service, logger util.Logger) *Service {
-	logger = logger.With("svc", "mixedCase")
+func NewService(db *database.Service) *Service {
 	filter.AllowedColumns["mixedcase"] = columns
-	return &Service{db: db, logger: logger}
+	return &Service{db: db}
 }
 
 func filters(orig *filter.Params) *filter.Params {

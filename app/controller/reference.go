@@ -21,10 +21,11 @@ func ReferenceList(rc *fasthttp.RequestCtx) {
 		ps.Title = referenceDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
 		prms := params.Get("reference", nil, ps.Logger).Sanitize("reference")
-		ret, err := as.Services.Reference.List(ps.Context, nil, prms)
+		ret, err := as.Services.Reference.List(ps.Context, nil, prms, ps.Logger)
 		if err != nil {
 			return "", err
 		}
+		ps.Title = "References"
 		ps.Data = ret
 		return render(rc, as, &vreference.List{Models: ret, Params: params}, ps, "reference")
 	})
@@ -36,7 +37,7 @@ func ReferenceDetail(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = ret.String()
+		ps.Title = ret.TitleString()+" (Reference)"
 		ps.Data = ret
 		return render(rc, as, &vreference.Detail{Model: ret}, ps, "reference", ret.String())
 	})
@@ -54,7 +55,7 @@ func ReferenceCreateForm(rc *fasthttp.RequestCtx) {
 func ReferenceCreateFormRandom(rc *fasthttp.RequestCtx) {
 	act("reference.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := reference.Random()
-		ps.Title = "Create Random [Reference]"
+		ps.Title = "Create Random Reference"
 		ps.Data = ret
 		return render(rc, as, &vreference.Edit{Model: ret, IsNew: true}, ps, "reference", "Create")
 	})
@@ -66,7 +67,7 @@ func ReferenceCreate(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", errors.Wrap(err, "unable to parse Reference from form")
 		}
-		err = as.Services.Reference.Create(ps.Context, nil, ret)
+		err = as.Services.Reference.Create(ps.Context, nil, ps.Logger, ret)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to save newly-created Reference")
 		}
@@ -81,7 +82,7 @@ func ReferenceEditForm(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = "Edit [" + ret.String() + "]"
+		ps.Title = "Edit " + ret.String()
 		ps.Data = ret
 		return render(rc, as, &vreference.Edit{Model: ret}, ps, "reference", ret.String())
 	})
@@ -98,7 +99,7 @@ func ReferenceEdit(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrap(err, "unable to parse Reference from form")
 		}
 		frm.ID = ret.ID
-		err = as.Services.Reference.Update(ps.Context, nil, frm)
+		err = as.Services.Reference.Update(ps.Context, nil, frm, ps.Logger)
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to update Reference [%s]", frm.String())
 		}
@@ -113,7 +114,7 @@ func ReferenceDelete(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		err = as.Services.Reference.Delete(ps.Context, nil, ret.ID)
+		err = as.Services.Reference.Delete(ps.Context, nil, ret.ID, ps.Logger)
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to delete reference [%s]", ret.String())
 		}
@@ -123,7 +124,7 @@ func ReferenceDelete(rc *fasthttp.RequestCtx) {
 }
 
 func referenceFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageState) (*reference.Reference, error) {
-	idArgStr, err := RCRequiredString(rc, "id", false)
+	idArgStr, err := cutil.RCRequiredString(rc, "id", false)
 	if err != nil {
 		return nil, errors.Wrap(err, "must provide [id] as an argument")
 	}
@@ -132,7 +133,7 @@ func referenceFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageSta
 		return nil, errors.Errorf("argument [id] (%s) is not a valid UUID", idArgStr)
 	}
 	idArg := *idArgP
-	return as.Services.Reference.Get(ps.Context, nil, idArg)
+	return as.Services.Reference.Get(ps.Context, nil, idArg, ps.Logger)
 }
 
 func referenceFromForm(rc *fasthttp.RequestCtx, setPK bool) (*reference.Reference, error) {

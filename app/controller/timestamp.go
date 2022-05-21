@@ -20,10 +20,11 @@ func TimestampList(rc *fasthttp.RequestCtx) {
 		ps.Title = timestampDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
 		prms := params.Get("timestamp", nil, ps.Logger).Sanitize("timestamp")
-		ret, err := as.Services.Timestamp.List(ps.Context, nil, prms, cutil.RequestCtxBool(rc, "includeDeleted"))
+		ret, err := as.Services.Timestamp.List(ps.Context, nil, prms, cutil.QueryStringBool(rc, "includeDeleted"), ps.Logger)
 		if err != nil {
 			return "", err
 		}
+		ps.Title = "Timestamps"
 		ps.Data = ret
 		return render(rc, as, &vtimestamp.List{Models: ret, Params: params}, ps, "timestamp")
 	})
@@ -35,7 +36,7 @@ func TimestampDetail(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = ret.String()
+		ps.Title = ret.TitleString()+" (Timestamp)"
 		ps.Data = ret
 		return render(rc, as, &vtimestamp.Detail{Model: ret}, ps, "timestamp", ret.String())
 	})
@@ -53,7 +54,7 @@ func TimestampCreateForm(rc *fasthttp.RequestCtx) {
 func TimestampCreateFormRandom(rc *fasthttp.RequestCtx) {
 	act("timestamp.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := timestamp.Random()
-		ps.Title = "Create Random [Timestamp]"
+		ps.Title = "Create Random Timestamp"
 		ps.Data = ret
 		return render(rc, as, &vtimestamp.Edit{Model: ret, IsNew: true}, ps, "timestamp", "Create")
 	})
@@ -65,7 +66,7 @@ func TimestampCreate(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", errors.Wrap(err, "unable to parse Timestamp from form")
 		}
-		err = as.Services.Timestamp.Create(ps.Context, nil, ret)
+		err = as.Services.Timestamp.Create(ps.Context, nil, ps.Logger, ret)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to save newly-created Timestamp")
 		}
@@ -80,7 +81,7 @@ func TimestampEditForm(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = "Edit [" + ret.String() + "]"
+		ps.Title = "Edit " + ret.String()
 		ps.Data = ret
 		return render(rc, as, &vtimestamp.Edit{Model: ret}, ps, "timestamp", ret.String())
 	})
@@ -97,7 +98,7 @@ func TimestampEdit(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrap(err, "unable to parse Timestamp from form")
 		}
 		frm.ID = ret.ID
-		err = as.Services.Timestamp.Update(ps.Context, nil, frm)
+		err = as.Services.Timestamp.Update(ps.Context, nil, frm, ps.Logger)
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to update Timestamp [%s]", frm.String())
 		}
@@ -112,7 +113,7 @@ func TimestampDelete(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		err = as.Services.Timestamp.Delete(ps.Context, nil, ret.ID)
+		err = as.Services.Timestamp.Delete(ps.Context, nil, ret.ID, ps.Logger)
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to delete timestamp [%s]", ret.String())
 		}
@@ -122,12 +123,12 @@ func TimestampDelete(rc *fasthttp.RequestCtx) {
 }
 
 func timestampFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageState) (*timestamp.Timestamp, error) {
-	idArg, err := RCRequiredString(rc, "id", false)
+	idArg, err := cutil.RCRequiredString(rc, "id", false)
 	if err != nil {
 		return nil, errors.Wrap(err, "must provide [id] as an argument")
 	}
-	includeDeleted := rc.UserValue("includeDeleted") != nil || cutil.RequestCtxBool(rc, "includeDeleted")
-	return as.Services.Timestamp.Get(ps.Context, nil, idArg, includeDeleted)
+	includeDeleted := rc.UserValue("includeDeleted") != nil || cutil.QueryStringBool(rc, "includeDeleted")
+	return as.Services.Timestamp.Get(ps.Context, nil, idArg, includeDeleted, ps.Logger)
 }
 
 func timestampFromForm(rc *fasthttp.RequestCtx, setPK bool) (*timestamp.Timestamp, error) {

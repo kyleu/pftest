@@ -10,44 +10,45 @@ import (
 
 	"github.com/kyleu/pftest/app/lib/database"
 	"github.com/kyleu/pftest/app/lib/filter"
+	"github.com/kyleu/pftest/app/util"
 )
 
-func (s *Service) List(ctx context.Context, tx *sqlx.Tx, params *filter.Params) (Versions, error) {
+func (s *Service) List(ctx context.Context, tx *sqlx.Tx, params *filter.Params, logger util.Logger) (Versions, error) {
 	params = filters(params)
 	wc := ""
 	q := database.SQLSelect(columnsString, tablesJoined, wc, params.OrderByString(), params.Limit, params.Offset)
 	ret := dtos{}
-	err := s.db.Select(ctx, &ret, q, tx, s.logger)
+	err := s.db.Select(ctx, &ret, q, tx, logger)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to get versions")
 	}
 	return ret.ToVersions(), nil
 }
 
-func (s *Service) Count(ctx context.Context, tx *sqlx.Tx, whereClause string, args ...any) (int, error) {
+func (s *Service) Count(ctx context.Context, tx *sqlx.Tx, whereClause string, logger util.Logger, args ...any) (int, error) {
 	if strings.Contains(whereClause, "'") || strings.Contains(whereClause, ";") {
 		return 0, errors.Errorf("invalid where clause [%s]", whereClause)
 	}
 	q := database.SQLSelectSimple(columnsString, tablesJoined, whereClause)
-	ret, err := s.db.SingleInt(ctx, q, tx, s.logger, args...)
+	ret, err := s.db.SingleInt(ctx, q, tx, logger, args...)
 	if err != nil {
 		return 0, errors.Wrap(err, "unable to get count of versions")
 	}
 	return int(ret), nil
 }
 
-func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, id string) (*Version, error) {
+func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, id string, logger util.Logger) (*Version, error) {
 	wc := defaultWC(0)
 	ret := &dto{}
 	q := database.SQLSelectSimple(columnsString, tablesJoined, wc)
-	err := s.db.Get(ctx, ret, q, tx, s.logger, id)
+	err := s.db.Get(ctx, ret, q, tx, logger, id)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to get version by id [%v]", id)
 	}
 	return ret.ToVersion(), nil
 }
 
-func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, ids ...string) (Versions, error) {
+func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, logger util.Logger, ids ...string) (Versions, error) {
 	if len(ids) == 0 {
 		return Versions{}, nil
 	}
@@ -58,16 +59,16 @@ func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, ids ...string) (
 	for _, x := range ids {
 		vals = append(vals, x)
 	}
-	err := s.db.Select(ctx, &ret, q, tx, s.logger, vals...)
+	err := s.db.Select(ctx, &ret, q, tx, logger, vals...)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to get Versions for [%d] ids", len(ids))
 	}
 	return ret.ToVersions(), nil
 }
 
-func (s *Service) ListSQL(ctx context.Context, tx *sqlx.Tx, sql string) (Versions, error) {
+func (s *Service) ListSQL(ctx context.Context, tx *sqlx.Tx, sql string, logger util.Logger) (Versions, error) {
 	ret := dtos{}
-	err := s.db.Select(ctx, &ret, sql, tx, s.logger)
+	err := s.db.Select(ctx, &ret, sql, tx, logger)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to get versions using custom SQL")
 	}

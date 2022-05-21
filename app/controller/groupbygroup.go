@@ -16,7 +16,7 @@ import (
 func GroupGroupList(rc *fasthttp.RequestCtx) {
 	act("group.group.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ps.Title = "[Groups] by group"
-		ret, err := as.Services.Group.GetGroups(ps.Context, nil)
+		ret, err := as.Services.Group.GetGroups(ps.Context, nil, ps.Logger)
 		if err != nil {
 			return "", err
 		}
@@ -27,17 +27,18 @@ func GroupGroupList(rc *fasthttp.RequestCtx) {
 
 func GroupListByGroup(rc *fasthttp.RequestCtx) {
 	act("group.group.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		groupArg, err := RCRequiredString(rc, "group", false)
+		groupArg, err := cutil.RCRequiredString(rc, "group", false)
 		if err != nil {
 			return "", errors.Wrap(err, "must provide [group] as an argument")
 		}
 		ps.Title = groupDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
 		prms := params.Get("group", nil, ps.Logger).Sanitize("group")
-		ret, err := as.Services.Group.GetByGroup(ps.Context, nil, groupArg, prms)
+		ret, err := as.Services.Group.GetByGroup(ps.Context, nil, groupArg, prms, ps.Logger)
 		if err != nil {
 			return "", err
 		}
+		ps.Title = "Groups"
 		ps.Data = ret
 		return render(rc, as, &vgroup.List{Models: ret, Params: params}, ps, "group", "group")
 	})
@@ -45,7 +46,7 @@ func GroupListByGroup(rc *fasthttp.RequestCtx) {
 
 func GroupDetailByGroup(rc *fasthttp.RequestCtx) {
 	act("group.group.detail", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		groupArg, err := RCRequiredString(rc, "group", false)
+		groupArg, err := cutil.RCRequiredString(rc, "group", false)
 		if err != nil {
 			return "", errors.Wrap(err, "must provide [group] as an argument")
 		}
@@ -56,7 +57,7 @@ func GroupDetailByGroup(rc *fasthttp.RequestCtx) {
 		if ret.Group != groupArg {
 			return "", errors.New("unauthorized: incorrect [group]")
 		}
-		ps.Title = ret.String()
+		ps.Title = ret.TitleString()+" (Group)"
 		ps.Data = ret
 		return render(rc, as, &vgroup.Detail{Model: ret}, ps, "group", "group", ret.String())
 	})
@@ -64,7 +65,7 @@ func GroupDetailByGroup(rc *fasthttp.RequestCtx) {
 
 func GroupCreateFormByGroup(rc *fasthttp.RequestCtx) {
 	act("group.group.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		groupArg, err := RCRequiredString(rc, "group", false)
+		groupArg, err := cutil.RCRequiredString(rc, "group", false)
 		if err != nil {
 			return "", errors.Wrap(err, "must provide [group] as an argument")
 		}
@@ -77,7 +78,7 @@ func GroupCreateFormByGroup(rc *fasthttp.RequestCtx) {
 
 func GroupCreateByGroup(rc *fasthttp.RequestCtx) {
 	act("group.group.create", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		groupArg, err := RCRequiredString(rc, "group", false)
+		groupArg, err := cutil.RCRequiredString(rc, "group", false)
 		if err != nil {
 			return "", errors.Wrap(err, "must provide [group] as an argument")
 		}
@@ -88,7 +89,7 @@ func GroupCreateByGroup(rc *fasthttp.RequestCtx) {
 		if ret.Group != groupArg {
 			return "", errors.New("unauthorized: incorrect [group]")
 		}
-		err = as.Services.Group.Create(ps.Context, nil, ret)
+		err = as.Services.Group.Create(ps.Context, nil, ps.Logger, ret)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to save newly-created Group")
 		}
@@ -99,7 +100,7 @@ func GroupCreateByGroup(rc *fasthttp.RequestCtx) {
 
 func GroupEditFormByGroup(rc *fasthttp.RequestCtx) {
 	act("group.group.edit.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		groupArg, err := RCRequiredString(rc, "group", false)
+		groupArg, err := cutil.RCRequiredString(rc, "group", false)
 		if err != nil {
 			return "", errors.Wrap(err, "must provide [group] as an argument")
 		}
@@ -110,7 +111,7 @@ func GroupEditFormByGroup(rc *fasthttp.RequestCtx) {
 		if ret.Group != groupArg {
 			return "", errors.New("unauthorized: incorrect [group]")
 		}
-		ps.Title = "Edit [" + ret.String() + "]"
+		ps.Title = "Edit " + ret.String()
 		ps.Data = ret
 		return render(rc, as, &vgroup.Edit{Model: ret}, ps, "group", "group", ret.String())
 	})
@@ -118,7 +119,7 @@ func GroupEditFormByGroup(rc *fasthttp.RequestCtx) {
 
 func GroupEditByGroup(rc *fasthttp.RequestCtx) {
 	act("group.group.edit", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		groupArg, err := RCRequiredString(rc, "group", false)
+		groupArg, err := cutil.RCRequiredString(rc, "group", false)
 		if err != nil {
 			return "", errors.Wrap(err, "must provide [group] as an argument")
 		}
@@ -137,7 +138,7 @@ func GroupEditByGroup(rc *fasthttp.RequestCtx) {
 			return "", errors.New("unauthorized: incorrect [group]")
 		}
 		frm.ID = ret.ID
-		err = as.Services.Group.Update(ps.Context, nil, frm)
+		err = as.Services.Group.Update(ps.Context, nil, frm, ps.Logger)
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to update Group [%s]", frm.String())
 		}
@@ -148,7 +149,7 @@ func GroupEditByGroup(rc *fasthttp.RequestCtx) {
 
 func GroupDeleteByGroup(rc *fasthttp.RequestCtx) {
 	act("group.group.delete", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		groupArg, err := RCRequiredString(rc, "group", false)
+		groupArg, err := cutil.RCRequiredString(rc, "group", false)
 		if err != nil {
 			return "", errors.Wrap(err, "must provide [group] as an argument")
 		}
@@ -159,7 +160,7 @@ func GroupDeleteByGroup(rc *fasthttp.RequestCtx) {
 		if ret.Group != groupArg {
 			return "", errors.New("unauthorized: incorrect [group]")
 		}
-		err = as.Services.Group.Delete(ps.Context, nil, ret.ID)
+		err = as.Services.Group.Delete(ps.Context, nil, ret.ID, ps.Logger)
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to delete group [%s]", ret.String())
 		}

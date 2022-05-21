@@ -41,11 +41,11 @@ type State struct {
 	Started   time.Time
 }
 
-func (s State) Close(ctx context.Context) error {
+func (s State) Close(ctx context.Context, logger util.Logger) error {
 	if err := s.DB.Close(); err != nil {
-		s.Logger.Errorf("error closing database: %+v", err)
+		logger.Errorf("error closing database: %+v", err)
 	}
-	return s.Services.Close(ctx)
+	return s.Services.Close(ctx, logger)
 }
 
 func NewState(debug bool, bi *BuildInfo, f filesystem.FileLoader, enableTelemetry bool, logger util.Logger) (*State, error) {
@@ -57,7 +57,7 @@ func NewState(debug bool, bi *BuildInfo, f filesystem.FileLoader, enableTelemetr
 
 	_ = telemetry.InitializeIfNeeded(enableTelemetry, bi.Version, logger)
 	as := auth.NewService("", logger)
-	ts := theme.NewService(f, logger)
+	ts := theme.NewService(f)
 
 	return &State{
 		Debug:     debug,

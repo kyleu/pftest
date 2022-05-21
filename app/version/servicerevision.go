@@ -11,34 +11,35 @@ import (
 
 	"github.com/kyleu/pftest/app/lib/database"
 	"github.com/kyleu/pftest/app/lib/filter"
+	"github.com/kyleu/pftest/app/util"
 )
 
-func (s *Service) GetAllRevisions(ctx context.Context, tx *sqlx.Tx, id string, params *filter.Params, includeDeleted bool) (Versions, error) {
+func (s *Service) GetAllRevisions(ctx context.Context, tx *sqlx.Tx, id string, params *filter.Params, logger util.Logger) (Versions, error) {
 	params = filters(params)
 	wc := "\"id\" = $1"
 	tablesJoinedParam := fmt.Sprintf("%q v join %q vr on v.\"id\" = vr.\"version_id\"", table, tableRevision)
 	q := database.SQLSelect(columnsString, tablesJoinedParam, wc, params.OrderByString(), params.Limit, params.Offset)
 	ret := dtos{}
-	err := s.db.Select(ctx, &ret, q, tx, s.logger, id)
+	err := s.db.Select(ctx, &ret, q, tx, logger, id)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to get Versions")
 	}
 	return ret.ToVersions(), nil
 }
 
-func (s *Service) GetRevision(ctx context.Context, tx *sqlx.Tx, id string, revision int) (*Version, error) {
+func (s *Service) GetRevision(ctx context.Context, tx *sqlx.Tx, id string, revision int, logger util.Logger) (*Version, error) {
 	wc := "\"id\" = $1 and \"revision\" = $2"
 	ret := &dto{}
 	tablesJoinedParam := fmt.Sprintf("%q v join %q vr on v.\"id\" = vr.\"version_id\"", table, tableRevision)
 	q := database.SQLSelectSimple(columnsString, tablesJoinedParam, wc)
-	err := s.db.Get(ctx, ret, q, tx, s.logger, id, revision)
+	err := s.db.Get(ctx, ret, q, tx, logger, id, revision)
 	if err != nil {
 		return nil, err
 	}
 	return ret.ToVersion(), nil
 }
 
-func (s *Service) getCurrentRevisions(ctx context.Context, tx *sqlx.Tx, models ...*Version) (map[string]int, error) {
+func (s *Service) getCurrentRevisions(ctx context.Context, tx *sqlx.Tx, logger util.Logger, models ...*Version) (map[string]int, error) {
 	stmts := make([]string, 0, len(models))
 	for i := range models {
 		stmts = append(stmts, fmt.Sprintf(`"id" = $%d`, i+1))
@@ -52,7 +53,7 @@ func (s *Service) getCurrentRevisions(ctx context.Context, tx *sqlx.Tx, models .
 		ID              string `db:"id"`
 		CurrentRevision int    `db:"current_revision"`
 	}
-	err := s.db.Select(ctx, &results, q, tx, s.logger, vals...)
+	err := s.db.Select(ctx, &results, q, tx, logger, vals...)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to get Versions")
 	}

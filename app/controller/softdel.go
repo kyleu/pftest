@@ -20,10 +20,11 @@ func SoftdelList(rc *fasthttp.RequestCtx) {
 		ps.Title = softdelDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
 		prms := params.Get("softdel", nil, ps.Logger).Sanitize("softdel")
-		ret, err := as.Services.Softdel.List(ps.Context, nil, prms, cutil.RequestCtxBool(rc, "includeDeleted"))
+		ret, err := as.Services.Softdel.List(ps.Context, nil, prms, cutil.QueryStringBool(rc, "includeDeleted"), ps.Logger)
 		if err != nil {
 			return "", err
 		}
+		ps.Title = "Softdels"
 		ps.Data = ret
 		return render(rc, as, &vsoftdel.List{Models: ret, Params: params}, ps, "softdel")
 	})
@@ -35,7 +36,7 @@ func SoftdelDetail(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = ret.String()
+		ps.Title = ret.TitleString()+" (Softdel)"
 		ps.Data = ret
 		return render(rc, as, &vsoftdel.Detail{Model: ret}, ps, "softdel", ret.String())
 	})
@@ -53,7 +54,7 @@ func SoftdelCreateForm(rc *fasthttp.RequestCtx) {
 func SoftdelCreateFormRandom(rc *fasthttp.RequestCtx) {
 	act("softdel.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := softdel.Random()
-		ps.Title = "Create Random [Softdel]"
+		ps.Title = "Create Random Softdel"
 		ps.Data = ret
 		return render(rc, as, &vsoftdel.Edit{Model: ret, IsNew: true}, ps, "softdel", "Create")
 	})
@@ -65,7 +66,7 @@ func SoftdelCreate(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", errors.Wrap(err, "unable to parse Softdel from form")
 		}
-		err = as.Services.Softdel.Create(ps.Context, nil, ret)
+		err = as.Services.Softdel.Create(ps.Context, nil, ps.Logger, ret)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to save newly-created Softdel")
 		}
@@ -80,7 +81,7 @@ func SoftdelEditForm(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = "Edit [" + ret.String() + "]"
+		ps.Title = "Edit " + ret.String()
 		ps.Data = ret
 		return render(rc, as, &vsoftdel.Edit{Model: ret}, ps, "softdel", ret.String())
 	})
@@ -97,7 +98,7 @@ func SoftdelEdit(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrap(err, "unable to parse Softdel from form")
 		}
 		frm.ID = ret.ID
-		err = as.Services.Softdel.Update(ps.Context, nil, frm)
+		err = as.Services.Softdel.Update(ps.Context, nil, frm, ps.Logger)
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to update Softdel [%s]", frm.String())
 		}
@@ -112,7 +113,7 @@ func SoftdelDelete(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		err = as.Services.Softdel.Delete(ps.Context, nil, ret.ID)
+		err = as.Services.Softdel.Delete(ps.Context, nil, ret.ID, ps.Logger)
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to delete softdel [%s]", ret.String())
 		}
@@ -122,12 +123,12 @@ func SoftdelDelete(rc *fasthttp.RequestCtx) {
 }
 
 func softdelFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageState) (*softdel.Softdel, error) {
-	idArg, err := RCRequiredString(rc, "id", false)
+	idArg, err := cutil.RCRequiredString(rc, "id", false)
 	if err != nil {
 		return nil, errors.Wrap(err, "must provide [id] as an argument")
 	}
-	includeDeleted := rc.UserValue("includeDeleted") != nil || cutil.RequestCtxBool(rc, "includeDeleted")
-	return as.Services.Softdel.Get(ps.Context, nil, idArg, includeDeleted)
+	includeDeleted := rc.UserValue("includeDeleted") != nil || cutil.QueryStringBool(rc, "includeDeleted")
+	return as.Services.Softdel.Get(ps.Context, nil, idArg, includeDeleted, ps.Logger)
 }
 
 func softdelFromForm(rc *fasthttp.RequestCtx, setPK bool) (*softdel.Softdel, error) {

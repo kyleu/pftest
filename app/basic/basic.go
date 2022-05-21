@@ -13,6 +13,7 @@ import (
 type Basic struct {
 	ID      uuid.UUID `json:"id"`
 	Name    string    `json:"name"`
+	Status  string    `json:"status"`
 	Created time.Time `json:"created"`
 }
 
@@ -24,6 +25,7 @@ func Random() *Basic {
 	return &Basic{
 		ID:      util.UUID(),
 		Name:    util.RandomString(12),
+		Status:  util.RandomString(12),
 		Created: time.Now(),
 	}
 }
@@ -46,6 +48,10 @@ func FromMap(m util.ValueMap, setPK bool) (*Basic, error) {
 	if err != nil {
 		return nil, err
 	}
+	ret.Status, err = m.ParseString("status", true, true)
+	if err != nil {
+		return nil, err
+	}
 	// $PF_SECTION_START(extrachecks)$
 	// $PF_SECTION_END(extrachecks)$
 	return ret, nil
@@ -55,6 +61,7 @@ func (b *Basic) Clone() *Basic {
 	return &Basic{
 		ID:      b.ID,
 		Name:    b.Name,
+		Status:  b.Status,
 		Created: b.Created,
 	}
 }
@@ -79,6 +86,9 @@ func (b *Basic) Diff(bx *Basic) util.Diffs {
 	if b.Name != bx.Name {
 		diffs = append(diffs, util.NewDiff("name", b.Name, bx.Name))
 	}
+	if b.Status != bx.Status {
+		diffs = append(diffs, util.NewDiff("status", b.Status, bx.Status))
+	}
 	if b.Created != bx.Created {
 		diffs = append(diffs, util.NewDiff("created", b.Created.String(), bx.Created.String()))
 	}
@@ -86,7 +96,7 @@ func (b *Basic) Diff(bx *Basic) util.Diffs {
 }
 
 func (b *Basic) ToData() []any {
-	return []any{b.ID, b.Name, b.Created}
+	return []any{b.ID, b.Name, b.Status, b.Created}
 }
 
 type Basics []*Basic
