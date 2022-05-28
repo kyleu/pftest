@@ -2,7 +2,4 @@
 # Test Project
 ![app logo](./assets/favicon.png)
 
-
-
-- https://github.com/kyleu/pftest
 - https://github.com/kyleu/pftest
