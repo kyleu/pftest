@@ -36,7 +36,7 @@ func GroupDetail(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = ret.TitleString()+" (Group)"
+		ps.Title = ret.TitleString() + " (Group)"
 		ps.Data = ret
 		return render(rc, as, &vgroup.Detail{Model: ret}, ps, "group", ret.String())
 	})

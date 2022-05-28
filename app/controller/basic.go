@@ -38,7 +38,7 @@ func BasicDetail(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = ret.TitleString()+" (Basic)"
+		ps.Title = ret.TitleString() + " (Basic)"
 		ps.Data = ret
 		relationPrms := params.Get("relation", nil, ps.Logger).Sanitize("relation")
 		relationsByBasicID, err := as.Services.Relation.GetByBasicID(ps.Context, nil, ret.ID, relationPrms, ps.Logger)

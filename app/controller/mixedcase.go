@@ -36,7 +36,7 @@ func MixedCaseDetail(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = ret.TitleString()+" (Mixed Case)"
+		ps.Title = ret.TitleString() + " (Mixed Case)"
 		ps.Data = ret
 		return render(rc, as, &vmixedcase.Detail{Model: ret}, ps, "mixedcase", ret.String())
 	})

@@ -36,7 +36,7 @@ func TimestampDetail(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = ret.TitleString()+" (Timestamp)"
+		ps.Title = ret.TitleString() + " (Timestamp)"
 		ps.Data = ret
 		return render(rc, as, &vtimestamp.Detail{Model: ret}, ps, "timestamp", ret.String())
 	})

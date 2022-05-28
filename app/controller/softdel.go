@@ -36,7 +36,7 @@ func SoftdelDetail(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = ret.TitleString()+" (Softdel)"
+		ps.Title = ret.TitleString() + " (Softdel)"
 		ps.Data = ret
 		return render(rc, as, &vsoftdel.Detail{Model: ret}, ps, "softdel", ret.String())
 	})

@@ -41,7 +41,7 @@ func HistoryDetail(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = ret.TitleString()+" (History)"
+		ps.Title = ret.TitleString() + " (History)"
 		ps.Data = ret
 		return render(rc, as, &vhistory.Detail{
 			Model:     ret,

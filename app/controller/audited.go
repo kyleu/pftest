@@ -37,7 +37,7 @@ func AuditedDetail(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = ret.TitleString()+" (Audited)"
+		ps.Title = ret.TitleString() + " (Audited)"
 		ps.Data = ret
 		return render(rc, as, &vaudited.Detail{Model: ret}, ps, "audited", ret.String())
 	})

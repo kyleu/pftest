@@ -46,7 +46,7 @@ func RelationDetail(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = ret.TitleString()+" (Relation)"
+		ps.Title = ret.TitleString() + " (Relation)"
 		ps.Data = ret
 		return render(rc, as, &vrelation.Detail{Model: ret}, ps, "relation", ret.String())
 	})

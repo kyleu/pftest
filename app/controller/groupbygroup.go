@@ -57,7 +57,7 @@ func GroupDetailByGroup(rc *fasthttp.RequestCtx) {
 		if ret.Group != groupArg {
 			return "", errors.New("unauthorized: incorrect [group]")
 		}
-		ps.Title = ret.TitleString()+" (Group)"
+		ps.Title = ret.TitleString() + " (Group)"
 		ps.Data = ret
 		return render(rc, as, &vgroup.Detail{Model: ret}, ps, "group", "group", ret.String())
 	})
