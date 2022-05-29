@@ -9,6 +9,8 @@ import (
 	"github.com/kyleu/pftest/app/util"
 )
 
+var AppRoutesList map[string][]string
+
 //nolint
 func AppRoutes() fasthttp.RequestHandler {
 	r := router.New()
@@ -144,8 +146,6 @@ func AppRoutes() fasthttp.RequestHandler {
 	r.GET("/docs/{path:*}", Docs)
 
 	r.GET("/admin", Admin)
-	r.GET("/admin/sandbox", SandboxList)
-	r.GET("/admin/sandbox/{key}", SandboxRun)
 	r.GET("/admin/audit", AuditList)
 	r.GET("/admin/audit/random", AuditCreateFormRandom)
 	r.GET("/admin/audit/new", AuditCreateForm)
@@ -160,6 +160,8 @@ func AppRoutes() fasthttp.RequestHandler {
 	r.GET("/admin/database/{key}/{act}", DatabaseAction)
 	r.GET("/admin/database/{key}/tables/{schema}/{table}", DatabaseTableView)
 	r.POST("/admin/database/{key}/sql", DatabaseSQLRun)
+	r.GET("/admin/sandbox", SandboxList)
+	r.GET("/admin/sandbox/{key}", SandboxRun)
 	r.GET("/admin/{path:*}", Admin)
 
 	r.GET("/favicon.ico", Favicon)
@@ -169,6 +171,8 @@ func AppRoutes() fasthttp.RequestHandler {
 	r.OPTIONS("/", Options)
 	r.OPTIONS("/{_:*}", Options)
 	r.NotFound = NotFound
+
+	AppRoutesList = r.List()
 
 	p := httpmetrics.NewMetrics(util.AppKey)
 	return fasthttp.CompressHandlerLevel(p.WrapHandler(r), fasthttp.CompressBestSpeed)
