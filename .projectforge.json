@@ -15,6 +15,7 @@
     "desktop",
     "docbrowse",
     "export",
+    "filesystem",
     "ios",
     "marketing",
     "migration",
@@ -28,6 +29,9 @@
     "sqlite",
     "types",
     "upgrade"
+  ],
+  "tags": [
+    "kyleu"
   ],
   "info": {
     "org": "kyleu",
