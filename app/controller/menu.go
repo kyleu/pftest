@@ -11,7 +11,7 @@ import (
 	"github.com/kyleu/pftest/app/util"
 )
 
-func MenuFor(ctx context.Context, isAuthed bool, isAdmin bool, as *app.State) (menu.Items, error) {
+func MenuFor(ctx context.Context, isAuthed bool, isAdmin bool, as *app.State, logger util.Logger) (menu.Items, error) {
 	ctx, span, logger := telemetry.StartSpan(ctx, "menu:generate", nil)
 	defer span.Complete()
 	_ = logger
