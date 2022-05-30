@@ -9,6 +9,7 @@ import (
 	"github.com/kyleu/pftest/app/lib/auth"
 	"github.com/kyleu/pftest/app/lib/database"
 	"github.com/kyleu/pftest/app/lib/filesystem"
+	"github.com/kyleu/pftest/app/lib/graphql"
 	"github.com/kyleu/pftest/app/lib/telemetry"
 	"github.com/kyleu/pftest/app/lib/theme"
 	"github.com/kyleu/pftest/app/util"
@@ -35,6 +36,7 @@ type State struct {
 	Files     filesystem.FileLoader
 	Auth      *auth.Service
 	DB        *database.Service
+	GraphQL   *graphql.Service
 	Themes    *theme.Service
 	Logger    util.Logger
 	Services  *Services
@@ -44,6 +46,9 @@ type State struct {
 func (s State) Close(ctx context.Context, logger util.Logger) error {
 	if err := s.DB.Close(); err != nil {
 		logger.Errorf("error closing database: %+v", err)
+	}
+	if err := s.GraphQL.Close(); err != nil {
+		logger.Errorf("error closing GraphQL service: %+v", err)
 	}
 	return s.Services.Close(ctx, logger)
 }
@@ -58,12 +63,14 @@ func NewState(debug bool, bi *BuildInfo, f filesystem.FileLoader, enableTelemetr
 	_ = telemetry.InitializeIfNeeded(enableTelemetry, bi.Version, logger)
 	as := auth.NewService("", logger)
 	ts := theme.NewService(f)
+	gqls := graphql.NewService()
 
 	return &State{
 		Debug:     debug,
 		BuildInfo: bi,
 		Files:     f,
 		Auth:      as,
+		GraphQL:   gqls,
 		Themes:    ts,
 		Logger:    logger,
 		Started:   time.Now(),

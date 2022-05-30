@@ -10,11 +10,12 @@ require (
 	github.com/dustin/go-humanize v1.0.0
 	github.com/fasthttp/router v1.4.9
 	github.com/gertd/go-pluralize v0.2.1
-	github.com/go-ini/ini v1.66.4
+	github.com/go-ini/ini v1.66.5
 	github.com/go-sql-driver/mysql v1.6.0
-	github.com/gomarkdown/markdown v0.0.0-20220510115730-2372b9aa33e5
+	github.com/gomarkdown/markdown v0.0.0-20220527210340-c82b80a9daf2
 	github.com/google/go-github/v39 v39.2.0
 	github.com/google/uuid v1.3.0
+	github.com/graph-gophers/graphql-go v1.4.0
 	github.com/iancoleman/strcase v0.2.0
 	github.com/jackc/pgx/v4 v4.16.1
 	github.com/jmoiron/sqlx v1.3.5

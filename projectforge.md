@@ -16,6 +16,7 @@ The following modules were used to build this project:
 - [docbrowse](./doc/module/docbrowse.md)
 - [export](./doc/module/export.md)
 - [filesystem](./doc/module/filesystem.md)
+- [graphql](./doc/module/graphql.md)
 - [ios](./doc/module/ios.md)
 - [marketing](./doc/module/marketing.md)
 - [migration](./doc/module/migration.md)

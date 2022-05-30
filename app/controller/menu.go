@@ -41,14 +41,10 @@ func MenuFor(ctx context.Context, isAuthed bool, isAdmin bool, as *app.State) (m
 	// $PF_INJECT_END(codegen)$
 	// $PF_SECTION_START(routes_end)$
 	if isAdmin {
-		ret = append(ret,
-			menu.Separator,
-			sandbox.Menu(ctx),
-			menu.Separator,
-			&menu.Item{Key: "admin", Title: "Settings", Description: "System-wide settings and preferences", Icon: "cog", Route: "/admin"},
-		)
+		admin := &menu.Item{Key: "admin", Title: "Settings", Description: "System-wide settings and preferences", Icon: "cog", Route: "/admin"}
+		ret = append(ret, menu.Separator, graphQLMenu(as.GraphQL, ctx), sandbox.Menu(ctx), menu.Separator, admin, menu.Separator, docMenu(ctx, as, logger))
 	}
-	aboutDesc := "Get assistance and advice for using " + util.AppName
+	const aboutDesc = "Get assistance and advice for using " + util.AppName
 	ret = append(ret, &menu.Item{Key: "about", Title: "About", Description: aboutDesc, Icon: "question", Route: "/about"})
 	// $PF_SECTION_END(routes_end)$
 	return ret, nil

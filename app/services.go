@@ -40,6 +40,12 @@ type Services struct {
 	Audit     *audit.Service
 }
 
+type x struct {}
+
+func(_ *x) Hello() string {
+	return "Hi!"
+}
+
 func NewServices(ctx context.Context, st *State) (*Services, error) {
 	migrations.LoadMigrations(st.Debug)
 	err := migrate.Migrate(ctx, st.DB, st.Logger)
@@ -48,6 +54,20 @@ func NewServices(ctx context.Context, st *State) (*Services, error) {
 	}
 
 	aud := audit.NewService(st.DB, st.Logger)
+
+	sch := `type Query {
+		hello: String!
+	}`
+	resolver := &x{}
+
+	err = st.GraphQL.RegisterStringSchema("foo", "Foo", sch, resolver)
+	if err != nil {
+		return nil, errors.Wrap(err, "unable to register GraphQL schema")
+	}
+	err = st.GraphQL.RegisterStringSchema("bar", "Bar", sch, resolver)
+	if err != nil {
+		return nil, errors.Wrap(err, "unable to register GraphQL schema")
+	}
 
 	return &Services{
 		Basic:     basic.NewService(st.DB),

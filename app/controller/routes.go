@@ -145,6 +145,10 @@ func AppRoutes() fasthttp.RequestHandler {
 	r.GET("/docs", Docs)
 	r.GET("/docs/{path:*}", Docs)
 
+	r.GET("/graphql", GraphQLIndex)
+	r.GET("/graphql/{key}", GraphQLDetail)
+	r.POST("/graphql/{key}", GraphQLRun)
+
 	r.GET("/admin", Admin)
 	r.GET("/admin/audit", AuditList)
 	r.GET("/admin/audit/random", AuditCreateFormRandom)
