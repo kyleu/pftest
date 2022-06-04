@@ -40,20 +40,20 @@ type Services struct {
 	Audit     *audit.Service
 }
 
-type x struct {}
+type x struct{}
 
-func(_ *x) Hello() string {
+func (_ *x) Hello() string {
 	return "Hi!"
 }
 
-func NewServices(ctx context.Context, st *State) (*Services, error) {
+func NewServices(ctx context.Context, st *State, logger util.Logger) (*Services, error) {
 	migrations.LoadMigrations(st.Debug)
-	err := migrate.Migrate(ctx, st.DB, st.Logger)
+	err := migrate.Migrate(ctx, st.DB, logger)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to migrate database")
 	}
 
-	aud := audit.NewService(st.DB, st.Logger)
+	aud := audit.NewService(st.DB, logger)
 
 	sch := `type Query {
 		hello: String!
@@ -82,7 +82,7 @@ func NewServices(ctx context.Context, st *State) (*Services, error) {
 		MixedCase: mixedcase.NewService(st.DB),
 		Trouble:   trouble.NewService(st.DB),
 		Capital:   capital.NewService(st.DB),
-		Audit:     audit.NewService(st.DB, st.Logger),
+		Audit:     aud,
 	}, nil
 }
 

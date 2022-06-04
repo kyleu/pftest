@@ -4,7 +4,6 @@ package controller
 import (
 	"github.com/valyala/fasthttp"
 
-	"github.com/kyleu/pftest/app"
 	"github.com/kyleu/pftest/app/controller/cutil"
 	"github.com/kyleu/pftest/app/lib/telemetry"
 	"github.com/kyleu/pftest/app/lib/telemetry/httpmetrics"
@@ -14,8 +13,8 @@ import (
 
 var initialIcons = []string{"searchbox"}
 
-func loadPageState(rc *fasthttp.RequestCtx, key string, as *app.State) *cutil.PageState {
-	ctx, logger := httpmetrics.ExtractHeaders(rc, as.Logger)
+func loadPageState(rc *fasthttp.RequestCtx, key string, logger util.Logger) *cutil.PageState {
+	ctx, logger := httpmetrics.ExtractHeaders(rc, logger)
 	traceCtx, span, logger := telemetry.StartSpan(ctx, "http:"+key, logger)
 	span.Attribute("path", string(rc.Request.URI().Path()))
 	httpmetrics.InjectHTTP(rc, span)

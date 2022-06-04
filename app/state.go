@@ -38,7 +38,6 @@ type State struct {
 	DB        *database.Service
 	GraphQL   *graphql.Service
 	Themes    *theme.Service
-	Logger    util.Logger
 	Services  *Services
 	Started   time.Time
 }
@@ -72,7 +71,6 @@ func NewState(debug bool, bi *BuildInfo, f filesystem.FileLoader, enableTelemetr
 		Auth:      as,
 		GraphQL:   gqls,
 		Themes:    ts,
-		Logger:    logger,
 		Started:   time.Now(),
 	}, nil
 }
