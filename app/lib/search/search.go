@@ -26,6 +26,17 @@ func Search(ctx context.Context, as *app.State, params *Params, logger util.Logg
 	// $PF_SECTION_START(search_functions)$
 	// $PF_SECTION_END(search_functions)$
 	// $PF_INJECT_START(codegen)$
+	auditedFunc := func(ctx context.Context, as *app.State, params *Params, logger util.Logger) (result.Results, error) {
+		models, err := as.Services.Audited.Search(ctx, params.Q, nil, params.PS.Get("audited", nil, logger), logger)
+		if err != nil {
+			return nil, errors.Wrap(err, "")
+		}
+		res := make(result.Results, 0, len(models))
+		for _, m := range models {
+			res = append(res, result.NewResult("audited", m.String(), m.WebPath(), m.String(), "star", m, params.Q))
+		}
+		return res, nil
+	}
 	basicFunc := func(ctx context.Context, as *app.State, params *Params, logger util.Logger) (result.Results, error) {
 		models, err := as.Services.Basic.Search(ctx, params.Q, nil, params.PS.Get("basic", nil, logger), logger)
 		if err != nil {
@@ -34,17 +45,6 @@ func Search(ctx context.Context, as *app.State, params *Params, logger util.Logg
 		res := make(result.Results, 0, len(models))
 		for _, m := range models {
 			res = append(res, result.NewResult("basic", m.String(), m.WebPath(), m.String(), "star", m, params.Q))
-		}
-		return res, nil
-	}
-	relationFunc := func(ctx context.Context, as *app.State, params *Params, logger util.Logger) (result.Results, error) {
-		models, err := as.Services.Relation.Search(ctx, params.Q, nil, params.PS.Get("relation", nil, logger), logger)
-		if err != nil {
-			return nil, errors.Wrap(err, "")
-		}
-		res := make(result.Results, 0, len(models))
-		for _, m := range models {
-			res = append(res, result.NewResult("relation", m.String(), m.WebPath(), m.String(), "star", m, params.Q))
 		}
 		return res, nil
 	}
@@ -59,18 +59,18 @@ func Search(ctx context.Context, as *app.State, params *Params, logger util.Logg
 		}
 		return res, nil
 	}
-	auditedFunc := func(ctx context.Context, as *app.State, params *Params, logger util.Logger) (result.Results, error) {
-		models, err := as.Services.Audited.Search(ctx, params.Q, nil, params.PS.Get("audited", nil, logger), logger)
+	relationFunc := func(ctx context.Context, as *app.State, params *Params, logger util.Logger) (result.Results, error) {
+		models, err := as.Services.Relation.Search(ctx, params.Q, nil, params.PS.Get("relation", nil, logger), logger)
 		if err != nil {
 			return nil, errors.Wrap(err, "")
 		}
 		res := make(result.Results, 0, len(models))
 		for _, m := range models {
-			res = append(res, result.NewResult("audited", m.String(), m.WebPath(), m.String(), "star", m, params.Q))
+			res = append(res, result.NewResult("relation", m.String(), m.WebPath(), m.String(), "star", m, params.Q))
 		}
 		return res, nil
 	}
-	allProviders = append(allProviders, basicFunc, relationFunc, referenceFunc, auditedFunc)
+	allProviders = append(allProviders, auditedFunc, basicFunc, referenceFunc, relationFunc)
 	// $PF_INJECT_END(codegen)$
 	if len(allProviders) == 0 {
 		return nil, []error{errors.New("no search providers configured")}

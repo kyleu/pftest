@@ -1,0 +1,55 @@
+{
+  "name": "trouble",
+  "package": "trouble",
+  "description": "Columns with scary names",
+  "icon": "star",
+  "history": "revision",
+  "tags": [
+    "softDelete"
+  ],
+  "route": "troub/le",
+  "columns": [
+    {
+      "name": "from",
+      "type": "string",
+      "pk": true,
+      "search": true
+    },
+    {
+      "name": "where",
+      "type": "int",
+      "pk": true,
+      "search": true
+    },
+    {
+      "name": "selectcol",
+      "type": "int",
+      "sqlDefault": "1",
+      "tags": [
+        "revision"
+      ]
+    },
+    {
+      "name": "limit",
+      "type": "string",
+      "search": true,
+      "tags": [
+        "const"
+      ]
+    },
+    {
+      "name": "group",
+      "type": "string",
+      "search": true
+    },
+    {
+      "name": "delete",
+      "type": "timestamp",
+      "nullable": true,
+      "sqlDefault": "now()",
+      "tags": [
+        "deleted"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "name": "Capital",
+  "package": "capital",
+  "description": "Proper case table",
+  "icon": "star",
+  "history": "revision",
+  "title": "Capital",
+  "columns": [
+    {
+      "name": "ID",
+      "type": "string",
+      "pk": true,
+      "search": true
+    },
+    {
+      "name": "Name",
+      "type": "string",
+      "search": true,
+      "tags": [
+        "title"
+      ]
+    },
+    {
+      "name": "Birthday",
+      "type": "timestamp",
+      "search": true
+    },
+    {
+      "name": "Version",
+      "type": "int",
+      "sqlDefault": "1",
+      "tags": [
+        "revision"
+      ]
+    },
+    {
+      "name": "Deathday",
+      "type": "timestamp",
+      "nullable": true,
+      "search": true
+    }
+  ]
+}

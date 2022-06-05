@@ -1,0 +1,25 @@
+{
+  "name": "mixed_case",
+  "package": "mixedcase",
+  "description": "Table and columns with mixed casing",
+  "icon": "star",
+  "title": "Mixed Case",
+  "columns": [
+    {
+      "name": "id",
+      "type": "string",
+      "pk": true,
+      "search": true
+    },
+    {
+      "name": "test_field",
+      "type": "string",
+      "search": true
+    },
+    {
+      "name": "another_field",
+      "type": "string",
+      "search": true
+    }
+  ]
+}

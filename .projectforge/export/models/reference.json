@@ -1,0 +1,66 @@
+{
+  "name": "reference",
+  "package": "reference",
+  "description": "Custom Reference",
+  "icon": "star",
+  "ordering": [
+    {
+      "column": "created",
+      "asc": false
+    }
+  ],
+  "search": [
+    "lower(id::text)",
+    "lower(name)"
+  ],
+  "columns": [
+    {
+      "name": "id",
+      "type": "uuid",
+      "pk": true,
+      "search": true
+    },
+    {
+      "name": "custom",
+      "type": {
+        "k": "reference",
+        "t": {
+          "pkg": [
+            "github.com",
+            "kyleu",
+            "pftest",
+            "app",
+            "foo"
+          ],
+          "k": "Custom"
+        }
+      },
+      "search": true
+    },
+    {
+      "name": "self",
+      "type": {
+        "k": "reference",
+        "t": {
+          "pkg": [
+            "github.com",
+            "kyleu",
+            "pftest",
+            "app",
+            "reference"
+          ],
+          "k": "SelfCustom"
+        }
+      },
+      "search": true
+    },
+    {
+      "name": "created",
+      "type": "timestamp",
+      "sqlDefault": "now()",
+      "tags": [
+        "created"
+      ]
+    }
+  ]
+}

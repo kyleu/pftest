@@ -1,30 +1,30 @@
 -- Content managed by Project Forge, see [projectforge.md] for details.
 -- {% func DropAll() %}
--- {%= TroubleDrop() %}
--- {%= MixedCaseDrop() %}
--- {%= CapitalDrop() %}
--- {%= GroupDrop() %}
--- {%= SoftdelDrop() %}
--- {%= HistoryDrop() %}
 -- {%= VersionDrop() %}
+-- {%= TroubleDrop() %}
 -- {%= TimestampDrop() %}
--- {%= AuditedDrop() %}
--- {%= ReferenceDrop() %}
+-- {%= SoftdelDrop() %}
 -- {%= RelationDrop() %}
+-- {%= ReferenceDrop() %}
+-- {%= MixedCaseDrop() %}
+-- {%= HistoryDrop() %}
+-- {%= GroupDrop() %}
 -- {%= BasicDrop() %}
+-- {%= AuditedDrop() %}
+-- {%= CapitalDrop() %}
 -- {% endfunc %}
 
 -- {% func CreateAll() %}
--- {%= BasicCreate() %}
--- {%= RelationCreate() %}
--- {%= ReferenceCreate() %}
--- {%= AuditedCreate() %}
--- {%= TimestampCreate() %}
--- {%= VersionCreate() %}
--- {%= HistoryCreate() %}
--- {%= SoftdelCreate() %}
--- {%= GroupCreate() %}
 -- {%= CapitalCreate() %}
+-- {%= AuditedCreate() %}
+-- {%= BasicCreate() %}
+-- {%= GroupCreate() %}
+-- {%= HistoryCreate() %}
 -- {%= MixedCaseCreate() %}
+-- {%= ReferenceCreate() %}
+-- {%= RelationCreate() %}
+-- {%= SoftdelCreate() %}
+-- {%= TimestampCreate() %}
 -- {%= TroubleCreate() %}
+-- {%= VersionCreate() %}
 -- {% endfunc %}

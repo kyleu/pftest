@@ -1,0 +1,59 @@
+{
+  "name": "group",
+  "package": "group",
+  "description": "Grouped table",
+  "icon": "star",
+  "columns": [
+    {
+      "name": "id",
+      "type": "string",
+      "pk": true,
+      "search": true
+    },
+    {
+      "name": "group",
+      "type": "string",
+      "search": true,
+      "tags": [
+        "grouped"
+      ]
+    },
+    {
+      "name": "data",
+      "type": {
+        "k": "map",
+        "t": {
+          "k": "string",
+          "v": "any"
+        }
+      },
+      "search": true
+    },
+    {
+      "name": "created",
+      "type": "timestamp",
+      "sqlDefault": "now()",
+      "tags": [
+        "created"
+      ]
+    },
+    {
+      "name": "updated",
+      "type": "timestamp",
+      "nullable": true,
+      "sqlDefault": "now()",
+      "tags": [
+        "updated"
+      ]
+    },
+    {
+      "name": "deleted",
+      "type": "timestamp",
+      "nullable": true,
+      "sqlDefault": "now()",
+      "tags": [
+        "deleted"
+      ]
+    }
+  ]
+}

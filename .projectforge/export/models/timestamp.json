@@ -1,0 +1,43 @@
+{
+  "name": "timestamp",
+  "package": "timestamp",
+  "description": "Timestamps",
+  "icon": "star",
+  "tags": [
+    "softDelete"
+  ],
+  "columns": [
+    {
+      "name": "id",
+      "type": "string",
+      "pk": true,
+      "search": true
+    },
+    {
+      "name": "created",
+      "type": "timestamp",
+      "sqlDefault": "now()",
+      "tags": [
+        "created"
+      ]
+    },
+    {
+      "name": "updated",
+      "type": "timestamp",
+      "nullable": true,
+      "sqlDefault": "now()",
+      "tags": [
+        "updated"
+      ]
+    },
+    {
+      "name": "deleted",
+      "type": "timestamp",
+      "nullable": true,
+      "sqlDefault": "now()",
+      "tags": [
+        "deleted"
+      ]
+    }
+  ]
+}

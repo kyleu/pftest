@@ -5,7 +5,6 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/pkg/errors"
 	"github.com/valyala/fasthttp"
 
 	"github.com/kyleu/pftest/app"
@@ -61,7 +60,7 @@ func GraphQLRun(rc *fasthttp.RequestCtx) {
 		}
 		frm, err := cutil.ParseForm(rc)
 		if err != nil {
-			return "", errors.Wrap(err, "unable to parse form")
+			return "", err
 		}
 		q := frm.GetStringOpt("query")
 		op := frm.GetStringOpt("operationName")
