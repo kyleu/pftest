@@ -7,6 +7,7 @@ import (
 
 	"github.com/kyleu/pftest/app/controller"
 	"github.com/kyleu/pftest/app/controller/clib"
+	"github.com/kyleu/pftest/app/controller/cutil"
 	"github.com/kyleu/pftest/app/lib/telemetry/httpmetrics"
 	"github.com/kyleu/pftest/app/util"
 )
@@ -21,10 +22,10 @@ func AppRoutes() fasthttp.RequestHandler {
 	r.GET("/theme", clib.ThemeList)
 	r.GET("/theme/{key}", clib.ThemeEdit)
 	r.POST("/theme/{key}", clib.ThemeSave)
-	r.GET(controller.DefaultSearchPath, clib.Search)
+	r.GET(cutil.DefaultSearchPath, clib.Search)
 
-	r.GET(controller.DefaultProfilePath, clib.Profile)
-	r.POST(controller.DefaultProfilePath, clib.ProfileSave)
+	r.GET(cutil.DefaultProfilePath, clib.Profile)
+	r.POST(cutil.DefaultProfilePath, clib.ProfileSave)
 	r.GET("/auth/{key}", clib.AuthDetail)
 	r.GET("/auth/callback/{key}", clib.AuthCallback)
 	r.GET("/auth/logout/{key}", clib.AuthLogout)
