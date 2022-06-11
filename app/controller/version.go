@@ -16,7 +16,7 @@ import (
 const versionDefaultTitle = "Versions"
 
 func VersionList(rc *fasthttp.RequestCtx) {
-	act("version.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("version.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ps.Title = versionDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
 		prms := params.Get("version", nil, ps.Logger).Sanitize("version")
@@ -26,12 +26,12 @@ func VersionList(rc *fasthttp.RequestCtx) {
 		}
 		ps.Title = "Versions"
 		ps.Data = ret
-		return render(rc, as, &vversion.List{Models: ret, Params: params}, ps, "version")
+		return Render(rc, as, &vversion.List{Models: ret, Params: params}, ps, "version")
 	})
 }
 
 func VersionDetail(rc *fasthttp.RequestCtx) {
-	act("version.detail", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("version.detail", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		params := cutil.ParamSetFromRequest(rc)
 		ret, err := versionFromPath(rc, as, ps)
 		if err != nil {
@@ -44,7 +44,7 @@ func VersionDetail(rc *fasthttp.RequestCtx) {
 		}
 		ps.Title = ret.TitleString() + " (Version)"
 		ps.Data = ret
-		return render(rc, as, &vversion.Detail{
+		return Render(rc, as, &vversion.Detail{
 			Model:     ret,
 			Params:    params,
 			Revisions: revisions,
@@ -53,7 +53,7 @@ func VersionDetail(rc *fasthttp.RequestCtx) {
 }
 
 func VersionRevision(rc *fasthttp.RequestCtx) {
-	act("version.revision", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("version.revision", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		latest, err := versionFromPath(rc, as, ps)
 		if err != nil {
 			return "", err
@@ -68,30 +68,30 @@ func VersionRevision(rc *fasthttp.RequestCtx) {
 		}
 		ps.Title = ret.String()
 		ps.Data = ret
-		return render(rc, as, &vversion.Detail{Model: ret}, ps, "version", ret.String())
+		return Render(rc, as, &vversion.Detail{Model: ret}, ps, "version", ret.String())
 	})
 }
 
 func VersionCreateForm(rc *fasthttp.RequestCtx) {
-	act("version.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("version.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &version.Version{}
 		ps.Title = "Create [Version]"
 		ps.Data = ret
-		return render(rc, as, &vversion.Edit{Model: ret, IsNew: true}, ps, "version", "Create")
+		return Render(rc, as, &vversion.Edit{Model: ret, IsNew: true}, ps, "version", "Create")
 	})
 }
 
 func VersionCreateFormRandom(rc *fasthttp.RequestCtx) {
-	act("version.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("version.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := version.Random()
 		ps.Title = "Create Random Version"
 		ps.Data = ret
-		return render(rc, as, &vversion.Edit{Model: ret, IsNew: true}, ps, "version", "Create")
+		return Render(rc, as, &vversion.Edit{Model: ret, IsNew: true}, ps, "version", "Create")
 	})
 }
 
 func VersionCreate(rc *fasthttp.RequestCtx) {
-	act("version.create", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("version.create", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := versionFromForm(rc, true)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to parse Version from form")
@@ -101,12 +101,12 @@ func VersionCreate(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrap(err, "unable to save newly-created Version")
 		}
 		msg := fmt.Sprintf("Version [%s] created", ret.String())
-		return flashAndRedir(true, msg, ret.WebPath(), rc, ps)
+		return FlashAndRedir(true, msg, ret.WebPath(), rc, ps)
 	})
 }
 
 func VersionEditForm(rc *fasthttp.RequestCtx) {
-	act("version.edit.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("version.edit.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		rc.SetUserValue("includeDeleted", true)
 		ret, err := versionFromPath(rc, as, ps)
 		if err != nil {
@@ -114,12 +114,12 @@ func VersionEditForm(rc *fasthttp.RequestCtx) {
 		}
 		ps.Title = "Edit " + ret.String()
 		ps.Data = ret
-		return render(rc, as, &vversion.Edit{Model: ret}, ps, "version", ret.String())
+		return Render(rc, as, &vversion.Edit{Model: ret}, ps, "version", ret.String())
 	})
 }
 
 func VersionEdit(rc *fasthttp.RequestCtx) {
-	act("version.edit", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("version.edit", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		rc.SetUserValue("includeDeleted", true)
 		ret, err := versionFromPath(rc, as, ps)
 		if err != nil {
@@ -135,12 +135,12 @@ func VersionEdit(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrapf(err, "unable to update Version [%s]", frm.String())
 		}
 		msg := fmt.Sprintf("Version [%s] updated", frm.String())
-		return flashAndRedir(true, msg, frm.WebPath(), rc, ps)
+		return FlashAndRedir(true, msg, frm.WebPath(), rc, ps)
 	})
 }
 
 func VersionDelete(rc *fasthttp.RequestCtx) {
-	act("version.delete", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("version.delete", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := versionFromPath(rc, as, ps)
 		if err != nil {
 			return "", err
@@ -150,7 +150,7 @@ func VersionDelete(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrapf(err, "unable to delete version [%s]", ret.String())
 		}
 		msg := fmt.Sprintf("Version [%s] deleted", ret.String())
-		return flashAndRedir(true, msg, "/version", rc, ps)
+		return FlashAndRedir(true, msg, "/version", rc, ps)
 	})
 }
 

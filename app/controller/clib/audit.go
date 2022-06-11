@@ -1,5 +1,5 @@
 // Content managed by Project Forge, see [projectforge.md] for details.
-package controller
+package clib
 
 import (
 	"fmt"
@@ -8,6 +8,7 @@ import (
 	"github.com/valyala/fasthttp"
 
 	"github.com/kyleu/pftest/app"
+	"github.com/kyleu/pftest/app/controller"
 	"github.com/kyleu/pftest/app/controller/cutil"
 	"github.com/kyleu/pftest/app/lib/audit"
 	"github.com/kyleu/pftest/app/util"
@@ -19,7 +20,7 @@ const auditDefaultTitle = "Audits"
 var auditBreadcrumb = "Audit||/admin/audit"
 
 func AuditList(rc *fasthttp.RequestCtx) {
-	act("audit.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	controller.Act("audit.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ps.Title = auditDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
 		ret, err := as.Services.Audit.List(ps.Context, nil, params.Get("audit", nil, ps.Logger), ps.Logger)
@@ -27,12 +28,12 @@ func AuditList(rc *fasthttp.RequestCtx) {
 			return "", err
 		}
 		ps.Data = ret
-		return render(rc, as, &vaudit.List{Models: ret, Params: params}, ps, "admin", "Audit")
+		return controller.Render(rc, as, &vaudit.List{Models: ret, Params: params}, ps, "admin", "Audit")
 	})
 }
 
 func AuditDetail(rc *fasthttp.RequestCtx) {
-	act("audit.detail", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	controller.Act("audit.detail", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		params := cutil.ParamSetFromRequest(rc)
 		ret, err := auditFromPath(rc, as, ps)
 		if err != nil {
@@ -44,30 +45,30 @@ func AuditDetail(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", errors.Wrap(err, "unable to retrieve child auditrecords")
 		}
-		return render(rc, as, &vaudit.Detail{Model: ret, Params: params, Records: records}, ps, "admin", auditBreadcrumb, ret.String())
+		return controller.Render(rc, as, &vaudit.Detail{Model: ret, Params: params, Records: records}, ps, "admin", auditBreadcrumb, ret.String())
 	})
 }
 
 func AuditCreateForm(rc *fasthttp.RequestCtx) {
-	act("audit.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	controller.Act("audit.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &audit.Audit{}
 		ps.Title = "Create [Audit]"
 		ps.Data = ret
-		return render(rc, as, &vaudit.Edit{Model: ret, IsNew: true}, ps, "admin", auditBreadcrumb, "Create")
+		return controller.Render(rc, as, &vaudit.Edit{Model: ret, IsNew: true}, ps, "admin", auditBreadcrumb, "Create")
 	})
 }
 
 func AuditCreateFormRandom(rc *fasthttp.RequestCtx) {
-	act("audit.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	controller.Act("audit.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := audit.Random()
 		ps.Title = "Create Random [Audit]"
 		ps.Data = ret
-		return render(rc, as, &vaudit.Edit{Model: ret, IsNew: true}, ps, "admin", auditBreadcrumb, "Create")
+		return controller.Render(rc, as, &vaudit.Edit{Model: ret, IsNew: true}, ps, "admin", auditBreadcrumb, "Create")
 	})
 }
 
 func AuditCreate(rc *fasthttp.RequestCtx) {
-	act("audit.create", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	controller.Act("audit.create", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := auditFromForm(rc, true)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to parse Audit from form")
@@ -77,24 +78,24 @@ func AuditCreate(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrap(err, "unable to save newly-created Audit")
 		}
 		msg := fmt.Sprintf("Audit [%s] created", ret.String())
-		return flashAndRedir(true, msg, ret.WebPath(), rc, ps)
+		return controller.FlashAndRedir(true, msg, ret.WebPath(), rc, ps)
 	})
 }
 
 func AuditEditForm(rc *fasthttp.RequestCtx) {
-	act("audit.edit.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	controller.Act("audit.edit.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := auditFromPath(rc, as, ps)
 		if err != nil {
 			return "", err
 		}
 		ps.Title = "Edit [" + ret.String() + "]"
 		ps.Data = ret
-		return render(rc, as, &vaudit.Edit{Model: ret}, ps, "admin", auditBreadcrumb, ret.String())
+		return controller.Render(rc, as, &vaudit.Edit{Model: ret}, ps, "admin", auditBreadcrumb, ret.String())
 	})
 }
 
 func AuditEdit(rc *fasthttp.RequestCtx) {
-	act("audit.edit", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	controller.Act("audit.edit", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := auditFromPath(rc, as, ps)
 		if err != nil {
 			return "", err
@@ -109,12 +110,12 @@ func AuditEdit(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrapf(err, "unable to update Audit [%s]", frm.String())
 		}
 		msg := fmt.Sprintf("Audit [%s] updated", frm.String())
-		return flashAndRedir(true, msg, frm.WebPath(), rc, ps)
+		return controller.FlashAndRedir(true, msg, frm.WebPath(), rc, ps)
 	})
 }
 
 func AuditDelete(rc *fasthttp.RequestCtx) {
-	act("audit.delete", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	controller.Act("audit.delete", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := auditFromPath(rc, as, ps)
 		if err != nil {
 			return "", err
@@ -124,19 +125,19 @@ func AuditDelete(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrapf(err, "unable to delete audit [%s]", ret.String())
 		}
 		msg := fmt.Sprintf("Audit [%s] deleted", ret.String())
-		return flashAndRedir(true, msg, "/admin/audit", rc, ps)
+		return controller.FlashAndRedir(true, msg, "/admin/audit", rc, ps)
 	})
 }
 
 func RecordDetail(rc *fasthttp.RequestCtx) {
-	act("audit.record.detail", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	controller.Act("audit.record.detail", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := recordFromPath(rc, as, ps)
 		if err != nil {
 			return "", err
 		}
 		ps.Title = ret.String()
 		ps.Data = ret
-		return render(rc, as, &vaudit.RecordDetail{Model: ret}, ps, "admin", auditBreadcrumb, ret.String())
+		return controller.Render(rc, as, &vaudit.RecordDetail{Model: ret}, ps, "admin", auditBreadcrumb, ret.String())
 	})
 }
 

@@ -21,7 +21,9 @@
     {%- if len(p.Models) == 0 -%}
     <div class="mt"><em>No capitals available</em></div>
     {%- else -%}
-    {%= Table(p.Models, p.Params, as, ps) %}
+    <div class="overflow clear">
+      {%= Table(p.Models, p.Params, as, ps) %}
+    </div>
     {%- endif -%}
   </div>
 {% endfunc %}

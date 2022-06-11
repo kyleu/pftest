@@ -16,7 +16,7 @@ import (
 const timestampDefaultTitle = "Timestamps"
 
 func TimestampList(rc *fasthttp.RequestCtx) {
-	act("timestamp.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("timestamp.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ps.Title = timestampDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
 		prms := params.Get("timestamp", nil, ps.Logger).Sanitize("timestamp")
@@ -26,42 +26,42 @@ func TimestampList(rc *fasthttp.RequestCtx) {
 		}
 		ps.Title = "Timestamps"
 		ps.Data = ret
-		return render(rc, as, &vtimestamp.List{Models: ret, Params: params}, ps, "timestamp")
+		return Render(rc, as, &vtimestamp.List{Models: ret, Params: params}, ps, "timestamp")
 	})
 }
 
 func TimestampDetail(rc *fasthttp.RequestCtx) {
-	act("timestamp.detail", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("timestamp.detail", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := timestampFromPath(rc, as, ps)
 		if err != nil {
 			return "", err
 		}
 		ps.Title = ret.TitleString() + " (Timestamp)"
 		ps.Data = ret
-		return render(rc, as, &vtimestamp.Detail{Model: ret}, ps, "timestamp", ret.String())
+		return Render(rc, as, &vtimestamp.Detail{Model: ret}, ps, "timestamp", ret.String())
 	})
 }
 
 func TimestampCreateForm(rc *fasthttp.RequestCtx) {
-	act("timestamp.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("timestamp.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &timestamp.Timestamp{}
 		ps.Title = "Create [Timestamp]"
 		ps.Data = ret
-		return render(rc, as, &vtimestamp.Edit{Model: ret, IsNew: true}, ps, "timestamp", "Create")
+		return Render(rc, as, &vtimestamp.Edit{Model: ret, IsNew: true}, ps, "timestamp", "Create")
 	})
 }
 
 func TimestampCreateFormRandom(rc *fasthttp.RequestCtx) {
-	act("timestamp.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("timestamp.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := timestamp.Random()
 		ps.Title = "Create Random Timestamp"
 		ps.Data = ret
-		return render(rc, as, &vtimestamp.Edit{Model: ret, IsNew: true}, ps, "timestamp", "Create")
+		return Render(rc, as, &vtimestamp.Edit{Model: ret, IsNew: true}, ps, "timestamp", "Create")
 	})
 }
 
 func TimestampCreate(rc *fasthttp.RequestCtx) {
-	act("timestamp.create", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("timestamp.create", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := timestampFromForm(rc, true)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to parse Timestamp from form")
@@ -71,24 +71,24 @@ func TimestampCreate(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrap(err, "unable to save newly-created Timestamp")
 		}
 		msg := fmt.Sprintf("Timestamp [%s] created", ret.String())
-		return flashAndRedir(true, msg, ret.WebPath(), rc, ps)
+		return FlashAndRedir(true, msg, ret.WebPath(), rc, ps)
 	})
 }
 
 func TimestampEditForm(rc *fasthttp.RequestCtx) {
-	act("timestamp.edit.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("timestamp.edit.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := timestampFromPath(rc, as, ps)
 		if err != nil {
 			return "", err
 		}
 		ps.Title = "Edit " + ret.String()
 		ps.Data = ret
-		return render(rc, as, &vtimestamp.Edit{Model: ret}, ps, "timestamp", ret.String())
+		return Render(rc, as, &vtimestamp.Edit{Model: ret}, ps, "timestamp", ret.String())
 	})
 }
 
 func TimestampEdit(rc *fasthttp.RequestCtx) {
-	act("timestamp.edit", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("timestamp.edit", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := timestampFromPath(rc, as, ps)
 		if err != nil {
 			return "", err
@@ -103,12 +103,12 @@ func TimestampEdit(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrapf(err, "unable to update Timestamp [%s]", frm.String())
 		}
 		msg := fmt.Sprintf("Timestamp [%s] updated", frm.String())
-		return flashAndRedir(true, msg, frm.WebPath(), rc, ps)
+		return FlashAndRedir(true, msg, frm.WebPath(), rc, ps)
 	})
 }
 
 func TimestampDelete(rc *fasthttp.RequestCtx) {
-	act("timestamp.delete", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("timestamp.delete", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := timestampFromPath(rc, as, ps)
 		if err != nil {
 			return "", err
@@ -118,7 +118,7 @@ func TimestampDelete(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrapf(err, "unable to delete timestamp [%s]", ret.String())
 		}
 		msg := fmt.Sprintf("Timestamp [%s] deleted", ret.String())
-		return flashAndRedir(true, msg, "/timestamp", rc, ps)
+		return FlashAndRedir(true, msg, "/timestamp", rc, ps)
 	})
 }
 

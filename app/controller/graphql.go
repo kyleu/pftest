@@ -2,21 +2,18 @@
 package controller
 
 import (
-	"context"
 	"fmt"
 
 	"github.com/valyala/fasthttp"
 
 	"github.com/kyleu/pftest/app"
 	"github.com/kyleu/pftest/app/controller/cutil"
-	"github.com/kyleu/pftest/app/lib/graphql"
-	"github.com/kyleu/pftest/app/lib/menu"
 	"github.com/kyleu/pftest/app/util"
 	"github.com/kyleu/pftest/views/vgraphql"
 )
 
 func GraphQLIndex(rc *fasthttp.RequestCtx) {
-	act("graphql.index", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("graphql.index", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ps.Title = "GraphQL"
 		keys := as.GraphQL.Keys()
 		if len(keys) == 1 {
@@ -27,12 +24,12 @@ func GraphQLIndex(rc *fasthttp.RequestCtx) {
 			counts = append(counts, as.GraphQL.ExecCount(key))
 		}
 		ps.Data = keys
-		return render(rc, as, &vgraphql.List{Keys: keys, Counts: counts}, ps, "graphql")
+		return Render(rc, as, &vgraphql.List{Keys: keys, Counts: counts}, ps, "graphql")
 	})
 }
 
 func GraphQLDetail(rc *fasthttp.RequestCtx) {
-	act("graphql.detail", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("graphql.detail", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		key, err := cutil.RCRequiredString(rc, "key", false)
 		if err != nil {
 			return "", err
@@ -48,12 +45,12 @@ func GraphQLDetail(rc *fasthttp.RequestCtx) {
 		if len(titles) > 1 {
 			bc = append(bc, key)
 		}
-		return render(rc, as, &vgraphql.Detail{Key: key}, ps, bc...)
+		return Render(rc, as, &vgraphql.Detail{Key: key}, ps, bc...)
 	})
 }
 
 func GraphQLRun(rc *fasthttp.RequestCtx) {
-	act("graphql.run", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("graphql.run", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		key, err := cutil.RCRequiredString(rc, "key", false)
 		if err != nil {
 			return "", err
@@ -75,16 +72,4 @@ func GraphQLRun(rc *fasthttp.RequestCtx) {
 		}
 		return cutil.RespondMIME("", "application/json", "json", util.ToJSONBytes(rsp, true), rc)
 	})
-}
-
-func graphQLMenu(gqlSvc *graphql.Service, ctx context.Context) *menu.Item {
-	l := gqlSvc.Keys()
-	kids := make(menu.Items, 0, len(l))
-	titles := gqlSvc.Titles()
-	if len(l) > 1 {
-		for _, x := range l {
-			kids = append(kids, &menu.Item{Key: x, Title: titles[x], Description: "A GraphQL schema", Icon: "graph", Route: "/graphql/" + x})
-		}
-	}
-	return &menu.Item{Key: "graphql", Title: "GraphQL", Description: "A graph-based API", Icon: "graph", Route: "/graphql", Children: kids}
 }

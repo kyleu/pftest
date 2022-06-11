@@ -16,7 +16,7 @@ import (
 const groupDefaultTitle = "Groups"
 
 func GroupList(rc *fasthttp.RequestCtx) {
-	act("group.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("group.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ps.Title = groupDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
 		prms := params.Get("group", nil, ps.Logger).Sanitize("group")
@@ -26,42 +26,42 @@ func GroupList(rc *fasthttp.RequestCtx) {
 		}
 		ps.Title = "Groups"
 		ps.Data = ret
-		return render(rc, as, &vgroup.List{Models: ret, Params: params}, ps, "group")
+		return Render(rc, as, &vgroup.List{Models: ret, Params: params}, ps, "group")
 	})
 }
 
 func GroupDetail(rc *fasthttp.RequestCtx) {
-	act("group.detail", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("group.detail", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := groupFromPath(rc, as, ps)
 		if err != nil {
 			return "", err
 		}
 		ps.Title = ret.TitleString() + " (Group)"
 		ps.Data = ret
-		return render(rc, as, &vgroup.Detail{Model: ret}, ps, "group", ret.String())
+		return Render(rc, as, &vgroup.Detail{Model: ret}, ps, "group", ret.String())
 	})
 }
 
 func GroupCreateForm(rc *fasthttp.RequestCtx) {
-	act("group.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("group.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &group.Group{}
 		ps.Title = "Create [Group]"
 		ps.Data = ret
-		return render(rc, as, &vgroup.Edit{Model: ret, IsNew: true}, ps, "group", "Create")
+		return Render(rc, as, &vgroup.Edit{Model: ret, IsNew: true}, ps, "group", "Create")
 	})
 }
 
 func GroupCreateFormRandom(rc *fasthttp.RequestCtx) {
-	act("group.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("group.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := group.Random()
 		ps.Title = "Create Random Group"
 		ps.Data = ret
-		return render(rc, as, &vgroup.Edit{Model: ret, IsNew: true}, ps, "group", "Create")
+		return Render(rc, as, &vgroup.Edit{Model: ret, IsNew: true}, ps, "group", "Create")
 	})
 }
 
 func GroupCreate(rc *fasthttp.RequestCtx) {
-	act("group.create", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("group.create", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := groupFromForm(rc, true)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to parse Group from form")
@@ -71,24 +71,24 @@ func GroupCreate(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrap(err, "unable to save newly-created Group")
 		}
 		msg := fmt.Sprintf("Group [%s] created", ret.String())
-		return flashAndRedir(true, msg, ret.WebPath(), rc, ps)
+		return FlashAndRedir(true, msg, ret.WebPath(), rc, ps)
 	})
 }
 
 func GroupEditForm(rc *fasthttp.RequestCtx) {
-	act("group.edit.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("group.edit.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := groupFromPath(rc, as, ps)
 		if err != nil {
 			return "", err
 		}
 		ps.Title = "Edit " + ret.String()
 		ps.Data = ret
-		return render(rc, as, &vgroup.Edit{Model: ret}, ps, "group", ret.String())
+		return Render(rc, as, &vgroup.Edit{Model: ret}, ps, "group", ret.String())
 	})
 }
 
 func GroupEdit(rc *fasthttp.RequestCtx) {
-	act("group.edit", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("group.edit", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := groupFromPath(rc, as, ps)
 		if err != nil {
 			return "", err
@@ -103,12 +103,12 @@ func GroupEdit(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrapf(err, "unable to update Group [%s]", frm.String())
 		}
 		msg := fmt.Sprintf("Group [%s] updated", frm.String())
-		return flashAndRedir(true, msg, frm.WebPath(), rc, ps)
+		return FlashAndRedir(true, msg, frm.WebPath(), rc, ps)
 	})
 }
 
 func GroupDelete(rc *fasthttp.RequestCtx) {
-	act("group.delete", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("group.delete", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := groupFromPath(rc, as, ps)
 		if err != nil {
 			return "", err
@@ -118,7 +118,7 @@ func GroupDelete(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrapf(err, "unable to delete group [%s]", ret.String())
 		}
 		msg := fmt.Sprintf("Group [%s] deleted", ret.String())
-		return flashAndRedir(true, msg, "/group", rc, ps)
+		return FlashAndRedir(true, msg, "/group", rc, ps)
 	})
 }
 

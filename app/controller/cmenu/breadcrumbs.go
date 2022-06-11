@@ -1,5 +1,5 @@
 // Content managed by Project Forge, see [projectforge.md] for details.
-package cutil
+package cmenu
 
 import (
 	"github.com/kyleu/pftest/app/lib/menu"

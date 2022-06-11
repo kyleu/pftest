@@ -11,6 +11,7 @@ import (
 
 	"github.com/kyleu/pftest/app"
 	"github.com/kyleu/pftest/app/controller"
+	"github.com/kyleu/pftest/app/controller/routes"
 	"github.com/kyleu/pftest/app/lib/filesystem"
 	"github.com/kyleu/pftest/app/util"
 )
@@ -40,7 +41,7 @@ func startSite(flags *Flags) error {
 }
 
 func loadSite(flags *Flags, logger util.Logger) (fasthttp.RequestHandler, util.Logger, error) {
-	r := controller.SiteRoutes()
+	r := routes.SiteRoutes()
 	f := filesystem.NewFileSystem(flags.ConfigDir)
 
 	telemetryDisabled := util.GetEnvBool("disable_telemetry", false)

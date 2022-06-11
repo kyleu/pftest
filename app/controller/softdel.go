@@ -16,7 +16,7 @@ import (
 const softdelDefaultTitle = "Softdels"
 
 func SoftdelList(rc *fasthttp.RequestCtx) {
-	act("softdel.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("softdel.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ps.Title = softdelDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
 		prms := params.Get("softdel", nil, ps.Logger).Sanitize("softdel")
@@ -26,42 +26,42 @@ func SoftdelList(rc *fasthttp.RequestCtx) {
 		}
 		ps.Title = "Softdels"
 		ps.Data = ret
-		return render(rc, as, &vsoftdel.List{Models: ret, Params: params}, ps, "softdel")
+		return Render(rc, as, &vsoftdel.List{Models: ret, Params: params}, ps, "softdel")
 	})
 }
 
 func SoftdelDetail(rc *fasthttp.RequestCtx) {
-	act("softdel.detail", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("softdel.detail", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := softdelFromPath(rc, as, ps)
 		if err != nil {
 			return "", err
 		}
 		ps.Title = ret.TitleString() + " (Softdel)"
 		ps.Data = ret
-		return render(rc, as, &vsoftdel.Detail{Model: ret}, ps, "softdel", ret.String())
+		return Render(rc, as, &vsoftdel.Detail{Model: ret}, ps, "softdel", ret.String())
 	})
 }
 
 func SoftdelCreateForm(rc *fasthttp.RequestCtx) {
-	act("softdel.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("softdel.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &softdel.Softdel{}
 		ps.Title = "Create [Softdel]"
 		ps.Data = ret
-		return render(rc, as, &vsoftdel.Edit{Model: ret, IsNew: true}, ps, "softdel", "Create")
+		return Render(rc, as, &vsoftdel.Edit{Model: ret, IsNew: true}, ps, "softdel", "Create")
 	})
 }
 
 func SoftdelCreateFormRandom(rc *fasthttp.RequestCtx) {
-	act("softdel.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("softdel.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := softdel.Random()
 		ps.Title = "Create Random Softdel"
 		ps.Data = ret
-		return render(rc, as, &vsoftdel.Edit{Model: ret, IsNew: true}, ps, "softdel", "Create")
+		return Render(rc, as, &vsoftdel.Edit{Model: ret, IsNew: true}, ps, "softdel", "Create")
 	})
 }
 
 func SoftdelCreate(rc *fasthttp.RequestCtx) {
-	act("softdel.create", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("softdel.create", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := softdelFromForm(rc, true)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to parse Softdel from form")
@@ -71,24 +71,24 @@ func SoftdelCreate(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrap(err, "unable to save newly-created Softdel")
 		}
 		msg := fmt.Sprintf("Softdel [%s] created", ret.String())
-		return flashAndRedir(true, msg, ret.WebPath(), rc, ps)
+		return FlashAndRedir(true, msg, ret.WebPath(), rc, ps)
 	})
 }
 
 func SoftdelEditForm(rc *fasthttp.RequestCtx) {
-	act("softdel.edit.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("softdel.edit.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := softdelFromPath(rc, as, ps)
 		if err != nil {
 			return "", err
 		}
 		ps.Title = "Edit " + ret.String()
 		ps.Data = ret
-		return render(rc, as, &vsoftdel.Edit{Model: ret}, ps, "softdel", ret.String())
+		return Render(rc, as, &vsoftdel.Edit{Model: ret}, ps, "softdel", ret.String())
 	})
 }
 
 func SoftdelEdit(rc *fasthttp.RequestCtx) {
-	act("softdel.edit", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("softdel.edit", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := softdelFromPath(rc, as, ps)
 		if err != nil {
 			return "", err
@@ -103,12 +103,12 @@ func SoftdelEdit(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrapf(err, "unable to update Softdel [%s]", frm.String())
 		}
 		msg := fmt.Sprintf("Softdel [%s] updated", frm.String())
-		return flashAndRedir(true, msg, frm.WebPath(), rc, ps)
+		return FlashAndRedir(true, msg, frm.WebPath(), rc, ps)
 	})
 }
 
 func SoftdelDelete(rc *fasthttp.RequestCtx) {
-	act("softdel.delete", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("softdel.delete", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := softdelFromPath(rc, as, ps)
 		if err != nil {
 			return "", err
@@ -118,7 +118,7 @@ func SoftdelDelete(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrapf(err, "unable to delete softdel [%s]", ret.String())
 		}
 		msg := fmt.Sprintf("Softdel [%s] deleted", ret.String())
-		return flashAndRedir(true, msg, "/softdel", rc, ps)
+		return FlashAndRedir(true, msg, "/softdel", rc, ps)
 	})
 }
 

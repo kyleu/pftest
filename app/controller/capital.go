@@ -16,7 +16,7 @@ import (
 const capitalDefaultTitle = "Capitals"
 
 func CapitalList(rc *fasthttp.RequestCtx) {
-	act("capital.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("capital.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ps.Title = capitalDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
 		prms := params.Get("capital", nil, ps.Logger).Sanitize("capital")
@@ -26,12 +26,12 @@ func CapitalList(rc *fasthttp.RequestCtx) {
 		}
 		ps.Title = "Capitals"
 		ps.Data = ret
-		return render(rc, as, &vcapital.List{Models: ret, Params: params}, ps, "capital")
+		return Render(rc, as, &vcapital.List{Models: ret, Params: params}, ps, "capital")
 	})
 }
 
 func CapitalDetail(rc *fasthttp.RequestCtx) {
-	act("capital.detail", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("capital.detail", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		params := cutil.ParamSetFromRequest(rc)
 		ret, err := capitalFromPath(rc, as, ps)
 		if err != nil {
@@ -44,7 +44,7 @@ func CapitalDetail(rc *fasthttp.RequestCtx) {
 		}
 		ps.Title = ret.TitleString() + " (Capital)"
 		ps.Data = ret
-		return render(rc, as, &vcapital.Detail{
+		return Render(rc, as, &vcapital.Detail{
 			Model:    ret,
 			Params:   params,
 			Versions: versions,
@@ -53,7 +53,7 @@ func CapitalDetail(rc *fasthttp.RequestCtx) {
 }
 
 func CapitalVersion(rc *fasthttp.RequestCtx) {
-	act("capital.Version", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("capital.Version", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		latest, err := capitalFromPath(rc, as, ps)
 		if err != nil {
 			return "", err
@@ -68,30 +68,30 @@ func CapitalVersion(rc *fasthttp.RequestCtx) {
 		}
 		ps.Title = ret.String()
 		ps.Data = ret
-		return render(rc, as, &vcapital.Detail{Model: ret}, ps, "capital", ret.String())
+		return Render(rc, as, &vcapital.Detail{Model: ret}, ps, "capital", ret.String())
 	})
 }
 
 func CapitalCreateForm(rc *fasthttp.RequestCtx) {
-	act("capital.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("capital.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &capital.Capital{}
 		ps.Title = "Create [Capital]"
 		ps.Data = ret
-		return render(rc, as, &vcapital.Edit{Model: ret, IsNew: true}, ps, "capital", "Create")
+		return Render(rc, as, &vcapital.Edit{Model: ret, IsNew: true}, ps, "capital", "Create")
 	})
 }
 
 func CapitalCreateFormRandom(rc *fasthttp.RequestCtx) {
-	act("capital.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("capital.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := capital.Random()
 		ps.Title = "Create Random Capital"
 		ps.Data = ret
-		return render(rc, as, &vcapital.Edit{Model: ret, IsNew: true}, ps, "capital", "Create")
+		return Render(rc, as, &vcapital.Edit{Model: ret, IsNew: true}, ps, "capital", "Create")
 	})
 }
 
 func CapitalCreate(rc *fasthttp.RequestCtx) {
-	act("capital.create", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("capital.create", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := capitalFromForm(rc, true)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to parse Capital from form")
@@ -101,12 +101,12 @@ func CapitalCreate(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrap(err, "unable to save newly-created Capital")
 		}
 		msg := fmt.Sprintf("Capital [%s] created", ret.String())
-		return flashAndRedir(true, msg, ret.WebPath(), rc, ps)
+		return FlashAndRedir(true, msg, ret.WebPath(), rc, ps)
 	})
 }
 
 func CapitalEditForm(rc *fasthttp.RequestCtx) {
-	act("capital.edit.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("capital.edit.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		rc.SetUserValue("includeDeleted", true)
 		ret, err := capitalFromPath(rc, as, ps)
 		if err != nil {
@@ -114,12 +114,12 @@ func CapitalEditForm(rc *fasthttp.RequestCtx) {
 		}
 		ps.Title = "Edit " + ret.String()
 		ps.Data = ret
-		return render(rc, as, &vcapital.Edit{Model: ret}, ps, "capital", ret.String())
+		return Render(rc, as, &vcapital.Edit{Model: ret}, ps, "capital", ret.String())
 	})
 }
 
 func CapitalEdit(rc *fasthttp.RequestCtx) {
-	act("capital.edit", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("capital.edit", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		rc.SetUserValue("includeDeleted", true)
 		ret, err := capitalFromPath(rc, as, ps)
 		if err != nil {
@@ -135,12 +135,12 @@ func CapitalEdit(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrapf(err, "unable to update Capital [%s]", frm.String())
 		}
 		msg := fmt.Sprintf("Capital [%s] updated", frm.String())
-		return flashAndRedir(true, msg, frm.WebPath(), rc, ps)
+		return FlashAndRedir(true, msg, frm.WebPath(), rc, ps)
 	})
 }
 
 func CapitalDelete(rc *fasthttp.RequestCtx) {
-	act("capital.delete", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("capital.delete", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := capitalFromPath(rc, as, ps)
 		if err != nil {
 			return "", err
@@ -150,7 +150,7 @@ func CapitalDelete(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrapf(err, "unable to delete capital [%s]", ret.String())
 		}
 		msg := fmt.Sprintf("Capital [%s] deleted", ret.String())
-		return flashAndRedir(true, msg, "/capital", rc, ps)
+		return FlashAndRedir(true, msg, "/capital", rc, ps)
 	})
 }
 

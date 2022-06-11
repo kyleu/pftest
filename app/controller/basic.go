@@ -17,7 +17,7 @@ import (
 const basicDefaultTitle = "Basics"
 
 func BasicList(rc *fasthttp.RequestCtx) {
-	act("basic.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("basic.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ps.Title = basicDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
 		prms := params.Get("basic", nil, ps.Logger).Sanitize("basic")
@@ -27,12 +27,12 @@ func BasicList(rc *fasthttp.RequestCtx) {
 		}
 		ps.Title = "Basics"
 		ps.Data = ret
-		return render(rc, as, &vbasic.List{Models: ret, Params: params}, ps, "basic")
+		return Render(rc, as, &vbasic.List{Models: ret, Params: params}, ps, "basic")
 	})
 }
 
 func BasicDetail(rc *fasthttp.RequestCtx) {
-	act("basic.detail", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("basic.detail", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		params := cutil.ParamSetFromRequest(rc)
 		ret, err := basicFromPath(rc, as, ps)
 		if err != nil {
@@ -45,7 +45,7 @@ func BasicDetail(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", errors.Wrap(err, "unable to retrieve child relations")
 		}
-		return render(rc, as, &vbasic.Detail{
+		return Render(rc, as, &vbasic.Detail{
 			Model:              ret,
 			Params:             params,
 			RelationsByBasicID: relationsByBasicID,
@@ -54,25 +54,25 @@ func BasicDetail(rc *fasthttp.RequestCtx) {
 }
 
 func BasicCreateForm(rc *fasthttp.RequestCtx) {
-	act("basic.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("basic.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &basic.Basic{}
 		ps.Title = "Create [Basic]"
 		ps.Data = ret
-		return render(rc, as, &vbasic.Edit{Model: ret, IsNew: true}, ps, "basic", "Create")
+		return Render(rc, as, &vbasic.Edit{Model: ret, IsNew: true}, ps, "basic", "Create")
 	})
 }
 
 func BasicCreateFormRandom(rc *fasthttp.RequestCtx) {
-	act("basic.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("basic.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := basic.Random()
 		ps.Title = "Create Random Basic"
 		ps.Data = ret
-		return render(rc, as, &vbasic.Edit{Model: ret, IsNew: true}, ps, "basic", "Create")
+		return Render(rc, as, &vbasic.Edit{Model: ret, IsNew: true}, ps, "basic", "Create")
 	})
 }
 
 func BasicCreate(rc *fasthttp.RequestCtx) {
-	act("basic.create", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("basic.create", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := basicFromForm(rc, true)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to parse Basic from form")
@@ -82,24 +82,24 @@ func BasicCreate(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrap(err, "unable to save newly-created Basic")
 		}
 		msg := fmt.Sprintf("Basic [%s] created", ret.String())
-		return flashAndRedir(true, msg, ret.WebPath(), rc, ps)
+		return FlashAndRedir(true, msg, ret.WebPath(), rc, ps)
 	})
 }
 
 func BasicEditForm(rc *fasthttp.RequestCtx) {
-	act("basic.edit.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("basic.edit.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := basicFromPath(rc, as, ps)
 		if err != nil {
 			return "", err
 		}
 		ps.Title = "Edit " + ret.String()
 		ps.Data = ret
-		return render(rc, as, &vbasic.Edit{Model: ret}, ps, "basic", ret.String())
+		return Render(rc, as, &vbasic.Edit{Model: ret}, ps, "basic", ret.String())
 	})
 }
 
 func BasicEdit(rc *fasthttp.RequestCtx) {
-	act("basic.edit", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("basic.edit", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := basicFromPath(rc, as, ps)
 		if err != nil {
 			return "", err
@@ -114,12 +114,12 @@ func BasicEdit(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrapf(err, "unable to update Basic [%s]", frm.String())
 		}
 		msg := fmt.Sprintf("Basic [%s] updated", frm.String())
-		return flashAndRedir(true, msg, frm.WebPath(), rc, ps)
+		return FlashAndRedir(true, msg, frm.WebPath(), rc, ps)
 	})
 }
 
 func BasicDelete(rc *fasthttp.RequestCtx) {
-	act("basic.delete", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("basic.delete", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := basicFromPath(rc, as, ps)
 		if err != nil {
 			return "", err
@@ -129,7 +129,7 @@ func BasicDelete(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrapf(err, "unable to delete basic [%s]", ret.String())
 		}
 		msg := fmt.Sprintf("Basic [%s] deleted", ret.String())
-		return flashAndRedir(true, msg, "/basic", rc, ps)
+		return FlashAndRedir(true, msg, "/basic", rc, ps)
 	})
 }
 

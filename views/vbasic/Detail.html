@@ -51,7 +51,9 @@
   {%- if len(p.RelationsByBasicID) > 0 -%}
   <div class="card">
     <h3>{%= components.SVGRefIcon(`star`, ps) %} Related relations by [basic id]</h3>
-    {%= vrelation.Table(p.RelationsByBasicID, nil, p.Params, as, ps) %}
+    <div class="overflow clear">
+      {%= vrelation.Table(p.RelationsByBasicID, nil, p.Params, as, ps) %}
+    </div>
   </div>
   {%- endif -%}
   {%= components.JSONModal("basic", "Basic JSON", p.Model, 1) %}

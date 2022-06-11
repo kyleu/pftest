@@ -1,5 +1,5 @@
 // Content managed by Project Forge, see [projectforge.md] for details.
-package controller
+package cmenu
 
 import (
 	"context"
@@ -7,38 +7,13 @@ import (
 	"path"
 	"strings"
 
-	"github.com/pkg/errors"
-	"github.com/valyala/fasthttp"
 	"golang.org/x/exp/slices"
 
 	"github.com/kyleu/pftest/app"
-	"github.com/kyleu/pftest/app/controller/cutil"
 	"github.com/kyleu/pftest/app/lib/menu"
 	"github.com/kyleu/pftest/app/util"
 	"github.com/kyleu/pftest/doc"
-	"github.com/kyleu/pftest/views/vdoc"
 )
-
-func Docs(rc *fasthttp.RequestCtx) {
-	act("docs", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		pth, _ := cutil.RCRequiredString(rc, "path", false)
-		if pth == "" {
-			return "", errors.New("invalid path")
-		}
-
-		split := util.StringSplitAndTrim(pth, "/")
-		bc := []string{"docs"}
-		bc = append(bc, split...)
-
-		x, err := doc.HTML(pth + ".md")
-		if err != nil {
-			return "", errors.Wrapf(err, "unable to load documentation from [%s]", pth)
-		}
-		ps.Title = "Documentation: " + pth
-		ps.Data, _ = doc.Content(pth + ".md")
-		return render(rc, as, &vdoc.MarkdownPage{Title: pth, HTML: x}, ps, bc...)
-	})
-}
 
 var docMenuCached *menu.Item
 

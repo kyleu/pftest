@@ -17,7 +17,7 @@ import (
 const troubleDefaultTitle = "Troubles"
 
 func TroubleList(rc *fasthttp.RequestCtx) {
-	act("trouble.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("trouble.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ps.Title = troubleDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
 		prms := params.Get("trouble", nil, ps.Logger).Sanitize("trouble")
@@ -27,12 +27,12 @@ func TroubleList(rc *fasthttp.RequestCtx) {
 		}
 		ps.Title = "Troubles"
 		ps.Data = ret
-		return render(rc, as, &vtrouble.List{Models: ret, Params: params}, ps, "trouble")
+		return Render(rc, as, &vtrouble.List{Models: ret, Params: params}, ps, "trouble")
 	})
 }
 
 func TroubleDetail(rc *fasthttp.RequestCtx) {
-	act("trouble.detail", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("trouble.detail", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		params := cutil.ParamSetFromRequest(rc)
 		ret, err := troubleFromPath(rc, as, ps)
 		if err != nil {
@@ -45,7 +45,7 @@ func TroubleDetail(rc *fasthttp.RequestCtx) {
 		}
 		ps.Title = ret.TitleString() + " (Trouble)"
 		ps.Data = ret
-		return render(rc, as, &vtrouble.Detail{
+		return Render(rc, as, &vtrouble.Detail{
 			Model:      ret,
 			Params:     params,
 			Selectcols: selectcols,
@@ -54,7 +54,7 @@ func TroubleDetail(rc *fasthttp.RequestCtx) {
 }
 
 func TroubleSelectcol(rc *fasthttp.RequestCtx) {
-	act("trouble.selectcol", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("trouble.selectcol", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		latest, err := troubleFromPath(rc, as, ps)
 		if err != nil {
 			return "", err
@@ -69,30 +69,30 @@ func TroubleSelectcol(rc *fasthttp.RequestCtx) {
 		}
 		ps.Title = ret.String()
 		ps.Data = ret
-		return render(rc, as, &vtrouble.Detail{Model: ret}, ps, "trouble", ret.String())
+		return Render(rc, as, &vtrouble.Detail{Model: ret}, ps, "trouble", ret.String())
 	})
 }
 
 func TroubleCreateForm(rc *fasthttp.RequestCtx) {
-	act("trouble.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("trouble.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &trouble.Trouble{}
 		ps.Title = "Create [Trouble]"
 		ps.Data = ret
-		return render(rc, as, &vtrouble.Edit{Model: ret, IsNew: true}, ps, "trouble", "Create")
+		return Render(rc, as, &vtrouble.Edit{Model: ret, IsNew: true}, ps, "trouble", "Create")
 	})
 }
 
 func TroubleCreateFormRandom(rc *fasthttp.RequestCtx) {
-	act("trouble.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("trouble.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := trouble.Random()
 		ps.Title = "Create Random Trouble"
 		ps.Data = ret
-		return render(rc, as, &vtrouble.Edit{Model: ret, IsNew: true}, ps, "trouble", "Create")
+		return Render(rc, as, &vtrouble.Edit{Model: ret, IsNew: true}, ps, "trouble", "Create")
 	})
 }
 
 func TroubleCreate(rc *fasthttp.RequestCtx) {
-	act("trouble.create", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("trouble.create", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := troubleFromForm(rc, true)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to parse Trouble from form")
@@ -102,12 +102,12 @@ func TroubleCreate(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrap(err, "unable to save newly-created Trouble")
 		}
 		msg := fmt.Sprintf("Trouble [%s] created", ret.String())
-		return flashAndRedir(true, msg, ret.WebPath(), rc, ps)
+		return FlashAndRedir(true, msg, ret.WebPath(), rc, ps)
 	})
 }
 
 func TroubleEditForm(rc *fasthttp.RequestCtx) {
-	act("trouble.edit.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("trouble.edit.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		rc.SetUserValue("includeDeleted", true)
 		ret, err := troubleFromPath(rc, as, ps)
 		if err != nil {
@@ -115,12 +115,12 @@ func TroubleEditForm(rc *fasthttp.RequestCtx) {
 		}
 		ps.Title = "Edit " + ret.String()
 		ps.Data = ret
-		return render(rc, as, &vtrouble.Edit{Model: ret}, ps, "trouble", ret.String())
+		return Render(rc, as, &vtrouble.Edit{Model: ret}, ps, "trouble", ret.String())
 	})
 }
 
 func TroubleEdit(rc *fasthttp.RequestCtx) {
-	act("trouble.edit", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("trouble.edit", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		rc.SetUserValue("includeDeleted", true)
 		ret, err := troubleFromPath(rc, as, ps)
 		if err != nil {
@@ -137,12 +137,12 @@ func TroubleEdit(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrapf(err, "unable to update Trouble [%s]", frm.String())
 		}
 		msg := fmt.Sprintf("Trouble [%s] updated", frm.String())
-		return flashAndRedir(true, msg, frm.WebPath(), rc, ps)
+		return FlashAndRedir(true, msg, frm.WebPath(), rc, ps)
 	})
 }
 
 func TroubleDelete(rc *fasthttp.RequestCtx) {
-	act("trouble.delete", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("trouble.delete", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := troubleFromPath(rc, as, ps)
 		if err != nil {
 			return "", err
@@ -152,7 +152,7 @@ func TroubleDelete(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrapf(err, "unable to delete trouble [%s]", ret.String())
 		}
 		msg := fmt.Sprintf("Trouble [%s] deleted", ret.String())
-		return flashAndRedir(true, msg, "/trouble", rc, ps)
+		return FlashAndRedir(true, msg, "/trouble", rc, ps)
 	})
 }
 

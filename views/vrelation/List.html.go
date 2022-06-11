@@ -58,42 +58,44 @@ func (p *List) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
 //line views/vrelation/List.html:25
 	} else {
 //line views/vrelation/List.html:25
-		qw422016.N().S(`    `)
-//line views/vrelation/List.html:26
+		qw422016.N().S(`    <div class="overflow clear">
+      `)
+//line views/vrelation/List.html:27
 		StreamTable(qw422016, p.Models, p.Basics, p.Params, as, ps)
-//line views/vrelation/List.html:26
+//line views/vrelation/List.html:27
 		qw422016.N().S(`
+    </div>
 `)
-//line views/vrelation/List.html:27
+//line views/vrelation/List.html:29
 	}
-//line views/vrelation/List.html:27
+//line views/vrelation/List.html:29
 	qw422016.N().S(`  </div>
 `)
-//line views/vrelation/List.html:29
+//line views/vrelation/List.html:31
 }
 
-//line views/vrelation/List.html:29
+//line views/vrelation/List.html:31
 func (p *List) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vrelation/List.html:29
+//line views/vrelation/List.html:31
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vrelation/List.html:29
+//line views/vrelation/List.html:31
 	p.StreamBody(qw422016, as, ps)
-//line views/vrelation/List.html:29
+//line views/vrelation/List.html:31
 	qt422016.ReleaseWriter(qw422016)
-//line views/vrelation/List.html:29
+//line views/vrelation/List.html:31
 }
 
-//line views/vrelation/List.html:29
+//line views/vrelation/List.html:31
 func (p *List) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vrelation/List.html:29
+//line views/vrelation/List.html:31
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vrelation/List.html:29
+//line views/vrelation/List.html:31
 	p.WriteBody(qb422016, as, ps)
-//line views/vrelation/List.html:29
+//line views/vrelation/List.html:31
 	qs422016 := string(qb422016.B)
-//line views/vrelation/List.html:29
+//line views/vrelation/List.html:31
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vrelation/List.html:29
+//line views/vrelation/List.html:31
 	return qs422016
-//line views/vrelation/List.html:29
+//line views/vrelation/List.html:31
 }

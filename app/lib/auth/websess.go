@@ -4,7 +4,7 @@ package auth
 import (
 	"github.com/valyala/fasthttp"
 
-	"github.com/kyleu/pftest/app/controller/cutil"
+	"github.com/kyleu/pftest/app/controller/csession"
 	"github.com/kyleu/pftest/app/lib/user"
 	"github.com/kyleu/pftest/app/util"
 )
@@ -39,7 +39,7 @@ func removeProviderData(rc *fasthttp.RequestCtx, websess util.ValueMap, logger u
 		}
 	}
 	if dirty {
-		return cutil.SaveSession(rc, websess, logger)
+		return csession.SaveSession(rc, websess, logger)
 	}
 	return nil
 }

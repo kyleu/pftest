@@ -109,47 +109,49 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
 		components.StreamSVGRefIcon(qw422016, `star`, ps)
 //line views/vbasic/Detail.html:53
 		qw422016.N().S(` Related relations by [basic id]</h3>
-    `)
-//line views/vbasic/Detail.html:54
+    <div class="overflow clear">
+      `)
+//line views/vbasic/Detail.html:55
 		vrelation.StreamTable(qw422016, p.RelationsByBasicID, nil, p.Params, as, ps)
-//line views/vbasic/Detail.html:54
+//line views/vbasic/Detail.html:55
 		qw422016.N().S(`
+    </div>
   </div>
 `)
-//line views/vbasic/Detail.html:56
+//line views/vbasic/Detail.html:58
 	}
-//line views/vbasic/Detail.html:56
+//line views/vbasic/Detail.html:58
 	qw422016.N().S(`  `)
-//line views/vbasic/Detail.html:57
+//line views/vbasic/Detail.html:59
 	components.StreamJSONModal(qw422016, "basic", "Basic JSON", p.Model, 1)
-//line views/vbasic/Detail.html:57
+//line views/vbasic/Detail.html:59
 	qw422016.N().S(`
 `)
-//line views/vbasic/Detail.html:58
+//line views/vbasic/Detail.html:60
 }
 
-//line views/vbasic/Detail.html:58
+//line views/vbasic/Detail.html:60
 func (p *Detail) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vbasic/Detail.html:58
+//line views/vbasic/Detail.html:60
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vbasic/Detail.html:58
+//line views/vbasic/Detail.html:60
 	p.StreamBody(qw422016, as, ps)
-//line views/vbasic/Detail.html:58
+//line views/vbasic/Detail.html:60
 	qt422016.ReleaseWriter(qw422016)
-//line views/vbasic/Detail.html:58
+//line views/vbasic/Detail.html:60
 }
 
-//line views/vbasic/Detail.html:58
+//line views/vbasic/Detail.html:60
 func (p *Detail) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vbasic/Detail.html:58
+//line views/vbasic/Detail.html:60
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vbasic/Detail.html:58
+//line views/vbasic/Detail.html:60
 	p.WriteBody(qb422016, as, ps)
-//line views/vbasic/Detail.html:58
+//line views/vbasic/Detail.html:60
 	qs422016 := string(qb422016.B)
-//line views/vbasic/Detail.html:58
+//line views/vbasic/Detail.html:60
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vbasic/Detail.html:58
+//line views/vbasic/Detail.html:60
 	return qs422016
-//line views/vbasic/Detail.html:58
+//line views/vbasic/Detail.html:60
 }

@@ -17,7 +17,7 @@ import (
 const auditedDefaultTitle = "Auditeds"
 
 func AuditedList(rc *fasthttp.RequestCtx) {
-	act("audited.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("audited.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ps.Title = auditedDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
 		prms := params.Get("audited", nil, ps.Logger).Sanitize("audited")
@@ -27,42 +27,42 @@ func AuditedList(rc *fasthttp.RequestCtx) {
 		}
 		ps.Title = "Auditeds"
 		ps.Data = ret
-		return render(rc, as, &vaudited.List{Models: ret, Params: params}, ps, "audited")
+		return Render(rc, as, &vaudited.List{Models: ret, Params: params}, ps, "audited")
 	})
 }
 
 func AuditedDetail(rc *fasthttp.RequestCtx) {
-	act("audited.detail", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("audited.detail", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := auditedFromPath(rc, as, ps)
 		if err != nil {
 			return "", err
 		}
 		ps.Title = ret.TitleString() + " (Audited)"
 		ps.Data = ret
-		return render(rc, as, &vaudited.Detail{Model: ret}, ps, "audited", ret.String())
+		return Render(rc, as, &vaudited.Detail{Model: ret}, ps, "audited", ret.String())
 	})
 }
 
 func AuditedCreateForm(rc *fasthttp.RequestCtx) {
-	act("audited.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("audited.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &audited.Audited{}
 		ps.Title = "Create [Audited]"
 		ps.Data = ret
-		return render(rc, as, &vaudited.Edit{Model: ret, IsNew: true}, ps, "audited", "Create")
+		return Render(rc, as, &vaudited.Edit{Model: ret, IsNew: true}, ps, "audited", "Create")
 	})
 }
 
 func AuditedCreateFormRandom(rc *fasthttp.RequestCtx) {
-	act("audited.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("audited.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := audited.Random()
 		ps.Title = "Create Random Audited"
 		ps.Data = ret
-		return render(rc, as, &vaudited.Edit{Model: ret, IsNew: true}, ps, "audited", "Create")
+		return Render(rc, as, &vaudited.Edit{Model: ret, IsNew: true}, ps, "audited", "Create")
 	})
 }
 
 func AuditedCreate(rc *fasthttp.RequestCtx) {
-	act("audited.create", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("audited.create", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := auditedFromForm(rc, true)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to parse Audited from form")
@@ -72,24 +72,24 @@ func AuditedCreate(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrap(err, "unable to save newly-created Audited")
 		}
 		msg := fmt.Sprintf("Audited [%s] created", ret.String())
-		return flashAndRedir(true, msg, ret.WebPath(), rc, ps)
+		return FlashAndRedir(true, msg, ret.WebPath(), rc, ps)
 	})
 }
 
 func AuditedEditForm(rc *fasthttp.RequestCtx) {
-	act("audited.edit.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("audited.edit.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := auditedFromPath(rc, as, ps)
 		if err != nil {
 			return "", err
 		}
 		ps.Title = "Edit " + ret.String()
 		ps.Data = ret
-		return render(rc, as, &vaudited.Edit{Model: ret}, ps, "audited", ret.String())
+		return Render(rc, as, &vaudited.Edit{Model: ret}, ps, "audited", ret.String())
 	})
 }
 
 func AuditedEdit(rc *fasthttp.RequestCtx) {
-	act("audited.edit", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("audited.edit", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := auditedFromPath(rc, as, ps)
 		if err != nil {
 			return "", err
@@ -104,12 +104,12 @@ func AuditedEdit(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrapf(err, "unable to update Audited [%s]", frm.String())
 		}
 		msg := fmt.Sprintf("Audited [%s] updated", frm.String())
-		return flashAndRedir(true, msg, frm.WebPath(), rc, ps)
+		return FlashAndRedir(true, msg, frm.WebPath(), rc, ps)
 	})
 }
 
 func AuditedDelete(rc *fasthttp.RequestCtx) {
-	act("audited.delete", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+	Act("audited.delete", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := auditedFromPath(rc, as, ps)
 		if err != nil {
 			return "", err
@@ -119,7 +119,7 @@ func AuditedDelete(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrapf(err, "unable to delete audited [%s]", ret.String())
 		}
 		msg := fmt.Sprintf("Audited [%s] deleted", ret.String())
-		return flashAndRedir(true, msg, "/audited", rc, ps)
+		return FlashAndRedir(true, msg, "/audited", rc, ps)
 	})
 }
 
