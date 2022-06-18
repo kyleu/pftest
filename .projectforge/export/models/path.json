@@ -1,0 +1,60 @@
+{
+  "name": "path",
+  "package": "path",
+  "group": [
+    "g1",
+    "g2"
+  ],
+  "description": "Path Model",
+  "icon": "star",
+  "ordering": [
+    {
+      "column": "created",
+      "asc": false
+    }
+  ],
+  "search": [
+    "lower(id::text)",
+    "lower(name)"
+  ],
+  "columns": [
+    {
+      "name": "id",
+      "type": "uuid",
+      "pk": true,
+      "search": true
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "search": true,
+      "tags": [
+        "title"
+      ]
+    },
+    {
+      "name": "status",
+      "type": "string",
+      "format": "select",
+      "values": [
+        "a",
+        "b",
+        "c"
+      ]
+    },
+    {
+      "name": "created",
+      "type": "timestamp",
+      "sqlDefault": "now()",
+      "tags": [
+        "created"
+      ]
+    }
+  ],
+  "indexes": [
+    {
+      "name": "basic_created_idx",
+      "decl": "\"basic\" (\"created\")"
+    }
+  ]
+}

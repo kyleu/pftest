@@ -13,7 +13,7 @@
     <thead>
       <tr>
         {%= components.TableHeaderSimple("group", "id", "ID", "String text", prms, ps.URI, ps) %}
-        {%= components.TableHeaderSimple("group", "group", "Group", "String text", prms, ps.URI, ps) %}
+        {%= components.TableHeaderSimple("group", "child", "Child", "String text", prms, ps.URI, ps) %}
         {%= components.TableHeaderSimple("group", "data", "Data", "JSON object", prms, ps.URI, ps) %}
         {%= components.TableHeaderSimple("group", "created", "Created", "Date and time, in almost any format", prms, ps.URI, ps) %}
         {%= components.TableHeaderSimple("group", "updated", "Updated", "Date and time, in almost any format (optional)", prms, ps.URI, ps) %}
@@ -24,7 +24,7 @@
       {%- for _, model := range models -%}
       <tr>
         <td><a href="/group/{%s model.ID %}">{%s model.ID %}</a></td>
-        <td><a href="/group/group/{%s model.Group %}">{%s model.Group %}</a></td>
+        <td><a href="/group/child/{%s model.Child %}">{%s model.Child %}</a></td>
         <td>{%= components.JSON(model.Data) %}</td>
         <td>{%= components.DisplayTimestamp(&model.Created) %}</td>
         <td>{%= components.DisplayTimestamp(model.Updated) %}</td>

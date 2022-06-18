@@ -68,14 +68,14 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
 	qw422016.N().S(`</td>
         </tr>
         <tr>
-          <th class="shrink" title="String text">Group</th>
-          <td><a href="/group/group/`)
+          <th class="shrink" title="String text">Child</th>
+          <td><a href="/group/child/`)
 //line views/vgroup/Detail.html:31
-	qw422016.E().S(p.Model.Group)
+	qw422016.E().S(p.Model.Child)
 //line views/vgroup/Detail.html:31
 	qw422016.N().S(`">`)
 //line views/vgroup/Detail.html:31
-	qw422016.E().S(p.Model.Group)
+	qw422016.E().S(p.Model.Child)
 //line views/vgroup/Detail.html:31
 	qw422016.N().S(`</a></td>
         </tr>

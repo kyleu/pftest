@@ -6,7 +6,7 @@ drop table if exists "group";
 -- {% func GroupCreate() %}
 create table if not exists "group" (
   "id" text not null,
-  "group" text not null,
+  "child" text not null,
   "data" jsonb not null,
   "created" timestamp not null default now(),
   "updated" timestamp default now(),

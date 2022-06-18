@@ -1,0 +1,29 @@
+<!-- Content managed by Project Forge, see [projectforge.md] for details. -->
+{% import (
+  "github.com/kyleu/pftest/app"
+  "github.com/kyleu/pftest/app/controller/cutil"
+  "github.com/kyleu/pftest/app/g1/g2/path"
+  "github.com/kyleu/pftest/app/lib/filter"
+  "github.com/kyleu/pftest/views/components"
+  "github.com/kyleu/pftest/views/layout"
+) %}
+
+{% code type List struct {
+  layout.Basic
+  Models path.Paths
+  Params filter.ParamSet
+} %}
+
+{% func (p *List) Body(as *app.State, ps *cutil.PageState) %}
+  <div class="card">
+    <div class="right"><a href="/g1/g2/path/new"><button>New</button></a></div>
+    <h3>{%= components.SVGRefIcon(`star`, ps) %} Paths</h3>
+    {%- if len(p.Models) == 0 -%}
+    <div class="mt"><em>No paths available</em></div>
+    {%- else -%}
+    <div class="overflow clear">
+      {%= Table(p.Models, p.Params, as, ps) %}
+    </div>
+    {%- endif -%}
+  </div>
+{% endfunc %}

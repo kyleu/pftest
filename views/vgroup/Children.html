@@ -7,29 +7,29 @@
   "github.com/kyleu/pftest/views/layout"
 ) %}
 
-{% code type Groups struct {
+{% code type Children struct {
   layout.Basic
-  Groups []*util.KeyValInt
+  Children []*util.KeyValInt
 } %}
 
-{% func (p *Groups) Body(as *app.State, ps *cutil.PageState) %}
+{% func (p *Children) Body(as *app.State, ps *cutil.PageState) %}
   <div class="card">
-    <h3>{%= components.SVGRefIcon(`star`, ps) %} Group Groups</h3>
+    <h3>{%= components.SVGRefIcon(`star`, ps) %} Group Children</h3>
     <div class="mt">
-      {%- if len(p.Groups) == 0 -%}
-      <em>No groups available</em>
+      {%- if len(p.Children) == 0 -%}
+      <em>No children available</em>
       {%- else -%}
       <table>
         <thead>
           <tr>
-            <th>Group</th>
+            <th>Child</th>
             <th>Group Count</th>
           </tr>
         </thead>
         <tbody>
-          {%- for _, x := range p.Groups -%}
+          {%- for _, x := range p.Children -%}
           <tr>
-            <td><a href="/group/group/{%s x.Key %}">{%s x.Key %}</a></td>
+            <td><a href="/group/child/{%s x.Key %}">{%s x.Key %}</a></td>
             <td>{%d x.Count %}</td>
           </tr>
           {%- endfor -%}

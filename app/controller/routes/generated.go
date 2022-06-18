@@ -5,6 +5,7 @@ import (
 	"github.com/fasthttp/router"
 
 	"github.com/kyleu/pftest/app/controller"
+	"github.com/kyleu/pftest/app/controller/cg1/cg2"
 )
 
 func generatedRoutes(r *router.Router) {
@@ -33,13 +34,13 @@ func generatedRoutes(r *router.Router) {
 	r.GET("/basic/{id}/edit", controller.BasicEditForm)
 	r.POST("/basic/{id}/edit", controller.BasicEdit)
 	r.GET("/basic/{id}/delete", controller.BasicDelete)
-	r.GET("/group/group", controller.GroupGroupList)
-	r.GET("/group/group/{group}", controller.GroupListByGroup)
-	r.GET("/group/group/{group}/new", controller.GroupCreateFormByGroup)
-	r.POST("/group/group/{group}/new", controller.GroupCreateByGroup)
-	r.GET("/group/group/{group}/{id}", controller.GroupDetailByGroup)
-	r.GET("/group/group/{group}/{id}/edit", controller.GroupEditFormByGroup)
-	r.POST("/group/group/{group}/{id}/edit", controller.GroupEditByGroup)
+	r.GET("/group/child", controller.GroupChildList)
+	r.GET("/group/child/{child}", controller.GroupListByChild)
+	r.GET("/group/child/{child}/new", controller.GroupCreateFormByChild)
+	r.POST("/group/child/{child}/new", controller.GroupCreateByChild)
+	r.GET("/group/child/{child}/{id}", controller.GroupDetailByChild)
+	r.GET("/group/child/{child}/{id}/edit", controller.GroupEditFormByChild)
+	r.POST("/group/child/{child}/{id}/edit", controller.GroupEditByChild)
 	r.GET("/group", controller.GroupList)
 	r.GET("/group/random", controller.GroupCreateFormRandom)
 	r.GET("/group/new", controller.GroupCreateForm)
@@ -65,6 +66,14 @@ func generatedRoutes(r *router.Router) {
 	r.GET("/mixedcase/{id}/edit", controller.MixedCaseEditForm)
 	r.POST("/mixedcase/{id}/edit", controller.MixedCaseEdit)
 	r.GET("/mixedcase/{id}/delete", controller.MixedCaseDelete)
+	r.GET("/g1/g2/path", cg2.PathList)
+	r.GET("/g1/g2/path/random", cg2.PathCreateFormRandom)
+	r.GET("/g1/g2/path/new", cg2.PathCreateForm)
+	r.POST("/g1/g2/path/new", cg2.PathCreate)
+	r.GET("/g1/g2/path/{id}", cg2.PathDetail)
+	r.GET("/g1/g2/path/{id}/edit", cg2.PathEditForm)
+	r.POST("/g1/g2/path/{id}/edit", cg2.PathEdit)
+	r.GET("/g1/g2/path/{id}/delete", cg2.PathDelete)
 	r.GET("/reference", controller.ReferenceList)
 	r.GET("/reference/random", controller.ReferenceCreateFormRandom)
 	r.GET("/reference/new", controller.ReferenceCreateForm)

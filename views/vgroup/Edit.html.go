@@ -92,7 +92,7 @@ func (p *Edit) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
 	qw422016.N().S(`
           `)
 //line views/vgroup/Edit.html:31
-	components.StreamTableInput(qw422016, "group", "Group", p.Model.Group, 5, "String text")
+	components.StreamTableInput(qw422016, "child", "Child", p.Model.Child, 5, "String text")
 //line views/vgroup/Edit.html:31
 	qw422016.N().S(`
           `)

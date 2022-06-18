@@ -13,14 +13,14 @@ import (
 var (
 	table         = "group"
 	tableQuoted   = fmt.Sprintf("%q", table)
-	columns       = []string{"id", "group", "data", "created", "updated", "deleted"}
+	columns       = []string{"id", "child", "data", "created", "updated", "deleted"}
 	columnsQuoted = util.StringArrayQuoted(columns)
 	columnsString = strings.Join(columnsQuoted, ", ")
 )
 
 type dto struct {
 	ID      string          `db:"id"`
-	Group   string          `db:"group"`
+	Child   string          `db:"child"`
 	Data    json.RawMessage `db:"data"`
 	Created time.Time       `db:"created"`
 	Updated *time.Time      `db:"updated"`
@@ -35,7 +35,7 @@ func (d *dto) ToGroup() *Group {
 	_ = util.FromJSON(d.Data, &dataArg)
 	return &Group{
 		ID:      d.ID,
-		Group:   d.Group,
+		Child:   d.Child,
 		Data:    dataArg,
 		Created: d.Created,
 		Updated: d.Updated,

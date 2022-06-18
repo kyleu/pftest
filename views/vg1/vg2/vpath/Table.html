@@ -1,0 +1,37 @@
+<!-- Content managed by Project Forge, see [projectforge.md] for details. -->
+{% import (
+  "github.com/kyleu/pftest/app"
+  "github.com/kyleu/pftest/app/controller/cutil"
+  "github.com/kyleu/pftest/app/g1/g2/path"
+  "github.com/kyleu/pftest/app/lib/filter"
+  "github.com/kyleu/pftest/views/components"
+) %}
+
+{% func Table(models path.Paths, params filter.ParamSet, as *app.State, ps *cutil.PageState) %}
+  {%- code prms := params.Get("path", nil, ps.Logger).Sanitize("path") -%}
+  <table class="mt">
+    <thead>
+      <tr>
+        {%= components.TableHeaderSimple("path", "id", "ID", "UUID in format (00000000-0000-0000-0000-000000000000)", prms, ps.URI, ps) %}
+        {%= components.TableHeaderSimple("path", "name", "Name", "String text", prms, ps.URI, ps) %}
+        {%= components.TableHeaderSimple("path", "status", "Status", "String text", prms, ps.URI, ps) %}
+        {%= components.TableHeaderSimple("path", "created", "Created", "Date and time, in almost any format", prms, ps.URI, ps) %}
+      </tr>
+    </thead>
+    <tbody>
+      {%- for _, model := range models -%}
+      <tr>
+        <td><a href="/g1/g2/path/{%= components.DisplayUUID(&model.ID) %}">{%= components.DisplayUUID(&model.ID) %}</a></td>
+        <td><strong>{%s model.Name %}</strong></td>
+        <td><strong>{%s model.Status %}</strong></td>
+        <td>{%= components.DisplayTimestamp(&model.Created) %}</td>
+      </tr>
+      {%- endfor -%}
+      {%- if prms.HasNextPage(len(models) + prms.Offset) || prms.HasPreviousPage() -%}
+      <tr>
+        <td colspan="4">{%= components.Pagination(len(models) + prms.Offset, prms, ps.URI) %}</td>
+      </tr>
+      {%- endif -%}
+    </tbody>
+  </table>
+{% endfunc %}

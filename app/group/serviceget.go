@@ -66,25 +66,25 @@ func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, logger util.Logg
 	return ret.ToGroups(), nil
 }
 
-func (s *Service) GetGroups(ctx context.Context, tx *sqlx.Tx, logger util.Logger) ([]*util.KeyValInt, error) {
+func (s *Service) GetChildren(ctx context.Context, tx *sqlx.Tx, logger util.Logger) ([]*util.KeyValInt, error) {
 	wc := ""
-	q := database.SQLSelectGrouped("\"group\" as key, count(*) as val", tableQuoted, wc, "\"group\"", "\"group\"", 0, 0)
+	q := database.SQLSelectGrouped("\"child\" as key, count(*) as val", tableQuoted, wc, "\"child\"", "\"child\"", 0, 0)
 	var ret []*util.KeyValInt
 	err := s.db.Select(ctx, &ret, q, tx, logger)
 	if err != nil {
-		return nil, errors.Wrap(err, "unable to get groups by group")
+		return nil, errors.Wrap(err, "unable to get groups by child")
 	}
 	return ret, nil
 }
 
-func (s *Service) GetByGroup(ctx context.Context, tx *sqlx.Tx, group string, params *filter.Params, logger util.Logger) (Groups, error) {
+func (s *Service) GetByChild(ctx context.Context, tx *sqlx.Tx, child string, params *filter.Params, logger util.Logger) (Groups, error) {
 	params = filters(params)
-	wc := "\"group\" = $1"
+	wc := "\"child\" = $1"
 	q := database.SQLSelect(columnsString, tableQuoted, wc, params.OrderByString(), params.Limit, params.Offset)
 	ret := dtos{}
-	err := s.db.Select(ctx, &ret, q, tx, logger, group)
+	err := s.db.Select(ctx, &ret, q, tx, logger, child)
 	if err != nil {
-		return nil, errors.Wrapf(err, "unable to get groups by group [%v]", group)
+		return nil, errors.Wrapf(err, "unable to get groups by child [%v]", child)
 	}
 	return ret.ToGroups(), nil
 }

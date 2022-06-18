@@ -47,7 +47,7 @@ func StreamTable(qw422016 *qt422016.Writer, models group.Groups, params filter.P
 	qw422016.N().S(`
         `)
 //line views/vgroup/Table.html:16
-	components.StreamTableHeaderSimple(qw422016, "group", "group", "Group", "String text", prms, ps.URI, ps)
+	components.StreamTableHeaderSimple(qw422016, "group", "child", "Child", "String text", prms, ps.URI, ps)
 //line views/vgroup/Table.html:16
 	qw422016.N().S(`
         `)
@@ -87,13 +87,13 @@ func StreamTable(qw422016 *qt422016.Writer, models group.Groups, params filter.P
 		qw422016.E().S(model.ID)
 //line views/vgroup/Table.html:26
 		qw422016.N().S(`</a></td>
-        <td><a href="/group/group/`)
+        <td><a href="/group/child/`)
 //line views/vgroup/Table.html:27
-		qw422016.E().S(model.Group)
+		qw422016.E().S(model.Child)
 //line views/vgroup/Table.html:27
 		qw422016.N().S(`">`)
 //line views/vgroup/Table.html:27
-		qw422016.E().S(model.Group)
+		qw422016.E().S(model.Child)
 //line views/vgroup/Table.html:27
 		qw422016.N().S(`</a></td>
         <td>`)
