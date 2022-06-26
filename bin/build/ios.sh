@@ -9,9 +9,9 @@ TGT=$1
 [ "$TGT" ] || TGT="0.0.0"
 
 echo "building gomobile for iOS..."
-time gomobile bind -o build/dist/mobile_ios_arm64/pftestServer.framework -target=ios github.com/kyleu/pftest/app/cmd
+time gomobile bind -o build/dist/mobile_ios_arm64/pftestServer.xcframework -target=ios github.com/kyleu/pftest/app/cmd
 echo "gomobile for iOS completed successfully, building distribution..."
-cd "build/dist/mobile_ios_arm64/pftestServer.framework"
+cd "build/dist/mobile_ios_arm64/pftestServer.xcframework"
 zip --symlinks -r "../../pftest_${TGT}_ios_framework.zip" .
 
 echo "Building iOS app..."

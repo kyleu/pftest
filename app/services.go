@@ -4,12 +4,12 @@ package app
 import (
 	"context"
 
-	"github.com/kyleu/pftest/app/g1/g2/path"
 	"github.com/pkg/errors"
 
 	"github.com/kyleu/pftest/app/audited"
 	"github.com/kyleu/pftest/app/basic"
 	"github.com/kyleu/pftest/app/capital"
+	"github.com/kyleu/pftest/app/g1/g2/path"
 	"github.com/kyleu/pftest/app/group"
 	"github.com/kyleu/pftest/app/history"
 	"github.com/kyleu/pftest/app/lib/audit"
