@@ -20,6 +20,7 @@ func generatedMenu() menu.Items {
 		&menu.Item{Key: "mixedcase", Title: "Mixed Cases", Description: "Table and columns with mixed casing", Icon: "star", Route: "/mixedcase"},
 		&menu.Item{Key: "reference", Title: "References", Description: "Custom Reference", Icon: "star", Route: "/reference"},
 		&menu.Item{Key: "relation", Title: "Relations", Description: "Relation Model", Icon: "star", Route: "/relation"},
+		&menu.Item{Key: "seed", Title: "Seeds", Description: "Model with seed data", Icon: "star", Route: "/seed"},
 		&menu.Item{Key: "softdel", Title: "Softdels", Description: "Soft-deleted table", Icon: "star", Route: "/softdel"},
 		&menu.Item{Key: "timestamp", Title: "Timestamps", Description: "Timestamps", Icon: "star", Route: "/timestamp"},
 		&menu.Item{Key: "trouble", Title: "Troubles", Description: "Columns with scary names", Icon: "star", Route: "/troub/le"},

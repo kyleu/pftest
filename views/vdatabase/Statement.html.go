@@ -144,7 +144,7 @@ func (p *Statement) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cut
 		qw422016.N().S(` Query Plan</label>
           <div class="bd">`)
 //line views/vdatabase/Statement.html:49
-		components.StreamDisplayMaps(qw422016, s.Extra, true)
+		components.StreamDisplayMaps(qw422016, s.Extra, nil, true, ps)
 //line views/vdatabase/Statement.html:49
 		qw422016.N().S(`</div>
         </li>

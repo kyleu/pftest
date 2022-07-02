@@ -29,7 +29,8 @@
     "search",
     "sqlite",
     "types",
-    "upgrade"
+    "upgrade",
+    "websocket"
   ],
   "tags": [
     "kyleu"

@@ -16,7 +16,7 @@
   <div class="card">
     <div class="right">
       <a href="#modal-reference"><button type="button">JSON</button></a>
-      <a href="{%s p.Model.WebPath() %}/edit"><button>Edit</button></a>
+      <a href="{%s p.Model.WebPath() %}/edit"><button>{%= components.SVGRef("edit", 15, 15, "icon", ps) %}Edit</button></a>
     </div>
     <h3>{%= components.SVGRefIcon(`star`, ps) %} {%s p.Model.TitleString() %}</h3>
     <div><a href="/reference"><em>Reference</em></a></div>

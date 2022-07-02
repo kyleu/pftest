@@ -1,0 +1,35 @@
+{
+  "name": "seed",
+  "package": "seed",
+  "description": "Model with seed data",
+  "icon": "star",
+  "columns": [
+    {
+      "name": "id",
+      "type": "uuid",
+      "pk": true,
+      "search": true
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "tags": [
+        "title"
+      ]
+    },
+    {
+      "name": "size",
+      "type": "int"
+    },
+    {
+      "name": "obj",
+      "type": "valuemap"
+    }
+  ],
+  "seeddata": [
+    ["00000000-0000-0000-0000-000000000001", "A", 1, {"foo": "a"}],
+    ["00000000-0000-0000-0000-000000000002", "B", 2, {"foo": "b"}],
+    ["00000000-0000-0000-0000-000000000003", "C", 3, {"foo": "c"}],
+    ["00000000-0000-0000-0000-000000000004", "D", 4, {"foo": "d"}]
+  ]
+}

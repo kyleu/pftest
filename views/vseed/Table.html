@@ -1,0 +1,37 @@
+<!-- Content managed by Project Forge, see [projectforge.md] for details. -->
+{% import (
+  "github.com/kyleu/pftest/app"
+  "github.com/kyleu/pftest/app/controller/cutil"
+  "github.com/kyleu/pftest/app/lib/filter"
+  "github.com/kyleu/pftest/app/seed"
+  "github.com/kyleu/pftest/views/components"
+) %}
+
+{% func Table(models seed.Seeds, params filter.ParamSet, as *app.State, ps *cutil.PageState) %}
+  {%- code prms := params.Get("seed", nil, ps.Logger).Sanitize("seed") -%}
+  <table class="mt">
+    <thead>
+      <tr>
+        {%= components.TableHeaderSimple("seed", "id", "ID", "UUID in format (00000000-0000-0000-0000-000000000000)", prms, ps.URI, ps) %}
+        {%= components.TableHeaderSimple("seed", "name", "Name", "String text", prms, ps.URI, ps) %}
+        {%= components.TableHeaderSimple("seed", "size", "Size", "Integer", prms, ps.URI, ps) %}
+        {%= components.TableHeaderSimple("seed", "obj", "Obj", "JSON object", prms, ps.URI, ps) %}
+      </tr>
+    </thead>
+    <tbody>
+      {%- for _, model := range models -%}
+      <tr>
+        <td><a href="/seed/{%= components.DisplayUUID(&model.ID) %}">{%= components.DisplayUUID(&model.ID) %}</a></td>
+        <td><strong>{%s model.Name %}</strong></td>
+        <td>{%d model.Size %}</td>
+        <td>{%= components.JSON(model.Obj) %}</td>
+      </tr>
+      {%- endfor -%}
+      {%- if prms.HasNextPage(len(models) + prms.Offset) || prms.HasPreviousPage() -%}
+      <tr>
+        <td colspan="4">{%= components.Pagination(len(models) + prms.Offset, prms, ps.URI) %}</td>
+      </tr>
+      {%- endif -%}
+    </tbody>
+  </table>
+{% endfunc %}

@@ -1,0 +1,29 @@
+<!-- Content managed by Project Forge, see [projectforge.md] for details. -->
+{% import (
+  "github.com/kyleu/pftest/app"
+  "github.com/kyleu/pftest/app/controller/cutil"
+  "github.com/kyleu/pftest/app/lib/filter"
+  "github.com/kyleu/pftest/app/seed"
+  "github.com/kyleu/pftest/views/components"
+  "github.com/kyleu/pftest/views/layout"
+) %}
+
+{% code type List struct {
+  layout.Basic
+  Models seed.Seeds
+  Params filter.ParamSet
+} %}
+
+{% func (p *List) Body(as *app.State, ps *cutil.PageState) %}
+  <div class="card">
+    <div class="right"><a href="/seed/new"><button>New</button></a></div>
+    <h3>{%= components.SVGRefIcon(`star`, ps) %} Seeds</h3>
+    {%- if len(p.Models) == 0 -%}
+    <div class="mt"><em>No seeds available</em></div>
+    {%- else -%}
+    <div class="overflow clear">
+      {%= Table(p.Models, p.Params, as, ps) %}
+    </div>
+    {%- endif -%}
+  </div>
+{% endfunc %}

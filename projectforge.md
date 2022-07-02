@@ -30,3 +30,4 @@ The following modules were used to build this project:
 - [sqlite](./doc/module/sqlite.md)
 - [types](./doc/module/types.md)
 - [upgrade](./doc/module/upgrade.md)
+- [websocket](./doc/module/websocket.md)

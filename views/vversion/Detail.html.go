@@ -48,7 +48,11 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
 //line views/vversion/Detail.html:22
 	qw422016.E().S(p.Model.WebPath())
 //line views/vversion/Detail.html:22
-	qw422016.N().S(`/edit"><button>Edit</button></a>
+	qw422016.N().S(`/edit"><button>`)
+//line views/vversion/Detail.html:22
+	components.StreamSVGRef(qw422016, "edit", 15, 15, "icon", ps)
+//line views/vversion/Detail.html:22
+	qw422016.N().S(`Edit</button></a>
     </div>
     <h3>`)
 //line views/vversion/Detail.html:24
