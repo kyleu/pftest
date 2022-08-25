@@ -75,7 +75,7 @@ func StreamTable(qw422016 *qt422016.Writer, models capital.Capitals, params filt
 		qw422016.N().S(`      <tr>
         <td><a href="/capital/`)
 //line views/vcapital/Table.html:25
-		qw422016.E().S(model.ID)
+		qw422016.N().U(model.ID)
 //line views/vcapital/Table.html:25
 		qw422016.N().S(`">`)
 //line views/vcapital/Table.html:25

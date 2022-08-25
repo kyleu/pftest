@@ -14,11 +14,8 @@ import (
 	"github.com/kyleu/pftest/views/vseed"
 )
 
-const seedDefaultTitle = "Seeds"
-
 func SeedList(rc *fasthttp.RequestCtx) {
 	Act("seed.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ps.Title = seedDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
 		prms := params.Get("seed", nil, ps.Logger).Sanitize("seed")
 		ret, err := as.Services.Seed.List(ps.Context, nil, prms, ps.Logger)

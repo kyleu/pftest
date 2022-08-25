@@ -67,8 +67,8 @@
       <tbody>
         {%- for _, model := range p.Revisions -%}
         <tr>
-          <td><a href="/version/{%s model.ID %}/revision/{%d model.Revision %}">{%s model.ID %}</a></td>
-          <td><a href="/version/{%s model.ID %}/revision/{%d model.Revision %}">{%d model.Revision %}</a></td>
+          <td><a href="/version/{%u model.ID %}/revision/{%d model.Revision %}">{%s model.ID %}</a></td>
+          <td><a href="/version/{%u model.ID %}/revision/{%d model.Revision %}">{%d model.Revision %}</a></td>
           <td>{%= components.DisplayTimestamp(&model.Created) %}</td>
         </tr>
         {%- endfor -%}

@@ -23,8 +23,8 @@
     <tbody>
       {%- for _, model := range models -%}
       <tr>
-        <td><a href="/group/{%s model.ID %}">{%s model.ID %}</a></td>
-        <td><a href="/group/child/{%s model.Child %}">{%s model.Child %}</a></td>
+        <td><a href="/group/{%u model.ID %}">{%s model.ID %}</a></td>
+        <td><a href="/group/child/{%u model.Child %}">{%s model.Child %}</a></td>
         <td>{%= components.JSON(model.Data) %}</td>
         <td>{%= components.DisplayTimestamp(&model.Created) %}</td>
         <td>{%= components.DisplayTimestamp(model.Updated) %}</td>

@@ -10,6 +10,11 @@ import (
 	"github.com/kyleu/pftest/app/util"
 )
 
+type PK struct {
+	From  string `json:"from"`
+	Where int    `json:"where"`
+}
+
 type Trouble struct {
 	From      string     `json:"from"`
 	Where     int        `json:"where"`

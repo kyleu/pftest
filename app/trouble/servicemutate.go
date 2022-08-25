@@ -52,6 +52,24 @@ func (s *Service) Update(ctx context.Context, tx *sqlx.Tx, model *Trouble, logge
 	return nil
 }
 
+func (s *Service) UpdateIfNeeded(ctx context.Context, tx *sqlx.Tx, model *Trouble, logger util.Logger) error {
+	revs, err := s.getCurrentSelectcols(ctx, tx, logger, model)
+	if err != nil {
+		return err
+	}
+	model.Selectcol = revs[model.String()] + 1
+
+	err = s.upsertCore(ctx, tx, logger, model)
+	if err != nil {
+		return err
+	}
+	err = s.insertSelectcol(ctx, tx, logger, model)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, logger util.Logger, models ...*Trouble) error {
 	if len(models) == 0 {
 		return nil

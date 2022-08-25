@@ -80,7 +80,7 @@ func StreamTable(qw422016 *qt422016.Writer, models group.Groups, params filter.P
 		qw422016.N().S(`      <tr>
         <td><a href="/group/`)
 //line views/vgroup/Table.html:26
-		qw422016.E().S(model.ID)
+		qw422016.N().U(model.ID)
 //line views/vgroup/Table.html:26
 		qw422016.N().S(`">`)
 //line views/vgroup/Table.html:26
@@ -89,7 +89,7 @@ func StreamTable(qw422016 *qt422016.Writer, models group.Groups, params filter.P
 		qw422016.N().S(`</a></td>
         <td><a href="/group/child/`)
 //line views/vgroup/Table.html:27
-		qw422016.E().S(model.Child)
+		qw422016.N().U(model.Child)
 //line views/vgroup/Table.html:27
 		qw422016.N().S(`">`)
 //line views/vgroup/Table.html:27

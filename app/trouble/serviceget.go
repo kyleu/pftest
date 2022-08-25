@@ -3,6 +3,7 @@ package trouble
 
 import (
 	"context"
+	"fmt"
 	"strings"
 
 	"github.com/jmoiron/sqlx"
@@ -57,6 +58,26 @@ func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, from string, where int, 
 		return nil, errors.Wrapf(err, "unable to get trouble by from [%v], where [%v]", from, where)
 	}
 	return ret.ToTrouble(), nil
+}
+
+func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, includeDeleted bool, logger util.Logger, pks ...*PK) (Troubles, error) {
+	if len(pks) == 0 {
+		return Troubles{}, nil
+	}
+	wc := "("
+	wc += ")"
+	wc = addDeletedClause(wc, includeDeleted)
+	ret := dtos{}
+	q := database.SQLSelectSimple(columnsString, tablesJoined, wc)
+	vals := make([]any, 0, len(pks)*2)
+	for _, x := range pks {
+		vals = append(vals, x)
+	}
+	err := s.db.Select(ctx, &ret, q, tx, logger, vals...)
+	if err != nil {
+		return nil, errors.Wrapf(err, "unable to get Troubles for [%d] pks", len(pks))
+	}
+	return ret.ToTroubles(), nil
 }
 
 func (s *Service) GetByFrom(ctx context.Context, tx *sqlx.Tx, from string, params *filter.Params, includeDeleted bool, logger util.Logger) (Troubles, error) {

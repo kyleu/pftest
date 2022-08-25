@@ -70,7 +70,7 @@ func StreamTable(qw422016 *qt422016.Writer, models softdel.Softdels, params filt
 		qw422016.N().S(`      <tr>
         <td><a href="/softdel/`)
 //line views/vsoftdel/Table.html:24
-		qw422016.E().S(model.ID)
+		qw422016.N().U(model.ID)
 //line views/vsoftdel/Table.html:24
 		qw422016.N().S(`">`)
 //line views/vsoftdel/Table.html:24

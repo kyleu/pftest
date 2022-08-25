@@ -17,7 +17,7 @@
 {% func (p *List) Body(as *app.State, ps *cutil.PageState) %}
   <div class="card">
     <div class="right"><a href="/troub/le/new"><button>New</button></a></div>
-    <h3>{%= components.SVGRefIcon(`star`, ps) %} Troubles</h3>
+    <h3>{%= components.SVGRefIcon(`star`, ps) %}{%s ps.Title %}</h3>
     {%- if len(p.Models) == 0 -%}
     <div class="mt"><em>No troubles available</em></div>
     {%- else -%}

@@ -13,11 +13,8 @@ import (
 	"github.com/kyleu/pftest/views/vcapital"
 )
 
-const capitalDefaultTitle = "Capitals"
-
 func CapitalList(rc *fasthttp.RequestCtx) {
 	Act("capital.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ps.Title = capitalDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
 		prms := params.Get("capital", nil, ps.Logger).Sanitize("capital")
 		ret, err := as.Services.Capital.List(ps.Context, nil, prms, ps.Logger)

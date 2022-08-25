@@ -14,11 +14,8 @@ import (
 	"github.com/kyleu/pftest/views/vtrouble"
 )
 
-const troubleDefaultTitle = "Troubles"
-
 func TroubleList(rc *fasthttp.RequestCtx) {
 	Act("trouble.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ps.Title = troubleDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
 		prms := params.Get("trouble", nil, ps.Logger).Sanitize("trouble")
 		ret, err := as.Services.Trouble.List(ps.Context, nil, prms, cutil.QueryStringBool(rc, "includeDeleted"), ps.Logger)

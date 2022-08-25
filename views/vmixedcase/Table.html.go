@@ -65,7 +65,7 @@ func StreamTable(qw422016 *qt422016.Writer, models mixedcase.MixedCases, params 
 		qw422016.N().S(`      <tr>
         <td><a href="/mixedcase/`)
 //line views/vmixedcase/Table.html:23
-		qw422016.E().S(model.ID)
+		qw422016.N().U(model.ID)
 //line views/vmixedcase/Table.html:23
 		qw422016.N().S(`">`)
 //line views/vmixedcase/Table.html:23

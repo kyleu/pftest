@@ -21,7 +21,7 @@
     <tbody>
       {%- for _, model := range models -%}
       <tr>
-        <td><a href="/history/{%s model.ID %}">{%s model.ID %}</a></td>
+        <td><a href="/history/{%u model.ID %}">{%s model.ID %}</a></td>
         <td>{%= components.JSON(model.Data) %}</td>
         <td>{%= components.DisplayTimestamp(&model.Created) %}</td>
         <td>{%= components.DisplayTimestamp(model.Updated) %}</td>

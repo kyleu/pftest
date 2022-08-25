@@ -15,11 +15,8 @@ import (
 	"github.com/kyleu/pftest/views/vrelation"
 )
 
-const relationDefaultTitle = "Relations"
-
 func RelationList(rc *fasthttp.RequestCtx) {
 	Act("relation.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ps.Title = relationDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
 		prms := params.Get("relation", nil, ps.Logger).Sanitize("relation")
 		ret, err := as.Services.Relation.List(ps.Context, nil, prms, ps.Logger)

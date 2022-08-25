@@ -45,13 +45,17 @@ func (s *Service) GetHistories(ctx context.Context, tx *sqlx.Tx, id string, logg
 }
 
 func (s *Service) SaveHistory(ctx context.Context, tx *sqlx.Tx, o *History, n *History, logger util.Logger) (*HistoryHistory, error) {
+	diffs := o.Diff(n)
+	if len(diffs) == 0 {
+		return nil, nil
+	}
 	q := database.SQLInsert(historyTableQuoted, historyColumns, 1, "")
 	h := &historyDTO{
 		ID:        util.UUID(),
 		HistoryID: o.ID,
 		Old:       util.ToJSONBytes(o, true),
 		New:       util.ToJSONBytes(n, true),
-		Changes:   util.ToJSONBytes(o.Diff(n), true),
+		Changes:   util.ToJSONBytes(diffs, true),
 		Created:   time.Now(),
 	}
 	hist := h.ToHistory()

@@ -48,7 +48,9 @@ func (p *List) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
 //line views/vrelation/List.html:22
 	components.StreamSVGRefIcon(qw422016, `star`, ps)
 //line views/vrelation/List.html:22
-	qw422016.N().S(` Relations</h3>
+	qw422016.E().S(ps.Title)
+//line views/vrelation/List.html:22
+	qw422016.N().S(`</h3>
 `)
 //line views/vrelation/List.html:23
 	if len(p.Models) == 0 {

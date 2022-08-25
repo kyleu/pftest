@@ -14,11 +14,8 @@ import (
 	"github.com/kyleu/pftest/views/vbasic"
 )
 
-const basicDefaultTitle = "Basics"
-
 func BasicList(rc *fasthttp.RequestCtx) {
 	Act("basic.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ps.Title = basicDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
 		prms := params.Get("basic", nil, ps.Logger).Sanitize("basic")
 		ret, err := as.Services.Basic.List(ps.Context, nil, prms, ps.Logger)

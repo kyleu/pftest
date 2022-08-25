@@ -70,7 +70,7 @@ func StreamTable(qw422016 *qt422016.Writer, models history.Histories, params fil
 		qw422016.N().S(`      <tr>
         <td><a href="/history/`)
 //line views/vhistory/Table.html:24
-		qw422016.E().S(model.ID)
+		qw422016.N().U(model.ID)
 //line views/vhistory/Table.html:24
 		qw422016.N().S(`">`)
 //line views/vhistory/Table.html:24

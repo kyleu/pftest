@@ -13,11 +13,8 @@ import (
 	"github.com/kyleu/pftest/views/vmixedcase"
 )
 
-const mixedCaseDefaultTitle = "Mixed Cases"
-
 func MixedCaseList(rc *fasthttp.RequestCtx) {
 	Act("mixedcase.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ps.Title = mixedCaseDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
 		prms := params.Get("mixedcase", nil, ps.Logger).Sanitize("mixedcase")
 		ret, err := as.Services.MixedCase.List(ps.Context, nil, prms, ps.Logger)

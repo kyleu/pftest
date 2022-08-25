@@ -50,6 +50,31 @@ func (s *Service) Update(ctx context.Context, tx *sqlx.Tx, model *History, logge
 	return nil
 }
 
+func (s *Service) UpdateIfNeeded(ctx context.Context, tx *sqlx.Tx, model *History, logger util.Logger) error {
+	curr, err := s.Get(ctx, tx, model.ID, logger)
+	if curr == nil || err != nil {
+		return s.Create(ctx, tx, logger, model)
+	}
+	model.Created = curr.Created
+	model.Updated = util.NowPointer()
+
+	h, hErr := s.SaveHistory(ctx, tx, curr, model, logger)
+	if hErr != nil {
+		return errors.Wrap(hErr, "unable to save history")
+	}
+	if h == nil || len(h.Changes) == 0 {
+		return nil
+	}
+	q := database.SQLUpdate(tableQuoted, columnsQuoted, "\"id\" = $5", "")
+	data := model.ToData()
+	data = append(data, model.ID)
+	_, err = s.db.Update(ctx, q, tx, 1, logger, data...)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, logger util.Logger, models ...*History) error {
 	if len(models) == 0 {
 		return nil

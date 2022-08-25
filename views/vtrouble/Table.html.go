@@ -80,7 +80,7 @@ func StreamTable(qw422016 *qt422016.Writer, models trouble.Troubles, params filt
 		qw422016.N().S(`      <tr>
         <td><a href="/troub/le/`)
 //line views/vtrouble/Table.html:26
-		qw422016.E().S(model.From)
+		qw422016.N().U(model.From)
 //line views/vtrouble/Table.html:26
 		qw422016.N().S(`/`)
 //line views/vtrouble/Table.html:26
@@ -93,7 +93,7 @@ func StreamTable(qw422016 *qt422016.Writer, models trouble.Troubles, params filt
 		qw422016.N().S(`</a></td>
         <td><a href="/troub/le/`)
 //line views/vtrouble/Table.html:27
-		qw422016.E().S(model.From)
+		qw422016.N().U(model.From)
 //line views/vtrouble/Table.html:27
 		qw422016.N().S(`/`)
 //line views/vtrouble/Table.html:27

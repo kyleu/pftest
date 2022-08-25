@@ -23,7 +23,7 @@
     <tbody>
       {%- for _, model := range models -%}
       <tr>
-        <td><a href="/version/{%s model.ID %}">{%s model.ID %}</a></td>
+        <td><a href="/version/{%u model.ID %}">{%s model.ID %}</a></td>
         <td>{%d model.Revision %}</td>
         <td>{%s model.Constcol %}</td>
         <td>{%= components.JSON(model.Varcol) %}</td>

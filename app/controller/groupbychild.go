@@ -31,7 +31,6 @@ func GroupListByChild(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", errors.Wrap(err, "must provide [child] as an argument")
 		}
-		ps.Title = groupDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
 		prms := params.Get("group", nil, ps.Logger).Sanitize("group")
 		ret, err := as.Services.Group.GetByChild(ps.Context, nil, childArg, prms, ps.Logger)

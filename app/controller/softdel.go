@@ -13,11 +13,8 @@ import (
 	"github.com/kyleu/pftest/views/vsoftdel"
 )
 
-const softdelDefaultTitle = "Softdels"
-
 func SoftdelList(rc *fasthttp.RequestCtx) {
 	Act("softdel.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ps.Title = softdelDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
 		prms := params.Get("softdel", nil, ps.Logger).Sanitize("softdel")
 		ret, err := as.Services.Softdel.List(ps.Context, nil, prms, cutil.QueryStringBool(rc, "includeDeleted"), ps.Logger)

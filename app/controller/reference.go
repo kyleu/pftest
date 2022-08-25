@@ -14,11 +14,8 @@ import (
 	"github.com/kyleu/pftest/views/vreference"
 )
 
-const referenceDefaultTitle = "References"
-
 func ReferenceList(rc *fasthttp.RequestCtx) {
 	Act("reference.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ps.Title = referenceDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
 		prms := params.Get("reference", nil, ps.Logger).Sanitize("reference")
 		ret, err := as.Services.Reference.List(ps.Context, nil, prms, ps.Logger)

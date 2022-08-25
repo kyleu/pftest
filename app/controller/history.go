@@ -13,11 +13,8 @@ import (
 	"github.com/kyleu/pftest/views/vhistory"
 )
 
-const historyDefaultTitle = "Histories"
-
 func HistoryList(rc *fasthttp.RequestCtx) {
 	Act("history.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ps.Title = historyDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
 		prms := params.Get("history", nil, ps.Logger).Sanitize("history")
 		ret, err := as.Services.History.List(ps.Context, nil, prms, ps.Logger)

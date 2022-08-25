@@ -75,7 +75,7 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
           <th class="shrink" title="String text">Child</th>
           <td><a href="/group/child/`)
 //line views/vgroup/Detail.html:31
-	qw422016.E().S(p.Model.Child)
+	qw422016.N().U(p.Model.Child)
 //line views/vgroup/Detail.html:31
 	qw422016.N().S(`">`)
 //line views/vgroup/Detail.html:31

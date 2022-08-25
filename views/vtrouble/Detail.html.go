@@ -156,7 +156,7 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
 			qw422016.N().S(`        <tr>
           <td><a href="/troub/le/`)
 //line views/vtrouble/Detail.html:70
-			qw422016.E().S(model.From)
+			qw422016.N().U(model.From)
 //line views/vtrouble/Detail.html:70
 			qw422016.N().S(`/`)
 //line views/vtrouble/Detail.html:70
@@ -173,7 +173,7 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
 			qw422016.N().S(`</a></td>
           <td><a href="/troub/le/`)
 //line views/vtrouble/Detail.html:71
-			qw422016.E().S(model.From)
+			qw422016.N().U(model.From)
 //line views/vtrouble/Detail.html:71
 			qw422016.N().S(`/`)
 //line views/vtrouble/Detail.html:71
@@ -190,7 +190,7 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
 			qw422016.N().S(`</a></td>
           <td><a href="/troub/le/`)
 //line views/vtrouble/Detail.html:72
-			qw422016.E().S(model.From)
+			qw422016.N().U(model.From)
 //line views/vtrouble/Detail.html:72
 			qw422016.N().S(`/`)
 //line views/vtrouble/Detail.html:72

@@ -46,7 +46,9 @@ func (p *List) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
 //line views/vtimestamp/List.html:20
 	components.StreamSVGRefIcon(qw422016, `star`, ps)
 //line views/vtimestamp/List.html:20
-	qw422016.N().S(` Timestamps</h3>
+	qw422016.E().S(ps.Title)
+//line views/vtimestamp/List.html:20
+	qw422016.N().S(`</h3>
 `)
 //line views/vtimestamp/List.html:21
 	if len(p.Models) == 0 {

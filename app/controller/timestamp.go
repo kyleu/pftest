@@ -13,11 +13,8 @@ import (
 	"github.com/kyleu/pftest/views/vtimestamp"
 )
 
-const timestampDefaultTitle = "Timestamps"
-
 func TimestampList(rc *fasthttp.RequestCtx) {
 	Act("timestamp.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ps.Title = timestampDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
 		prms := params.Get("timestamp", nil, ps.Logger).Sanitize("timestamp")
 		ret, err := as.Services.Timestamp.List(ps.Context, nil, prms, cutil.QueryStringBool(rc, "includeDeleted"), ps.Logger)

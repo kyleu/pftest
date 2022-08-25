@@ -15,11 +15,8 @@ import (
 	"github.com/kyleu/pftest/views/vg1/vg2/vpath"
 )
 
-const pathDefaultTitle = "Paths"
-
 func PathList(rc *fasthttp.RequestCtx) {
 	controller.Act("path.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ps.Title = pathDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
 		prms := params.Get("path", nil, ps.Logger).Sanitize("path")
 		ret, err := as.Services.Path.List(ps.Context, nil, prms, ps.Logger)

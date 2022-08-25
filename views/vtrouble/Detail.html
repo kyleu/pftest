@@ -67,9 +67,9 @@
       <tbody>
         {%- for _, model := range p.Selectcols -%}
         <tr>
-          <td><a href="/troub/le/{%s model.From %}/{%d model.Where %}/selectcol/{%d model.Selectcol %}">{%s model.From %}</a></td>
-          <td><a href="/troub/le/{%s model.From %}/{%d model.Where %}/selectcol/{%d model.Selectcol %}">{%d model.Where %}</a></td>
-          <td><a href="/troub/le/{%s model.From %}/{%d model.Where %}/selectcol/{%d model.Selectcol %}">{%d model.Selectcol %}</a></td>
+          <td><a href="/troub/le/{%u model.From %}/{%d model.Where %}/selectcol/{%d model.Selectcol %}">{%s model.From %}</a></td>
+          <td><a href="/troub/le/{%u model.From %}/{%d model.Where %}/selectcol/{%d model.Selectcol %}">{%d model.Where %}</a></td>
+          <td><a href="/troub/le/{%u model.From %}/{%d model.Where %}/selectcol/{%d model.Selectcol %}">{%d model.Selectcol %}</a></td>
         </tr>
         {%- endfor -%}
       </tbody>

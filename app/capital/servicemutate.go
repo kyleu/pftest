@@ -51,6 +51,24 @@ func (s *Service) Update(ctx context.Context, tx *sqlx.Tx, model *Capital, logge
 	return nil
 }
 
+func (s *Service) UpdateIfNeeded(ctx context.Context, tx *sqlx.Tx, model *Capital, logger util.Logger) error {
+	revs, err := s.getCurrentVersions(ctx, tx, logger, model)
+	if err != nil {
+		return err
+	}
+	model.Version = revs[model.String()] + 1
+
+	err = s.upsertCore(ctx, tx, logger, model)
+	if err != nil {
+		return err
+	}
+	err = s.insertVersion(ctx, tx, logger, model)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, logger util.Logger, models ...*Capital) error {
 	if len(models) == 0 {
 		return nil

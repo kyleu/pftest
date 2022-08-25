@@ -70,7 +70,7 @@ func StreamTable(qw422016 *qt422016.Writer, models timestamp.Timestamps, params 
 		qw422016.N().S(`      <tr>
         <td><a href="/timestamp/`)
 //line views/vtimestamp/Table.html:24
-		qw422016.E().S(model.ID)
+		qw422016.N().U(model.ID)
 //line views/vtimestamp/Table.html:24
 		qw422016.N().S(`">`)
 //line views/vtimestamp/Table.html:24

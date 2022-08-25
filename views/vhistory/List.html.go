@@ -46,7 +46,9 @@ func (p *List) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
 //line views/vhistory/List.html:20
 	components.StreamSVGRefIcon(qw422016, `star`, ps)
 //line views/vhistory/List.html:20
-	qw422016.N().S(` Histories</h3>
+	qw422016.E().S(ps.Title)
+//line views/vhistory/List.html:20
+	qw422016.N().S(`</h3>
 `)
 //line views/vhistory/List.html:21
 	if len(p.Models) == 0 {

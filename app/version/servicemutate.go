@@ -61,6 +61,30 @@ func (s *Service) Update(ctx context.Context, tx *sqlx.Tx, model *Version, logge
 	return nil
 }
 
+func (s *Service) UpdateIfNeeded(ctx context.Context, tx *sqlx.Tx, model *Version, logger util.Logger) error {
+	revs, err := s.getCurrentRevisions(ctx, tx, logger, model)
+	if err != nil {
+		return err
+	}
+	model.Revision = revs[model.String()] + 1
+	curr, err := s.Get(ctx, tx, model.ID, logger)
+	if curr == nil || err != nil {
+		return s.Create(ctx, tx, logger, model)
+	}
+	model.Created = curr.Created
+	model.Updated = util.NowPointer()
+
+	err = s.upsertCore(ctx, tx, logger, model)
+	if err != nil {
+		return err
+	}
+	err = s.insertRevision(ctx, tx, logger, model)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, logger util.Logger, models ...*Version) error {
 	if len(models) == 0 {
 		return nil

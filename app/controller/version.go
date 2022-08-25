@@ -13,11 +13,8 @@ import (
 	"github.com/kyleu/pftest/views/vversion"
 )
 
-const versionDefaultTitle = "Versions"
-
 func VersionList(rc *fasthttp.RequestCtx) {
 	Act("version.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ps.Title = versionDefaultTitle
 		params := cutil.ParamSetFromRequest(rc)
 		prms := params.Get("version", nil, ps.Logger).Sanitize("version")
 		ret, err := as.Services.Version.List(ps.Context, nil, prms, ps.Logger)
