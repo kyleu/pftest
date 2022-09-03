@@ -65,13 +65,19 @@ func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, includeDeleted b
 		return Troubles{}, nil
 	}
 	wc := "("
+	for idx := range pks {
+		if idx > 0 {
+			wc += " or "
+		}
+		wc += fmt.Sprintf("(from = $%d and where = $%d)", (idx*2)+1, (idx*2)+2)
+	}
 	wc += ")"
 	wc = addDeletedClause(wc, includeDeleted)
 	ret := dtos{}
 	q := database.SQLSelectSimple(columnsString, tablesJoined, wc)
 	vals := make([]any, 0, len(pks)*2)
 	for _, x := range pks {
-		vals = append(vals, x)
+		vals = append(vals, x.From, x.Where)
 	}
 	err := s.db.Select(ctx, &ret, q, tx, logger, vals...)
 	if err != nil {
