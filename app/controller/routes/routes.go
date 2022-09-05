@@ -12,7 +12,6 @@ import (
 	"github.com/kyleu/pftest/app/util"
 )
 
-// nolint
 func AppRoutes() fasthttp.RequestHandler {
 	r := router.New()
 
