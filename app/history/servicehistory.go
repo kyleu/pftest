@@ -24,7 +24,7 @@ var (
 	historyTableQuoted = fmt.Sprintf("%q", historyTable)
 )
 
-func (s *Service) GetHistory(ctx context.Context, tx *sqlx.Tx, id uuid.UUID, logger util.Logger) (*HistoryHistory, error) {
+func (s *Service) GetHistory(ctx context.Context, tx *sqlx.Tx, id uuid.UUID, logger util.Logger) (*History, error) {
 	q := database.SQLSelectSimple(historyColumnsString, historyTableQuoted, "id = $1")
 	ret := historyDTO{}
 	err := s.db.Get(ctx, &ret, q, tx, logger, id)
@@ -34,7 +34,7 @@ func (s *Service) GetHistory(ctx context.Context, tx *sqlx.Tx, id uuid.UUID, log
 	return ret.ToHistory(), nil
 }
 
-func (s *Service) GetHistories(ctx context.Context, tx *sqlx.Tx, id string, logger util.Logger) (HistoryHistories, error) {
+func (s *Service) GetHistories(ctx context.Context, tx *sqlx.Tx, id string, logger util.Logger) (Histories, error) {
 	q := database.SQLSelectSimple(historyColumnsString, historyTableQuoted, "history_id = $1")
 	ret := historyDTOs{}
 	err := s.db.Select(ctx, &ret, q, tx, logger, id)
@@ -44,7 +44,7 @@ func (s *Service) GetHistories(ctx context.Context, tx *sqlx.Tx, id string, logg
 	return ret.ToHistories(), nil
 }
 
-func (s *Service) SaveHistory(ctx context.Context, tx *sqlx.Tx, o *History, n *History, logger util.Logger) (*HistoryHistory, error) {
+func (s *Service) SaveHistory(ctx context.Context, tx *sqlx.Tx, o *History, n *History, logger util.Logger) (*History, error) {
 	diffs := o.Diff(n)
 	if len(diffs) == 0 {
 		return nil, nil

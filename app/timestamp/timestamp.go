@@ -80,7 +80,7 @@ func (t *Timestamp) Diff(tx *Timestamp) util.Diffs {
 		diffs = append(diffs, util.NewDiff("created", t.Created.String(), tx.Created.String()))
 	}
 	if (t.Deleted == nil && tx.Deleted != nil) || (t.Deleted != nil && tx.Deleted == nil) || (t.Deleted != nil && tx.Deleted != nil && *t.Deleted != *tx.Deleted) {
-		diffs = append(diffs, util.NewDiff("deleted", fmt.Sprint(t.Deleted), fmt.Sprint(tx.Deleted))) // nolint:gocritic // it's nullable
+		diffs = append(diffs, util.NewDiff("deleted", fmt.Sprint(t.Deleted), fmt.Sprint(tx.Deleted))) //nolint:gocritic // it's nullable
 	}
 	return diffs
 }

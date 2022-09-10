@@ -21,7 +21,7 @@ var (
 
 	tableVersion       = table + "_Version"
 	tableVersionQuoted = fmt.Sprintf("%q", tableVersion)
-	tablesJoined       = fmt.Sprintf(`%q c join %q cr on c."ID" = cr."Capital_ID" and c."current_Version" = cr."Version"`, table, tableVersion) // nolint
+	tablesJoined       = fmt.Sprintf(`%q c join %q cr on c."ID" = cr."Capital_ID" and c."current_Version" = cr."Version"`, table, tableVersion) //nolint
 )
 
 type dto struct {

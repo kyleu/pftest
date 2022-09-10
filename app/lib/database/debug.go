@@ -15,6 +15,9 @@ import (
 const (
 	MaxTracedStatements = 100
 	MaxValueCount       = 20
+	DebugLevelStatement = "statement"
+	DebugLevelValues    = "values"
+	DebugLevelAnalyze   = "analyze"
 )
 
 var (
@@ -94,11 +97,11 @@ func GetDebugStatement(key string, idx int) *DebugStatement {
 func (s *Service) newStatement(ctx context.Context, q string, values []any, timing int, logger util.Logger) (*DebugStatement, error) {
 	lastIndex++
 	ret := &DebugStatement{Index: lastIndex, SQL: q, Timing: timing}
-	if s.tracing == "values" || s.tracing == "analyze" {
+	if s.tracing == DebugLevelValues || s.tracing == DebugLevelAnalyze {
 		ret.Values = values
 	}
 	q = strings.TrimSpace(q)
-	if s.tracing == "analyze" && !strings.HasPrefix(q, "explain") {
+	if s.tracing == DebugLevelAnalyze && !strings.HasPrefix(q, "explain") {
 		ret.Extra = []util.ValueMap{{"status": "[explain in progress]"}}
 		go func() {
 			if a, err := s.Explain(ctx, q, values, logger); err == nil {
@@ -117,7 +120,7 @@ func (s *Service) Tracing() string {
 
 func (s *Service) EnableTracing(v string, logger util.Logger) error {
 	switch v {
-	case "statement", "values", "analyze", "":
+	case DebugLevelStatement, DebugLevelValues, DebugLevelAnalyze, "":
 		s.tracing = v
 	default:
 		return errors.Errorf("invalid tracing level [%s] must be [analyze], [values], or [statement]", v)

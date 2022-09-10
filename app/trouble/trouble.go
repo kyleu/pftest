@@ -112,7 +112,7 @@ func (t *Trouble) Diff(tx *Trouble) util.Diffs {
 		diffs = append(diffs, util.NewDiff("group", t.Group, tx.Group))
 	}
 	if (t.Delete == nil && tx.Delete != nil) || (t.Delete != nil && tx.Delete == nil) || (t.Delete != nil && tx.Delete != nil && *t.Delete != *tx.Delete) {
-		diffs = append(diffs, util.NewDiff("delete", fmt.Sprint(t.Delete), fmt.Sprint(tx.Delete))) // nolint:gocritic // it's nullable
+		diffs = append(diffs, util.NewDiff("delete", fmt.Sprint(t.Delete), fmt.Sprint(tx.Delete))) //nolint:gocritic // it's nullable
 	}
 	return diffs
 }

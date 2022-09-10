@@ -21,7 +21,7 @@ var (
 
 	tableSelectcol       = table + "_selectcol"
 	tableSelectcolQuoted = fmt.Sprintf("%q", tableSelectcol)
-	tablesJoined         = fmt.Sprintf(`%q t join %q tr on t."from" = tr."trouble_from" and t."where" = tr."trouble_where" and t."current_selectcol" = tr."selectcol"`, table, tableSelectcol) // nolint
+	tablesJoined         = fmt.Sprintf(`%q t join %q tr on t."from" = tr."trouble_from" and t."where" = tr."trouble_where" and t."current_selectcol" = tr."selectcol"`, table, tableSelectcol) //nolint
 )
 
 type dto struct {

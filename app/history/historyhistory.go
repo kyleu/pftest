@@ -10,7 +10,7 @@ import (
 	"github.com/kyleu/pftest/app/util"
 )
 
-type HistoryHistory struct {
+type History struct {
 	ID        uuid.UUID     `json:"id"`
 	HistoryID string        `json:"historyID"`
 	Old       util.ValueMap `json:"o,omitempty"`
@@ -19,7 +19,7 @@ type HistoryHistory struct {
 	Created   time.Time     `json:"created"`
 }
 
-func (h *HistoryHistory) ToData() []any {
+func (h *History) ToData() []any {
 	return []any{
 		h.ID,
 		h.HistoryID,
@@ -30,7 +30,7 @@ func (h *HistoryHistory) ToData() []any {
 	}
 }
 
-type HistoryHistories []*HistoryHistory
+type Histories []*History
 
 type historyDTO struct {
 	ID        uuid.UUID       `db:"id"`
@@ -41,20 +41,20 @@ type historyDTO struct {
 	Created   time.Time       `db:"created"`
 }
 
-func (h *historyDTO) ToHistory() *HistoryHistory {
+func (h *historyDTO) ToHistory() *History {
 	o := util.ValueMap{}
 	_ = util.FromJSON(h.Old, &o)
 	n := util.ValueMap{}
 	_ = util.FromJSON(h.New, &n)
 	c := util.Diffs{}
 	_ = util.FromJSON(h.Changes, &c)
-	return &HistoryHistory{ID: h.ID, HistoryID: h.HistoryID, Old: o, New: n, Changes: c, Created: h.Created}
+	return &History{ID: h.ID, HistoryID: h.HistoryID, Old: o, New: n, Changes: c, Created: h.Created}
 }
 
 type historyDTOs []*historyDTO
 
-func (h historyDTOs) ToHistories() HistoryHistories {
-	ret := make(HistoryHistories, 0, len(h))
+func (h historyDTOs) ToHistories() Histories {
+	ret := make(Histories, 0, len(h))
 	for _, x := range h {
 		ret = append(ret, x.ToHistory())
 	}

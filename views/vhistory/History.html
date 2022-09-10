@@ -11,7 +11,7 @@
 {% code type History struct {
   layout.Basic
   Model *history.History
-  History *history.HistoryHistory
+  History *history.History
 } %}
 
 {% func (p *History) Body(as *app.State, ps *cutil.PageState) %}
@@ -48,7 +48,7 @@
   </div>
 {% endfunc %}
 
-{% func HistoryTable(model *history.History, histories history.HistoryHistories, params filter.ParamSet, as *app.State, ps *cutil.PageState) %}
+{% func HistoryTable(model *history.History, histories history.Histories, params filter.ParamSet, as *app.State, ps *cutil.PageState) %}
   {%- code prms := params.Get("history_history", nil, ps.Logger).Sanitize("history_history") -%}
   <table class="mt">
     <thead>
