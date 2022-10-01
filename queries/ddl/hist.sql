@@ -1,11 +1,11 @@
 -- Content managed by Project Forge, see [projectforge.md] for details.
--- {% func HistoryDrop() %}
-drop table if exists "history_history";
-drop table if exists "history";
+-- {% func HistDrop() %}
+drop table if exists "hist_history";
+drop table if exists "hist";
 -- {% endfunc %}
 
--- {% func HistoryCreate() %}
-create table if not exists "history" (
+-- {% func HistCreate() %}
+create table if not exists "hist" (
   "id" text not null,
   "data" jsonb not null,
   "created" timestamp not null default now(),
@@ -13,14 +13,14 @@ create table if not exists "history" (
   primary key ("id")
 );
 
-create table if not exists "history_history" (
+create table if not exists "hist_history" (
   "id" uuid,
-  "history_id" text not null,
+  "hist_id" text not null,
   "o" jsonb not null,
   "n" jsonb not null,
   "c" jsonb not null,
   "created" timestamp not null default now(),
-  foreign key ("history_id") references "history" ("id"),
+  foreign key ("hist_id") references "hist" ("id"),
   primary key ("id")
 );
 -- {% endfunc %}

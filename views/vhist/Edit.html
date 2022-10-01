@@ -2,7 +2,7 @@
 {% import (
   "github.com/kyleu/pftest/app"
   "github.com/kyleu/pftest/app/controller/cutil"
-  "github.com/kyleu/pftest/app/history"
+  "github.com/kyleu/pftest/app/hist"
   "github.com/kyleu/pftest/app/util"
   "github.com/kyleu/pftest/views/components"
   "github.com/kyleu/pftest/views/layout"
@@ -10,19 +10,19 @@
 
 {% code type Edit struct {
   layout.Basic
-  Model *history.History
+  Model *hist.Hist
   IsNew bool
 } %}
 
 {% func (p *Edit) Body(as *app.State, ps *cutil.PageState) %}
   <div class="card">
     {%- if p.IsNew -%}
-    <div class="right"><a href="/history/random"><button>Random</button></a></div>
-    <h3>{%= components.SVGRefIcon(`star`, ps) %} New History</h3>
-    <form action="/history/new" class="mt" method="post">
+    <div class="right"><a href="/hist/random"><button>Random</button></a></div>
+    <h3>{%= components.SVGRefIcon(`star`, ps) %} New Hist</h3>
+    <form action="/hist/new" class="mt" method="post">
     {%- else -%}
-    <div class="right"><a href="{%s p.Model.WebPath() %}/delete" onclick="return confirm('Are you sure you wish to delete history [{%s p.Model.String() %}]?')"><button>Delete</button></a></div>
-    <h3>{%= components.SVGRefIcon(`star`, ps) %} Edit History [{%s p.Model.String() %}]</h3>
+    <div class="right"><a href="{%s p.Model.WebPath() %}/delete" onclick="return confirm('Are you sure you wish to delete hist [{%s p.Model.String() %}]?')"><button>Delete</button></a></div>
+    <h3>{%= components.SVGRefIcon(`star`, ps) %} Edit Hist [{%s p.Model.String() %}]</h3>
     {%- endif -%}
     <form action="" method="post">
       <table class="mt expanded">

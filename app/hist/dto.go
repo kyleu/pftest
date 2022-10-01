@@ -1,5 +1,5 @@
 // Content managed by Project Forge, see [projectforge.md] for details.
-package history
+package hist
 
 import (
 	"encoding/json"
@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	table         = "history"
+	table         = "hist"
 	tableQuoted   = fmt.Sprintf("%q", table)
 	columns       = []string{"id", "data", "created", "updated"}
 	columnsQuoted = util.StringArrayQuoted(columns)
@@ -25,13 +25,13 @@ type dto struct {
 	Updated *time.Time      `db:"updated"`
 }
 
-func (d *dto) ToHistory() *History {
+func (d *dto) ToHist() *Hist {
 	if d == nil {
 		return nil
 	}
 	dataArg := util.ValueMap{}
 	_ = util.FromJSON(d.Data, &dataArg)
-	return &History{
+	return &Hist{
 		ID:      d.ID,
 		Data:    dataArg,
 		Created: d.Created,
@@ -41,10 +41,10 @@ func (d *dto) ToHistory() *History {
 
 type dtos []*dto
 
-func (x dtos) ToHistories() Histories {
-	ret := make(Histories, 0, len(x))
+func (x dtos) ToHists() Hists {
+	ret := make(Hists, 0, len(x))
 	for _, d := range x {
-		ret = append(ret, d.ToHistory())
+		ret = append(ret, d.ToHist())
 	}
 	return ret
 }

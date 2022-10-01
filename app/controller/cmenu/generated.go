@@ -16,7 +16,7 @@ func generatedMenu() menu.Items {
 		&menu.Item{Key: "group", Title: "Groups", Description: "Grouped table", Icon: "star", Route: "/group", Children: menu.Items{
 			&menu.Item{Key: "child", Title: "Children", Description: "Children from groups", Icon: "star", Route: "/group/child"},
 		}},
-		&menu.Item{Key: "history", Title: "Histories", Description: "History table", Icon: "star", Route: "/history"},
+		&menu.Item{Key: "hist", Title: "Hists", Description: "History table", Icon: "star", Route: "/hist"},
 		&menu.Item{Key: "mixedcase", Title: "Mixed Cases", Description: "Table and columns with mixed casing", Icon: "star", Route: "/mixedcase"},
 		&menu.Item{Key: "reference", Title: "References", Description: "Custom Reference", Icon: "star", Route: "/reference"},
 		&menu.Item{Key: "relation", Title: "Relations", Description: "Relation Model", Icon: "star", Route: "/relation"},

@@ -33,7 +33,7 @@ var (
 type History struct {
 	layout.Basic
 	Model   *history.History
-	History *history.HistoryHistory
+	History *history.History
 }
 
 //line views/vhistory/History.html:17
@@ -138,7 +138,7 @@ func (p *History) Body(as *app.State, ps *cutil.PageState) string {
 }
 
 //line views/vhistory/History.html:51
-func StreamHistoryTable(qw422016 *qt422016.Writer, model *history.History, histories history.HistoryHistories, params filter.ParamSet, as *app.State, ps *cutil.PageState) {
+func StreamHistoryTable(qw422016 *qt422016.Writer, model *history.History, histories history.Histories, params filter.ParamSet, as *app.State, ps *cutil.PageState) {
 //line views/vhistory/History.html:51
 	qw422016.N().S(`
 `)
@@ -221,7 +221,7 @@ func StreamHistoryTable(qw422016 *qt422016.Writer, model *history.History, histo
 }
 
 //line views/vhistory/History.html:73
-func WriteHistoryTable(qq422016 qtio422016.Writer, model *history.History, histories history.HistoryHistories, params filter.ParamSet, as *app.State, ps *cutil.PageState) {
+func WriteHistoryTable(qq422016 qtio422016.Writer, model *history.History, histories history.Histories, params filter.ParamSet, as *app.State, ps *cutil.PageState) {
 //line views/vhistory/History.html:73
 	qw422016 := qt422016.AcquireWriter(qq422016)
 //line views/vhistory/History.html:73
@@ -232,7 +232,7 @@ func WriteHistoryTable(qq422016 qtio422016.Writer, model *history.History, histo
 }
 
 //line views/vhistory/History.html:73
-func HistoryTable(model *history.History, histories history.HistoryHistories, params filter.ParamSet, as *app.State, ps *cutil.PageState) string {
+func HistoryTable(model *history.History, histories history.Histories, params filter.ParamSet, as *app.State, ps *cutil.PageState) string {
 //line views/vhistory/History.html:73
 	qb422016 := qt422016.AcquireByteBuffer()
 //line views/vhistory/History.html:73

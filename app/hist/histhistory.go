@@ -1,5 +1,5 @@
 // Content managed by Project Forge, see [projectforge.md] for details.
-package history
+package hist
 
 import (
 	"encoding/json"
@@ -11,18 +11,18 @@ import (
 )
 
 type History struct {
-	ID        uuid.UUID     `json:"id"`
-	HistoryID string        `json:"historyID"`
-	Old       util.ValueMap `json:"o,omitempty"`
-	New       util.ValueMap `json:"n,omitempty"`
-	Changes   util.Diffs    `json:"c,omitempty"`
-	Created   time.Time     `json:"created"`
+	ID     uuid.UUID     `json:"id"`
+	HistID string        `json:"histID"`
+	Old    util.ValueMap `json:"o,omitempty"`
+	New    util.ValueMap `json:"n,omitempty"`
+	Changes util.Diffs    `json:"c,omitempty"`
+	Created time.Time     `json:"created"`
 }
 
 func (h *History) ToData() []any {
 	return []any{
 		h.ID,
-		h.HistoryID,
+		h.HistID,
 		util.ToJSONBytes(h.Old, true),
 		util.ToJSONBytes(h.New, true),
 		util.ToJSONBytes(h.Changes, true),
@@ -33,12 +33,12 @@ func (h *History) ToData() []any {
 type Histories []*History
 
 type historyDTO struct {
-	ID        uuid.UUID       `db:"id"`
-	HistoryID string          `db:"history_id"`
-	Old       json.RawMessage `db:"o"`
-	New       json.RawMessage `db:"n"`
-	Changes   json.RawMessage `db:"c"`
-	Created   time.Time       `db:"created"`
+	ID     uuid.UUID       `db:"id"`
+	HistID string          `db:"hist_id"`
+	Old    json.RawMessage `db:"o"`
+	New    json.RawMessage `db:"n"`
+	Changes json.RawMessage `db:"c"`
+	Created time.Time       `db:"created"`
 }
 
 func (h *historyDTO) ToHistory() *History {
@@ -48,7 +48,7 @@ func (h *historyDTO) ToHistory() *History {
 	_ = util.FromJSON(h.New, &n)
 	c := util.Diffs{}
 	_ = util.FromJSON(h.Changes, &c)
-	return &History{ID: h.ID, HistoryID: h.HistoryID, Old: o, New: n, Changes: c, Created: h.Created}
+	return &History{ID: h.ID, HistID: h.HistID, Old: o, New: n, Changes: c, Created: h.Created}
 }
 
 type historyDTOs []*historyDTO

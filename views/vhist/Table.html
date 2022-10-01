@@ -2,26 +2,26 @@
 {% import (
   "github.com/kyleu/pftest/app"
   "github.com/kyleu/pftest/app/controller/cutil"
-  "github.com/kyleu/pftest/app/history"
+  "github.com/kyleu/pftest/app/hist"
   "github.com/kyleu/pftest/app/lib/filter"
   "github.com/kyleu/pftest/views/components"
 ) %}
 
-{% func Table(models history.Histories, params filter.ParamSet, as *app.State, ps *cutil.PageState) %}
-  {%- code prms := params.Get("history", nil, ps.Logger).Sanitize("history") -%}
+{% func Table(models hist.Hists, params filter.ParamSet, as *app.State, ps *cutil.PageState) %}
+  {%- code prms := params.Get("hist", nil, ps.Logger).Sanitize("hist") -%}
   <table class="mt">
     <thead>
       <tr>
-        {%= components.TableHeaderSimple("history", "id", "ID", "String text", prms, ps.URI, ps) %}
-        {%= components.TableHeaderSimple("history", "data", "Data", "JSON object", prms, ps.URI, ps) %}
-        {%= components.TableHeaderSimple("history", "created", "Created", "Date and time, in almost any format", prms, ps.URI, ps) %}
-        {%= components.TableHeaderSimple("history", "updated", "Updated", "Date and time, in almost any format (optional)", prms, ps.URI, ps) %}
+        {%= components.TableHeaderSimple("hist", "id", "ID", "String text", prms, ps.URI, ps) %}
+        {%= components.TableHeaderSimple("hist", "data", "Data", "JSON object", prms, ps.URI, ps) %}
+        {%= components.TableHeaderSimple("hist", "created", "Created", "Date and time, in almost any format", prms, ps.URI, ps) %}
+        {%= components.TableHeaderSimple("hist", "updated", "Updated", "Date and time, in almost any format (optional)", prms, ps.URI, ps) %}
       </tr>
     </thead>
     <tbody>
       {%- for _, model := range models -%}
       <tr>
-        <td><a href="/history/{%u model.ID %}">{%s model.ID %}</a></td>
+        <td><a href="/hist/{%u model.ID %}">{%s model.ID %}</a></td>
         <td>{%= components.JSON(model.Data) %}</td>
         <td>{%= components.DisplayTimestamp(&model.Created) %}</td>
         <td>{%= components.DisplayTimestamp(model.Updated) %}</td>

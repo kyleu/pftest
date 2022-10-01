@@ -1,5 +1,5 @@
 // Content managed by Project Forge, see [projectforge.md] for details.
-package history
+package hist
 
 import (
 	"time"
@@ -9,19 +9,19 @@ import (
 	"github.com/kyleu/pftest/app/util"
 )
 
-type History struct {
+type Hist struct {
 	ID      string        `json:"id"`
 	Data    util.ValueMap `json:"data"`
 	Created time.Time     `json:"created"`
 	Updated *time.Time    `json:"updated,omitempty"`
 }
 
-func New(id string) *History {
-	return &History{ID: id}
+func New(id string) *Hist {
+	return &Hist{ID: id}
 }
 
-func Random() *History {
-	return &History{
+func Random() *Hist {
+	return &Hist{
 		ID:      util.RandomString(12),
 		Data:    util.RandomValueMap(4),
 		Created: time.Now(),
@@ -29,8 +29,8 @@ func Random() *History {
 	}
 }
 
-func FromMap(m util.ValueMap, setPK bool) (*History, error) {
-	ret := &History{}
+func FromMap(m util.ValueMap, setPK bool) (*Hist, error) {
+	ret := &Hist{}
 	var err error
 	if setPK {
 		ret.ID, err = m.ParseString("id", true, true)
@@ -49,8 +49,8 @@ func FromMap(m util.ValueMap, setPK bool) (*History, error) {
 	return ret, nil
 }
 
-func (h *History) Clone() *History {
-	return &History{
+func (h *Hist) Clone() *Hist {
+	return &Hist{
 		ID:      h.ID,
 		Data:    h.Data.Clone(),
 		Created: h.Created,
@@ -58,19 +58,19 @@ func (h *History) Clone() *History {
 	}
 }
 
-func (h *History) String() string {
+func (h *Hist) String() string {
 	return h.ID
 }
 
-func (h *History) TitleString() string {
+func (h *Hist) TitleString() string {
 	return h.String()
 }
 
-func (h *History) WebPath() string {
-	return "/history" + "/" + h.ID
+func (h *Hist) WebPath() string {
+	return "/hist" + "/" + h.ID
 }
 
-func (h *History) Diff(hx *History) util.Diffs {
+func (h *Hist) Diff(hx *Hist) util.Diffs {
 	var diffs util.Diffs
 	if h.ID != hx.ID {
 		diffs = append(diffs, util.NewDiff("id", h.ID, hx.ID))
@@ -82,13 +82,13 @@ func (h *History) Diff(hx *History) util.Diffs {
 	return diffs
 }
 
-func (h *History) ToData() []any {
+func (h *Hist) ToData() []any {
 	return []any{h.ID, h.Data, h.Created, h.Updated}
 }
 
-type Histories []*History
+type Hists []*Hist
 
-func (h Histories) Get(id string) *History {
+func (h Hists) Get(id string) *Hist {
 	for _, x := range h {
 		if x.ID == id {
 			return x
@@ -97,6 +97,6 @@ func (h Histories) Get(id string) *History {
 	return nil
 }
 
-func (h Histories) Clone() Histories {
+func (h Hists) Clone() Hists {
 	return slices.Clone(h)
 }

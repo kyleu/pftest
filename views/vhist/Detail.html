@@ -2,7 +2,7 @@
 {% import (
   "github.com/kyleu/pftest/app"
   "github.com/kyleu/pftest/app/controller/cutil"
-  "github.com/kyleu/pftest/app/history"
+  "github.com/kyleu/pftest/app/hist"
   "github.com/kyleu/pftest/app/lib/filter"
   "github.com/kyleu/pftest/views/components"
   "github.com/kyleu/pftest/views/layout"
@@ -10,19 +10,19 @@
 
 {% code type Detail struct {
   layout.Basic
-  Model *history.History
-  Histories history.Histories
+  Model *hist.Hist
+  Histories hist.Histories
   Params filter.ParamSet
 } %}
 
 {% func (p *Detail) Body(as *app.State, ps *cutil.PageState) %}
   <div class="card">
     <div class="right">
-      <a href="#modal-history"><button type="button">JSON</button></a>
+      <a href="#modal-hist"><button type="button">JSON</button></a>
       <a href="{%s p.Model.WebPath() %}/edit"><button>{%= components.SVGRef("edit", 15, 15, "icon", ps) %}Edit</button></a>
     </div>
     <h3>{%= components.SVGRefIcon(`star`, ps) %} {%s p.Model.TitleString() %}</h3>
-    <div><a href="/history"><em>History</em></a></div>
+    <div><a href="/hist"><em>Hist</em></a></div>
     <table class="mt">
       <tbody>
         <tr>
@@ -52,5 +52,5 @@
   {%- endif -%}
   {%- comment %}$PF_SECTION_START(extra)${% endcomment -%}
   {%- comment %}$PF_SECTION_END(extra)${% endcomment -%}
-  {%= components.JSONModal("history", "History JSON", p.Model, 1) %}
+  {%= components.JSONModal("hist", "Hist JSON", p.Model, 1) %}
 {% endfunc %}

@@ -1,5 +1,5 @@
 // Content managed by Project Forge, see [projectforge.md] for details.
-package history
+package hist
 
 import (
 	"context"
@@ -12,7 +12,7 @@ import (
 	"github.com/kyleu/pftest/app/util"
 )
 
-func (s *Service) Create(ctx context.Context, tx *sqlx.Tx, logger util.Logger, models ...*History) error {
+func (s *Service) Create(ctx context.Context, tx *sqlx.Tx, logger util.Logger, models ...*Hist) error {
 	if len(models) == 0 {
 		return nil
 	}
@@ -28,10 +28,10 @@ func (s *Service) Create(ctx context.Context, tx *sqlx.Tx, logger util.Logger, m
 	return s.db.Insert(ctx, q, tx, logger, vals...)
 }
 
-func (s *Service) Update(ctx context.Context, tx *sqlx.Tx, model *History, logger util.Logger) error {
+func (s *Service) Update(ctx context.Context, tx *sqlx.Tx, model *Hist, logger util.Logger) error {
 	curr, err := s.Get(ctx, tx, model.ID, logger)
 	if err != nil {
-		return errors.Wrapf(err, "can't get original history [%s]", model.String())
+		return errors.Wrapf(err, "can't get original hist [%s]", model.String())
 	}
 	model.Created = curr.Created
 	model.Updated = util.NowPointer()
@@ -50,7 +50,7 @@ func (s *Service) Update(ctx context.Context, tx *sqlx.Tx, model *History, logge
 	return nil
 }
 
-func (s *Service) UpdateIfNeeded(ctx context.Context, tx *sqlx.Tx, model *History, logger util.Logger) error {
+func (s *Service) UpdateIfNeeded(ctx context.Context, tx *sqlx.Tx, model *Hist, logger util.Logger) error {
 	curr, err := s.Get(ctx, tx, model.ID, logger)
 	if curr == nil || err != nil {
 		return s.Create(ctx, tx, logger, model)
@@ -75,7 +75,7 @@ func (s *Service) UpdateIfNeeded(ctx context.Context, tx *sqlx.Tx, model *Histor
 	return nil
 }
 
-func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, logger util.Logger, models ...*History) error {
+func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, logger util.Logger, models ...*Hist) error {
 	if len(models) == 0 {
 		return nil
 	}

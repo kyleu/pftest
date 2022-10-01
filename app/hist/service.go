@@ -1,5 +1,5 @@
 // Content managed by Project Forge, see [projectforge.md] for details.
-package history
+package hist
 
 import (
 	"github.com/kyleu/pftest/app/lib/database"
@@ -11,10 +11,10 @@ type Service struct {
 }
 
 func NewService(db *database.Service) *Service {
-	filter.AllowedColumns["history"] = columns
+	filter.AllowedColumns["hist"] = columns
 	return &Service{db: db}
 }
 
 func filters(orig *filter.Params) *filter.Params {
-	return orig.Sanitize("history", &filter.Ordering{Column: "created"})
+	return orig.Sanitize("hist", &filter.Ordering{Column: "created"})
 }

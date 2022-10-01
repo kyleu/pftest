@@ -1,5 +1,5 @@
 // Content managed by Project Forge, see [projectforge.md] for details.
-package history
+package hist
 
 import (
 	"context"
@@ -13,16 +13,16 @@ import (
 	"github.com/kyleu/pftest/app/util"
 )
 
-func (s *Service) List(ctx context.Context, tx *sqlx.Tx, params *filter.Params, logger util.Logger) (Histories, error) {
+func (s *Service) List(ctx context.Context, tx *sqlx.Tx, params *filter.Params, logger util.Logger) (Hists, error) {
 	params = filters(params)
 	wc := ""
 	q := database.SQLSelect(columnsString, tableQuoted, wc, params.OrderByString(), params.Limit, params.Offset)
 	ret := dtos{}
 	err := s.db.Select(ctx, &ret, q, tx, logger)
 	if err != nil {
-		return nil, errors.Wrap(err, "unable to get histories")
+		return nil, errors.Wrap(err, "unable to get hists")
 	}
-	return ret.ToHistories(), nil
+	return ret.ToHists(), nil
 }
 
 func (s *Service) Count(ctx context.Context, tx *sqlx.Tx, whereClause string, logger util.Logger, args ...any) (int, error) {
@@ -32,25 +32,25 @@ func (s *Service) Count(ctx context.Context, tx *sqlx.Tx, whereClause string, lo
 	q := database.SQLSelectSimple(columnsString, tableQuoted, whereClause)
 	ret, err := s.db.SingleInt(ctx, q, tx, logger, args...)
 	if err != nil {
-		return 0, errors.Wrap(err, "unable to get count of histories")
+		return 0, errors.Wrap(err, "unable to get count of hists")
 	}
 	return int(ret), nil
 }
 
-func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, id string, logger util.Logger) (*History, error) {
+func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, id string, logger util.Logger) (*Hist, error) {
 	wc := defaultWC(0)
 	ret := &dto{}
 	q := database.SQLSelectSimple(columnsString, tableQuoted, wc)
 	err := s.db.Get(ctx, ret, q, tx, logger, id)
 	if err != nil {
-		return nil, errors.Wrapf(err, "unable to get history by id [%v]", id)
+		return nil, errors.Wrapf(err, "unable to get hist by id [%v]", id)
 	}
-	return ret.ToHistory(), nil
+	return ret.ToHist(), nil
 }
 
-func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, logger util.Logger, ids ...string) (Histories, error) {
+func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, logger util.Logger, ids ...string) (Hists, error) {
 	if len(ids) == 0 {
-		return Histories{}, nil
+		return Hists{}, nil
 	}
 	wc := database.SQLInClause("id", len(ids), 0)
 	ret := dtos{}
@@ -61,16 +61,16 @@ func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, logger util.Logg
 	}
 	err := s.db.Select(ctx, &ret, q, tx, logger, vals...)
 	if err != nil {
-		return nil, errors.Wrapf(err, "unable to get Histories for [%d] ids", len(ids))
+		return nil, errors.Wrapf(err, "unable to get Hists for [%d] ids", len(ids))
 	}
-	return ret.ToHistories(), nil
+	return ret.ToHists(), nil
 }
 
-func (s *Service) ListSQL(ctx context.Context, tx *sqlx.Tx, sql string, logger util.Logger) (Histories, error) {
+func (s *Service) ListSQL(ctx context.Context, tx *sqlx.Tx, sql string, logger util.Logger) (Hists, error) {
 	ret := dtos{}
 	err := s.db.Select(ctx, &ret, sql, tx, logger)
 	if err != nil {
-		return nil, errors.Wrap(err, "unable to get histories using custom SQL")
+		return nil, errors.Wrap(err, "unable to get hists using custom SQL")
 	}
-	return ret.ToHistories(), nil
+	return ret.ToHists(), nil
 }

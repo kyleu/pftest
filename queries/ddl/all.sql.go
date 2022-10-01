@@ -71,7 +71,7 @@ func StreamDropAll(qw422016 *qt422016.Writer) {
 	qw422016.N().S(`
 -- `)
 //line queries/ddl/all.sql:12
-	StreamHistoryDrop(qw422016)
+	StreamHistDrop(qw422016)
 //line queries/ddl/all.sql:12
 	qw422016.N().S(`
 -- `)
@@ -152,7 +152,7 @@ func StreamCreateAll(qw422016 *qt422016.Writer) {
 	qw422016.N().S(`
 -- `)
 //line queries/ddl/all.sql:24
-	StreamHistoryCreate(qw422016)
+	StreamHistCreate(qw422016)
 //line queries/ddl/all.sql:24
 	qw422016.N().S(`
 -- `)

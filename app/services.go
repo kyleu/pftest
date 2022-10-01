@@ -11,7 +11,7 @@ import (
 	"github.com/kyleu/pftest/app/capital"
 	"github.com/kyleu/pftest/app/g1/g2/path"
 	"github.com/kyleu/pftest/app/group"
-	"github.com/kyleu/pftest/app/history"
+	"github.com/kyleu/pftest/app/hist"
 	"github.com/kyleu/pftest/app/lib/audit"
 	"github.com/kyleu/pftest/app/lib/database/migrate"
 	"github.com/kyleu/pftest/app/mixedcase"
@@ -34,7 +34,7 @@ type Services struct {
 	Seed      *seed.Service
 	Timestamp *timestamp.Service
 	Softdel   *softdel.Service
-	History   *history.Service
+	Hist      *hist.Service
 	Version   *version.Service
 	Group     *group.Service
 	MixedCase *mixedcase.Service
@@ -81,7 +81,7 @@ func NewServices(ctx context.Context, st *State, logger util.Logger) (*Services,
 		Seed:      seed.NewService(st.DB),
 		Timestamp: timestamp.NewService(st.DB),
 		Softdel:   softdel.NewService(st.DB),
-		History:   history.NewService(st.DB),
+		Hist:      hist.NewService(st.DB),
 		Version:   version.NewService(st.DB),
 		Group:     group.NewService(st.DB),
 		MixedCase: mixedcase.NewService(st.DB),

@@ -1,6 +1,6 @@
 {
-  "name": "history",
-  "package": "history",
+  "name": "hist",
+  "package": "hist",
   "description": "History table",
   "icon": "star",
   "ordering": [
