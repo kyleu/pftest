@@ -5,6 +5,7 @@ import (
 	"github.com/fasthttp/router"
 	"github.com/valyala/fasthttp"
 
+	"github.com/kyleu/pftest/app"
 	"github.com/kyleu/pftest/app/controller"
 	"github.com/kyleu/pftest/app/controller/clib"
 	"github.com/kyleu/pftest/app/controller/cutil"
@@ -12,7 +13,7 @@ import (
 	"github.com/kyleu/pftest/app/util"
 )
 
-func AppRoutes(logger util.Logger) fasthttp.RequestHandler {
+func AppRoutes(as *app.State, logger util.Logger) fasthttp.RequestHandler {
 	r := router.New()
 
 	r.GET("/", controller.Home)

@@ -3,6 +3,7 @@ package app
 
 import (
 	"context"
+	"encoding/json"
 
 	"github.com/pkg/errors"
 
@@ -14,6 +15,7 @@ import (
 	"github.com/kyleu/pftest/app/hist"
 	"github.com/kyleu/pftest/app/lib/audit"
 	"github.com/kyleu/pftest/app/lib/database/migrate"
+	"github.com/kyleu/pftest/app/lib/websocket"
 	"github.com/kyleu/pftest/app/mixedcase"
 	"github.com/kyleu/pftest/app/reference"
 	"github.com/kyleu/pftest/app/relation"
@@ -42,6 +44,7 @@ type Services struct {
 	Capital   *capital.Service
 	Path      *path.Service
 	Audit     *audit.Service
+	Socket    *websocket.Service
 }
 
 type x struct{}
@@ -73,6 +76,8 @@ func NewServices(ctx context.Context, st *State, logger util.Logger) (*Services,
 		return nil, errors.Wrap(err, "unable to register GraphQL schema")
 	}
 
+	sock := websocket.NewService(logger, nil, socketHandler, nil, nil)
+
 	return &Services{
 		Basic:     basic.NewService(st.DB),
 		Relation:  relation.NewService(st.DB),
@@ -89,9 +94,23 @@ func NewServices(ctx context.Context, st *State, logger util.Logger) (*Services,
 		Capital:   capital.NewService(st.DB),
 		Path:      path.NewService(st.DB),
 		Audit:     aud,
+		Socket:    sock,
 	}, nil
 }
 
 func (s *Services) Close(_ context.Context, logger util.Logger) error {
+	return nil
+}
+
+func socketHandler(s *websocket.Service, c *websocket.Connection, svc string, cmd string, param json.RawMessage) error {
+	switch cmd {
+	case "connect":
+		_, err := s.Join(c.ID, "tap")
+		if err != nil {
+			return err
+		}
+	default:
+		s.Logger.Error("unhandled command [" + cmd + "]")
+	}
 	return nil
 }
