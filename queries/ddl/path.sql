@@ -11,4 +11,5 @@ create table if not exists "path" (
   "created" timestamp not null default now(),
   primary key ("id")
 );
+create index if not exists "basic_created_idx" on "basic" ("created");
 -- {% endfunc %}

@@ -68,32 +68,33 @@ create table if not exists "path" (
   "created" timestamp not null default now(),
   primary key ("id")
 );
+create index if not exists "basic_created_idx" on "basic" ("created");
 -- `)
-//line queries/ddl/path.sql:14
+//line queries/ddl/path.sql:15
 }
 
-//line queries/ddl/path.sql:14
+//line queries/ddl/path.sql:15
 func WritePathCreate(qq422016 qtio422016.Writer) {
-//line queries/ddl/path.sql:14
+//line queries/ddl/path.sql:15
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line queries/ddl/path.sql:14
+//line queries/ddl/path.sql:15
 	StreamPathCreate(qw422016)
-//line queries/ddl/path.sql:14
+//line queries/ddl/path.sql:15
 	qt422016.ReleaseWriter(qw422016)
-//line queries/ddl/path.sql:14
+//line queries/ddl/path.sql:15
 }
 
-//line queries/ddl/path.sql:14
+//line queries/ddl/path.sql:15
 func PathCreate() string {
-//line queries/ddl/path.sql:14
+//line queries/ddl/path.sql:15
 	qb422016 := qt422016.AcquireByteBuffer()
-//line queries/ddl/path.sql:14
+//line queries/ddl/path.sql:15
 	WritePathCreate(qb422016)
-//line queries/ddl/path.sql:14
+//line queries/ddl/path.sql:15
 	qs422016 := string(qb422016.B)
-//line queries/ddl/path.sql:14
+//line queries/ddl/path.sql:15
 	qt422016.ReleaseByteBuffer(qb422016)
-//line queries/ddl/path.sql:14
+//line queries/ddl/path.sql:15
 	return qs422016
-//line queries/ddl/path.sql:14
+//line queries/ddl/path.sql:15
 }
