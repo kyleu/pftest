@@ -24,12 +24,15 @@
     "notarize",
     "oauth",
     "postgres",
+    "process",
+    "readonlydb",
     "sandbox",
     "schema",
     "search",
     "sqlite",
     "types",
     "upgrade",
+    "wasm",
     "websocket"
   ],
   "tags": [
@@ -115,4 +118,3 @@
     "snapcraft": true
   }
 }
-

@@ -27,7 +27,7 @@ var (
 func (s *Service) GetHistory(ctx context.Context, tx *sqlx.Tx, id uuid.UUID, logger util.Logger) (*History, error) {
 	q := database.SQLSelectSimple(historyColumnsString, historyTableQuoted, "id = $1")
 	ret := historyDTO{}
-	err := s.db.Get(ctx, &ret, q, tx, logger, id)
+	err := s.dbRead.Get(ctx, &ret, q, tx, logger, id)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to get hist history [%s]", id.String())
 	}
@@ -37,7 +37,7 @@ func (s *Service) GetHistory(ctx context.Context, tx *sqlx.Tx, id uuid.UUID, log
 func (s *Service) GetHistories(ctx context.Context, tx *sqlx.Tx, id string, logger util.Logger) (Histories, error) {
 	q := database.SQLSelectSimple(historyColumnsString, historyTableQuoted, "hist_id = $1")
 	ret := historyDTOs{}
-	err := s.db.Select(ctx, &ret, q, tx, logger, id)
+	err := s.dbRead.Select(ctx, &ret, q, tx, logger, id)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to get hists by id [%v]", id)
 	}

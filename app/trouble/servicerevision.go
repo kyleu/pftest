@@ -21,7 +21,7 @@ func (s *Service) GetAllSelectcols(ctx context.Context, tx *sqlx.Tx, from string
 	tablesJoinedParam := fmt.Sprintf("%q t join %q tr on t.\"from\" = tr.\"trouble_from\" and t.\"where\" = tr.\"trouble_where\"", table, tableSelectcol)
 	q := database.SQLSelect(columnsString, tablesJoinedParam, wc, params.OrderByString(), params.Limit, params.Offset)
 	ret := dtos{}
-	err := s.db.Select(ctx, &ret, q, tx, logger, from, where)
+	err := s.dbRead.Select(ctx, &ret, q, tx, logger, from, where)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to get Troubles")
 	}
@@ -33,7 +33,7 @@ func (s *Service) GetSelectcol(ctx context.Context, tx *sqlx.Tx, from string, wh
 	ret := &dto{}
 	tablesJoinedParam := fmt.Sprintf("%q t join %q tr on t.\"from\" = tr.\"trouble_from\" and t.\"where\" = tr.\"trouble_where\"", table, tableSelectcol)
 	q := database.SQLSelectSimple(columnsString, tablesJoinedParam, wc)
-	err := s.db.Get(ctx, ret, q, tx, logger, from, where, selectcol)
+	err := s.dbRead.Get(ctx, ret, q, tx, logger, from, where, selectcol)
 	if err != nil {
 		return nil, err
 	}
@@ -55,7 +55,7 @@ func (s *Service) getCurrentSelectcols(ctx context.Context, tx *sqlx.Tx, logger 
 		Where            int    `db:"where"`
 		CurrentSelectcol int    `db:"current_selectcol"`
 	}
-	err := s.db.Select(ctx, &results, q, tx, logger, vals...)
+	err := s.dbRead.Select(ctx, &results, q, tx, logger, vals...)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to get Troubles")
 	}

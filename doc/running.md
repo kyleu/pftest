@@ -25,6 +25,14 @@ All variable names can be set in uppercase or lowercase
 | `oauth_redirect`          | string | final URL to use for OAuth callbacks, overrides other options                    |
 | `openid_connect_name`     | string | when OpenID is enabled, this controls the display name                           |
 | `openid_connect_url`      | string | when OpenID is enabled, this determines the URL                                  |
+| `read_db_database`        | string | database for the read-only PostgreSQL connection                                 |
+| `read_db_debug`           | bool   | when set, logs all database interactions for the read-only database              |
+| `read_db_host`            | string | hostname for the read-only PostgreSQL connection, defaults to `localhost`        |
+| `read_db_password`        | string | password for the read-only PostgreSQL connection                                 |
+| `read_db_port`            | int    | port for the read-only PostgreSQL connection, defaults to `3306`                 |
+| `read_db_schema`          | string | schema for the read-only PostgreSQL connection                                   |
+| `read_db_user`            | string | user for the read-only PostgreSQL connection                                     |
+| `read_max_connections`    | int    | max connection count for the read-only PostgreSQL connection                     |
 | `telemetry_disabled`      | bool   | when set, disables all telemetry                                                 |
 | `telemetry_endpoint`      | string | address of OpenTelemetry collector (when enabled), defaults to `localhost:55681` |
 | `pftest_encryption_key`   | string | encryption key for web sessions, defaults to `pftest_secret`, warns if missing   |

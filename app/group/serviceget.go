@@ -18,7 +18,7 @@ func (s *Service) List(ctx context.Context, tx *sqlx.Tx, params *filter.Params, 
 	wc := ""
 	q := database.SQLSelect(columnsString, tableQuoted, wc, params.OrderByString(), params.Limit, params.Offset)
 	ret := dtos{}
-	err := s.db.Select(ctx, &ret, q, tx, logger)
+	err := s.dbRead.Select(ctx, &ret, q, tx, logger)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to get groups")
 	}
@@ -30,7 +30,7 @@ func (s *Service) Count(ctx context.Context, tx *sqlx.Tx, whereClause string, lo
 		return 0, errors.Errorf("invalid where clause [%s]", whereClause)
 	}
 	q := database.SQLSelectSimple(columnsString, tableQuoted, whereClause)
-	ret, err := s.db.SingleInt(ctx, q, tx, logger, args...)
+	ret, err := s.dbRead.SingleInt(ctx, q, tx, logger, args...)
 	if err != nil {
 		return 0, errors.Wrap(err, "unable to get count of groups")
 	}
@@ -41,7 +41,7 @@ func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, id string, logger util.L
 	wc := defaultWC(0)
 	ret := &dto{}
 	q := database.SQLSelectSimple(columnsString, tableQuoted, wc)
-	err := s.db.Get(ctx, ret, q, tx, logger, id)
+	err := s.dbRead.Get(ctx, ret, q, tx, logger, id)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to get group by id [%v]", id)
 	}
@@ -59,7 +59,7 @@ func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, logger util.Logg
 	for _, x := range ids {
 		vals = append(vals, x)
 	}
-	err := s.db.Select(ctx, &ret, q, tx, logger, vals...)
+	err := s.dbRead.Select(ctx, &ret, q, tx, logger, vals...)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to get Groups for [%d] ids", len(ids))
 	}
@@ -70,7 +70,7 @@ func (s *Service) GetChildren(ctx context.Context, tx *sqlx.Tx, logger util.Logg
 	wc := ""
 	q := database.SQLSelectGrouped("\"child\" as key, count(*) as val", tableQuoted, wc, "\"child\"", "\"child\"", 0, 0)
 	var ret []*util.KeyValInt
-	err := s.db.Select(ctx, &ret, q, tx, logger)
+	err := s.dbRead.Select(ctx, &ret, q, tx, logger)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to get groups by child")
 	}
@@ -82,7 +82,7 @@ func (s *Service) GetByChild(ctx context.Context, tx *sqlx.Tx, child string, par
 	wc := "\"child\" = $1"
 	q := database.SQLSelect(columnsString, tableQuoted, wc, params.OrderByString(), params.Limit, params.Offset)
 	ret := dtos{}
-	err := s.db.Select(ctx, &ret, q, tx, logger, child)
+	err := s.dbRead.Select(ctx, &ret, q, tx, logger, child)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to get groups by child [%v]", child)
 	}
@@ -91,7 +91,7 @@ func (s *Service) GetByChild(ctx context.Context, tx *sqlx.Tx, child string, par
 
 func (s *Service) ListSQL(ctx context.Context, tx *sqlx.Tx, sql string, logger util.Logger) (Groups, error) {
 	ret := dtos{}
-	err := s.db.Select(ctx, &ret, sql, tx, logger)
+	err := s.dbRead.Select(ctx, &ret, sql, tx, logger)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to get groups using custom SQL")
 	}

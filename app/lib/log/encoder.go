@@ -1,4 +1,7 @@
 // Content managed by Project Forge, see [projectforge.md] for details.
+//go:build !js
+// +build !js
+
 package log
 
 import (
@@ -49,7 +52,7 @@ func (e *customEncoder) EncodeEntry(entry zapcore.Entry, fields []zapcore.Field)
 	}
 
 	lvl := fmt.Sprintf("%-5v", entry.Level.CapitalString())
-	lvl = levelToColor[entry.Level].Add(lvl)
+	lvl = levelToColor[entry.Level.String()].Add(lvl)
 	tm := entry.Time.Format(timeFormat)
 
 	msg := entry.Message

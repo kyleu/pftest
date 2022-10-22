@@ -3,7 +3,6 @@ package controller
 
 import (
 	"github.com/valyala/fasthttp"
-	"go.uber.org/zap"
 
 	"github.com/kyleu/pftest/app"
 	"github.com/kyleu/pftest/app/controller/cutil"
@@ -35,7 +34,7 @@ func SandboxRun(rc *fasthttp.RequestCtx) {
 		ctx, span, logger := telemetry.StartSpan(ps.Context, "sandbox."+key, ps.Logger)
 		defer span.Complete()
 
-		ret, err := sb.Run(ctx, as, logger.With(zap.String("sandbox", key)))
+		ret, err := sb.Run(ctx, as, logger.With("sandbox", key))
 		if err != nil {
 			return "", err
 		}
@@ -43,6 +42,9 @@ func SandboxRun(rc *fasthttp.RequestCtx) {
 		ps.Data = ret
 		if sb.Key == "testbed" {
 			return Render(rc, as, &vsandbox.Testbed{}, ps, "sandbox", sb.Key)
+		}
+		if sb.Key == "wasm" {
+			return Render(rc, as, &vsandbox.WASM{}, ps, "sandbox", sb.Key)
 		}
 		return Render(rc, as, &vsandbox.Run{Key: key, Title: sb.Title, Icon: sb.Icon, Result: ret}, ps, "sandbox", sb.Key)
 	})

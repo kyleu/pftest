@@ -15,6 +15,7 @@ import (
 	"github.com/kyleu/pftest/app/hist"
 	"github.com/kyleu/pftest/app/lib/audit"
 	"github.com/kyleu/pftest/app/lib/database/migrate"
+	"github.com/kyleu/pftest/app/lib/exec"
 	"github.com/kyleu/pftest/app/lib/websocket"
 	"github.com/kyleu/pftest/app/mixedcase"
 	"github.com/kyleu/pftest/app/reference"
@@ -44,6 +45,7 @@ type Services struct {
 	Capital   *capital.Service
 	Path      *path.Service
 	Audit     *audit.Service
+	Exec      *exec.Service
 	Socket    *websocket.Service
 }
 
@@ -60,8 +62,6 @@ func NewServices(ctx context.Context, st *State, logger util.Logger) (*Services,
 		return nil, errors.Wrap(err, "unable to migrate database")
 	}
 
-	aud := audit.NewService(st.DB, logger)
-
 	sch := `type Query {
 		hello: String!
 	}`
@@ -76,24 +76,26 @@ func NewServices(ctx context.Context, st *State, logger util.Logger) (*Services,
 		return nil, errors.Wrap(err, "unable to register GraphQL schema")
 	}
 
+	aud := audit.NewService(st.DB, logger)
 	sock := websocket.NewService(logger, nil, socketHandler, nil, nil)
 
 	return &Services{
-		Basic:     basic.NewService(st.DB),
-		Relation:  relation.NewService(st.DB),
-		Reference: reference.NewService(st.DB),
+		Basic:     basic.NewService(st.DB, st.DBRead),
+		Relation:  relation.NewService(st.DB, st.DBRead),
+		Reference: reference.NewService(st.DB, st.DBRead),
 		Audited:   audited.NewService(st.DB, aud),
-		Seed:      seed.NewService(st.DB),
-		Timestamp: timestamp.NewService(st.DB),
-		Softdel:   softdel.NewService(st.DB),
-		Hist:      hist.NewService(st.DB),
-		Version:   version.NewService(st.DB),
-		Group:     group.NewService(st.DB),
-		MixedCase: mixedcase.NewService(st.DB),
-		Trouble:   trouble.NewService(st.DB),
-		Capital:   capital.NewService(st.DB),
-		Path:      path.NewService(st.DB),
+		Seed:      seed.NewService(st.DB, st.DBRead),
+		Timestamp: timestamp.NewService(st.DB, st.DBRead),
+		Softdel:   softdel.NewService(st.DB, st.DBRead),
+		Hist:      hist.NewService(st.DB, st.DBRead),
+		Version:   version.NewService(st.DB, st.DBRead),
+		Group:     group.NewService(st.DB, st.DBRead),
+		MixedCase: mixedcase.NewService(st.DB, st.DBRead),
+		Trouble:   trouble.NewService(st.DB, st.DBRead),
+		Capital:   capital.NewService(st.DB, st.DBRead),
+		Path:      path.NewService(st.DB, st.DBRead),
 		Audit:     aud,
+		Exec:      exec.NewService(),
 		Socket:    sock,
 	}, nil
 }

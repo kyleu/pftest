@@ -8,8 +8,9 @@ import (
 )
 
 type Service struct {
-	db    *database.Service
-	audit *audit.Service
+	db     *database.Service
+	dbRead *database.Service
+	audit  *audit.Service
 }
 
 func NewService(db *database.Service, aud *audit.Service) *Service {

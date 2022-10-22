@@ -17,6 +17,7 @@
 -- {% endfunc %}
 
 -- {% func CreateAll() %}
+-- {%= TypesCreate() %}
 -- {%= CapitalCreate() %}
 -- {%= AuditedCreate() %}
 -- {%= BasicCreate() %}

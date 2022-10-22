@@ -22,7 +22,7 @@ func (s *Service) List(ctx context.Context, tx *sqlx.Tx, params *filter.Params, 
 	}
 	q := database.SQLSelect(columnsString, tablesJoined, wc, params.OrderByString(), params.Limit, params.Offset)
 	ret := dtos{}
-	err := s.db.Select(ctx, &ret, q, tx, logger)
+	err := s.dbRead.Select(ctx, &ret, q, tx, logger)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to get troubles")
 	}
@@ -41,7 +41,7 @@ func (s *Service) Count(ctx context.Context, tx *sqlx.Tx, whereClause string, in
 		}
 	}
 	q := database.SQLSelectSimple(columnsString, tablesJoined, whereClause)
-	ret, err := s.db.SingleInt(ctx, q, tx, logger, args...)
+	ret, err := s.dbRead.SingleInt(ctx, q, tx, logger, args...)
 	if err != nil {
 		return 0, errors.Wrap(err, "unable to get count of troubles")
 	}
@@ -53,7 +53,7 @@ func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, from string, where int, 
 	wc = addDeletedClause(wc, includeDeleted)
 	ret := &dto{}
 	q := database.SQLSelectSimple(columnsString, tablesJoined, wc)
-	err := s.db.Get(ctx, ret, q, tx, logger, from, where)
+	err := s.dbRead.Get(ctx, ret, q, tx, logger, from, where)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to get trouble by from [%v], where [%v]", from, where)
 	}
@@ -79,7 +79,7 @@ func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, includeDeleted b
 	for _, x := range pks {
 		vals = append(vals, x.From, x.Where)
 	}
-	err := s.db.Select(ctx, &ret, q, tx, logger, vals...)
+	err := s.dbRead.Select(ctx, &ret, q, tx, logger, vals...)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to get Troubles for [%d] pks", len(pks))
 	}
@@ -92,7 +92,7 @@ func (s *Service) GetByFrom(ctx context.Context, tx *sqlx.Tx, from string, param
 	wc = addDeletedClause(wc, includeDeleted)
 	q := database.SQLSelect(columnsString, tablesJoined, wc, params.OrderByString(), params.Limit, params.Offset)
 	ret := dtos{}
-	err := s.db.Select(ctx, &ret, q, tx, logger, from)
+	err := s.dbRead.Select(ctx, &ret, q, tx, logger, from)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to get troubles by from [%v]", from)
 	}
@@ -105,7 +105,7 @@ func (s *Service) GetByWhere(ctx context.Context, tx *sqlx.Tx, where int, params
 	wc = addDeletedClause(wc, includeDeleted)
 	q := database.SQLSelect(columnsString, tablesJoined, wc, params.OrderByString(), params.Limit, params.Offset)
 	ret := dtos{}
-	err := s.db.Select(ctx, &ret, q, tx, logger, where)
+	err := s.dbRead.Select(ctx, &ret, q, tx, logger, where)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to get troubles by where [%v]", where)
 	}
@@ -114,7 +114,7 @@ func (s *Service) GetByWhere(ctx context.Context, tx *sqlx.Tx, where int, params
 
 func (s *Service) ListSQL(ctx context.Context, tx *sqlx.Tx, sql string, logger util.Logger) (Troubles, error) {
 	ret := dtos{}
-	err := s.db.Select(ctx, &ret, sql, tx, logger)
+	err := s.dbRead.Select(ctx, &ret, sql, tx, logger)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to get troubles using custom SQL")
 	}

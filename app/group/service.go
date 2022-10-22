@@ -7,12 +7,13 @@ import (
 )
 
 type Service struct {
-	db *database.Service
+	db     *database.Service
+	dbRead *database.Service
 }
 
-func NewService(db *database.Service) *Service {
+func NewService(db *database.Service, dbRead *database.Service) *Service {
 	filter.AllowedColumns["group"] = columns
-	return &Service{db: db}
+	return &Service{db: db, dbRead: dbRead}
 }
 
 func filters(orig *filter.Params) *filter.Params {

@@ -16,10 +16,12 @@ templates:
 
 .PHONY: build
 build: templates ## Build all binaries
+	@GOOS=js GOARCH=wasm go build -o ./assets/wasm/pftest.wasm ./app/wasm/...
 	@go build -gcflags "all=-N -l" -o build/debug/pftest .
 
 .PHONY: build-release
 build-release: templates ## Build all binaries without debug information, clean up after
+	@GOOS=js GOARCH=wasm go build -o ./assets/wasm/pftest.wasm ./app/wasm/...
 	@go build -ldflags '-s -w' -trimpath -o build/release/pftest .
 
 .PHONY: lint

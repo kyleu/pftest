@@ -36,20 +36,11 @@ type State struct {
 	Files     filesystem.FileLoader
 	Auth      *auth.Service
 	DB        *database.Service
+	DBRead    *database.Service
 	GraphQL   *graphql.Service
 	Themes    *theme.Service
 	Services  *Services
 	Started   time.Time
-}
-
-func (s State) Close(ctx context.Context, logger util.Logger) error {
-	if err := s.DB.Close(); err != nil {
-		logger.Errorf("error closing database: %+v", err)
-	}
-	if err := s.GraphQL.Close(); err != nil {
-		logger.Errorf("error closing GraphQL service: %+v", err)
-	}
-	return s.Services.Close(ctx, logger)
 }
 
 func NewState(debug bool, bi *BuildInfo, f filesystem.FileLoader, enableTelemetry bool, logger util.Logger) (*State, error) {
@@ -73,4 +64,17 @@ func NewState(debug bool, bi *BuildInfo, f filesystem.FileLoader, enableTelemetr
 		Themes:    ts,
 		Started:   time.Now(),
 	}, nil
+}
+
+func (s State) Close(ctx context.Context, logger util.Logger) error {
+	if err := s.DB.Close(); err != nil {
+		logger.Errorf("error closing database: %+v", err)
+	}
+	if err := s.DBRead.Close(); err != nil {
+		logger.Errorf("error closing read-only database: %+v", err)
+	}
+	if err := s.GraphQL.Close(); err != nil {
+		logger.Errorf("error closing GraphQL service: %+v", err)
+	}
+	return s.Services.Close(ctx, logger)
 }

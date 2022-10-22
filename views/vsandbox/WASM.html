@@ -1,0 +1,26 @@
+<!-- Content managed by Project Forge, see [projectforge.md] for details. -->
+{% import (
+  "github.com/kyleu/pftest/app"
+  "github.com/kyleu/pftest/app/controller/cutil"
+  "github.com/kyleu/pftest/app/util"
+  "github.com/kyleu/pftest/views/components"
+  "github.com/kyleu/pftest/views/layout"
+  "github.com/kyleu/pftest/views/vutil"
+) %}
+
+{% code type WASM struct {
+  layout.Basic
+} %}
+
+{% func (p *WASM) Body(as *app.State, ps *cutil.PageState) %}
+<div class="card">
+  <h3>{%= components.SVGRefIcon(`gift`, ps) %}{%s util.AppName %} WASM</h3>
+  <em id="load-status">Loading...</em>
+</div>
+<script>
+  function wasmInit(ms) {
+    document.getElementById("load-status").innerText = "Loaded in [" + ms + "ms]";
+  }
+</script>
+{%= vutil.WASMScript() %}
+{% endfunc %}

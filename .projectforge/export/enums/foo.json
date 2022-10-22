@@ -1,0 +1,12 @@
+{
+  "name": "foo",
+  "package": "foo",
+  "description": "Foo",
+  "icon": "star",
+  "values": [
+    "a",
+    "b",
+    "c",
+    "d"
+  ]
+}

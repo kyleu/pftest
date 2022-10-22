@@ -132,100 +132,105 @@ func StreamCreateAll(qw422016 *qt422016.Writer) {
 	qw422016.N().S(`
 -- `)
 //line queries/ddl/all.sql:20
-	StreamCapitalCreate(qw422016)
+	StreamTypesCreate(qw422016)
 //line queries/ddl/all.sql:20
 	qw422016.N().S(`
 -- `)
 //line queries/ddl/all.sql:21
-	StreamAuditedCreate(qw422016)
+	StreamCapitalCreate(qw422016)
 //line queries/ddl/all.sql:21
 	qw422016.N().S(`
 -- `)
 //line queries/ddl/all.sql:22
-	StreamBasicCreate(qw422016)
+	StreamAuditedCreate(qw422016)
 //line queries/ddl/all.sql:22
 	qw422016.N().S(`
 -- `)
 //line queries/ddl/all.sql:23
-	StreamGroupCreate(qw422016)
+	StreamBasicCreate(qw422016)
 //line queries/ddl/all.sql:23
 	qw422016.N().S(`
 -- `)
 //line queries/ddl/all.sql:24
-	StreamHistCreate(qw422016)
+	StreamGroupCreate(qw422016)
 //line queries/ddl/all.sql:24
 	qw422016.N().S(`
 -- `)
 //line queries/ddl/all.sql:25
-	StreamMixedCaseCreate(qw422016)
+	StreamHistCreate(qw422016)
 //line queries/ddl/all.sql:25
 	qw422016.N().S(`
 -- `)
 //line queries/ddl/all.sql:26
-	StreamPathCreate(qw422016)
+	StreamMixedCaseCreate(qw422016)
 //line queries/ddl/all.sql:26
 	qw422016.N().S(`
 -- `)
 //line queries/ddl/all.sql:27
-	StreamReferenceCreate(qw422016)
+	StreamPathCreate(qw422016)
 //line queries/ddl/all.sql:27
 	qw422016.N().S(`
 -- `)
 //line queries/ddl/all.sql:28
-	StreamRelationCreate(qw422016)
+	StreamReferenceCreate(qw422016)
 //line queries/ddl/all.sql:28
 	qw422016.N().S(`
 -- `)
 //line queries/ddl/all.sql:29
-	StreamSeedCreate(qw422016)
+	StreamRelationCreate(qw422016)
 //line queries/ddl/all.sql:29
 	qw422016.N().S(`
 -- `)
 //line queries/ddl/all.sql:30
-	StreamSoftdelCreate(qw422016)
+	StreamSeedCreate(qw422016)
 //line queries/ddl/all.sql:30
 	qw422016.N().S(`
 -- `)
 //line queries/ddl/all.sql:31
-	StreamTimestampCreate(qw422016)
+	StreamSoftdelCreate(qw422016)
 //line queries/ddl/all.sql:31
 	qw422016.N().S(`
 -- `)
 //line queries/ddl/all.sql:32
-	StreamTroubleCreate(qw422016)
+	StreamTimestampCreate(qw422016)
 //line queries/ddl/all.sql:32
 	qw422016.N().S(`
 -- `)
 //line queries/ddl/all.sql:33
-	StreamVersionCreate(qw422016)
+	StreamTroubleCreate(qw422016)
 //line queries/ddl/all.sql:33
 	qw422016.N().S(`
 -- `)
 //line queries/ddl/all.sql:34
+	StreamVersionCreate(qw422016)
+//line queries/ddl/all.sql:34
+	qw422016.N().S(`
+-- `)
+//line queries/ddl/all.sql:35
 }
 
-//line queries/ddl/all.sql:34
+//line queries/ddl/all.sql:35
 func WriteCreateAll(qq422016 qtio422016.Writer) {
-//line queries/ddl/all.sql:34
+//line queries/ddl/all.sql:35
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line queries/ddl/all.sql:34
+//line queries/ddl/all.sql:35
 	StreamCreateAll(qw422016)
-//line queries/ddl/all.sql:34
+//line queries/ddl/all.sql:35
 	qt422016.ReleaseWriter(qw422016)
-//line queries/ddl/all.sql:34
+//line queries/ddl/all.sql:35
 }
 
-//line queries/ddl/all.sql:34
+//line queries/ddl/all.sql:35
 func CreateAll() string {
-//line queries/ddl/all.sql:34
+//line queries/ddl/all.sql:35
 	qb422016 := qt422016.AcquireByteBuffer()
-//line queries/ddl/all.sql:34
+//line queries/ddl/all.sql:35
 	WriteCreateAll(qb422016)
-//line queries/ddl/all.sql:34
+//line queries/ddl/all.sql:35
 	qs422016 := string(qb422016.B)
-//line queries/ddl/all.sql:34
+//line queries/ddl/all.sql:35
 	qt422016.ReleaseByteBuffer(qb422016)
-//line queries/ddl/all.sql:34
+//line queries/ddl/all.sql:35
 	return qs422016
-//line queries/ddl/all.sql:34
+//line queries/ddl/all.sql:35
 }

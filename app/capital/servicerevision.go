@@ -20,7 +20,7 @@ func (s *Service) GetAllVersions(ctx context.Context, tx *sqlx.Tx, id string, pa
 	tablesJoinedParam := fmt.Sprintf("%q c join %q cr on c.\"ID\" = cr.\"Capital_ID\"", table, tableVersion)
 	q := database.SQLSelect(columnsString, tablesJoinedParam, wc, params.OrderByString(), params.Limit, params.Offset)
 	ret := dtos{}
-	err := s.db.Select(ctx, &ret, q, tx, logger, id)
+	err := s.dbRead.Select(ctx, &ret, q, tx, logger, id)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to get Capitals")
 	}
@@ -32,7 +32,7 @@ func (s *Service) GetVersion(ctx context.Context, tx *sqlx.Tx, id string, versio
 	ret := &dto{}
 	tablesJoinedParam := fmt.Sprintf("%q c join %q cr on c.\"ID\" = cr.\"Capital_ID\"", table, tableVersion)
 	q := database.SQLSelectSimple(columnsString, tablesJoinedParam, wc)
-	err := s.db.Get(ctx, ret, q, tx, logger, id, version)
+	err := s.dbRead.Get(ctx, ret, q, tx, logger, id, version)
 	if err != nil {
 		return nil, err
 	}
@@ -53,7 +53,7 @@ func (s *Service) getCurrentVersions(ctx context.Context, tx *sqlx.Tx, logger ut
 		ID             string `db:"ID"`
 		CurrentVersion int    `db:"current_Version"`
 	}
-	err := s.db.Select(ctx, &results, q, tx, logger, vals...)
+	err := s.dbRead.Select(ctx, &results, q, tx, logger, vals...)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to get Capitals")
 	}
