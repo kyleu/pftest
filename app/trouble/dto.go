@@ -2,6 +2,7 @@
 package trouble
 
 import (
+	"encoding/json"
 	"fmt"
 	"strings"
 	"time"
@@ -25,21 +26,23 @@ var (
 )
 
 type dto struct {
-	From      string     `db:"from"`
-	Where     int        `db:"where"`
-	Selectcol int        `db:"selectcol"`
-	Limit     string     `db:"limit"`
-	Group     string     `db:"group"`
-	Delete    *time.Time `db:"delete"`
+	From      string          `db:"from"`
+	Where     json.RawMessage `db:"where"`
+	Selectcol int             `db:"selectcol"`
+	Limit     string          `db:"limit"`
+	Group     string          `db:"group"`
+	Delete    *time.Time      `db:"delete"`
 }
 
 func (d *dto) ToTrouble() *Trouble {
 	if d == nil {
 		return nil
 	}
+	whereArg := []string{}
+	_ = util.FromJSON(d.Where, &whereArg)
 	return &Trouble{
 		From:      d.From,
-		Where:     d.Where,
+		Where:     whereArg,
 		Selectcol: d.Selectcol,
 		Limit:     d.Limit,
 		Group:     d.Group,

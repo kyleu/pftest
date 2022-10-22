@@ -3,7 +3,6 @@ package controller
 
 import (
 	"fmt"
-	"strconv"
 
 	"github.com/pkg/errors"
 	"github.com/valyala/fasthttp"
@@ -158,13 +157,9 @@ func troubleFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageState
 	if err != nil {
 		return nil, errors.Wrap(err, "must provide [from] as an argument")
 	}
-	whereArgStr, err := cutil.RCRequiredString(rc, "where", false)
+	whereArg, err := cutil.RCRequiredArray(rc, "where")
 	if err != nil {
-		return nil, errors.Wrap(err, "must provide [where] as an argument")
-	}
-	whereArg, err := strconv.Atoi(whereArgStr)
-	if err != nil {
-		return nil, errors.Wrap(err, "field [where] must be a valid a valid integer")
+		return nil, errors.Wrap(err, "must provide [where] as an comma-separated argument")
 	}
 	includeDeleted := rc.UserValue("includeDeleted") != nil || cutil.QueryStringBool(rc, "includeDeleted")
 	return as.Services.Trouble.Get(ps.Context, nil, fromArg, whereArg, includeDeleted, ps.Logger)

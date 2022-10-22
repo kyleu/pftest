@@ -48,7 +48,7 @@ func (s *Service) Count(ctx context.Context, tx *sqlx.Tx, whereClause string, in
 	return int(ret), nil
 }
 
-func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, from string, where int, includeDeleted bool, logger util.Logger) (*Trouble, error) {
+func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, from string, where []string, includeDeleted bool, logger util.Logger) (*Trouble, error) {
 	wc := defaultWC(0)
 	wc = addDeletedClause(wc, includeDeleted)
 	ret := &dto{}
@@ -99,7 +99,7 @@ func (s *Service) GetByFrom(ctx context.Context, tx *sqlx.Tx, from string, param
 	return ret.ToTroubles(), nil
 }
 
-func (s *Service) GetByWhere(ctx context.Context, tx *sqlx.Tx, where int, params *filter.Params, includeDeleted bool, logger util.Logger) (Troubles, error) {
+func (s *Service) GetByWhere(ctx context.Context, tx *sqlx.Tx, where []string, params *filter.Params, includeDeleted bool, logger util.Logger) (Troubles, error) {
 	params = filters(params)
 	wc := "\"where\" = $1"
 	wc = addDeletedClause(wc, includeDeleted)

@@ -30,8 +30,8 @@
           <td>{%s p.Model.From %}</td>
         </tr>
         <tr>
-          <th class="shrink" title="Integer">Where</th>
-          <td>{%d p.Model.Where %}</td>
+          <th class="shrink" title="Comma-separated list of values">Where</th>
+          <td>{%= components.DisplayStringArray(p.Model.Where) %}</td>
         </tr>
         <tr>
           <th class="shrink" title="Integer">Selectcol</th>
@@ -60,16 +60,16 @@
       <thead>
         <tr>
           {%= components.TableHeaderSimple("trouble", "from", "From", "String text", prms, ps.URI, ps) %}
-          {%= components.TableHeaderSimple("trouble", "where", "Where", "Integer", prms, ps.URI, ps) %}
+          {%= components.TableHeaderSimple("trouble", "where", "Where", "Comma-separated list of values", prms, ps.URI, ps) %}
           {%= components.TableHeaderSimple("trouble", "selectcol", "Selectcol", "Integer", prms, ps.URI, ps) %}
         </tr>
       </thead>
       <tbody>
         {%- for _, model := range p.Selectcols -%}
         <tr>
-          <td><a href="/troub/le/{%u model.From %}/{%d model.Where %}/selectcol/{%d model.Selectcol %}">{%s model.From %}</a></td>
-          <td><a href="/troub/le/{%u model.From %}/{%d model.Where %}/selectcol/{%d model.Selectcol %}">{%d model.Where %}</a></td>
-          <td><a href="/troub/le/{%u model.From %}/{%d model.Where %}/selectcol/{%d model.Selectcol %}">{%d model.Selectcol %}</a></td>
+          <td><a href="/troub/le/{%u model.From %}/{%= components.DisplayStringArray(model.Where) %}/selectcol/{%d model.Selectcol %}">{%s model.From %}</a></td>
+          <td><a href="/troub/le/{%u model.From %}/{%= components.DisplayStringArray(model.Where) %}/selectcol/{%d model.Selectcol %}">{%= components.DisplayStringArray(model.Where) %}</a></td>
+          <td><a href="/troub/le/{%u model.From %}/{%= components.DisplayStringArray(model.Where) %}/selectcol/{%d model.Selectcol %}">{%d model.Selectcol %}</a></td>
         </tr>
         {%- endfor -%}
       </tbody>

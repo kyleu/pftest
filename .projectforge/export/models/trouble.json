@@ -17,7 +17,12 @@
     },
     {
       "name": "where",
-      "type": "int",
+      "type": {
+        "k": "list",
+        "t": {
+          "v": "string"
+        }
+      },
       "pk": true,
       "search": true
     },

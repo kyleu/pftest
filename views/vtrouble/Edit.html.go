@@ -11,112 +11,113 @@ import (
 	"github.com/kyleu/pftest/app"
 	"github.com/kyleu/pftest/app/controller/cutil"
 	"github.com/kyleu/pftest/app/trouble"
+	"github.com/kyleu/pftest/app/util"
 	"github.com/kyleu/pftest/views/components"
 	"github.com/kyleu/pftest/views/layout"
 )
 
-//line views/vtrouble/Edit.html:10
+//line views/vtrouble/Edit.html:11
 import (
 	qtio422016 "io"
 
 	qt422016 "github.com/valyala/quicktemplate"
 )
 
-//line views/vtrouble/Edit.html:10
+//line views/vtrouble/Edit.html:11
 var (
 	_ = qtio422016.Copy
 	_ = qt422016.AcquireByteBuffer
 )
 
-//line views/vtrouble/Edit.html:10
+//line views/vtrouble/Edit.html:11
 type Edit struct {
 	layout.Basic
 	Model *trouble.Trouble
 	IsNew bool
 }
 
-//line views/vtrouble/Edit.html:16
+//line views/vtrouble/Edit.html:17
 func (p *Edit) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vtrouble/Edit.html:16
+//line views/vtrouble/Edit.html:17
 	qw422016.N().S(`
   <div class="card">
 `)
-//line views/vtrouble/Edit.html:18
+//line views/vtrouble/Edit.html:19
 	if p.IsNew {
-//line views/vtrouble/Edit.html:18
+//line views/vtrouble/Edit.html:19
 		qw422016.N().S(`    <div class="right"><a href="/troub/le/random"><button>Random</button></a></div>
     <h3>`)
-//line views/vtrouble/Edit.html:20
+//line views/vtrouble/Edit.html:21
 		components.StreamSVGRefIcon(qw422016, `star`, ps)
-//line views/vtrouble/Edit.html:20
+//line views/vtrouble/Edit.html:21
 		qw422016.N().S(` New Trouble</h3>
     <form action="/troub/le/new" class="mt" method="post">
 `)
-//line views/vtrouble/Edit.html:22
+//line views/vtrouble/Edit.html:23
 	} else {
-//line views/vtrouble/Edit.html:22
+//line views/vtrouble/Edit.html:23
 		qw422016.N().S(`    <div class="right"><a href="`)
-//line views/vtrouble/Edit.html:23
+//line views/vtrouble/Edit.html:24
 		qw422016.E().S(p.Model.WebPath())
-//line views/vtrouble/Edit.html:23
+//line views/vtrouble/Edit.html:24
 		qw422016.N().S(`/delete" onclick="return confirm('Are you sure you wish to delete trouble [`)
-//line views/vtrouble/Edit.html:23
+//line views/vtrouble/Edit.html:24
 		qw422016.E().S(p.Model.String())
-//line views/vtrouble/Edit.html:23
+//line views/vtrouble/Edit.html:24
 		qw422016.N().S(`]?')"><button>Delete</button></a></div>
     <h3>`)
-//line views/vtrouble/Edit.html:24
+//line views/vtrouble/Edit.html:25
 		components.StreamSVGRefIcon(qw422016, `star`, ps)
-//line views/vtrouble/Edit.html:24
+//line views/vtrouble/Edit.html:25
 		qw422016.N().S(` Edit Trouble [`)
-//line views/vtrouble/Edit.html:24
+//line views/vtrouble/Edit.html:25
 		qw422016.E().S(p.Model.String())
-//line views/vtrouble/Edit.html:24
+//line views/vtrouble/Edit.html:25
 		qw422016.N().S(`]</h3>
 `)
-//line views/vtrouble/Edit.html:25
+//line views/vtrouble/Edit.html:26
 	}
-//line views/vtrouble/Edit.html:25
+//line views/vtrouble/Edit.html:26
 	qw422016.N().S(`    <form action="" method="post">
       <table class="mt expanded">
         <tbody>
           `)
-//line views/vtrouble/Edit.html:29
+//line views/vtrouble/Edit.html:30
 	if p.IsNew {
-//line views/vtrouble/Edit.html:29
+//line views/vtrouble/Edit.html:30
 		components.StreamTableInput(qw422016, "from", "From", p.Model.From, 5, "String text")
-//line views/vtrouble/Edit.html:29
+//line views/vtrouble/Edit.html:30
 	}
-//line views/vtrouble/Edit.html:29
+//line views/vtrouble/Edit.html:30
 	qw422016.N().S(`
           `)
-//line views/vtrouble/Edit.html:30
+//line views/vtrouble/Edit.html:31
 	if p.IsNew {
-//line views/vtrouble/Edit.html:30
-		components.StreamTableInputNumber(qw422016, "where", "Where", p.Model.Where, 5, "Integer")
-//line views/vtrouble/Edit.html:30
+//line views/vtrouble/Edit.html:31
+		components.StreamTableTextarea(qw422016, "where", "Where", 8, util.ToJSON(p.Model.Where), 5, "Comma-separated list of values")
+//line views/vtrouble/Edit.html:31
 	}
-//line views/vtrouble/Edit.html:30
+//line views/vtrouble/Edit.html:31
 	qw422016.N().S(`
           `)
-//line views/vtrouble/Edit.html:31
+//line views/vtrouble/Edit.html:32
 	components.StreamTableInputNumber(qw422016, "selectcol", "Selectcol", p.Model.Selectcol, 5, "Integer")
-//line views/vtrouble/Edit.html:31
+//line views/vtrouble/Edit.html:32
 	qw422016.N().S(`
           `)
-//line views/vtrouble/Edit.html:32
+//line views/vtrouble/Edit.html:33
 	components.StreamTableInput(qw422016, "limit", "Limit", p.Model.Limit, 5, "String text")
-//line views/vtrouble/Edit.html:32
+//line views/vtrouble/Edit.html:33
 	qw422016.N().S(`
           `)
-//line views/vtrouble/Edit.html:33
+//line views/vtrouble/Edit.html:34
 	components.StreamTableInput(qw422016, "group", "Group", p.Model.Group, 5, "String text")
-//line views/vtrouble/Edit.html:33
+//line views/vtrouble/Edit.html:34
 	qw422016.N().S(`
           `)
-//line views/vtrouble/Edit.html:34
+//line views/vtrouble/Edit.html:35
 	components.StreamTableInputTimestamp(qw422016, "delete", "Delete", p.Model.Delete, 5, "Date and time, in almost any format (optional)")
-//line views/vtrouble/Edit.html:34
+//line views/vtrouble/Edit.html:35
 	qw422016.N().S(`
           <tr><td colspan="2"><button type="submit">Save Changes</button></td></tr>
         </tbody>
@@ -124,31 +125,31 @@ func (p *Edit) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
     </form>
   </div>
 `)
-//line views/vtrouble/Edit.html:40
+//line views/vtrouble/Edit.html:41
 }
 
-//line views/vtrouble/Edit.html:40
+//line views/vtrouble/Edit.html:41
 func (p *Edit) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vtrouble/Edit.html:40
+//line views/vtrouble/Edit.html:41
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vtrouble/Edit.html:40
+//line views/vtrouble/Edit.html:41
 	p.StreamBody(qw422016, as, ps)
-//line views/vtrouble/Edit.html:40
+//line views/vtrouble/Edit.html:41
 	qt422016.ReleaseWriter(qw422016)
-//line views/vtrouble/Edit.html:40
+//line views/vtrouble/Edit.html:41
 }
 
-//line views/vtrouble/Edit.html:40
+//line views/vtrouble/Edit.html:41
 func (p *Edit) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vtrouble/Edit.html:40
+//line views/vtrouble/Edit.html:41
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vtrouble/Edit.html:40
+//line views/vtrouble/Edit.html:41
 	p.WriteBody(qb422016, as, ps)
-//line views/vtrouble/Edit.html:40
+//line views/vtrouble/Edit.html:41
 	qs422016 := string(qb422016.B)
-//line views/vtrouble/Edit.html:40
+//line views/vtrouble/Edit.html:41
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vtrouble/Edit.html:40
+//line views/vtrouble/Edit.html:41
 	return qs422016
-//line views/vtrouble/Edit.html:40
+//line views/vtrouble/Edit.html:41
 }

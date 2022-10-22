@@ -33,7 +33,7 @@ insert into "seed" (
   '00000000-0000-0000-0000-000000000003', 'C', 3, '{"foo":"c"}'
 ), (
   '00000000-0000-0000-0000-000000000004', 'D', 4, '{"foo":"d"}'
-);
+) on conflict do nothing;
 -- `)
 //line queries/seeddata/seed_seed.sql:13
 }

@@ -114,7 +114,7 @@ func (s *Service) insertSelectcol(ctx context.Context, tx *sqlx.Tx, logger util.
 }
 
 // Delete doesn't actually delete, it only sets [delete].
-func (s *Service) Delete(ctx context.Context, tx *sqlx.Tx, from string, where int, logger util.Logger) error {
+func (s *Service) Delete(ctx context.Context, tx *sqlx.Tx, from string, where []string, logger util.Logger) error {
 	cols := []string{"delete"}
 	q := database.SQLUpdate(tableQuoted, cols, defaultWC(len(cols)), "")
 	_, err := s.db.Update(ctx, q, tx, 1, logger, time.Now(), from, where)

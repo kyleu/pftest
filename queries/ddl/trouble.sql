@@ -7,7 +7,7 @@ drop table if exists "trouble";
 -- {% func TroubleCreate() %}
 create table if not exists "trouble" (
   "from" text not null,
-  "where" int not null,
+  "where" jsonb not null,
   "current_selectcol" int not null default 1,
   "limit" text not null,
   "delete" timestamp default now(),
@@ -20,7 +20,7 @@ create index if not exists "trouble__where_idx" on "trouble" ("where");
 
 create table if not exists "trouble_selectcol" (
   "trouble_from" text not null,
-  "trouble_where" int not null,
+  "trouble_where" jsonb not null,
   "selectcol" int not null default 1,
   "group" text not null,
   foreign key ("trouble_from", "trouble_where") references "trouble" ("from", "where"),

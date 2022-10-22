@@ -3,6 +3,7 @@
   "github.com/kyleu/pftest/app"
   "github.com/kyleu/pftest/app/controller/cutil"
   "github.com/kyleu/pftest/app/trouble"
+  "github.com/kyleu/pftest/app/util"
   "github.com/kyleu/pftest/views/components"
   "github.com/kyleu/pftest/views/layout"
 ) %}
@@ -27,7 +28,7 @@
       <table class="mt expanded">
         <tbody>
           {% if p.IsNew %}{%= components.TableInput("from", "From", p.Model.From, 5, "String text") %}{% endif %}
-          {% if p.IsNew %}{%= components.TableInputNumber("where", "Where", p.Model.Where, 5, "Integer") %}{% endif %}
+          {% if p.IsNew %}{%= components.TableTextarea("where", "Where", 8, util.ToJSON(p.Model.Where), 5, "Comma-separated list of values") %}{% endif %}
           {%= components.TableInputNumber("selectcol", "Selectcol", p.Model.Selectcol, 5, "Integer") %}
           {%= components.TableInput("limit", "Limit", p.Model.Limit, 5, "String text") %}
           {%= components.TableInput("group", "Group", p.Model.Group, 5, "String text") %}

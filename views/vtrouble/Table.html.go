@@ -47,7 +47,7 @@ func StreamTable(qw422016 *qt422016.Writer, models trouble.Troubles, params filt
 	qw422016.N().S(`
         `)
 //line views/vtrouble/Table.html:16
-	components.StreamTableHeaderSimple(qw422016, "trouble", "where", "Where", "Integer", prms, ps.URI, ps)
+	components.StreamTableHeaderSimple(qw422016, "trouble", "where", "Where", "Comma-separated list of values", prms, ps.URI, ps)
 //line views/vtrouble/Table.html:16
 	qw422016.N().S(`
         `)
@@ -84,7 +84,7 @@ func StreamTable(qw422016 *qt422016.Writer, models trouble.Troubles, params filt
 //line views/vtrouble/Table.html:26
 		qw422016.N().S(`/`)
 //line views/vtrouble/Table.html:26
-		qw422016.N().D(model.Where)
+		components.StreamDisplayStringArray(qw422016, model.Where)
 //line views/vtrouble/Table.html:26
 		qw422016.N().S(`">`)
 //line views/vtrouble/Table.html:26
@@ -97,11 +97,11 @@ func StreamTable(qw422016 *qt422016.Writer, models trouble.Troubles, params filt
 //line views/vtrouble/Table.html:27
 		qw422016.N().S(`/`)
 //line views/vtrouble/Table.html:27
-		qw422016.N().D(model.Where)
+		components.StreamDisplayStringArray(qw422016, model.Where)
 //line views/vtrouble/Table.html:27
 		qw422016.N().S(`">`)
 //line views/vtrouble/Table.html:27
-		qw422016.N().D(model.Where)
+		components.StreamDisplayStringArray(qw422016, model.Where)
 //line views/vtrouble/Table.html:27
 		qw422016.N().S(`</a></td>
         <td>`)

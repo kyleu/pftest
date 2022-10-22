@@ -3,6 +3,7 @@ package trouble
 
 import (
 	"fmt"
+	"strings"
 	"time"
 
 	"golang.org/x/exp/slices"
@@ -11,27 +12,27 @@ import (
 )
 
 type PK struct {
-	From  string `json:"from"`
-	Where int    `json:"where"`
+	From  string   `json:"from"`
+	Where []string `json:"where"`
 }
 
 type Trouble struct {
 	From      string     `json:"from"`
-	Where     int        `json:"where"`
+	Where     []string   `json:"where"`
 	Selectcol int        `json:"selectcol"`
 	Limit     string     `json:"limit"`
 	Group     string     `json:"group"`
 	Delete    *time.Time `json:"delete,omitempty"`
 }
 
-func New(from string, where int) *Trouble {
+func New(from string, where []string) *Trouble {
 	return &Trouble{From: from, Where: where}
 }
 
 func Random() *Trouble {
 	return &Trouble{
 		From:      util.RandomString(12),
-		Where:     util.RandomInt(10000),
+		Where:     nil,
 		Selectcol: util.RandomInt(10000),
 		Limit:     util.RandomString(12),
 		Group:     util.RandomString(12),
@@ -47,7 +48,7 @@ func FromMap(m util.ValueMap, setPK bool) (*Trouble, error) {
 		if err != nil {
 			return nil, err
 		}
-		ret.Where, err = m.ParseInt("where", true, true)
+		ret.Where, err = m.ParseArrayString("where", true, true)
 		if err != nil {
 			return nil, err
 		}
@@ -83,7 +84,7 @@ func (t *Trouble) Clone() *Trouble {
 }
 
 func (t *Trouble) String() string {
-	return fmt.Sprintf("%s::%s", t.From, fmt.Sprint(t.Where))
+	return fmt.Sprintf("%s::%s", t.From, t.Where)
 }
 
 func (t *Trouble) TitleString() string {
@@ -91,7 +92,7 @@ func (t *Trouble) TitleString() string {
 }
 
 func (t *Trouble) WebPath() string {
-	return "/troub/le" + "/" + t.From + "/" + fmt.Sprint(t.Where)
+	return "/troub/le" + "/" + t.From + "/" + strings.Join(t.Where, ",")
 }
 
 func (t *Trouble) Diff(tx *Trouble) util.Diffs {
@@ -99,9 +100,7 @@ func (t *Trouble) Diff(tx *Trouble) util.Diffs {
 	if t.From != tx.From {
 		diffs = append(diffs, util.NewDiff("from", t.From, tx.From))
 	}
-	if t.Where != tx.Where {
-		diffs = append(diffs, util.NewDiff("where", fmt.Sprint(t.Where), fmt.Sprint(tx.Where)))
-	}
+	diffs = append(diffs, util.DiffObjects(t.Where, tx.Where, "where")...)
 	if t.Selectcol != tx.Selectcol {
 		diffs = append(diffs, util.NewDiff("selectcol", fmt.Sprint(t.Selectcol), fmt.Sprint(tx.Selectcol)))
 	}
@@ -131,9 +130,9 @@ func (t *Trouble) ToDataSelectcol() []any {
 
 type Troubles []*Trouble
 
-func (t Troubles) Get(from string, where int) *Trouble {
+func (t Troubles) Get(from string, where []string) *Trouble {
 	for _, x := range t {
-		if x.From == from && x.Where == where {
+		if x.From == from && slices.Equal(x.Where, where) {
 			return x
 		}
 	}

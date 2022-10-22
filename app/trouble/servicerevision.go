@@ -8,13 +8,14 @@ import (
 
 	"github.com/jmoiron/sqlx"
 	"github.com/pkg/errors"
+	"golang.org/x/exp/slices"
 
 	"github.com/kyleu/pftest/app/lib/database"
 	"github.com/kyleu/pftest/app/lib/filter"
 	"github.com/kyleu/pftest/app/util"
 )
 
-func (s *Service) GetAllSelectcols(ctx context.Context, tx *sqlx.Tx, from string, where int, params *filter.Params, includeDeleted bool, logger util.Logger) (Troubles, error) {
+func (s *Service) GetAllSelectcols(ctx context.Context, tx *sqlx.Tx, from string, where []string, params *filter.Params, includeDeleted bool, logger util.Logger) (Troubles, error) {
 	params = filters(params)
 	wc := "\"from\" = $1 and \"where\" = $2"
 	wc = addDeletedClause(wc, includeDeleted)
@@ -28,7 +29,7 @@ func (s *Service) GetAllSelectcols(ctx context.Context, tx *sqlx.Tx, from string
 	return ret.ToTroubles(), nil
 }
 
-func (s *Service) GetSelectcol(ctx context.Context, tx *sqlx.Tx, from string, where int, selectcol int, logger util.Logger) (*Trouble, error) {
+func (s *Service) GetSelectcol(ctx context.Context, tx *sqlx.Tx, from string, where []string, selectcol int, logger util.Logger) (*Trouble, error) {
 	wc := "\"from\" = $1 and \"where\" = $2 and \"selectcol\" = $3"
 	ret := &dto{}
 	tablesJoinedParam := fmt.Sprintf("%q t join %q tr on t.\"from\" = tr.\"trouble_from\" and t.\"where\" = tr.\"trouble_where\"", table, tableSelectcol)
@@ -51,9 +52,9 @@ func (s *Service) getCurrentSelectcols(ctx context.Context, tx *sqlx.Tx, logger 
 		vals = append(vals, model.From, model.Where)
 	}
 	var results []*struct {
-		From             string `db:"from"`
-		Where            int    `db:"where"`
-		CurrentSelectcol int    `db:"current_selectcol"`
+		From             string   `db:"from"`
+		Where            []string `db:"where"`
+		CurrentSelectcol int      `db:"current_selectcol"`
 	}
 	err := s.dbRead.Select(ctx, &results, q, tx, logger, vals...)
 	if err != nil {
@@ -64,7 +65,7 @@ func (s *Service) getCurrentSelectcols(ctx context.Context, tx *sqlx.Tx, logger 
 	for _, model := range models {
 		curr := 0
 		for _, x := range results {
-			if x.From == model.From && x.Where == model.Where {
+			if x.From == model.From && slices.Equal(x.Where, model.Where) {
 				curr = x.CurrentSelectcol
 			}
 		}

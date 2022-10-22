@@ -75,10 +75,10 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
 	qw422016.N().S(`</td>
         </tr>
         <tr>
-          <th class="shrink" title="Integer">Where</th>
+          <th class="shrink" title="Comma-separated list of values">Where</th>
           <td>`)
 //line views/vtrouble/Detail.html:34
-	qw422016.N().D(p.Model.Where)
+	components.StreamDisplayStringArray(qw422016, p.Model.Where)
 //line views/vtrouble/Detail.html:34
 	qw422016.N().S(`</td>
         </tr>
@@ -138,7 +138,7 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
 		qw422016.N().S(`
           `)
 //line views/vtrouble/Detail.html:63
-		components.StreamTableHeaderSimple(qw422016, "trouble", "where", "Where", "Integer", prms, ps.URI, ps)
+		components.StreamTableHeaderSimple(qw422016, "trouble", "where", "Where", "Comma-separated list of values", prms, ps.URI, ps)
 //line views/vtrouble/Detail.html:63
 		qw422016.N().S(`
           `)
@@ -160,7 +160,7 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
 //line views/vtrouble/Detail.html:70
 			qw422016.N().S(`/`)
 //line views/vtrouble/Detail.html:70
-			qw422016.N().D(model.Where)
+			components.StreamDisplayStringArray(qw422016, model.Where)
 //line views/vtrouble/Detail.html:70
 			qw422016.N().S(`/selectcol/`)
 //line views/vtrouble/Detail.html:70
@@ -177,7 +177,7 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
 //line views/vtrouble/Detail.html:71
 			qw422016.N().S(`/`)
 //line views/vtrouble/Detail.html:71
-			qw422016.N().D(model.Where)
+			components.StreamDisplayStringArray(qw422016, model.Where)
 //line views/vtrouble/Detail.html:71
 			qw422016.N().S(`/selectcol/`)
 //line views/vtrouble/Detail.html:71
@@ -185,7 +185,7 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
 //line views/vtrouble/Detail.html:71
 			qw422016.N().S(`">`)
 //line views/vtrouble/Detail.html:71
-			qw422016.N().D(model.Where)
+			components.StreamDisplayStringArray(qw422016, model.Where)
 //line views/vtrouble/Detail.html:71
 			qw422016.N().S(`</a></td>
           <td><a href="/troub/le/`)
@@ -194,7 +194,7 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
 //line views/vtrouble/Detail.html:72
 			qw422016.N().S(`/`)
 //line views/vtrouble/Detail.html:72
-			qw422016.N().D(model.Where)
+			components.StreamDisplayStringArray(qw422016, model.Where)
 //line views/vtrouble/Detail.html:72
 			qw422016.N().S(`/selectcol/`)
 //line views/vtrouble/Detail.html:72
