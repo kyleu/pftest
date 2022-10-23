@@ -8,10 +8,11 @@ import (
 	"github.com/kyleu/pftest/app/lib/menu"
 	"github.com/kyleu/pftest/app/lib/sandbox"
 	"github.com/kyleu/pftest/app/lib/telemetry"
+	"github.com/kyleu/pftest/app/lib/user"
 	"github.com/kyleu/pftest/app/util"
 )
 
-func MenuFor(ctx context.Context, isAuthed bool, isAdmin bool, as *app.State, logger util.Logger) (menu.Items, error) {
+func MenuFor(ctx context.Context, isAuthed bool, isAdmin bool, profile *user.Profile, as *app.State, logger util.Logger) (menu.Items, error) {
 	ctx, span, logger := telemetry.StartSpan(ctx, "menu:generate", logger)
 	defer span.Complete()
 	_ = logger
@@ -25,7 +26,7 @@ func MenuFor(ctx context.Context, isAuthed bool, isAdmin bool, as *app.State, lo
 	// $PF_SECTION_START(routes_end)$
 	if isAdmin {
 		admin := &menu.Item{Key: "admin", Title: "Settings", Description: "System-wide settings and preferences", Icon: "cog", Route: "/admin"}
-		ret = append(ret, menu.Separator, graphQLMenu(as.GraphQL, ctx), sandbox.Menu(ctx), menu.Separator, admin, menu.Separator, docMenu(ctx, as, logger))
+		ret = append(ret, menu.Separator, graphQLMenu(ctx, as.GraphQL), sandbox.Menu(ctx), menu.Separator, admin, menu.Separator, docMenu(ctx, as, logger))
 	}
 	const aboutDesc = "Get assistance and advice for using " + util.AppName
 	ret = append(ret, &menu.Item{Key: "about", Title: "About", Description: aboutDesc, Icon: "question", Route: "/about"})
