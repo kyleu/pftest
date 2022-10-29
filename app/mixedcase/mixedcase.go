@@ -1,11 +1,7 @@
 // Content managed by Project Forge, see [projectforge.md] for details.
 package mixedcase
 
-import (
-	"golang.org/x/exp/slices"
-
-	"github.com/kyleu/pftest/app/util"
-)
+import "github.com/kyleu/pftest/app/util"
 
 type MixedCase struct {
 	ID           string `json:"id"`
@@ -85,19 +81,4 @@ func (m *MixedCase) Diff(mx *MixedCase) util.Diffs {
 
 func (m *MixedCase) ToData() []any {
 	return []any{m.ID, m.TestField, m.AnotherField}
-}
-
-type MixedCases []*MixedCase
-
-func (m MixedCases) Get(id string) *MixedCase {
-	for _, x := range m {
-		if x.ID == id {
-			return x
-		}
-	}
-	return nil
-}
-
-func (m MixedCases) Clone() MixedCases {
-	return slices.Clone(m)
 }

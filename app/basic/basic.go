@@ -5,7 +5,6 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"golang.org/x/exp/slices"
 
 	"github.com/kyleu/pftest/app/util"
 )
@@ -97,19 +96,4 @@ func (b *Basic) Diff(bx *Basic) util.Diffs {
 
 func (b *Basic) ToData() []any {
 	return []any{b.ID, b.Name, b.Status, b.Created}
-}
-
-type Basics []*Basic
-
-func (b Basics) Get(id uuid.UUID) *Basic {
-	for _, x := range b {
-		if x.ID == id {
-			return x
-		}
-	}
-	return nil
-}
-
-func (b Basics) Clone() Basics {
-	return slices.Clone(b)
 }

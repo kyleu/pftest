@@ -5,7 +5,6 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"golang.org/x/exp/slices"
 
 	"github.com/kyleu/pftest/app/util"
 )
@@ -97,19 +96,4 @@ func (p *Path) Diff(px *Path) util.Diffs {
 
 func (p *Path) ToData() []any {
 	return []any{p.ID, p.Name, p.Status, p.Created}
-}
-
-type Paths []*Path
-
-func (p Paths) Get(id uuid.UUID) *Path {
-	for _, x := range p {
-		if x.ID == id {
-			return x
-		}
-	}
-	return nil
-}
-
-func (p Paths) Clone() Paths {
-	return slices.Clone(p)
 }

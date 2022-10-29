@@ -4,8 +4,6 @@ package hist
 import (
 	"time"
 
-	"golang.org/x/exp/slices"
-
 	"github.com/kyleu/pftest/app/util"
 )
 
@@ -84,19 +82,4 @@ func (h *Hist) Diff(hx *Hist) util.Diffs {
 
 func (h *Hist) ToData() []any {
 	return []any{h.ID, h.Data, h.Created, h.Updated}
-}
-
-type Hists []*Hist
-
-func (h Hists) Get(id string) *Hist {
-	for _, x := range h {
-		if x.ID == id {
-			return x
-		}
-	}
-	return nil
-}
-
-func (h Hists) Clone() Hists {
-	return slices.Clone(h)
 }

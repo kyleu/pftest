@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"time"
 
-	"golang.org/x/exp/slices"
-
 	"github.com/kyleu/pftest/app/util"
 )
 
@@ -115,19 +113,4 @@ func (c *Capital) ToDataCore() []any {
 
 func (c *Capital) ToDataVersion() []any {
 	return []any{c.ID, c.Version, c.Name, c.Birthday, c.Deathday}
-}
-
-type Capitals []*Capital
-
-func (c Capitals) Get(id string) *Capital {
-	for _, x := range c {
-		if x.ID == id {
-			return x
-		}
-	}
-	return nil
-}
-
-func (c Capitals) Clone() Capitals {
-	return slices.Clone(c)
 }

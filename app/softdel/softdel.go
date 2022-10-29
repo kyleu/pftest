@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"time"
 
-	"golang.org/x/exp/slices"
-
 	"github.com/kyleu/pftest/app/util"
 )
 
@@ -87,19 +85,4 @@ func (s *Softdel) Diff(sx *Softdel) util.Diffs {
 
 func (s *Softdel) ToData() []any {
 	return []any{s.ID, s.Created, s.Updated, s.Deleted}
-}
-
-type Softdels []*Softdel
-
-func (s Softdels) Get(id string) *Softdel {
-	for _, x := range s {
-		if x.ID == id {
-			return x
-		}
-	}
-	return nil
-}
-
-func (s Softdels) Clone() Softdels {
-	return slices.Clone(s)
 }

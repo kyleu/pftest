@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"time"
 
-	"golang.org/x/exp/slices"
-
 	"github.com/kyleu/pftest/app/util"
 )
 
@@ -105,19 +103,4 @@ func (g *Group) Diff(gx *Group) util.Diffs {
 
 func (g *Group) ToData() []any {
 	return []any{g.ID, g.Child, g.Data, g.Created, g.Updated, g.Deleted}
-}
-
-type Groups []*Group
-
-func (g Groups) Get(id string) *Group {
-	for _, x := range g {
-		if x.ID == id {
-			return x
-		}
-	}
-	return nil
-}
-
-func (g Groups) Clone() Groups {
-	return slices.Clone(g)
 }

@@ -3,7 +3,6 @@ package audited
 
 import (
 	"github.com/google/uuid"
-	"golang.org/x/exp/slices"
 
 	"github.com/kyleu/pftest/app/util"
 )
@@ -79,19 +78,4 @@ func (a *Audited) Diff(ax *Audited) util.Diffs {
 
 func (a *Audited) ToData() []any {
 	return []any{a.ID, a.Name}
-}
-
-type Auditeds []*Audited
-
-func (a Auditeds) Get(id uuid.UUID) *Audited {
-	for _, x := range a {
-		if x.ID == id {
-			return x
-		}
-	}
-	return nil
-}
-
-func (a Auditeds) Clone() Auditeds {
-	return slices.Clone(a)
 }

@@ -6,8 +6,6 @@ import (
 	"strings"
 	"time"
 
-	"golang.org/x/exp/slices"
-
 	"github.com/kyleu/pftest/app/util"
 )
 
@@ -126,19 +124,4 @@ func (t *Trouble) ToDataCore() []any {
 
 func (t *Trouble) ToDataSelectcol() []any {
 	return []any{t.From, t.Where, t.Selectcol, t.Group}
-}
-
-type Troubles []*Trouble
-
-func (t Troubles) Get(from string, where []string) *Trouble {
-	for _, x := range t {
-		if x.From == from && slices.Equal(x.Where, where) {
-			return x
-		}
-	}
-	return nil
-}
-
-func (t Troubles) Clone() Troubles {
-	return slices.Clone(t)
 }

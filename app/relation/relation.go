@@ -5,7 +5,6 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"golang.org/x/exp/slices"
 
 	"github.com/kyleu/pftest/app/util"
 )
@@ -100,19 +99,4 @@ func (r *Relation) Diff(rx *Relation) util.Diffs {
 
 func (r *Relation) ToData() []any {
 	return []any{r.ID, r.BasicID, r.Name, r.Created}
-}
-
-type Relations []*Relation
-
-func (r Relations) Get(id uuid.UUID) *Relation {
-	for _, x := range r {
-		if x.ID == id {
-			return x
-		}
-	}
-	return nil
-}
-
-func (r Relations) Clone() Relations {
-	return slices.Clone(r)
 }

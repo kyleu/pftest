@@ -5,7 +5,6 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"golang.org/x/exp/slices"
 
 	"github.com/kyleu/pftest/app/foo"
 	"github.com/kyleu/pftest/app/util"
@@ -106,19 +105,4 @@ func (r *Reference) Diff(rx *Reference) util.Diffs {
 
 func (r *Reference) ToData() []any {
 	return []any{r.ID, r.Custom, r.Self, r.Created}
-}
-
-type References []*Reference
-
-func (r References) Get(id uuid.UUID) *Reference {
-	for _, x := range r {
-		if x.ID == id {
-			return x
-		}
-	}
-	return nil
-}
-
-func (r References) Clone() References {
-	return slices.Clone(r)
 }

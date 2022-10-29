@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"time"
 
-	"golang.org/x/exp/slices"
-
 	"github.com/kyleu/pftest/app/util"
 )
 
@@ -87,19 +85,4 @@ func (t *Timestamp) Diff(tx *Timestamp) util.Diffs {
 
 func (t *Timestamp) ToData() []any {
 	return []any{t.ID, t.Created, t.Updated, t.Deleted}
-}
-
-type Timestamps []*Timestamp
-
-func (t Timestamps) Get(id string) *Timestamp {
-	for _, x := range t {
-		if x.ID == id {
-			return x
-		}
-	}
-	return nil
-}
-
-func (t Timestamps) Clone() Timestamps {
-	return slices.Clone(t)
 }

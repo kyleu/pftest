@@ -61,33 +61,37 @@ func TypesDrop() string {
 func StreamTypesCreate(qw422016 *qt422016.Writer) {
 //line queries/ddl/types.sql:6
 	qw422016.N().S(`
-create type "foo" as enum ('a', 'b', 'c', 'd');
+do $$ begin
+  create type "foo" as enum ('a', 'b', 'c', 'd');
+exception
+  when duplicate_object then null;
+end $$;
 -- `)
-//line queries/ddl/types.sql:8
+//line queries/ddl/types.sql:12
 }
 
-//line queries/ddl/types.sql:8
+//line queries/ddl/types.sql:12
 func WriteTypesCreate(qq422016 qtio422016.Writer) {
-//line queries/ddl/types.sql:8
+//line queries/ddl/types.sql:12
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line queries/ddl/types.sql:8
+//line queries/ddl/types.sql:12
 	StreamTypesCreate(qw422016)
-//line queries/ddl/types.sql:8
+//line queries/ddl/types.sql:12
 	qt422016.ReleaseWriter(qw422016)
-//line queries/ddl/types.sql:8
+//line queries/ddl/types.sql:12
 }
 
-//line queries/ddl/types.sql:8
+//line queries/ddl/types.sql:12
 func TypesCreate() string {
-//line queries/ddl/types.sql:8
+//line queries/ddl/types.sql:12
 	qb422016 := qt422016.AcquireByteBuffer()
-//line queries/ddl/types.sql:8
+//line queries/ddl/types.sql:12
 	WriteTypesCreate(qb422016)
-//line queries/ddl/types.sql:8
+//line queries/ddl/types.sql:12
 	qs422016 := string(qb422016.B)
-//line queries/ddl/types.sql:8
+//line queries/ddl/types.sql:12
 	qt422016.ReleaseByteBuffer(qb422016)
-//line queries/ddl/types.sql:8
+//line queries/ddl/types.sql:12
 	return qs422016
-//line queries/ddl/types.sql:8
+//line queries/ddl/types.sql:12
 }

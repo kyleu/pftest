@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"time"
 
-	"golang.org/x/exp/slices"
-
 	"github.com/kyleu/pftest/app/util"
 )
 
@@ -109,19 +107,4 @@ func (v *Version) ToDataCore() []any {
 
 func (v *Version) ToDataRevision() []any {
 	return []any{v.ID, v.Revision, v.Varcol, v.Created}
-}
-
-type Versions []*Version
-
-func (v Versions) Get(id string) *Version {
-	for _, x := range v {
-		if x.ID == id {
-			return x
-		}
-	}
-	return nil
-}
-
-func (v Versions) Clone() Versions {
-	return slices.Clone(v)
 }

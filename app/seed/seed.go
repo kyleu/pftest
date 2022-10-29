@@ -5,7 +5,6 @@ import (
 	"fmt"
 
 	"github.com/google/uuid"
-	"golang.org/x/exp/slices"
 
 	"github.com/kyleu/pftest/app/util"
 )
@@ -99,19 +98,4 @@ func (s *Seed) Diff(sx *Seed) util.Diffs {
 
 func (s *Seed) ToData() []any {
 	return []any{s.ID, s.Name, s.Size, s.Obj}
-}
-
-type Seeds []*Seed
-
-func (s Seeds) Get(id uuid.UUID) *Seed {
-	for _, x := range s {
-		if x.ID == id {
-			return x
-		}
-	}
-	return nil
-}
-
-func (s Seeds) Clone() Seeds {
-	return slices.Clone(s)
 }
