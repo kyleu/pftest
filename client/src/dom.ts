@@ -1,4 +1,6 @@
 // Content managed by Project Forge, see [projectforge.md] for details.
+import * as JSX from "./jsx"
+
 export function els<T extends HTMLElement>(selector: string, context?: HTMLElement): readonly T[] {
   let result: NodeListOf<Element>;
   if (context) {

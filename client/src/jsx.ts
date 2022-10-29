@@ -1,13 +1,11 @@
 // Content managed by Project Forge, see [projectforge.md] for details.
 import {setHTML} from "./dom";
 
-declare namespace JSX {
-  interface Element extends HTMLElement {}
+export interface Element extends HTMLElement {}
 
-  // noinspection JSUnusedGlobalSymbols
-  interface IntrinsicElements {
-    [elemName: string]: any;
-  }
+// noinspection JSUnusedGlobalSymbols
+export interface IntrinsicElements {
+  [elemName: string]: any;
 }
 
 // noinspection JSUnusedGlobalSymbols
