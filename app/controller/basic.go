@@ -16,35 +16,33 @@ import (
 
 func BasicList(rc *fasthttp.RequestCtx) {
 	Act("basic.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		params := cutil.ParamSetFromRequest(rc)
-		prms := params.Get("basic", nil, ps.Logger).Sanitize("basic")
+		prms := ps.Params.Get("basic", nil, ps.Logger).Sanitize("basic")
 		ret, err := as.Services.Basic.List(ps.Context, nil, prms, ps.Logger)
 		if err != nil {
 			return "", err
 		}
 		ps.Title = "Basics"
 		ps.Data = ret
-		return Render(rc, as, &vbasic.List{Models: ret, Params: params}, ps, "basic")
+		return Render(rc, as, &vbasic.List{Models: ret, Params: ps.Params}, ps, "basic")
 	})
 }
 
 func BasicDetail(rc *fasthttp.RequestCtx) {
 	Act("basic.detail", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		params := cutil.ParamSetFromRequest(rc)
 		ret, err := basicFromPath(rc, as, ps)
 		if err != nil {
 			return "", err
 		}
 		ps.Title = ret.TitleString() + " (Basic)"
 		ps.Data = ret
-		relationPrms := params.Get("relation", nil, ps.Logger).Sanitize("relation")
+		relationPrms := ps.Params.Get("relation", nil, ps.Logger).Sanitize("relation")
 		relationsByBasicID, err := as.Services.Relation.GetByBasicID(ps.Context, nil, ret.ID, relationPrms, ps.Logger)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to retrieve child relations")
 		}
 		return Render(rc, as, &vbasic.Detail{
 			Model:              ret,
-			Params:             params,
+			Params:             ps.Params,
 			RelationsByBasicID: relationsByBasicID,
 		}, ps, "basic", ret.String())
 	})

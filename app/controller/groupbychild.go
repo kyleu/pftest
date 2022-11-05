@@ -31,15 +31,14 @@ func GroupListByChild(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", errors.Wrap(err, "must provide [child] as an argument")
 		}
-		params := cutil.ParamSetFromRequest(rc)
-		prms := params.Get("group", nil, ps.Logger).Sanitize("group")
+		prms := ps.Params.Get("group", nil, ps.Logger).Sanitize("group")
 		ret, err := as.Services.Group.GetByChild(ps.Context, nil, childArg, prms, ps.Logger)
 		if err != nil {
 			return "", err
 		}
 		ps.Title = "Groups"
 		ps.Data = ret
-		return Render(rc, as, &vgroup.List{Models: ret, Params: params}, ps, "group", "child")
+		return Render(rc, as, &vgroup.List{Models: ret, Params: ps.Params}, ps, "group", "child")
 	})
 }
 

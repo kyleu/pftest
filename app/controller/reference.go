@@ -16,15 +16,14 @@ import (
 
 func ReferenceList(rc *fasthttp.RequestCtx) {
 	Act("reference.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		params := cutil.ParamSetFromRequest(rc)
-		prms := params.Get("reference", nil, ps.Logger).Sanitize("reference")
+		prms := ps.Params.Get("reference", nil, ps.Logger).Sanitize("reference")
 		ret, err := as.Services.Reference.List(ps.Context, nil, prms, ps.Logger)
 		if err != nil {
 			return "", err
 		}
 		ps.Title = "References"
 		ps.Data = ret
-		return Render(rc, as, &vreference.List{Models: ret, Params: params}, ps, "reference")
+		return Render(rc, as, &vreference.List{Models: ret, Params: ps.Params}, ps, "reference")
 	})
 }
 

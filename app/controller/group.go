@@ -15,15 +15,14 @@ import (
 
 func GroupList(rc *fasthttp.RequestCtx) {
 	Act("group.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		params := cutil.ParamSetFromRequest(rc)
-		prms := params.Get("group", nil, ps.Logger).Sanitize("group")
+		prms := ps.Params.Get("group", nil, ps.Logger).Sanitize("group")
 		ret, err := as.Services.Group.List(ps.Context, nil, prms, ps.Logger)
 		if err != nil {
 			return "", err
 		}
 		ps.Title = "Groups"
 		ps.Data = ret
-		return Render(rc, as, &vgroup.List{Models: ret, Params: params}, ps, "group")
+		return Render(rc, as, &vgroup.List{Models: ret, Params: ps.Params}, ps, "group")
 	})
 }
 

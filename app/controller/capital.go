@@ -15,26 +15,24 @@ import (
 
 func CapitalList(rc *fasthttp.RequestCtx) {
 	Act("capital.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		params := cutil.ParamSetFromRequest(rc)
-		prms := params.Get("capital", nil, ps.Logger).Sanitize("capital")
+		prms := ps.Params.Get("capital", nil, ps.Logger).Sanitize("capital")
 		ret, err := as.Services.Capital.List(ps.Context, nil, prms, ps.Logger)
 		if err != nil {
 			return "", err
 		}
 		ps.Title = "Capitals"
 		ps.Data = ret
-		return Render(rc, as, &vcapital.List{Models: ret, Params: params}, ps, "capital")
+		return Render(rc, as, &vcapital.List{Models: ret, Params: ps.Params}, ps, "capital")
 	})
 }
 
 func CapitalDetail(rc *fasthttp.RequestCtx) {
 	Act("capital.detail", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		params := cutil.ParamSetFromRequest(rc)
 		ret, err := capitalFromPath(rc, as, ps)
 		if err != nil {
 			return "", err
 		}
-		prms := params.Get("capital", nil, ps.Logger).Sanitize("capital")
+		prms := ps.Params.Get("capital", nil, ps.Logger).Sanitize("capital")
 		versions, err := as.Services.Capital.GetAllVersions(ps.Context, nil, ret.ID, prms, ps.Logger)
 		if err != nil {
 			return "", err
@@ -43,7 +41,7 @@ func CapitalDetail(rc *fasthttp.RequestCtx) {
 		ps.Data = ret
 		return Render(rc, as, &vcapital.Detail{
 			Model:    ret,
-			Params:   params,
+			Params:   ps.Params,
 			Versions: versions,
 		}, ps, "capital", ret.String())
 	})

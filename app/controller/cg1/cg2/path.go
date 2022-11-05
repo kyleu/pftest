@@ -17,15 +17,14 @@ import (
 
 func PathList(rc *fasthttp.RequestCtx) {
 	controller.Act("path.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		params := cutil.ParamSetFromRequest(rc)
-		prms := params.Get("path", nil, ps.Logger).Sanitize("path")
+		prms := ps.Params.Get("path", nil, ps.Logger).Sanitize("path")
 		ret, err := as.Services.Path.List(ps.Context, nil, prms, ps.Logger)
 		if err != nil {
 			return "", err
 		}
 		ps.Title = "Paths"
 		ps.Data = ret
-		return controller.Render(rc, as, &vpath.List{Models: ret, Params: params}, ps, "g1", "g2", "path")
+		return controller.Render(rc, as, &vpath.List{Models: ret, Params: ps.Params}, ps, "g1", "g2", "path")
 	})
 }
 

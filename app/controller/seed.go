@@ -16,15 +16,14 @@ import (
 
 func SeedList(rc *fasthttp.RequestCtx) {
 	Act("seed.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		params := cutil.ParamSetFromRequest(rc)
-		prms := params.Get("seed", nil, ps.Logger).Sanitize("seed")
+		prms := ps.Params.Get("seed", nil, ps.Logger).Sanitize("seed")
 		ret, err := as.Services.Seed.List(ps.Context, nil, prms, ps.Logger)
 		if err != nil {
 			return "", err
 		}
 		ps.Title = "Seeds"
 		ps.Data = ret
-		return Render(rc, as, &vseed.List{Models: ret, Params: params}, ps, "seed")
+		return Render(rc, as, &vseed.List{Models: ret, Params: ps.Params}, ps, "seed")
 	})
 }
 

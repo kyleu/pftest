@@ -15,15 +15,14 @@ import (
 
 func TimestampList(rc *fasthttp.RequestCtx) {
 	Act("timestamp.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		params := cutil.ParamSetFromRequest(rc)
-		prms := params.Get("timestamp", nil, ps.Logger).Sanitize("timestamp")
+		prms := ps.Params.Get("timestamp", nil, ps.Logger).Sanitize("timestamp")
 		ret, err := as.Services.Timestamp.List(ps.Context, nil, prms, cutil.QueryStringBool(rc, "includeDeleted"), ps.Logger)
 		if err != nil {
 			return "", err
 		}
 		ps.Title = "Timestamps"
 		ps.Data = ret
-		return Render(rc, as, &vtimestamp.List{Models: ret, Params: params}, ps, "timestamp")
+		return Render(rc, as, &vtimestamp.List{Models: ret, Params: ps.Params}, ps, "timestamp")
 	})
 }
 

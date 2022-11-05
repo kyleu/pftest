@@ -17,8 +17,7 @@ import (
 
 func RelationList(rc *fasthttp.RequestCtx) {
 	Act("relation.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		params := cutil.ParamSetFromRequest(rc)
-		prms := params.Get("relation", nil, ps.Logger).Sanitize("relation")
+		prms := ps.Params.Get("relation", nil, ps.Logger).Sanitize("relation")
 		ret, err := as.Services.Relation.List(ps.Context, nil, prms, ps.Logger)
 		if err != nil {
 			return "", err
@@ -33,7 +32,7 @@ func RelationList(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		return Render(rc, as, &vrelation.List{Models: ret, Basics: basics, Params: params}, ps, "relation")
+		return Render(rc, as, &vrelation.List{Models: ret, Basics: basics, Params: ps.Params}, ps, "relation")
 	})
 }
 

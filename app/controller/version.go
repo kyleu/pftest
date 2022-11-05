@@ -15,26 +15,24 @@ import (
 
 func VersionList(rc *fasthttp.RequestCtx) {
 	Act("version.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		params := cutil.ParamSetFromRequest(rc)
-		prms := params.Get("version", nil, ps.Logger).Sanitize("version")
+		prms := ps.Params.Get("version", nil, ps.Logger).Sanitize("version")
 		ret, err := as.Services.Version.List(ps.Context, nil, prms, ps.Logger)
 		if err != nil {
 			return "", err
 		}
 		ps.Title = "Versions"
 		ps.Data = ret
-		return Render(rc, as, &vversion.List{Models: ret, Params: params}, ps, "version")
+		return Render(rc, as, &vversion.List{Models: ret, Params: ps.Params}, ps, "version")
 	})
 }
 
 func VersionDetail(rc *fasthttp.RequestCtx) {
 	Act("version.detail", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		params := cutil.ParamSetFromRequest(rc)
 		ret, err := versionFromPath(rc, as, ps)
 		if err != nil {
 			return "", err
 		}
-		prms := params.Get("version", nil, ps.Logger).Sanitize("version")
+		prms := ps.Params.Get("version", nil, ps.Logger).Sanitize("version")
 		revisions, err := as.Services.Version.GetAllRevisions(ps.Context, nil, ret.ID, prms, ps.Logger)
 		if err != nil {
 			return "", err
@@ -43,7 +41,7 @@ func VersionDetail(rc *fasthttp.RequestCtx) {
 		ps.Data = ret
 		return Render(rc, as, &vversion.Detail{
 			Model:     ret,
-			Params:    params,
+			Params:    ps.Params,
 			Revisions: revisions,
 		}, ps, "version", ret.String())
 	})

@@ -15,15 +15,14 @@ import (
 
 func SoftdelList(rc *fasthttp.RequestCtx) {
 	Act("softdel.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		params := cutil.ParamSetFromRequest(rc)
-		prms := params.Get("softdel", nil, ps.Logger).Sanitize("softdel")
+		prms := ps.Params.Get("softdel", nil, ps.Logger).Sanitize("softdel")
 		ret, err := as.Services.Softdel.List(ps.Context, nil, prms, cutil.QueryStringBool(rc, "includeDeleted"), ps.Logger)
 		if err != nil {
 			return "", err
 		}
 		ps.Title = "Softdels"
 		ps.Data = ret
-		return Render(rc, as, &vsoftdel.List{Models: ret, Params: params}, ps, "softdel")
+		return Render(rc, as, &vsoftdel.List{Models: ret, Params: ps.Params}, ps, "softdel")
 	})
 }
 

@@ -15,21 +15,19 @@ import (
 
 func HistList(rc *fasthttp.RequestCtx) {
 	Act("hist.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		params := cutil.ParamSetFromRequest(rc)
-		prms := params.Get("hist", nil, ps.Logger).Sanitize("hist")
+		prms := ps.Params.Get("hist", nil, ps.Logger).Sanitize("hist")
 		ret, err := as.Services.Hist.List(ps.Context, nil, prms, ps.Logger)
 		if err != nil {
 			return "", err
 		}
 		ps.Title = "Hists"
 		ps.Data = ret
-		return Render(rc, as, &vhist.List{Models: ret, Params: params}, ps, "hist")
+		return Render(rc, as, &vhist.List{Models: ret, Params: ps.Params}, ps, "hist")
 	})
 }
 
 func HistDetail(rc *fasthttp.RequestCtx) {
 	Act("hist.detail", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		params := cutil.ParamSetFromRequest(rc)
 		ret, err := histFromPath(rc, as, ps)
 		if err != nil {
 			return "", err
@@ -42,7 +40,7 @@ func HistDetail(rc *fasthttp.RequestCtx) {
 		ps.Data = ret
 		return Render(rc, as, &vhist.Detail{
 			Model:     ret,
-			Params:    params,
+			Params:    ps.Params,
 			Histories: hist,
 		}, ps, "hist", ret.String())
 	})

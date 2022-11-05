@@ -16,15 +16,14 @@ import (
 
 func AuditedList(rc *fasthttp.RequestCtx) {
 	Act("audited.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		params := cutil.ParamSetFromRequest(rc)
-		prms := params.Get("audited", nil, ps.Logger).Sanitize("audited")
+		prms := ps.Params.Get("audited", nil, ps.Logger).Sanitize("audited")
 		ret, err := as.Services.Audited.List(ps.Context, nil, prms, ps.Logger)
 		if err != nil {
 			return "", err
 		}
 		ps.Title = "Auditeds"
 		ps.Data = ret
-		return Render(rc, as, &vaudited.List{Models: ret, Params: params}, ps, "audited")
+		return Render(rc, as, &vaudited.List{Models: ret, Params: ps.Params}, ps, "audited")
 	})
 }
 

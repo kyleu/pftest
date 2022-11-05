@@ -15,26 +15,24 @@ import (
 
 func TroubleList(rc *fasthttp.RequestCtx) {
 	Act("trouble.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		params := cutil.ParamSetFromRequest(rc)
-		prms := params.Get("trouble", nil, ps.Logger).Sanitize("trouble")
+		prms := ps.Params.Get("trouble", nil, ps.Logger).Sanitize("trouble")
 		ret, err := as.Services.Trouble.List(ps.Context, nil, prms, cutil.QueryStringBool(rc, "includeDeleted"), ps.Logger)
 		if err != nil {
 			return "", err
 		}
 		ps.Title = "Troubles"
 		ps.Data = ret
-		return Render(rc, as, &vtrouble.List{Models: ret, Params: params}, ps, "trouble")
+		return Render(rc, as, &vtrouble.List{Models: ret, Params: ps.Params}, ps, "trouble")
 	})
 }
 
 func TroubleDetail(rc *fasthttp.RequestCtx) {
 	Act("trouble.detail", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		params := cutil.ParamSetFromRequest(rc)
 		ret, err := troubleFromPath(rc, as, ps)
 		if err != nil {
 			return "", err
 		}
-		prms := params.Get("trouble", nil, ps.Logger).Sanitize("trouble")
+		prms := ps.Params.Get("trouble", nil, ps.Logger).Sanitize("trouble")
 		selectcols, err := as.Services.Trouble.GetAllSelectcols(ps.Context, nil, ret.From, ret.Where, prms, false, ps.Logger)
 		if err != nil {
 			return "", err
@@ -43,7 +41,7 @@ func TroubleDetail(rc *fasthttp.RequestCtx) {
 		ps.Data = ret
 		return Render(rc, as, &vtrouble.Detail{
 			Model:      ret,
-			Params:     params,
+			Params:     ps.Params,
 			Selectcols: selectcols,
 		}, ps, "trouble", ret.String())
 	})

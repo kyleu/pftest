@@ -15,15 +15,14 @@ import (
 
 func MixedCaseList(rc *fasthttp.RequestCtx) {
 	Act("mixedcase.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		params := cutil.ParamSetFromRequest(rc)
-		prms := params.Get("mixedcase", nil, ps.Logger).Sanitize("mixedcase")
+		prms := ps.Params.Get("mixedcase", nil, ps.Logger).Sanitize("mixedcase")
 		ret, err := as.Services.MixedCase.List(ps.Context, nil, prms, ps.Logger)
 		if err != nil {
 			return "", err
 		}
 		ps.Title = "Mixed Cases"
 		ps.Data = ret
-		return Render(rc, as, &vmixedcase.List{Models: ret, Params: params}, ps, "mixedcase")
+		return Render(rc, as, &vmixedcase.List{Models: ret, Params: ps.Params}, ps, "mixedcase")
 	})
 }
 
