@@ -49,7 +49,7 @@
 {% endfunc %}
 
 {% func HistoryTable(model *hist.Hist, histories hist.Histories, params filter.ParamSet, as *app.State, ps *cutil.PageState) %}
-  {%- code prms := params.Get("history_history", nil, ps.Logger).Sanitize("history_history") -%}
+  {%- code prms := params.Get("hist_history", nil, ps.Logger).Sanitize("hist_history") -%}
   <table class="mt">
     <thead>
       <tr>

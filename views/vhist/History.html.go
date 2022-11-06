@@ -143,7 +143,7 @@ func StreamHistoryTable(qw422016 *qt422016.Writer, model *hist.Hist, histories h
 	qw422016.N().S(`
 `)
 //line views/vhist/History.html:52
-	prms := params.Get("history_history", nil, ps.Logger).Sanitize("history_history")
+	prms := params.Get("hist_history", nil, ps.Logger).Sanitize("hist_history")
 
 //line views/vhist/History.html:52
 	qw422016.N().S(`  <table class="mt">
