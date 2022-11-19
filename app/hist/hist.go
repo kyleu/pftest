@@ -65,7 +65,7 @@ func (h *Hist) TitleString() string {
 }
 
 func (h *Hist) WebPath() string {
-	return "/hist" + "/" + h.ID
+	return "/hist/" + h.ID
 }
 
 func (h *Hist) Diff(hx *Hist) util.Diffs {

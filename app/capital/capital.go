@@ -80,7 +80,7 @@ func (c *Capital) TitleString() string {
 }
 
 func (c *Capital) WebPath() string {
-	return "/capital" + "/" + c.ID
+	return "/capital/" + c.ID
 }
 
 func (c *Capital) Diff(cx *Capital) util.Diffs {
@@ -97,7 +97,7 @@ func (c *Capital) Diff(cx *Capital) util.Diffs {
 	if c.Version != cx.Version {
 		diffs = append(diffs, util.NewDiff("version", fmt.Sprint(c.Version), fmt.Sprint(cx.Version)))
 	}
-	if (c.Deathday == nil && cx.Deathday != nil) || (c.Deathday != nil && cx.Deathday == nil) || (c.Deathday != nil && cx.Deathday != nil && *c.Deathday != *cx.Deathday) {
+	if (c.Deathday == nil && cx.Deathday != nil) || (c.Deathday != nil && cx.Deathday == nil) || (c.Deathday != nil && cx.Deathday != nil && *c.Deathday != *cx.Deathday) { //nolint:lll
 		diffs = append(diffs, util.NewDiff("deathday", fmt.Sprint(c.Deathday), fmt.Sprint(cx.Deathday))) //nolint:gocritic // it's nullable
 	}
 	return diffs

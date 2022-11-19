@@ -14,6 +14,14 @@ func (c Capitals) Get(id string) *Capital {
 	return nil
 }
 
+func (c Capitals) IDs() []string {
+	ret := make([]string, 0, len(c)+1)
+	for _, x := range c {
+		ret = append(ret, x.ID)
+	}
+	return ret
+}
+
 func (c Capitals) IDStrings(includeNil bool) []string {
 	ret := make([]string, 0, len(c)+1)
 	if includeNil {

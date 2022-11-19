@@ -99,7 +99,7 @@ func (s *Service) GetByFrom(ctx context.Context, tx *sqlx.Tx, from string, param
 	return ret.ToTroubles(), nil
 }
 
-func (s *Service) GetByWhere(ctx context.Context, tx *sqlx.Tx, where []string, params *filter.Params, includeDeleted bool, logger util.Logger) (Troubles, error) {
+func (s *Service) GetByWhere(ctx context.Context, tx *sqlx.Tx, where []string, params *filter.Params, includeDeleted bool, logger util.Logger) (Troubles, error) { //nolint:lll
 	params = filters(params)
 	wc := "\"where\" = $1"
 	wc = addDeletedClause(wc, includeDeleted)
@@ -112,9 +112,9 @@ func (s *Service) GetByWhere(ctx context.Context, tx *sqlx.Tx, where []string, p
 	return ret.ToTroubles(), nil
 }
 
-func (s *Service) ListSQL(ctx context.Context, tx *sqlx.Tx, sql string, logger util.Logger) (Troubles, error) {
+func (s *Service) ListSQL(ctx context.Context, tx *sqlx.Tx, sql string, logger util.Logger, values ...any) (Troubles, error) {
 	ret := dtos{}
-	err := s.dbRead.Select(ctx, &ret, sql, tx, logger)
+	err := s.dbRead.Select(ctx, &ret, sql, tx, logger, values...)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to get troubles using custom SQL")
 	}

@@ -77,7 +77,7 @@ func (r *Relation) TitleString() string {
 }
 
 func (r *Relation) WebPath() string {
-	return "/relation" + "/" + r.ID.String()
+	return "/relation/" + r.ID.String()
 }
 
 func (r *Relation) Diff(rx *Relation) util.Diffs {

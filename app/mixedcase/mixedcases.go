@@ -14,6 +14,14 @@ func (m MixedCases) Get(id string) *MixedCase {
 	return nil
 }
 
+func (m MixedCases) IDs() []string {
+	ret := make([]string, 0, len(m)+1)
+	for _, x := range m {
+		ret = append(ret, x.ID)
+	}
+	return ret
+}
+
 func (m MixedCases) IDStrings(includeNil bool) []string {
 	ret := make([]string, 0, len(m)+1)
 	if includeNil {

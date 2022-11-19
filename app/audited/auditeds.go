@@ -17,6 +17,14 @@ func (a Auditeds) Get(id uuid.UUID) *Audited {
 	return nil
 }
 
+func (a Auditeds) IDs() []uuid.UUID {
+	ret := make([]uuid.UUID, 0, len(a)+1)
+	for _, x := range a {
+		ret = append(ret, x.ID)
+	}
+	return ret
+}
+
 func (a Auditeds) IDStrings(includeNil bool) []string {
 	ret := make([]string, 0, len(a)+1)
 	if includeNil {

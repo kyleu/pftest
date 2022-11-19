@@ -14,6 +14,14 @@ func (t Timestamps) Get(id string) *Timestamp {
 	return nil
 }
 
+func (t Timestamps) IDs() []string {
+	ret := make([]string, 0, len(t)+1)
+	for _, x := range t {
+		ret = append(ret, x.ID)
+	}
+	return ret
+}
+
 func (t Timestamps) IDStrings(includeNil bool) []string {
 	ret := make([]string, 0, len(t)+1)
 	if includeNil {

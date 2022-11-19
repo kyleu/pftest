@@ -62,7 +62,7 @@ func (a *Audited) TitleString() string {
 }
 
 func (a *Audited) WebPath() string {
-	return "/audited" + "/" + a.ID.String()
+	return "/audited/" + a.ID.String()
 }
 
 func (a *Audited) Diff(ax *Audited) util.Diffs {

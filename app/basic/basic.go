@@ -74,7 +74,7 @@ func (b *Basic) TitleString() string {
 }
 
 func (b *Basic) WebPath() string {
-	return "/basic" + "/" + b.ID.String()
+	return "/basic/" + b.ID.String()
 }
 
 func (b *Basic) Diff(bx *Basic) util.Diffs {

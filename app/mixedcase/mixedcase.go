@@ -62,7 +62,7 @@ func (m *MixedCase) TitleString() string {
 }
 
 func (m *MixedCase) WebPath() string {
-	return "/mixedcase" + "/" + m.ID
+	return "/mixedcase/" + m.ID
 }
 
 func (m *MixedCase) Diff(mx *MixedCase) util.Diffs {

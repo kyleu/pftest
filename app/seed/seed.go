@@ -78,7 +78,7 @@ func (s *Seed) TitleString() string {
 }
 
 func (s *Seed) WebPath() string {
-	return "/seed" + "/" + s.ID.String()
+	return "/seed/" + s.ID.String()
 }
 
 func (s *Seed) Diff(sx *Seed) util.Diffs {

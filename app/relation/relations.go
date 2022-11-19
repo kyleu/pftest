@@ -17,6 +17,14 @@ func (r Relations) Get(id uuid.UUID) *Relation {
 	return nil
 }
 
+func (r Relations) IDs() []uuid.UUID {
+	ret := make([]uuid.UUID, 0, len(r)+1)
+	for _, x := range r {
+		ret = append(ret, x.ID)
+	}
+	return ret
+}
+
 func (r Relations) IDStrings(includeNil bool) []string {
 	ret := make([]string, 0, len(r)+1)
 	if includeNil {

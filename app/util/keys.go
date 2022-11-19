@@ -11,4 +11,7 @@ const (
 	AppURL     = "https://github.com/kyleu/pftest"
 	AppSource  = "https://github.com/kyleu/pftest"
 	AppLegal   = `Built by <a href="mailto:projectforge@kyleu.com">Kyle U</a>, all rights reserved`
+
+	// $PF_SECTION_START(keys)$
+	// $PF_SECTION_END(keys)$.
 )

@@ -90,7 +90,7 @@ func (t *Trouble) TitleString() string {
 }
 
 func (t *Trouble) WebPath() string {
-	return "/troub/le" + "/" + t.From + "/" + strings.Join(t.Where, ",")
+	return "/troub/le/" + t.From + "/" + strings.Join(t.Where, ",")
 }
 
 func (t *Trouble) Diff(tx *Trouble) util.Diffs {

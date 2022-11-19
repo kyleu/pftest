@@ -17,6 +17,14 @@ func (p Paths) Get(id uuid.UUID) *Path {
 	return nil
 }
 
+func (p Paths) IDs() []uuid.UUID {
+	ret := make([]uuid.UUID, 0, len(p)+1)
+	for _, x := range p {
+		ret = append(ret, x.ID)
+	}
+	return ret
+}
+
 func (p Paths) IDStrings(includeNil bool) []string {
 	ret := make([]string, 0, len(p)+1)
 	if includeNil {

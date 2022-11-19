@@ -76,7 +76,7 @@ func (v *Version) TitleString() string {
 }
 
 func (v *Version) WebPath() string {
-	return "/version" + "/" + v.ID
+	return "/version/" + v.ID
 }
 
 func (v *Version) Diff(vx *Version) util.Diffs {

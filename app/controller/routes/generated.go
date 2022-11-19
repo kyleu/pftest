@@ -8,6 +8,7 @@ import (
 	"github.com/kyleu/pftest/app/controller/cg1/cg2"
 )
 
+//nolint:funlen
 func generatedRoutes(r *router.Router) {
 	r.GET("/capital", controller.CapitalList)
 	r.GET("/capital/random", controller.CapitalCreateFormRandom)

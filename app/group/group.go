@@ -80,7 +80,7 @@ func (g *Group) TitleString() string {
 }
 
 func (g *Group) WebPath() string {
-	return "/group" + "/" + g.ID
+	return "/group/" + g.ID
 }
 
 func (g *Group) Diff(gx *Group) util.Diffs {
@@ -95,7 +95,7 @@ func (g *Group) Diff(gx *Group) util.Diffs {
 	if g.Created != gx.Created {
 		diffs = append(diffs, util.NewDiff("created", g.Created.String(), gx.Created.String()))
 	}
-	if (g.Deleted == nil && gx.Deleted != nil) || (g.Deleted != nil && gx.Deleted == nil) || (g.Deleted != nil && gx.Deleted != nil && *g.Deleted != *gx.Deleted) {
+	if (g.Deleted == nil && gx.Deleted != nil) || (g.Deleted != nil && gx.Deleted == nil) || (g.Deleted != nil && gx.Deleted != nil && *g.Deleted != *gx.Deleted) { //nolint:lll
 		diffs = append(diffs, util.NewDiff("deleted", fmt.Sprint(g.Deleted), fmt.Sprint(gx.Deleted))) //nolint:gocritic // it's nullable
 	}
 	return diffs

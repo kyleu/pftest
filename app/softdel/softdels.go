@@ -14,6 +14,14 @@ func (s Softdels) Get(id string) *Softdel {
 	return nil
 }
 
+func (s Softdels) IDs() []string {
+	ret := make([]string, 0, len(s)+1)
+	for _, x := range s {
+		ret = append(ret, x.ID)
+	}
+	return ret
+}
+
 func (s Softdels) IDStrings(includeNil bool) []string {
 	ret := make([]string, 0, len(s)+1)
 	if includeNil {

@@ -81,9 +81,9 @@ func (s *Service) Search(ctx context.Context, query string, tx *sqlx.Tx, params 
 	return ret.ToPaths(), nil
 }
 
-func (s *Service) ListSQL(ctx context.Context, tx *sqlx.Tx, sql string, logger util.Logger) (Paths, error) {
+func (s *Service) ListSQL(ctx context.Context, tx *sqlx.Tx, sql string, logger util.Logger, values ...any) (Paths, error) {
 	ret := dtos{}
-	err := s.dbRead.Select(ctx, &ret, sql, tx, logger)
+	err := s.dbRead.Select(ctx, &ret, sql, tx, logger, values...)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to get paths using custom SQL")
 	}

@@ -18,6 +18,14 @@ func (t Troubles) Get(from string, where []string) *Trouble {
 	return nil
 }
 
+func (t Troubles) Froms() []string {
+	ret := make([]string, 0, len(t)+1)
+	for _, x := range t {
+		ret = append(ret, x.From)
+	}
+	return ret
+}
+
 func (t Troubles) FromStrings(includeNil bool) []string {
 	ret := make([]string, 0, len(t)+1)
 	if includeNil {
@@ -25,6 +33,14 @@ func (t Troubles) FromStrings(includeNil bool) []string {
 	}
 	for _, x := range t {
 		ret = append(ret, x.From)
+	}
+	return ret
+}
+
+func (t Troubles) Wheres() [][]string {
+	ret := make([][]string, 0, len(t)+1)
+	for _, x := range t {
+		ret = append(ret, x.Where)
 	}
 	return ret
 }

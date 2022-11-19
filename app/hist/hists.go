@@ -14,6 +14,14 @@ func (h Hists) Get(id string) *Hist {
 	return nil
 }
 
+func (h Hists) IDs() []string {
+	ret := make([]string, 0, len(h)+1)
+	for _, x := range h {
+		ret = append(ret, x.ID)
+	}
+	return ret
+}
+
 func (h Hists) IDStrings(includeNil bool) []string {
 	ret := make([]string, 0, len(h)+1)
 	if includeNil {

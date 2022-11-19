@@ -14,6 +14,14 @@ func (g Groups) Get(id string) *Group {
 	return nil
 }
 
+func (g Groups) IDs() []string {
+	ret := make([]string, 0, len(g)+1)
+	for _, x := range g {
+		ret = append(ret, x.ID)
+	}
+	return ret
+}
+
 func (g Groups) IDStrings(includeNil bool) []string {
 	ret := make([]string, 0, len(g)+1)
 	if includeNil {

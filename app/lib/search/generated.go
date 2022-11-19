@@ -5,12 +5,13 @@ import (
 	"context"
 
 	"github.com/kyleu/pftest/app"
+	"github.com/kyleu/pftest/app/controller/cutil"
 	"github.com/kyleu/pftest/app/lib/search/result"
 	"github.com/kyleu/pftest/app/util"
 )
 
 func generatedSearch() []Provider {
-	auditedFunc := func(ctx context.Context, as *app.State, params *Params, logger util.Logger) (result.Results, error) {
+	auditedFunc := func(ctx context.Context, params *Params, as *app.State, page *cutil.PageState, logger util.Logger) (result.Results, error) {
 		models, err := as.Services.Audited.Search(ctx, params.Q, nil, params.PS.Get("audited", nil, logger), logger)
 		if err != nil {
 			return nil, err
@@ -21,7 +22,7 @@ func generatedSearch() []Provider {
 		}
 		return res, nil
 	}
-	basicFunc := func(ctx context.Context, as *app.State, params *Params, logger util.Logger) (result.Results, error) {
+	basicFunc := func(ctx context.Context, params *Params, as *app.State, page *cutil.PageState, logger util.Logger) (result.Results, error) {
 		models, err := as.Services.Basic.Search(ctx, params.Q, nil, params.PS.Get("basic", nil, logger), logger)
 		if err != nil {
 			return nil, err
@@ -32,7 +33,7 @@ func generatedSearch() []Provider {
 		}
 		return res, nil
 	}
-	pathFunc := func(ctx context.Context, as *app.State, params *Params, logger util.Logger) (result.Results, error) {
+	pathFunc := func(ctx context.Context, params *Params, as *app.State, page *cutil.PageState, logger util.Logger) (result.Results, error) {
 		models, err := as.Services.Path.Search(ctx, params.Q, nil, params.PS.Get("path", nil, logger), logger)
 		if err != nil {
 			return nil, err
@@ -43,7 +44,7 @@ func generatedSearch() []Provider {
 		}
 		return res, nil
 	}
-	referenceFunc := func(ctx context.Context, as *app.State, params *Params, logger util.Logger) (result.Results, error) {
+	referenceFunc := func(ctx context.Context, params *Params, as *app.State, page *cutil.PageState, logger util.Logger) (result.Results, error) {
 		models, err := as.Services.Reference.Search(ctx, params.Q, nil, params.PS.Get("reference", nil, logger), logger)
 		if err != nil {
 			return nil, err
@@ -54,7 +55,7 @@ func generatedSearch() []Provider {
 		}
 		return res, nil
 	}
-	relationFunc := func(ctx context.Context, as *app.State, params *Params, logger util.Logger) (result.Results, error) {
+	relationFunc := func(ctx context.Context, params *Params, as *app.State, page *cutil.PageState, logger util.Logger) (result.Results, error) {
 		models, err := as.Services.Relation.Search(ctx, params.Q, nil, params.PS.Get("relation", nil, logger), logger)
 		if err != nil {
 			return nil, err

@@ -89,9 +89,9 @@ func (s *Service) GetByChild(ctx context.Context, tx *sqlx.Tx, child string, par
 	return ret.ToGroups(), nil
 }
 
-func (s *Service) ListSQL(ctx context.Context, tx *sqlx.Tx, sql string, logger util.Logger) (Groups, error) {
+func (s *Service) ListSQL(ctx context.Context, tx *sqlx.Tx, sql string, logger util.Logger, values ...any) (Groups, error) {
 	ret := dtos{}
-	err := s.dbRead.Select(ctx, &ret, sql, tx, logger)
+	err := s.dbRead.Select(ctx, &ret, sql, tx, logger, values...)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to get groups using custom SQL")
 	}

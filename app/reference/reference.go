@@ -87,7 +87,7 @@ func (r *Reference) TitleString() string {
 }
 
 func (r *Reference) WebPath() string {
-	return "/reference" + "/" + r.ID.String()
+	return "/reference/" + r.ID.String()
 }
 
 func (r *Reference) Diff(rx *Reference) util.Diffs {

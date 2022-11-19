@@ -8,15 +8,16 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/kyleu/pftest/app"
+	"github.com/kyleu/pftest/app/controller/cutil"
 	"github.com/kyleu/pftest/app/lib/search/result"
 	"github.com/kyleu/pftest/app/lib/telemetry"
 	"github.com/kyleu/pftest/app/util"
 )
 
-type Provider func(context.Context, *app.State, *Params, util.Logger) (result.Results, error)
+type Provider func(context.Context, *Params, *app.State, *cutil.PageState, util.Logger) (result.Results, error)
 
-func Search(ctx context.Context, as *app.State, params *Params, logger util.Logger) (result.Results, []error) {
-	ctx, span, logger := telemetry.StartSpan(ctx, "search", logger)
+func Search(ctx context.Context, params *Params, as *app.State, page *cutil.PageState) (result.Results, []error) {
+	ctx, span, logger := telemetry.StartSpan(ctx, "search", page.Logger)
 	defer span.Complete()
 
 	if params.Q == "" {
@@ -34,7 +35,7 @@ func Search(ctx context.Context, as *app.State, params *Params, logger util.Logg
 	params.Q = strings.TrimSpace(params.Q)
 
 	results, errs := util.AsyncCollect(allProviders, func(item Provider) (result.Results, error) {
-		return item(ctx, as, params, logger)
+		return item(ctx, params, as, page, logger)
 	})
 
 	ret := make(result.Results, 0, len(results)*len(results))

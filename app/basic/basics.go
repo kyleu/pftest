@@ -17,6 +17,14 @@ func (b Basics) Get(id uuid.UUID) *Basic {
 	return nil
 }
 
+func (b Basics) IDs() []uuid.UUID {
+	ret := make([]uuid.UUID, 0, len(b)+1)
+	for _, x := range b {
+		ret = append(ret, x.ID)
+	}
+	return ret
+}
+
 func (b Basics) IDStrings(includeNil bool) []string {
 	ret := make([]string, 0, len(b)+1)
 	if includeNil {

@@ -17,6 +17,14 @@ func (s Seeds) Get(id uuid.UUID) *Seed {
 	return nil
 }
 
+func (s Seeds) IDs() []uuid.UUID {
+	ret := make([]uuid.UUID, 0, len(s)+1)
+	for _, x := range s {
+		ret = append(ret, x.ID)
+	}
+	return ret
+}
+
 func (s Seeds) IDStrings(includeNil bool) []string {
 	ret := make([]string, 0, len(s)+1)
 	if includeNil {

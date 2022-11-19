@@ -66,7 +66,7 @@ func (s *Softdel) TitleString() string {
 }
 
 func (s *Softdel) WebPath() string {
-	return "/softdel" + "/" + s.ID
+	return "/softdel/" + s.ID
 }
 
 func (s *Softdel) Diff(sx *Softdel) util.Diffs {
@@ -77,7 +77,7 @@ func (s *Softdel) Diff(sx *Softdel) util.Diffs {
 	if s.Created != sx.Created {
 		diffs = append(diffs, util.NewDiff("created", s.Created.String(), sx.Created.String()))
 	}
-	if (s.Deleted == nil && sx.Deleted != nil) || (s.Deleted != nil && sx.Deleted == nil) || (s.Deleted != nil && sx.Deleted != nil && *s.Deleted != *sx.Deleted) {
+	if (s.Deleted == nil && sx.Deleted != nil) || (s.Deleted != nil && sx.Deleted == nil) || (s.Deleted != nil && sx.Deleted != nil && *s.Deleted != *sx.Deleted) { //nolint:lll
 		diffs = append(diffs, util.NewDiff("deleted", fmt.Sprint(s.Deleted), fmt.Sprint(sx.Deleted))) //nolint:gocritic // it's nullable
 	}
 	return diffs

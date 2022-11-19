@@ -14,6 +14,14 @@ func (v Versions) Get(id string) *Version {
 	return nil
 }
 
+func (v Versions) IDs() []string {
+	ret := make([]string, 0, len(v)+1)
+	for _, x := range v {
+		ret = append(ret, x.ID)
+	}
+	return ret
+}
+
 func (v Versions) IDStrings(includeNil bool) []string {
 	ret := make([]string, 0, len(v)+1)
 	if includeNil {

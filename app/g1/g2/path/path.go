@@ -74,7 +74,7 @@ func (p *Path) TitleString() string {
 }
 
 func (p *Path) WebPath() string {
-	return "/g1/g2/path" + "/" + p.ID.String()
+	return "/g1/g2/path/" + p.ID.String()
 }
 
 func (p *Path) Diff(px *Path) util.Diffs {
