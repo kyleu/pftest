@@ -104,10 +104,10 @@ func (s *Services) Close(_ context.Context, logger util.Logger) error {
 	return nil
 }
 
-func socketHandler(s *websocket.Service, c *websocket.Connection, svc string, cmd string, param json.RawMessage) error {
+func socketHandler(s *websocket.Service, c *websocket.Connection, svc string, cmd string, param json.RawMessage, logger util.Logger) error {
 	switch cmd {
 	case "connect":
-		_, err := s.Join(c.ID, "tap")
+		_, err := s.Join(c.ID, "tap", logger)
 		if err != nil {
 			return err
 		}
