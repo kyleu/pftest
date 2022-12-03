@@ -77,7 +77,7 @@ func NewServices(ctx context.Context, st *State, logger util.Logger) (*Services,
 	}
 
 	aud := audit.NewService(st.DB, logger)
-	sock := websocket.NewService(logger, nil, socketHandler, nil, nil)
+	sock := websocket.NewService(nil, socketHandler, nil)
 
 	return &Services{
 		Basic:     basic.NewService(st.DB, st.DBRead),
@@ -112,7 +112,7 @@ func socketHandler(s *websocket.Service, c *websocket.Connection, svc string, cm
 			return err
 		}
 	default:
-		s.Logger.Error("unhandled command [" + cmd + "]")
+		logger.Error("unhandled command [" + cmd + "]")
 	}
 	return nil
 }

@@ -18,6 +18,16 @@ func (t Troubles) Get(from string, where []string) *Trouble {
 	return nil
 }
 
+func (t Troubles) GetByFroms(froms ...string) Troubles {
+	var ret Troubles
+	for _, x := range t {
+		if slices.Contains(froms, x.From) {
+			ret = append(ret, x)
+		}
+	}
+	return ret
+}
+
 func (t Troubles) Froms() []string {
 	ret := make([]string, 0, len(t)+1)
 	for _, x := range t {

@@ -73,12 +73,12 @@ func (p *Edit) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
 		qw422016.E().S(p.Model.String())
 //line views/vg1/vg2/vpath/Edit.html:24
 		qw422016.N().S(`]</h3>
+    <form action="" method="post">
 `)
-//line views/vg1/vg2/vpath/Edit.html:25
+//line views/vg1/vg2/vpath/Edit.html:26
 	}
-//line views/vg1/vg2/vpath/Edit.html:25
-	qw422016.N().S(`    <form action="" method="post">
-      <table class="mt expanded">
+//line views/vg1/vg2/vpath/Edit.html:26
+	qw422016.N().S(`      <table class="mt expanded">
         <tbody>
           `)
 //line views/vg1/vg2/vpath/Edit.html:29

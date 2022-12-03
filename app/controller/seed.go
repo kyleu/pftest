@@ -23,7 +23,8 @@ func SeedList(rc *fasthttp.RequestCtx) {
 		}
 		ps.Title = "Seeds"
 		ps.Data = ret
-		return Render(rc, as, &vseed.List{Models: ret, Params: ps.Params}, ps, "seed")
+		page := &vseed.List{Models: ret, Params: ps.Params}
+		return Render(rc, as, page, ps, "seed")
 	})
 }
 

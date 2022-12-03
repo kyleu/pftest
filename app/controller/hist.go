@@ -22,7 +22,8 @@ func HistList(rc *fasthttp.RequestCtx) {
 		}
 		ps.Title = "Hists"
 		ps.Data = ret
-		return Render(rc, as, &vhist.List{Models: ret, Params: ps.Params}, ps, "hist")
+		page := &vhist.List{Models: ret, Params: ps.Params}
+		return Render(rc, as, page, ps, "hist")
 	})
 }
 

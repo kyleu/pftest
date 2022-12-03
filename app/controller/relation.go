@@ -3,6 +3,7 @@ package controller
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
@@ -17,8 +18,15 @@ import (
 
 func RelationList(rc *fasthttp.RequestCtx) {
 	Act("relation.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+		q := strings.TrimSpace(string(rc.URI().QueryArgs().Peek("q")))
 		prms := ps.Params.Get("relation", nil, ps.Logger).Sanitize("relation")
-		ret, err := as.Services.Relation.List(ps.Context, nil, prms, ps.Logger)
+		var ret relation.Relations
+		var err error
+		if q == "" {
+			ret, err = as.Services.Relation.List(ps.Context, nil, prms, ps.Logger)
+		} else {
+			ret, err = as.Services.Relation.Search(ps.Context, q, nil, prms, ps.Logger)
+		}
 		if err != nil {
 			return "", err
 		}
@@ -32,7 +40,8 @@ func RelationList(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		return Render(rc, as, &vrelation.List{Models: ret, Basics: basics, Params: ps.Params}, ps, "relation")
+		page := &vrelation.List{Models: ret, Basics: basics, Params: ps.Params, SearchQuery: q}
+		return Render(rc, as, page, ps, "relation")
 	})
 }
 

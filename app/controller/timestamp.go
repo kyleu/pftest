@@ -22,7 +22,8 @@ func TimestampList(rc *fasthttp.RequestCtx) {
 		}
 		ps.Title = "Timestamps"
 		ps.Data = ret
-		return Render(rc, as, &vtimestamp.List{Models: ret, Params: ps.Params}, ps, "timestamp")
+		page := &vtimestamp.List{Models: ret, Params: ps.Params}
+		return Render(rc, as, page, ps, "timestamp")
 	})
 }
 

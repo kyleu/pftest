@@ -32,70 +32,87 @@ var (
 //line views/vbasic/List.html:11
 type List struct {
 	layout.Basic
-	Models basic.Basics
-	Params filter.ParamSet
+	Models      basic.Basics
+	Params      filter.ParamSet
+	SearchQuery string
 }
 
-//line views/vbasic/List.html:17
+//line views/vbasic/List.html:18
 func (p *List) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vbasic/List.html:17
+//line views/vbasic/List.html:18
 	qw422016.N().S(`
   <div class="card">
-    <div class="right"><a href="/basic/new"><button>New</button></a></div>
+    <div class="right">`)
+//line views/vbasic/List.html:20
+	components.StreamSearchForm(qw422016, "", "q", "Search basics", p.SearchQuery, ps)
+//line views/vbasic/List.html:20
+	qw422016.N().S(`</div>
     <h3>`)
-//line views/vbasic/List.html:20
+//line views/vbasic/List.html:21
 	components.StreamSVGRefIcon(qw422016, `star`, ps)
-//line views/vbasic/List.html:20
+//line views/vbasic/List.html:21
 	qw422016.E().S(ps.Title)
-//line views/vbasic/List.html:20
-	qw422016.N().S(`</h3>
+//line views/vbasic/List.html:21
+	qw422016.N().S(` <a href="/basic/new"><button>New</button></a></h3>
+    <div class="clear"></div>
 `)
-//line views/vbasic/List.html:21
+//line views/vbasic/List.html:23
+	if p.SearchQuery != "" {
+//line views/vbasic/List.html:23
+		qw422016.N().S(`    <em>Search results for [`)
+//line views/vbasic/List.html:24
+		qw422016.E().S(p.SearchQuery)
+//line views/vbasic/List.html:24
+		qw422016.N().S(`]</em>
+`)
+//line views/vbasic/List.html:25
+	}
+//line views/vbasic/List.html:26
 	if len(p.Models) == 0 {
-//line views/vbasic/List.html:21
+//line views/vbasic/List.html:26
 		qw422016.N().S(`    <div class="mt"><em>No basics available</em></div>
 `)
-//line views/vbasic/List.html:23
+//line views/vbasic/List.html:28
 	} else {
-//line views/vbasic/List.html:23
+//line views/vbasic/List.html:28
 		qw422016.N().S(`    <div class="overflow clear">
       `)
-//line views/vbasic/List.html:25
+//line views/vbasic/List.html:30
 		StreamTable(qw422016, p.Models, p.Params, as, ps)
-//line views/vbasic/List.html:25
+//line views/vbasic/List.html:30
 		qw422016.N().S(`
     </div>
 `)
-//line views/vbasic/List.html:27
+//line views/vbasic/List.html:32
 	}
-//line views/vbasic/List.html:27
+//line views/vbasic/List.html:32
 	qw422016.N().S(`  </div>
 `)
-//line views/vbasic/List.html:29
+//line views/vbasic/List.html:34
 }
 
-//line views/vbasic/List.html:29
+//line views/vbasic/List.html:34
 func (p *List) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vbasic/List.html:29
+//line views/vbasic/List.html:34
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vbasic/List.html:29
+//line views/vbasic/List.html:34
 	p.StreamBody(qw422016, as, ps)
-//line views/vbasic/List.html:29
+//line views/vbasic/List.html:34
 	qt422016.ReleaseWriter(qw422016)
-//line views/vbasic/List.html:29
+//line views/vbasic/List.html:34
 }
 
-//line views/vbasic/List.html:29
+//line views/vbasic/List.html:34
 func (p *List) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vbasic/List.html:29
+//line views/vbasic/List.html:34
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vbasic/List.html:29
+//line views/vbasic/List.html:34
 	p.WriteBody(qb422016, as, ps)
-//line views/vbasic/List.html:29
+//line views/vbasic/List.html:34
 	qs422016 := string(qb422016.B)
-//line views/vbasic/List.html:29
+//line views/vbasic/List.html:34
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vbasic/List.html:29
+//line views/vbasic/List.html:34
 	return qs422016
-//line views/vbasic/List.html:29
+//line views/vbasic/List.html:34
 }

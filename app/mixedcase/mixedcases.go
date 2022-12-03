@@ -14,6 +14,16 @@ func (m MixedCases) Get(id string) *MixedCase {
 	return nil
 }
 
+func (m MixedCases) GetByIDs(ids ...string) MixedCases {
+	var ret MixedCases
+	for _, x := range m {
+		if slices.Contains(ids, x.ID) {
+			ret = append(ret, x)
+		}
+	}
+	return ret
+}
+
 func (m MixedCases) IDs() []string {
 	ret := make([]string, 0, len(m)+1)
 	for _, x := range m {

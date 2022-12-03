@@ -32,70 +32,87 @@ var (
 //line views/vg1/vg2/vpath/List.html:11
 type List struct {
 	layout.Basic
-	Models path.Paths
-	Params filter.ParamSet
+	Models      path.Paths
+	Params      filter.ParamSet
+	SearchQuery string
 }
 
-//line views/vg1/vg2/vpath/List.html:17
+//line views/vg1/vg2/vpath/List.html:18
 func (p *List) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vg1/vg2/vpath/List.html:17
+//line views/vg1/vg2/vpath/List.html:18
 	qw422016.N().S(`
   <div class="card">
-    <div class="right"><a href="/g1/g2/path/new"><button>New</button></a></div>
+    <div class="right">`)
+//line views/vg1/vg2/vpath/List.html:20
+	components.StreamSearchForm(qw422016, "", "q", "Search paths", p.SearchQuery, ps)
+//line views/vg1/vg2/vpath/List.html:20
+	qw422016.N().S(`</div>
     <h3>`)
-//line views/vg1/vg2/vpath/List.html:20
+//line views/vg1/vg2/vpath/List.html:21
 	components.StreamSVGRefIcon(qw422016, `star`, ps)
-//line views/vg1/vg2/vpath/List.html:20
+//line views/vg1/vg2/vpath/List.html:21
 	qw422016.E().S(ps.Title)
-//line views/vg1/vg2/vpath/List.html:20
-	qw422016.N().S(`</h3>
+//line views/vg1/vg2/vpath/List.html:21
+	qw422016.N().S(` <a href="/g1/g2/path/new"><button>New</button></a></h3>
+    <div class="clear"></div>
 `)
-//line views/vg1/vg2/vpath/List.html:21
+//line views/vg1/vg2/vpath/List.html:23
+	if p.SearchQuery != "" {
+//line views/vg1/vg2/vpath/List.html:23
+		qw422016.N().S(`    <em>Search results for [`)
+//line views/vg1/vg2/vpath/List.html:24
+		qw422016.E().S(p.SearchQuery)
+//line views/vg1/vg2/vpath/List.html:24
+		qw422016.N().S(`]</em>
+`)
+//line views/vg1/vg2/vpath/List.html:25
+	}
+//line views/vg1/vg2/vpath/List.html:26
 	if len(p.Models) == 0 {
-//line views/vg1/vg2/vpath/List.html:21
+//line views/vg1/vg2/vpath/List.html:26
 		qw422016.N().S(`    <div class="mt"><em>No paths available</em></div>
 `)
-//line views/vg1/vg2/vpath/List.html:23
+//line views/vg1/vg2/vpath/List.html:28
 	} else {
-//line views/vg1/vg2/vpath/List.html:23
+//line views/vg1/vg2/vpath/List.html:28
 		qw422016.N().S(`    <div class="overflow clear">
       `)
-//line views/vg1/vg2/vpath/List.html:25
+//line views/vg1/vg2/vpath/List.html:30
 		StreamTable(qw422016, p.Models, p.Params, as, ps)
-//line views/vg1/vg2/vpath/List.html:25
+//line views/vg1/vg2/vpath/List.html:30
 		qw422016.N().S(`
     </div>
 `)
-//line views/vg1/vg2/vpath/List.html:27
+//line views/vg1/vg2/vpath/List.html:32
 	}
-//line views/vg1/vg2/vpath/List.html:27
+//line views/vg1/vg2/vpath/List.html:32
 	qw422016.N().S(`  </div>
 `)
-//line views/vg1/vg2/vpath/List.html:29
+//line views/vg1/vg2/vpath/List.html:34
 }
 
-//line views/vg1/vg2/vpath/List.html:29
+//line views/vg1/vg2/vpath/List.html:34
 func (p *List) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vg1/vg2/vpath/List.html:29
+//line views/vg1/vg2/vpath/List.html:34
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vg1/vg2/vpath/List.html:29
+//line views/vg1/vg2/vpath/List.html:34
 	p.StreamBody(qw422016, as, ps)
-//line views/vg1/vg2/vpath/List.html:29
+//line views/vg1/vg2/vpath/List.html:34
 	qt422016.ReleaseWriter(qw422016)
-//line views/vg1/vg2/vpath/List.html:29
+//line views/vg1/vg2/vpath/List.html:34
 }
 
-//line views/vg1/vg2/vpath/List.html:29
+//line views/vg1/vg2/vpath/List.html:34
 func (p *List) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vg1/vg2/vpath/List.html:29
+//line views/vg1/vg2/vpath/List.html:34
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vg1/vg2/vpath/List.html:29
+//line views/vg1/vg2/vpath/List.html:34
 	p.WriteBody(qb422016, as, ps)
-//line views/vg1/vg2/vpath/List.html:29
+//line views/vg1/vg2/vpath/List.html:34
 	qs422016 := string(qb422016.B)
-//line views/vg1/vg2/vpath/List.html:29
+//line views/vg1/vg2/vpath/List.html:34
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vg1/vg2/vpath/List.html:29
+//line views/vg1/vg2/vpath/List.html:34
 	return qs422016
-//line views/vg1/vg2/vpath/List.html:29
+//line views/vg1/vg2/vpath/List.html:34
 }

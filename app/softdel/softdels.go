@@ -14,6 +14,16 @@ func (s Softdels) Get(id string) *Softdel {
 	return nil
 }
 
+func (s Softdels) GetByIDs(ids ...string) Softdels {
+	var ret Softdels
+	for _, x := range s {
+		if slices.Contains(ids, x.ID) {
+			ret = append(ret, x)
+		}
+	}
+	return ret
+}
+
 func (s Softdels) IDs() []string {
 	ret := make([]string, 0, len(s)+1)
 	for _, x := range s {

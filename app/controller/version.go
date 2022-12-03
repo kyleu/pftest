@@ -22,7 +22,8 @@ func VersionList(rc *fasthttp.RequestCtx) {
 		}
 		ps.Title = "Versions"
 		ps.Data = ret
-		return Render(rc, as, &vversion.List{Models: ret, Params: ps.Params}, ps, "version")
+		page := &vversion.List{Models: ret, Params: ps.Params}
+		return Render(rc, as, page, ps, "version")
 	})
 }
 

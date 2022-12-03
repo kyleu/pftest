@@ -14,6 +14,16 @@ func (v Versions) Get(id string) *Version {
 	return nil
 }
 
+func (v Versions) GetByIDs(ids ...string) Versions {
+	var ret Versions
+	for _, x := range v {
+		if slices.Contains(ids, x.ID) {
+			ret = append(ret, x)
+		}
+	}
+	return ret
+}
+
 func (v Versions) IDs() []string {
 	ret := make([]string, 0, len(v)+1)
 	for _, x := range v {

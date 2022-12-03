@@ -17,6 +17,16 @@ func (b Basics) Get(id uuid.UUID) *Basic {
 	return nil
 }
 
+func (b Basics) GetByIDs(ids ...uuid.UUID) Basics {
+	var ret Basics
+	for _, x := range b {
+		if slices.Contains(ids, x.ID) {
+			ret = append(ret, x)
+		}
+	}
+	return ret
+}
+
 func (b Basics) IDs() []uuid.UUID {
 	ret := make([]uuid.UUID, 0, len(b)+1)
 	for _, x := range b {

@@ -3,6 +3,7 @@ package cmenu
 
 import "github.com/kyleu/pftest/app/lib/menu"
 
+//nolint:lll
 func generatedMenu() menu.Items {
 	return menu.Items{
 		&menu.Item{Key: "g1", Title: "G1", Icon: "star", Children: menu.Items{

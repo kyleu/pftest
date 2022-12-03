@@ -3,6 +3,7 @@ package cg2
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/pkg/errors"
 	"github.com/valyala/fasthttp"
@@ -17,14 +18,22 @@ import (
 
 func PathList(rc *fasthttp.RequestCtx) {
 	controller.Act("path.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+		q := strings.TrimSpace(string(rc.URI().QueryArgs().Peek("q")))
 		prms := ps.Params.Get("path", nil, ps.Logger).Sanitize("path")
-		ret, err := as.Services.Path.List(ps.Context, nil, prms, ps.Logger)
+		var ret path.Paths
+		var err error
+		if q == "" {
+			ret, err = as.Services.Path.List(ps.Context, nil, prms, ps.Logger)
+		} else {
+			ret, err = as.Services.Path.Search(ps.Context, q, nil, prms, ps.Logger)
+		}
 		if err != nil {
 			return "", err
 		}
 		ps.Title = "Paths"
 		ps.Data = ret
-		return controller.Render(rc, as, &vpath.List{Models: ret, Params: ps.Params}, ps, "g1", "g2", "path")
+		page := &vpath.List{Models: ret, Params: ps.Params, SearchQuery: q}
+		return controller.Render(rc, as, page, ps, "g1", "g2", "path")
 	})
 }
 

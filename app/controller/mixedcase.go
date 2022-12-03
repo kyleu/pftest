@@ -22,7 +22,8 @@ func MixedCaseList(rc *fasthttp.RequestCtx) {
 		}
 		ps.Title = "Mixed Cases"
 		ps.Data = ret
-		return Render(rc, as, &vmixedcase.List{Models: ret, Params: ps.Params}, ps, "mixedcase")
+		page := &vmixedcase.List{Models: ret, Params: ps.Params}
+		return Render(rc, as, page, ps, "mixedcase")
 	})
 }
 

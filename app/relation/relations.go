@@ -17,6 +17,16 @@ func (r Relations) Get(id uuid.UUID) *Relation {
 	return nil
 }
 
+func (r Relations) GetByIDs(ids ...uuid.UUID) Relations {
+	var ret Relations
+	for _, x := range r {
+		if slices.Contains(ids, x.ID) {
+			ret = append(ret, x)
+		}
+	}
+	return ret
+}
+
 func (r Relations) IDs() []uuid.UUID {
 	ret := make([]uuid.UUID, 0, len(r)+1)
 	for _, x := range r {

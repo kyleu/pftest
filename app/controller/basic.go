@@ -3,6 +3,7 @@ package controller
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/pkg/errors"
 	"github.com/valyala/fasthttp"
@@ -16,14 +17,22 @@ import (
 
 func BasicList(rc *fasthttp.RequestCtx) {
 	Act("basic.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+		q := strings.TrimSpace(string(rc.URI().QueryArgs().Peek("q")))
 		prms := ps.Params.Get("basic", nil, ps.Logger).Sanitize("basic")
-		ret, err := as.Services.Basic.List(ps.Context, nil, prms, ps.Logger)
+		var ret basic.Basics
+		var err error
+		if q == "" {
+			ret, err = as.Services.Basic.List(ps.Context, nil, prms, ps.Logger)
+		} else {
+			ret, err = as.Services.Basic.Search(ps.Context, q, nil, prms, ps.Logger)
+		}
 		if err != nil {
 			return "", err
 		}
 		ps.Title = "Basics"
 		ps.Data = ret
-		return Render(rc, as, &vbasic.List{Models: ret, Params: ps.Params}, ps, "basic")
+		page := &vbasic.List{Models: ret, Params: ps.Params, SearchQuery: q}
+		return Render(rc, as, page, ps, "basic")
 	})
 }
 

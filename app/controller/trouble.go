@@ -22,7 +22,8 @@ func TroubleList(rc *fasthttp.RequestCtx) {
 		}
 		ps.Title = "Troubles"
 		ps.Data = ret
-		return Render(rc, as, &vtrouble.List{Models: ret, Params: ps.Params}, ps, "trouble")
+		page := &vtrouble.List{Models: ret, Params: ps.Params}
+		return Render(rc, as, page, ps, "trouble")
 	})
 }
 

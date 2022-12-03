@@ -8,7 +8,6 @@ import (
 	"github.com/kyleu/pftest/app/lib/filter"
 	"github.com/kyleu/pftest/app/lib/menu"
 	"github.com/kyleu/pftest/app/lib/sandbox"
-	"github.com/kyleu/pftest/app/lib/telemetry"
 	"github.com/kyleu/pftest/app/lib/user"
 	"github.com/kyleu/pftest/app/util"
 )
@@ -16,10 +15,6 @@ import (
 func MenuFor(
 	ctx context.Context, isAuthed bool, isAdmin bool, profile *user.Profile, params filter.ParamSet, as *app.State, logger util.Logger,
 ) (menu.Items, any, error) {
-	ctx, span, logger := telemetry.StartSpan(ctx, "menu:generate", logger)
-	defer span.Complete()
-	_ = logger
-
 	var ret menu.Items
 	var data any
 	// $PF_SECTION_START(routes_start)$

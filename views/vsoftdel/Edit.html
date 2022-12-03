@@ -22,8 +22,8 @@
     {%- else -%}
     <div class="right"><a href="{%s p.Model.WebPath() %}/delete" onclick="return confirm('Are you sure you wish to delete softdel [{%s p.Model.String() %}]?')"><button>Delete</button></a></div>
     <h3>{%= components.SVGRefIcon(`star`, ps) %} Edit Softdel [{%s p.Model.String() %}]</h3>
-    {%- endif -%}
     <form action="" method="post">
+    {%- endif -%}
       <table class="mt expanded">
         <tbody>
           {% if p.IsNew %}{%= components.TableInput("id", "ID", p.Model.ID, 5, "String text") %}{% endif %}

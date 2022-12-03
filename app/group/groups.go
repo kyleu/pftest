@@ -14,6 +14,16 @@ func (g Groups) Get(id string) *Group {
 	return nil
 }
 
+func (g Groups) GetByIDs(ids ...string) Groups {
+	var ret Groups
+	for _, x := range g {
+		if slices.Contains(ids, x.ID) {
+			ret = append(ret, x)
+		}
+	}
+	return ret
+}
+
 func (g Groups) IDs() []string {
 	ret := make([]string, 0, len(g)+1)
 	for _, x := range g {

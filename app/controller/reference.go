@@ -3,6 +3,7 @@ package controller
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/pkg/errors"
 	"github.com/valyala/fasthttp"
@@ -16,14 +17,22 @@ import (
 
 func ReferenceList(rc *fasthttp.RequestCtx) {
 	Act("reference.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+		q := strings.TrimSpace(string(rc.URI().QueryArgs().Peek("q")))
 		prms := ps.Params.Get("reference", nil, ps.Logger).Sanitize("reference")
-		ret, err := as.Services.Reference.List(ps.Context, nil, prms, ps.Logger)
+		var ret reference.References
+		var err error
+		if q == "" {
+			ret, err = as.Services.Reference.List(ps.Context, nil, prms, ps.Logger)
+		} else {
+			ret, err = as.Services.Reference.Search(ps.Context, q, nil, prms, ps.Logger)
+		}
 		if err != nil {
 			return "", err
 		}
 		ps.Title = "References"
 		ps.Data = ret
-		return Render(rc, as, &vreference.List{Models: ret, Params: ps.Params}, ps, "reference")
+		page := &vreference.List{Models: ret, Params: ps.Params, SearchQuery: q}
+		return Render(rc, as, page, ps, "reference")
 	})
 }
 

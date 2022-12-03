@@ -10,8 +10,12 @@ import (
 	"github.com/kyleu/pftest/app/util"
 )
 
+//nolint:gocognit
 func generatedSearch() []Provider {
 	auditedFunc := func(ctx context.Context, params *Params, as *app.State, page *cutil.PageState, logger util.Logger) (result.Results, error) {
+		if !page.Admin {
+			return nil, nil
+		}
 		models, err := as.Services.Audited.Search(ctx, params.Q, nil, params.PS.Get("audited", nil, logger), logger)
 		if err != nil {
 			return nil, err
@@ -23,6 +27,9 @@ func generatedSearch() []Provider {
 		return res, nil
 	}
 	basicFunc := func(ctx context.Context, params *Params, as *app.State, page *cutil.PageState, logger util.Logger) (result.Results, error) {
+		if !page.Admin {
+			return nil, nil
+		}
 		models, err := as.Services.Basic.Search(ctx, params.Q, nil, params.PS.Get("basic", nil, logger), logger)
 		if err != nil {
 			return nil, err
@@ -34,6 +41,9 @@ func generatedSearch() []Provider {
 		return res, nil
 	}
 	pathFunc := func(ctx context.Context, params *Params, as *app.State, page *cutil.PageState, logger util.Logger) (result.Results, error) {
+		if !page.Admin {
+			return nil, nil
+		}
 		models, err := as.Services.Path.Search(ctx, params.Q, nil, params.PS.Get("path", nil, logger), logger)
 		if err != nil {
 			return nil, err
@@ -45,6 +55,9 @@ func generatedSearch() []Provider {
 		return res, nil
 	}
 	referenceFunc := func(ctx context.Context, params *Params, as *app.State, page *cutil.PageState, logger util.Logger) (result.Results, error) {
+		if !page.Admin {
+			return nil, nil
+		}
 		models, err := as.Services.Reference.Search(ctx, params.Q, nil, params.PS.Get("reference", nil, logger), logger)
 		if err != nil {
 			return nil, err
@@ -56,6 +69,9 @@ func generatedSearch() []Provider {
 		return res, nil
 	}
 	relationFunc := func(ctx context.Context, params *Params, as *app.State, page *cutil.PageState, logger util.Logger) (result.Results, error) {
+		if !page.Admin {
+			return nil, nil
+		}
 		models, err := as.Services.Relation.Search(ctx, params.Q, nil, params.PS.Get("relation", nil, logger), logger)
 		if err != nil {
 			return nil, err

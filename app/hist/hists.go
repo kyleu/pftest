@@ -14,6 +14,16 @@ func (h Hists) Get(id string) *Hist {
 	return nil
 }
 
+func (h Hists) GetByIDs(ids ...string) Hists {
+	var ret Hists
+	for _, x := range h {
+		if slices.Contains(ids, x.ID) {
+			ret = append(ret, x)
+		}
+	}
+	return ret
+}
+
 func (h Hists) IDs() []string {
 	ret := make([]string, 0, len(h)+1)
 	for _, x := range h {

@@ -17,6 +17,16 @@ func (p Paths) Get(id uuid.UUID) *Path {
 	return nil
 }
 
+func (p Paths) GetByIDs(ids ...uuid.UUID) Paths {
+	var ret Paths
+	for _, x := range p {
+		if slices.Contains(ids, x.ID) {
+			ret = append(ret, x)
+		}
+	}
+	return ret
+}
+
 func (p Paths) IDs() []uuid.UUID {
 	ret := make([]uuid.UUID, 0, len(p)+1)
 	for _, x := range p {

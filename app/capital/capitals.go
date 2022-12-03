@@ -14,6 +14,16 @@ func (c Capitals) Get(id string) *Capital {
 	return nil
 }
 
+func (c Capitals) GetByIDs(ids ...string) Capitals {
+	var ret Capitals
+	for _, x := range c {
+		if slices.Contains(ids, x.ID) {
+			ret = append(ret, x)
+		}
+	}
+	return ret
+}
+
 func (c Capitals) IDs() []string {
 	ret := make([]string, 0, len(c)+1)
 	for _, x := range c {

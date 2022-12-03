@@ -22,7 +22,8 @@ func GroupList(rc *fasthttp.RequestCtx) {
 		}
 		ps.Title = "Groups"
 		ps.Data = ret
-		return Render(rc, as, &vgroup.List{Models: ret, Params: ps.Params}, ps, "group")
+		page := &vgroup.List{Models: ret, Params: ps.Params}
+		return Render(rc, as, page, ps, "group")
 	})
 }
 

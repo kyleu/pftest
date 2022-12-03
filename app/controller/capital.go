@@ -22,7 +22,8 @@ func CapitalList(rc *fasthttp.RequestCtx) {
 		}
 		ps.Title = "Capitals"
 		ps.Data = ret
-		return Render(rc, as, &vcapital.List{Models: ret, Params: ps.Params}, ps, "capital")
+		page := &vcapital.List{Models: ret, Params: ps.Params}
+		return Render(rc, as, page, ps, "capital")
 	})
 }
 

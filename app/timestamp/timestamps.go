@@ -14,6 +14,16 @@ func (t Timestamps) Get(id string) *Timestamp {
 	return nil
 }
 
+func (t Timestamps) GetByIDs(ids ...string) Timestamps {
+	var ret Timestamps
+	for _, x := range t {
+		if slices.Contains(ids, x.ID) {
+			ret = append(ret, x)
+		}
+	}
+	return ret
+}
+
 func (t Timestamps) IDs() []string {
 	ret := make([]string, 0, len(t)+1)
 	for _, x := range t {

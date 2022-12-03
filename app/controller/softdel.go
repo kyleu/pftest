@@ -22,7 +22,8 @@ func SoftdelList(rc *fasthttp.RequestCtx) {
 		}
 		ps.Title = "Softdels"
 		ps.Data = ret
-		return Render(rc, as, &vsoftdel.List{Models: ret, Params: ps.Params}, ps, "softdel")
+		page := &vsoftdel.List{Models: ret, Params: ps.Params}
+		return Render(rc, as, page, ps, "softdel")
 	})
 }
 

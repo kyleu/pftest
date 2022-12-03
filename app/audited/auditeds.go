@@ -17,6 +17,16 @@ func (a Auditeds) Get(id uuid.UUID) *Audited {
 	return nil
 }
 
+func (a Auditeds) GetByIDs(ids ...uuid.UUID) Auditeds {
+	var ret Auditeds
+	for _, x := range a {
+		if slices.Contains(ids, x.ID) {
+			ret = append(ret, x)
+		}
+	}
+	return ret
+}
+
 func (a Auditeds) IDs() []uuid.UUID {
 	ret := make([]uuid.UUID, 0, len(a)+1)
 	for _, x := range a {
