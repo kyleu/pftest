@@ -78,8 +78,8 @@ func StreamTable(qw422016 *qt422016.Writer, models relation.Relations, basics ba
 		components.StreamDisplayUUID(qw422016, &model.ID)
 //line views/vrelation/Table.html:25
 		qw422016.N().S(`</a></td>
-        <td>
-          <div class="icon">`)
+        <td class="nowrap">
+          `)
 //line views/vrelation/Table.html:27
 		components.StreamDisplayUUID(qw422016, &model.BasicID)
 //line views/vrelation/Table.html:27
@@ -93,14 +93,14 @@ func StreamTable(qw422016 *qt422016.Writer, models relation.Relations, basics ba
 //line views/vrelation/Table.html:27
 		}
 //line views/vrelation/Table.html:27
-		qw422016.N().S(`</div>
+		qw422016.N().S(`
           <a title="Basic" href="`)
 //line views/vrelation/Table.html:28
 		qw422016.E().S(`/basic` + `/` + model.BasicID.String())
 //line views/vrelation/Table.html:28
 		qw422016.N().S(`">`)
 //line views/vrelation/Table.html:28
-		components.StreamSVGRefIcon(qw422016, "star", ps)
+		components.StreamSVGRef(qw422016, "star", 18, 18, "", ps)
 //line views/vrelation/Table.html:28
 		qw422016.N().S(`</a>
         </td>

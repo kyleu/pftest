@@ -30,9 +30,9 @@
         </tr>
         <tr>
           <th class="shrink" title="UUID in format (00000000-0000-0000-0000-000000000000)">Basic ID</th>
-          <td>
-            <div class="icon">{%= components.DisplayUUID(&p.Model.BasicID) %}{% if x := p.Basics.Get(p.Model.BasicID); x != nil %} ({%s x.TitleString() %}){% endif %}</div>
-            <a title="Basic" href="{%s `/basic`+`/`+p.Model.BasicID.String() %}">{%= components.SVGRefIcon("star", ps) %}</a>
+          <td class="nowrap">
+            {%= components.DisplayUUID(&p.Model.BasicID) %}{% if x := p.Basics.Get(p.Model.BasicID); x != nil %} ({%s x.TitleString() %}){% endif %}
+            <a title="Basic" href="{%s `/basic`+`/`+p.Model.BasicID.String() %}">{%= components.SVGRef("star", 18, 18, "", ps) %}</a>
           </td>
         </tr>
         <tr>

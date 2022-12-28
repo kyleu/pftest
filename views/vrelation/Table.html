@@ -23,9 +23,9 @@
       {%- for _, model := range models -%}
       <tr>
         <td><a href="/relation/{%= components.DisplayUUID(&model.ID) %}">{%= components.DisplayUUID(&model.ID) %}</a></td>
-        <td>
-          <div class="icon">{%= components.DisplayUUID(&model.BasicID) %}{% if x := basics.Get(model.BasicID); x != nil %} ({%s x.TitleString() %}){% endif %}</div>
-          <a title="Basic" href="{%s `/basic`+`/`+model.BasicID.String() %}">{%= components.SVGRefIcon("star", ps) %}</a>
+        <td class="nowrap">
+          {%= components.DisplayUUID(&model.BasicID) %}{% if x := basics.Get(model.BasicID); x != nil %} ({%s x.TitleString() %}){% endif %}
+          <a title="Basic" href="{%s `/basic`+`/`+model.BasicID.String() %}">{%= components.SVGRef("star", 18, 18, "", ps) %}</a>
         </td>
         <td><strong>{%s model.Name %}</strong></td>
         <td>{%= components.DisplayTimestamp(&model.Created) %}</td>
