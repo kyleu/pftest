@@ -2,9 +2,10 @@
 package httpmetrics
 
 import (
+	"sync"
+
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/valyala/fasthttp"
-	"sync"
 
 	"github.com/kyleu/pftest/app/lib/telemetry"
 	"github.com/kyleu/pftest/app/util"

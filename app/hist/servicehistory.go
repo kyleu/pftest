@@ -51,10 +51,10 @@ func (s *Service) SaveHistory(ctx context.Context, tx *sqlx.Tx, o *Hist, n *Hist
 	}
 	q := database.SQLInsert(historyTableQuoted, historyColumns, 1, "")
 	h := &historyDTO{
-		ID:     util.UUID(),
-		HistID: o.ID,
-		Old:    util.ToJSONBytes(o, true),
-		New:    util.ToJSONBytes(n, true),
+		ID:      util.UUID(),
+		HistID:  o.ID,
+		Old:     util.ToJSONBytes(o, true),
+		New:     util.ToJSONBytes(n, true),
 		Changes: util.ToJSONBytes(diffs, true),
 		Created: time.Now(),
 	}

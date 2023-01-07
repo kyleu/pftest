@@ -11,10 +11,10 @@ import (
 )
 
 type History struct {
-	ID     uuid.UUID     `json:"id"`
-	HistID string        `json:"histID"`
-	Old    util.ValueMap `json:"o,omitempty"`
-	New    util.ValueMap `json:"n,omitempty"`
+	ID      uuid.UUID     `json:"id"`
+	HistID  string        `json:"histID"`
+	Old     util.ValueMap `json:"o,omitempty"`
+	New     util.ValueMap `json:"n,omitempty"`
 	Changes util.Diffs    `json:"c,omitempty"`
 	Created time.Time     `json:"created"`
 }
@@ -33,10 +33,10 @@ func (h *History) ToData() []any {
 type Histories []*History
 
 type historyDTO struct {
-	ID     uuid.UUID       `db:"id"`
-	HistID string          `db:"hist_id"`
-	Old    json.RawMessage `db:"o"`
-	New    json.RawMessage `db:"n"`
+	ID      uuid.UUID       `db:"id"`
+	HistID  string          `db:"hist_id"`
+	Old     json.RawMessage `db:"o"`
+	New     json.RawMessage `db:"n"`
 	Changes json.RawMessage `db:"c"`
 	Created time.Time       `db:"created"`
 }
