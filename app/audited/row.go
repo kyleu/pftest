@@ -18,24 +18,24 @@ var (
 	columnsString = strings.Join(columnsQuoted, ", ")
 )
 
-type dto struct {
+type row struct {
 	ID   uuid.UUID `db:"id"`
 	Name string    `db:"name"`
 }
 
-func (d *dto) ToAudited() *Audited {
-	if d == nil {
+func (r *row) ToAudited() *Audited {
+	if r == nil {
 		return nil
 	}
 	return &Audited{
-		ID:   d.ID,
-		Name: d.Name,
+		ID:   r.ID,
+		Name: r.Name,
 	}
 }
 
-type dtos []*dto
+type rows []*row
 
-func (x dtos) ToAuditeds() Auditeds {
+func (x rows) ToAuditeds() Auditeds {
 	ret := make(Auditeds, 0, len(x))
 	for _, d := range x {
 		ret = append(ret, d.ToAudited())

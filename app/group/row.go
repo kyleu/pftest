@@ -18,7 +18,7 @@ var (
 	columnsString = strings.Join(columnsQuoted, ", ")
 )
 
-type dto struct {
+type row struct {
 	ID      string          `db:"id"`
 	Child   string          `db:"child"`
 	Data    json.RawMessage `db:"data"`
@@ -27,25 +27,25 @@ type dto struct {
 	Deleted *time.Time      `db:"deleted"`
 }
 
-func (d *dto) ToGroup() *Group {
-	if d == nil {
+func (r *row) ToGroup() *Group {
+	if r == nil {
 		return nil
 	}
 	dataArg := util.ValueMap{}
-	_ = util.FromJSON(d.Data, &dataArg)
+	_ = util.FromJSON(r.Data, &dataArg)
 	return &Group{
-		ID:      d.ID,
-		Child:   d.Child,
+		ID:      r.ID,
+		Child:   r.Child,
 		Data:    dataArg,
-		Created: d.Created,
-		Updated: d.Updated,
-		Deleted: d.Deleted,
+		Created: r.Created,
+		Updated: r.Updated,
+		Deleted: r.Deleted,
 	}
 }
 
-type dtos []*dto
+type rows []*row
 
-func (x dtos) ToGroups() Groups {
+func (x rows) ToGroups() Groups {
 	ret := make(Groups, 0, len(x))
 	for _, d := range x {
 		ret = append(ret, d.ToGroup())

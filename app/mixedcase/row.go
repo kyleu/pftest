@@ -16,26 +16,26 @@ var (
 	columnsString = strings.Join(columnsQuoted, ", ")
 )
 
-type dto struct {
+type row struct {
 	ID           string `db:"id"`
 	TestField    string `db:"test_field"`
 	AnotherField string `db:"another_field"`
 }
 
-func (d *dto) ToMixedCase() *MixedCase {
-	if d == nil {
+func (r *row) ToMixedCase() *MixedCase {
+	if r == nil {
 		return nil
 	}
 	return &MixedCase{
-		ID:           d.ID,
-		TestField:    d.TestField,
-		AnotherField: d.AnotherField,
+		ID:           r.ID,
+		TestField:    r.TestField,
+		AnotherField: r.AnotherField,
 	}
 }
 
-type dtos []*dto
+type rows []*row
 
-func (x dtos) ToMixedCases() MixedCases {
+func (x rows) ToMixedCases() MixedCases {
 	ret := make(MixedCases, 0, len(x))
 	for _, d := range x {
 		ret = append(ret, d.ToMixedCase())

@@ -32,7 +32,7 @@ func (h *History) ToData() []any {
 
 type Histories []*History
 
-type historyDTO struct {
+type historyRow struct {
 	ID      uuid.UUID       `db:"id"`
 	HistID  string          `db:"hist_id"`
 	Old     json.RawMessage `db:"o"`
@@ -41,7 +41,7 @@ type historyDTO struct {
 	Created time.Time       `db:"created"`
 }
 
-func (h *historyDTO) ToHistory() *History {
+func (h *historyRow) ToHistory() *History {
 	o := util.ValueMap{}
 	_ = util.FromJSON(h.Old, &o)
 	n := util.ValueMap{}
@@ -51,9 +51,9 @@ func (h *historyDTO) ToHistory() *History {
 	return &History{ID: h.ID, HistID: h.HistID, Old: o, New: n, Changes: c, Created: h.Created}
 }
 
-type historyDTOs []*historyDTO
+type historyRows []*historyRow
 
-func (h historyDTOs) ToHistories() Histories {
+func (h historyRows) ToHistories() Histories {
 	ret := make(Histories, 0, len(h))
 	for _, x := range h {
 		ret = append(ret, x.ToHistory())

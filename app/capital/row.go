@@ -24,7 +24,7 @@ var (
 	tablesJoined       = fmt.Sprintf(`%q c join %q cr on c."ID" = cr."Capital_ID" and c."current_Version" = cr."Version"`, table, tableVersion) //nolint
 )
 
-type dto struct {
+type row struct {
 	ID       string     `db:"ID"`
 	Name     string     `db:"Name"`
 	Birthday time.Time  `db:"Birthday"`
@@ -32,22 +32,22 @@ type dto struct {
 	Deathday *time.Time `db:"Deathday"`
 }
 
-func (d *dto) ToCapital() *Capital {
-	if d == nil {
+func (r *row) ToCapital() *Capital {
+	if r == nil {
 		return nil
 	}
 	return &Capital{
-		ID:       d.ID,
-		Name:     d.Name,
-		Birthday: d.Birthday,
-		Version:  d.Version,
-		Deathday: d.Deathday,
+		ID:       r.ID,
+		Name:     r.Name,
+		Birthday: r.Birthday,
+		Version:  r.Version,
+		Deathday: r.Deathday,
 	}
 }
 
-type dtos []*dto
+type rows []*row
 
-func (x dtos) ToCapitals() Capitals {
+func (x rows) ToCapitals() Capitals {
 	ret := make(Capitals, 0, len(x))
 	for _, d := range x {
 		ret = append(ret, d.ToCapital())

@@ -21,32 +21,32 @@ var (
 	columnsString = strings.Join(columnsQuoted, ", ")
 )
 
-type dto struct {
+type row struct {
 	ID      uuid.UUID       `db:"id"`
 	Custom  json.RawMessage `db:"custom"`
 	Self    json.RawMessage `db:"self"`
 	Created time.Time       `db:"created"`
 }
 
-func (d *dto) ToReference() *Reference {
-	if d == nil {
+func (r *row) ToReference() *Reference {
+	if r == nil {
 		return nil
 	}
 	customArg := &foo.Custom{}
-	_ = util.FromJSON(d.Custom, customArg)
+	_ = util.FromJSON(r.Custom, customArg)
 	selfArg := &SelfCustom{}
-	_ = util.FromJSON(d.Self, selfArg)
+	_ = util.FromJSON(r.Self, selfArg)
 	return &Reference{
-		ID:      d.ID,
+		ID:      r.ID,
 		Custom:  customArg,
 		Self:    selfArg,
-		Created: d.Created,
+		Created: r.Created,
 	}
 }
 
-type dtos []*dto
+type rows []*row
 
-func (x dtos) ToReferences() References {
+func (x rows) ToReferences() References {
 	ret := make(References, 0, len(x))
 	for _, d := range x {
 		ret = append(ret, d.ToReference())

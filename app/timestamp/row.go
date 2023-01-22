@@ -1,5 +1,5 @@
 // Content managed by Project Forge, see [projectforge.md] for details.
-package softdel
+package timestamp
 
 import (
 	"fmt"
@@ -10,38 +10,38 @@ import (
 )
 
 var (
-	table         = "softdel"
+	table         = "timestamp"
 	tableQuoted   = fmt.Sprintf("%q", table)
 	columns       = []string{"id", "created", "updated", "deleted"}
 	columnsQuoted = util.StringArrayQuoted(columns)
 	columnsString = strings.Join(columnsQuoted, ", ")
 )
 
-type dto struct {
+type row struct {
 	ID      string     `db:"id"`
 	Created time.Time  `db:"created"`
 	Updated *time.Time `db:"updated"`
 	Deleted *time.Time `db:"deleted"`
 }
 
-func (d *dto) ToSoftdel() *Softdel {
-	if d == nil {
+func (r *row) ToTimestamp() *Timestamp {
+	if r == nil {
 		return nil
 	}
-	return &Softdel{
-		ID:      d.ID,
-		Created: d.Created,
-		Updated: d.Updated,
-		Deleted: d.Deleted,
+	return &Timestamp{
+		ID:      r.ID,
+		Created: r.Created,
+		Updated: r.Updated,
+		Deleted: r.Deleted,
 	}
 }
 
-type dtos []*dto
+type rows []*row
 
-func (x dtos) ToSoftdels() Softdels {
-	ret := make(Softdels, 0, len(x))
+func (x rows) ToTimestamps() Timestamps {
+	ret := make(Timestamps, 0, len(x))
 	for _, d := range x {
-		ret = append(ret, d.ToSoftdel())
+		ret = append(ret, d.ToTimestamp())
 	}
 	return ret
 }

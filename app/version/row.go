@@ -25,7 +25,7 @@ var (
 	tablesJoined        = fmt.Sprintf(`%q v join %q vr on v."id" = vr."version_id" and v."current_revision" = vr."revision"`, table, tableRevision) //nolint
 )
 
-type dto struct {
+type row struct {
 	ID       string          `db:"id"`
 	Revision int             `db:"revision"`
 	Constcol string          `db:"constcol"`
@@ -34,25 +34,25 @@ type dto struct {
 	Updated  *time.Time      `db:"updated"`
 }
 
-func (d *dto) ToVersion() *Version {
-	if d == nil {
+func (r *row) ToVersion() *Version {
+	if r == nil {
 		return nil
 	}
 	varcolArg := util.ValueMap{}
-	_ = util.FromJSON(d.Varcol, &varcolArg)
+	_ = util.FromJSON(r.Varcol, &varcolArg)
 	return &Version{
-		ID:       d.ID,
-		Revision: d.Revision,
-		Constcol: d.Constcol,
+		ID:       r.ID,
+		Revision: r.Revision,
+		Constcol: r.Constcol,
 		Varcol:   varcolArg,
-		Created:  d.Created,
-		Updated:  d.Updated,
+		Created:  r.Created,
+		Updated:  r.Updated,
 	}
 }
 
-type dtos []*dto
+type rows []*row
 
-func (x dtos) ToVersions() Versions {
+func (x rows) ToVersions() Versions {
 	ret := make(Versions, 0, len(x))
 	for _, d := range x {
 		ret = append(ret, d.ToVersion())

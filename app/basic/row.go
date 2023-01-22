@@ -19,28 +19,28 @@ var (
 	columnsString = strings.Join(columnsQuoted, ", ")
 )
 
-type dto struct {
+type row struct {
 	ID      uuid.UUID `db:"id"`
 	Name    string    `db:"name"`
 	Status  string    `db:"status"`
 	Created time.Time `db:"created"`
 }
 
-func (d *dto) ToBasic() *Basic {
-	if d == nil {
+func (r *row) ToBasic() *Basic {
+	if r == nil {
 		return nil
 	}
 	return &Basic{
-		ID:      d.ID,
-		Name:    d.Name,
-		Status:  d.Status,
-		Created: d.Created,
+		ID:      r.ID,
+		Name:    r.Name,
+		Status:  r.Status,
+		Created: r.Created,
 	}
 }
 
-type dtos []*dto
+type rows []*row
 
-func (x dtos) ToBasics() Basics {
+func (x rows) ToBasics() Basics {
 	ret := make(Basics, 0, len(x))
 	for _, d := range x {
 		ret = append(ret, d.ToBasic())

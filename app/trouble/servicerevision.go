@@ -21,7 +21,7 @@ func (s *Service) GetAllSelectcols(ctx context.Context, tx *sqlx.Tx, from string
 	wc = addDeletedClause(wc, includeDeleted)
 	tablesJoinedParam := fmt.Sprintf("%q t join %q tr on t.\"from\" = tr.\"trouble_from\" and t.\"where\" = tr.\"trouble_where\"", table, tableSelectcol)
 	q := database.SQLSelect(columnsString, tablesJoinedParam, wc, params.OrderByString(), params.Limit, params.Offset)
-	ret := dtos{}
+	ret := rows{}
 	err := s.dbRead.Select(ctx, &ret, q, tx, logger, from, where)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to get Troubles")
@@ -31,7 +31,7 @@ func (s *Service) GetAllSelectcols(ctx context.Context, tx *sqlx.Tx, from string
 
 func (s *Service) GetSelectcol(ctx context.Context, tx *sqlx.Tx, from string, where []string, selectcol int, logger util.Logger) (*Trouble, error) {
 	wc := "\"from\" = $1 and \"where\" = $2 and \"selectcol\" = $3"
-	ret := &dto{}
+	ret := &row{}
 	tablesJoinedParam := fmt.Sprintf("%q t join %q tr on t.\"from\" = tr.\"trouble_from\" and t.\"where\" = tr.\"trouble_where\"", table, tableSelectcol)
 	q := database.SQLSelectSimple(columnsString, tablesJoinedParam, wc)
 	err := s.dbRead.Get(ctx, ret, q, tx, logger, from, where, selectcol)

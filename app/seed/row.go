@@ -19,30 +19,30 @@ var (
 	columnsString = strings.Join(columnsQuoted, ", ")
 )
 
-type dto struct {
+type row struct {
 	ID   uuid.UUID       `db:"id"`
 	Name string          `db:"name"`
 	Size int             `db:"size"`
 	Obj  json.RawMessage `db:"obj"`
 }
 
-func (d *dto) ToSeed() *Seed {
-	if d == nil {
+func (r *row) ToSeed() *Seed {
+	if r == nil {
 		return nil
 	}
 	objArg := util.ValueMap{}
-	_ = util.FromJSON(d.Obj, &objArg)
+	_ = util.FromJSON(r.Obj, &objArg)
 	return &Seed{
-		ID:   d.ID,
-		Name: d.Name,
-		Size: d.Size,
+		ID:   r.ID,
+		Name: r.Name,
+		Size: r.Size,
 		Obj:  objArg,
 	}
 }
 
-type dtos []*dto
+type rows []*row
 
-func (x dtos) ToSeeds() Seeds {
+func (x rows) ToSeeds() Seeds {
 	ret := make(Seeds, 0, len(x))
 	for _, d := range x {
 		ret = append(ret, d.ToSeed())

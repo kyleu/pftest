@@ -19,7 +19,7 @@ func (s *Service) GetAllRevisions(ctx context.Context, tx *sqlx.Tx, id string, p
 	wc := "\"id\" = $1"
 	tablesJoinedParam := fmt.Sprintf("%q v join %q vr on v.\"id\" = vr.\"version_id\"", table, tableRevision)
 	q := database.SQLSelect(columnsString, tablesJoinedParam, wc, params.OrderByString(), params.Limit, params.Offset)
-	ret := dtos{}
+	ret := rows{}
 	err := s.dbRead.Select(ctx, &ret, q, tx, logger, id)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to get Versions")
@@ -29,7 +29,7 @@ func (s *Service) GetAllRevisions(ctx context.Context, tx *sqlx.Tx, id string, p
 
 func (s *Service) GetRevision(ctx context.Context, tx *sqlx.Tx, id string, revision int, logger util.Logger) (*Version, error) {
 	wc := "\"id\" = $1 and \"revision\" = $2"
-	ret := &dto{}
+	ret := &row{}
 	tablesJoinedParam := fmt.Sprintf("%q v join %q vr on v.\"id\" = vr.\"version_id\"", table, tableRevision)
 	q := database.SQLSelectSimple(columnsString, tablesJoinedParam, wc)
 	err := s.dbRead.Get(ctx, ret, q, tx, logger, id, revision)

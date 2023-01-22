@@ -18,30 +18,30 @@ var (
 	columnsString = strings.Join(columnsQuoted, ", ")
 )
 
-type dto struct {
+type row struct {
 	ID      string          `db:"id"`
 	Data    json.RawMessage `db:"data"`
 	Created time.Time       `db:"created"`
 	Updated *time.Time      `db:"updated"`
 }
 
-func (d *dto) ToHist() *Hist {
-	if d == nil {
+func (r *row) ToHist() *Hist {
+	if r == nil {
 		return nil
 	}
 	dataArg := util.ValueMap{}
-	_ = util.FromJSON(d.Data, &dataArg)
+	_ = util.FromJSON(r.Data, &dataArg)
 	return &Hist{
-		ID:      d.ID,
+		ID:      r.ID,
 		Data:    dataArg,
-		Created: d.Created,
-		Updated: d.Updated,
+		Created: r.Created,
+		Updated: r.Updated,
 	}
 }
 
-type dtos []*dto
+type rows []*row
 
-func (x dtos) ToHists() Hists {
+func (x rows) ToHists() Hists {
 	ret := make(Hists, 0, len(x))
 	for _, d := range x {
 		ret = append(ret, d.ToHist())

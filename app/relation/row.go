@@ -1,5 +1,5 @@
 // Content managed by Project Forge, see [projectforge.md] for details.
-package path
+package relation
 
 import (
 	"fmt"
@@ -12,38 +12,38 @@ import (
 )
 
 var (
-	table         = "path"
+	table         = "relation"
 	tableQuoted   = fmt.Sprintf("%q", table)
-	columns       = []string{"id", "name", "status", "created"}
+	columns       = []string{"id", "basic_id", "name", "created"}
 	columnsQuoted = util.StringArrayQuoted(columns)
 	columnsString = strings.Join(columnsQuoted, ", ")
 )
 
-type dto struct {
+type row struct {
 	ID      uuid.UUID `db:"id"`
+	BasicID uuid.UUID `db:"basic_id"`
 	Name    string    `db:"name"`
-	Status  string    `db:"status"`
 	Created time.Time `db:"created"`
 }
 
-func (d *dto) ToPath() *Path {
-	if d == nil {
+func (r *row) ToRelation() *Relation {
+	if r == nil {
 		return nil
 	}
-	return &Path{
-		ID:      d.ID,
-		Name:    d.Name,
-		Status:  d.Status,
-		Created: d.Created,
+	return &Relation{
+		ID:      r.ID,
+		BasicID: r.BasicID,
+		Name:    r.Name,
+		Created: r.Created,
 	}
 }
 
-type dtos []*dto
+type rows []*row
 
-func (x dtos) ToPaths() Paths {
-	ret := make(Paths, 0, len(x))
+func (x rows) ToRelations() Relations {
+	ret := make(Relations, 0, len(x))
 	for _, d := range x {
-		ret = append(ret, d.ToPath())
+		ret = append(ret, d.ToRelation())
 	}
 	return ret
 }

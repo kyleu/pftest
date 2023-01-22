@@ -25,7 +25,7 @@ var (
 	tablesJoined         = fmt.Sprintf(`%q t join %q tr on t."from" = tr."trouble_from" and t."where" = tr."trouble_where" and t."current_selectcol" = tr."selectcol"`, table, tableSelectcol) //nolint
 )
 
-type dto struct {
+type row struct {
 	From      string          `db:"from"`
 	Where     json.RawMessage `db:"where"`
 	Selectcol int             `db:"selectcol"`
@@ -34,25 +34,25 @@ type dto struct {
 	Delete    *time.Time      `db:"delete"`
 }
 
-func (d *dto) ToTrouble() *Trouble {
-	if d == nil {
+func (r *row) ToTrouble() *Trouble {
+	if r == nil {
 		return nil
 	}
 	whereArg := []string{}
-	_ = util.FromJSON(d.Where, &whereArg)
+	_ = util.FromJSON(r.Where, &whereArg)
 	return &Trouble{
-		From:      d.From,
+		From:      r.From,
 		Where:     whereArg,
-		Selectcol: d.Selectcol,
-		Limit:     d.Limit,
-		Group:     d.Group,
-		Delete:    d.Delete,
+		Selectcol: r.Selectcol,
+		Limit:     r.Limit,
+		Group:     r.Group,
+		Delete:    r.Delete,
 	}
 }
 
-type dtos []*dto
+type rows []*row
 
-func (x dtos) ToTroubles() Troubles {
+func (x rows) ToTroubles() Troubles {
 	ret := make(Troubles, 0, len(x))
 	for _, d := range x {
 		ret = append(ret, d.ToTrouble())
