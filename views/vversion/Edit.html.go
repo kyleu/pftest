@@ -85,24 +85,24 @@ func (p *Edit) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
 //line views/vversion/Edit.html:30
 	if p.IsNew {
 //line views/vversion/Edit.html:30
-		components.StreamTableInput(qw422016, "id", "ID", p.Model.ID, 5, "String text")
+		components.StreamTableInput(qw422016, "id", "", "ID", p.Model.ID, 5, "String text")
 //line views/vversion/Edit.html:30
 	}
 //line views/vversion/Edit.html:30
 	qw422016.N().S(`
           `)
 //line views/vversion/Edit.html:31
-	components.StreamTableInputNumber(qw422016, "revision", "Revision", p.Model.Revision, 5, "Integer")
+	components.StreamTableInputNumber(qw422016, "revision", "", "Revision", p.Model.Revision, 5, "Integer")
 //line views/vversion/Edit.html:31
 	qw422016.N().S(`
           `)
 //line views/vversion/Edit.html:32
-	components.StreamTableInput(qw422016, "constcol", "Constcol", p.Model.Constcol, 5, "String text")
+	components.StreamTableInput(qw422016, "constcol", "", "Constcol", p.Model.Constcol, 5, "String text")
 //line views/vversion/Edit.html:32
 	qw422016.N().S(`
           `)
 //line views/vversion/Edit.html:33
-	components.StreamTableTextarea(qw422016, "varcol", "Varcol", 8, util.ToJSON(p.Model.Varcol), 5, "JSON object")
+	components.StreamTableTextarea(qw422016, "varcol", "", "Varcol", 8, util.ToJSON(p.Model.Varcol), 5, "JSON object")
 //line views/vversion/Edit.html:33
 	qw422016.N().S(`
           <tr><td colspan="2"><button type="submit">Save Changes</button></td></tr>

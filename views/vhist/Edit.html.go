@@ -85,14 +85,14 @@ func (p *Edit) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
 //line views/vhist/Edit.html:30
 	if p.IsNew {
 //line views/vhist/Edit.html:30
-		components.StreamTableInput(qw422016, "id", "ID", p.Model.ID, 5, "String text")
+		components.StreamTableInput(qw422016, "id", "", "ID", p.Model.ID, 5, "String text")
 //line views/vhist/Edit.html:30
 	}
 //line views/vhist/Edit.html:30
 	qw422016.N().S(`
           `)
 //line views/vhist/Edit.html:31
-	components.StreamTableTextarea(qw422016, "data", "Data", 8, util.ToJSON(p.Model.Data), 5, "JSON object")
+	components.StreamTableTextarea(qw422016, "data", "", "Data", 8, util.ToJSON(p.Model.Data), 5, "JSON object")
 //line views/vhist/Edit.html:31
 	qw422016.N().S(`
           <tr><td colspan="2"><button type="submit">Save Changes</button></td></tr>

@@ -84,29 +84,29 @@ func (p *Edit) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
 //line views/vcapital/Edit.html:29
 	if p.IsNew {
 //line views/vcapital/Edit.html:29
-		components.StreamTableInput(qw422016, "id", "ID", p.Model.ID, 5, "String text")
+		components.StreamTableInput(qw422016, "id", "", "ID", p.Model.ID, 5, "String text")
 //line views/vcapital/Edit.html:29
 	}
 //line views/vcapital/Edit.html:29
 	qw422016.N().S(`
           `)
 //line views/vcapital/Edit.html:30
-	components.StreamTableInput(qw422016, "name", "Name", p.Model.Name, 5, "String text")
+	components.StreamTableInput(qw422016, "name", "", "Name", p.Model.Name, 5, "String text")
 //line views/vcapital/Edit.html:30
 	qw422016.N().S(`
           `)
 //line views/vcapital/Edit.html:31
-	components.StreamTableInputTimestamp(qw422016, "birthday", "Birthday", &p.Model.Birthday, 5, "Date and time, in almost any format")
+	components.StreamTableInputTimestamp(qw422016, "birthday", "", "Birthday", &p.Model.Birthday, 5, "Date and time, in almost any format")
 //line views/vcapital/Edit.html:31
 	qw422016.N().S(`
           `)
 //line views/vcapital/Edit.html:32
-	components.StreamTableInputNumber(qw422016, "version", "Version", p.Model.Version, 5, "Integer")
+	components.StreamTableInputNumber(qw422016, "version", "", "Version", p.Model.Version, 5, "Integer")
 //line views/vcapital/Edit.html:32
 	qw422016.N().S(`
           `)
 //line views/vcapital/Edit.html:33
-	components.StreamTableInputTimestamp(qw422016, "deathday", "Deathday", p.Model.Deathday, 5, "Date and time, in almost any format (optional)")
+	components.StreamTableInputTimestamp(qw422016, "deathday", "", "Deathday", p.Model.Deathday, 5, "Date and time, in almost any format (optional)")
 //line views/vcapital/Edit.html:33
 	qw422016.N().S(`
           <tr><td colspan="2"><button type="submit">Save Changes</button></td></tr>

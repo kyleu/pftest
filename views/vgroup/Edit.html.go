@@ -85,24 +85,24 @@ func (p *Edit) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
 //line views/vgroup/Edit.html:30
 	if p.IsNew {
 //line views/vgroup/Edit.html:30
-		components.StreamTableInput(qw422016, "id", "ID", p.Model.ID, 5, "String text")
+		components.StreamTableInput(qw422016, "id", "", "ID", p.Model.ID, 5, "String text")
 //line views/vgroup/Edit.html:30
 	}
 //line views/vgroup/Edit.html:30
 	qw422016.N().S(`
           `)
 //line views/vgroup/Edit.html:31
-	components.StreamTableInput(qw422016, "child", "Child", p.Model.Child, 5, "String text")
+	components.StreamTableInput(qw422016, "child", "", "Child", p.Model.Child, 5, "String text")
 //line views/vgroup/Edit.html:31
 	qw422016.N().S(`
           `)
 //line views/vgroup/Edit.html:32
-	components.StreamTableTextarea(qw422016, "data", "Data", 8, util.ToJSON(p.Model.Data), 5, "JSON object")
+	components.StreamTableTextarea(qw422016, "data", "", "Data", 8, util.ToJSON(p.Model.Data), 5, "JSON object")
 //line views/vgroup/Edit.html:32
 	qw422016.N().S(`
           `)
 //line views/vgroup/Edit.html:33
-	components.StreamTableInputTimestamp(qw422016, "deleted", "Deleted", p.Model.Deleted, 5, "Date and time, in almost any format (optional)")
+	components.StreamTableInputTimestamp(qw422016, "deleted", "", "Deleted", p.Model.Deleted, 5, "Date and time, in almost any format (optional)")
 //line views/vgroup/Edit.html:33
 	qw422016.N().S(`
           <tr><td colspan="2"><button type="submit">Save Changes</button></td></tr>

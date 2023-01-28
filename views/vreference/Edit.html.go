@@ -85,19 +85,19 @@ func (p *Edit) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
 //line views/vreference/Edit.html:30
 	if p.IsNew {
 //line views/vreference/Edit.html:30
-		components.StreamTableInputUUID(qw422016, "id", "ID", &p.Model.ID, 5, "UUID in format (00000000-0000-0000-0000-000000000000)")
+		components.StreamTableInputUUID(qw422016, "id", "", "ID", &p.Model.ID, 5, "UUID in format (00000000-0000-0000-0000-000000000000)")
 //line views/vreference/Edit.html:30
 	}
 //line views/vreference/Edit.html:30
 	qw422016.N().S(`
           `)
 //line views/vreference/Edit.html:31
-	components.StreamTableTextarea(qw422016, "custom", "Custom", 8, util.ToJSON(p.Model.Custom), 5, "[Custom], as a JSON object")
+	components.StreamTableTextarea(qw422016, "custom", "", "Custom", 8, util.ToJSON(p.Model.Custom), 5, "[Custom], as a JSON object")
 //line views/vreference/Edit.html:31
 	qw422016.N().S(`
           `)
 //line views/vreference/Edit.html:32
-	components.StreamTableTextarea(qw422016, "self", "Self", 8, util.ToJSON(p.Model.Self), 5, "[SelfCustom], as a JSON object")
+	components.StreamTableTextarea(qw422016, "self", "", "Self", 8, util.ToJSON(p.Model.Self), 5, "[SelfCustom], as a JSON object")
 //line views/vreference/Edit.html:32
 	qw422016.N().S(`
           <tr><td colspan="2"><button type="submit">Save Changes</button></td></tr>

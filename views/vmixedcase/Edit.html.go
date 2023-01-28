@@ -84,19 +84,19 @@ func (p *Edit) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
 //line views/vmixedcase/Edit.html:29
 	if p.IsNew {
 //line views/vmixedcase/Edit.html:29
-		components.StreamTableInput(qw422016, "id", "ID", p.Model.ID, 5, "String text")
+		components.StreamTableInput(qw422016, "id", "", "ID", p.Model.ID, 5, "String text")
 //line views/vmixedcase/Edit.html:29
 	}
 //line views/vmixedcase/Edit.html:29
 	qw422016.N().S(`
           `)
 //line views/vmixedcase/Edit.html:30
-	components.StreamTableInput(qw422016, "testField", "Test Field", p.Model.TestField, 5, "String text")
+	components.StreamTableInput(qw422016, "testField", "", "Test Field", p.Model.TestField, 5, "String text")
 //line views/vmixedcase/Edit.html:30
 	qw422016.N().S(`
           `)
 //line views/vmixedcase/Edit.html:31
-	components.StreamTableInput(qw422016, "anotherField", "Another Field", p.Model.AnotherField, 5, "String text")
+	components.StreamTableInput(qw422016, "anotherField", "", "Another Field", p.Model.AnotherField, 5, "String text")
 //line views/vmixedcase/Edit.html:31
 	qw422016.N().S(`
           <tr><td colspan="2"><button type="submit">Save Changes</button></td></tr>

@@ -85,7 +85,7 @@ func (p *Edit) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
 //line views/vtrouble/Edit.html:30
 	if p.IsNew {
 //line views/vtrouble/Edit.html:30
-		components.StreamTableInput(qw422016, "from", "From", p.Model.From, 5, "String text")
+		components.StreamTableInput(qw422016, "from", "", "From", p.Model.From, 5, "String text")
 //line views/vtrouble/Edit.html:30
 	}
 //line views/vtrouble/Edit.html:30
@@ -94,29 +94,29 @@ func (p *Edit) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
 //line views/vtrouble/Edit.html:31
 	if p.IsNew {
 //line views/vtrouble/Edit.html:31
-		components.StreamTableTextarea(qw422016, "where", "Where", 8, util.ToJSON(p.Model.Where), 5, "Comma-separated list of values")
+		components.StreamTableTextarea(qw422016, "where", "", "Where", 8, util.ToJSON(p.Model.Where), 5, "Comma-separated list of values")
 //line views/vtrouble/Edit.html:31
 	}
 //line views/vtrouble/Edit.html:31
 	qw422016.N().S(`
           `)
 //line views/vtrouble/Edit.html:32
-	components.StreamTableInputNumber(qw422016, "selectcol", "Selectcol", p.Model.Selectcol, 5, "Integer")
+	components.StreamTableInputNumber(qw422016, "selectcol", "", "Selectcol", p.Model.Selectcol, 5, "Integer")
 //line views/vtrouble/Edit.html:32
 	qw422016.N().S(`
           `)
 //line views/vtrouble/Edit.html:33
-	components.StreamTableInput(qw422016, "limit", "Limit", p.Model.Limit, 5, "String text")
+	components.StreamTableInput(qw422016, "limit", "", "Limit", p.Model.Limit, 5, "String text")
 //line views/vtrouble/Edit.html:33
 	qw422016.N().S(`
           `)
 //line views/vtrouble/Edit.html:34
-	components.StreamTableInput(qw422016, "group", "Group", p.Model.Group, 5, "String text")
+	components.StreamTableInput(qw422016, "group", "", "Group", p.Model.Group, 5, "String text")
 //line views/vtrouble/Edit.html:34
 	qw422016.N().S(`
           `)
 //line views/vtrouble/Edit.html:35
-	components.StreamTableInputTimestamp(qw422016, "delete", "Delete", p.Model.Delete, 5, "Date and time, in almost any format (optional)")
+	components.StreamTableInputTimestamp(qw422016, "delete", "", "Delete", p.Model.Delete, 5, "Date and time, in almost any format (optional)")
 //line views/vtrouble/Edit.html:35
 	qw422016.N().S(`
           <tr><td colspan="2"><button type="submit">Save Changes</button></td></tr>

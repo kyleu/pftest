@@ -85,24 +85,24 @@ func (p *Edit) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
 //line views/vseed/Edit.html:30
 	if p.IsNew {
 //line views/vseed/Edit.html:30
-		components.StreamTableInputUUID(qw422016, "id", "ID", &p.Model.ID, 5, "UUID in format (00000000-0000-0000-0000-000000000000)")
+		components.StreamTableInputUUID(qw422016, "id", "", "ID", &p.Model.ID, 5, "UUID in format (00000000-0000-0000-0000-000000000000)")
 //line views/vseed/Edit.html:30
 	}
 //line views/vseed/Edit.html:30
 	qw422016.N().S(`
           `)
 //line views/vseed/Edit.html:31
-	components.StreamTableInput(qw422016, "name", "Name", p.Model.Name, 5, "String text")
+	components.StreamTableInput(qw422016, "name", "", "Name", p.Model.Name, 5, "String text")
 //line views/vseed/Edit.html:31
 	qw422016.N().S(`
           `)
 //line views/vseed/Edit.html:32
-	components.StreamTableInputNumber(qw422016, "size", "Size", p.Model.Size, 5, "Integer")
+	components.StreamTableInputNumber(qw422016, "size", "", "Size", p.Model.Size, 5, "Integer")
 //line views/vseed/Edit.html:32
 	qw422016.N().S(`
           `)
 //line views/vseed/Edit.html:33
-	components.StreamTableTextarea(qw422016, "obj", "Obj", 8, util.ToJSON(p.Model.Obj), 5, "JSON object")
+	components.StreamTableTextarea(qw422016, "obj", "", "Obj", 8, util.ToJSON(p.Model.Obj), 5, "JSON object")
 //line views/vseed/Edit.html:33
 	qw422016.N().S(`
           <tr><td colspan="2"><button type="submit">Save Changes</button></td></tr>
