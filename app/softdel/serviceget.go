@@ -36,10 +36,10 @@ func (s *Service) Count(ctx context.Context, tx *sqlx.Tx, whereClause string, in
 		if whereClause == "" {
 			whereClause = "\"deleted\" is null"
 		} else {
-			whereClause += "and " + "\"deleted\" is null"
+			whereClause += " and " + "\"deleted\" is null"
 		}
 	}
-	q := database.SQLSelectSimple(columnsString, tableQuoted, whereClause)
+	q := database.SQLSelectSimple("count(*) as x", tableQuoted, whereClause)
 	ret, err := s.dbRead.SingleInt(ctx, q, tx, logger, args...)
 	if err != nil {
 		return 0, errors.Wrap(err, "unable to get count of softdels")

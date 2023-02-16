@@ -37,10 +37,10 @@ func (s *Service) Count(ctx context.Context, tx *sqlx.Tx, whereClause string, in
 		if whereClause == "" {
 			whereClause = "\"delete\" is null"
 		} else {
-			whereClause += "and " + "\"delete\" is null"
+			whereClause += " and " + "\"delete\" is null"
 		}
 	}
-	q := database.SQLSelectSimple(columnsString, tablesJoined, whereClause)
+	q := database.SQLSelectSimple("count(*) as x", tablesJoined, whereClause)
 	ret, err := s.dbRead.SingleInt(ctx, q, tx, logger, args...)
 	if err != nil {
 		return 0, errors.Wrap(err, "unable to get count of troubles")

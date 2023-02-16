@@ -1,4 +1,3 @@
-<!--- $PF_IGNORE$ -->
 # Test Project
 ![app logo](./assets/favicon.png)
 

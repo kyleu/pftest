@@ -16,7 +16,8 @@ func generatedSearch() []Provider {
 		if !page.Admin {
 			return nil, nil
 		}
-		models, err := as.Services.Audited.Search(ctx, params.Q, nil, params.PS.Get("audited", nil, logger), logger)
+		prm := params.PS.Get("audited", nil, logger).Sanitize("audited")
+		models, err := as.Services.Audited.Search(ctx, params.Q, nil, prm, logger)
 		if err != nil {
 			return nil, err
 		}
@@ -30,7 +31,8 @@ func generatedSearch() []Provider {
 		if !page.Admin {
 			return nil, nil
 		}
-		models, err := as.Services.Basic.Search(ctx, params.Q, nil, params.PS.Get("basic", nil, logger), logger)
+		prm := params.PS.Get("basic", nil, logger).Sanitize("basic")
+		models, err := as.Services.Basic.Search(ctx, params.Q, nil, prm, logger)
 		if err != nil {
 			return nil, err
 		}
@@ -44,7 +46,8 @@ func generatedSearch() []Provider {
 		if !page.Admin {
 			return nil, nil
 		}
-		models, err := as.Services.Path.Search(ctx, params.Q, nil, params.PS.Get("path", nil, logger), logger)
+		prm := params.PS.Get("path", nil, logger).Sanitize("path")
+		models, err := as.Services.Path.Search(ctx, params.Q, nil, prm, logger)
 		if err != nil {
 			return nil, err
 		}
@@ -58,7 +61,8 @@ func generatedSearch() []Provider {
 		if !page.Admin {
 			return nil, nil
 		}
-		models, err := as.Services.Reference.Search(ctx, params.Q, nil, params.PS.Get("reference", nil, logger), logger)
+		prm := params.PS.Get("reference", nil, logger).Sanitize("reference")
+		models, err := as.Services.Reference.Search(ctx, params.Q, nil, prm, logger)
 		if err != nil {
 			return nil, err
 		}
@@ -72,7 +76,8 @@ func generatedSearch() []Provider {
 		if !page.Admin {
 			return nil, nil
 		}
-		models, err := as.Services.Relation.Search(ctx, params.Q, nil, params.PS.Get("relation", nil, logger), logger)
+		prm := params.PS.Get("relation", nil, logger).Sanitize("relation")
+		models, err := as.Services.Relation.Search(ctx, params.Q, nil, prm, logger)
 		if err != nil {
 			return nil, err
 		}

@@ -1,4 +1,3 @@
--- $PF_IGNORE$
 -- {% import "github.com/kyleu/pftest/queries/ddl" %}
 -- {% func Migration1InitialDatabase(debug bool) %}
 
