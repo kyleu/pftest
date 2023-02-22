@@ -38,6 +38,10 @@ func (c *Connection) ToStatus() *Status {
 	return &Status{ID: c.ID, Username: c.Profile.Name, Channels: c.Channels}
 }
 
+func (c *Connection) Username() string {
+	return c.Profile.Name
+}
+
 // Writes bytes to this Connection, you should probably use a helper method.
 func (c *Connection) Write(b []byte) error {
 	c.mu.Lock()
