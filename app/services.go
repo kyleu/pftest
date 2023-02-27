@@ -10,6 +10,7 @@ import (
 	"github.com/kyleu/pftest/app/basic"
 	"github.com/kyleu/pftest/app/capital"
 	"github.com/kyleu/pftest/app/g1/g2/path"
+	"github.com/kyleu/pftest/app/gql"
 	"github.com/kyleu/pftest/app/group"
 	"github.com/kyleu/pftest/app/hist"
 	"github.com/kyleu/pftest/app/lib/audit"
@@ -46,12 +47,7 @@ type Services struct {
 	Audit     *audit.Service
 	Exec      *exec.Service
 	Socket    *websocket.Service
-}
-
-type x struct{}
-
-func (_ *x) Hello() string {
-	return "Hi!"
+	Schema    *gql.Schema
 }
 
 func NewServices(ctx context.Context, st *State, logger util.Logger) (*Services, error) {
@@ -61,22 +57,9 @@ func NewServices(ctx context.Context, st *State, logger util.Logger) (*Services,
 		return nil, errors.Wrap(err, "unable to migrate database")
 	}
 
-	sch := `type Query {
-		hello: String!
-	}`
-	resolver := &x{}
-
-	err = st.GraphQL.RegisterStringSchema("foo", "Foo", sch, resolver)
-	if err != nil {
-		return nil, errors.Wrap(err, "unable to register GraphQL schema")
-	}
-	err = st.GraphQL.RegisterStringSchema("bar", "Bar", sch, resolver)
-	if err != nil {
-		return nil, errors.Wrap(err, "unable to register GraphQL schema")
-	}
-
 	aud := audit.NewService(st.DB, logger)
 	sock := websocket.NewService(nil, socketHandler, nil)
+	schema := gql.NewSchema(st.GraphQL)
 
 	return &Services{
 		Basic:     basic.NewService(st.DB, st.DBRead),
@@ -96,6 +79,7 @@ func NewServices(ctx context.Context, st *State, logger util.Logger) (*Services,
 		Audit:     aud,
 		Exec:      exec.NewService(),
 		Socket:    sock,
+		Schema:    schema,
 	}, nil
 }
 
