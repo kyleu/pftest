@@ -16,7 +16,7 @@ func generatedSearch() []Provider {
 		if !page.Admin {
 			return nil, nil
 		}
-		prm := params.PS.Get("audited", nil, logger).Sanitize("audited")
+		prm := params.PS.Get("audited", nil, logger).Sanitize("audited").WithLimit(5)
 		models, err := as.Services.Audited.Search(ctx, params.Q, nil, prm, logger)
 		if err != nil {
 			return nil, err
@@ -31,7 +31,7 @@ func generatedSearch() []Provider {
 		if !page.Admin {
 			return nil, nil
 		}
-		prm := params.PS.Get("basic", nil, logger).Sanitize("basic")
+		prm := params.PS.Get("basic", nil, logger).Sanitize("basic").WithLimit(5)
 		models, err := as.Services.Basic.Search(ctx, params.Q, nil, prm, logger)
 		if err != nil {
 			return nil, err
@@ -46,7 +46,7 @@ func generatedSearch() []Provider {
 		if !page.Admin {
 			return nil, nil
 		}
-		prm := params.PS.Get("path", nil, logger).Sanitize("path")
+		prm := params.PS.Get("path", nil, logger).Sanitize("path").WithLimit(5)
 		models, err := as.Services.Path.Search(ctx, params.Q, nil, prm, logger)
 		if err != nil {
 			return nil, err
@@ -61,7 +61,7 @@ func generatedSearch() []Provider {
 		if !page.Admin {
 			return nil, nil
 		}
-		prm := params.PS.Get("reference", nil, logger).Sanitize("reference")
+		prm := params.PS.Get("reference", nil, logger).Sanitize("reference").WithLimit(5)
 		models, err := as.Services.Reference.Search(ctx, params.Q, nil, prm, logger)
 		if err != nil {
 			return nil, err
@@ -76,7 +76,7 @@ func generatedSearch() []Provider {
 		if !page.Admin {
 			return nil, nil
 		}
-		prm := params.PS.Get("relation", nil, logger).Sanitize("relation")
+		prm := params.PS.Get("relation", nil, logger).Sanitize("relation").WithLimit(5)
 		models, err := as.Services.Relation.Search(ctx, params.Q, nil, prm, logger)
 		if err != nil {
 			return nil, err
