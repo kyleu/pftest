@@ -52,7 +52,7 @@ func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, logger util.Logg
 	if len(IDs) == 0 {
 		return Capitals{}, nil
 	}
-	wc := database.SQLInClause("ID", len(IDs), 0)
+	wc := database.SQLInClause("ID", len(IDs), 0, "")
 	ret := rows{}
 	q := database.SQLSelectSimple(columnsString, tablesJoined, wc)
 	vals := make([]any, 0, len(IDs))

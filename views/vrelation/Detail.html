@@ -11,7 +11,7 @@
 {% code type Detail struct {
   layout.Basic
   Model *relation.Relation
-  Basics basic.Basics
+  BasicsByBasicID basic.Basics
 } %}
 
 {% func (p *Detail) Body(as *app.State, ps *cutil.PageState) %}
@@ -31,7 +31,7 @@
         <tr>
           <th class="shrink" title="UUID in format (00000000-0000-0000-0000-000000000000)">Basic ID</th>
           <td class="nowrap">
-            {%= components.DisplayUUID(&p.Model.BasicID) %}{% if x := p.Basics.Get(p.Model.BasicID); x != nil %} ({%s x.TitleString() %}){% endif %}
+            {%= components.DisplayUUID(&p.Model.BasicID) %}{% if x := p.BasicsByBasicID.Get(p.Model.BasicID); x != nil %} ({%s x.TitleString() %}){% endif %}
             <a title="Basic" href="{%s `/basic`+`/`+p.Model.BasicID.String() %}">{%= components.SVGRef("star", 18, 18, "", ps) %}</a>
           </td>
         </tr>

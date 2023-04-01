@@ -8,7 +8,7 @@
   "github.com/kyleu/pftest/views/components"
 ) %}
 
-{% func Table(models relation.Relations, basics basic.Basics, params filter.ParamSet, as *app.State, ps *cutil.PageState) %}
+{% func Table(models relation.Relations, basicsByBasicID basic.Basics, params filter.ParamSet, as *app.State, ps *cutil.PageState) %}
   {%- code prms := params.Get("relation", nil, ps.Logger).Sanitize("relation") -%}
   <table class="mt">
     <thead>
@@ -24,7 +24,7 @@
       <tr>
         <td><a href="/relation/{%= components.DisplayUUID(&model.ID) %}">{%= components.DisplayUUID(&model.ID) %}</a></td>
         <td class="nowrap">
-          {%= components.DisplayUUID(&model.BasicID) %}{% if x := basics.Get(model.BasicID); x != nil %} ({%s x.TitleString() %}){% endif %}
+          {%= components.DisplayUUID(&model.BasicID) %}{% if x := basicsByBasicID.Get(model.BasicID); x != nil %} ({%s x.TitleString() %}){% endif %}
           <a title="Basic" href="{%s `/basic`+`/`+model.BasicID.String() %}">{%= components.SVGRef("star", 18, 18, "", ps) %}</a>
         </td>
         <td><strong>{%s model.Name %}</strong></td>

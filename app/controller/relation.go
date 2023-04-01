@@ -36,11 +36,11 @@ func RelationList(rc *fasthttp.RequestCtx) {
 		for _, x := range ret {
 			basicIDs = append(basicIDs, x.BasicID)
 		}
-		basics, err := as.Services.Basic.GetMultiple(ps.Context, nil, ps.Logger, basicIDs...)
+		basicsByBasicID, err := as.Services.Basic.GetMultiple(ps.Context, nil, ps.Logger, basicIDs...)
 		if err != nil {
 			return "", err
 		}
-		page := &vrelation.List{Models: ret, Basics: basics, Params: ps.Params, SearchQuery: q}
+		page := &vrelation.List{Models: ret, BasicsByBasicID: basicsByBasicID, Params: ps.Params, SearchQuery: q}
 		return Render(rc, as, page, ps, "relation")
 	})
 }

@@ -32,7 +32,6 @@ func Random() *Reference {
 
 func FromMap(m util.ValueMap, setPK bool) (*Reference, error) {
 	ret := &Reference{}
-	var err error
 	if setPK {
 		retID, e := m.ParseUUID("id", true, true)
 		if e != nil {
