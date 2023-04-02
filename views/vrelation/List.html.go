@@ -33,10 +33,10 @@ var (
 //line views/vrelation/List.html:12
 type List struct {
 	layout.Basic
-	Models      relation.Relations
-	Basics      basic.Basics
-	Params      filter.ParamSet
-	SearchQuery string
+	Models          relation.Relations
+	BasicsByBasicID basic.Basics
+	Params          filter.ParamSet
+	SearchQuery     string
 }
 
 //line views/vrelation/List.html:20
@@ -80,7 +80,7 @@ func (p *List) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
 		qw422016.N().S(`    <div class="overflow clear">
       `)
 //line views/vrelation/List.html:32
-		StreamTable(qw422016, p.Models, p.Basics, p.Params, as, ps)
+		StreamTable(qw422016, p.Models, p.BasicsByBasicID, p.Params, as, ps)
 //line views/vrelation/List.html:32
 		qw422016.N().S(`
     </div>

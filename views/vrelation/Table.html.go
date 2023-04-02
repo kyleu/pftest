@@ -30,7 +30,7 @@ var (
 )
 
 //line views/vrelation/Table.html:11
-func StreamTable(qw422016 *qt422016.Writer, models relation.Relations, basics basic.Basics, params filter.ParamSet, as *app.State, ps *cutil.PageState) {
+func StreamTable(qw422016 *qt422016.Writer, models relation.Relations, basicsByBasicID basic.Basics, params filter.ParamSet, as *app.State, ps *cutil.PageState) {
 //line views/vrelation/Table.html:11
 	qw422016.N().S(`
 `)
@@ -83,7 +83,7 @@ func StreamTable(qw422016 *qt422016.Writer, models relation.Relations, basics ba
 //line views/vrelation/Table.html:27
 		components.StreamDisplayUUID(qw422016, &model.BasicID)
 //line views/vrelation/Table.html:27
-		if x := basics.Get(model.BasicID); x != nil {
+		if x := basicsByBasicID.Get(model.BasicID); x != nil {
 //line views/vrelation/Table.html:27
 			qw422016.N().S(` (`)
 //line views/vrelation/Table.html:27
@@ -139,22 +139,22 @@ func StreamTable(qw422016 *qt422016.Writer, models relation.Relations, basics ba
 }
 
 //line views/vrelation/Table.html:41
-func WriteTable(qq422016 qtio422016.Writer, models relation.Relations, basics basic.Basics, params filter.ParamSet, as *app.State, ps *cutil.PageState) {
+func WriteTable(qq422016 qtio422016.Writer, models relation.Relations, basicsByBasicID basic.Basics, params filter.ParamSet, as *app.State, ps *cutil.PageState) {
 //line views/vrelation/Table.html:41
 	qw422016 := qt422016.AcquireWriter(qq422016)
 //line views/vrelation/Table.html:41
-	StreamTable(qw422016, models, basics, params, as, ps)
+	StreamTable(qw422016, models, basicsByBasicID, params, as, ps)
 //line views/vrelation/Table.html:41
 	qt422016.ReleaseWriter(qw422016)
 //line views/vrelation/Table.html:41
 }
 
 //line views/vrelation/Table.html:41
-func Table(models relation.Relations, basics basic.Basics, params filter.ParamSet, as *app.State, ps *cutil.PageState) string {
+func Table(models relation.Relations, basicsByBasicID basic.Basics, params filter.ParamSet, as *app.State, ps *cutil.PageState) string {
 //line views/vrelation/Table.html:41
 	qb422016 := qt422016.AcquireByteBuffer()
 //line views/vrelation/Table.html:41
-	WriteTable(qb422016, models, basics, params, as, ps)
+	WriteTable(qb422016, models, basicsByBasicID, params, as, ps)
 //line views/vrelation/Table.html:41
 	qs422016 := string(qb422016.B)
 //line views/vrelation/Table.html:41
