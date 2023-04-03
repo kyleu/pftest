@@ -18,7 +18,7 @@ func (s *Service) GetAllVersions(ctx context.Context, tx *sqlx.Tx, id string, pa
 	params = filters(params)
 	wc := "\"ID\" = $1"
 	tablesJoinedParam := fmt.Sprintf("%q c join %q cr on c.\"ID\" = cr.\"Capital_ID\"", table, tableVersion)
-	q := database.SQLSelect(columnsString, tablesJoinedParam, wc, params.OrderByString(), params.Limit, params.Offset)
+	q := database.SQLSelect(columnsString, tablesJoinedParam, wc, params.OrderByString(), params.Limit, params.Offset, s.db.Placeholder())
 	ret := rows{}
 	err := s.dbRead.Select(ctx, &ret, q, tx, logger, id)
 	if err != nil {
@@ -31,7 +31,7 @@ func (s *Service) GetVersion(ctx context.Context, tx *sqlx.Tx, id string, versio
 	wc := "\"ID\" = $1 and \"Version\" = $2"
 	ret := &row{}
 	tablesJoinedParam := fmt.Sprintf("%q c join %q cr on c.\"ID\" = cr.\"Capital_ID\"", table, tableVersion)
-	q := database.SQLSelectSimple(columnsString, tablesJoinedParam, wc)
+	q := database.SQLSelectSimple(columnsString, tablesJoinedParam, s.db.Placeholder(), wc)
 	err := s.dbRead.Get(ctx, ret, q, tx, logger, id, version)
 	if err != nil {
 		return nil, err
@@ -44,7 +44,7 @@ func (s *Service) getCurrentVersions(ctx context.Context, tx *sqlx.Tx, logger ut
 	for i := range models {
 		stmts = append(stmts, fmt.Sprintf(`"ID" = $%d`, i+1))
 	}
-	q := database.SQLSelectSimple(`"ID", "current_Version"`, tableQuoted, strings.Join(stmts, " or "))
+	q := database.SQLSelectSimple(`"ID", "current_Version"`, tableQuoted, s.db.Placeholder(), strings.Join(stmts, " or "))
 	vals := make([]any, 0, len(models))
 	for _, model := range models {
 		vals = append(vals, model.ID)

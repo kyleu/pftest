@@ -16,7 +16,7 @@ import (
 func (s *Service) List(ctx context.Context, tx *sqlx.Tx, params *filter.Params, logger util.Logger) (Capitals, error) {
 	params = filters(params)
 	wc := ""
-	q := database.SQLSelect(columnsString, tablesJoined, wc, params.OrderByString(), params.Limit, params.Offset)
+	q := database.SQLSelect(columnsString, tablesJoined, wc, params.OrderByString(), params.Limit, params.Offset, s.db.Placeholder())
 	ret := rows{}
 	err := s.dbRead.Select(ctx, &ret, q, tx, logger)
 	if err != nil {
@@ -29,7 +29,7 @@ func (s *Service) Count(ctx context.Context, tx *sqlx.Tx, whereClause string, lo
 	if strings.Contains(whereClause, "'") || strings.Contains(whereClause, ";") {
 		return 0, errors.Errorf("invalid where clause [%s]", whereClause)
 	}
-	q := database.SQLSelectSimple("count(*) as x", tablesJoined, whereClause)
+	q := database.SQLSelectSimple("count(*) as x", tablesJoined, s.db.Placeholder(), whereClause)
 	ret, err := s.dbRead.SingleInt(ctx, q, tx, logger, args...)
 	if err != nil {
 		return 0, errors.Wrap(err, "unable to get count of capitals")
@@ -40,7 +40,7 @@ func (s *Service) Count(ctx context.Context, tx *sqlx.Tx, whereClause string, lo
 func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, id string, logger util.Logger) (*Capital, error) {
 	wc := defaultWC(0)
 	ret := &row{}
-	q := database.SQLSelectSimple(columnsString, tablesJoined, wc)
+	q := database.SQLSelectSimple(columnsString, tablesJoined, s.db.Placeholder(), wc)
 	err := s.dbRead.Get(ctx, ret, q, tx, logger, id)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to get capital by id [%v]", id)
@@ -52,9 +52,9 @@ func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, logger util.Logg
 	if len(IDs) == 0 {
 		return Capitals{}, nil
 	}
-	wc := database.SQLInClause("ID", len(IDs), 0, "")
+	wc := database.SQLInClause("ID", len(IDs), 0, s.db.Placeholder())
 	ret := rows{}
-	q := database.SQLSelectSimple(columnsString, tablesJoined, wc)
+	q := database.SQLSelectSimple(columnsString, tablesJoined, s.db.Placeholder(), wc)
 	vals := make([]any, 0, len(IDs))
 	for _, x := range IDs {
 		vals = append(vals, x)

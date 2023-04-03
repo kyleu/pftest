@@ -25,7 +25,7 @@ var (
 )
 
 func (s *Service) GetHistory(ctx context.Context, tx *sqlx.Tx, id uuid.UUID, logger util.Logger) (*History, error) {
-	q := database.SQLSelectSimple(historyColumnsString, historyTableQuoted, "id = $1")
+	q := database.SQLSelectSimple(historyColumnsString, historyTableQuoted, s.db.Placeholder(), "id = $1")
 	ret := historyRow{}
 	err := s.dbRead.Get(ctx, &ret, q, tx, logger, id)
 	if err != nil {
@@ -35,7 +35,7 @@ func (s *Service) GetHistory(ctx context.Context, tx *sqlx.Tx, id uuid.UUID, log
 }
 
 func (s *Service) GetHistories(ctx context.Context, tx *sqlx.Tx, id string, logger util.Logger) (Histories, error) {
-	q := database.SQLSelectSimple(historyColumnsString, historyTableQuoted, "hist_id = $1")
+	q := database.SQLSelectSimple(historyColumnsString, historyTableQuoted, s.db.Placeholder(), "hist_id = $1")
 	ret := historyRows{}
 	err := s.dbRead.Select(ctx, &ret, q, tx, logger, id)
 	if err != nil {
@@ -49,7 +49,7 @@ func (s *Service) SaveHistory(ctx context.Context, tx *sqlx.Tx, o *Hist, n *Hist
 	if len(diffs) == 0 {
 		return nil, nil
 	}
-	q := database.SQLInsert(historyTableQuoted, historyColumns, 1, "")
+	q := database.SQLInsert(historyTableQuoted, historyColumns, 1, s.db.Placeholder())
 	h := &historyRow{
 		ID:      util.UUID(),
 		HistID:  o.ID,

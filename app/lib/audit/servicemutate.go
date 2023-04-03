@@ -15,7 +15,7 @@ func (s *Service) Create(ctx context.Context, tx *sqlx.Tx, logger util.Logger, m
 	if len(models) == 0 {
 		return nil
 	}
-	q := database.SQLInsert(tableQuoted, columnsQuoted, len(models), "")
+	q := database.SQLInsert(tableQuoted, columnsQuoted, len(models), s.db.Placeholder())
 	vals := make([]any, 0, len(models)*len(columnsQuoted))
 	for _, arg := range models {
 		vals = append(vals, arg.ToData()...)
@@ -24,7 +24,7 @@ func (s *Service) Create(ctx context.Context, tx *sqlx.Tx, logger util.Logger, m
 }
 
 func (s *Service) Update(ctx context.Context, tx *sqlx.Tx, model *Audit, logger util.Logger) error {
-	q := database.SQLUpdate(tableQuoted, columnsQuoted, "\"id\" = $11", "")
+	q := database.SQLUpdate(tableQuoted, columnsQuoted, "\"id\" = $11", s.db.Placeholder())
 	data := model.ToData()
 	data = append(data, model.ID)
 	_, ret := s.db.Update(ctx, q, tx, 1, logger, data...)
@@ -35,7 +35,7 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, logger util.Logger, mod
 	if len(models) == 0 {
 		return nil
 	}
-	q := database.SQLUpsert(tableQuoted, columnsQuoted, len(models), []string{"id"}, columns, "")
+	q := database.SQLUpsert(tableQuoted, columnsQuoted, len(models), []string{"id"}, columns, s.db.Placeholder())
 	var data []any
 	for _, model := range models {
 		data = append(data, model.ToData()...)
@@ -44,7 +44,7 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, logger util.Logger, mod
 }
 
 func (s *Service) Delete(ctx context.Context, tx *sqlx.Tx, id uuid.UUID, logger util.Logger) error {
-	q := database.SQLDelete(tableQuoted, defaultWC)
+	q := database.SQLDelete(tableQuoted, defaultWC, s.db.Placeholder())
 	_, err := s.db.Delete(ctx, q, tx, 1, logger, id)
 	return err
 }

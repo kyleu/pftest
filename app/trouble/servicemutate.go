@@ -95,7 +95,7 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, logger util.Logger, mod
 
 func (s *Service) upsertCore(ctx context.Context, tx *sqlx.Tx, logger util.Logger, models ...*Trouble) error {
 	conflicts := util.StringArrayQuoted([]string{"from", "where"})
-	q := database.SQLUpsert(tableQuoted, columnsCore, len(models), conflicts, columnsCore, "")
+	q := database.SQLUpsert(tableQuoted, columnsCore, len(models), conflicts, columnsCore, s.db.Placeholder())
 	data := make([]any, 0, len(columnsCore)*len(models))
 	for _, model := range models {
 		data = append(data, model.ToDataCore()...)
@@ -105,7 +105,7 @@ func (s *Service) upsertCore(ctx context.Context, tx *sqlx.Tx, logger util.Logge
 }
 
 func (s *Service) insertSelectcol(ctx context.Context, tx *sqlx.Tx, logger util.Logger, models ...*Trouble) error {
-	q := database.SQLInsert(tableSelectcolQuoted, columnsSelectcol, len(models), "")
+	q := database.SQLInsert(tableSelectcolQuoted, columnsSelectcol, len(models), s.db.Placeholder())
 	data := make([]any, 0, len(columnsSelectcol)*len(models))
 	for _, model := range models {
 		data = append(data, model.ToDataSelectcol()...)
@@ -116,7 +116,7 @@ func (s *Service) insertSelectcol(ctx context.Context, tx *sqlx.Tx, logger util.
 // Delete doesn't actually delete, it only sets [delete].
 func (s *Service) Delete(ctx context.Context, tx *sqlx.Tx, from string, where []string, logger util.Logger) error {
 	cols := []string{"delete"}
-	q := database.SQLUpdate(tableQuoted, cols, defaultWC(len(cols)), "")
+	q := database.SQLUpdate(tableQuoted, cols, defaultWC(len(cols)), s.db.Placeholder())
 	_, err := s.db.Update(ctx, q, tx, 1, logger, time.Now(), from, where)
 	return err
 }
@@ -124,7 +124,7 @@ func (s *Service) Delete(ctx context.Context, tx *sqlx.Tx, from string, where []
 // Delete doesn't actually delete, it only sets [delete].
 func (s *Service) DeleteWhere(ctx context.Context, tx *sqlx.Tx, wc string, expected int, logger util.Logger, values ...any) error {
 	cols := []string{"delete"}
-	q := database.SQLUpdate(tableQuoted, cols, wc, "")
+	q := database.SQLUpdate(tableQuoted, cols, wc, s.db.Placeholder())
 	_, err := s.db.Update(ctx, q, tx, expected, logger, append([]any{time.Now()}, values...)...)
 	return err
 }

@@ -16,7 +16,7 @@ import (
 func (s *Service) List(ctx context.Context, tx *sqlx.Tx, params *filter.Params, logger util.Logger) (Groups, error) {
 	params = filters(params)
 	wc := ""
-	q := database.SQLSelect(columnsString, tableQuoted, wc, params.OrderByString(), params.Limit, params.Offset)
+	q := database.SQLSelect(columnsString, tableQuoted, wc, params.OrderByString(), params.Limit, params.Offset, s.db.Placeholder())
 	ret := rows{}
 	err := s.dbRead.Select(ctx, &ret, q, tx, logger)
 	if err != nil {
@@ -29,7 +29,7 @@ func (s *Service) Count(ctx context.Context, tx *sqlx.Tx, whereClause string, lo
 	if strings.Contains(whereClause, "'") || strings.Contains(whereClause, ";") {
 		return 0, errors.Errorf("invalid where clause [%s]", whereClause)
 	}
-	q := database.SQLSelectSimple("count(*) as x", tableQuoted, whereClause)
+	q := database.SQLSelectSimple("count(*) as x", tableQuoted, s.db.Placeholder(), whereClause)
 	ret, err := s.dbRead.SingleInt(ctx, q, tx, logger, args...)
 	if err != nil {
 		return 0, errors.Wrap(err, "unable to get count of groups")
@@ -40,7 +40,7 @@ func (s *Service) Count(ctx context.Context, tx *sqlx.Tx, whereClause string, lo
 func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, id string, logger util.Logger) (*Group, error) {
 	wc := defaultWC(0)
 	ret := &row{}
-	q := database.SQLSelectSimple(columnsString, tableQuoted, wc)
+	q := database.SQLSelectSimple(columnsString, tableQuoted, s.db.Placeholder(), wc)
 	err := s.dbRead.Get(ctx, ret, q, tx, logger, id)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to get group by id [%v]", id)
@@ -52,9 +52,9 @@ func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, logger util.Logg
 	if len(ids) == 0 {
 		return Groups{}, nil
 	}
-	wc := database.SQLInClause("id", len(ids), 0, "")
+	wc := database.SQLInClause("id", len(ids), 0, s.db.Placeholder())
 	ret := rows{}
-	q := database.SQLSelectSimple(columnsString, tableQuoted, wc)
+	q := database.SQLSelectSimple(columnsString, tableQuoted, s.db.Placeholder(), wc)
 	vals := make([]any, 0, len(ids))
 	for _, x := range ids {
 		vals = append(vals, x)
@@ -68,7 +68,7 @@ func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, logger util.Logg
 
 func (s *Service) GetChildren(ctx context.Context, tx *sqlx.Tx, logger util.Logger) ([]*util.KeyValInt, error) {
 	wc := ""
-	q := database.SQLSelectGrouped("\"child\" as key, count(*) as val", tableQuoted, wc, "\"child\"", "\"child\"", 0, 0)
+	q := database.SQLSelectGrouped("\"child\" as key, count(*) as val", tableQuoted, wc, "\"child\"", "\"child\"", 0, 0, s.db.Placeholder())
 	var ret []*util.KeyValInt
 	err := s.dbRead.Select(ctx, &ret, q, tx, logger)
 	if err != nil {
@@ -80,7 +80,7 @@ func (s *Service) GetChildren(ctx context.Context, tx *sqlx.Tx, logger util.Logg
 func (s *Service) GetByChild(ctx context.Context, tx *sqlx.Tx, child string, params *filter.Params, logger util.Logger) (Groups, error) {
 	params = filters(params)
 	wc := "\"child\" = $1"
-	q := database.SQLSelect(columnsString, tableQuoted, wc, params.OrderByString(), params.Limit, params.Offset)
+	q := database.SQLSelect(columnsString, tableQuoted, wc, params.OrderByString(), params.Limit, params.Offset, s.db.Placeholder())
 	ret := rows{}
 	err := s.dbRead.Select(ctx, &ret, q, tx, logger, child)
 	if err != nil {

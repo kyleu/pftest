@@ -20,7 +20,7 @@ func (s *Service) Create(ctx context.Context, tx *sqlx.Tx, logger util.Logger, m
 		model.Created = time.Now()
 		model.Updated = util.NowPointer()
 	}
-	q := database.SQLInsert(tableQuoted, columnsQuoted, len(models), "")
+	q := database.SQLInsert(tableQuoted, columnsQuoted, len(models), s.db.Placeholder())
 	vals := make([]any, 0, len(models)*len(columnsQuoted))
 	for _, arg := range models {
 		vals = append(vals, arg.ToData()...)
@@ -40,7 +40,7 @@ func (s *Service) Update(ctx context.Context, tx *sqlx.Tx, model *Hist, logger u
 	if hErr != nil {
 		return errors.Wrap(hErr, "unable to save history")
 	}
-	q := database.SQLUpdate(tableQuoted, columnsQuoted, "\"id\" = $5", "")
+	q := database.SQLUpdate(tableQuoted, columnsQuoted, "\"id\" = $5", s.db.Placeholder())
 	data := model.ToData()
 	data = append(data, model.ID)
 	_, err = s.db.Update(ctx, q, tx, 1, logger, data...)
@@ -65,7 +65,7 @@ func (s *Service) UpdateIfNeeded(ctx context.Context, tx *sqlx.Tx, model *Hist, 
 	if h == nil || len(h.Changes) == 0 {
 		return nil
 	}
-	q := database.SQLUpdate(tableQuoted, columnsQuoted, "\"id\" = $5", "")
+	q := database.SQLUpdate(tableQuoted, columnsQuoted, "\"id\" = $5", s.db.Placeholder())
 	data := model.ToData()
 	data = append(data, model.ID)
 	_, err = s.db.Update(ctx, q, tx, 1, logger, data...)
@@ -83,7 +83,7 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, logger util.Logger, mod
 		model.Created = time.Now()
 		model.Updated = util.NowPointer()
 	}
-	q := database.SQLUpsert(tableQuoted, columnsQuoted, len(models), []string{"id"}, columnsQuoted, "")
+	q := database.SQLUpsert(tableQuoted, columnsQuoted, len(models), []string{"id"}, columnsQuoted, s.db.Placeholder())
 	var data []any
 	for _, model := range models {
 		data = append(data, model.ToData()...)
@@ -92,13 +92,13 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, logger util.Logger, mod
 }
 
 func (s *Service) Delete(ctx context.Context, tx *sqlx.Tx, id string, logger util.Logger) error {
-	q := database.SQLDelete(tableQuoted, defaultWC(0))
+	q := database.SQLDelete(tableQuoted, defaultWC(0), s.db.Placeholder())
 	_, err := s.db.Delete(ctx, q, tx, 1, logger, id)
 	return err
 }
 
 func (s *Service) DeleteWhere(ctx context.Context, tx *sqlx.Tx, wc string, expected int, logger util.Logger, values ...any) error {
-	q := database.SQLDelete(tableQuoted, wc)
+	q := database.SQLDelete(tableQuoted, wc, s.db.Placeholder())
 	_, err := s.db.Delete(ctx, q, tx, expected, logger, values...)
 	return err
 }

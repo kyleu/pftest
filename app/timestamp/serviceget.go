@@ -19,7 +19,7 @@ func (s *Service) List(ctx context.Context, tx *sqlx.Tx, params *filter.Params, 
 	if !includeDeleted {
 		wc = "\"deleted\" is null"
 	}
-	q := database.SQLSelect(columnsString, tableQuoted, wc, params.OrderByString(), params.Limit, params.Offset)
+	q := database.SQLSelect(columnsString, tableQuoted, wc, params.OrderByString(), params.Limit, params.Offset, s.db.Placeholder())
 	ret := rows{}
 	err := s.dbRead.Select(ctx, &ret, q, tx, logger)
 	if err != nil {
@@ -39,7 +39,7 @@ func (s *Service) Count(ctx context.Context, tx *sqlx.Tx, whereClause string, in
 			whereClause += " and " + "\"deleted\" is null"
 		}
 	}
-	q := database.SQLSelectSimple("count(*) as x", tableQuoted, whereClause)
+	q := database.SQLSelectSimple("count(*) as x", tableQuoted, s.db.Placeholder(), whereClause)
 	ret, err := s.dbRead.SingleInt(ctx, q, tx, logger, args...)
 	if err != nil {
 		return 0, errors.Wrap(err, "unable to get count of timestamps")
@@ -51,7 +51,7 @@ func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, id string, includeDelete
 	wc := defaultWC(0)
 	wc = addDeletedClause(wc, includeDeleted)
 	ret := &row{}
-	q := database.SQLSelectSimple(columnsString, tableQuoted, wc)
+	q := database.SQLSelectSimple(columnsString, tableQuoted, s.db.Placeholder(), wc)
 	err := s.dbRead.Get(ctx, ret, q, tx, logger, id)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to get timestamp by id [%v]", id)
@@ -63,10 +63,10 @@ func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, includeDeleted b
 	if len(ids) == 0 {
 		return Timestamps{}, nil
 	}
-	wc := database.SQLInClause("id", len(ids), 0, "")
+	wc := database.SQLInClause("id", len(ids), 0, s.db.Placeholder())
 	wc = addDeletedClause(wc, includeDeleted)
 	ret := rows{}
-	q := database.SQLSelectSimple(columnsString, tableQuoted, wc)
+	q := database.SQLSelectSimple(columnsString, tableQuoted, s.db.Placeholder(), wc)
 	vals := make([]any, 0, len(ids))
 	for _, x := range ids {
 		vals = append(vals, x)

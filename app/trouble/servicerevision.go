@@ -20,7 +20,7 @@ func (s *Service) GetAllSelectcols(ctx context.Context, tx *sqlx.Tx, from string
 	wc := "\"from\" = $1 and \"where\" = $2"
 	wc = addDeletedClause(wc, includeDeleted)
 	tablesJoinedParam := fmt.Sprintf("%q t join %q tr on t.\"from\" = tr.\"trouble_from\" and t.\"where\" = tr.\"trouble_where\"", table, tableSelectcol)
-	q := database.SQLSelect(columnsString, tablesJoinedParam, wc, params.OrderByString(), params.Limit, params.Offset)
+	q := database.SQLSelect(columnsString, tablesJoinedParam, wc, params.OrderByString(), params.Limit, params.Offset, s.db.Placeholder())
 	ret := rows{}
 	err := s.dbRead.Select(ctx, &ret, q, tx, logger, from, where)
 	if err != nil {
@@ -33,7 +33,7 @@ func (s *Service) GetSelectcol(ctx context.Context, tx *sqlx.Tx, from string, wh
 	wc := "\"from\" = $1 and \"where\" = $2 and \"selectcol\" = $3"
 	ret := &row{}
 	tablesJoinedParam := fmt.Sprintf("%q t join %q tr on t.\"from\" = tr.\"trouble_from\" and t.\"where\" = tr.\"trouble_where\"", table, tableSelectcol)
-	q := database.SQLSelectSimple(columnsString, tablesJoinedParam, wc)
+	q := database.SQLSelectSimple(columnsString, tablesJoinedParam, s.db.Placeholder(), wc)
 	err := s.dbRead.Get(ctx, ret, q, tx, logger, from, where, selectcol)
 	if err != nil {
 		return nil, err
@@ -46,7 +46,7 @@ func (s *Service) getCurrentSelectcols(ctx context.Context, tx *sqlx.Tx, logger 
 	for i := range models {
 		stmts = append(stmts, fmt.Sprintf(`"from" = $%d and "where" = $%d`, (i*2)+1, (i*2)+2))
 	}
-	q := database.SQLSelectSimple(`"from", "where", "current_selectcol"`, tableQuoted, strings.Join(stmts, " or "))
+	q := database.SQLSelectSimple(`"from", "where", "current_selectcol"`, tableQuoted, s.db.Placeholder(), strings.Join(stmts, " or "))
 	vals := make([]any, 0, len(models))
 	for _, model := range models {
 		vals = append(vals, model.From, model.Where)

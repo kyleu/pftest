@@ -94,7 +94,7 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, logger util.Logger, mod
 
 func (s *Service) upsertCore(ctx context.Context, tx *sqlx.Tx, logger util.Logger, models ...*Capital) error {
 	conflicts := util.StringArrayQuoted([]string{"ID"})
-	q := database.SQLUpsert(tableQuoted, columnsCore, len(models), conflicts, columnsCore, "")
+	q := database.SQLUpsert(tableQuoted, columnsCore, len(models), conflicts, columnsCore, s.db.Placeholder())
 	data := make([]any, 0, len(columnsCore)*len(models))
 	for _, model := range models {
 		data = append(data, model.ToDataCore()...)
@@ -104,7 +104,7 @@ func (s *Service) upsertCore(ctx context.Context, tx *sqlx.Tx, logger util.Logge
 }
 
 func (s *Service) insertVersion(ctx context.Context, tx *sqlx.Tx, logger util.Logger, models ...*Capital) error {
-	q := database.SQLInsert(tableVersionQuoted, columnsVersion, len(models), "")
+	q := database.SQLInsert(tableVersionQuoted, columnsVersion, len(models), s.db.Placeholder())
 	data := make([]any, 0, len(columnsVersion)*len(models))
 	for _, model := range models {
 		data = append(data, model.ToDataVersion()...)
@@ -113,13 +113,13 @@ func (s *Service) insertVersion(ctx context.Context, tx *sqlx.Tx, logger util.Lo
 }
 
 func (s *Service) Delete(ctx context.Context, tx *sqlx.Tx, id string, logger util.Logger) error {
-	q := database.SQLDelete(tableQuoted, defaultWC(0))
+	q := database.SQLDelete(tableQuoted, defaultWC(0), s.db.Placeholder())
 	_, err := s.db.Delete(ctx, q, tx, 1, logger, id)
 	return err
 }
 
 func (s *Service) DeleteWhere(ctx context.Context, tx *sqlx.Tx, wc string, expected int, logger util.Logger, values ...any) error {
-	q := database.SQLDelete(tableQuoted, wc)
+	q := database.SQLDelete(tableQuoted, wc, s.db.Placeholder())
 	_, err := s.db.Delete(ctx, q, tx, expected, logger, values...)
 	return err
 }

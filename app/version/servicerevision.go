@@ -18,7 +18,7 @@ func (s *Service) GetAllRevisions(ctx context.Context, tx *sqlx.Tx, id string, p
 	params = filters(params)
 	wc := "\"id\" = $1"
 	tablesJoinedParam := fmt.Sprintf("%q v join %q vr on v.\"id\" = vr.\"version_id\"", table, tableRevision)
-	q := database.SQLSelect(columnsString, tablesJoinedParam, wc, params.OrderByString(), params.Limit, params.Offset)
+	q := database.SQLSelect(columnsString, tablesJoinedParam, wc, params.OrderByString(), params.Limit, params.Offset, s.db.Placeholder())
 	ret := rows{}
 	err := s.dbRead.Select(ctx, &ret, q, tx, logger, id)
 	if err != nil {
@@ -31,7 +31,7 @@ func (s *Service) GetRevision(ctx context.Context, tx *sqlx.Tx, id string, revis
 	wc := "\"id\" = $1 and \"revision\" = $2"
 	ret := &row{}
 	tablesJoinedParam := fmt.Sprintf("%q v join %q vr on v.\"id\" = vr.\"version_id\"", table, tableRevision)
-	q := database.SQLSelectSimple(columnsString, tablesJoinedParam, wc)
+	q := database.SQLSelectSimple(columnsString, tablesJoinedParam, s.db.Placeholder(), wc)
 	err := s.dbRead.Get(ctx, ret, q, tx, logger, id, revision)
 	if err != nil {
 		return nil, err
@@ -44,7 +44,7 @@ func (s *Service) getCurrentRevisions(ctx context.Context, tx *sqlx.Tx, logger u
 	for i := range models {
 		stmts = append(stmts, fmt.Sprintf(`"id" = $%d`, i+1))
 	}
-	q := database.SQLSelectSimple(`"id", "current_revision"`, tableQuoted, strings.Join(stmts, " or "))
+	q := database.SQLSelectSimple(`"id", "current_revision"`, tableQuoted, s.db.Placeholder(), strings.Join(stmts, " or "))
 	vals := make([]any, 0, len(models))
 	for _, model := range models {
 		vals = append(vals, model.ID)
