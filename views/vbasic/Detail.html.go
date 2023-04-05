@@ -34,9 +34,9 @@ var (
 //line views/vbasic/Detail.html:13
 type Detail struct {
 	layout.Basic
-	Model              *basic.Basic
-	Params             filter.ParamSet
-	RelationsByBasicID relation.Relations
+	Model                 *basic.Basic
+	Params                filter.ParamSet
+	RelRelationsByBasicID relation.Relations
 }
 
 //line views/vbasic/Detail.html:20
@@ -105,7 +105,7 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
   </div>
 `)
 //line views/vbasic/Detail.html:51
-	if len(p.RelationsByBasicID) > 0 {
+	if len(p.RelRelationsByBasicID) > 0 {
 //line views/vbasic/Detail.html:51
 		qw422016.N().S(`  <div class="card">
     <h3>`)
@@ -116,7 +116,7 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
     <div class="overflow clear">
       `)
 //line views/vbasic/Detail.html:55
-		vrelation.StreamTable(qw422016, p.RelationsByBasicID, nil, p.Params, as, ps)
+		vrelation.StreamTable(qw422016, p.RelRelationsByBasicID, nil, p.Params, as, ps)
 //line views/vbasic/Detail.html:55
 		qw422016.N().S(`
     </div>

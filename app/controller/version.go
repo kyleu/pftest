@@ -40,6 +40,7 @@ func VersionDetail(rc *fasthttp.RequestCtx) {
 		}
 		ps.Title = ret.TitleString() + " (Version)"
 		ps.Data = ret
+
 		return Render(rc, as, &vversion.Detail{
 			Model:     ret,
 			Params:    ps.Params,

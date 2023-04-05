@@ -40,6 +40,7 @@ func TroubleDetail(rc *fasthttp.RequestCtx) {
 		}
 		ps.Title = ret.TitleString() + " (Trouble)"
 		ps.Data = ret
+
 		return Render(rc, as, &vtrouble.Detail{
 			Model:      ret,
 			Params:     ps.Params,

@@ -44,15 +44,16 @@ func BasicDetail(rc *fasthttp.RequestCtx) {
 		}
 		ps.Title = ret.TitleString() + " (Basic)"
 		ps.Data = ret
-		relationsByBasicIDPrms := ps.Params.Get("relation", nil, ps.Logger).Sanitize("relation")
-		relationsByBasicID, err := as.Services.Relation.GetByBasicID(ps.Context, nil, ret.ID, relationsByBasicIDPrms, ps.Logger)
+
+		relRelationsByBasicIDPrms := ps.Params.Get("relation", nil, ps.Logger).Sanitize("relation")
+		relRelationsByBasicID, err := as.Services.Relation.GetByBasicID(ps.Context, nil, ret.ID, relRelationsByBasicIDPrms, ps.Logger)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to retrieve child relations")
 		}
 		return Render(rc, as, &vbasic.Detail{
-			Model:              ret,
-			Params:             ps.Params,
-			RelationsByBasicID: relationsByBasicID,
+			Model:                 ret,
+			Params:                ps.Params,
+			RelRelationsByBasicID: relRelationsByBasicID,
 		}, ps, "basic", ret.String())
 	})
 }

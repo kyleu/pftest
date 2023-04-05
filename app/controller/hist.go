@@ -39,6 +39,7 @@ func HistDetail(rc *fasthttp.RequestCtx) {
 		}
 		ps.Title = ret.TitleString() + " (Hist)"
 		ps.Data = ret
+
 		return Render(rc, as, &vhist.Detail{
 			Model:     ret,
 			Params:    ps.Params,

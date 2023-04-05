@@ -36,6 +36,7 @@ func SeedDetail(rc *fasthttp.RequestCtx) {
 		}
 		ps.Title = ret.TitleString() + " (Seed)"
 		ps.Data = ret
+
 		return Render(rc, as, &vseed.Detail{Model: ret}, ps, "seed", ret.String())
 	})
 }

@@ -45,6 +45,7 @@ func PathDetail(rc *fasthttp.RequestCtx) {
 		}
 		ps.Title = ret.TitleString() + " (Path)"
 		ps.Data = ret
+
 		return controller.Render(rc, as, &vpath.Detail{Model: ret}, ps, "g1", "g2", "path", ret.String())
 	})
 }

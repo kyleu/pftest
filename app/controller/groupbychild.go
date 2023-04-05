@@ -58,6 +58,7 @@ func GroupDetailByChild(rc *fasthttp.RequestCtx) {
 		}
 		ps.Title = ret.TitleString() + " (Group)"
 		ps.Data = ret
+
 		return Render(rc, as, &vgroup.Detail{Model: ret}, ps, "group", "child", ret.String())
 	})
 }

@@ -44,6 +44,7 @@ func ReferenceDetail(rc *fasthttp.RequestCtx) {
 		}
 		ps.Title = ret.TitleString() + " (Reference)"
 		ps.Data = ret
+
 		return Render(rc, as, &vreference.Detail{Model: ret}, ps, "reference", ret.String())
 	})
 }

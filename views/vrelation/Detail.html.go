@@ -32,8 +32,8 @@ var (
 //line views/vrelation/Detail.html:11
 type Detail struct {
 	layout.Basic
-	Model           *relation.Relation
-	BasicsByBasicID basic.Basics
+	Model          *relation.Relation
+	BasicByBasicID *basic.Basic
 }
 
 //line views/vrelation/Detail.html:17
@@ -80,11 +80,11 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
 //line views/vrelation/Detail.html:34
 	components.StreamDisplayUUID(qw422016, &p.Model.BasicID)
 //line views/vrelation/Detail.html:34
-	if x := p.BasicsByBasicID.Get(p.Model.BasicID); x != nil {
+	if p.BasicByBasicID != nil {
 //line views/vrelation/Detail.html:34
 		qw422016.N().S(` (`)
 //line views/vrelation/Detail.html:34
-		qw422016.E().S(x.TitleString())
+		qw422016.E().S(p.BasicByBasicID.TitleString())
 //line views/vrelation/Detail.html:34
 		qw422016.N().S(`)`)
 //line views/vrelation/Detail.html:34

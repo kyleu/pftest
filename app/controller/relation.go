@@ -32,11 +32,11 @@ func RelationList(rc *fasthttp.RequestCtx) {
 		}
 		ps.Title = "Relations"
 		ps.Data = ret
-		basicIDs := make([]uuid.UUID, 0, len(ret))
+		basicIDsByBasicID := make([]uuid.UUID, 0, len(ret))
 		for _, x := range ret {
-			basicIDs = append(basicIDs, x.BasicID)
+			basicIDsByBasicID = append(basicIDsByBasicID, x.BasicID)
 		}
-		basicsByBasicID, err := as.Services.Basic.GetMultiple(ps.Context, nil, ps.Logger, basicIDs...)
+		basicsByBasicID, err := as.Services.Basic.GetMultiple(ps.Context, nil, ps.Logger, basicIDsByBasicID...)
 		if err != nil {
 			return "", err
 		}
@@ -53,7 +53,10 @@ func RelationDetail(rc *fasthttp.RequestCtx) {
 		}
 		ps.Title = ret.TitleString() + " (Relation)"
 		ps.Data = ret
-		return Render(rc, as, &vrelation.Detail{Model: ret}, ps, "relation", ret.String())
+
+		basicByBasicID, _ := as.Services.Basic.Get(ps.Context, nil, ret.BasicID, ps.Logger)
+
+		return Render(rc, as, &vrelation.Detail{Model: ret, BasicByBasicID: basicByBasicID}, ps, "relation", ret.String())
 	})
 }
 

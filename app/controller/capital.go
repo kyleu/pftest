@@ -40,6 +40,7 @@ func CapitalDetail(rc *fasthttp.RequestCtx) {
 		}
 		ps.Title = ret.TitleString() + " (Capital)"
 		ps.Data = ret
+
 		return Render(rc, as, &vcapital.Detail{
 			Model:    ret,
 			Params:   ps.Params,
