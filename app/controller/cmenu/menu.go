@@ -13,7 +13,7 @@ import (
 )
 
 func MenuFor(
-	ctx context.Context, isAuthed bool, isAdmin bool, profile *user.Profile, params filter.ParamSet, as *app.State, logger util.Logger,
+	ctx context.Context, isAuthed bool, isAdmin bool, profile *user.Profile, params filter.ParamSet, as *app.State, logger util.Logger, //nolint:revive
 ) (menu.Items, any, error) {
 	var ret menu.Items
 	var data any
@@ -25,7 +25,7 @@ func MenuFor(
 	// $PF_SECTION_START(routes_end)$
 	if isAdmin {
 		admin := &menu.Item{Key: "admin", Title: "Settings", Description: "System-wide settings and preferences", Icon: "cog", Route: "/admin"}
-		ret = append(ret, menu.Separator, graphQLMenu(ctx, as.GraphQL), sandbox.Menu(ctx), menu.Separator, admin, menu.Separator, docMenu(ctx, as, logger))
+		ret = append(ret, menu.Separator, graphQLMenu(ctx, as.GraphQL), sandbox.Menu(ctx), menu.Separator, admin, menu.Separator, docMenu(logger))
 	}
 	const aboutDesc = "Get assistance and advice for using " + util.AppName
 	ret = append(ret, &menu.Item{Key: "about", Title: "About", Description: aboutDesc, Icon: "question", Route: "/about"})
