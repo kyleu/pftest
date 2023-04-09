@@ -120,7 +120,7 @@ func StreamRecordTable(qw422016 *qt422016.Writer, models audit.Records, params f
 		qw422016.N().S(`</td>
         <td>`)
 //line views/vaudit/RecordTable.html:34
-		qw422016.N().D(len(model.Changes))
+		components.StreamDisplayDiffs(qw422016, model.Changes)
 //line views/vaudit/RecordTable.html:34
 		qw422016.N().S(`</td>
         <td>`)

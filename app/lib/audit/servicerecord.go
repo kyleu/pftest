@@ -3,6 +3,7 @@ package audit
 
 import (
 	"context"
+	"strings"
 
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
@@ -13,14 +14,20 @@ import (
 	"github.com/kyleu/pftest/app/util"
 )
 
-func (s *Service) RecordsForAudit(ctx context.Context, tx *sqlx.Tx, auditID uuid.UUID, params *filter.Params, logger util.Logger) (Records, error) {
+func (s *Service) RecordsForAudits(ctx context.Context, tx *sqlx.Tx, params *filter.Params, logger util.Logger, auditIDs ...uuid.UUID) (Records, error) {
 	params = params.Sanitize("audit_record", &filter.Ordering{Column: "occurred"})
-	wc := `"audit_id" = $1`
+	wc := database.SQLInClause("audit_id", len(auditIDs), 0, "$")
 	q := database.SQLSelect(recordColumnsString, recordTableQuoted, wc, params.OrderByString(), params.Limit, params.Offset, s.db.Placeholder())
 	ret := recordRows{}
-	err := s.db.Select(ctx, &ret, q, tx, logger, auditID)
+	vals := make([]any, 0, len(auditIDs))
+	strs := make([]string, 0, len(auditIDs))
+	for _, auditID := range auditIDs {
+		vals = append(vals, auditID.String())
+		strs = append(strs, auditID.String())
+	}
+	err := s.db.Select(ctx, &ret, q, tx, logger, vals...)
 	if err != nil {
-		return nil, errors.Wrapf(err, "unable to get audit records by audit [%s]", auditID.String())
+		return nil, errors.Wrapf(err, "unable to get records for audits [%s]", strings.Join(strs, ", "))
 	}
 	return ret.ToRecords(), nil
 }

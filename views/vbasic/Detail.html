@@ -5,6 +5,7 @@
   "github.com/kyleu/pftest/app/controller/cutil"
   "github.com/kyleu/pftest/app/lib/filter"
   "github.com/kyleu/pftest/app/relation"
+  "github.com/kyleu/pftest/app/util"
   "github.com/kyleu/pftest/views/components"
   "github.com/kyleu/pftest/views/layout"
   "github.com/kyleu/pftest/views/vrelation"
@@ -48,13 +49,27 @@
   </div>
   {%- comment %}$PF_SECTION_START(extra)${% endcomment -%}
   {%- comment %}$PF_SECTION_END(extra)${% endcomment -%}
-  {%- if len(p.RelRelationsByBasicID) > 0 -%}
   <div class="card">
-    <h3>{%= components.SVGRefIcon(`star`, ps) %} Related relations by [basic id]</h3>
-    <div class="overflow clear">
-      {%= vrelation.Table(p.RelRelationsByBasicID, nil, p.Params, as, ps) %}
-    </div>
+  <h3 class="mb">Relations</h3>
+    <ul class="accordion">
+      <li>
+        <input id="accordion-RelationsByBasicID" type="checkbox" hidden />
+        <label for="accordion-RelationsByBasicID">
+          {%= components.ExpandCollapse(3, ps) %}
+          {%= components.SVGRefIcon(`star`, ps) %}
+          {%d len(p.RelRelationsByBasicID) %} {%s util.StringPluralMaybe("Relation", len(p.RelRelationsByBasicID)) %} by [discount id]
+        </label>
+        <div class="bd">
+          {%- if len(p.RelRelationsByBasicID) == 0 -%}
+          <em>no related Relations</em>
+          {%- else -%}
+          <div class="overflow clear">
+            {%= vrelation.Table(p.RelRelationsByBasicID, nil, p.Params, as, ps) %}
+          </div>
+          {%- endif -%}
+        </div>
+      </li>
+    </ul>
   </div>
-  {%- endif -%}
   {%= components.JSONModal("basic", "Basic JSON", p.Model, 1) %}
 {% endfunc %}

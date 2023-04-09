@@ -3,9 +3,11 @@ package audited
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
+	"github.com/pkg/errors"
 
 	"github.com/kyleu/pftest/app/lib/database"
 	"github.com/kyleu/pftest/app/util"
@@ -18,16 +20,29 @@ func (s *Service) Create(ctx context.Context, tx *sqlx.Tx, logger util.Logger, m
 	q := database.SQLInsert(tableQuoted, columnsQuoted, len(models), s.db.Placeholder())
 	vals := make([]any, 0, len(models)*len(columnsQuoted))
 	for _, arg := range models {
+		_, _, err := s.audit.ApplyObjSimple(ctx, "Audited.create", "created new audited", nil, arg, "Audited", nil, logger)
+		if err != nil {
+			return err
+		}
 		vals = append(vals, arg.ToData()...)
 	}
 	return s.db.Insert(ctx, q, tx, logger, vals...)
 }
 
 func (s *Service) Update(ctx context.Context, tx *sqlx.Tx, model *Audited, logger util.Logger) error {
+	curr, err := s.Get(ctx, tx, model.ID, logger)
+	if err != nil {
+		return errors.Wrapf(err, "can't get original audited [%s]", model.String())
+	}
 	q := database.SQLUpdate(tableQuoted, columnsQuoted, "\"id\" = $3", s.db.Placeholder())
 	data := model.ToData()
 	data = append(data, model.ID)
-	_, err := s.db.Update(ctx, q, tx, 1, logger, data...)
+	_, err = s.db.Update(ctx, q, tx, 1, logger, data...)
+	if err != nil {
+		return err
+	}
+	msg := fmt.Sprintf("updated Audited [%s]", model.String())
+	_, _, err = s.audit.ApplyObjSimple(ctx, "Audited.update", msg, curr, model, "Audited", nil, logger)
 	if err != nil {
 		return err
 	}

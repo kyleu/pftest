@@ -51,8 +51,9 @@ func BasicDetail(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrap(err, "unable to retrieve child relations")
 		}
 		return Render(rc, as, &vbasic.Detail{
-			Model:                 ret,
-			Params:                ps.Params,
+			Model:  ret,
+			Params: ps.Params,
+
 			RelRelationsByBasicID: relRelationsByBasicID,
 		}, ps, "basic", ret.String())
 	})
