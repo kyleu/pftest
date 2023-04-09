@@ -135,3 +135,13 @@ func (a *Record) ToData() []any {
 }
 
 type Records []*Record
+
+func (r Records) ForAudit(id uuid.UUID) Records {
+	var ret Records
+	for _, x := range r {
+		if x.AuditID == id {
+			ret = append(ret, x)
+		}
+	}
+	return ret
+}
