@@ -155,7 +155,7 @@ func TroubleDelete(rc *fasthttp.RequestCtx) {
 func troubleFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageState) (*trouble.Trouble, error) {
 	fromArg, err := cutil.RCRequiredString(rc, "from", false)
 	if err != nil {
-		return nil, errors.Wrap(err, "must provide [from] as an argument")
+		return nil, errors.Wrap(err, "must provide [from] as a string argument")
 	}
 	whereArg, err := cutil.RCRequiredArray(rc, "where")
 	if err != nil {

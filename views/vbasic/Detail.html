@@ -4,6 +4,7 @@
   "github.com/kyleu/pftest/app/basic"
   "github.com/kyleu/pftest/app/controller/cutil"
   "github.com/kyleu/pftest/app/lib/filter"
+  "github.com/kyleu/pftest/app/lib/filter"
   "github.com/kyleu/pftest/app/relation"
   "github.com/kyleu/pftest/app/util"
   "github.com/kyleu/pftest/views/components"
@@ -50,14 +51,14 @@
   {%- comment %}$PF_SECTION_START(extra)${% endcomment -%}
   {%- comment %}$PF_SECTION_END(extra)${% endcomment -%}
   <div class="card">
-  <h3 class="mb">Relations</h3>
+    <h3 class="mb">Relations</h3>
     <ul class="accordion">
       <li>
         <input id="accordion-RelationsByBasicID" type="checkbox" hidden />
         <label for="accordion-RelationsByBasicID">
           {%= components.ExpandCollapse(3, ps) %}
           {%= components.SVGRefIcon(`star`, ps) %}
-          {%d len(p.RelRelationsByBasicID) %} {%s util.StringPluralMaybe("Relation", len(p.RelRelationsByBasicID)) %} by [discount id]
+          {%d len(p.RelRelationsByBasicID) %} {%s util.StringPluralMaybe("Relation", len(p.RelRelationsByBasicID)) %} by [basic_id]
         </label>
         <div class="bd">
           {%- if len(p.RelRelationsByBasicID) == 0 -%}

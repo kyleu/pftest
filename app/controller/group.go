@@ -123,7 +123,7 @@ func GroupDelete(rc *fasthttp.RequestCtx) {
 func groupFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageState) (*group.Group, error) {
 	idArg, err := cutil.RCRequiredString(rc, "id", false)
 	if err != nil {
-		return nil, errors.Wrap(err, "must provide [id] as an argument")
+		return nil, errors.Wrap(err, "must provide [id] as a string argument")
 	}
 	return as.Services.Group.Get(ps.Context, nil, idArg, ps.Logger)
 }

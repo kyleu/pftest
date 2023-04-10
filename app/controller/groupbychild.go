@@ -29,7 +29,7 @@ func GroupListByChild(rc *fasthttp.RequestCtx) {
 	Act("group.child.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		childArg, err := cutil.RCRequiredString(rc, "child", false)
 		if err != nil {
-			return "", errors.Wrap(err, "must provide [child] as an argument")
+			return "", errors.Wrap(err, "must provide [child] as a string argument")
 		}
 		prms := ps.Params.Get("group", nil, ps.Logger).Sanitize("group")
 		ret, err := as.Services.Group.GetByChild(ps.Context, nil, childArg, prms, ps.Logger)
@@ -47,7 +47,7 @@ func GroupDetailByChild(rc *fasthttp.RequestCtx) {
 	Act("group.child.detail", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		childArg, err := cutil.RCRequiredString(rc, "child", false)
 		if err != nil {
-			return "", errors.Wrap(err, "must provide [child] as an argument")
+			return "", errors.Wrap(err, "must provide [child] as a string argument")
 		}
 		ret, err := groupFromPath(rc, as, ps)
 		if err != nil {
@@ -67,7 +67,7 @@ func GroupCreateFormByChild(rc *fasthttp.RequestCtx) {
 	Act("group.child.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		childArg, err := cutil.RCRequiredString(rc, "child", false)
 		if err != nil {
-			return "", errors.Wrap(err, "must provide [child] as an argument")
+			return "", errors.Wrap(err, "must provide [child] as a string argument")
 		}
 		ret := &group.Group{Child: childArg}
 		ps.Title = fmt.Sprintf("Create [Group] for child [%s]", childArg)
@@ -80,7 +80,7 @@ func GroupCreateByChild(rc *fasthttp.RequestCtx) {
 	Act("group.child.create", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		childArg, err := cutil.RCRequiredString(rc, "child", false)
 		if err != nil {
-			return "", errors.Wrap(err, "must provide [child] as an argument")
+			return "", errors.Wrap(err, "must provide [child] as a string argument")
 		}
 		ret, err := groupFromForm(rc, true)
 		if err != nil {
@@ -102,7 +102,7 @@ func GroupEditFormByChild(rc *fasthttp.RequestCtx) {
 	Act("group.child.edit.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		childArg, err := cutil.RCRequiredString(rc, "child", false)
 		if err != nil {
-			return "", errors.Wrap(err, "must provide [child] as an argument")
+			return "", errors.Wrap(err, "must provide [child] as a string argument")
 		}
 		ret, err := groupFromPath(rc, as, ps)
 		if err != nil {
@@ -121,7 +121,7 @@ func GroupEditByChild(rc *fasthttp.RequestCtx) {
 	Act("group.child.edit", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		childArg, err := cutil.RCRequiredString(rc, "child", false)
 		if err != nil {
-			return "", errors.Wrap(err, "must provide [child] as an argument")
+			return "", errors.Wrap(err, "must provide [child] as a string argument")
 		}
 		ret, err := groupFromPath(rc, as, ps)
 		if err != nil {
@@ -151,7 +151,7 @@ func GroupDeleteByChild(rc *fasthttp.RequestCtx) {
 	Act("group.child.delete", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		childArg, err := cutil.RCRequiredString(rc, "child", false)
 		if err != nil {
-			return "", errors.Wrap(err, "must provide [child] as an argument")
+			return "", errors.Wrap(err, "must provide [child] as a string argument")
 		}
 		ret, err := groupFromPath(rc, as, ps)
 		if err != nil {

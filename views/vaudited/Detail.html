@@ -3,13 +3,18 @@
   "github.com/kyleu/pftest/app"
   "github.com/kyleu/pftest/app/audited"
   "github.com/kyleu/pftest/app/controller/cutil"
+  "github.com/kyleu/pftest/app/lib/audit"
+  "github.com/kyleu/pftest/app/lib/filter"
   "github.com/kyleu/pftest/views/components"
   "github.com/kyleu/pftest/views/layout"
+  "github.com/kyleu/pftest/views/vaudit"
 ) %}
 
 {% code type Detail struct {
   layout.Basic
   Model *audited.Audited
+  Params filter.ParamSet
+  AuditRecords audit.Records
 } %}
 
 {% func (p *Detail) Body(as *app.State, ps *cutil.PageState) %}
@@ -35,5 +40,11 @@
   </div>
   {%- comment %}$PF_SECTION_START(extra)${% endcomment -%}
   {%- comment %}$PF_SECTION_END(extra)${% endcomment -%}
+  {%- if len(p.AuditRecords) > 0 -%}
+  <div class="card">
+    <h3>Audits</h3>
+    {%= vaudit.RecordTable(p.AuditRecords, p.Params, as, ps) %}
+  </div>
+  {%- endif -%}
   {%= components.JSONModal("audited", "Audited JSON", p.Model, 1) %}
 {% endfunc %}

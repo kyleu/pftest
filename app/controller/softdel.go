@@ -123,7 +123,7 @@ func SoftdelDelete(rc *fasthttp.RequestCtx) {
 func softdelFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageState) (*softdel.Softdel, error) {
 	idArg, err := cutil.RCRequiredString(rc, "id", false)
 	if err != nil {
-		return nil, errors.Wrap(err, "must provide [id] as an argument")
+		return nil, errors.Wrap(err, "must provide [id] as a string argument")
 	}
 	includeDeleted := rc.UserValue("includeDeleted") != nil || cutil.QueryStringBool(rc, "includeDeleted")
 	return as.Services.Softdel.Get(ps.Context, nil, idArg, includeDeleted, ps.Logger)
