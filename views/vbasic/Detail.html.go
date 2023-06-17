@@ -19,20 +19,20 @@ import (
 	"github.com/kyleu/pftest/views/vrelation"
 )
 
-//line views/vbasic/Detail.html:15
+//line views/vbasic/Detail.html:14
 import (
 	qtio422016 "io"
 
 	qt422016 "github.com/valyala/quicktemplate"
 )
 
-//line views/vbasic/Detail.html:15
+//line views/vbasic/Detail.html:14
 var (
 	_ = qtio422016.Copy
 	_ = qt422016.AcquireByteBuffer
 )
 
-//line views/vbasic/Detail.html:15
+//line views/vbasic/Detail.html:14
 type Detail struct {
 	layout.Basic
 	Model                 *basic.Basic
@@ -40,31 +40,31 @@ type Detail struct {
 	RelRelationsByBasicID relation.Relations
 }
 
-//line views/vbasic/Detail.html:22
+//line views/vbasic/Detail.html:21
 func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vbasic/Detail.html:22
+//line views/vbasic/Detail.html:21
 	qw422016.N().S(`
   <div class="card">
     <div class="right">
       <a href="#modal-basic"><button type="button">JSON</button></a>
       <a href="`)
-//line views/vbasic/Detail.html:26
+//line views/vbasic/Detail.html:25
 	qw422016.E().S(p.Model.WebPath())
-//line views/vbasic/Detail.html:26
+//line views/vbasic/Detail.html:25
 	qw422016.N().S(`/edit"><button>`)
-//line views/vbasic/Detail.html:26
+//line views/vbasic/Detail.html:25
 	components.StreamSVGRef(qw422016, "edit", 15, 15, "icon", ps)
-//line views/vbasic/Detail.html:26
+//line views/vbasic/Detail.html:25
 	qw422016.N().S(`Edit</button></a>
     </div>
     <h3>`)
-//line views/vbasic/Detail.html:28
+//line views/vbasic/Detail.html:27
 	components.StreamSVGRefIcon(qw422016, `star`, ps)
-//line views/vbasic/Detail.html:28
+//line views/vbasic/Detail.html:27
 	qw422016.N().S(` `)
-//line views/vbasic/Detail.html:28
+//line views/vbasic/Detail.html:27
 	qw422016.E().S(p.Model.TitleString())
-//line views/vbasic/Detail.html:28
+//line views/vbasic/Detail.html:27
 	qw422016.N().S(`</h3>
     <div><a href="/basic"><em>Basic</em></a></div>
     <table class="mt">
@@ -72,40 +72,40 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
         <tr>
           <th class="shrink" title="UUID in format (00000000-0000-0000-0000-000000000000)">ID</th>
           <td>`)
-//line views/vbasic/Detail.html:34
+//line views/vbasic/Detail.html:33
 	components.StreamDisplayUUID(qw422016, &p.Model.ID)
-//line views/vbasic/Detail.html:34
+//line views/vbasic/Detail.html:33
 	qw422016.N().S(`</td>
         </tr>
         <tr>
           <th class="shrink" title="String text">Name</th>
           <td><strong>`)
-//line views/vbasic/Detail.html:38
+//line views/vbasic/Detail.html:37
 	qw422016.E().S(p.Model.Name)
-//line views/vbasic/Detail.html:38
+//line views/vbasic/Detail.html:37
 	qw422016.N().S(`</strong></td>
         </tr>
         <tr>
           <th class="shrink" title="String text">Status</th>
           <td><strong>`)
-//line views/vbasic/Detail.html:42
+//line views/vbasic/Detail.html:41
 	qw422016.E().S(p.Model.Status)
-//line views/vbasic/Detail.html:42
+//line views/vbasic/Detail.html:41
 	qw422016.N().S(`</strong></td>
         </tr>
         <tr>
           <th class="shrink" title="Date and time, in almost any format">Created</th>
           <td>`)
-//line views/vbasic/Detail.html:46
+//line views/vbasic/Detail.html:45
 	components.StreamDisplayTimestamp(qw422016, &p.Model.Created)
-//line views/vbasic/Detail.html:46
+//line views/vbasic/Detail.html:45
 	qw422016.N().S(`</td>
         </tr>
       </tbody>
     </table>
   </div>
 `)
-//line views/vbasic/Detail.html:52
+//line views/vbasic/Detail.html:51
 	qw422016.N().S(`  <div class="card">
     <h3 class="mb">Relations</h3>
     <ul class="accordion">
@@ -113,81 +113,81 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
         <input id="accordion-RelationsByBasicID" type="checkbox" hidden />
         <label for="accordion-RelationsByBasicID">
           `)
-//line views/vbasic/Detail.html:59
+//line views/vbasic/Detail.html:58
 	components.StreamExpandCollapse(qw422016, 3, ps)
+//line views/vbasic/Detail.html:58
+	qw422016.N().S(`
+          `)
+//line views/vbasic/Detail.html:59
+	components.StreamSVGRefIcon(qw422016, `star`, ps)
 //line views/vbasic/Detail.html:59
 	qw422016.N().S(`
           `)
 //line views/vbasic/Detail.html:60
-	components.StreamSVGRefIcon(qw422016, `star`, ps)
-//line views/vbasic/Detail.html:60
-	qw422016.N().S(`
-          `)
-//line views/vbasic/Detail.html:61
 	qw422016.N().D(len(p.RelRelationsByBasicID))
-//line views/vbasic/Detail.html:61
+//line views/vbasic/Detail.html:60
 	qw422016.N().S(` `)
-//line views/vbasic/Detail.html:61
+//line views/vbasic/Detail.html:60
 	qw422016.E().S(util.StringPluralMaybe("Relation", len(p.RelRelationsByBasicID)))
-//line views/vbasic/Detail.html:61
+//line views/vbasic/Detail.html:60
 	qw422016.N().S(` by [basic_id]
         </label>
         <div class="bd">
 `)
-//line views/vbasic/Detail.html:64
+//line views/vbasic/Detail.html:63
 	if len(p.RelRelationsByBasicID) == 0 {
-//line views/vbasic/Detail.html:64
+//line views/vbasic/Detail.html:63
 		qw422016.N().S(`          <em>no related Relations</em>
 `)
-//line views/vbasic/Detail.html:66
+//line views/vbasic/Detail.html:65
 	} else {
-//line views/vbasic/Detail.html:66
+//line views/vbasic/Detail.html:65
 		qw422016.N().S(`          <div class="overflow clear">
             `)
-//line views/vbasic/Detail.html:68
+//line views/vbasic/Detail.html:67
 		vrelation.StreamTable(qw422016, p.RelRelationsByBasicID, nil, p.Params, as, ps)
-//line views/vbasic/Detail.html:68
+//line views/vbasic/Detail.html:67
 		qw422016.N().S(`
           </div>
 `)
-//line views/vbasic/Detail.html:70
+//line views/vbasic/Detail.html:69
 	}
-//line views/vbasic/Detail.html:70
+//line views/vbasic/Detail.html:69
 	qw422016.N().S(`        </div>
       </li>
     </ul>
   </div>
   `)
-//line views/vbasic/Detail.html:75
+//line views/vbasic/Detail.html:74
 	components.StreamJSONModal(qw422016, "basic", "Basic JSON", p.Model, 1)
-//line views/vbasic/Detail.html:75
+//line views/vbasic/Detail.html:74
 	qw422016.N().S(`
 `)
-//line views/vbasic/Detail.html:76
+//line views/vbasic/Detail.html:75
 }
 
-//line views/vbasic/Detail.html:76
+//line views/vbasic/Detail.html:75
 func (p *Detail) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vbasic/Detail.html:76
+//line views/vbasic/Detail.html:75
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vbasic/Detail.html:76
+//line views/vbasic/Detail.html:75
 	p.StreamBody(qw422016, as, ps)
-//line views/vbasic/Detail.html:76
+//line views/vbasic/Detail.html:75
 	qt422016.ReleaseWriter(qw422016)
-//line views/vbasic/Detail.html:76
+//line views/vbasic/Detail.html:75
 }
 
-//line views/vbasic/Detail.html:76
+//line views/vbasic/Detail.html:75
 func (p *Detail) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vbasic/Detail.html:76
+//line views/vbasic/Detail.html:75
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vbasic/Detail.html:76
+//line views/vbasic/Detail.html:75
 	p.WriteBody(qb422016, as, ps)
-//line views/vbasic/Detail.html:76
+//line views/vbasic/Detail.html:75
 	qs422016 := string(qb422016.B)
-//line views/vbasic/Detail.html:76
+//line views/vbasic/Detail.html:75
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vbasic/Detail.html:76
+//line views/vbasic/Detail.html:75
 	return qs422016
-//line views/vbasic/Detail.html:76
+//line views/vbasic/Detail.html:75
 }
