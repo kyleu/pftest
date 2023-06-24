@@ -1,7 +1,10 @@
 // Content managed by Project Forge, see [projectforge.md] for details.
 package version
 
-import "golang.org/x/exp/slices"
+import (
+	"github.com/samber/lo"
+	"golang.org/x/exp/slices"
+)
 
 type Versions []*Version
 
@@ -17,7 +20,7 @@ func (v Versions) Get(id string) *Version {
 func (v Versions) GetByIDs(ids ...string) Versions {
 	var ret Versions
 	for _, x := range v {
-		if slices.Contains(ids, x.ID) {
+		if lo.Contains(ids, x.ID) {
 			ret = append(ret, x)
 		}
 	}

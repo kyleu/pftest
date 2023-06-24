@@ -1,7 +1,10 @@
 // Content managed by Project Forge, see [projectforge.md] for details.
 package capital
 
-import "golang.org/x/exp/slices"
+import (
+	"github.com/samber/lo"
+	"golang.org/x/exp/slices"
+)
 
 type Capitals []*Capital
 
@@ -17,7 +20,7 @@ func (c Capitals) Get(id string) *Capital {
 func (c Capitals) GetByIDs(ids ...string) Capitals {
 	var ret Capitals
 	for _, x := range c {
-		if slices.Contains(ids, x.ID) {
+		if lo.Contains(ids, x.ID) {
 			ret = append(ret, x)
 		}
 	}

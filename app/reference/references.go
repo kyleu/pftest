@@ -3,6 +3,7 @@ package reference
 
 import (
 	"github.com/google/uuid"
+	"github.com/samber/lo"
 	"golang.org/x/exp/slices"
 )
 
@@ -20,7 +21,7 @@ func (r References) Get(id uuid.UUID) *Reference {
 func (r References) GetByIDs(ids ...uuid.UUID) References {
 	var ret References
 	for _, x := range r {
-		if slices.Contains(ids, x.ID) {
+		if lo.Contains(ids, x.ID) {
 			ret = append(ret, x)
 		}
 	}

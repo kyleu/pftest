@@ -3,6 +3,7 @@ package seed
 
 import (
 	"github.com/google/uuid"
+	"github.com/samber/lo"
 	"golang.org/x/exp/slices"
 )
 
@@ -20,7 +21,7 @@ func (s Seeds) Get(id uuid.UUID) *Seed {
 func (s Seeds) GetByIDs(ids ...uuid.UUID) Seeds {
 	var ret Seeds
 	for _, x := range s {
-		if slices.Contains(ids, x.ID) {
+		if lo.Contains(ids, x.ID) {
 			ret = append(ret, x)
 		}
 	}

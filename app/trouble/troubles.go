@@ -2,6 +2,7 @@
 package trouble
 
 import (
+	"github.com/samber/lo"
 	"golang.org/x/exp/slices"
 
 	"github.com/kyleu/pftest/app/util"
@@ -21,7 +22,7 @@ func (t Troubles) Get(from string, where []string) *Trouble {
 func (t Troubles) GetByFroms(froms ...string) Troubles {
 	var ret Troubles
 	for _, x := range t {
-		if slices.Contains(froms, x.From) {
+		if lo.Contains(froms, x.From) {
 			ret = append(ret, x)
 		}
 	}

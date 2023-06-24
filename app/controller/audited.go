@@ -45,7 +45,6 @@ func AuditedDetail(rc *fasthttp.RequestCtx) {
 		ps.Title = ret.TitleString() + " (Audited)"
 		ps.Data = ret
 
-
 		relatedAuditRecords, err := as.Services.Audit.RecordsForModel(ps.Context, nil, "audited", ret.ID.String(), nil, ps.Logger)
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to retrieve related audit records")

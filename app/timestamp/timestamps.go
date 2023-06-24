@@ -1,7 +1,10 @@
 // Content managed by Project Forge, see [projectforge.md] for details.
 package timestamp
 
-import "golang.org/x/exp/slices"
+import (
+	"github.com/samber/lo"
+	"golang.org/x/exp/slices"
+)
 
 type Timestamps []*Timestamp
 
@@ -17,7 +20,7 @@ func (t Timestamps) Get(id string) *Timestamp {
 func (t Timestamps) GetByIDs(ids ...string) Timestamps {
 	var ret Timestamps
 	for _, x := range t {
-		if slices.Contains(ids, x.ID) {
+		if lo.Contains(ids, x.ID) {
 			ret = append(ret, x)
 		}
 	}

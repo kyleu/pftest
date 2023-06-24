@@ -1,7 +1,10 @@
 // Content managed by Project Forge, see [projectforge.md] for details.
 package group
 
-import "golang.org/x/exp/slices"
+import (
+	"github.com/samber/lo"
+	"golang.org/x/exp/slices"
+)
 
 type Groups []*Group
 
@@ -17,7 +20,7 @@ func (g Groups) Get(id string) *Group {
 func (g Groups) GetByIDs(ids ...string) Groups {
 	var ret Groups
 	for _, x := range g {
-		if slices.Contains(ids, x.ID) {
+		if lo.Contains(ids, x.ID) {
 			ret = append(ret, x)
 		}
 	}

@@ -1,7 +1,10 @@
 // Content managed by Project Forge, see [projectforge.md] for details.
 package softdel
 
-import "golang.org/x/exp/slices"
+import (
+	"github.com/samber/lo"
+	"golang.org/x/exp/slices"
+)
 
 type Softdels []*Softdel
 
@@ -17,7 +20,7 @@ func (s Softdels) Get(id string) *Softdel {
 func (s Softdels) GetByIDs(ids ...string) Softdels {
 	var ret Softdels
 	for _, x := range s {
-		if slices.Contains(ids, x.ID) {
+		if lo.Contains(ids, x.ID) {
 			ret = append(ret, x)
 		}
 	}

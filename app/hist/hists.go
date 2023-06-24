@@ -1,7 +1,10 @@
 // Content managed by Project Forge, see [projectforge.md] for details.
 package hist
 
-import "golang.org/x/exp/slices"
+import (
+	"github.com/samber/lo"
+	"golang.org/x/exp/slices"
+)
 
 type Hists []*Hist
 
@@ -17,7 +20,7 @@ func (h Hists) Get(id string) *Hist {
 func (h Hists) GetByIDs(ids ...string) Hists {
 	var ret Hists
 	for _, x := range h {
-		if slices.Contains(ids, x.ID) {
+		if lo.Contains(ids, x.ID) {
 			ret = append(ret, x)
 		}
 	}

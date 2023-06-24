@@ -1,7 +1,10 @@
 // Content managed by Project Forge, see [projectforge.md] for details.
 package mixedcase
 
-import "golang.org/x/exp/slices"
+import (
+	"github.com/samber/lo"
+	"golang.org/x/exp/slices"
+)
 
 type MixedCases []*MixedCase
 
@@ -17,7 +20,7 @@ func (m MixedCases) Get(id string) *MixedCase {
 func (m MixedCases) GetByIDs(ids ...string) MixedCases {
 	var ret MixedCases
 	for _, x := range m {
-		if slices.Contains(ids, x.ID) {
+		if lo.Contains(ids, x.ID) {
 			ret = append(ret, x)
 		}
 	}
