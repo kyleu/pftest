@@ -12,10 +12,10 @@ sign {
 }
 
 dmg {
-  output_path = "./build/dist/pftest_0.0.0_macos_arm64.dmg"
+  output_path = "./build/dist/pftest_0.0.0_darwin_arm64.dmg"
   volume_name = "Test Project"
 }
 
 zip {
-  output_path = "./build/dist/pftest_0.0.0_macos_arm64_notarized.zip"
+  output_path = "./build/dist/pftest_0.0.0_darwin_arm64_notarized.zip"
 }
