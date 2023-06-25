@@ -7,6 +7,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/samber/lo"
+
 	"github.com/kyleu/pftest/app/util"
 )
 
@@ -42,11 +44,9 @@ func (r *row) ToHist() *Hist {
 type rows []*row
 
 func (x rows) ToHists() Hists {
-	ret := make(Hists, 0, len(x))
-	for _, d := range x {
-		ret = append(ret, d.ToHist())
-	}
-	return ret
+	return lo.Map(x, func(d *row, _ int) *Hist {
+		return d.ToHist()
+	})
 }
 
 func defaultWC(idx int) string {

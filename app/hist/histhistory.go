@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/samber/lo"
 
 	"github.com/kyleu/pftest/app/util"
 )
@@ -54,9 +55,7 @@ func (h *historyRow) ToHistory() *History {
 type historyRows []*historyRow
 
 func (h historyRows) ToHistories() Histories {
-	ret := make(Histories, 0, len(h))
-	for _, x := range h {
-		ret = append(ret, x.ToHistory())
-	}
-	return ret
+	return lo.Map(h, func(x *historyRow, _ int) *History {
+		return x.ToHistory()
+	})
 }

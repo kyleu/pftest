@@ -7,6 +7,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/samber/lo"
+
 	"github.com/kyleu/pftest/app/util"
 )
 
@@ -46,11 +48,9 @@ func (r *row) ToGroup() *Group {
 type rows []*row
 
 func (x rows) ToGroups() Groups {
-	ret := make(Groups, 0, len(x))
-	for _, d := range x {
-		ret = append(ret, d.ToGroup())
-	}
-	return ret
+	return lo.Map(x, func(d *row, _ int) *Group {
+		return d.ToGroup()
+	})
 }
 
 func defaultWC(idx int) string {

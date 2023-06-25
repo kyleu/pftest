@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/samber/lo"
 
 	"github.com/kyleu/pftest/app/util"
 )
@@ -41,11 +42,9 @@ func (r *row) ToRelation() *Relation {
 type rows []*row
 
 func (x rows) ToRelations() Relations {
-	ret := make(Relations, 0, len(x))
-	for _, d := range x {
-		ret = append(ret, d.ToRelation())
-	}
-	return ret
+	return lo.Map(x, func(d *row, _ int) *Relation {
+		return d.ToRelation()
+	})
 }
 
 func defaultWC(idx int) string {

@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/samber/lo"
 
 	"github.com/kyleu/pftest/app/util"
 )
@@ -41,11 +42,9 @@ func (r *row) ToPath() *Path {
 type rows []*row
 
 func (x rows) ToPaths() Paths {
-	ret := make(Paths, 0, len(x))
-	for _, d := range x {
-		ret = append(ret, d.ToPath())
-	}
-	return ret
+	return lo.Map(x, func(d *row, _ int) *Path {
+		return d.ToPath()
+	})
 }
 
 func defaultWC(idx int) string {

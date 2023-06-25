@@ -10,30 +10,21 @@ import (
 type Auditeds []*Audited
 
 func (a Auditeds) Get(id uuid.UUID) *Audited {
-	for _, x := range a {
-		if x.ID == id {
-			return x
-		}
-	}
-	return nil
+	return lo.FindOrElse(a, nil, func(x *Audited) bool {
+		return x.ID == id
+	})
 }
 
 func (a Auditeds) GetByIDs(ids ...uuid.UUID) Auditeds {
-	var ret Auditeds
-	for _, x := range a {
-		if lo.Contains(ids, x.ID) {
-			ret = append(ret, x)
-		}
-	}
-	return ret
+	return lo.Filter(a, func(x *Audited, _ int) bool {
+		return lo.Contains(ids, x.ID)
+	})
 }
 
 func (a Auditeds) IDs() []uuid.UUID {
-	ret := make([]uuid.UUID, 0, len(a)+1)
-	for _, x := range a {
-		ret = append(ret, x.ID)
-	}
-	return ret
+	return lo.Map(a, func(x *Audited, _ int) uuid.UUID {
+		return x.ID
+	})
 }
 
 func (a Auditeds) IDStrings(includeNil bool) []string {
@@ -41,9 +32,9 @@ func (a Auditeds) IDStrings(includeNil bool) []string {
 	if includeNil {
 		ret = append(ret, "")
 	}
-	for _, x := range a {
+	lo.ForEach(a, func(x *Audited, _ int) {
 		ret = append(ret, x.ID.String())
-	}
+	})
 	return ret
 }
 
@@ -52,9 +43,9 @@ func (a Auditeds) TitleStrings(nilTitle string) []string {
 	if nilTitle != "" {
 		ret = append(ret, nilTitle)
 	}
-	for _, x := range a {
+	lo.ForEach(a, func(x *Audited, _ int) {
 		ret = append(ret, x.TitleString())
-	}
+	})
 	return ret
 }
 

@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/samber/lo"
 
 	"github.com/kyleu/pftest/app/util"
 )
@@ -41,11 +42,9 @@ func (r *row) ToBasic() *Basic {
 type rows []*row
 
 func (x rows) ToBasics() Basics {
-	ret := make(Basics, 0, len(x))
-	for _, d := range x {
-		ret = append(ret, d.ToBasic())
-	}
-	return ret
+	return lo.Map(x, func(d *row, _ int) *Basic {
+		return d.ToBasic()
+	})
 }
 
 func defaultWC(idx int) string {

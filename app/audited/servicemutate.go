@@ -8,6 +8,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
 	"github.com/pkg/errors"
+	"github.com/samber/lo"
 
 	"github.com/kyleu/pftest/app/lib/database"
 	"github.com/kyleu/pftest/app/util"
@@ -54,10 +55,9 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, logger util.Logger, mod
 		return nil
 	}
 	q := database.SQLUpsert(tableQuoted, columnsQuoted, len(models), []string{"id"}, columnsQuoted, s.db.Placeholder())
-	var data []any
-	for _, model := range models {
-		data = append(data, model.ToData()...)
-	}
+	data := lo.FlatMap(models, func(model *Audited, _ int) []any {
+		return model.ToData()
+	})
 	return s.db.Insert(ctx, q, tx, logger, data...)
 }
 

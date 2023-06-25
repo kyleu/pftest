@@ -7,6 +7,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/samber/lo"
+
 	"github.com/kyleu/pftest/app/util"
 )
 
@@ -53,11 +55,9 @@ func (r *row) ToVersion() *Version {
 type rows []*row
 
 func (x rows) ToVersions() Versions {
-	ret := make(Versions, 0, len(x))
-	for _, d := range x {
-		ret = append(ret, d.ToVersion())
-	}
-	return ret
+	return lo.Map(x, func(d *row, _ int) *Version {
+		return d.ToVersion()
+	})
 }
 
 func defaultWC(idx int) string {

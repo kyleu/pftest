@@ -8,6 +8,7 @@ import (
 
 	"github.com/jmoiron/sqlx"
 	"github.com/pkg/errors"
+	"github.com/samber/lo"
 
 	"github.com/kyleu/pftest/app/lib/database"
 	"github.com/kyleu/pftest/app/lib/filter"
@@ -75,10 +76,9 @@ func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, includeDeleted b
 	wc = addDeletedClause(wc, includeDeleted)
 	ret := rows{}
 	q := database.SQLSelectSimple(columnsString, tablesJoined, s.db.Placeholder(), wc)
-	vals := make([]any, 0, len(pks)*2)
-	for _, x := range pks {
-		vals = append(vals, x.From, x.Where)
-	}
+	vals := lo.FlatMap(pks, func(x *PK, _ int) []any {
+		return []any{x.From, x.Where}
+	})
 	err := s.dbRead.Select(ctx, &ret, q, tx, logger, vals...)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to get Troubles for [%d] pks", len(pks))

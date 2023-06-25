@@ -6,6 +6,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/samber/lo"
+
 	"github.com/kyleu/pftest/app/util"
 )
 
@@ -39,11 +41,9 @@ func (r *row) ToSoftdel() *Softdel {
 type rows []*row
 
 func (x rows) ToSoftdels() Softdels {
-	ret := make(Softdels, 0, len(x))
-	for _, d := range x {
-		ret = append(ret, d.ToSoftdel())
-	}
-	return ret
+	return lo.Map(x, func(d *row, _ int) *Softdel {
+		return d.ToSoftdel()
+	})
 }
 
 func defaultWC(idx int) string {

@@ -9,30 +9,21 @@ import (
 type Timestamps []*Timestamp
 
 func (t Timestamps) Get(id string) *Timestamp {
-	for _, x := range t {
-		if x.ID == id {
-			return x
-		}
-	}
-	return nil
+	return lo.FindOrElse(t, nil, func(x *Timestamp) bool {
+		return x.ID == id
+	})
 }
 
 func (t Timestamps) GetByIDs(ids ...string) Timestamps {
-	var ret Timestamps
-	for _, x := range t {
-		if lo.Contains(ids, x.ID) {
-			ret = append(ret, x)
-		}
-	}
-	return ret
+	return lo.Filter(t, func(x *Timestamp, _ int) bool {
+		return lo.Contains(ids, x.ID)
+	})
 }
 
 func (t Timestamps) IDs() []string {
-	ret := make([]string, 0, len(t)+1)
-	for _, x := range t {
-		ret = append(ret, x.ID)
-	}
-	return ret
+	return lo.Map(t, func(x *Timestamp, _ int) string {
+		return x.ID
+	})
 }
 
 func (t Timestamps) IDStrings(includeNil bool) []string {
@@ -40,9 +31,9 @@ func (t Timestamps) IDStrings(includeNil bool) []string {
 	if includeNil {
 		ret = append(ret, "")
 	}
-	for _, x := range t {
+	lo.ForEach(t, func(x *Timestamp, _ int) {
 		ret = append(ret, x.ID)
-	}
+	})
 	return ret
 }
 
@@ -51,9 +42,9 @@ func (t Timestamps) TitleStrings(nilTitle string) []string {
 	if nilTitle != "" {
 		ret = append(ret, nilTitle)
 	}
-	for _, x := range t {
+	lo.ForEach(t, func(x *Timestamp, _ int) {
 		ret = append(ret, x.TitleString())
-	}
+	})
 	return ret
 }
 

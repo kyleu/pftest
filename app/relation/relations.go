@@ -10,30 +10,21 @@ import (
 type Relations []*Relation
 
 func (r Relations) Get(id uuid.UUID) *Relation {
-	for _, x := range r {
-		if x.ID == id {
-			return x
-		}
-	}
-	return nil
+	return lo.FindOrElse(r, nil, func(x *Relation) bool {
+		return x.ID == id
+	})
 }
 
 func (r Relations) GetByIDs(ids ...uuid.UUID) Relations {
-	var ret Relations
-	for _, x := range r {
-		if lo.Contains(ids, x.ID) {
-			ret = append(ret, x)
-		}
-	}
-	return ret
+	return lo.Filter(r, func(x *Relation, _ int) bool {
+		return lo.Contains(ids, x.ID)
+	})
 }
 
 func (r Relations) IDs() []uuid.UUID {
-	ret := make([]uuid.UUID, 0, len(r)+1)
-	for _, x := range r {
-		ret = append(ret, x.ID)
-	}
-	return ret
+	return lo.Map(r, func(x *Relation, _ int) uuid.UUID {
+		return x.ID
+	})
 }
 
 func (r Relations) IDStrings(includeNil bool) []string {
@@ -41,9 +32,9 @@ func (r Relations) IDStrings(includeNil bool) []string {
 	if includeNil {
 		ret = append(ret, "")
 	}
-	for _, x := range r {
+	lo.ForEach(r, func(x *Relation, _ int) {
 		ret = append(ret, x.ID.String())
-	}
+	})
 	return ret
 }
 
@@ -52,9 +43,9 @@ func (r Relations) TitleStrings(nilTitle string) []string {
 	if nilTitle != "" {
 		ret = append(ret, nilTitle)
 	}
-	for _, x := range r {
+	lo.ForEach(r, func(x *Relation, _ int) {
 		ret = append(ret, x.TitleString())
-	}
+	})
 	return ret
 }
 

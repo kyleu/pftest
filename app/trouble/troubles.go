@@ -11,30 +11,21 @@ import (
 type Troubles []*Trouble
 
 func (t Troubles) Get(from string, where []string) *Trouble {
-	for _, x := range t {
-		if x.From == from && slices.Equal(x.Where, where) {
-			return x
-		}
-	}
-	return nil
+	return lo.FindOrElse(t, nil, func(x *Trouble) bool {
+		return x.From == from && slices.Equal(x.Where, where)
+	})
 }
 
 func (t Troubles) GetByFroms(froms ...string) Troubles {
-	var ret Troubles
-	for _, x := range t {
-		if lo.Contains(froms, x.From) {
-			ret = append(ret, x)
-		}
-	}
-	return ret
+	return lo.Filter(t, func(x *Trouble, _ int) bool {
+		return lo.Contains(froms, x.From)
+	})
 }
 
 func (t Troubles) Froms() []string {
-	ret := make([]string, 0, len(t)+1)
-	for _, x := range t {
-		ret = append(ret, x.From)
-	}
-	return ret
+	return lo.Map(t, func(x *Trouble, _ int) string {
+		return x.From
+	})
 }
 
 func (t Troubles) FromStrings(includeNil bool) []string {
@@ -42,18 +33,16 @@ func (t Troubles) FromStrings(includeNil bool) []string {
 	if includeNil {
 		ret = append(ret, "")
 	}
-	for _, x := range t {
+	lo.ForEach(t, func(x *Trouble, _ int) {
 		ret = append(ret, x.From)
-	}
+	})
 	return ret
 }
 
 func (t Troubles) Wheres() [][]string {
-	ret := make([][]string, 0, len(t)+1)
-	for _, x := range t {
-		ret = append(ret, x.Where)
-	}
-	return ret
+	return lo.Map(t, func(x *Trouble, _ int) []string {
+		return x.Where
+	})
 }
 
 func (t Troubles) WhereStrings(includeNil bool) []string {
@@ -61,9 +50,9 @@ func (t Troubles) WhereStrings(includeNil bool) []string {
 	if includeNil {
 		ret = append(ret, "")
 	}
-	for _, x := range t {
+	lo.ForEach(t, func(x *Trouble, _ int) {
 		ret = append(ret, util.ToJSON(&x.Where))
-	}
+	})
 	return ret
 }
 
@@ -72,9 +61,9 @@ func (t Troubles) TitleStrings(nilTitle string) []string {
 	if nilTitle != "" {
 		ret = append(ret, nilTitle)
 	}
-	for _, x := range t {
+	lo.ForEach(t, func(x *Trouble, _ int) {
 		ret = append(ret, x.TitleString())
-	}
+	})
 	return ret
 }
 

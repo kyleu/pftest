@@ -9,30 +9,21 @@ import (
 type Groups []*Group
 
 func (g Groups) Get(id string) *Group {
-	for _, x := range g {
-		if x.ID == id {
-			return x
-		}
-	}
-	return nil
+	return lo.FindOrElse(g, nil, func(x *Group) bool {
+		return x.ID == id
+	})
 }
 
 func (g Groups) GetByIDs(ids ...string) Groups {
-	var ret Groups
-	for _, x := range g {
-		if lo.Contains(ids, x.ID) {
-			ret = append(ret, x)
-		}
-	}
-	return ret
+	return lo.Filter(g, func(x *Group, _ int) bool {
+		return lo.Contains(ids, x.ID)
+	})
 }
 
 func (g Groups) IDs() []string {
-	ret := make([]string, 0, len(g)+1)
-	for _, x := range g {
-		ret = append(ret, x.ID)
-	}
-	return ret
+	return lo.Map(g, func(x *Group, _ int) string {
+		return x.ID
+	})
 }
 
 func (g Groups) IDStrings(includeNil bool) []string {
@@ -40,9 +31,9 @@ func (g Groups) IDStrings(includeNil bool) []string {
 	if includeNil {
 		ret = append(ret, "")
 	}
-	for _, x := range g {
+	lo.ForEach(g, func(x *Group, _ int) {
 		ret = append(ret, x.ID)
-	}
+	})
 	return ret
 }
 
@@ -51,9 +42,9 @@ func (g Groups) TitleStrings(nilTitle string) []string {
 	if nilTitle != "" {
 		ret = append(ret, nilTitle)
 	}
-	for _, x := range g {
+	lo.ForEach(g, func(x *Group, _ int) {
 		ret = append(ret, x.TitleString())
-	}
+	})
 	return ret
 }
 

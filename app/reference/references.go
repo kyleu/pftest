@@ -10,30 +10,21 @@ import (
 type References []*Reference
 
 func (r References) Get(id uuid.UUID) *Reference {
-	for _, x := range r {
-		if x.ID == id {
-			return x
-		}
-	}
-	return nil
+	return lo.FindOrElse(r, nil, func(x *Reference) bool {
+		return x.ID == id
+	})
 }
 
 func (r References) GetByIDs(ids ...uuid.UUID) References {
-	var ret References
-	for _, x := range r {
-		if lo.Contains(ids, x.ID) {
-			ret = append(ret, x)
-		}
-	}
-	return ret
+	return lo.Filter(r, func(x *Reference, _ int) bool {
+		return lo.Contains(ids, x.ID)
+	})
 }
 
 func (r References) IDs() []uuid.UUID {
-	ret := make([]uuid.UUID, 0, len(r)+1)
-	for _, x := range r {
-		ret = append(ret, x.ID)
-	}
-	return ret
+	return lo.Map(r, func(x *Reference, _ int) uuid.UUID {
+		return x.ID
+	})
 }
 
 func (r References) IDStrings(includeNil bool) []string {
@@ -41,9 +32,9 @@ func (r References) IDStrings(includeNil bool) []string {
 	if includeNil {
 		ret = append(ret, "")
 	}
-	for _, x := range r {
+	lo.ForEach(r, func(x *Reference, _ int) {
 		ret = append(ret, x.ID.String())
-	}
+	})
 	return ret
 }
 
@@ -52,9 +43,9 @@ func (r References) TitleStrings(nilTitle string) []string {
 	if nilTitle != "" {
 		ret = append(ret, nilTitle)
 	}
-	for _, x := range r {
+	lo.ForEach(r, func(x *Reference, _ int) {
 		ret = append(ret, x.TitleString())
-	}
+	})
 	return ret
 }
 

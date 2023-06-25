@@ -10,30 +10,21 @@ import (
 type Paths []*Path
 
 func (p Paths) Get(id uuid.UUID) *Path {
-	for _, x := range p {
-		if x.ID == id {
-			return x
-		}
-	}
-	return nil
+	return lo.FindOrElse(p, nil, func(x *Path) bool {
+		return x.ID == id
+	})
 }
 
 func (p Paths) GetByIDs(ids ...uuid.UUID) Paths {
-	var ret Paths
-	for _, x := range p {
-		if lo.Contains(ids, x.ID) {
-			ret = append(ret, x)
-		}
-	}
-	return ret
+	return lo.Filter(p, func(x *Path, _ int) bool {
+		return lo.Contains(ids, x.ID)
+	})
 }
 
 func (p Paths) IDs() []uuid.UUID {
-	ret := make([]uuid.UUID, 0, len(p)+1)
-	for _, x := range p {
-		ret = append(ret, x.ID)
-	}
-	return ret
+	return lo.Map(p, func(x *Path, _ int) uuid.UUID {
+		return x.ID
+	})
 }
 
 func (p Paths) IDStrings(includeNil bool) []string {
@@ -41,9 +32,9 @@ func (p Paths) IDStrings(includeNil bool) []string {
 	if includeNil {
 		ret = append(ret, "")
 	}
-	for _, x := range p {
+	lo.ForEach(p, func(x *Path, _ int) {
 		ret = append(ret, x.ID.String())
-	}
+	})
 	return ret
 }
 
@@ -52,9 +43,9 @@ func (p Paths) TitleStrings(nilTitle string) []string {
 	if nilTitle != "" {
 		ret = append(ret, nilTitle)
 	}
-	for _, x := range p {
+	lo.ForEach(p, func(x *Path, _ int) {
 		ret = append(ret, x.TitleString())
-	}
+	})
 	return ret
 }
 

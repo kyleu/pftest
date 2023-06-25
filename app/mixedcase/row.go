@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/samber/lo"
+
 	"github.com/kyleu/pftest/app/util"
 )
 
@@ -36,11 +38,9 @@ func (r *row) ToMixedCase() *MixedCase {
 type rows []*row
 
 func (x rows) ToMixedCases() MixedCases {
-	ret := make(MixedCases, 0, len(x))
-	for _, d := range x {
-		ret = append(ret, d.ToMixedCase())
-	}
-	return ret
+	return lo.Map(x, func(d *row, _ int) *MixedCase {
+		return d.ToMixedCase()
+	})
 }
 
 func defaultWC(idx int) string {

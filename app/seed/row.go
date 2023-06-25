@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/google/uuid"
+	"github.com/samber/lo"
 
 	"github.com/kyleu/pftest/app/util"
 )
@@ -43,11 +44,9 @@ func (r *row) ToSeed() *Seed {
 type rows []*row
 
 func (x rows) ToSeeds() Seeds {
-	ret := make(Seeds, 0, len(x))
-	for _, d := range x {
-		ret = append(ret, d.ToSeed())
-	}
-	return ret
+	return lo.Map(x, func(d *row, _ int) *Seed {
+		return d.ToSeed()
+	})
 }
 
 func defaultWC(idx int) string {

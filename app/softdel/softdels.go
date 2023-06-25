@@ -9,30 +9,21 @@ import (
 type Softdels []*Softdel
 
 func (s Softdels) Get(id string) *Softdel {
-	for _, x := range s {
-		if x.ID == id {
-			return x
-		}
-	}
-	return nil
+	return lo.FindOrElse(s, nil, func(x *Softdel) bool {
+		return x.ID == id
+	})
 }
 
 func (s Softdels) GetByIDs(ids ...string) Softdels {
-	var ret Softdels
-	for _, x := range s {
-		if lo.Contains(ids, x.ID) {
-			ret = append(ret, x)
-		}
-	}
-	return ret
+	return lo.Filter(s, func(x *Softdel, _ int) bool {
+		return lo.Contains(ids, x.ID)
+	})
 }
 
 func (s Softdels) IDs() []string {
-	ret := make([]string, 0, len(s)+1)
-	for _, x := range s {
-		ret = append(ret, x.ID)
-	}
-	return ret
+	return lo.Map(s, func(x *Softdel, _ int) string {
+		return x.ID
+	})
 }
 
 func (s Softdels) IDStrings(includeNil bool) []string {
@@ -40,9 +31,9 @@ func (s Softdels) IDStrings(includeNil bool) []string {
 	if includeNil {
 		ret = append(ret, "")
 	}
-	for _, x := range s {
+	lo.ForEach(s, func(x *Softdel, _ int) {
 		ret = append(ret, x.ID)
-	}
+	})
 	return ret
 }
 
@@ -51,9 +42,9 @@ func (s Softdels) TitleStrings(nilTitle string) []string {
 	if nilTitle != "" {
 		ret = append(ret, nilTitle)
 	}
-	for _, x := range s {
+	lo.ForEach(s, func(x *Softdel, _ int) {
 		ret = append(ret, x.TitleString())
-	}
+	})
 	return ret
 }
 

@@ -9,30 +9,21 @@ import (
 type Versions []*Version
 
 func (v Versions) Get(id string) *Version {
-	for _, x := range v {
-		if x.ID == id {
-			return x
-		}
-	}
-	return nil
+	return lo.FindOrElse(v, nil, func(x *Version) bool {
+		return x.ID == id
+	})
 }
 
 func (v Versions) GetByIDs(ids ...string) Versions {
-	var ret Versions
-	for _, x := range v {
-		if lo.Contains(ids, x.ID) {
-			ret = append(ret, x)
-		}
-	}
-	return ret
+	return lo.Filter(v, func(x *Version, _ int) bool {
+		return lo.Contains(ids, x.ID)
+	})
 }
 
 func (v Versions) IDs() []string {
-	ret := make([]string, 0, len(v)+1)
-	for _, x := range v {
-		ret = append(ret, x.ID)
-	}
-	return ret
+	return lo.Map(v, func(x *Version, _ int) string {
+		return x.ID
+	})
 }
 
 func (v Versions) IDStrings(includeNil bool) []string {
@@ -40,9 +31,9 @@ func (v Versions) IDStrings(includeNil bool) []string {
 	if includeNil {
 		ret = append(ret, "")
 	}
-	for _, x := range v {
+	lo.ForEach(v, func(x *Version, _ int) {
 		ret = append(ret, x.ID)
-	}
+	})
 	return ret
 }
 
@@ -51,9 +42,9 @@ func (v Versions) TitleStrings(nilTitle string) []string {
 	if nilTitle != "" {
 		ret = append(ret, nilTitle)
 	}
-	for _, x := range v {
+	lo.ForEach(v, func(x *Version, _ int) {
 		ret = append(ret, x.TitleString())
-	}
+	})
 	return ret
 }
 

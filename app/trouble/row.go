@@ -7,6 +7,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/samber/lo"
+
 	"github.com/kyleu/pftest/app/util"
 )
 
@@ -53,11 +55,9 @@ func (r *row) ToTrouble() *Trouble {
 type rows []*row
 
 func (x rows) ToTroubles() Troubles {
-	ret := make(Troubles, 0, len(x))
-	for _, d := range x {
-		ret = append(ret, d.ToTrouble())
-	}
-	return ret
+	return lo.Map(x, func(d *row, _ int) *Trouble {
+		return d.ToTrouble()
+	})
 }
 
 func defaultWC(idx int) string {

@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/samber/lo"
 
 	"github.com/kyleu/pftest/app/foo"
 	"github.com/kyleu/pftest/app/util"
@@ -47,11 +48,9 @@ func (r *row) ToReference() *Reference {
 type rows []*row
 
 func (x rows) ToReferences() References {
-	ret := make(References, 0, len(x))
-	for _, d := range x {
-		ret = append(ret, d.ToReference())
-	}
-	return ret
+	return lo.Map(x, func(d *row, _ int) *Reference {
+		return d.ToReference()
+	})
 }
 
 func defaultWC(idx int) string {

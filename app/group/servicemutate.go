@@ -7,6 +7,7 @@ import (
 
 	"github.com/jmoiron/sqlx"
 	"github.com/pkg/errors"
+	"github.com/samber/lo"
 
 	"github.com/kyleu/pftest/app/lib/database"
 	"github.com/kyleu/pftest/app/util"
@@ -16,10 +17,10 @@ func (s *Service) Create(ctx context.Context, tx *sqlx.Tx, logger util.Logger, m
 	if len(models) == 0 {
 		return nil
 	}
-	for _, model := range models {
+	lo.ForEach(models, func(model *Group, _ int) {
 		model.Created = time.Now()
 		model.Updated = util.NowPointer()
-	}
+	})
 	q := database.SQLInsert(tableQuoted, columnsQuoted, len(models), s.db.Placeholder())
 	vals := make([]any, 0, len(models)*len(columnsQuoted))
 	for _, arg := range models {
@@ -49,15 +50,14 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, logger util.Logger, mod
 	if len(models) == 0 {
 		return nil
 	}
-	for _, model := range models {
+	lo.ForEach(models, func(model *Group, _ int) {
 		model.Created = time.Now()
 		model.Updated = util.NowPointer()
-	}
+	})
 	q := database.SQLUpsert(tableQuoted, columnsQuoted, len(models), []string{"id"}, columnsQuoted, s.db.Placeholder())
-	var data []any
-	for _, model := range models {
-		data = append(data, model.ToData()...)
-	}
+	data := lo.FlatMap(models, func(model *Group, _ int) []any {
+		return model.ToData()
+	})
 	return s.db.Insert(ctx, q, tx, logger, data...)
 }
 

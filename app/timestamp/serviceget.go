@@ -7,6 +7,7 @@ import (
 
 	"github.com/jmoiron/sqlx"
 	"github.com/pkg/errors"
+	"github.com/samber/lo"
 
 	"github.com/kyleu/pftest/app/lib/database"
 	"github.com/kyleu/pftest/app/lib/filter"
@@ -67,11 +68,7 @@ func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, includeDeleted b
 	wc = addDeletedClause(wc, includeDeleted)
 	ret := rows{}
 	q := database.SQLSelectSimple(columnsString, tableQuoted, s.db.Placeholder(), wc)
-	vals := make([]any, 0, len(ids))
-	for _, x := range ids {
-		vals = append(vals, x)
-	}
-	err := s.dbRead.Select(ctx, &ret, q, tx, logger, vals...)
+	err := s.dbRead.Select(ctx, &ret, q, tx, logger, lo.ToAnySlice(ids)...)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to get Timestamps for [%d] ids", len(ids))
 	}

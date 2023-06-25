@@ -6,6 +6,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/samber/lo"
+
 	"github.com/kyleu/pftest/app/util"
 )
 
@@ -48,11 +50,9 @@ func (r *row) ToCapital() *Capital {
 type rows []*row
 
 func (x rows) ToCapitals() Capitals {
-	ret := make(Capitals, 0, len(x))
-	for _, d := range x {
-		ret = append(ret, d.ToCapital())
-	}
-	return ret
+	return lo.Map(x, func(d *row, _ int) *Capital {
+		return d.ToCapital()
+	})
 }
 
 func defaultWC(idx int) string {

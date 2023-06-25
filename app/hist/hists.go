@@ -9,30 +9,21 @@ import (
 type Hists []*Hist
 
 func (h Hists) Get(id string) *Hist {
-	for _, x := range h {
-		if x.ID == id {
-			return x
-		}
-	}
-	return nil
+	return lo.FindOrElse(h, nil, func(x *Hist) bool {
+		return x.ID == id
+	})
 }
 
 func (h Hists) GetByIDs(ids ...string) Hists {
-	var ret Hists
-	for _, x := range h {
-		if lo.Contains(ids, x.ID) {
-			ret = append(ret, x)
-		}
-	}
-	return ret
+	return lo.Filter(h, func(x *Hist, _ int) bool {
+		return lo.Contains(ids, x.ID)
+	})
 }
 
 func (h Hists) IDs() []string {
-	ret := make([]string, 0, len(h)+1)
-	for _, x := range h {
-		ret = append(ret, x.ID)
-	}
-	return ret
+	return lo.Map(h, func(x *Hist, _ int) string {
+		return x.ID
+	})
 }
 
 func (h Hists) IDStrings(includeNil bool) []string {
@@ -40,9 +31,9 @@ func (h Hists) IDStrings(includeNil bool) []string {
 	if includeNil {
 		ret = append(ret, "")
 	}
-	for _, x := range h {
+	lo.ForEach(h, func(x *Hist, _ int) {
 		ret = append(ret, x.ID)
-	}
+	})
 	return ret
 }
 
@@ -51,9 +42,9 @@ func (h Hists) TitleStrings(nilTitle string) []string {
 	if nilTitle != "" {
 		ret = append(ret, nilTitle)
 	}
-	for _, x := range h {
+	lo.ForEach(h, func(x *Hist, _ int) {
 		ret = append(ret, x.TitleString())
-	}
+	})
 	return ret
 }
 

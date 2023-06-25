@@ -9,30 +9,21 @@ import (
 type MixedCases []*MixedCase
 
 func (m MixedCases) Get(id string) *MixedCase {
-	for _, x := range m {
-		if x.ID == id {
-			return x
-		}
-	}
-	return nil
+	return lo.FindOrElse(m, nil, func(x *MixedCase) bool {
+		return x.ID == id
+	})
 }
 
 func (m MixedCases) GetByIDs(ids ...string) MixedCases {
-	var ret MixedCases
-	for _, x := range m {
-		if lo.Contains(ids, x.ID) {
-			ret = append(ret, x)
-		}
-	}
-	return ret
+	return lo.Filter(m, func(x *MixedCase, _ int) bool {
+		return lo.Contains(ids, x.ID)
+	})
 }
 
 func (m MixedCases) IDs() []string {
-	ret := make([]string, 0, len(m)+1)
-	for _, x := range m {
-		ret = append(ret, x.ID)
-	}
-	return ret
+	return lo.Map(m, func(x *MixedCase, _ int) string {
+		return x.ID
+	})
 }
 
 func (m MixedCases) IDStrings(includeNil bool) []string {
@@ -40,9 +31,9 @@ func (m MixedCases) IDStrings(includeNil bool) []string {
 	if includeNil {
 		ret = append(ret, "")
 	}
-	for _, x := range m {
+	lo.ForEach(m, func(x *MixedCase, _ int) {
 		ret = append(ret, x.ID)
-	}
+	})
 	return ret
 }
 
@@ -51,9 +42,9 @@ func (m MixedCases) TitleStrings(nilTitle string) []string {
 	if nilTitle != "" {
 		ret = append(ret, nilTitle)
 	}
-	for _, x := range m {
+	lo.ForEach(m, func(x *MixedCase, _ int) {
 		ret = append(ret, x.TitleString())
-	}
+	})
 	return ret
 }
 

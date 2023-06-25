@@ -5,6 +5,7 @@ import (
 	"context"
 
 	"github.com/jmoiron/sqlx"
+	"github.com/samber/lo"
 
 	"github.com/kyleu/pftest/app/lib/database"
 	"github.com/kyleu/pftest/app/util"
@@ -18,9 +19,9 @@ func (s *Service) Create(ctx context.Context, tx *sqlx.Tx, logger util.Logger, m
 	if err != nil {
 		return err
 	}
-	for _, model := range models {
+	lo.ForEach(models, func(model *Capital, _ int) {
 		model.Version = revs[model.String()] + 1
-	}
+	})
 
 	err = s.upsertCore(ctx, tx, logger, models...)
 	if err != nil {
@@ -77,9 +78,9 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, logger util.Logger, mod
 	if err != nil {
 		return err
 	}
-	for _, model := range models {
+	lo.ForEach(models, func(model *Capital, _ int) {
 		model.Version = revs[model.String()] + 1
-	}
+	})
 
 	err = s.upsertCore(ctx, tx, logger, models...)
 	if err != nil {

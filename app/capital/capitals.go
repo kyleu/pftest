@@ -9,30 +9,21 @@ import (
 type Capitals []*Capital
 
 func (c Capitals) Get(id string) *Capital {
-	for _, x := range c {
-		if x.ID == id {
-			return x
-		}
-	}
-	return nil
+	return lo.FindOrElse(c, nil, func(x *Capital) bool {
+		return x.ID == id
+	})
 }
 
 func (c Capitals) GetByIDs(ids ...string) Capitals {
-	var ret Capitals
-	for _, x := range c {
-		if lo.Contains(ids, x.ID) {
-			ret = append(ret, x)
-		}
-	}
-	return ret
+	return lo.Filter(c, func(x *Capital, _ int) bool {
+		return lo.Contains(ids, x.ID)
+	})
 }
 
 func (c Capitals) IDs() []string {
-	ret := make([]string, 0, len(c)+1)
-	for _, x := range c {
-		ret = append(ret, x.ID)
-	}
-	return ret
+	return lo.Map(c, func(x *Capital, _ int) string {
+		return x.ID
+	})
 }
 
 func (c Capitals) IDStrings(includeNil bool) []string {
@@ -40,9 +31,9 @@ func (c Capitals) IDStrings(includeNil bool) []string {
 	if includeNil {
 		ret = append(ret, "")
 	}
-	for _, x := range c {
+	lo.ForEach(c, func(x *Capital, _ int) {
 		ret = append(ret, x.ID)
-	}
+	})
 	return ret
 }
 
@@ -51,9 +42,9 @@ func (c Capitals) TitleStrings(nilTitle string) []string {
 	if nilTitle != "" {
 		ret = append(ret, nilTitle)
 	}
-	for _, x := range c {
+	lo.ForEach(c, func(x *Capital, _ int) {
 		ret = append(ret, x.TitleString())
-	}
+	})
 	return ret
 }
 

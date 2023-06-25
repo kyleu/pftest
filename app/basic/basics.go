@@ -10,30 +10,21 @@ import (
 type Basics []*Basic
 
 func (b Basics) Get(id uuid.UUID) *Basic {
-	for _, x := range b {
-		if x.ID == id {
-			return x
-		}
-	}
-	return nil
+	return lo.FindOrElse(b, nil, func(x *Basic) bool {
+		return x.ID == id
+	})
 }
 
 func (b Basics) GetByIDs(ids ...uuid.UUID) Basics {
-	var ret Basics
-	for _, x := range b {
-		if lo.Contains(ids, x.ID) {
-			ret = append(ret, x)
-		}
-	}
-	return ret
+	return lo.Filter(b, func(x *Basic, _ int) bool {
+		return lo.Contains(ids, x.ID)
+	})
 }
 
 func (b Basics) IDs() []uuid.UUID {
-	ret := make([]uuid.UUID, 0, len(b)+1)
-	for _, x := range b {
-		ret = append(ret, x.ID)
-	}
-	return ret
+	return lo.Map(b, func(x *Basic, _ int) uuid.UUID {
+		return x.ID
+	})
 }
 
 func (b Basics) IDStrings(includeNil bool) []string {
@@ -41,9 +32,9 @@ func (b Basics) IDStrings(includeNil bool) []string {
 	if includeNil {
 		ret = append(ret, "")
 	}
-	for _, x := range b {
+	lo.ForEach(b, func(x *Basic, _ int) {
 		ret = append(ret, x.ID.String())
-	}
+	})
 	return ret
 }
 
@@ -52,9 +43,9 @@ func (b Basics) TitleStrings(nilTitle string) []string {
 	if nilTitle != "" {
 		ret = append(ret, nilTitle)
 	}
-	for _, x := range b {
+	lo.ForEach(b, func(x *Basic, _ int) {
 		ret = append(ret, x.TitleString())
-	}
+	})
 	return ret
 }
 

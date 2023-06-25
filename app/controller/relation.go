@@ -7,6 +7,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
+	"github.com/samber/lo"
 	"github.com/valyala/fasthttp"
 
 	"github.com/kyleu/pftest/app"
@@ -32,10 +33,9 @@ func RelationList(rc *fasthttp.RequestCtx) {
 		}
 		ps.Title = "Relations"
 		ps.Data = ret
-		basicIDsByBasicID := make([]uuid.UUID, 0, len(ret))
-		for _, x := range ret {
-			basicIDsByBasicID = append(basicIDsByBasicID, x.BasicID)
-		}
+		basicIDsByBasicID := lo.Map(ret, func(x *relation.Relation, _ int) uuid.UUID {
+			return x.BasicID
+		})
 		basicsByBasicID, err := as.Services.Basic.GetMultiple(ps.Context, nil, ps.Logger, basicIDsByBasicID...)
 		if err != nil {
 			return "", err
