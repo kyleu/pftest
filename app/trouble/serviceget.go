@@ -66,12 +66,12 @@ func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, includeDeleted b
 		return Troubles{}, nil
 	}
 	wc := "("
-	for idx := range pks {
+	lo.ForEach(pks, func(_ *PK, idx int) {
 		if idx > 0 {
 			wc += " or "
 		}
 		wc += fmt.Sprintf("(from = $%d and where = $%d)", (idx*2)+1, (idx*2)+2)
-	}
+	})
 	wc += ")"
 	wc = addDeletedClause(wc, includeDeleted)
 	ret := rows{}

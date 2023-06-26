@@ -8,11 +8,17 @@ import (
 
 	"github.com/jmoiron/sqlx"
 	"github.com/pkg/errors"
+	"github.com/samber/lo"
 
 	"github.com/kyleu/pftest/app/lib/database"
 	"github.com/kyleu/pftest/app/lib/filter"
 	"github.com/kyleu/pftest/app/util"
 )
+
+type IDRev struct {
+	ID              string `db:"id"`
+	CurrentRevision int    `db:"current_revision"`
+}
 
 func (s *Service) GetAllRevisions(ctx context.Context, tx *sqlx.Tx, id string, params *filter.Params, logger util.Logger) (Versions, error) {
 	params = filters(params)
@@ -40,33 +46,28 @@ func (s *Service) GetRevision(ctx context.Context, tx *sqlx.Tx, id string, revis
 }
 
 func (s *Service) getCurrentRevisions(ctx context.Context, tx *sqlx.Tx, logger util.Logger, models ...*Version) (map[string]int, error) {
-	stmts := make([]string, 0, len(models))
-	for i := range models {
-		stmts = append(stmts, fmt.Sprintf(`"id" = $%d`, i+1))
-	}
+	stmts := lo.Map(models, func(_ *Version, i int) string {
+		return fmt.Sprintf(`"id" = $%d`, i+1)
+	})
 	q := database.SQLSelectSimple(`"id", "current_revision"`, tableQuoted, s.db.Placeholder(), strings.Join(stmts, " or "))
-	vals := make([]any, 0, len(models))
-	for _, model := range models {
-		vals = append(vals, model.ID)
-	}
-	var results []*struct {
-		ID              string `db:"id"`
-		CurrentRevision int    `db:"current_revision"`
-	}
+	vals := lo.Map(models, func(model *Version, _ int) any {
+		return model.ID
+	})
+	var results []*IDRev
 	err := s.dbRead.Select(ctx, &results, q, tx, logger, vals...)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to get Versions")
 	}
 
 	ret := make(map[string]int, len(models))
-	for _, model := range models {
+	lo.ForEach(models, func(model *Version, _ int) {
 		curr := 0
-		for _, x := range results {
+		lo.ForEach(results, func(x *IDRev, _ int) {
 			if x.ID == model.ID {
 				curr = x.CurrentRevision
 			}
-		}
+		})
 		ret[model.String()] = curr
-	}
+	})
 	return ret, nil
 }

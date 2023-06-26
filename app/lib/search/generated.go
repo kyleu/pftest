@@ -4,9 +4,16 @@ package search
 import (
 	"context"
 
+	"github.com/samber/lo"
+
 	"github.com/kyleu/pftest/app"
+	"github.com/kyleu/pftest/app/audited"
+	"github.com/kyleu/pftest/app/basic"
 	"github.com/kyleu/pftest/app/controller/cutil"
+	"github.com/kyleu/pftest/app/g1/g2/path"
 	"github.com/kyleu/pftest/app/lib/search/result"
+	"github.com/kyleu/pftest/app/reference"
+	"github.com/kyleu/pftest/app/relation"
 	"github.com/kyleu/pftest/app/util"
 )
 
@@ -21,11 +28,9 @@ func generatedSearch() []Provider {
 		if err != nil {
 			return nil, err
 		}
-		res := make(result.Results, 0, len(models))
-		for _, m := range models {
-			res = append(res, result.NewResult("audited", m.String(), m.WebPath(), m.String(), "star", m, m, params.Q))
-		}
-		return res, nil
+		return lo.Map(models, func(m *audited.Audited, _ int) *result.Result {
+			return result.NewResult("audited", m.String(), m.WebPath(), m.String(), "star", m, m, params.Q)
+		}), nil
 	}
 	basicFunc := func(ctx context.Context, params *Params, as *app.State, page *cutil.PageState, logger util.Logger) (result.Results, error) {
 		if !page.Admin {
@@ -36,11 +41,9 @@ func generatedSearch() []Provider {
 		if err != nil {
 			return nil, err
 		}
-		res := make(result.Results, 0, len(models))
-		for _, m := range models {
-			res = append(res, result.NewResult("basic", m.String(), m.WebPath(), m.String(), "star", m, m, params.Q))
-		}
-		return res, nil
+		return lo.Map(models, func(m *basic.Basic, _ int) *result.Result {
+			return result.NewResult("basic", m.String(), m.WebPath(), m.String(), "star", m, m, params.Q)
+		}), nil
 	}
 	pathFunc := func(ctx context.Context, params *Params, as *app.State, page *cutil.PageState, logger util.Logger) (result.Results, error) {
 		if !page.Admin {
@@ -51,11 +54,9 @@ func generatedSearch() []Provider {
 		if err != nil {
 			return nil, err
 		}
-		res := make(result.Results, 0, len(models))
-		for _, m := range models {
-			res = append(res, result.NewResult("path", m.String(), m.WebPath(), m.String(), "star", m, m, params.Q))
-		}
-		return res, nil
+		return lo.Map(models, func(m *path.Path, _ int) *result.Result {
+			return result.NewResult("path", m.String(), m.WebPath(), m.String(), "star", m, m, params.Q)
+		}), nil
 	}
 	referenceFunc := func(ctx context.Context, params *Params, as *app.State, page *cutil.PageState, logger util.Logger) (result.Results, error) {
 		if !page.Admin {
@@ -66,11 +67,9 @@ func generatedSearch() []Provider {
 		if err != nil {
 			return nil, err
 		}
-		res := make(result.Results, 0, len(models))
-		for _, m := range models {
-			res = append(res, result.NewResult("reference", m.String(), m.WebPath(), m.String(), "star", m, m, params.Q))
-		}
-		return res, nil
+		return lo.Map(models, func(m *reference.Reference, _ int) *result.Result {
+			return result.NewResult("reference", m.String(), m.WebPath(), m.String(), "star", m, m, params.Q)
+		}), nil
 	}
 	relationFunc := func(ctx context.Context, params *Params, as *app.State, page *cutil.PageState, logger util.Logger) (result.Results, error) {
 		if !page.Admin {
@@ -81,11 +80,9 @@ func generatedSearch() []Provider {
 		if err != nil {
 			return nil, err
 		}
-		res := make(result.Results, 0, len(models))
-		for _, m := range models {
-			res = append(res, result.NewResult("relation", m.String(), m.WebPath(), m.String(), "star", m, m, params.Q))
-		}
-		return res, nil
+		return lo.Map(models, func(m *relation.Relation, _ int) *result.Result {
+			return result.NewResult("relation", m.String(), m.WebPath(), m.String(), "star", m, m, params.Q)
+		}), nil
 	}
 	return []Provider{auditedFunc, basicFunc, pathFunc, referenceFunc, relationFunc}
 }

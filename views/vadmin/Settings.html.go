@@ -122,7 +122,7 @@ func (p *Settings) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cuti
   </div>
 
   <div class="flex-wrap flex-align-stretch">
-    <div class="card flex-grow-1" style="flex-basis: 0;">
+    <div class="card flex-grow-1 flex-basis-0">
       <h3>`)
 //line views/vadmin/Settings.html:47
 	components.StreamSVGRefIcon(qw422016, `archive`, ps)
@@ -136,7 +136,7 @@ func (p *Settings) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cuti
         <li><a href="/admin/exec">Managed Processes</a></li>
       </ul>
     </div>
-    <div class="card flex-grow-1" style="flex-basis: 0;">
+    <div class="card flex-grow-1 flex-basis-0">
       <h3>`)
 //line views/vadmin/Settings.html:57
 	components.StreamSVGRefIcon(qw422016, `bolt`, ps)
@@ -150,7 +150,7 @@ func (p *Settings) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cuti
         <li><a href="/admin/sockets">Active WebSockets</a></li>
       </ul>
     </div>
-    <div class="card flex-grow-1" style="flex-basis: 0;">
+    <div class="card flex-grow-1 flex-basis-0">
       <h3>`)
 //line views/vadmin/Settings.html:67
 	components.StreamSVGRefIcon(qw422016, `cog`, ps)

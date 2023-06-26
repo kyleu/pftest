@@ -96,20 +96,18 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, logger util.Logger, mod
 func (s *Service) upsertCore(ctx context.Context, tx *sqlx.Tx, logger util.Logger, models ...*Capital) error {
 	conflicts := util.StringArrayQuoted([]string{"ID"})
 	q := database.SQLUpsert(tableQuoted, columnsCore, len(models), conflicts, columnsCore, s.db.Placeholder())
-	data := make([]any, 0, len(columnsCore)*len(models))
-	for _, model := range models {
-		data = append(data, model.ToDataCore()...)
-	}
+	data := lo.FlatMap(models, func(model *Capital, index int) []any {
+		return model.ToDataCore()
+	})
 	_, err := s.db.Update(ctx, q, tx, 1, logger, data...)
 	return err
 }
 
 func (s *Service) insertVersion(ctx context.Context, tx *sqlx.Tx, logger util.Logger, models ...*Capital) error {
 	q := database.SQLInsert(tableVersionQuoted, columnsVersion, len(models), s.db.Placeholder())
-	data := make([]any, 0, len(columnsVersion)*len(models))
-	for _, model := range models {
-		data = append(data, model.ToDataVersion()...)
-	}
+	data := lo.FlatMap(models, func(model *Capital, index int) []any {
+		return model.ToDataRevision()
+	})
 	return s.db.Insert(ctx, q, tx, logger, data...)
 }
 

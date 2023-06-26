@@ -8,12 +8,19 @@ import (
 
 	"github.com/jmoiron/sqlx"
 	"github.com/pkg/errors"
+	"github.com/samber/lo"
 	"golang.org/x/exp/slices"
 
 	"github.com/kyleu/pftest/app/lib/database"
 	"github.com/kyleu/pftest/app/lib/filter"
 	"github.com/kyleu/pftest/app/util"
 )
+
+type IDRev struct {
+	From             string   `db:"from"`
+	Where            []string `db:"where"`
+	CurrentSelectcol int      `db:"current_selectcol"`
+}
 
 func (s *Service) GetAllSelectcols(ctx context.Context, tx *sqlx.Tx, from string, where []string, params *filter.Params, includeDeleted bool, logger util.Logger) (Troubles, error) {
 	params = filters(params)
@@ -42,34 +49,28 @@ func (s *Service) GetSelectcol(ctx context.Context, tx *sqlx.Tx, from string, wh
 }
 
 func (s *Service) getCurrentSelectcols(ctx context.Context, tx *sqlx.Tx, logger util.Logger, models ...*Trouble) (map[string]int, error) {
-	stmts := make([]string, 0, len(models))
-	for i := range models {
-		stmts = append(stmts, fmt.Sprintf(`"from" = $%d and "where" = $%d`, (i*2)+1, (i*2)+2))
-	}
+	stmts := lo.Map(models, func(_ *Trouble, i int) string {
+		return fmt.Sprintf(`"from" = $%d and "where" = $%d`, (i*2)+1, (i*2)+2)
+	})
 	q := database.SQLSelectSimple(`"from", "where", "current_selectcol"`, tableQuoted, s.db.Placeholder(), strings.Join(stmts, " or "))
-	vals := make([]any, 0, len(models))
-	for _, model := range models {
-		vals = append(vals, model.From, model.Where)
-	}
-	var results []*struct {
-		From             string   `db:"from"`
-		Where            []string `db:"where"`
-		CurrentSelectcol int      `db:"current_selectcol"`
-	}
+	vals := lo.Map(models, func(model *Trouble, _ int) any {
+		return model.From, model.Where
+	})
+	var results []*IDRev
 	err := s.dbRead.Select(ctx, &results, q, tx, logger, vals...)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to get Troubles")
 	}
 
 	ret := make(map[string]int, len(models))
-	for _, model := range models {
+	lo.ForEach(models, func(model *Trouble, _ int) {
 		curr := 0
-		for _, x := range results {
+		lo.ForEach(results, func(x *IDRev, _ int) {
 			if x.From == model.From && slices.Equal(x.Where, model.Where) {
 				curr = x.CurrentSelectcol
 			}
-		}
+		})
 		ret[model.String()] = curr
-	}
+	})
 	return ret, nil
 }
