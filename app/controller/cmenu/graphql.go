@@ -4,6 +4,8 @@ package cmenu
 import (
 	"context"
 
+	"github.com/samber/lo"
+
 	"github.com/kyleu/pftest/app/lib/graphql"
 	"github.com/kyleu/pftest/app/lib/menu"
 )
@@ -13,9 +15,9 @@ func graphQLMenu(ctx context.Context, gqlSvc *graphql.Service) *menu.Item {
 	kids := make(menu.Items, 0, len(l))
 	titles := gqlSvc.Titles()
 	if len(l) > 1 {
-		for _, x := range l {
+		lo.ForEach(l, func(x string, _ int) {
 			kids = append(kids, &menu.Item{Key: x, Title: titles[x], Description: "A GraphQL schema", Icon: "graph", Route: "/graphql/" + x})
-		}
+		})
 	}
 	return &menu.Item{Key: "graphql", Title: "GraphQL", Description: "A graph-based API", Icon: "graph", Route: "/graphql", Children: kids}
 }

@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/samber/lo"
 
 	"github.com/kyleu/pftest/app/util"
 )
@@ -49,9 +50,7 @@ func (r *row) ToAudit() *Audit {
 type rows []*row
 
 func (x rows) ToAudits() Audits {
-	ret := make(Audits, 0, len(x))
-	for _, r := range x {
-		ret = append(ret, r.ToAudit())
-	}
-	return ret
+	return lo.Map(x, func(r *row, _ int) *Audit {
+		return r.ToAudit()
+	})
 }

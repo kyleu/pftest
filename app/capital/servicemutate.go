@@ -106,7 +106,7 @@ func (s *Service) upsertCore(ctx context.Context, tx *sqlx.Tx, logger util.Logge
 func (s *Service) insertVersion(ctx context.Context, tx *sqlx.Tx, logger util.Logger, models ...*Capital) error {
 	q := database.SQLInsert(tableVersionQuoted, columnsVersion, len(models), s.db.Placeholder())
 	data := lo.FlatMap(models, func(model *Capital, index int) []any {
-		return model.ToDataRevision()
+		return model.ToDataVersion()
 	})
 	return s.db.Insert(ctx, q, tx, logger, data...)
 }

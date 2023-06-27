@@ -50,8 +50,8 @@ func (s *Service) getCurrentRevisions(ctx context.Context, tx *sqlx.Tx, logger u
 		return fmt.Sprintf(`"id" = $%d`, i+1)
 	})
 	q := database.SQLSelectSimple(`"id", "current_revision"`, tableQuoted, s.db.Placeholder(), strings.Join(stmts, " or "))
-	vals := lo.Map(models, func(model *Version, _ int) any {
-		return model.ID
+	vals := lo.FlatMap(models, func(model *Version, _ int) []any {
+		return []any{model.ID}
 	})
 	var results []*IDRev
 	err := s.dbRead.Select(ctx, &results, q, tx, logger, vals...)

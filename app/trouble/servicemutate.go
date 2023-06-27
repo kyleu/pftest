@@ -107,7 +107,7 @@ func (s *Service) upsertCore(ctx context.Context, tx *sqlx.Tx, logger util.Logge
 func (s *Service) insertSelectcol(ctx context.Context, tx *sqlx.Tx, logger util.Logger, models ...*Trouble) error {
 	q := database.SQLInsert(tableSelectcolQuoted, columnsSelectcol, len(models), s.db.Placeholder())
 	data := lo.FlatMap(models, func(model *Trouble, index int) []any {
-		return model.ToDataRevision()
+		return model.ToDataSelectcol()
 	})
 	return s.db.Insert(ctx, q, tx, logger, data...)
 }

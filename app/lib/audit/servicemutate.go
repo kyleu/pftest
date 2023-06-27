@@ -6,6 +6,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
+	"github.com/samber/lo"
 
 	"github.com/kyleu/pftest/app/lib/database"
 	"github.com/kyleu/pftest/app/util"
@@ -16,10 +17,9 @@ func (s *Service) Create(ctx context.Context, tx *sqlx.Tx, logger util.Logger, m
 		return nil
 	}
 	q := database.SQLInsert(tableQuoted, columnsQuoted, len(models), s.db.Placeholder())
-	vals := make([]any, 0, len(models)*len(columnsQuoted))
-	for _, arg := range models {
-		vals = append(vals, arg.ToData()...)
-	}
+	vals := lo.FlatMap(models, func(arg *Audit, _ int) []any {
+		return arg.ToData()
+	})
 	return s.db.Insert(ctx, q, tx, logger, vals...)
 }
 
@@ -36,10 +36,9 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, logger util.Logger, mod
 		return nil
 	}
 	q := database.SQLUpsert(tableQuoted, columnsQuoted, len(models), []string{"id"}, columns, s.db.Placeholder())
-	var data []any
-	for _, model := range models {
-		data = append(data, model.ToData()...)
-	}
+	data := lo.FlatMap(models, func(model *Audit, _ int) []any {
+		return model.ToData()
+	})
 	return s.db.Insert(ctx, q, tx, logger, data...)
 }
 

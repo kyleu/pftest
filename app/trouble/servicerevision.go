@@ -53,8 +53,8 @@ func (s *Service) getCurrentSelectcols(ctx context.Context, tx *sqlx.Tx, logger 
 		return fmt.Sprintf(`"from" = $%d and "where" = $%d`, (i*2)+1, (i*2)+2)
 	})
 	q := database.SQLSelectSimple(`"from", "where", "current_selectcol"`, tableQuoted, s.db.Placeholder(), strings.Join(stmts, " or "))
-	vals := lo.Map(models, func(model *Trouble, _ int) any {
-		return model.From, model.Where
+	vals := lo.FlatMap(models, func(model *Trouble, _ int) []any {
+		return []any{model.From, model.Where}
 	})
 	var results []*IDRev
 	err := s.dbRead.Select(ctx, &results, q, tx, logger, vals...)
