@@ -2,7 +2,6 @@
 package util
 
 const (
-	BoolTrue   = "true"
 	AppKey     = "pftest"
 	AppName    = "Test Project"
 	AppSummary = "A Test application, built with Project Forge"
@@ -11,6 +10,10 @@ const (
 	AppURL     = "https://github.com/kyleu/pftest"
 	AppSource  = "https://github.com/kyleu/pftest"
 	AppLegal   = `Built by <a href="mailto:projectforge@kyleu.com">Kyle U</a>, all rights reserved`
+
+	BoolTrue   = "true"
+	KeyError   = "error"
+	KeyUnknown = "unknown"
 
 	// $PF_SECTION_START(keys)$
 	// $PF_SECTION_END(keys)$.
