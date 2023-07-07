@@ -10,7 +10,7 @@ archives:
 
 brews:
   -
-    tap:
+    repository:
       owner: "kyleu"
       name: "homebrew-kyleu"
     commit_author:
@@ -130,6 +130,7 @@ builds:
       - "386"
       - "amd64"
       - "arm64"
+      - "loong64"
     mod_timestamp: "{{ .CommitTimestamp }}"
 
   - id: "linux-arm"
@@ -269,6 +270,7 @@ builds:
       - "386"
       - "amd64"
       - "arm"
+      - "arm64"
     goarm:
       - "5"
       - "6"
