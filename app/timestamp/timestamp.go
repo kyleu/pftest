@@ -22,8 +22,8 @@ func New(id string) *Timestamp {
 func Random() *Timestamp {
 	return &Timestamp{
 		ID:      util.RandomString(12),
-		Created: time.Now(),
-		Updated: util.NowPointer(),
+		Created: util.TimeCurrent(),
+		Updated: util.TimeCurrentP(),
 		Deleted: nil,
 	}
 }

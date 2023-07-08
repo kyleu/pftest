@@ -27,8 +27,8 @@ func Random() *Version {
 		Revision: util.RandomInt(10000),
 		Constcol: util.RandomString(12),
 		Varcol:   util.RandomValueMap(4),
-		Created:  time.Now(),
-		Updated:  util.NowPointer(),
+		Created:  util.TimeCurrent(),
+		Updated:  util.TimeCurrentP(),
 	}
 }
 

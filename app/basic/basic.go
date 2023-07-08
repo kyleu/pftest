@@ -25,7 +25,7 @@ func Random() *Basic {
 		ID:      util.UUID(),
 		Name:    util.RandomString(12),
 		Status:  util.RandomString(12),
-		Created: time.Now(),
+		Created: util.TimeCurrent(),
 	}
 }
 

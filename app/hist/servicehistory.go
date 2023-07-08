@@ -5,7 +5,6 @@ import (
 	"context"
 	"fmt"
 	"strings"
-	"time"
 
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
@@ -56,7 +55,7 @@ func (s *Service) SaveHistory(ctx context.Context, tx *sqlx.Tx, o *Hist, n *Hist
 		Old:     util.ToJSONBytes(o, true),
 		New:     util.ToJSONBytes(n, true),
 		Changes: util.ToJSONBytes(diffs, true),
-		Created: time.Now(),
+		Created: util.TimeCurrent(),
 	}
 	hist := h.ToHistory()
 	err := s.db.Insert(ctx, q, tx, logger, hist.ToData()...)

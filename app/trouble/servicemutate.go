@@ -3,7 +3,6 @@ package trouble
 
 import (
 	"context"
-	"time"
 
 	"github.com/jmoiron/sqlx"
 	"github.com/samber/lo"
@@ -116,7 +115,7 @@ func (s *Service) insertSelectcol(ctx context.Context, tx *sqlx.Tx, logger util.
 func (s *Service) Delete(ctx context.Context, tx *sqlx.Tx, from string, where []string, logger util.Logger) error {
 	cols := []string{"delete"}
 	q := database.SQLUpdate(tableQuoted, cols, defaultWC(len(cols)), s.db.Placeholder())
-	_, err := s.db.Update(ctx, q, tx, 1, logger, time.Now(), from, where)
+	_, err := s.db.Update(ctx, q, tx, 1, logger, util.TimeCurrent(), from, where)
 	return err
 }
 
@@ -124,7 +123,7 @@ func (s *Service) Delete(ctx context.Context, tx *sqlx.Tx, from string, where []
 func (s *Service) DeleteWhere(ctx context.Context, tx *sqlx.Tx, wc string, expected int, logger util.Logger, values ...any) error {
 	cols := []string{"delete"}
 	q := database.SQLUpdate(tableQuoted, cols, wc, s.db.Placeholder())
-	_, err := s.db.Update(ctx, q, tx, expected, logger, append([]any{time.Now()}, values...)...)
+	_, err := s.db.Update(ctx, q, tx, expected, logger, append([]any{util.TimeCurrent()}, values...)...)
 	return err
 }
 

@@ -3,7 +3,6 @@ package version
 
 import (
 	"context"
-	"time"
 
 	"github.com/jmoiron/sqlx"
 	"github.com/pkg/errors"
@@ -22,9 +21,9 @@ func (s *Service) Create(ctx context.Context, tx *sqlx.Tx, logger util.Logger, m
 		return err
 	}
 	lo.ForEach(models, func(model *Version, _ int) {
-		model.Created = time.Now()
+		model.Created = util.TimeCurrent()
 		model.Revision = revs[model.String()] + 1
-		model.Updated = util.NowPointer()
+		model.Updated = util.TimeCurrentP()
 	})
 
 	err = s.upsertCore(ctx, tx, logger, models...)
@@ -49,7 +48,7 @@ func (s *Service) Update(ctx context.Context, tx *sqlx.Tx, model *Version, logge
 		return errors.Wrapf(err, "can't get original version [%s]", model.String())
 	}
 	model.Created = curr.Created
-	model.Updated = util.NowPointer()
+	model.Updated = util.TimeCurrentP()
 
 	err = s.upsertCore(ctx, tx, logger, model)
 	if err != nil {
@@ -73,7 +72,7 @@ func (s *Service) UpdateIfNeeded(ctx context.Context, tx *sqlx.Tx, model *Versio
 		return s.Create(ctx, tx, logger, model)
 	}
 	model.Created = curr.Created
-	model.Updated = util.NowPointer()
+	model.Updated = util.TimeCurrentP()
 
 	err = s.upsertCore(ctx, tx, logger, model)
 	if err != nil {
@@ -95,9 +94,9 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, logger util.Logger, mod
 		return err
 	}
 	lo.ForEach(models, func(model *Version, _ int) {
-		model.Created = time.Now()
+		model.Created = util.TimeCurrent()
 		model.Revision = revs[model.String()] + 1
-		model.Updated = util.NowPointer()
+		model.Updated = util.TimeCurrentP()
 	})
 
 	err = s.upsertCore(ctx, tx, logger, models...)

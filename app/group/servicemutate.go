@@ -3,7 +3,6 @@ package group
 
 import (
 	"context"
-	"time"
 
 	"github.com/jmoiron/sqlx"
 	"github.com/pkg/errors"
@@ -18,8 +17,8 @@ func (s *Service) Create(ctx context.Context, tx *sqlx.Tx, logger util.Logger, m
 		return nil
 	}
 	lo.ForEach(models, func(model *Group, _ int) {
-		model.Created = time.Now()
-		model.Updated = util.NowPointer()
+		model.Created = util.TimeCurrent()
+		model.Updated = util.TimeCurrentP()
 	})
 	q := database.SQLInsert(tableQuoted, columnsQuoted, len(models), s.db.Placeholder())
 	vals := lo.FlatMap(models, func(arg *Group, _ int) []any {
@@ -34,7 +33,7 @@ func (s *Service) Update(ctx context.Context, tx *sqlx.Tx, model *Group, logger 
 		return errors.Wrapf(err, "can't get original group [%s]", model.String())
 	}
 	model.Created = curr.Created
-	model.Updated = util.NowPointer()
+	model.Updated = util.TimeCurrentP()
 	q := database.SQLUpdate(tableQuoted, columnsQuoted, "\"id\" = $7", s.db.Placeholder())
 	data := model.ToData()
 	data = append(data, model.ID)
@@ -50,8 +49,8 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, logger util.Logger, mod
 		return nil
 	}
 	lo.ForEach(models, func(model *Group, _ int) {
-		model.Created = time.Now()
-		model.Updated = util.NowPointer()
+		model.Created = util.TimeCurrent()
+		model.Updated = util.TimeCurrentP()
 	})
 	q := database.SQLUpsert(tableQuoted, columnsQuoted, len(models), []string{"id"}, columnsQuoted, s.db.Placeholder())
 	data := lo.FlatMap(models, func(model *Group, _ int) []any {

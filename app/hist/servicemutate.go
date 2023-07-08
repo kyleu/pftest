@@ -3,7 +3,6 @@ package hist
 
 import (
 	"context"
-	"time"
 
 	"github.com/jmoiron/sqlx"
 	"github.com/pkg/errors"
@@ -18,8 +17,8 @@ func (s *Service) Create(ctx context.Context, tx *sqlx.Tx, logger util.Logger, m
 		return nil
 	}
 	lo.ForEach(models, func(model *Hist, _ int) {
-		model.Created = time.Now()
-		model.Updated = util.NowPointer()
+		model.Created = util.TimeCurrent()
+		model.Updated = util.TimeCurrentP()
 	})
 	q := database.SQLInsert(tableQuoted, columnsQuoted, len(models), s.db.Placeholder())
 	vals := lo.FlatMap(models, func(arg *Hist, _ int) []any {
@@ -34,7 +33,7 @@ func (s *Service) Update(ctx context.Context, tx *sqlx.Tx, model *Hist, logger u
 		return errors.Wrapf(err, "can't get original hist [%s]", model.String())
 	}
 	model.Created = curr.Created
-	model.Updated = util.NowPointer()
+	model.Updated = util.TimeCurrentP()
 
 	_, hErr := s.SaveHistory(ctx, tx, curr, model, logger)
 	if hErr != nil {
@@ -56,7 +55,7 @@ func (s *Service) UpdateIfNeeded(ctx context.Context, tx *sqlx.Tx, model *Hist, 
 		return s.Create(ctx, tx, logger, model)
 	}
 	model.Created = curr.Created
-	model.Updated = util.NowPointer()
+	model.Updated = util.TimeCurrentP()
 
 	h, hErr := s.SaveHistory(ctx, tx, curr, model, logger)
 	if hErr != nil {
@@ -80,8 +79,8 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, logger util.Logger, mod
 		return nil
 	}
 	lo.ForEach(models, func(model *Hist, _ int) {
-		model.Created = time.Now()
-		model.Updated = util.NowPointer()
+		model.Created = util.TimeCurrent()
+		model.Updated = util.TimeCurrentP()
 	})
 	q := database.SQLUpsert(tableQuoted, columnsQuoted, len(models), []string{"id"}, columnsQuoted, s.db.Placeholder())
 	data := lo.FlatMap(models, func(model *Hist, _ int) []any {

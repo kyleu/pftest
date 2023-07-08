@@ -26,7 +26,7 @@ func Random() *Reference {
 		ID:      util.UUID(),
 		Custom:  nil,
 		Self:    nil,
-		Created: time.Now(),
+		Created: util.TimeCurrent(),
 	}
 }
 

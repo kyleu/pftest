@@ -22,8 +22,8 @@ func Random() *Hist {
 	return &Hist{
 		ID:      util.RandomString(12),
 		Data:    util.RandomValueMap(4),
-		Created: time.Now(),
-		Updated: util.NowPointer(),
+		Created: util.TimeCurrent(),
+		Updated: util.TimeCurrentP(),
 	}
 }
 

@@ -24,9 +24,9 @@ func Random() *Capital {
 	return &Capital{
 		ID:       util.RandomString(12),
 		Name:     util.RandomString(12),
-		Birthday: time.Now(),
+		Birthday: util.TimeCurrent(),
 		Version:  util.RandomInt(10000),
-		Deathday: util.NowPointer(),
+		Deathday: util.TimeCurrentP(),
 	}
 }
 

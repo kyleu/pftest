@@ -25,7 +25,7 @@ func Random() *Relation {
 		ID:      util.UUID(),
 		BasicID: util.UUID(),
 		Name:    util.RandomString(12),
-		Created: time.Now(),
+		Created: util.TimeCurrent(),
 	}
 }
 

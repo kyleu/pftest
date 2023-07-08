@@ -71,7 +71,7 @@ func NewState(debug bool, bi *BuildInfo, f filesystem.FileLoader, enableTelemetr
 		Auth:      as,
 		GraphQL:   gqls,
 		Themes:    ts,
-		Started:   time.Now(),
+		Started:   util.TimeCurrent(),
 	}, nil
 }
 
