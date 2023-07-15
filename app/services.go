@@ -83,11 +83,11 @@ func NewServices(ctx context.Context, st *State, logger util.Logger) (*Services,
 	}, nil
 }
 
-func (s *Services) Close(_ context.Context, logger util.Logger) error {
+func (s *Services) Close(_ context.Context, _ util.Logger) error {
 	return nil
 }
 
-func socketHandler(ctx context.Context, s *websocket.Service, c *websocket.Connection, svc string, cmd string, param json.RawMessage, logger util.Logger) error {
+func socketHandler(_ context.Context, s *websocket.Service, c *websocket.Connection, svc string, cmd string, _ json.RawMessage, logger util.Logger) error {
 	switch cmd {
 	case "connect":
 		_, err := s.Join(c.ID, "tap", logger)

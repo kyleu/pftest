@@ -18,6 +18,9 @@ func MenuFor(
 	var ret menu.Items
 	var data any
 	// $PF_SECTION_START(routes_start)$
+	if isAdmin {
+		ret = append(ret, processMenu(as.Services.Exec.Execs))
+	}
 	// $PF_SECTION_END(routes_start)$
 	if isAdmin {
 		ret = append(ret, generatedMenu()...)

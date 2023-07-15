@@ -31,6 +31,7 @@ func AppRoutes(as *app.State, logger util.Logger) fasthttp.RequestHandler {
 	generatedRoutes(r)
 
 	// $PF_SECTION_START(routes)$
+	execRoutes(r)
 	// $PF_SECTION_END(routes)$
 
 	r.GET("/docs", clib.Docs)

@@ -1,3 +1,3 @@
-export function appInit(): void {
+export function appInit(): void { // eslint-disable-line @typescript-eslint/no-empty-function
 
 }

@@ -138,13 +138,13 @@ func HistHistory(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", errors.Wrap(err, "must provide [historyID] as an argument")
 		}
-		hist, err := as.Services.Hist.GetHistory(ps.Context, nil, *histID, ps.Logger)
+		histModel, err := as.Services.Hist.GetHistory(ps.Context, nil, *histID, ps.Logger)
 		if err != nil {
 			return "", err
 		}
-		ps.Title = hist.ID.String()
-		ps.Data = hist
-		return Render(rc, as, &vhist.History{Model: ret, History: hist}, ps, "hist", ret.String(), hist.ID.String())
+		ps.Title = histModel.ID.String()
+		ps.Data = histModel
+		return Render(rc, as, &vhist.History{Model: ret, History: histModel}, ps, "hist", ret.String(), histModel.ID.String())
 	})
 }
 

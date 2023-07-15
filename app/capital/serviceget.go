@@ -49,16 +49,16 @@ func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, id string, logger util.L
 	return ret.ToCapital(), nil
 }
 
-func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, logger util.Logger, IDs ...string) (Capitals, error) {
-	if len(IDs) == 0 {
+func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, logger util.Logger, ids ...string) (Capitals, error) {
+	if len(ids) == 0 {
 		return Capitals{}, nil
 	}
-	wc := database.SQLInClause("ID", len(IDs), 0, s.db.Placeholder())
+	wc := database.SQLInClause("ID", len(ids), 0, s.db.Placeholder())
 	ret := rows{}
 	q := database.SQLSelectSimple(columnsString, tablesJoined, s.db.Placeholder(), wc)
-	err := s.dbRead.Select(ctx, &ret, q, tx, logger, lo.ToAnySlice(IDs)...)
+	err := s.dbRead.Select(ctx, &ret, q, tx, logger, lo.ToAnySlice(ids)...)
 	if err != nil {
-		return nil, errors.Wrapf(err, "unable to get Capitals for [%d] IDs", len(IDs))
+		return nil, errors.Wrapf(err, "unable to get Capitals for [%d] IDs", len(ids))
 	}
 	return ret.ToCapitals(), nil
 }

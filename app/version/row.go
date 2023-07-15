@@ -24,7 +24,7 @@ var (
 
 	tableRevision       = table + "_revision"
 	tableRevisionQuoted = fmt.Sprintf("%q", tableRevision)
-	tablesJoined        = fmt.Sprintf(`%q v join %q vr on v."id" = vr."version_id" and v."current_revision" = vr."revision"`, table, tableRevision) //nolint
+	tablesJoined        = fmt.Sprintf(`%q v join %q vr on v."id" = vr."version_id" and v."current_revision" = vr."revision"`, table, tableRevision)
 )
 
 type row struct {
