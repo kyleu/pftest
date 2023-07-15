@@ -47,10 +47,7 @@ func FromMap(m util.ValueMap, setPK bool) (*Audited, error) {
 }
 
 func (a *Audited) Clone() *Audited {
-	return &Audited{
-		ID:   a.ID,
-		Name: a.Name,
-	}
+	return &Audited{a.ID, a.Name}
 }
 
 func (a *Audited) String() string {

@@ -62,13 +62,7 @@ func FromMap(m util.ValueMap, setPK bool) (*Capital, error) {
 }
 
 func (c *Capital) Clone() *Capital {
-	return &Capital{
-		ID:       c.ID,
-		Name:     c.Name,
-		Birthday: c.Birthday,
-		Version:  c.Version,
-		Deathday: c.Deathday,
-	}
+	return &Capital{c.ID, c.Name, c.Birthday, c.Version, c.Deathday}
 }
 
 func (c *Capital) String() string {
@@ -83,6 +77,7 @@ func (c *Capital) WebPath() string {
 	return "/capital/" + c.ID
 }
 
+//nolint:lll
 func (c *Capital) Diff(cx *Capital) util.Diffs {
 	var diffs util.Diffs
 	if c.ID != cx.ID {
@@ -97,7 +92,7 @@ func (c *Capital) Diff(cx *Capital) util.Diffs {
 	if c.Version != cx.Version {
 		diffs = append(diffs, util.NewDiff("version", fmt.Sprint(c.Version), fmt.Sprint(cx.Version)))
 	}
-	if (c.Deathday == nil && cx.Deathday != nil) || (c.Deathday != nil && cx.Deathday == nil) || (c.Deathday != nil && cx.Deathday != nil && *c.Deathday != *cx.Deathday) { //nolint:lll
+	if (c.Deathday == nil && cx.Deathday != nil) || (c.Deathday != nil && cx.Deathday == nil) || (c.Deathday != nil && cx.Deathday != nil && *c.Deathday != *cx.Deathday) {
 		diffs = append(diffs, util.NewDiff("deathday", fmt.Sprint(c.Deathday), fmt.Sprint(cx.Deathday))) //nolint:gocritic // it's nullable
 	}
 	return diffs

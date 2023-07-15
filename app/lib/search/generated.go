@@ -17,7 +17,6 @@ import (
 	"github.com/kyleu/pftest/app/util"
 )
 
-//nolint:gocognit
 func generatedSearch() []Provider {
 	auditedFunc := func(ctx context.Context, params *Params, as *app.State, page *cutil.PageState, logger util.Logger) (result.Results, error) {
 		if !page.Admin {

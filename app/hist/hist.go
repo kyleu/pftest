@@ -48,12 +48,7 @@ func FromMap(m util.ValueMap, setPK bool) (*Hist, error) {
 }
 
 func (h *Hist) Clone() *Hist {
-	return &Hist{
-		ID:      h.ID,
-		Data:    h.Data.Clone(),
-		Created: h.Created,
-		Updated: h.Updated,
-	}
+	return &Hist{h.ID, h.Data.Clone(), h.Created, h.Updated}
 }
 
 func (h *Hist) String() string {

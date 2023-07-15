@@ -46,11 +46,7 @@ func FromMap(m util.ValueMap, setPK bool) (*MixedCase, error) {
 }
 
 func (m *MixedCase) Clone() *MixedCase {
-	return &MixedCase{
-		ID:           m.ID,
-		TestField:    m.TestField,
-		AnotherField: m.AnotherField,
-	}
+	return &MixedCase{m.ID, m.TestField, m.AnotherField}
 }
 
 func (m *MixedCase) String() string {

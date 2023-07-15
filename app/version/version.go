@@ -57,14 +57,7 @@ func FromMap(m util.ValueMap, setPK bool) (*Version, error) {
 }
 
 func (v *Version) Clone() *Version {
-	return &Version{
-		ID:       v.ID,
-		Revision: v.Revision,
-		Constcol: v.Constcol,
-		Varcol:   v.Varcol.Clone(),
-		Created:  v.Created,
-		Updated:  v.Updated,
-	}
+	return &Version{v.ID, v.Revision, v.Constcol, v.Varcol.Clone(), v.Created, v.Updated}
 }
 
 func (v *Version) String() string {

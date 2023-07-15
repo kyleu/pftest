@@ -61,12 +61,7 @@ func FromMap(m util.ValueMap, setPK bool) (*Seed, error) {
 }
 
 func (s *Seed) Clone() *Seed {
-	return &Seed{
-		ID:   s.ID,
-		Name: s.Name,
-		Size: s.Size,
-		Obj:  s.Obj.Clone(),
-	}
+	return &Seed{s.ID, s.Name, s.Size, s.Obj.Clone()}
 }
 
 func (s *Seed) String() string {

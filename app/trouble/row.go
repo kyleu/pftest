@@ -12,6 +12,7 @@ import (
 	"github.com/kyleu/pftest/app/util"
 )
 
+//nolint:lll
 var (
 	table         = "trouble"
 	tableQuoted   = fmt.Sprintf("%q", table)

@@ -22,6 +22,7 @@ type IDRev struct {
 	CurrentSelectcol int      `db:"current_selectcol"`
 }
 
+//nolint:lll
 func (s *Service) GetAllSelectcols(ctx context.Context, tx *sqlx.Tx, from string, where []string, params *filter.Params, includeDeleted bool, logger util.Logger) (Troubles, error) {
 	params = filters(params)
 	wc := "\"from\" = $1 and \"where\" = $2"

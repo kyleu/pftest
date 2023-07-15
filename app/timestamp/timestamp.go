@@ -49,12 +49,7 @@ func FromMap(m util.ValueMap, setPK bool) (*Timestamp, error) {
 }
 
 func (t *Timestamp) Clone() *Timestamp {
-	return &Timestamp{
-		ID:      t.ID,
-		Created: t.Created,
-		Updated: t.Updated,
-		Deleted: t.Deleted,
-	}
+	return &Timestamp{t.ID, t.Created, t.Updated, t.Deleted}
 }
 
 func (t *Timestamp) String() string {
@@ -77,7 +72,7 @@ func (t *Timestamp) Diff(tx *Timestamp) util.Diffs {
 	if t.Created != tx.Created {
 		diffs = append(diffs, util.NewDiff("created", t.Created.String(), tx.Created.String()))
 	}
-	if (t.Deleted == nil && tx.Deleted != nil) || (t.Deleted != nil && tx.Deleted == nil) || (t.Deleted != nil && tx.Deleted != nil && *t.Deleted != *tx.Deleted) { //nolint:lll
+	if (t.Deleted == nil && tx.Deleted != nil) || (t.Deleted != nil && tx.Deleted == nil) || (t.Deleted != nil && tx.Deleted != nil && *t.Deleted != *tx.Deleted) {
 		diffs = append(diffs, util.NewDiff("deleted", fmt.Sprint(t.Deleted), fmt.Sprint(tx.Deleted))) //nolint:gocritic // it's nullable
 	}
 	return diffs

@@ -60,12 +60,7 @@ func FromMap(m util.ValueMap, setPK bool) (*Relation, error) {
 }
 
 func (r *Relation) Clone() *Relation {
-	return &Relation{
-		ID:      r.ID,
-		BasicID: r.BasicID,
-		Name:    r.Name,
-		Created: r.Created,
-	}
+	return &Relation{r.ID, r.BasicID, r.Name, r.Created}
 }
 
 func (r *Relation) String() string {

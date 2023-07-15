@@ -61,14 +61,7 @@ func FromMap(m util.ValueMap, setPK bool) (*Group, error) {
 }
 
 func (g *Group) Clone() *Group {
-	return &Group{
-		ID:      g.ID,
-		Child:   g.Child,
-		Data:    g.Data.Clone(),
-		Created: g.Created,
-		Updated: g.Updated,
-		Deleted: g.Deleted,
-	}
+	return &Group{g.ID, g.Child, g.Data.Clone(), g.Created, g.Updated, g.Deleted}
 }
 
 func (g *Group) String() string {
@@ -95,7 +88,7 @@ func (g *Group) Diff(gx *Group) util.Diffs {
 	if g.Created != gx.Created {
 		diffs = append(diffs, util.NewDiff("created", g.Created.String(), gx.Created.String()))
 	}
-	if (g.Deleted == nil && gx.Deleted != nil) || (g.Deleted != nil && gx.Deleted == nil) || (g.Deleted != nil && gx.Deleted != nil && *g.Deleted != *gx.Deleted) { //nolint:lll
+	if (g.Deleted == nil && gx.Deleted != nil) || (g.Deleted != nil && gx.Deleted == nil) || (g.Deleted != nil && gx.Deleted != nil && *g.Deleted != *gx.Deleted) {
 		diffs = append(diffs, util.NewDiff("deleted", fmt.Sprint(g.Deleted), fmt.Sprint(gx.Deleted))) //nolint:gocritic // it's nullable
 	}
 	return diffs

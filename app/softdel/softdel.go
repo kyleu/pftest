@@ -49,12 +49,7 @@ func FromMap(m util.ValueMap, setPK bool) (*Softdel, error) {
 }
 
 func (s *Softdel) Clone() *Softdel {
-	return &Softdel{
-		ID:      s.ID,
-		Created: s.Created,
-		Updated: s.Updated,
-		Deleted: s.Deleted,
-	}
+	return &Softdel{s.ID, s.Created, s.Updated, s.Deleted}
 }
 
 func (s *Softdel) String() string {
@@ -77,7 +72,7 @@ func (s *Softdel) Diff(sx *Softdel) util.Diffs {
 	if s.Created != sx.Created {
 		diffs = append(diffs, util.NewDiff("created", s.Created.String(), sx.Created.String()))
 	}
-	if (s.Deleted == nil && sx.Deleted != nil) || (s.Deleted != nil && sx.Deleted == nil) || (s.Deleted != nil && sx.Deleted != nil && *s.Deleted != *sx.Deleted) { //nolint:lll
+	if (s.Deleted == nil && sx.Deleted != nil) || (s.Deleted != nil && sx.Deleted == nil) || (s.Deleted != nil && sx.Deleted != nil && *s.Deleted != *sx.Deleted) {
 		diffs = append(diffs, util.NewDiff("deleted", fmt.Sprint(s.Deleted), fmt.Sprint(sx.Deleted))) //nolint:gocritic // it's nullable
 	}
 	return diffs

@@ -69,12 +69,7 @@ func FromMap(m util.ValueMap, setPK bool) (*Reference, error) {
 }
 
 func (r *Reference) Clone() *Reference {
-	return &Reference{
-		ID:      r.ID,
-		Custom:  r.Custom.Clone(),
-		Self:    r.Self.Clone(),
-		Created: r.Created,
-	}
+	return &Reference{r.ID, r.Custom.Clone(), r.Self.Clone(), r.Created}
 }
 
 func (r *Reference) String() string {

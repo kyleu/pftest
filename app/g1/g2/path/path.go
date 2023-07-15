@@ -57,12 +57,7 @@ func FromMap(m util.ValueMap, setPK bool) (*Path, error) {
 }
 
 func (p *Path) Clone() *Path {
-	return &Path{
-		ID:      p.ID,
-		Name:    p.Name,
-		Status:  p.Status,
-		Created: p.Created,
-	}
+	return &Path{p.ID, p.Name, p.Status, p.Created}
 }
 
 func (p *Path) String() string {
