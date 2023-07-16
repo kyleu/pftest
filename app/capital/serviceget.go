@@ -58,7 +58,7 @@ func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, logger util.Logg
 	q := database.SQLSelectSimple(columnsString, tablesJoined, s.db.Placeholder(), wc)
 	err := s.dbRead.Select(ctx, &ret, q, tx, logger, lo.ToAnySlice(ids)...)
 	if err != nil {
-		return nil, errors.Wrapf(err, "unable to get Capitals for [%d] IDs", len(ids))
+		return nil, errors.Wrapf(err, "unable to get Capitals for [%d] ids", len(ids))
 	}
 	return ret.ToCapitals(), nil
 }

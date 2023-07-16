@@ -2,6 +2,11 @@
 source = ["./build/dist/darwin_darwin_arm64/pftest"]
 bundle_id = "com.kyleu.projectforge.pftest"
 
+notarize {
+  path = "./build/dist/pftest_0.0.0_darwin_arm64_desktop.dmg"
+  bundle_id = "com.kyleu.projectforge.pftest"
+}
+
 apple_id {
   username = "projectforge@kyleu.com"
   password = "@env:APPLE_PASSWORD"

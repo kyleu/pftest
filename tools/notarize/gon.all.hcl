@@ -1,9 +1,9 @@
 # Content managed by Project Forge, see [projectforge.md] for details.
-source = ["./build/dist/darwin_darwin_amd64_v1/pftest"]
+source = ["./build/dist/darwin_darwin_all/pftest"]
 bundle_id = "com.kyleu.projectforge.pftest"
 
 notarize {
-  path = "./build/dist/pftest_0.0.0_darwin_amd64_desktop.dmg"
+  path = "./build/dist/pftest_0.0.0_darwin_all_desktop.dmg"
   bundle_id = "com.kyleu.projectforge.pftest"
 }
 
@@ -17,10 +17,10 @@ sign {
 }
 
 dmg {
-  output_path = "./build/dist/pftest_0.0.0_darwin_amd64.dmg"
+  output_path = "./build/dist/pftest_0.0.0_darwin_all.dmg"
   volume_name = "Test Project"
 }
 
 zip {
-  output_path = "./build/dist/pftest_0.0.0_darwin_amd64_notarized.zip"
+  output_path = "./build/dist/pftest_0.0.0_darwin_all_notarized.zip"
 }
