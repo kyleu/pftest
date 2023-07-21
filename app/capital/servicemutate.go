@@ -96,7 +96,7 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, logger util.Logger, mod
 func (s *Service) upsertCore(ctx context.Context, tx *sqlx.Tx, logger util.Logger, models ...*Capital) error {
 	conflicts := util.StringArrayQuoted([]string{"ID"})
 	q := database.SQLUpsert(tableQuoted, columnsCore, len(models), conflicts, columnsCore, s.db.Placeholder())
-	data := lo.FlatMap(models, func(model *Capital, index int) []any {
+	data := lo.FlatMap(models, func(model *Capital, _ int) []any {
 		return model.ToDataCore()
 	})
 	_, err := s.db.Update(ctx, q, tx, 1, logger, data...)
@@ -105,7 +105,7 @@ func (s *Service) upsertCore(ctx context.Context, tx *sqlx.Tx, logger util.Logge
 
 func (s *Service) insertVersion(ctx context.Context, tx *sqlx.Tx, logger util.Logger, models ...*Capital) error {
 	q := database.SQLInsert(tableVersionQuoted, columnsVersion, len(models), s.db.Placeholder())
-	data := lo.FlatMap(models, func(model *Capital, index int) []any {
+	data := lo.FlatMap(models, func(model *Capital, _ int) []any {
 		return model.ToDataVersion()
 	})
 	return s.db.Insert(ctx, q, tx, logger, data...)

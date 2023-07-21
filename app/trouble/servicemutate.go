@@ -96,7 +96,7 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, logger util.Logger, mod
 func (s *Service) upsertCore(ctx context.Context, tx *sqlx.Tx, logger util.Logger, models ...*Trouble) error {
 	conflicts := util.StringArrayQuoted([]string{"from", "where"})
 	q := database.SQLUpsert(tableQuoted, columnsCore, len(models), conflicts, columnsCore, s.db.Placeholder())
-	data := lo.FlatMap(models, func(model *Trouble, index int) []any {
+	data := lo.FlatMap(models, func(model *Trouble, _ int) []any {
 		return model.ToDataCore()
 	})
 	_, err := s.db.Update(ctx, q, tx, 1, logger, data...)
@@ -105,7 +105,7 @@ func (s *Service) upsertCore(ctx context.Context, tx *sqlx.Tx, logger util.Logge
 
 func (s *Service) insertSelectcol(ctx context.Context, tx *sqlx.Tx, logger util.Logger, models ...*Trouble) error {
 	q := database.SQLInsert(tableSelectcolQuoted, columnsSelectcol, len(models), s.db.Placeholder())
-	data := lo.FlatMap(models, func(model *Trouble, index int) []any {
+	data := lo.FlatMap(models, func(model *Trouble, _ int) []any {
 		return model.ToDataSelectcol()
 	})
 	return s.db.Insert(ctx, q, tx, logger, data...)
