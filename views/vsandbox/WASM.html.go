@@ -48,42 +48,46 @@ func (p *WASM) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
 	qw422016.N().S(` WASM</h3>
   <em id="load-status">Loading...</em>
 </div>
+<div class="card">
+  <h3>Audits</h3>
+  <ul id="audit-log"></ul>
+</div>
 <script>
   function wasmInit(ms) {
     document.getElementById("load-status").innerText = "Loaded in [" + ms + "ms]";
   }
 </script>
 `)
-//line views/vsandbox/WASM.html:25
+//line views/vsandbox/WASM.html:29
 	vutil.StreamWASMScript(qw422016)
-//line views/vsandbox/WASM.html:25
+//line views/vsandbox/WASM.html:29
 	qw422016.N().S(`
 `)
-//line views/vsandbox/WASM.html:26
+//line views/vsandbox/WASM.html:30
 }
 
-//line views/vsandbox/WASM.html:26
+//line views/vsandbox/WASM.html:30
 func (p *WASM) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vsandbox/WASM.html:26
+//line views/vsandbox/WASM.html:30
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vsandbox/WASM.html:26
+//line views/vsandbox/WASM.html:30
 	p.StreamBody(qw422016, as, ps)
-//line views/vsandbox/WASM.html:26
+//line views/vsandbox/WASM.html:30
 	qt422016.ReleaseWriter(qw422016)
-//line views/vsandbox/WASM.html:26
+//line views/vsandbox/WASM.html:30
 }
 
-//line views/vsandbox/WASM.html:26
+//line views/vsandbox/WASM.html:30
 func (p *WASM) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vsandbox/WASM.html:26
+//line views/vsandbox/WASM.html:30
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vsandbox/WASM.html:26
+//line views/vsandbox/WASM.html:30
 	p.WriteBody(qb422016, as, ps)
-//line views/vsandbox/WASM.html:26
+//line views/vsandbox/WASM.html:30
 	qs422016 := string(qb422016.B)
-//line views/vsandbox/WASM.html:26
+//line views/vsandbox/WASM.html:30
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vsandbox/WASM.html:26
+//line views/vsandbox/WASM.html:30
 	return qs422016
-//line views/vsandbox/WASM.html:26
+//line views/vsandbox/WASM.html:30
 }

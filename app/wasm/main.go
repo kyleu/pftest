@@ -19,6 +19,9 @@ func main() {
 
 	t := util.TimerStart()
 	wireFunctions()
+
+	initWASM(l)
+
 	l.Infof("[%s] started in [%s]", util.AppName, t.EndString())
 	<-make(chan struct{})
 }

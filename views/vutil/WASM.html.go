@@ -35,7 +35,7 @@ func StreamWASMScript(qw422016 *qt422016.Writer) {
 
     const start = new Date().getTime();
     const go = new Go();
-    WebAssembly.instantiateStreaming(fetch("/assets/wasm/idled.wasm"), go.importObject).then((result) => {
+    WebAssembly.instantiateStreaming(fetch("/assets/wasm/pftest.wasm"), go.importObject).then((result) => {
       go.run(result.instance);
       wasmInit(new Date().getTime() - start);
     });

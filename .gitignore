@@ -3,6 +3,7 @@
 /.scannerwork
 /build
 /tmp
+
 /assets/wasm/*.wasm
 
 /client/node_modules
