@@ -3,8 +3,6 @@ package schema
 
 import (
 	"github.com/samber/lo"
-
-	"github.com/kyleu/pftest/app/util"
 )
 
 type Origin struct {
@@ -50,15 +48,11 @@ func (t *Origin) String() string {
 	return t.Key
 }
 
-func (t *Origin) MarshalJSON() ([]byte, error) {
-	return util.ToJSONBytes(t.Key, false), nil
+func (t *Origin) MarshalText() ([]byte, error) {
+	return []byte(t.Key), nil
 }
 
-func (t *Origin) UnmarshalJSON(data []byte) error {
-	var s string
-	if err := util.FromJSON(data, &s); err != nil {
-		return err
-	}
-	*t = OriginFromString(s)
+func (t *Origin) UnmarshalText(data []byte) error {
+	*t = OriginFromString(string(data))
 	return nil
 }
