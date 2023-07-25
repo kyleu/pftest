@@ -44,12 +44,12 @@ dockers:
     image_templates:
       - "ghcr.io/kyleu/pftest:{{ trimprefix .Tag \"v\" }}"
       - "ghcr.io/kyleu/pftest:latest"
-    dockerfile: ./tools/release/Dockerfile
+    dockerfile: ./tools/release/Dockerfile.release
   -
     image_templates:
       - "ghcr.io/kyleu/pftest:{{ trimprefix .Tag \"v\" }}-debug"
       - "ghcr.io/kyleu/pftest:latest-debug"
-    dockerfile: ./tools/release/debug.Dockerfile
+    dockerfile: ./tools/release/Dockerfile.debug
 
 dist: "build/dist"
 

@@ -129,8 +129,8 @@ func (p *Settings) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cuti
 //line views/vadmin/Settings.html:47
 	qw422016.N().S(`Admin Functions</h3>
       <ul class="mt">
+        <li><a href="/admin/server">App Information</a></li>
         <li><a href="/admin/modules">View Go modules</a></li>
-        <li><a href="/admin/gc">Collect garbage</a></li>
         <li><a href="/admin/migrations">View database migrations</a></li>
         <li><a href="/theme">Edit Themes</a></li>
         <li><a href="/admin/exec">Managed Processes</a></li>
@@ -157,51 +157,52 @@ func (p *Settings) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cuti
 //line views/vadmin/Settings.html:67
 	qw422016.N().S(`App Profiling</h3>
       <ul class="mt">
+        <li><a href="/admin/memusage">Memory Usage</a></li>
+        <li><a href="/admin/gc">Collect garbage</a></li>
+        <li><a href="/admin/heap">Write memory dump</a></li>
         <li><a href="/admin/cpu/start">Start CPU profile</a></li>
         <li><a href="/admin/cpu/stop">Stop CPU profile</a></li>
-        <li><a href="/admin/heap">Write memory dump</a></li>
-        <li><a href="/admin/memusage">Memory Usage</a></li>
       </ul>
     </div>
   </div>
 
   `)
-//line views/vadmin/Settings.html:77
+//line views/vadmin/Settings.html:78
 	vauth.StreamAuthentication(qw422016, as, ps)
-//line views/vadmin/Settings.html:77
+//line views/vadmin/Settings.html:78
 	qw422016.N().S(`
 
   `)
-//line views/vadmin/Settings.html:79
+//line views/vadmin/Settings.html:80
 	vauth.StreamPermissions(qw422016, p.Perms, as)
-//line views/vadmin/Settings.html:79
+//line views/vadmin/Settings.html:80
 	qw422016.N().S(`
 `)
-//line views/vadmin/Settings.html:80
+//line views/vadmin/Settings.html:81
 }
 
-//line views/vadmin/Settings.html:80
+//line views/vadmin/Settings.html:81
 func (p *Settings) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vadmin/Settings.html:80
+//line views/vadmin/Settings.html:81
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vadmin/Settings.html:80
+//line views/vadmin/Settings.html:81
 	p.StreamBody(qw422016, as, ps)
-//line views/vadmin/Settings.html:80
+//line views/vadmin/Settings.html:81
 	qt422016.ReleaseWriter(qw422016)
-//line views/vadmin/Settings.html:80
+//line views/vadmin/Settings.html:81
 }
 
-//line views/vadmin/Settings.html:80
+//line views/vadmin/Settings.html:81
 func (p *Settings) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vadmin/Settings.html:80
+//line views/vadmin/Settings.html:81
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vadmin/Settings.html:80
+//line views/vadmin/Settings.html:81
 	p.WriteBody(qb422016, as, ps)
-//line views/vadmin/Settings.html:80
+//line views/vadmin/Settings.html:81
 	qs422016 := string(qb422016.B)
-//line views/vadmin/Settings.html:80
+//line views/vadmin/Settings.html:81
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vadmin/Settings.html:80
+//line views/vadmin/Settings.html:81
 	return qs422016
-//line views/vadmin/Settings.html:80
+//line views/vadmin/Settings.html:81
 }

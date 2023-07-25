@@ -10,6 +10,6 @@ cd $dir/../..
 echo "Building [linux amd64]..."
 GOOS=linux GOARCH=amd64 make build
 mv ./build/debug/pftest .
-docker build -t=pftest -f=./tools/release/Dockerfile .
+docker build -t=pftest -f=./tools/release/Dockerfile.release .
 rm ./pftest
 docker run -it pftest
