@@ -3,6 +3,7 @@ package group
 
 import (
 	"fmt"
+	"net/url"
 	"time"
 
 	"github.com/kyleu/pftest/app/util"
@@ -73,7 +74,7 @@ func (g *Group) TitleString() string {
 }
 
 func (g *Group) WebPath() string {
-	return "/group/" + g.ID
+	return "/group/" + url.QueryEscape(g.ID)
 }
 
 func (g *Group) Diff(gx *Group) util.Diffs {

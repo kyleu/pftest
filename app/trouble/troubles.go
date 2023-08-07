@@ -16,6 +16,12 @@ func (t Troubles) Get(from string, where []string) *Trouble {
 	})
 }
 
+func (t Troubles) ToPKs() []*PK {
+	return lo.Map(t, func(x *Trouble, _ int) *PK {
+		return x.ToPK()
+	})
+}
+
 func (t Troubles) GetByFroms(froms ...string) Troubles {
 	return lo.Filter(t, func(x *Trouble, _ int) bool {
 		return lo.Contains(froms, x.From)

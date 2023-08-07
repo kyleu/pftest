@@ -1,7 +1,11 @@
 // Content managed by Project Forge, see [projectforge.md] for details.
 package mixedcase
 
-import "github.com/kyleu/pftest/app/util"
+import (
+	"net/url"
+
+	"github.com/kyleu/pftest/app/util"
+)
 
 type MixedCase struct {
 	ID           string `json:"id"`
@@ -58,7 +62,7 @@ func (m *MixedCase) TitleString() string {
 }
 
 func (m *MixedCase) WebPath() string {
-	return "/mixedcase/" + m.ID
+	return "/mixedcase/" + url.QueryEscape(m.ID)
 }
 
 func (m *MixedCase) Diff(mx *MixedCase) util.Diffs {

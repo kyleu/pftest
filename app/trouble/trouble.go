@@ -3,6 +3,7 @@ package trouble
 
 import (
 	"fmt"
+	"net/url"
 	"strings"
 	"time"
 
@@ -82,8 +83,15 @@ func (t *Trouble) TitleString() string {
 	return t.String()
 }
 
+func (t *Trouble) ToPK() *PK {
+	return &PK{
+		From:  t.From,
+		Where: t.Where,
+	}
+}
+
 func (t *Trouble) WebPath() string {
-	return "/troub/le/" + t.From + "/" + strings.Join(t.Where, ",")
+	return "/troub/le/" + url.QueryEscape(t.From) + "/" + strings.Join(t.Where, ",")
 }
 
 func (t *Trouble) Diff(tx *Trouble) util.Diffs {

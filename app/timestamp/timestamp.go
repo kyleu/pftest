@@ -3,6 +3,7 @@ package timestamp
 
 import (
 	"fmt"
+	"net/url"
 	"time"
 
 	"github.com/kyleu/pftest/app/util"
@@ -61,7 +62,7 @@ func (t *Timestamp) TitleString() string {
 }
 
 func (t *Timestamp) WebPath() string {
-	return "/timestamp/" + t.ID
+	return "/timestamp/" + url.QueryEscape(t.ID)
 }
 
 func (t *Timestamp) Diff(tx *Timestamp) util.Diffs {

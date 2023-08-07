@@ -3,6 +3,7 @@ package softdel
 
 import (
 	"fmt"
+	"net/url"
 	"time"
 
 	"github.com/kyleu/pftest/app/util"
@@ -61,7 +62,7 @@ func (s *Softdel) TitleString() string {
 }
 
 func (s *Softdel) WebPath() string {
-	return "/softdel/" + s.ID
+	return "/softdel/" + url.QueryEscape(s.ID)
 }
 
 func (s *Softdel) Diff(sx *Softdel) util.Diffs {

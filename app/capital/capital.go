@@ -3,6 +3,7 @@ package capital
 
 import (
 	"fmt"
+	"net/url"
 	"time"
 
 	"github.com/kyleu/pftest/app/util"
@@ -74,7 +75,7 @@ func (c *Capital) TitleString() string {
 }
 
 func (c *Capital) WebPath() string {
-	return "/capital/" + c.ID
+	return "/capital/" + url.QueryEscape(c.ID)
 }
 
 //nolint:lll

@@ -3,6 +3,7 @@ package version
 
 import (
 	"fmt"
+	"net/url"
 	"time"
 
 	"github.com/kyleu/pftest/app/util"
@@ -69,7 +70,7 @@ func (v *Version) TitleString() string {
 }
 
 func (v *Version) WebPath() string {
-	return "/version/" + v.ID
+	return "/version/" + url.QueryEscape(v.ID)
 }
 
 func (v *Version) Diff(vx *Version) util.Diffs {

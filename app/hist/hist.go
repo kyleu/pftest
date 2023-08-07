@@ -2,6 +2,7 @@
 package hist
 
 import (
+	"net/url"
 	"time"
 
 	"github.com/kyleu/pftest/app/util"
@@ -60,7 +61,7 @@ func (h *Hist) TitleString() string {
 }
 
 func (h *Hist) WebPath() string {
-	return "/hist/" + h.ID
+	return "/hist/" + url.QueryEscape(h.ID)
 }
 
 func (h *Hist) Diff(hx *Hist) util.Diffs {
