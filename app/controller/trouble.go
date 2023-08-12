@@ -148,7 +148,7 @@ func TroubleDelete(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrapf(err, "unable to delete trouble [%s]", ret.String())
 		}
 		msg := fmt.Sprintf("Trouble [%s] deleted", ret.String())
-		return FlashAndRedir(true, msg, "/trouble", rc, ps)
+		return FlashAndRedir(true, msg, "/troub/le", rc, ps)
 	})
 }
 

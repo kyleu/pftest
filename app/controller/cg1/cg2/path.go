@@ -126,7 +126,7 @@ func PathDelete(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrapf(err, "unable to delete path [%s]", ret.String())
 		}
 		msg := fmt.Sprintf("Path [%s] deleted", ret.String())
-		return controller.FlashAndRedir(true, msg, "/path", rc, ps)
+		return controller.FlashAndRedir(true, msg, "/g1/g2/path", rc, ps)
 	})
 }
 
