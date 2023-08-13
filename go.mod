@@ -19,7 +19,7 @@ require (
 	github.com/google/go-github/v39 v39.2.0
 	github.com/google/uuid v1.3.0
 	github.com/graph-gophers/graphql-go v1.5.0
-	github.com/iancoleman/strcase v0.3.0
+	github.com/iancoleman/strcase v0.2.0
 	github.com/jackc/pgx/v4 v4.18.1
 	github.com/jmoiron/sqlx v1.3.5
 	github.com/json-iterator/go v1.1.12
