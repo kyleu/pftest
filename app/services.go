@@ -3,6 +3,8 @@ package app
 import (
 	"context"
 	"encoding/json"
+	"github.com/kyleu/pftest/app/lib/filesystem"
+	"github.com/kyleu/pftest/app/lib/scripting"
 
 	"github.com/pkg/errors"
 
@@ -46,6 +48,7 @@ type Services struct {
 	Path      *path.Service
 	Audit     *audit.Service
 	Exec      *exec.Service
+	Script    *scripting.Service
 	Socket    *websocket.Service
 	Schema    *gql.Schema
 }
@@ -78,6 +81,7 @@ func NewServices(ctx context.Context, st *State, logger util.Logger) (*Services,
 		Path:      path.NewService(st.DB, st.DBRead),
 		Audit:     aud,
 		Exec:      exec.NewService(),
+		Script:    scripting.NewService(filesystem.NewFileSystem("data"), "scripts"),
 		Socket:    sock,
 		Schema:    schema,
 	}, nil

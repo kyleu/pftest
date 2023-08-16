@@ -31,7 +31,6 @@ func AppRoutes(as *app.State, logger util.Logger) fasthttp.RequestHandler {
 	generatedRoutes(r)
 
 	// $PF_SECTION_START(routes)$
-	execRoutes(r)
 	// $PF_SECTION_END(routes)$
 
 	r.GET("/docs", clib.Docs)
@@ -58,6 +57,8 @@ func AppRoutes(as *app.State, logger util.Logger) fasthttp.RequestHandler {
 	r.POST("/admin/database/{key}/sql", clib.DatabaseSQLRun)
 	r.GET("/admin/sandbox", controller.SandboxList)
 	r.GET("/admin/sandbox/{key}", controller.SandboxRun)
+	execRoutes(r)
+	scriptingRoutes(r)
 	r.GET("/admin/{path:*}", clib.Admin)
 	r.POST("/admin/{path:*}", clib.Admin)
 

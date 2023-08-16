@@ -28,6 +28,7 @@ The following modules were used to build this project:
 - [readonlydb](./doc/module/readonlydb.md)
 - [sandbox](./doc/module/sandbox.md)
 - [schema](./doc/module/schema.md)
+- [scripting](./doc/module/scripting.md)
 - [search](./doc/module/search.md)
 - [sqlite](./doc/module/sqlite.md)
 - [sqlserver](./doc/module/sqlserver.md)
