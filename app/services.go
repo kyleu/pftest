@@ -3,7 +3,6 @@ package app
 import (
 	"context"
 	"encoding/json"
-	"github.com/kyleu/pftest/app/lib/filesystem"
 	"github.com/kyleu/pftest/app/lib/scripting"
 
 	"github.com/pkg/errors"
@@ -81,7 +80,7 @@ func NewServices(ctx context.Context, st *State, logger util.Logger) (*Services,
 		Path:      path.NewService(st.DB, st.DBRead),
 		Audit:     aud,
 		Exec:      exec.NewService(),
-		Script:    scripting.NewService(filesystem.NewFileSystem("data"), "scripts"),
+		Script:    scripting.NewService(st.Files, "scripts"),
 		Socket:    sock,
 		Schema:    schema,
 	}, nil
