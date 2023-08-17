@@ -8,6 +8,8 @@ package vscripting
 
 //line views/vscripting/Detail.html:2
 import (
+	"github.com/samber/lo"
+
 	"github.com/kyleu/pftest/app"
 	"github.com/kyleu/pftest/app/controller/cutil"
 	"github.com/kyleu/pftest/app/util"
@@ -15,145 +17,161 @@ import (
 	"github.com/kyleu/pftest/views/layout"
 )
 
-//line views/vscripting/Detail.html:10
+//line views/vscripting/Detail.html:12
 import (
 	qtio422016 "io"
 
 	qt422016 "github.com/valyala/quicktemplate"
 )
 
-//line views/vscripting/Detail.html:10
+//line views/vscripting/Detail.html:12
 var (
 	_ = qtio422016.Copy
 	_ = qt422016.AcquireByteBuffer
 )
 
-//line views/vscripting/Detail.html:10
+//line views/vscripting/Detail.html:12
 type Detail struct {
 	layout.Basic
 	Path    string
 	Script  string
-	Results map[string]any
+	Results map[string]map[string]any
 }
 
-//line views/vscripting/Detail.html:17
+//line views/vscripting/Detail.html:19
 func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vscripting/Detail.html:17
+//line views/vscripting/Detail.html:19
 	qw422016.N().S(`
   <div class="card">
-    <div class="right"><a href="/scripting/`)
-//line views/vscripting/Detail.html:19
+    <div class="right"><a href="/admin/scripting/`)
+//line views/vscripting/Detail.html:21
 	qw422016.N().U(p.Path)
-//line views/vscripting/Detail.html:19
+//line views/vscripting/Detail.html:21
 	qw422016.N().S(`/edit"><button type="button">Edit</button></a></div>
     <h3>`)
-//line views/vscripting/Detail.html:20
+//line views/vscripting/Detail.html:22
 	components.StreamSVGRefIcon(qw422016, `file-code`, ps)
-//line views/vscripting/Detail.html:20
+//line views/vscripting/Detail.html:22
 	qw422016.N().S(` `)
-//line views/vscripting/Detail.html:20
+//line views/vscripting/Detail.html:22
 	qw422016.E().S(p.Path)
-//line views/vscripting/Detail.html:20
+//line views/vscripting/Detail.html:22
 	qw422016.N().S(`</h3>
     <div class="mt">
 `)
-//line views/vscripting/Detail.html:22
+//line views/vscripting/Detail.html:24
 	out, err := cutil.FormatLang(p.Script, "js")
 
-//line views/vscripting/Detail.html:23
+//line views/vscripting/Detail.html:25
 	if err == nil {
-//line views/vscripting/Detail.html:23
+//line views/vscripting/Detail.html:25
 		qw422016.N().S(`      `)
-//line views/vscripting/Detail.html:24
+//line views/vscripting/Detail.html:26
 		qw422016.N().S(out)
-//line views/vscripting/Detail.html:24
+//line views/vscripting/Detail.html:26
 		qw422016.N().S(`
 `)
-//line views/vscripting/Detail.html:25
+//line views/vscripting/Detail.html:27
 	} else {
-//line views/vscripting/Detail.html:25
+//line views/vscripting/Detail.html:27
 		qw422016.N().S(`      `)
-//line views/vscripting/Detail.html:26
+//line views/vscripting/Detail.html:28
 		qw422016.E().S(err.Error())
-//line views/vscripting/Detail.html:26
+//line views/vscripting/Detail.html:28
 		qw422016.N().S(`
 `)
-//line views/vscripting/Detail.html:27
+//line views/vscripting/Detail.html:29
 	}
-//line views/vscripting/Detail.html:27
+//line views/vscripting/Detail.html:29
 	qw422016.N().S(`    </div>
   </div>
   `)
-//line views/vscripting/Detail.html:30
-	if len(p.Results) > 0 {
-//line views/vscripting/Detail.html:30
-		qw422016.N().S(`  <div class="card">
-    <h3>`)
 //line views/vscripting/Detail.html:32
-		components.StreamSVGRefIcon(qw422016, `play`, ps)
-//line views/vscripting/Detail.html:32
-		qw422016.N().S(` Results</h3>
-    <div class="mt">
-      <table class="expanded min-200">
-        <thead>
-          <tr>
-            <th class="shrink">Example</th>
-            <th>Result</th>
-          </tr>
-        </thead>
-        <tbody>
+	for _, f := range util.ArraySorted(lo.Keys(p.Results)) {
+//line views/vscripting/Detail.html:33
+		res := p.Results[f]
+
+//line views/vscripting/Detail.html:33
+		qw422016.N().S(`    `)
+//line views/vscripting/Detail.html:34
+		if len(res) > 0 {
+//line views/vscripting/Detail.html:34
+			qw422016.N().S(`    <div class="card">
+      <h3>`)
+//line views/vscripting/Detail.html:36
+			components.StreamSVGRefIcon(qw422016, `play`, ps)
+//line views/vscripting/Detail.html:36
+			qw422016.N().S(` [`)
+//line views/vscripting/Detail.html:36
+			qw422016.E().S(f)
+//line views/vscripting/Detail.html:36
+			qw422016.N().S(`] Results</h3>
+      <div class="mt">
+        <table class="expanded min-200">
+          <thead>
+            <tr>
+              <th class="shrink">Example</th>
+              <th>Result</th>
+            </tr>
+          </thead>
+          <tbody>
 `)
-//line views/vscripting/Detail.html:42
-		for k, v := range p.Results {
-//line views/vscripting/Detail.html:42
-			qw422016.N().S(`          <tr>
-            <td><pre>`)
-//line views/vscripting/Detail.html:44
-			qw422016.E().S(k)
-//line views/vscripting/Detail.html:44
-			qw422016.N().S(`</pre></td>
-            <td><pre>`)
-//line views/vscripting/Detail.html:45
-			qw422016.E().S(util.ToJSONCompact(v))
-//line views/vscripting/Detail.html:45
-			qw422016.N().S(`</pre></td>
-          </tr>
-`)
+//line views/vscripting/Detail.html:46
+			for _, k := range util.ArraySorted(lo.Keys(res)) {
 //line views/vscripting/Detail.html:47
-		}
+				v := res[k]
+
 //line views/vscripting/Detail.html:47
-		qw422016.N().S(`        </tbody>
-      </table>
-    </div>
-  </div>
+				qw422016.N().S(`            <tr>
+              <td><pre>`)
+//line views/vscripting/Detail.html:49
+				qw422016.E().S(k)
+//line views/vscripting/Detail.html:49
+				qw422016.N().S(`</pre></td>
+              <td><pre>`)
+//line views/vscripting/Detail.html:50
+				qw422016.E().S(util.ToJSONCompact(v))
+//line views/vscripting/Detail.html:50
+				qw422016.N().S(`</pre></td>
+            </tr>
 `)
 //line views/vscripting/Detail.html:52
+			}
+//line views/vscripting/Detail.html:52
+			qw422016.N().S(`          </tbody>
+        </table>
+      </div>
+    </div>
+`)
+//line views/vscripting/Detail.html:57
+		}
+//line views/vscripting/Detail.html:58
 	}
-//line views/vscripting/Detail.html:53
+//line views/vscripting/Detail.html:59
 }
 
-//line views/vscripting/Detail.html:53
+//line views/vscripting/Detail.html:59
 func (p *Detail) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vscripting/Detail.html:53
+//line views/vscripting/Detail.html:59
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vscripting/Detail.html:53
+//line views/vscripting/Detail.html:59
 	p.StreamBody(qw422016, as, ps)
-//line views/vscripting/Detail.html:53
+//line views/vscripting/Detail.html:59
 	qt422016.ReleaseWriter(qw422016)
-//line views/vscripting/Detail.html:53
+//line views/vscripting/Detail.html:59
 }
 
-//line views/vscripting/Detail.html:53
+//line views/vscripting/Detail.html:59
 func (p *Detail) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vscripting/Detail.html:53
+//line views/vscripting/Detail.html:59
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vscripting/Detail.html:53
+//line views/vscripting/Detail.html:59
 	p.WriteBody(qb422016, as, ps)
-//line views/vscripting/Detail.html:53
+//line views/vscripting/Detail.html:59
 	qs422016 := string(qb422016.B)
-//line views/vscripting/Detail.html:53
+//line views/vscripting/Detail.html:59
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vscripting/Detail.html:53
+//line views/vscripting/Detail.html:59
 	return qs422016
-//line views/vscripting/Detail.html:53
+//line views/vscripting/Detail.html:59
 }
