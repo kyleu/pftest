@@ -34,5 +34,6 @@ The following modules were used to build this project:
 - [sqlserver](./doc/module/sqlserver.md)
 - [types](./doc/module/types.md)
 - [upgrade](./doc/module/upgrade.md)
-- [wasm](./doc/module/wasm.md)
+- [wasmclient](./doc/module/wasmclient.md)
+- [wasmserver](./doc/module/wasmserver.md)
 - [websocket](./doc/module/websocket.md)
