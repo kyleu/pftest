@@ -2,12 +2,13 @@
 package graphql
 
 import (
+	"slices"
+
 	"github.com/graph-gophers/graphql-go"
 	otelgraphql "github.com/graph-gophers/graphql-go/trace/otel"
 	"github.com/pkg/errors"
+	"github.com/samber/lo"
 	"go.opentelemetry.io/otel"
-	"golang.org/x/exp/maps"
-	"golang.org/x/exp/slices"
 
 	"github.com/kyleu/pftest/app/util"
 )
@@ -39,7 +40,7 @@ func (s *Service) RegisterStringSchema(key string, title string, content string,
 }
 
 func (s *Service) Keys() []string {
-	ret := maps.Keys(s.schemata)
+	ret := lo.Keys(s.schemata)
 	slices.Sort(ret)
 	return ret
 }

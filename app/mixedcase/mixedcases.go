@@ -2,8 +2,9 @@
 package mixedcase
 
 import (
+	"slices"
+
 	"github.com/samber/lo"
-	"golang.org/x/exp/slices"
 )
 
 type MixedCases []*MixedCase

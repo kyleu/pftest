@@ -2,9 +2,10 @@
 package schema
 
 import (
+	"slices"
+
 	"github.com/pkg/errors"
 	"github.com/samber/lo"
-	"golang.org/x/exp/slices"
 
 	"github.com/kyleu/pftest/app/lib/schema/model"
 	"github.com/kyleu/pftest/app/util"

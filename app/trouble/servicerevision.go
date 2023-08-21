@@ -4,12 +4,12 @@ package trouble
 import (
 	"context"
 	"fmt"
+	"slices"
 	"strings"
 
 	"github.com/jmoiron/sqlx"
 	"github.com/pkg/errors"
 	"github.com/samber/lo"
-	"golang.org/x/exp/slices"
 
 	"github.com/kyleu/pftest/app/lib/database"
 	"github.com/kyleu/pftest/app/lib/filter"

@@ -2,9 +2,8 @@
 package filesystem_test
 
 import (
+	"slices"
 	"testing"
-
-	"golang.org/x/exp/slices"
 
 	"github.com/kyleu/pftest/app/lib/filesystem"
 )

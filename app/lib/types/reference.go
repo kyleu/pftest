@@ -2,9 +2,8 @@
 package types
 
 import (
+	"slices"
 	"strings"
-
-	"golang.org/x/exp/slices"
 
 	"github.com/kyleu/pftest/app/util"
 )
