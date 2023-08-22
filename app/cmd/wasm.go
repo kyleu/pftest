@@ -1,5 +1,4 @@
 // Content managed by Project Forge, see [projectforge.md] for details.
-// Content managed by Project Forge, see [projectforge.md] for details.
 package cmd
 
 import (
