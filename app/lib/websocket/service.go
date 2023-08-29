@@ -17,6 +17,7 @@ import (
 
 	"github.com/kyleu/pftest/app/lib/filter"
 	"github.com/kyleu/pftest/app/lib/user"
+	dbuser "github.com/kyleu/pftest/app/user"
 	"github.com/kyleu/pftest/app/util"
 )
 
@@ -127,10 +128,10 @@ func (s *Service) Close() {
 var upgrader = websocket.FastHTTPUpgrader{EnableCompression: true}
 
 func (s *Service) Upgrade(
-	ctx context.Context, rc *fasthttp.RequestCtx, channel string, profile *user.Profile, accts user.Accounts, logger util.Logger,
+	ctx context.Context, rc *fasthttp.RequestCtx, channel string, u *dbuser.User, profile *user.Profile, accts user.Accounts, logger util.Logger,
 ) error {
 	return upgrader.Upgrade(rc, func(conn *websocket.Conn) {
-		cx, err := s.Register(profile, accts, conn, logger)
+		cx, err := s.Register(u, profile, accts, conn, logger)
 		if err != nil {
 			logger.Warn("unable to register websocket connection")
 			return

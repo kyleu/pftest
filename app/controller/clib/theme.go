@@ -37,6 +37,15 @@ func ThemeEdit(rc *fasthttp.RequestCtx) {
 			t = theme.ThemeDefault.Clone(key)
 		} else {
 			t = as.Themes.Get(key, ps.Logger)
+			if t == nil {
+				if pal := string(rc.URI().QueryArgs().Peek("palette")); pal != "" {
+					themes, err := theme.PaletteThemes(pal)
+					if err != nil {
+						return "", err
+					}
+					t = themes.Get(key)
+				}
+			}
 		}
 		if t == nil {
 			return "", errors.Errorf("invalid theme [%s]", key)

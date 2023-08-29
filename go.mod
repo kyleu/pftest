@@ -29,6 +29,7 @@ require (
 	github.com/markbates/goth v1.77.0
 	github.com/mileusna/useragent v1.3.3
 	github.com/muesli/coral v1.0.0
+	github.com/muesli/gamut v0.3.1
 	github.com/pkg/errors v0.9.1
 	github.com/prometheus/client_golang v1.16.0
 	github.com/robert-nix/ansihtml v1.0.1
@@ -43,6 +44,7 @@ require (
 	go.opentelemetry.io/otel/trace v1.16.0
 	go.uber.org/zap v1.25.0
 	golang.org/x/mobile v0.0.0-20230818142238-7088062f872d
+	golang.org/x/net v0.14.0
 	golang.org/x/oauth2 v0.11.0
 	gopkg.in/yaml.v2 v2.4.0
 	modernc.org/sqlite v1.23.1
@@ -89,11 +91,14 @@ require (
 	github.com/lestrrat-go/iter v1.0.2 // indirect
 	github.com/lestrrat-go/jwx v1.2.26 // indirect
 	github.com/lestrrat-go/option v1.0.1 // indirect
+	github.com/lucasb-eyer/go-colorful v1.2.0 // indirect
 	github.com/mattn/go-isatty v0.0.19 // indirect
 	github.com/matttproud/golang_protobuf_extensions v1.0.4 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/mrjones/oauth v0.0.0-20190623134757-126b35219450 // indirect
+	github.com/muesli/clusters v0.0.0-20200529215643-2700303c1762 // indirect
+	github.com/muesli/kmeans v0.3.1 // indirect
 	github.com/prometheus/client_model v0.4.0 // indirect
 	github.com/prometheus/common v0.44.0 // indirect
 	github.com/prometheus/procfs v0.11.1 // indirect
@@ -101,6 +106,7 @@ require (
 	github.com/savsgio/gotils v0.0.0-20230208104028-c358bd845dee // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
+	github.com/xrash/smetrics v0.0.0-20201216005158-039620a65673 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/internal/retry v1.16.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.16.0 // indirect
 	go.opentelemetry.io/otel/metric v1.16.0 // indirect
@@ -109,7 +115,6 @@ require (
 	golang.org/x/crypto v0.12.0 // indirect
 	golang.org/x/exp v0.0.0-20230817173708-d852ddb80c63 // indirect
 	golang.org/x/mod v0.12.0 // indirect
-	golang.org/x/net v0.14.0 // indirect
 	golang.org/x/sys v0.11.0 // indirect
 	golang.org/x/text v0.12.0 // indirect
 	golang.org/x/tools v0.12.1-0.20230818130535-1517d1a3ba60 // indirect

@@ -76,6 +76,9 @@ func (s *Service) loadIfNeeded(logger util.Logger) {
 			t.Key = key
 			s.cache = append(s.cache, t)
 		})
+		s.cache = append(s.cache, lo.Filter(CatalogThemes, func(t *Theme, _ int) bool {
+			return !s.cache.Contains(t.Key)
+		})...)
 		s.cache.Sort()
 	}
 }

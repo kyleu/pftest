@@ -12,6 +12,7 @@ import (
 	"github.com/kyleu/pftest/app/controller/csession"
 	"github.com/kyleu/pftest/app/controller/cutil"
 	"github.com/kyleu/pftest/app/lib/theme"
+	"github.com/kyleu/pftest/app/util"
 	"github.com/kyleu/pftest/views/vprofile"
 )
 
@@ -70,10 +71,27 @@ func ProfileSave(rc *fasthttp.RequestCtx) {
 		if n.Theme == theme.ThemeDefault.Key {
 			n.Theme = ""
 		}
+		if ps.Profile.ID == util.UUIDDefault {
+			n.ID = util.UUID()
+		} else {
+			n.ID = ps.Profile.ID
+		}
 
 		err = csession.SaveProfile(n, rc, ps.Session, ps.Logger)
 		if err != nil {
 			return "", err
+		}
+
+		curr, _ := as.Services.User.Get(ps.Context, nil, ps.Profile.ID, ps.Logger)
+		if curr != nil {
+			curr.Name = n.Name
+			if curr.Picture == "" {
+				curr.Picture = ps.Accounts.Image()
+			}
+			err = as.Services.User.Update(ps.Context, nil, curr, ps.Logger)
+			if err != nil {
+				return "", err
+			}
 		}
 
 		return controller.ReturnToReferrer("Saved profile", referrerDefault, rc, ps)

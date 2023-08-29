@@ -7,12 +7,15 @@ import (
 	"sync"
 	"time"
 
+	"github.com/google/uuid"
+
 	"github.com/kyleu/pftest/app/lib/auth"
 	"github.com/kyleu/pftest/app/lib/database"
 	"github.com/kyleu/pftest/app/lib/filesystem"
 	"github.com/kyleu/pftest/app/lib/graphql"
 	"github.com/kyleu/pftest/app/lib/telemetry"
 	"github.com/kyleu/pftest/app/lib/theme"
+	"github.com/kyleu/pftest/app/user"
 	"github.com/kyleu/pftest/app/util"
 )
 
@@ -87,4 +90,11 @@ func (s State) Close(ctx context.Context, logger util.Logger) error {
 		logger.Errorf("error closing GraphQL service: %+v", err)
 	}
 	return s.Services.Close(ctx, logger)
+}
+
+func (s State) User(ctx context.Context, id uuid.UUID, logger util.Logger) (*user.User, error) {
+	if s.Services == nil || s.Services.User == nil {
+		return nil, nil
+	}
+	return s.Services.User.Get(ctx, nil, id, logger)
 }

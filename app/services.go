@@ -25,6 +25,7 @@ import (
 	"github.com/kyleu/pftest/app/softdel"
 	"github.com/kyleu/pftest/app/timestamp"
 	"github.com/kyleu/pftest/app/trouble"
+	"github.com/kyleu/pftest/app/user"
 	"github.com/kyleu/pftest/app/util"
 	"github.com/kyleu/pftest/app/version"
 	"github.com/kyleu/pftest/queries/migrations"
@@ -48,6 +49,7 @@ type Services struct {
 	Audit     *audit.Service
 	Exec      *exec.Service
 	Script    *scripting.Service
+	User      *user.Service
 	Socket    *websocket.Service
 	Schema    *gql.Schema
 }
