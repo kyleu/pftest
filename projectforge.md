@@ -13,7 +13,6 @@ The following modules were used to build this project:
 - [databaseui](./doc/module/databaseui.md)
 - [desktop](./doc/module/desktop.md)
 - [docbrowse](./doc/module/docbrowse.md)
-- [dockerpublish](./doc/module/dockerpublish.md)
 - [export](./doc/module/export.md)
 - [filesystem](./doc/module/filesystem.md)
 - [graphql](./doc/module/graphql.md)
