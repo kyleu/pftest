@@ -101,112 +101,141 @@ func StreamRenderRequest(qw422016 *qt422016.Writer, key string, r *har.Request, 
 		qw422016.E().S(util.ByteSizeSI(int64(r.BodySize)))
 //line views/vhar/Request.html:40
 		qw422016.N().S(`</em></th>
-        <td>`)
-//line views/vhar/Request.html:41
+        <td>
+          `)
+//line views/vhar/Request.html:42
 		qw422016.E().S(r.PostData.String())
-//line views/vhar/Request.html:41
-		qw422016.N().S(`</td>
-      </tr>
+//line views/vhar/Request.html:42
+		qw422016.N().S(`
 `)
 //line views/vhar/Request.html:43
-	}
+		if len(r.PostData.Params) > 0 {
 //line views/vhar/Request.html:43
+			qw422016.N().S(`          <ul>
+`)
+//line views/vhar/Request.html:45
+			for _, param := range r.PostData.Params {
+//line views/vhar/Request.html:45
+				qw422016.N().S(`            <li><strong>`)
+//line views/vhar/Request.html:46
+				qw422016.E().S(param.Name)
+//line views/vhar/Request.html:46
+				qw422016.N().S(`</strong>: `)
+//line views/vhar/Request.html:46
+				qw422016.E().S(param.Value)
+//line views/vhar/Request.html:46
+				qw422016.N().S(`</li>
+`)
+//line views/vhar/Request.html:47
+			}
+//line views/vhar/Request.html:47
+			qw422016.N().S(`          </ul>
+`)
+//line views/vhar/Request.html:49
+		}
+//line views/vhar/Request.html:49
+		qw422016.N().S(`        </td>
+      </tr>
+`)
+//line views/vhar/Request.html:52
+	}
+//line views/vhar/Request.html:52
 	qw422016.N().S(`    </tbody>
   </table>
 `)
-//line views/vhar/Request.html:46
+//line views/vhar/Request.html:55
 }
 
-//line views/vhar/Request.html:46
+//line views/vhar/Request.html:55
 func WriteRenderRequest(qq422016 qtio422016.Writer, key string, r *har.Request, ps *cutil.PageState) {
-//line views/vhar/Request.html:46
+//line views/vhar/Request.html:55
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vhar/Request.html:46
+//line views/vhar/Request.html:55
 	StreamRenderRequest(qw422016, key, r, ps)
-//line views/vhar/Request.html:46
+//line views/vhar/Request.html:55
 	qt422016.ReleaseWriter(qw422016)
-//line views/vhar/Request.html:46
+//line views/vhar/Request.html:55
 }
 
-//line views/vhar/Request.html:46
+//line views/vhar/Request.html:55
 func RenderRequest(key string, r *har.Request, ps *cutil.PageState) string {
-//line views/vhar/Request.html:46
+//line views/vhar/Request.html:55
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vhar/Request.html:46
+//line views/vhar/Request.html:55
 	WriteRenderRequest(qb422016, key, r, ps)
-//line views/vhar/Request.html:46
+//line views/vhar/Request.html:55
 	qs422016 := string(qb422016.B)
-//line views/vhar/Request.html:46
+//line views/vhar/Request.html:55
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vhar/Request.html:46
+//line views/vhar/Request.html:55
 	return qs422016
-//line views/vhar/Request.html:46
+//line views/vhar/Request.html:55
 }
 
-//line views/vhar/Request.html:48
+//line views/vhar/Request.html:57
 func streamrenderCookiesHidden(qw422016 *qt422016.Writer, key string, cookies har.Cookies, ps *cutil.PageState) {
-//line views/vhar/Request.html:48
+//line views/vhar/Request.html:57
 	qw422016.N().S(`
   <ul class="accordion">
     <li>
       <input id="accordion-cookies-`)
-//line views/vhar/Request.html:51
+//line views/vhar/Request.html:60
 	qw422016.E().S(key)
-//line views/vhar/Request.html:51
+//line views/vhar/Request.html:60
 	qw422016.N().S(`" type="checkbox" hidden />
       <label class="no-padding" for="accordion-cookies-`)
-//line views/vhar/Request.html:52
+//line views/vhar/Request.html:61
 	qw422016.E().S(key)
-//line views/vhar/Request.html:52
+//line views/vhar/Request.html:61
 	qw422016.N().S(`">`)
-//line views/vhar/Request.html:52
+//line views/vhar/Request.html:61
 	qw422016.N().D(len(cookies))
-//line views/vhar/Request.html:52
+//line views/vhar/Request.html:61
 	qw422016.N().S(` `)
-//line views/vhar/Request.html:52
+//line views/vhar/Request.html:61
 	qw422016.E().S(util.StringPluralMaybe("Cookie", len(cookies)))
-//line views/vhar/Request.html:52
+//line views/vhar/Request.html:61
 	qw422016.N().S(` <em>(click to show)</em></label>
       <div class="bd">`)
-//line views/vhar/Request.html:53
+//line views/vhar/Request.html:62
 	streamrenderCookies(qw422016, key, cookies, ps)
-//line views/vhar/Request.html:53
+//line views/vhar/Request.html:62
 	qw422016.N().S(`</div>
     </li>
   </ul>
 `)
-//line views/vhar/Request.html:56
+//line views/vhar/Request.html:65
 }
 
-//line views/vhar/Request.html:56
+//line views/vhar/Request.html:65
 func writerenderCookiesHidden(qq422016 qtio422016.Writer, key string, cookies har.Cookies, ps *cutil.PageState) {
-//line views/vhar/Request.html:56
+//line views/vhar/Request.html:65
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vhar/Request.html:56
+//line views/vhar/Request.html:65
 	streamrenderCookiesHidden(qw422016, key, cookies, ps)
-//line views/vhar/Request.html:56
+//line views/vhar/Request.html:65
 	qt422016.ReleaseWriter(qw422016)
-//line views/vhar/Request.html:56
+//line views/vhar/Request.html:65
 }
 
-//line views/vhar/Request.html:56
+//line views/vhar/Request.html:65
 func renderCookiesHidden(key string, cookies har.Cookies, ps *cutil.PageState) string {
-//line views/vhar/Request.html:56
+//line views/vhar/Request.html:65
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vhar/Request.html:56
+//line views/vhar/Request.html:65
 	writerenderCookiesHidden(qb422016, key, cookies, ps)
-//line views/vhar/Request.html:56
+//line views/vhar/Request.html:65
 	qs422016 := string(qb422016.B)
-//line views/vhar/Request.html:56
+//line views/vhar/Request.html:65
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vhar/Request.html:56
+//line views/vhar/Request.html:65
 	return qs422016
-//line views/vhar/Request.html:56
+//line views/vhar/Request.html:65
 }
 
-//line views/vhar/Request.html:58
+//line views/vhar/Request.html:67
 func streamrenderCookies(qw422016 *qt422016.Writer, key string, cs har.Cookies, ps *cutil.PageState) {
-//line views/vhar/Request.html:58
+//line views/vhar/Request.html:67
 	qw422016.N().S(`
   <table>
     <thead>
@@ -221,261 +250,261 @@ func streamrenderCookies(qw422016 *qt422016.Writer, key string, cs har.Cookies, 
     </thead>
     <tbody>
 `)
-//line views/vhar/Request.html:71
+//line views/vhar/Request.html:80
 	for i, c := range cs {
-//line views/vhar/Request.html:71
+//line views/vhar/Request.html:80
 		qw422016.N().S(`      <tr>
         <td>`)
-//line views/vhar/Request.html:73
+//line views/vhar/Request.html:82
 		qw422016.E().S(c.Name)
-//line views/vhar/Request.html:73
+//line views/vhar/Request.html:82
 		qw422016.N().S(`</td>
         <td>
 `)
-//line views/vhar/Request.html:75
+//line views/vhar/Request.html:84
 		if len(c.Value) > 64 {
-//line views/vhar/Request.html:75
+//line views/vhar/Request.html:84
 			qw422016.N().S(`          <ul class="accordion">
             <li>
               <input id="accordion-`)
-//line views/vhar/Request.html:78
+//line views/vhar/Request.html:87
 			qw422016.E().S(key)
-//line views/vhar/Request.html:78
+//line views/vhar/Request.html:87
 			qw422016.N().S(`-cookie-`)
-//line views/vhar/Request.html:78
+//line views/vhar/Request.html:87
 			qw422016.N().D(i)
-//line views/vhar/Request.html:78
+//line views/vhar/Request.html:87
 			qw422016.N().S(`" type="checkbox" hidden />
               <label class="no-padding" for="accordion-`)
-//line views/vhar/Request.html:79
+//line views/vhar/Request.html:88
 			qw422016.E().S(key)
-//line views/vhar/Request.html:79
+//line views/vhar/Request.html:88
 			qw422016.N().S(`-cookie-`)
-//line views/vhar/Request.html:79
+//line views/vhar/Request.html:88
 			qw422016.N().D(i)
-//line views/vhar/Request.html:79
+//line views/vhar/Request.html:88
 			qw422016.N().S(`">`)
-//line views/vhar/Request.html:79
+//line views/vhar/Request.html:88
 			qw422016.E().S(c.Value[:64])
-//line views/vhar/Request.html:79
+//line views/vhar/Request.html:88
 			qw422016.N().S(`...</label>
               <div class="bd">`)
-//line views/vhar/Request.html:80
+//line views/vhar/Request.html:89
 			qw422016.E().S(c.Value)
-//line views/vhar/Request.html:80
+//line views/vhar/Request.html:89
 			qw422016.N().S(`</div>
             </li>
           </ul>
 `)
-//line views/vhar/Request.html:83
+//line views/vhar/Request.html:92
 		} else {
-//line views/vhar/Request.html:83
+//line views/vhar/Request.html:92
 			qw422016.N().S(`          `)
-//line views/vhar/Request.html:84
+//line views/vhar/Request.html:93
 			qw422016.E().S(c.Value)
-//line views/vhar/Request.html:84
+//line views/vhar/Request.html:93
 			qw422016.N().S(`
 `)
-//line views/vhar/Request.html:85
+//line views/vhar/Request.html:94
 		}
-//line views/vhar/Request.html:85
+//line views/vhar/Request.html:94
 		qw422016.N().S(`        </td>
         <td>`)
-//line views/vhar/Request.html:87
+//line views/vhar/Request.html:96
 		qw422016.E().S(c.Path)
-//line views/vhar/Request.html:87
+//line views/vhar/Request.html:96
 		qw422016.N().S(`</td>
         <td>`)
-//line views/vhar/Request.html:88
+//line views/vhar/Request.html:97
 		qw422016.E().S(c.Domain)
-//line views/vhar/Request.html:88
+//line views/vhar/Request.html:97
 		qw422016.N().S(`</td>
         <td title="`)
-//line views/vhar/Request.html:89
+//line views/vhar/Request.html:98
 		qw422016.E().S(util.TimeToFull(c.Exp()))
-//line views/vhar/Request.html:89
+//line views/vhar/Request.html:98
 		qw422016.N().S(`">`)
-//line views/vhar/Request.html:89
+//line views/vhar/Request.html:98
 		qw422016.E().S(c.ExpRelative())
-//line views/vhar/Request.html:89
+//line views/vhar/Request.html:98
 		qw422016.N().S(`</td>
         <td>`)
-//line views/vhar/Request.html:90
+//line views/vhar/Request.html:99
 		qw422016.E().S(strings.Join(c.Tags(), ", "))
-//line views/vhar/Request.html:90
+//line views/vhar/Request.html:99
 		qw422016.N().S(`</td>
       </tr>
 `)
-//line views/vhar/Request.html:92
+//line views/vhar/Request.html:101
 	}
-//line views/vhar/Request.html:92
+//line views/vhar/Request.html:101
 	qw422016.N().S(`    </tbody>
   </table>
 `)
-//line views/vhar/Request.html:95
+//line views/vhar/Request.html:104
 }
 
-//line views/vhar/Request.html:95
+//line views/vhar/Request.html:104
 func writerenderCookies(qq422016 qtio422016.Writer, key string, cs har.Cookies, ps *cutil.PageState) {
-//line views/vhar/Request.html:95
+//line views/vhar/Request.html:104
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vhar/Request.html:95
+//line views/vhar/Request.html:104
 	streamrenderCookies(qw422016, key, cs, ps)
-//line views/vhar/Request.html:95
+//line views/vhar/Request.html:104
 	qt422016.ReleaseWriter(qw422016)
-//line views/vhar/Request.html:95
+//line views/vhar/Request.html:104
 }
 
-//line views/vhar/Request.html:95
+//line views/vhar/Request.html:104
 func renderCookies(key string, cs har.Cookies, ps *cutil.PageState) string {
-//line views/vhar/Request.html:95
+//line views/vhar/Request.html:104
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vhar/Request.html:95
+//line views/vhar/Request.html:104
 	writerenderCookies(qb422016, key, cs, ps)
-//line views/vhar/Request.html:95
+//line views/vhar/Request.html:104
 	qs422016 := string(qb422016.B)
-//line views/vhar/Request.html:95
+//line views/vhar/Request.html:104
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vhar/Request.html:95
+//line views/vhar/Request.html:104
 	return qs422016
-//line views/vhar/Request.html:95
+//line views/vhar/Request.html:104
 }
 
-//line views/vhar/Request.html:97
+//line views/vhar/Request.html:106
 func streamrenderNVPsHidden(qw422016 *qt422016.Writer, key string, title string, nvps har.NVPs, size int, ps *cutil.PageState) {
-//line views/vhar/Request.html:97
+//line views/vhar/Request.html:106
 	qw422016.N().S(`
   <ul class="accordion">
     <li>
       <input id="accordion-`)
-//line views/vhar/Request.html:100
+//line views/vhar/Request.html:109
 	qw422016.E().S(key)
-//line views/vhar/Request.html:100
+//line views/vhar/Request.html:109
 	qw422016.N().S(`" type="checkbox" hidden />
       <label class="no-padding" for="accordion-`)
-//line views/vhar/Request.html:101
+//line views/vhar/Request.html:110
 	qw422016.E().S(key)
-//line views/vhar/Request.html:101
+//line views/vhar/Request.html:110
 	qw422016.N().S(`">
 `)
-//line views/vhar/Request.html:102
+//line views/vhar/Request.html:111
 	if size > 0 {
-//line views/vhar/Request.html:102
+//line views/vhar/Request.html:111
 		qw422016.N().S(`        <div class="right"><em>`)
-//line views/vhar/Request.html:103
+//line views/vhar/Request.html:112
 		qw422016.E().S(util.ByteSizeSI(int64(size)))
-//line views/vhar/Request.html:103
+//line views/vhar/Request.html:112
 		qw422016.N().S(`</em></div>
 `)
-//line views/vhar/Request.html:104
+//line views/vhar/Request.html:113
 	}
-//line views/vhar/Request.html:104
+//line views/vhar/Request.html:113
 	qw422016.N().S(`        `)
-//line views/vhar/Request.html:105
+//line views/vhar/Request.html:114
 	qw422016.N().D(len(nvps))
-//line views/vhar/Request.html:105
+//line views/vhar/Request.html:114
 	qw422016.N().S(` `)
-//line views/vhar/Request.html:105
+//line views/vhar/Request.html:114
 	qw422016.E().S(util.StringPluralMaybe(title, len(nvps)))
-//line views/vhar/Request.html:105
+//line views/vhar/Request.html:114
 	qw422016.N().S(`
         <em>(click to show)</em>
       </label>
       <div class="bd">`)
-//line views/vhar/Request.html:108
+//line views/vhar/Request.html:117
 	streamrenderNVPs(qw422016, nvps, ps)
-//line views/vhar/Request.html:108
+//line views/vhar/Request.html:117
 	qw422016.N().S(`</div>
     </li>
   </ul>
 `)
-//line views/vhar/Request.html:111
+//line views/vhar/Request.html:120
 }
 
-//line views/vhar/Request.html:111
+//line views/vhar/Request.html:120
 func writerenderNVPsHidden(qq422016 qtio422016.Writer, key string, title string, nvps har.NVPs, size int, ps *cutil.PageState) {
-//line views/vhar/Request.html:111
+//line views/vhar/Request.html:120
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vhar/Request.html:111
+//line views/vhar/Request.html:120
 	streamrenderNVPsHidden(qw422016, key, title, nvps, size, ps)
-//line views/vhar/Request.html:111
+//line views/vhar/Request.html:120
 	qt422016.ReleaseWriter(qw422016)
-//line views/vhar/Request.html:111
+//line views/vhar/Request.html:120
 }
 
-//line views/vhar/Request.html:111
+//line views/vhar/Request.html:120
 func renderNVPsHidden(key string, title string, nvps har.NVPs, size int, ps *cutil.PageState) string {
-//line views/vhar/Request.html:111
+//line views/vhar/Request.html:120
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vhar/Request.html:111
+//line views/vhar/Request.html:120
 	writerenderNVPsHidden(qb422016, key, title, nvps, size, ps)
-//line views/vhar/Request.html:111
+//line views/vhar/Request.html:120
 	qs422016 := string(qb422016.B)
-//line views/vhar/Request.html:111
+//line views/vhar/Request.html:120
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vhar/Request.html:111
+//line views/vhar/Request.html:120
 	return qs422016
-//line views/vhar/Request.html:111
+//line views/vhar/Request.html:120
 }
 
-//line views/vhar/Request.html:113
+//line views/vhar/Request.html:122
 func streamrenderNVPs(qw422016 *qt422016.Writer, nvps har.NVPs, ps *cutil.PageState) {
-//line views/vhar/Request.html:113
+//line views/vhar/Request.html:122
 	qw422016.N().S(`
   <table>
     <tbody>
 `)
-//line views/vhar/Request.html:116
+//line views/vhar/Request.html:125
 	for _, n := range nvps {
-//line views/vhar/Request.html:116
+//line views/vhar/Request.html:125
 		qw422016.N().S(`      <tr title="`)
-//line views/vhar/Request.html:117
+//line views/vhar/Request.html:126
 		qw422016.E().S(n.Comment)
-//line views/vhar/Request.html:117
+//line views/vhar/Request.html:126
 		qw422016.N().S(`">
         <th class="shrink">`)
-//line views/vhar/Request.html:118
+//line views/vhar/Request.html:127
 		qw422016.E().S(n.Name)
-//line views/vhar/Request.html:118
+//line views/vhar/Request.html:127
 		qw422016.N().S(`</th>
         <td>`)
-//line views/vhar/Request.html:119
+//line views/vhar/Request.html:128
 		qw422016.E().S(n.Value)
-//line views/vhar/Request.html:119
+//line views/vhar/Request.html:128
 		qw422016.N().S(`</td>
       </tr>
 `)
-//line views/vhar/Request.html:121
+//line views/vhar/Request.html:130
 	}
-//line views/vhar/Request.html:121
+//line views/vhar/Request.html:130
 	qw422016.N().S(`    </tbody>
   </table>
 `)
-//line views/vhar/Request.html:124
+//line views/vhar/Request.html:133
 }
 
-//line views/vhar/Request.html:124
+//line views/vhar/Request.html:133
 func writerenderNVPs(qq422016 qtio422016.Writer, nvps har.NVPs, ps *cutil.PageState) {
-//line views/vhar/Request.html:124
+//line views/vhar/Request.html:133
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vhar/Request.html:124
+//line views/vhar/Request.html:133
 	streamrenderNVPs(qw422016, nvps, ps)
-//line views/vhar/Request.html:124
+//line views/vhar/Request.html:133
 	qt422016.ReleaseWriter(qw422016)
-//line views/vhar/Request.html:124
+//line views/vhar/Request.html:133
 }
 
-//line views/vhar/Request.html:124
+//line views/vhar/Request.html:133
 func renderNVPs(nvps har.NVPs, ps *cutil.PageState) string {
-//line views/vhar/Request.html:124
+//line views/vhar/Request.html:133
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vhar/Request.html:124
+//line views/vhar/Request.html:133
 	writerenderNVPs(qb422016, nvps, ps)
-//line views/vhar/Request.html:124
+//line views/vhar/Request.html:133
 	qs422016 := string(qb422016.B)
-//line views/vhar/Request.html:124
+//line views/vhar/Request.html:133
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vhar/Request.html:124
+//line views/vhar/Request.html:133
 	return qs422016
-//line views/vhar/Request.html:124
+//line views/vhar/Request.html:133
 }
