@@ -1,7 +1,11 @@
 // Content managed by Project Forge, see [projectforge.md] for details.
 package har
 
-import "github.com/samber/lo"
+import (
+	"strings"
+
+	"github.com/samber/lo"
+)
 
 const Ext = ".har"
 
@@ -18,8 +22,9 @@ type NVP struct {
 type NVPs []*NVP
 
 func (p NVPs) GetValue(n string) string {
+	n = strings.ToLower(n)
 	for _, x := range p {
-		if x.Name == n {
+		if strings.ToLower(x.Name) == n {
 			return x.Value
 		}
 	}
@@ -37,6 +42,7 @@ type Content struct {
 	Compression int    `json:"compression,omitempty"`
 	MimeType    string `json:"mimeType"`
 	Text        string `json:"text,omitempty"`
+	JSON        any    `json:"json,omitempty"`
 	Encoding    string `json:"encoding,omitempty"`
 	Comment     string `json:"comment,omitempty"`
 	File        string `json:"_file,omitempty"`
