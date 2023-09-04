@@ -9,11 +9,11 @@ package vhar
 //line views/vhar/Response.html:2
 import (
 	"fmt"
+	"strings"
 
 	"github.com/kyleu/pftest/app/controller/cutil"
 	"github.com/kyleu/pftest/app/lib/har"
 	"github.com/kyleu/pftest/app/util"
-	"github.com/kyleu/pftest/views/components"
 )
 
 //line views/vhar/Response.html:11
@@ -102,6 +102,10 @@ func StreamRenderResponse(qw422016 *qt422016.Writer, key string, r *har.Response
         <td>
           <div class="right"><em>`)
 //line views/vhar/Response.html:42
+		qw422016.E().S(r.Content.MimeType)
+//line views/vhar/Response.html:42
+		qw422016.N().S(`, `)
+//line views/vhar/Response.html:42
 		qw422016.E().S(util.ByteSizeSI(int64(r.Content.Size)))
 //line views/vhar/Response.html:42
 		qw422016.N().S(`</em></div>
@@ -120,13 +124,17 @@ func StreamRenderResponse(qw422016 *qt422016.Writer, key string, r *har.Response
               <div class="bd">
 `)
 //line views/vhar/Response.html:48
-		if r.Content.JSON != nil {
+		if strings.HasPrefix(r.ContentType(), "image/") {
 //line views/vhar/Response.html:48
-			qw422016.N().S(`                `)
+			qw422016.N().S(`                <img style="border: var(--border)" src="data:`)
 //line views/vhar/Response.html:49
-			components.StreamJSON(qw422016, r.Content.JSON)
+			qw422016.E().S(r.ContentType())
 //line views/vhar/Response.html:49
-			qw422016.N().S(`
+			qw422016.N().S(`;base64,`)
+//line views/vhar/Response.html:49
+			qw422016.E().S(r.Content.Text)
+//line views/vhar/Response.html:49
+			qw422016.N().S(`" />
 `)
 //line views/vhar/Response.html:50
 		} else {
