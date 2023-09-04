@@ -14,6 +14,7 @@ import (
 	"github.com/kyleu/pftest/app/controller"
 	"github.com/kyleu/pftest/app/controller/cutil"
 	"github.com/kyleu/pftest/app/lib/database/migrate"
+	"github.com/kyleu/pftest/app/lib/log"
 	"github.com/kyleu/pftest/app/lib/user"
 	"github.com/kyleu/pftest/app/util"
 	"github.com/kyleu/pftest/views/vadmin"
@@ -58,6 +59,10 @@ func Admin(rc *fasthttp.RequestCtx) {
 				return "", err
 			}
 			return controller.FlashAndRedir(true, "wrote heap profile", "/admin", rc, ps)
+		case "logs":
+			x := util.DebugMemStats()
+			ps.Data = x
+			return controller.Render(rc, as, &vadmin.Logs{Logs: log.RecentLogs}, ps, "admin", "Recent Logs")
 		case "memusage":
 			x := util.DebugMemStats()
 			ps.Data = x
