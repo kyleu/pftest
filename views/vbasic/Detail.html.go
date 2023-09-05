@@ -124,13 +124,9 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
 	qw422016.N().S(`
           `)
 //line views/vbasic/Detail.html:60
-	qw422016.N().D(len(p.RelRelationsByBasicID))
+	qw422016.E().S(util.StringPlural(len(p.RelRelationsByBasicID), "Relation"))
 //line views/vbasic/Detail.html:60
-	qw422016.N().S(` `)
-//line views/vbasic/Detail.html:60
-	qw422016.E().S(util.StringPluralMaybe("Relation", len(p.RelRelationsByBasicID)))
-//line views/vbasic/Detail.html:60
-	qw422016.N().S(` by [basic_id]
+	qw422016.N().S(` by [RelationsByBasicID]%!!(MISSING)(EXTRA string=basic_id)
         </label>
         <div class="bd">
 `)

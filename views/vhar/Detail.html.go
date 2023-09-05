@@ -86,11 +86,7 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
   <div class="card">
     <h3>`)
 //line views/vhar/Detail.html:34
-	qw422016.N().D(len(p.Har.Entries))
-//line views/vhar/Detail.html:34
-	qw422016.N().S(` `)
-//line views/vhar/Detail.html:34
-	qw422016.E().S(util.StringPluralMaybe("Entry", len(p.Har.Entries)))
+	qw422016.E().S(util.StringPlural(len(p.Har.Entries), "Entry"))
 //line views/vhar/Detail.html:34
 	qw422016.N().S(`</h3>
     <div class="mts">

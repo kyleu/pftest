@@ -2,7 +2,6 @@
 package har
 
 import (
-	"fmt"
 	"net/url"
 
 	"github.com/samber/lo"
@@ -30,7 +29,7 @@ type PostData struct {
 func (p *PostData) String() string {
 	var ret string
 	if len(p.Params) > 0 {
-		ret += fmt.Sprintf("%d %s", len(p.Params), util.StringPluralMaybe("param", len(p.Params)))
+		ret += util.StringPlural(len(p.Params), "param")
 	}
 	if p.MimeType != "" {
 		ret += " (" + p.MimeType + ")"

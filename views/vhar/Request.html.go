@@ -189,11 +189,7 @@ func streamrenderCookiesHidden(qw422016 *qt422016.Writer, key string, cookies ha
 //line views/vhar/Request.html:61
 	qw422016.N().S(`">`)
 //line views/vhar/Request.html:61
-	qw422016.N().D(len(cookies))
-//line views/vhar/Request.html:61
-	qw422016.N().S(` `)
-//line views/vhar/Request.html:61
-	qw422016.E().S(util.StringPluralMaybe("Cookie", len(cookies)))
+	qw422016.E().S(util.StringPlural(len(cookies), "Cookie"))
 //line views/vhar/Request.html:61
 	qw422016.N().S(` <em>(click to show)</em></label>
       <div class="bd">`)
@@ -401,11 +397,7 @@ func streamrenderNVPsHidden(qw422016 *qt422016.Writer, key string, title string,
 //line views/vhar/Request.html:113
 	qw422016.N().S(`        `)
 //line views/vhar/Request.html:114
-	qw422016.N().D(len(nvps))
-//line views/vhar/Request.html:114
-	qw422016.N().S(` `)
-//line views/vhar/Request.html:114
-	qw422016.E().S(util.StringPluralMaybe(title, len(nvps)))
+	qw422016.E().S(util.StringPlural(len(nvps), title))
 //line views/vhar/Request.html:114
 	qw422016.N().S(`
         <em>(click to show)</em>
