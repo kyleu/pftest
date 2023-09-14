@@ -69,84 +69,91 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
 //line views/vhar/Detail.html:25
 	qw422016.N().S(`
     </div>
+    <!-- $PF_SECTION_START(actions)$ -->
     <div class="mt">
       <a href="`)
-//line views/vhar/Detail.html:28
+//line views/vhar/Detail.html:29
 	qw422016.E().S(p.Har.WebPath())
-//line views/vhar/Detail.html:28
+//line views/vhar/Detail.html:29
 	qw422016.N().S(`/run"><button>Run</button></a>
       <a href="`)
-//line views/vhar/Detail.html:29
+//line views/vhar/Detail.html:30
 	qw422016.E().S(p.Har.WebPath())
-//line views/vhar/Detail.html:29
+//line views/vhar/Detail.html:30
 	qw422016.N().S(`/bench"><button>Benchmark</button></a>
+      <a href="`)
+//line views/vhar/Detail.html:31
+	qw422016.E().S(p.Har.WebPath())
+//line views/vhar/Detail.html:31
+	qw422016.N().S(`/trim"><button>Trim</button></a>
     </div>
+    <!-- $PF_SECTION_END(actions)$ -->
   </div>
 
   <div class="card">
     <h3>`)
-//line views/vhar/Detail.html:34
+//line views/vhar/Detail.html:37
 	qw422016.E().S(util.StringPlural(len(p.Har.Entries), "Entry"))
-//line views/vhar/Detail.html:34
+//line views/vhar/Detail.html:37
 	qw422016.N().S(`</h3>
     <div class="mts">
       <ul class="accordion">
 `)
-//line views/vhar/Detail.html:37
+//line views/vhar/Detail.html:40
 	for i, e := range p.Har.Entries {
-//line views/vhar/Detail.html:39
+//line views/vhar/Detail.html:42
 		key := fmt.Sprintf("%d", i)
 		e = e.Cleaned()
 
-//line views/vhar/Detail.html:41
+//line views/vhar/Detail.html:44
 		qw422016.N().S(`        <li>
           <input id="accordion-entry-`)
-//line views/vhar/Detail.html:43
+//line views/vhar/Detail.html:46
 		qw422016.E().S(key)
-//line views/vhar/Detail.html:43
+//line views/vhar/Detail.html:46
 		qw422016.N().S(`" type="checkbox" hidden />
           <label title="`)
-//line views/vhar/Detail.html:44
+//line views/vhar/Detail.html:47
 		qw422016.E().S(e.Request.URL)
-//line views/vhar/Detail.html:44
+//line views/vhar/Detail.html:47
 		qw422016.N().S(`" for="accordion-entry-`)
-//line views/vhar/Detail.html:44
+//line views/vhar/Detail.html:47
 		qw422016.E().S(key)
-//line views/vhar/Detail.html:44
+//line views/vhar/Detail.html:47
 		qw422016.N().S(`">
             `)
-//line views/vhar/Detail.html:45
+//line views/vhar/Detail.html:48
 		StreamRenderEntryOptions(qw422016, key, e, false)
-//line views/vhar/Detail.html:45
+//line views/vhar/Detail.html:48
 		qw422016.N().S(`
             `)
-//line views/vhar/Detail.html:46
+//line views/vhar/Detail.html:49
 		components.StreamExpandCollapse(qw422016, 3, ps)
-//line views/vhar/Detail.html:46
+//line views/vhar/Detail.html:49
 		qw422016.N().S(` `)
-//line views/vhar/Detail.html:46
+//line views/vhar/Detail.html:49
 		qw422016.E().S(e.String())
-//line views/vhar/Detail.html:46
+//line views/vhar/Detail.html:49
 		qw422016.N().S(`
             <div class="clear"></div>
           </label>
           <div class="bd">
             `)
-//line views/vhar/Detail.html:50
+//line views/vhar/Detail.html:53
 		StreamRenderEntry(qw422016, key, e, ps)
-//line views/vhar/Detail.html:50
+//line views/vhar/Detail.html:53
 		qw422016.N().S(`
           </div>
           `)
-//line views/vhar/Detail.html:52
+//line views/vhar/Detail.html:55
 		StreamRenderEntryModals(qw422016, key, e, false)
-//line views/vhar/Detail.html:52
+//line views/vhar/Detail.html:55
 		qw422016.N().S(`
         </li>
 `)
-//line views/vhar/Detail.html:54
+//line views/vhar/Detail.html:57
 	}
-//line views/vhar/Detail.html:54
+//line views/vhar/Detail.html:57
 	qw422016.N().S(`      </ul>
     </div>
   </div>
@@ -160,31 +167,31 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
     }
   </script>
 `)
-//line views/vhar/Detail.html:67
+//line views/vhar/Detail.html:70
 }
 
-//line views/vhar/Detail.html:67
+//line views/vhar/Detail.html:70
 func (p *Detail) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vhar/Detail.html:67
+//line views/vhar/Detail.html:70
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vhar/Detail.html:67
+//line views/vhar/Detail.html:70
 	p.StreamBody(qw422016, as, ps)
-//line views/vhar/Detail.html:67
+//line views/vhar/Detail.html:70
 	qt422016.ReleaseWriter(qw422016)
-//line views/vhar/Detail.html:67
+//line views/vhar/Detail.html:70
 }
 
-//line views/vhar/Detail.html:67
+//line views/vhar/Detail.html:70
 func (p *Detail) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vhar/Detail.html:67
+//line views/vhar/Detail.html:70
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vhar/Detail.html:67
+//line views/vhar/Detail.html:70
 	p.WriteBody(qb422016, as, ps)
-//line views/vhar/Detail.html:67
+//line views/vhar/Detail.html:70
 	qs422016 := string(qb422016.B)
-//line views/vhar/Detail.html:67
+//line views/vhar/Detail.html:70
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vhar/Detail.html:67
+//line views/vhar/Detail.html:70
 	return qs422016
-//line views/vhar/Detail.html:67
+//line views/vhar/Detail.html:70
 }

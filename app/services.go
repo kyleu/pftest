@@ -3,6 +3,7 @@ package app
 import (
 	"context"
 	"encoding/json"
+	"github.com/kyleu/pftest/app/lib/har"
 
 	"github.com/pkg/errors"
 
@@ -52,6 +53,7 @@ type Services struct {
 	User      *user.Service
 	Socket    *websocket.Service
 	Schema    *gql.Schema
+	Har       *har.Service
 }
 
 func NewServices(ctx context.Context, st *State, logger util.Logger) (*Services, error) {
@@ -85,6 +87,7 @@ func NewServices(ctx context.Context, st *State, logger util.Logger) (*Services,
 		Script:    scripting.NewService(st.Files, "scripts"),
 		Socket:    sock,
 		Schema:    schema,
+		Har:       har.NewService(st.Files),
 	}, nil
 }
 
