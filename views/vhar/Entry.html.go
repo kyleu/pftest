@@ -9,7 +9,6 @@ package vhar
 //line views/vhar/Entry.html:2
 import (
 	"fmt"
-	"strings"
 
 	"github.com/kyleu/pftest/app/controller/cutil"
 	"github.com/kyleu/pftest/app/lib/har"
@@ -17,232 +16,297 @@ import (
 	"github.com/kyleu/pftest/views/components"
 )
 
-//line views/vhar/Entry.html:12
+//line views/vhar/Entry.html:11
 import (
 	qtio422016 "io"
 
 	qt422016 "github.com/valyala/quicktemplate"
 )
 
-//line views/vhar/Entry.html:12
+//line views/vhar/Entry.html:11
 var (
 	_ = qtio422016.Copy
 	_ = qt422016.AcquireByteBuffer
 )
 
-//line views/vhar/Entry.html:12
+//line views/vhar/Entry.html:11
 func StreamRenderEntryOptions(qw422016 *qt422016.Writer, key string, e *har.Entry, js bool) {
-//line views/vhar/Entry.html:12
+//line views/vhar/Entry.html:11
 	qw422016.N().S(`
   <div class="right">
     <a href="#modal-entry-`)
-//line views/vhar/Entry.html:14
+//line views/vhar/Entry.html:13
 	qw422016.E().S(key)
-//line views/vhar/Entry.html:14
+//line views/vhar/Entry.html:13
 	qw422016.N().S(`-curl"><button type="button">cURL</button></a>
 `)
-//line views/vhar/Entry.html:15
+//line views/vhar/Entry.html:14
 	if js {
-//line views/vhar/Entry.html:15
+//line views/vhar/Entry.html:14
 		qw422016.N().S(`    <a href="#modal-entry-`)
-//line views/vhar/Entry.html:16
+//line views/vhar/Entry.html:15
 		qw422016.E().S(key)
-//line views/vhar/Entry.html:16
+//line views/vhar/Entry.html:15
 		qw422016.N().S(`"><button type="button">JSON</button></a>
 `)
-//line views/vhar/Entry.html:17
+//line views/vhar/Entry.html:16
 	}
-//line views/vhar/Entry.html:17
+//line views/vhar/Entry.html:16
 	qw422016.N().S(`  </div>
 `)
-//line views/vhar/Entry.html:19
+//line views/vhar/Entry.html:18
 }
 
-//line views/vhar/Entry.html:19
+//line views/vhar/Entry.html:18
 func WriteRenderEntryOptions(qq422016 qtio422016.Writer, key string, e *har.Entry, js bool) {
-//line views/vhar/Entry.html:19
+//line views/vhar/Entry.html:18
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vhar/Entry.html:19
+//line views/vhar/Entry.html:18
 	StreamRenderEntryOptions(qw422016, key, e, js)
-//line views/vhar/Entry.html:19
+//line views/vhar/Entry.html:18
 	qt422016.ReleaseWriter(qw422016)
-//line views/vhar/Entry.html:19
+//line views/vhar/Entry.html:18
 }
 
-//line views/vhar/Entry.html:19
+//line views/vhar/Entry.html:18
 func RenderEntryOptions(key string, e *har.Entry, js bool) string {
-//line views/vhar/Entry.html:19
+//line views/vhar/Entry.html:18
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vhar/Entry.html:19
+//line views/vhar/Entry.html:18
 	WriteRenderEntryOptions(qb422016, key, e, js)
-//line views/vhar/Entry.html:19
+//line views/vhar/Entry.html:18
 	qs422016 := string(qb422016.B)
-//line views/vhar/Entry.html:19
+//line views/vhar/Entry.html:18
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vhar/Entry.html:19
+//line views/vhar/Entry.html:18
 	return qs422016
-//line views/vhar/Entry.html:19
+//line views/vhar/Entry.html:18
 }
 
-//line views/vhar/Entry.html:21
+//line views/vhar/Entry.html:20
 func StreamRenderEntryModals(qw422016 *qt422016.Writer, key string, e *har.Entry, js bool) {
-//line views/vhar/Entry.html:21
+//line views/vhar/Entry.html:20
 	qw422016.N().S(`
 `)
-//line views/vhar/Entry.html:22
+//line views/vhar/Entry.html:21
 	if js {
-//line views/vhar/Entry.html:22
+//line views/vhar/Entry.html:21
 		qw422016.N().S(`  `)
-//line views/vhar/Entry.html:23
+//line views/vhar/Entry.html:22
 		components.StreamJSONModal(qw422016, fmt.Sprintf("entry-%s", key), e.String(), e.Cleaned(), 3)
-//line views/vhar/Entry.html:23
+//line views/vhar/Entry.html:22
 		qw422016.N().S(`
 `)
-//line views/vhar/Entry.html:24
+//line views/vhar/Entry.html:23
 	}
-//line views/vhar/Entry.html:24
+//line views/vhar/Entry.html:23
 	qw422016.N().S(`  <div id="modal-entry-`)
-//line views/vhar/Entry.html:25
+//line views/vhar/Entry.html:24
 	qw422016.E().S(key)
-//line views/vhar/Entry.html:25
+//line views/vhar/Entry.html:24
 	qw422016.N().S(`-curl" class="modal" style="display: none;">
     <a class="backdrop" href="#"></a>
     <div class="modal-content">
       <div class="modal-header">
         <a href="#" class="modal-close">×</a>
         <h2>cURL `)
-//line views/vhar/Entry.html:30
+//line views/vhar/Entry.html:29
 	qw422016.E().S(e.String())
-//line views/vhar/Entry.html:30
+//line views/vhar/Entry.html:29
 	qw422016.N().S(`</h2>
       </div>
       <div class="modal-body">
         <div id="modal-entry-`)
-//line views/vhar/Entry.html:33
+//line views/vhar/Entry.html:32
 	qw422016.E().S(key)
-//line views/vhar/Entry.html:33
+//line views/vhar/Entry.html:32
 	qw422016.N().S(`-curl-data" hidden="hidden" style="display:none;">`)
-//line views/vhar/Entry.html:33
+//line views/vhar/Entry.html:32
 	qw422016.E().S(e.Curl())
-//line views/vhar/Entry.html:33
+//line views/vhar/Entry.html:32
 	qw422016.N().S(`</div>
         <button onclick="clip('`)
-//line views/vhar/Entry.html:34
+//line views/vhar/Entry.html:33
 	qw422016.E().S(key)
-//line views/vhar/Entry.html:34
+//line views/vhar/Entry.html:33
 	qw422016.N().S(`');">Copy to clipboard</button>
         <div class="mt">
           <pre>`)
-//line views/vhar/Entry.html:36
+//line views/vhar/Entry.html:35
 	qw422016.E().S(e.Curl())
-//line views/vhar/Entry.html:36
+//line views/vhar/Entry.html:35
 	qw422016.N().S(`</pre>
         </div>
       </div>
     </div>
   </div>
 `)
-//line views/vhar/Entry.html:41
+//line views/vhar/Entry.html:40
 }
 
-//line views/vhar/Entry.html:41
+//line views/vhar/Entry.html:40
 func WriteRenderEntryModals(qq422016 qtio422016.Writer, key string, e *har.Entry, js bool) {
-//line views/vhar/Entry.html:41
+//line views/vhar/Entry.html:40
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vhar/Entry.html:41
+//line views/vhar/Entry.html:40
 	StreamRenderEntryModals(qw422016, key, e, js)
-//line views/vhar/Entry.html:41
+//line views/vhar/Entry.html:40
 	qt422016.ReleaseWriter(qw422016)
-//line views/vhar/Entry.html:41
+//line views/vhar/Entry.html:40
 }
 
-//line views/vhar/Entry.html:41
+//line views/vhar/Entry.html:40
 func RenderEntryModals(key string, e *har.Entry, js bool) string {
-//line views/vhar/Entry.html:41
+//line views/vhar/Entry.html:40
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vhar/Entry.html:41
+//line views/vhar/Entry.html:40
 	WriteRenderEntryModals(qb422016, key, e, js)
-//line views/vhar/Entry.html:41
+//line views/vhar/Entry.html:40
 	qs422016 := string(qb422016.B)
-//line views/vhar/Entry.html:41
+//line views/vhar/Entry.html:40
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vhar/Entry.html:41
+//line views/vhar/Entry.html:40
 	return qs422016
-//line views/vhar/Entry.html:41
+//line views/vhar/Entry.html:40
 }
 
-//line views/vhar/Entry.html:43
+//line views/vhar/Entry.html:42
 func StreamRenderEntry(qw422016 *qt422016.Writer, key string, e *har.Entry, ps *cutil.PageState) {
-//line views/vhar/Entry.html:43
+//line views/vhar/Entry.html:42
 	qw422016.N().S(`
-  <table class="min-200 expanded">
-    <tbody>
-      <tr>
-        <th class="shrink">Duration</th>
-        <td>`)
-//line views/vhar/Entry.html:48
+  <ul class="accordion">
+    <li>
+      <input id="accordion-entry-`)
+//line views/vhar/Entry.html:45
+	qw422016.E().S(key)
+//line views/vhar/Entry.html:45
+	qw422016.N().S(`-duration" type="checkbox" hidden />
+      <label for="accordion-entry-`)
+//line views/vhar/Entry.html:46
+	qw422016.E().S(key)
+//line views/vhar/Entry.html:46
+	qw422016.N().S(`-duration">
+        <div class="right"><em>`)
+//line views/vhar/Entry.html:47
 	qw422016.E().S(util.MicrosToMillis(e.Duration()))
+//line views/vhar/Entry.html:47
+	qw422016.N().S(`</em></div>
+        `)
 //line views/vhar/Entry.html:48
-	qw422016.N().S(`
-          <em>`)
-//line views/vhar/Entry.html:49
-	qw422016.E().S(strings.Join(e.PageTimings.Strings(), ", "))
-//line views/vhar/Entry.html:49
-	qw422016.N().S(`</em>
-        </td>
-      </tr>
-      <tr>
-        <th class="shrink">Request</th>
-        <td>`)
-//line views/vhar/Entry.html:54
-	StreamRenderRequest(qw422016, key, e.Request, ps)
-//line views/vhar/Entry.html:54
-	qw422016.N().S(`</td>
-      </tr>
-      <tr>
-        <th class="shrink">Response Size</th>
-        <td>`)
-//line views/vhar/Entry.html:58
-	qw422016.E().S(util.ByteSizeSI(int64(e.Response.Size())))
-//line views/vhar/Entry.html:58
-	qw422016.N().S(`</td>
-      </tr>
-      <tr>
-        <th class="shrink">Response</th>
-        <td>`)
-//line views/vhar/Entry.html:62
-	StreamRenderResponse(qw422016, key, e.Response, ps)
-//line views/vhar/Entry.html:62
-	qw422016.N().S(`</td>
-      </tr>
-    </tbody>
-  </table>
+	components.StreamExpandCollapse(qw422016, 3, ps)
+//line views/vhar/Entry.html:48
+	qw422016.N().S(` Duration
+      </label>
+      <div class="bd">
+        <table class="min-200 expanded">
+          <tbody>
 `)
+//line views/vhar/Entry.html:53
+	for k, v := range e.PageTimings.Map() {
+//line views/vhar/Entry.html:53
+		qw422016.N().S(`            <tr>
+              <th class="shrink">`)
+//line views/vhar/Entry.html:55
+		qw422016.E().S(k)
+//line views/vhar/Entry.html:55
+		qw422016.N().S(`</th>
+              <td>`)
+//line views/vhar/Entry.html:56
+		qw422016.E().S(v)
+//line views/vhar/Entry.html:56
+		qw422016.N().S(`</td>
+            </tr>
+`)
+//line views/vhar/Entry.html:58
+	}
+//line views/vhar/Entry.html:58
+	qw422016.N().S(`          </tbody>
+        </table>
+      </div>
+    </li>
+    <li>
+      <input id="accordion-entry-`)
+//line views/vhar/Entry.html:64
+	qw422016.E().S(key)
+//line views/vhar/Entry.html:64
+	qw422016.N().S(`-request" type="checkbox" hidden />
+      <label for="accordion-entry-`)
+//line views/vhar/Entry.html:65
+	qw422016.E().S(key)
+//line views/vhar/Entry.html:65
+	qw422016.N().S(`-request">
+        <div class="right"><em>`)
 //line views/vhar/Entry.html:66
+	qw422016.E().S(e.Request.Method)
+//line views/vhar/Entry.html:66
+	qw422016.N().S(`</em></div>
+        `)
+//line views/vhar/Entry.html:67
+	components.StreamExpandCollapse(qw422016, 3, ps)
+//line views/vhar/Entry.html:67
+	qw422016.N().S(` Request
+      </label>
+      <div class="bd">`)
+//line views/vhar/Entry.html:69
+	StreamRenderRequest(qw422016, key, e.Request, ps)
+//line views/vhar/Entry.html:69
+	qw422016.N().S(`</div>
+    </li>
+    <li>
+      <input id="accordion-entry-`)
+//line views/vhar/Entry.html:72
+	qw422016.E().S(key)
+//line views/vhar/Entry.html:72
+	qw422016.N().S(`-response" type="checkbox" hidden />
+      <label for="accordion-entry-`)
+//line views/vhar/Entry.html:73
+	qw422016.E().S(key)
+//line views/vhar/Entry.html:73
+	qw422016.N().S(`-response">
+        <div class="right"><em>`)
+//line views/vhar/Entry.html:74
+	qw422016.E().S(e.Response.StatusText)
+//line views/vhar/Entry.html:74
+	qw422016.N().S(`</em></div>
+        `)
+//line views/vhar/Entry.html:75
+	components.StreamExpandCollapse(qw422016, 3, ps)
+//line views/vhar/Entry.html:75
+	qw422016.N().S(` Response
+      </label>
+      <div class="bd">`)
+//line views/vhar/Entry.html:77
+	StreamRenderResponse(qw422016, key, e.Response, ps)
+//line views/vhar/Entry.html:77
+	qw422016.N().S(`</div>
+    </li>
+  </ul>
+`)
+//line views/vhar/Entry.html:80
 }
 
-//line views/vhar/Entry.html:66
+//line views/vhar/Entry.html:80
 func WriteRenderEntry(qq422016 qtio422016.Writer, key string, e *har.Entry, ps *cutil.PageState) {
-//line views/vhar/Entry.html:66
+//line views/vhar/Entry.html:80
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vhar/Entry.html:66
+//line views/vhar/Entry.html:80
 	StreamRenderEntry(qw422016, key, e, ps)
-//line views/vhar/Entry.html:66
+//line views/vhar/Entry.html:80
 	qt422016.ReleaseWriter(qw422016)
-//line views/vhar/Entry.html:66
+//line views/vhar/Entry.html:80
 }
 
-//line views/vhar/Entry.html:66
+//line views/vhar/Entry.html:80
 func RenderEntry(key string, e *har.Entry, ps *cutil.PageState) string {
-//line views/vhar/Entry.html:66
+//line views/vhar/Entry.html:80
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vhar/Entry.html:66
+//line views/vhar/Entry.html:80
 	WriteRenderEntry(qb422016, key, e, ps)
-//line views/vhar/Entry.html:66
+//line views/vhar/Entry.html:80
 	qs422016 := string(qb422016.B)
-//line views/vhar/Entry.html:66
+//line views/vhar/Entry.html:80
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vhar/Entry.html:66
+//line views/vhar/Entry.html:80
 	return qs422016
-//line views/vhar/Entry.html:66
+//line views/vhar/Entry.html:80
 }
