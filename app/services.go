@@ -3,7 +3,6 @@ package app
 import (
 	"context"
 	"encoding/json"
-	"github.com/kyleu/pftest/app/lib/har"
 
 	"github.com/pkg/errors"
 
@@ -17,6 +16,7 @@ import (
 	"github.com/kyleu/pftest/app/lib/audit"
 	"github.com/kyleu/pftest/app/lib/database/migrate"
 	"github.com/kyleu/pftest/app/lib/exec"
+	"github.com/kyleu/pftest/app/lib/har"
 	"github.com/kyleu/pftest/app/lib/scripting"
 	"github.com/kyleu/pftest/app/lib/websocket"
 	"github.com/kyleu/pftest/app/mixedcase"
