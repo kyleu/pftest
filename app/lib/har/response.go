@@ -14,6 +14,8 @@ import (
 	"github.com/kyleu/pftest/app/util"
 )
 
+const encDeflate, encGzip, encBrotli = "deflate", "gzip", "br"
+
 type Response struct {
 	Status      int      `json:"status"`
 	StatusText  string   `json:"statusText"`
@@ -44,8 +46,9 @@ func ResponseFromHTTP(r *http.Response) (*Response, error) {
 	}
 	enc := headers.GetValue("Content-Encoding")
 	switch enc {
-	case "gzip":
-		zr, err := gzip.NewReader(bytes.NewReader(bodyBytes))
+	case encGzip:
+		var zr *gzip.Reader
+		zr, err = gzip.NewReader(bytes.NewReader(bodyBytes))
 		if err != nil {
 			return nil, err
 		}
@@ -54,7 +57,7 @@ func ResponseFromHTTP(r *http.Response) (*Response, error) {
 		if err != nil {
 			return nil, err
 		}
-	case "br":
+	case encBrotli:
 		br := brotli.NewReader(bytes.NewReader(bodyBytes))
 		bodyBytes, err = io.ReadAll(br)
 		if err != nil {
