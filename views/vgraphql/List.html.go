@@ -58,71 +58,73 @@ func (p *List) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
 //line views/vgraphql/List.html:21
 	} else {
 //line views/vgraphql/List.html:21
-		qw422016.N().S(`    <table class="mt">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th class="shrink">Exec Count</th>
-        </tr>
-      </thead>
-      <tbody>
+		qw422016.N().S(`    <div class="overflow full-width">
+      <table class="mt">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th class="shrink">Exec Count</th>
+          </tr>
+        </thead>
+        <tbody>
 `)
-//line views/vgraphql/List.html:30
+//line views/vgraphql/List.html:31
 		for idx, k := range p.Keys {
-//line views/vgraphql/List.html:30
-			qw422016.N().S(`        <tr>
-          <td><a href="/graphql/`)
-//line views/vgraphql/List.html:32
+//line views/vgraphql/List.html:31
+			qw422016.N().S(`          <tr>
+            <td><a href="/graphql/`)
+//line views/vgraphql/List.html:33
 			qw422016.E().S(k)
-//line views/vgraphql/List.html:32
+//line views/vgraphql/List.html:33
 			qw422016.N().S(`">`)
-//line views/vgraphql/List.html:32
+//line views/vgraphql/List.html:33
 			qw422016.E().S(titles[k])
-//line views/vgraphql/List.html:32
+//line views/vgraphql/List.html:33
 			qw422016.N().S(`</a></td>
-          <td>`)
-//line views/vgraphql/List.html:33
+            <td>`)
+//line views/vgraphql/List.html:34
 			qw422016.N().D(p.Counts[idx])
-//line views/vgraphql/List.html:33
+//line views/vgraphql/List.html:34
 			qw422016.N().S(`</td>
-        </tr>
+          </tr>
 `)
-//line views/vgraphql/List.html:35
+//line views/vgraphql/List.html:36
 		}
-//line views/vgraphql/List.html:35
-		qw422016.N().S(`      </tbody>
-    </table>
+//line views/vgraphql/List.html:36
+		qw422016.N().S(`        </tbody>
+      </table>
+    </div>
 `)
-//line views/vgraphql/List.html:38
+//line views/vgraphql/List.html:40
 	}
-//line views/vgraphql/List.html:38
+//line views/vgraphql/List.html:40
 	qw422016.N().S(`  </div>
 `)
-//line views/vgraphql/List.html:40
+//line views/vgraphql/List.html:42
 }
 
-//line views/vgraphql/List.html:40
+//line views/vgraphql/List.html:42
 func (p *List) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vgraphql/List.html:40
+//line views/vgraphql/List.html:42
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vgraphql/List.html:40
+//line views/vgraphql/List.html:42
 	p.StreamBody(qw422016, as, ps)
-//line views/vgraphql/List.html:40
+//line views/vgraphql/List.html:42
 	qt422016.ReleaseWriter(qw422016)
-//line views/vgraphql/List.html:40
+//line views/vgraphql/List.html:42
 }
 
-//line views/vgraphql/List.html:40
+//line views/vgraphql/List.html:42
 func (p *List) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vgraphql/List.html:40
+//line views/vgraphql/List.html:42
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vgraphql/List.html:40
+//line views/vgraphql/List.html:42
 	p.WriteBody(qb422016, as, ps)
-//line views/vgraphql/List.html:40
+//line views/vgraphql/List.html:42
 	qs422016 := string(qb422016.B)
-//line views/vgraphql/List.html:40
+//line views/vgraphql/List.html:42
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vgraphql/List.html:40
+//line views/vgraphql/List.html:42
 	return qs422016
-//line views/vgraphql/List.html:40
+//line views/vgraphql/List.html:42
 }

@@ -33,154 +33,156 @@ var (
 func StreamRenderResponse(qw422016 *qt422016.Writer, key string, r *har.Response, ps *cutil.PageState) {
 //line views/vhar/Response.html:11
 	qw422016.N().S(`
-  <table class="min-200 expanded">
-    <tbody>
-      <tr>
-        <th class="shrink">Status</th>
-        <td>`)
-//line views/vhar/Response.html:16
+  <div class="overflow full-width">
+    <table class="min-200 expanded">
+      <tbody>
+        <tr>
+          <th class="shrink">Status</th>
+          <td>`)
+//line views/vhar/Response.html:17
 	qw422016.N().D(r.Status)
-//line views/vhar/Response.html:16
+//line views/vhar/Response.html:17
 	qw422016.N().S(`: `)
-//line views/vhar/Response.html:16
+//line views/vhar/Response.html:17
 	qw422016.E().S(r.StatusText)
-//line views/vhar/Response.html:16
+//line views/vhar/Response.html:17
 	qw422016.N().S(`</td>
-      </tr>
+        </tr>
 `)
-//line views/vhar/Response.html:18
+//line views/vhar/Response.html:19
 	if r.RedirectURL != "" {
-//line views/vhar/Response.html:18
-		qw422016.N().S(`      <tr>
-        <th class="shrink">Redirect URL</th>
-        <td>`)
-//line views/vhar/Response.html:21
+//line views/vhar/Response.html:19
+		qw422016.N().S(`        <tr>
+          <th class="shrink">Redirect URL</th>
+          <td>`)
+//line views/vhar/Response.html:22
 		qw422016.E().S(r.RedirectURL)
-//line views/vhar/Response.html:21
+//line views/vhar/Response.html:22
 		qw422016.N().S(`</td>
-      </tr>
+        </tr>
 `)
-//line views/vhar/Response.html:23
+//line views/vhar/Response.html:24
 	}
-//line views/vhar/Response.html:23
-	qw422016.N().S(`      <tr>
-        <th class="shrink">Headers </th>
-        <td>`)
-//line views/vhar/Response.html:26
+//line views/vhar/Response.html:24
+	qw422016.N().S(`        <tr>
+          <th class="shrink">Headers </th>
+          <td>`)
+//line views/vhar/Response.html:27
 	streamrenderNVPsHidden(qw422016, fmt.Sprintf("response-header-%s", key), "Header", r.Headers, r.HeadersSize, ps)
-//line views/vhar/Response.html:26
+//line views/vhar/Response.html:27
 	qw422016.N().S(`</td>
-      </tr>
+        </tr>
 `)
-//line views/vhar/Response.html:28
+//line views/vhar/Response.html:29
 	if len(r.Cookies) > 0 {
-//line views/vhar/Response.html:28
-		qw422016.N().S(`      <tr>
-        <th class="shrink">Cookies</th>
-        <td>`)
-//line views/vhar/Response.html:31
+//line views/vhar/Response.html:29
+		qw422016.N().S(`        <tr>
+          <th class="shrink">Cookies</th>
+          <td>`)
+//line views/vhar/Response.html:32
 		streamrenderCookiesHidden(qw422016, fmt.Sprintf("response-cookies-%s", key), r.Cookies, ps)
-//line views/vhar/Response.html:31
+//line views/vhar/Response.html:32
 		qw422016.N().S(`</td>
-      </tr>
+        </tr>
 `)
-//line views/vhar/Response.html:33
+//line views/vhar/Response.html:34
 	}
-//line views/vhar/Response.html:34
+//line views/vhar/Response.html:35
 	if r.Content != nil && r.Content.Text != "" {
-//line views/vhar/Response.html:34
-		qw422016.N().S(`      <tr>
-        <th class="shrink">Body</th>
-        <td>
-          <div class="right"><em>`)
-//line views/vhar/Response.html:38
+//line views/vhar/Response.html:35
+		qw422016.N().S(`        <tr>
+          <th class="shrink">Body</th>
+          <td>
+            <div class="right"><em>`)
+//line views/vhar/Response.html:39
 		if r.ContentType() != "" {
-//line views/vhar/Response.html:38
+//line views/vhar/Response.html:39
 			qw422016.E().S(r.ContentType())
-//line views/vhar/Response.html:38
+//line views/vhar/Response.html:39
 			qw422016.N().S(`, `)
-//line views/vhar/Response.html:38
+//line views/vhar/Response.html:39
 		}
-//line views/vhar/Response.html:38
+//line views/vhar/Response.html:39
 		qw422016.E().S(util.ByteSizeSI(int64(r.Content.Size)))
-//line views/vhar/Response.html:38
+//line views/vhar/Response.html:39
 		qw422016.N().S(`</em></div>
-          <ul class="accordion">
-            <li>
-              <input id="accordion-response-body-`)
-//line views/vhar/Response.html:41
+            <ul class="accordion">
+              <li>
+                <input id="accordion-response-body-`)
+//line views/vhar/Response.html:42
 		qw422016.E().S(key)
-//line views/vhar/Response.html:41
+//line views/vhar/Response.html:42
 		qw422016.N().S(`" type="checkbox" hidden />
-              <label class="no-padding" for="accordion-response-body-`)
-//line views/vhar/Response.html:42
+                <label class="no-padding" for="accordion-response-body-`)
+//line views/vhar/Response.html:43
 		qw422016.E().S(key)
-//line views/vhar/Response.html:42
+//line views/vhar/Response.html:43
 		qw422016.N().S(`"><em>(click to show)</em></label>
-              <div class="bd">
+                <div class="bd">
 `)
-//line views/vhar/Response.html:44
+//line views/vhar/Response.html:45
 		if strings.HasPrefix(r.ContentType(), "image/") {
-//line views/vhar/Response.html:44
-			qw422016.N().S(`                <img style="border: var(--border)" src="data:`)
 //line views/vhar/Response.html:45
+			qw422016.N().S(`                  <img style="border: var(--border)" src="data:`)
+//line views/vhar/Response.html:46
 			qw422016.E().S(r.ContentType())
-//line views/vhar/Response.html:45
+//line views/vhar/Response.html:46
 			qw422016.N().S(`;base64,`)
-//line views/vhar/Response.html:45
+//line views/vhar/Response.html:46
 			qw422016.E().S(r.Content.Text)
-//line views/vhar/Response.html:45
+//line views/vhar/Response.html:46
 			qw422016.N().S(`" />
 `)
-//line views/vhar/Response.html:46
+//line views/vhar/Response.html:47
 		} else {
-//line views/vhar/Response.html:46
-			qw422016.N().S(`                <pre>`)
 //line views/vhar/Response.html:47
+			qw422016.N().S(`                  <pre>`)
+//line views/vhar/Response.html:48
 			qw422016.E().S(r.Content.Text)
-//line views/vhar/Response.html:47
+//line views/vhar/Response.html:48
 			qw422016.N().S(`</pre>
 `)
-//line views/vhar/Response.html:48
+//line views/vhar/Response.html:49
 		}
-//line views/vhar/Response.html:48
-		qw422016.N().S(`              </div>
-            </li>
-          </ul>
-        </td>
-      </tr>
+//line views/vhar/Response.html:49
+		qw422016.N().S(`                </div>
+              </li>
+            </ul>
+          </td>
+        </tr>
 `)
-//line views/vhar/Response.html:54
+//line views/vhar/Response.html:55
 	}
-//line views/vhar/Response.html:54
-	qw422016.N().S(`    </tbody>
-  </table>
+//line views/vhar/Response.html:55
+	qw422016.N().S(`      </tbody>
+    </table>
+  </div>
 `)
-//line views/vhar/Response.html:57
+//line views/vhar/Response.html:59
 }
 
-//line views/vhar/Response.html:57
+//line views/vhar/Response.html:59
 func WriteRenderResponse(qq422016 qtio422016.Writer, key string, r *har.Response, ps *cutil.PageState) {
-//line views/vhar/Response.html:57
+//line views/vhar/Response.html:59
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vhar/Response.html:57
+//line views/vhar/Response.html:59
 	StreamRenderResponse(qw422016, key, r, ps)
-//line views/vhar/Response.html:57
+//line views/vhar/Response.html:59
 	qt422016.ReleaseWriter(qw422016)
-//line views/vhar/Response.html:57
+//line views/vhar/Response.html:59
 }
 
-//line views/vhar/Response.html:57
+//line views/vhar/Response.html:59
 func RenderResponse(key string, r *har.Response, ps *cutil.PageState) string {
-//line views/vhar/Response.html:57
+//line views/vhar/Response.html:59
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vhar/Response.html:57
+//line views/vhar/Response.html:59
 	WriteRenderResponse(qb422016, key, r, ps)
-//line views/vhar/Response.html:57
+//line views/vhar/Response.html:59
 	qs422016 := string(qb422016.B)
-//line views/vhar/Response.html:57
+//line views/vhar/Response.html:59
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vhar/Response.html:57
+//line views/vhar/Response.html:59
 	return qs422016
-//line views/vhar/Response.html:57
+//line views/vhar/Response.html:59
 }

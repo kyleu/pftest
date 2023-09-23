@@ -37,135 +37,137 @@ func StreamRecordTable(qw422016 *qt422016.Writer, models audit.Records, params f
 	prms := params.Get("audit_record", nil, ps.Logger)
 
 //line views/vaudit/RecordTable.html:11
-	qw422016.N().S(`  <table class="mt">
-    <thead>
-      <tr>
-        `)
-//line views/vaudit/RecordTable.html:15
+	qw422016.N().S(`  <div class="overflow full-width">
+    <table class="mt">
+      <thead>
+        <tr>
+          `)
+//line views/vaudit/RecordTable.html:16
 	components.StreamTableHeaderSimple(qw422016, "audit_record", "id", "ID", "UUID in format (00000000-0000-0000-0000-000000000000)", prms, ps.URI, ps)
-//line views/vaudit/RecordTable.html:15
-	qw422016.N().S(`
-        `)
 //line views/vaudit/RecordTable.html:16
+	qw422016.N().S(`
+          `)
+//line views/vaudit/RecordTable.html:17
 	components.StreamTableHeaderSimple(qw422016, "audit_record", "audit_id", "Audit ID", "UUID in format (00000000-0000-0000-0000-000000000000)", prms, ps.URI, ps)
-//line views/vaudit/RecordTable.html:16
-	qw422016.N().S(`
-        `)
 //line views/vaudit/RecordTable.html:17
+	qw422016.N().S(`
+          `)
+//line views/vaudit/RecordTable.html:18
 	components.StreamTableHeaderSimple(qw422016, "audit_record", "t", "T", "Type of the target object", prms, ps.URI, ps)
-//line views/vaudit/RecordTable.html:17
-	qw422016.N().S(`
-        `)
 //line views/vaudit/RecordTable.html:18
+	qw422016.N().S(`
+          `)
+//line views/vaudit/RecordTable.html:19
 	components.StreamTableHeaderSimple(qw422016, "audit_record", "pk", "Pk", "Primary key of the target object", prms, ps.URI, ps)
-//line views/vaudit/RecordTable.html:18
-	qw422016.N().S(`
-        `)
 //line views/vaudit/RecordTable.html:19
+	qw422016.N().S(`
+          `)
+//line views/vaudit/RecordTable.html:20
 	components.StreamTableHeaderSimple(qw422016, "audit_record", "changes", "Changes", "Count of change", prms, ps.URI, ps)
-//line views/vaudit/RecordTable.html:19
-	qw422016.N().S(`
-        `)
 //line views/vaudit/RecordTable.html:20
+	qw422016.N().S(`
+          `)
+//line views/vaudit/RecordTable.html:21
 	components.StreamTableHeaderSimple(qw422016, "audit_record", "metadata", "Metadata", "Count of metadata fields", prms, ps.URI, ps)
-//line views/vaudit/RecordTable.html:20
-	qw422016.N().S(`
-        `)
 //line views/vaudit/RecordTable.html:21
+	qw422016.N().S(`
+          `)
+//line views/vaudit/RecordTable.html:22
 	components.StreamTableHeaderSimple(qw422016, "audit_record", "occurred", "Occurred", "Timestamp representing the time the event occurred", prms, ps.URI, ps)
-//line views/vaudit/RecordTable.html:21
+//line views/vaudit/RecordTable.html:22
 	qw422016.N().S(`
-      </tr>
-    </thead>
-    <tbody>
+        </tr>
+      </thead>
+      <tbody>
 `)
-//line views/vaudit/RecordTable.html:25
+//line views/vaudit/RecordTable.html:26
 	for _, model := range models {
-//line views/vaudit/RecordTable.html:25
-		qw422016.N().S(`      <tr>
-        <td><a href="/admin/audit/record/`)
-//line views/vaudit/RecordTable.html:27
+//line views/vaudit/RecordTable.html:26
+		qw422016.N().S(`        <tr>
+          <td><a href="/admin/audit/record/`)
+//line views/vaudit/RecordTable.html:28
 		components.StreamDisplayUUID(qw422016, &model.ID)
-//line views/vaudit/RecordTable.html:27
+//line views/vaudit/RecordTable.html:28
 		qw422016.N().S(`">`)
-//line views/vaudit/RecordTable.html:27
+//line views/vaudit/RecordTable.html:28
 		components.StreamDisplayUUID(qw422016, &model.ID)
-//line views/vaudit/RecordTable.html:27
+//line views/vaudit/RecordTable.html:28
 		qw422016.N().S(`</a></td>
-        <td>
-          <div class="icon">`)
-//line views/vaudit/RecordTable.html:29
+          <td>
+            <div class="icon">`)
+//line views/vaudit/RecordTable.html:30
 		components.StreamDisplayUUID(qw422016, &model.AuditID)
-//line views/vaudit/RecordTable.html:29
+//line views/vaudit/RecordTable.html:30
 		qw422016.N().S(`</div>
-          <a title="Audit" href="`)
-//line views/vaudit/RecordTable.html:30
+            <a title="Audit" href="`)
+//line views/vaudit/RecordTable.html:31
 		qw422016.E().S(`/admin/audit/` + model.AuditID.String())
-//line views/vaudit/RecordTable.html:30
+//line views/vaudit/RecordTable.html:31
 		qw422016.N().S(`">`)
-//line views/vaudit/RecordTable.html:30
+//line views/vaudit/RecordTable.html:31
 		components.StreamSVGRefIcon(qw422016, "cog", ps)
-//line views/vaudit/RecordTable.html:30
+//line views/vaudit/RecordTable.html:31
 		qw422016.N().S(`</a>
-        </td>
-        <td>`)
-//line views/vaudit/RecordTable.html:32
+          </td>
+          <td>`)
+//line views/vaudit/RecordTable.html:33
 		qw422016.E().S(model.T)
-//line views/vaudit/RecordTable.html:32
-		qw422016.N().S(`</td>
-        <td>`)
 //line views/vaudit/RecordTable.html:33
+		qw422016.N().S(`</td>
+          <td>`)
+//line views/vaudit/RecordTable.html:34
 		qw422016.E().S(model.PK)
-//line views/vaudit/RecordTable.html:33
-		qw422016.N().S(`</td>
-        <td>`)
 //line views/vaudit/RecordTable.html:34
+		qw422016.N().S(`</td>
+          <td>`)
+//line views/vaudit/RecordTable.html:35
 		components.StreamDisplayDiffs(qw422016, model.Changes)
-//line views/vaudit/RecordTable.html:34
-		qw422016.N().S(`</td>
-        <td>`)
 //line views/vaudit/RecordTable.html:35
+		qw422016.N().S(`</td>
+          <td>`)
+//line views/vaudit/RecordTable.html:36
 		qw422016.N().D(len(model.Metadata))
-//line views/vaudit/RecordTable.html:35
-		qw422016.N().S(`</td>
-        <td>`)
 //line views/vaudit/RecordTable.html:36
+		qw422016.N().S(`</td>
+          <td>`)
+//line views/vaudit/RecordTable.html:37
 		components.StreamDisplayTimestamp(qw422016, &model.Occurred)
-//line views/vaudit/RecordTable.html:36
+//line views/vaudit/RecordTable.html:37
 		qw422016.N().S(`</td>
-      </tr>
+        </tr>
 `)
-//line views/vaudit/RecordTable.html:38
+//line views/vaudit/RecordTable.html:39
 	}
-//line views/vaudit/RecordTable.html:38
-	qw422016.N().S(`    </tbody>
-  </table>
+//line views/vaudit/RecordTable.html:39
+	qw422016.N().S(`      </tbody>
+    </table>
+  </div>
 `)
-//line views/vaudit/RecordTable.html:41
+//line views/vaudit/RecordTable.html:43
 }
 
-//line views/vaudit/RecordTable.html:41
+//line views/vaudit/RecordTable.html:43
 func WriteRecordTable(qq422016 qtio422016.Writer, models audit.Records, params filter.ParamSet, as *app.State, ps *cutil.PageState) {
-//line views/vaudit/RecordTable.html:41
+//line views/vaudit/RecordTable.html:43
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vaudit/RecordTable.html:41
+//line views/vaudit/RecordTable.html:43
 	StreamRecordTable(qw422016, models, params, as, ps)
-//line views/vaudit/RecordTable.html:41
+//line views/vaudit/RecordTable.html:43
 	qt422016.ReleaseWriter(qw422016)
-//line views/vaudit/RecordTable.html:41
+//line views/vaudit/RecordTable.html:43
 }
 
-//line views/vaudit/RecordTable.html:41
+//line views/vaudit/RecordTable.html:43
 func RecordTable(models audit.Records, params filter.ParamSet, as *app.State, ps *cutil.PageState) string {
-//line views/vaudit/RecordTable.html:41
+//line views/vaudit/RecordTable.html:43
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vaudit/RecordTable.html:41
+//line views/vaudit/RecordTable.html:43
 	WriteRecordTable(qb422016, models, params, as, ps)
-//line views/vaudit/RecordTable.html:41
+//line views/vaudit/RecordTable.html:43
 	qs422016 := string(qb422016.B)
-//line views/vaudit/RecordTable.html:41
+//line views/vaudit/RecordTable.html:43
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vaudit/RecordTable.html:41
+//line views/vaudit/RecordTable.html:43
 	return qs422016
-//line views/vaudit/RecordTable.html:41
+//line views/vaudit/RecordTable.html:43
 }

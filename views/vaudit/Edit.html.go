@@ -79,93 +79,95 @@ func (p *Edit) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
 //line views/vaudit/Edit.html:27
 	}
 //line views/vaudit/Edit.html:27
-	qw422016.N().S(`      <table class="mt expanded">
-        <tbody>
-          `)
-//line views/vaudit/Edit.html:30
+	qw422016.N().S(`      <div class="overflow full-width">
+        <table class="mt expanded">
+          <tbody>
+            `)
+//line views/vaudit/Edit.html:31
 	if p.IsNew {
-//line views/vaudit/Edit.html:30
+//line views/vaudit/Edit.html:31
 		components.StreamTableInput(qw422016, "id", "", "ID", p.Model.ID.String(), 5, "UUID in format (00000000-0000-0000-0000-000000000000)")
-//line views/vaudit/Edit.html:30
+//line views/vaudit/Edit.html:31
 	}
-//line views/vaudit/Edit.html:30
-	qw422016.N().S(`
-          `)
 //line views/vaudit/Edit.html:31
+	qw422016.N().S(`
+            `)
+//line views/vaudit/Edit.html:32
 	components.StreamTableInput(qw422016, "app", "", "App", p.Model.App, 5, "String text")
-//line views/vaudit/Edit.html:31
-	qw422016.N().S(`
-          `)
 //line views/vaudit/Edit.html:32
+	qw422016.N().S(`
+            `)
+//line views/vaudit/Edit.html:33
 	components.StreamTableInput(qw422016, "act", "", "Act", p.Model.Act, 5, "String text")
-//line views/vaudit/Edit.html:32
-	qw422016.N().S(`
-          `)
 //line views/vaudit/Edit.html:33
+	qw422016.N().S(`
+            `)
+//line views/vaudit/Edit.html:34
 	components.StreamTableInput(qw422016, "client", "", "Client", p.Model.Client, 5, "String text")
-//line views/vaudit/Edit.html:33
-	qw422016.N().S(`
-          `)
 //line views/vaudit/Edit.html:34
+	qw422016.N().S(`
+            `)
+//line views/vaudit/Edit.html:35
 	components.StreamTableInput(qw422016, "server", "", "Server", p.Model.Server, 5, "String text")
-//line views/vaudit/Edit.html:34
-	qw422016.N().S(`
-          `)
 //line views/vaudit/Edit.html:35
+	qw422016.N().S(`
+            `)
+//line views/vaudit/Edit.html:36
 	components.StreamTableInput(qw422016, "user", "", "User", p.Model.User, 5, "String text")
-//line views/vaudit/Edit.html:35
-	qw422016.N().S(`
-          `)
 //line views/vaudit/Edit.html:36
+	qw422016.N().S(`
+            `)
+//line views/vaudit/Edit.html:37
 	components.StreamTableTextarea(qw422016, "metadata", "", "Metadata", 8, util.ToJSON(p.Model.Metadata), 5, "JSON object")
-//line views/vaudit/Edit.html:36
-	qw422016.N().S(`
-          `)
 //line views/vaudit/Edit.html:37
+	qw422016.N().S(`
+            `)
+//line views/vaudit/Edit.html:38
 	components.StreamTableInput(qw422016, "message", "", "Message", p.Model.Message, 5, "String text")
-//line views/vaudit/Edit.html:37
-	qw422016.N().S(`
-          `)
 //line views/vaudit/Edit.html:38
+	qw422016.N().S(`
+            `)
+//line views/vaudit/Edit.html:39
 	components.StreamTableInputTimestamp(qw422016, "started", "", "Started", &p.Model.Started, 5, "Date and time, in almost any format")
-//line views/vaudit/Edit.html:38
-	qw422016.N().S(`
-          `)
 //line views/vaudit/Edit.html:39
+	qw422016.N().S(`
+            `)
+//line views/vaudit/Edit.html:40
 	components.StreamTableInputTimestamp(qw422016, "completed", "", "Completed", &p.Model.Completed, 5, "Date and time, in almost any format")
-//line views/vaudit/Edit.html:39
+//line views/vaudit/Edit.html:40
 	qw422016.N().S(`
-          <tr><td colspan="2"><button type="submit">Save Changes</button></td></tr>
-        </tbody>
-      </table>
+            <tr><td colspan="2"><button type="submit">Save Changes</button></td></tr>
+          </tbody>
+        </table>
+      </div>
     </form>
   </div>
 `)
-//line views/vaudit/Edit.html:45
+//line views/vaudit/Edit.html:47
 }
 
-//line views/vaudit/Edit.html:45
+//line views/vaudit/Edit.html:47
 func (p *Edit) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vaudit/Edit.html:45
+//line views/vaudit/Edit.html:47
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vaudit/Edit.html:45
+//line views/vaudit/Edit.html:47
 	p.StreamBody(qw422016, as, ps)
-//line views/vaudit/Edit.html:45
+//line views/vaudit/Edit.html:47
 	qt422016.ReleaseWriter(qw422016)
-//line views/vaudit/Edit.html:45
+//line views/vaudit/Edit.html:47
 }
 
-//line views/vaudit/Edit.html:45
+//line views/vaudit/Edit.html:47
 func (p *Edit) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vaudit/Edit.html:45
+//line views/vaudit/Edit.html:47
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vaudit/Edit.html:45
+//line views/vaudit/Edit.html:47
 	p.WriteBody(qb422016, as, ps)
-//line views/vaudit/Edit.html:45
+//line views/vaudit/Edit.html:47
 	qs422016 := string(qb422016.B)
-//line views/vaudit/Edit.html:45
+//line views/vaudit/Edit.html:47
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vaudit/Edit.html:45
+//line views/vaudit/Edit.html:47
 	return qs422016
-//line views/vaudit/Edit.html:45
+//line views/vaudit/Edit.html:47
 }
