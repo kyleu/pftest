@@ -126,7 +126,7 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
 //line views/vbasic/Detail.html:60
 	qw422016.E().S(util.StringPlural(len(p.RelRelationsByBasicID), "Relation"))
 //line views/vbasic/Detail.html:60
-	qw422016.N().S(` by [RelationsByBasicID]%!!(MISSING)(EXTRA string=basic_id)
+	qw422016.N().S(` by [Basic ID]
         </label>
         <div class="bd">
 `)

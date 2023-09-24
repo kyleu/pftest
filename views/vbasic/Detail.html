@@ -57,7 +57,7 @@
         <label for="accordion-RelationsByBasicID">
           {%= components.ExpandCollapse(3, ps) %}
           {%= components.SVGRefIcon(`star`, ps) %}
-          {%s util.StringPlural(len(p.RelRelationsByBasicID), "Relation") %} by [RelationsByBasicID]%!!(MISSING)(EXTRA string=basic_id)
+          {%s util.StringPlural(len(p.RelRelationsByBasicID), "Relation") %} by [Basic ID]
         </label>
         <div class="bd">
           {%- if len(p.RelRelationsByBasicID) == 0 -%}
