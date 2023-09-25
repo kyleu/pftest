@@ -57,7 +57,7 @@ dist: "build/dist"
 nfpms:
   -
     vendor: "Kyle U"
-    homepage: "https://github.com/kyleu/pftest}"
+    homepage: "https://github.com/kyleu/pftest"
     maintainer: "Kyle U <projectforge@kyleu.com>"
     description: "This app is pretty much totally generated via Project Forge"
     license: "CC0"
