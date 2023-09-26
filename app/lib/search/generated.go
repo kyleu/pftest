@@ -1,4 +1,4 @@
-// Content managed by Project Forge, see [projectforge.md] for details.
+// Package search - Content managed by Project Forge, see [projectforge.md] for details.
 package search
 
 import (
@@ -28,7 +28,7 @@ func generatedSearch() []Provider {
 			return nil, err
 		}
 		return lo.Map(models, func(m *audited.Audited, _ int) *result.Result {
-			return result.NewResult("audited", m.String(), m.WebPath(), m.String(), "star", m, m, params.Q)
+			return result.NewResult("audited", m.String(), m.WebPath(), m.TitleString(), "star", m, m, params.Q)
 		}), nil
 	}
 	basicFunc := func(ctx context.Context, params *Params, as *app.State, page *cutil.PageState, logger util.Logger) (result.Results, error) {
@@ -41,7 +41,7 @@ func generatedSearch() []Provider {
 			return nil, err
 		}
 		return lo.Map(models, func(m *basic.Basic, _ int) *result.Result {
-			return result.NewResult("basic", m.String(), m.WebPath(), m.String(), "star", m, m, params.Q)
+			return result.NewResult("basic", m.String(), m.WebPath(), m.TitleString(), "star", m, m, params.Q)
 		}), nil
 	}
 	pathFunc := func(ctx context.Context, params *Params, as *app.State, page *cutil.PageState, logger util.Logger) (result.Results, error) {
@@ -54,7 +54,7 @@ func generatedSearch() []Provider {
 			return nil, err
 		}
 		return lo.Map(models, func(m *path.Path, _ int) *result.Result {
-			return result.NewResult("path", m.String(), m.WebPath(), m.String(), "star", m, m, params.Q)
+			return result.NewResult("path", m.String(), m.WebPath(), m.TitleString(), "star", m, m, params.Q)
 		}), nil
 	}
 	referenceFunc := func(ctx context.Context, params *Params, as *app.State, page *cutil.PageState, logger util.Logger) (result.Results, error) {
@@ -67,7 +67,7 @@ func generatedSearch() []Provider {
 			return nil, err
 		}
 		return lo.Map(models, func(m *reference.Reference, _ int) *result.Result {
-			return result.NewResult("reference", m.String(), m.WebPath(), m.String(), "star", m, m, params.Q)
+			return result.NewResult("reference", m.String(), m.WebPath(), m.TitleString(), "star", m, m, params.Q)
 		}), nil
 	}
 	relationFunc := func(ctx context.Context, params *Params, as *app.State, page *cutil.PageState, logger util.Logger) (result.Results, error) {
@@ -80,7 +80,7 @@ func generatedSearch() []Provider {
 			return nil, err
 		}
 		return lo.Map(models, func(m *relation.Relation, _ int) *result.Result {
-			return result.NewResult("relation", m.String(), m.WebPath(), m.String(), "star", m, m, params.Q)
+			return result.NewResult("relation", m.String(), m.WebPath(), m.TitleString(), "star", m, m, params.Q)
 		}), nil
 	}
 	return []Provider{auditedFunc, basicFunc, pathFunc, referenceFunc, relationFunc}

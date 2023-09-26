@@ -1,4 +1,4 @@
-// Content managed by Project Forge, see [projectforge.md] for details.
+// Package version - Content managed by Project Forge, see [projectforge.md] for details.
 package version
 
 import (

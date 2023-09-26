@@ -1,4 +1,4 @@
-// Content managed by Project Forge, see [projectforge.md] for details.
+// Package controller - Content managed by Project Forge, see [projectforge.md] for details.
 package controller
 
 import (
@@ -33,7 +33,7 @@ func HistDetail(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		hist, err := as.Services.Hist.GetHistories(ps.Context, nil, ret.ID, ps.Logger)
+		h, err := as.Services.Hist.GetHistories(ps.Context, nil, ret.ID, ps.Logger)
 		if err != nil {
 			return "", err
 		}
@@ -43,7 +43,7 @@ func HistDetail(rc *fasthttp.RequestCtx) {
 		return Render(rc, as, &vhist.Detail{
 			Model:     ret,
 			Params:    ps.Params,
-			Histories: hist,
+			Histories: h,
 		}, ps, "hist", ret.String())
 	})
 }

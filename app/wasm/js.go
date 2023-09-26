@@ -1,6 +1,6 @@
 //go:build js
 
-// Content managed by Project Forge, see [projectforge.md] for details.
+// Package wasm - Content managed by Project Forge, see [projectforge.md] for details.
 package main
 
 import "syscall/js"

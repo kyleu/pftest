@@ -1,4 +1,4 @@
-// Content managed by Project Forge, see [projectforge.md] for details.
+// Package path - Content managed by Project Forge, see [projectforge.md] for details.
 package path
 
 import (

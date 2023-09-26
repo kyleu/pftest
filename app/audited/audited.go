@@ -1,4 +1,4 @@
-// Content managed by Project Forge, see [projectforge.md] for details.
+// Package audited - Content managed by Project Forge, see [projectforge.md] for details.
 package audited
 
 import (

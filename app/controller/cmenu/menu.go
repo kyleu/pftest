@@ -1,4 +1,4 @@
-// Content managed by Project Forge, see [projectforge.md] for details.
+// Package cmenu - Content managed by Project Forge, see [projectforge.md] for details.
 package cmenu
 
 import (
@@ -19,7 +19,7 @@ func MenuFor(
 	var data any
 	// $PF_SECTION_START(routes_start)$
 	if isAdmin {
-		ret = append(ret, processMenu(as.Services.Exec.Execs))
+		ret = append(ret, processMenu(as.Services.Exec.Execs), harMenu(as.Services.Har, logger), scriptingMenu(as.Services.Script, logger))
 	}
 	// $PF_SECTION_END(routes_start)$
 	if isAdmin {

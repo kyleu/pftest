@@ -26,15 +26,14 @@ func (s *Service) List(ctx context.Context, params *filter.Params, logger util.L
 		}
 	}
 	return ret, nil
-
 }
 
-func (s *Service) Count(ctx context.Context, whereClause string, logger util.Logger, args ...any) (int, error) {
+func (s *Service) Count(_ context.Context, whereClause string, logger util.Logger, args ...any) (int, error) {
 	files := s.files.ListJSON("users", nil, true, s.logger)
 	return len(files), nil
 }
 
-func (s *Service) Get(ctx context.Context, _ any, id uuid.UUID, logger util.Logger) (*User, error) {
+func (s *Service) Get(_ context.Context, _ any, id uuid.UUID, logger util.Logger) (*User, error) {
 	content, err := s.files.ReadFile(dirFor(id))
 	if err != nil {
 		return nil, err

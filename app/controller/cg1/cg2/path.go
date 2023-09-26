@@ -1,4 +1,4 @@
-// Content managed by Project Forge, see [projectforge.md] for details.
+// Package cg2 - Content managed by Project Forge, see [projectforge.md] for details.
 package cg2
 
 import (

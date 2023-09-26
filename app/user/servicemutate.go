@@ -17,7 +17,7 @@ func (s *Service) Update(ctx context.Context, _ any, model *User, logger util.Lo
 	return s.Save(ctx, logger, model)
 }
 
-func (s *Service) Save(ctx context.Context, logger util.Logger, models ...*User) error {
+func (s *Service) Save(_ context.Context, logger util.Logger, models ...*User) error {
 	for _, model := range models {
 		b := util.ToJSONBytes(model, true)
 		err := s.files.WriteFile(dirFor(model.ID), b, filesystem.DefaultMode, true)
@@ -28,6 +28,6 @@ func (s *Service) Save(ctx context.Context, logger util.Logger, models ...*User)
 	return nil
 }
 
-func (s *Service) Delete(ctx context.Context, id uuid.UUID, logger util.Logger) error {
+func (s *Service) Delete(_ context.Context, id uuid.UUID, logger util.Logger) error {
 	return s.files.Remove(dirFor(id), logger)
 }
