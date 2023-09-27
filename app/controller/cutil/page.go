@@ -39,6 +39,7 @@ var (
 )
 
 type PageState struct {
+	Action         string            `json:"action,omitempty"`
 	Title          string            `json:"title,omitempty"`
 	Description    string            `json:"description,omitempty"`
 	Method         string            `json:"method,omitempty"`

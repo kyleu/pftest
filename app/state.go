@@ -63,17 +63,14 @@ func NewState(debug bool, bi *BuildInfo, f filesystem.FileLoader, enableTelemetr
 	}
 
 	_ = telemetry.InitializeIfNeeded(enableTelemetry, bi.Version, logger)
-	as := auth.NewService("", port, logger)
-	ts := theme.NewService(f)
-	gqls := graphql.NewService()
 
 	return &State{
 		Debug:     debug,
 		BuildInfo: bi,
 		Files:     f,
-		Auth:      as,
-		GraphQL:   gqls,
-		Themes:    ts,
+		Auth:      auth.NewService("", port, logger),
+		GraphQL:   graphql.NewService(),
+		Themes:    theme.NewService(f),
 		Started:   util.TimeCurrent(),
 	}, nil
 }

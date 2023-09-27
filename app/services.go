@@ -17,6 +17,7 @@ import (
 	"github.com/kyleu/pftest/app/lib/database/migrate"
 	"github.com/kyleu/pftest/app/lib/exec"
 	"github.com/kyleu/pftest/app/lib/har"
+	"github.com/kyleu/pftest/app/lib/help"
 	"github.com/kyleu/pftest/app/lib/scripting"
 	"github.com/kyleu/pftest/app/lib/websocket"
 	"github.com/kyleu/pftest/app/mixedcase"
@@ -51,6 +52,7 @@ type Services struct {
 	Exec      *exec.Service
 	Script    *scripting.Service
 	User      *user.Service
+	Help      *help.Service
 	Socket    *websocket.Service
 	Schema    *gql.Schema
 	Har       *har.Service
@@ -66,6 +68,7 @@ func NewServices(ctx context.Context, st *State, logger util.Logger) (*Services,
 	aud := audit.NewService(st.DB, logger)
 	sock := websocket.NewService(nil, socketHandler, nil)
 	schema := gql.NewSchema(st.GraphQL)
+	hSvc, _ := help.NewService(logger)
 
 	return &Services{
 		Basic:     basic.NewService(st.DB, st.DBRead),
@@ -85,6 +88,8 @@ func NewServices(ctx context.Context, st *State, logger util.Logger) (*Services,
 		Audit:     aud,
 		Exec:      exec.NewService(),
 		Script:    scripting.NewService(st.Files, "scripts"),
+		User:      user.NewService(st.Files, logger),
+		Help:      hSvc,
 		Socket:    sock,
 		Schema:    schema,
 		Har:       har.NewService(st.Files),
