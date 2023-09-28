@@ -15,19 +15,17 @@ import (
 
 func RequestCtxToMap(rc *fasthttp.RequestCtx, as *app.State, ps *PageState) util.ValueMap {
 	req := util.ValueMap{
-		"id": rc.ID(), "url": rc.URI().String(), "protocol": string(rc.Request.URI().Scheme()),
+		"url": rc.URI().String(), "protocol": string(rc.Request.URI().Scheme()),
 		"host": string(rc.Request.URI().Host()), "path": string(rc.Request.URI().Path()),
 		"queryString": string(rc.Request.URI().QueryString()), "headers": RequestHeadersMap(rc),
-		"bodySize": len(rc.Request.Body()), "string": rc.Request.String(),
+		"bodySize": len(rc.Request.Body()),
 	}
-	rsp := util.ValueMap{
-		"code": rc.Response.StatusCode(), "bodySize": len(rc.Response.Body()), "headers": ResponseHeadersMap(rc), "string": rc.Response.String(),
-	}
+	rsp := util.ValueMap{"code": rc.Response.StatusCode(), "bodySize": len(rc.Response.Body()), "headers": ResponseHeadersMap(rc)}
 	action := util.ValueMap{
-		"action": ps.Action, "admin": ps.Admin, "authed": ps.Authed, "breadcrumbs": ps.Breadcrumbs,
-		"browser": ps.Browser, "browserVersion": ps.BrowserVersion, "description": ps.Description, "flashes": ps.Flashes,
-		"help": as.Services.Help.Contains(ps.Action), "icons": ps.Icons, "os": ps.OS, "osVersion": ps.OSVersion,
-		"platform": ps.Platform, "redirect": ps.ForceRedirect, "started": ps.Started, "title": ps.Title,
+		"action": ps.Action, "admin": ps.Admin, "authed": ps.Authed,
+		"redirect": ps.ForceRedirect, "flashes": ps.Flashes, "breadcrumbs": ps.Breadcrumbs,
+		"browser": ps.Browser, "browserVersion": ps.BrowserVersion, "os": ps.OS, "osVersion": ps.OSVersion, "platform": ps.Platform,
+		"description": ps.Description, "title": ps.Title, "started": ps.Started, "help": as.Services.Help.Contains(ps.Action),
 	}
 	ret := util.ValueMap{"action": action, "data": ps.Data, "request": req, "response": rsp}
 	// $PF_SECTION_START(debugstuff)$

@@ -12,9 +12,7 @@ type Entry struct {
 type Entries []*Entry
 
 func (e Entries) Get(key string) *Entry {
-	if strings.HasSuffix(key, ".md") {
-		key = strings.TrimSuffix(key, ".md")
-	}
+	key = strings.TrimSuffix(key, ".md")
 	for _, x := range e {
 		if x.Key == key {
 			return x
