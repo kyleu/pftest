@@ -128,7 +128,7 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
 //line views/vbasic/Detail.html:60
 	qw422016.N().S(` by [Basic ID]
         </label>
-        <div class="bd-animated"><div><div>
+        <div class="bd"><div><div>
 `)
 //line views/vbasic/Detail.html:63
 	if len(p.RelRelationsByBasicID) == 0 {

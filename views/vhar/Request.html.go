@@ -151,7 +151,7 @@ func StreamRenderRequest(qw422016 *qt422016.Writer, key string, r *har.Request, 
 			qw422016.E().S(key)
 //line views/vhar/Request.html:54
 			qw422016.N().S(`"><em>(click to show)</em></label>
-                <div class="bd-animated"><div><div>
+                <div class="bd"><div><div>
                   <pre>`)
 //line views/vhar/Request.html:56
 			qw422016.E().S(r.PostData.Text)
@@ -223,7 +223,7 @@ func streamrenderCookiesHidden(qw422016 *qt422016.Writer, key string, cookies ha
 	qw422016.E().S(util.StringPlural(len(cookies), "Cookie"))
 //line views/vhar/Request.html:73
 	qw422016.N().S(` <em>(click to show)</em></label>
-      <div class="bd-animated"><div><div>
+      <div class="bd"><div><div>
         `)
 //line views/vhar/Request.html:75
 	streamrenderCookies(qw422016, key, cookies, ps)
@@ -318,7 +318,7 @@ func streamrenderCookies(qw422016 *qt422016.Writer, key string, cs har.Cookies, 
 			qw422016.E().S(c.Value[:64])
 //line views/vhar/Request.html:103
 			qw422016.N().S(`...</label>
-                <div class="bd-animated"><div><div>
+                <div class="bd"><div><div>
                   `)
 //line views/vhar/Request.html:105
 			qw422016.E().S(c.Value)
@@ -439,7 +439,7 @@ func streamrenderNVPsHidden(qw422016 *qt422016.Writer, key string, title string,
 	qw422016.N().S(`
         <em>(click to show)</em>
       </label>
-      <div class="bd-animated"><div><div>
+      <div class="bd"><div><div>
         `)
 //line views/vhar/Request.html:136
 	streamrenderNVPs(qw422016, nvps, ps)

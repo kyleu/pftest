@@ -197,7 +197,7 @@ func StreamRenderEntry(qw422016 *qt422016.Writer, key string, e *har.Entry, ps *
 //line views/vhar/Entry.html:48
 	qw422016.N().S(` Duration
       </label>
-      <div class="bd-animated"><div><div>
+      <div class="bd"><div><div>
         <div class="overflow full-width">
           <table class="min-200 expanded">
             <tbody>
@@ -248,7 +248,7 @@ func StreamRenderEntry(qw422016 *qt422016.Writer, key string, e *har.Entry, ps *
 //line views/vhar/Entry.html:69
 	qw422016.N().S(` Request
       </label>
-      <div class="bd-animated"><div><div>
+      <div class="bd"><div><div>
         `)
 //line views/vhar/Entry.html:72
 	StreamRenderRequest(qw422016, key, e.Request, ps)
@@ -278,7 +278,7 @@ func StreamRenderEntry(qw422016 *qt422016.Writer, key string, e *har.Entry, ps *
 //line views/vhar/Entry.html:79
 	qw422016.N().S(` Response
       </label>
-      <div class="bd-animated"><div><div>
+      <div class="bd"><div><div>
         `)
 //line views/vhar/Entry.html:82
 	StreamRenderResponse(qw422016, key, e.Response, ps)
