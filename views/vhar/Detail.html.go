@@ -137,13 +137,13 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
 		qw422016.N().S(`
             <div class="clear"></div>
           </label>
-          <div class="bd">
-            `)
+          <div class="bd-animated"><div><div>
+          `)
 //line views/vhar/Detail.html:53
 		StreamRenderEntry(qw422016, key, e, ps)
 //line views/vhar/Detail.html:53
 		qw422016.N().S(`
-          </div>
+          </div></div></div>
           `)
 //line views/vhar/Detail.html:55
 		StreamRenderEntryModals(qw422016, key, e, false)

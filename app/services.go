@@ -68,7 +68,6 @@ func NewServices(ctx context.Context, st *State, logger util.Logger) (*Services,
 	aud := audit.NewService(st.DB, logger)
 	sock := websocket.NewService(nil, socketHandler, nil)
 	schema := gql.NewSchema(st.GraphQL)
-	hSvc, _ := help.NewService(logger)
 
 	return &Services{
 		Basic:     basic.NewService(st.DB, st.DBRead),
@@ -89,7 +88,7 @@ func NewServices(ctx context.Context, st *State, logger util.Logger) (*Services,
 		Exec:      exec.NewService(),
 		Script:    scripting.NewService(st.Files, "scripts"),
 		User:      user.NewService(st.Files, logger),
-		Help:      hSvc,
+		Help:      help.NewService(logger),
 		Socket:    sock,
 		Schema:    schema,
 		Har:       har.NewService(st.Files),

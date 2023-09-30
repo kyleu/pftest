@@ -118,7 +118,7 @@ func StreamRenderResponse(qw422016 *qt422016.Writer, key string, r *har.Response
 		qw422016.E().S(key)
 //line views/vhar/Response.html:43
 		qw422016.N().S(`"><em>(click to show)</em></label>
-                <div class="bd">
+                <div class="bd-animated"><div><div>
 `)
 //line views/vhar/Response.html:45
 		if strings.HasPrefix(r.ContentType(), "image/") {
@@ -145,7 +145,7 @@ func StreamRenderResponse(qw422016 *qt422016.Writer, key string, r *har.Response
 //line views/vhar/Response.html:49
 		}
 //line views/vhar/Response.html:49
-		qw422016.N().S(`                </div>
+		qw422016.N().S(`                </div></div></div>
               </li>
             </ul>
           </td>
