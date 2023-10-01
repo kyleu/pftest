@@ -324,3 +324,10 @@
 .toggle input[type=checkbox]:checked ~ .x {
   display: block;
 }
+
+ul.padded > li {
+  padding-top: var(--padding-small);
+}
+ul.padded > li:first-child {
+  padding-top: 0;
+}
