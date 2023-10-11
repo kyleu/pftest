@@ -49,6 +49,9 @@ jobs:
             ${{ runner.os }}-go-
 
       - name: "CI Build"
+        run: "bin/bootstrap.sh"
+
+      - name: "CI Build"
         run: "bin/build/fullbuild.sh"
 
       - name: "Debug2"
