@@ -32,21 +32,8 @@ jobs:
           key: "${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}"
           restore-keys: |
             ${{ runner.os }}-go-
-      - name: "Dependencies"
-        run: "bin/bootstrap.sh"
-      - name: "Config"
-        env:
-          OWNER: "${{ github.repository_owner }}"
-          TOKEN: "${{ secrets.CR_PAT }}"
-        run: "git config --global url.\"https://${OWNER}:${TOKEN}@github.com\".insteadOf \"https://github.com\""
-      - name: "Templates"
-        run: "bin/templates.sh"
-      - name: "Modules"
-        run: "go mod download"
-      - name: "Build"
-        run: "bin/build/build.sh"
-      - name: "Debug1"
-        run: "pwd"
+      - name: "CI Build"
+        run: "bin/build/ci.sh"
       - name: "Debug2"
-        run: "ls"
+        run: "ls ./out"
 

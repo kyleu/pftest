@@ -1,0 +1,15 @@
+#!/bin/bash
+# Content managed by Project Forge, see [projectforge.md] for details.
+
+## Builds the app, installing all prerequisites
+
+set -euo pipefail
+dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd $dir/../..
+
+./bin/bootstrap.sh
+./bin/templates.sh
+go mod download
+make build-release
+mkdir -p ./out
+mv "./build/release/pftest" "./out/pftest"
