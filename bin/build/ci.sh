@@ -10,6 +10,9 @@ cd $dir/../..
 ./bin/bootstrap.sh
 ./bin/templates.sh
 go mod download
+
+./bin/build/client.sh
+
 make build-release
 mkdir -p ./tmp
 mv "./build/release/pftest" "./tmp/pftest"
