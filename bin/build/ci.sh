@@ -11,5 +11,5 @@ cd $dir/../..
 ./bin/templates.sh
 go mod download
 make build-release
-mkdir -p ./out
-mv "./build/release/pftest" "./out/pftest"
+mkdir -p ./tmp
+mv "./build/release/pftest" "./tmp/pftest"
