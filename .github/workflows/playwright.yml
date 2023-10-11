@@ -1,0 +1,52 @@
+# Content managed by Project Forge, see [projectforge.md] for details.
+name: playwright
+on:
+  push:
+    tags:
+      - "*"
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v2"
+        with:
+          fetch-depth: 0
+      - name: "Golang"
+        uses: "actions/setup-go@v2"
+        with:
+          go-version: "1.21"
+      - name: "Cache"
+        uses: "actions/cache@v2"
+        with:
+          path: "~/go/pkg/mod"
+          key: "${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}"
+          restore-keys: |
+            ${{ runner.os }}-go-
+      - name: "Dependencies"
+        run: "bin/bootstrap.sh"
+      - name: "Config"
+        env:
+          OWNER: "${{ github.repository_owner }}"
+          TOKEN: "${{ secrets.CR_PAT }}"
+        run: "git config --global url.\"https://${OWNER}:${TOKEN}@github.com\".insteadOf \"https://github.com\""
+      - name: "Templates"
+        run: "bin/templates.sh"
+      - name: "Modules"
+        run: "go mod download"
+      - name: "Build"
+        run: "bin/build/build.sh"
+      - name: "Debug1"
+        run: "pwd"
+      - name: "Debug2"
+        run: "ls"
+
