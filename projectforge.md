@@ -26,6 +26,7 @@ The following modules were used to build this project:
 - [mysql](./doc/module/mysql.md)
 - [notarize](./doc/module/notarize.md)
 - [oauth](./doc/module/oauth.md)
+- [playwright](./doc/module/playwright.md)
 - [postgres](./doc/module/postgres.md)
 - [process](./doc/module/process.md)
 - [readonlydb](./doc/module/readonlydb.md)

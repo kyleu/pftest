@@ -17,15 +17,22 @@ jobs:
   build:
     runs-on: "ubuntu-latest"
     steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v2"
+        with:
+          fetch-depth: 0
+
       - name: "Node.js"
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
-#      - name: Install dependencies
-#        run: npm ci
+      - name: Install dependencies
+        working-directory: ./test/playwright
+        run: npm ci
 
       - name: Install Playwright Browsers
+        working-directory: ./test/playwright
         run: npx playwright install --with-deps
 
       - name: "Golang"
@@ -41,14 +48,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-go-
 
-      - name: "Checkout"
-        uses: "actions/checkout@v2"
-        with:
-          fetch-depth: 0
-
       - name: "CI Build"
-        run: "bin/build/ci.sh"
+        run: "bin/build/fullbuild.sh"
 
       - name: "Debug2"
-        run: "ls ./tmp"
-
+        run: "ls ./build/linux/amd64"
