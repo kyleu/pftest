@@ -16,6 +16,10 @@ echo "Compiling templates"
 echo "Downloading dependencies"
 go mod download
 
+cd client
+npm i
+cd ..
+
 echo "Building client"
 ./bin/build/client.sh
 
