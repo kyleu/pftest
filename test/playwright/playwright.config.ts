@@ -9,7 +9,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: 'html',
   use: {
-    baseURL: process.env.TEST_URL || 'http://localhost:41000',
+    baseURL: process.env.TEST_URL || 'http://127.0.0.1:41000',
     trace: 'on-first-retry',
   },
   projects: [
@@ -23,9 +23,10 @@ export default defineConfig({
   ],
   webServer: {
     command: "../../build/release/pftest",
-    url: "https://localhost:41000",
+    url: "http://127.0.0.1:41000",
     reuseExistingServer: !process.env.CI,
     stdout: 'pipe',
     stderr: 'pipe',
+    timeout: 5000
   },
 });
