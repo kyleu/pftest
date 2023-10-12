@@ -23,17 +23,17 @@ jobs:
           fetch-depth: 0
 
       - name: "Node.js"
-        uses: actions/setup-node@v3
+        uses: "actions/setup-node@v3"
         with:
           node-version: 18
 
-      - name: Install dependencies
-        working-directory: ./test/playwright
-        run: npm ci
+      - name: "Install dependencies"
+        working-directory: "./test/playwright"
+        run: "npm ci"
 
-      - name: Install Playwright Browsers
-        working-directory: ./test/playwright
-        run: npx playwright install --with-deps
+      - name: "Install Playwright Browsers"
+        working-directory: "./test/playwright"
+        run: "npx playwright install --with-deps"
 
       - name: "Golang"
         uses: "actions/setup-go@v2"
@@ -55,9 +55,11 @@ jobs:
         run: "bin/build/playwright.sh"
 
       - name: "Run Playwright tests"
+        working-directory: "./test/playwright"
         run: "npx playwright test"
 
-      - uses: "actions/upload-artifact@v3"
+      - name: "Upload report"
+        uses: "actions/upload-artifact@v3"
         if: always()
         with:
           name: "playwright-report"

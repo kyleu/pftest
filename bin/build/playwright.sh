@@ -27,4 +27,8 @@ echo "Building client..."
 echo "Building application..."
 make build-release
 
+cd test/playwright
+npm ci
+
+
 echo "Done!"
