@@ -14,7 +14,7 @@ on:
 permissions:
   contents: write
 jobs:
-  build:
+  playwright:
     runs-on: "ubuntu-latest"
     steps:
       - name: "Checkout"
@@ -48,11 +48,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-go-
 
-      - name: "CI Build"
+      - name: "Bootstrap"
         run: "bin/bootstrap.sh"
 
       - name: "CI Build"
-        run: "bin/build/fullbuild.sh"
+        run: "bin/build/ci.sh"
 
-      - name: "Debug2"
-        run: "ls ./build/linux/amd64"
+      - name: "Debug"
+        run: "./build/release/pftest --help"
