@@ -12,7 +12,6 @@ export default defineConfig({
     baseURL: process.env.TEST_URL || 'http://localhost:41000',
     trace: 'on-first-retry',
   },
-
   projects: [
     {name: 'chrome', use: {...devices['Desktop Chrome'], channel: 'chrome'}},
     {name: 'chrome.mobile', use: {...devices['Pixel 5']}},

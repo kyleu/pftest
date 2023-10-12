@@ -1,7 +1,7 @@
 <!--- Content managed by Project Forge, see [projectforge.md] for details. -->
 # Playwright
 
-This is a module for [Project Forge](https://projectforge.dev). It adds a project for testing the UI using playwright.dev
+This is a module for [Project Forge](https://projectforge.dev). It adds a project for testing the UI using https://playwright.dev
 
 https://github.com/kyleu/projectforge/tree/master/module/playwright
 

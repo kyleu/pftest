@@ -52,7 +52,7 @@ jobs:
         run: "bin/bootstrap.sh"
 
       - name: "CI Build"
-        run: "bin/build/ci.sh"
+        run: "bin/build/playwright.sh"
 
       - name: "Debug"
         run: "./build/release/pftest --help"
