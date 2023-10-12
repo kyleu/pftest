@@ -21,4 +21,11 @@ export default defineConfig({
     {name: 'safari', use: {...devices['Desktop Safari']}},
     {name: 'safari.mobile', use: {...devices['iPhone 12']}},
   ],
+  webServer: {
+    command: "../../build/release/pftest",
+    url: "https://localhost:41000",
+    reuseExistingServer: !process.env.CI,
+    stdout: 'pipe',
+    stderr: 'pipe',
+  },
 });

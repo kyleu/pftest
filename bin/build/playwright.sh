@@ -7,21 +7,24 @@ set -euo pipefail
 dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $dir/../..
 
-echo "Installing utilities"
+echo "Installing utilities..."
 ./bin/bootstrap.sh
 
-echo "Compiling templates"
+echo "Compiling templates..."
 ./bin/templates.sh
 
-echo "Downloading dependencies"
+echo "Downloading dependencies..."
 go mod download
 
+echo "Updating client..."
 cd client
-npm i
+npm install
 cd ..
 
-echo "Building client"
+echo "Building client..."
 ./bin/build/client.sh
 
-echo "Building application"
+echo "Building application..."
 make build-release
+
+echo "Done!"

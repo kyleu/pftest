@@ -51,8 +51,15 @@ jobs:
       - name: "Bootstrap"
         run: "bin/bootstrap.sh"
 
-      - name: "CI Build"
+      - name: "Build App"
         run: "bin/build/playwright.sh"
 
-      - name: "Debug"
-        run: "./build/release/pftest --help"
+      - name: "Run Playwright tests"
+        run: "npx playwright test"
+
+      - uses: "actions/upload-artifact@v3"
+        if: always()
+        with:
+          name: "playwright-report"
+          path: "playwright-report/"
+          retention-days: 30
