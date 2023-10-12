@@ -57,6 +57,7 @@
     "sourcecode": "https://github.com/kyleu/pftest",
     "summary": "A Test application, built with Project Forge",
     "description": "This app is pretty much totally generated via Project Forge",
+    "ci": "versions",
     "bundle": "com.kyleu.projectforge.pftest",
     "signingIdentity": "Developer ID Application: Kyle Unverferth (C6S478FYLD)",
     "javaPackage": "com.kyleu.pftest"
