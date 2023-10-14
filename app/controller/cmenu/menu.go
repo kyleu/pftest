@@ -19,7 +19,7 @@ func MenuFor(
 	var data any
 	// $PF_SECTION_START(routes_start)$
 	if isAdmin {
-		ret = append(ret, processMenu(as.Services.Exec.Execs), harMenu(as.Services.Har, logger), scriptingMenu(as.Services.Script, logger))
+		ret = append(ret, processMenu(as.Services.Exec.Execs), harMenu(as.Services.Har), scriptingMenu(as.Services.Script, logger))
 	}
 	// $PF_SECTION_END(routes_start)$
 	if isAdmin {
