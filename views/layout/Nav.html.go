@@ -180,7 +180,7 @@ func Nav(as *app.State, ps *cutil.PageState) string {
 //line views/layout/Nav.html:39
 func StreamNavItem(qw422016 *qt422016.Writer, link string, title string, icon string, last bool, ps *cutil.PageState) {
 //line views/layout/Nav.html:40
-	if link != "" {
+	if link != "" || last {
 //line views/layout/Nav.html:40
 		qw422016.N().S(`<a class="link`)
 //line views/layout/Nav.html:41
@@ -214,7 +214,7 @@ func StreamNavItem(qw422016 *qt422016.Writer, link string, title string, icon st
 //line views/layout/Nav.html:44
 	qw422016.N().S(`</span>`)
 //line views/layout/Nav.html:45
-	if link != "" {
+	if link != "" || last {
 //line views/layout/Nav.html:45
 		qw422016.N().S(`</a>`)
 //line views/layout/Nav.html:47

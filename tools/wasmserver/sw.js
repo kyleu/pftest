@@ -97,7 +97,7 @@ self.addEventListener('message', (event) => {
 });
 
 function isLocal(url) {
-  if (url.toString().startsWith("https://github.com/kyleu/pftest")) {
+  if (url.toString().startsWith("https://github.com/kyleu/pftest/")) {
     return true;
   }
   for (const s of ["favicon.ico", "logo.svg", "pftest.wasm", "server.js", "sw.js", "wasm_exec.js"]) {
