@@ -4,8 +4,6 @@ import (
 	"context"
 	"encoding/json"
 
-	"github.com/pkg/errors"
-
 	"github.com/kyleu/pftest/app/audited"
 	"github.com/kyleu/pftest/app/basic"
 	"github.com/kyleu/pftest/app/capital"
@@ -62,7 +60,7 @@ func NewServices(ctx context.Context, st *State, logger util.Logger) (*Services,
 	migrations.LoadMigrations(st.Debug)
 	err := migrate.Migrate(ctx, st.DB, logger)
 	if err != nil {
-		return nil, errors.Wrap(err, "unable to migrate database")
+		logger.Errorf("unable to migrate database: %v", err)
 	}
 
 	aud := audit.NewService(st.DB, logger)
