@@ -50,7 +50,7 @@ func buildDefaultAppState(flags *Flags, logger util.Logger) (*app.State, error) 
 		st.DBRead, err = database.OpenPostgresDatabase(ctx, rKey, paramsR, logger)
 	}
 	if err != nil {
-		return nil, errors.Wrap(err, "unable to open read-only database")
+		logger.Errorf("unable to open default read-only database: %+v", err)
 	}
 	st.DBRead.ReadOnly = true
 	svcs, err := app.NewServices(ctx, st, logger)
