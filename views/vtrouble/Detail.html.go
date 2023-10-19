@@ -160,7 +160,7 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
 //line views/vtrouble/Detail.html:70
 			qw422016.N().S(`/`)
 //line views/vtrouble/Detail.html:70
-			components.StreamDisplayStringArray(qw422016, model.Where)
+			qw422016.E().V(model.Where)
 //line views/vtrouble/Detail.html:70
 			qw422016.N().S(`/selectcol/`)
 //line views/vtrouble/Detail.html:70
@@ -177,7 +177,7 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
 //line views/vtrouble/Detail.html:71
 			qw422016.N().S(`/`)
 //line views/vtrouble/Detail.html:71
-			components.StreamDisplayStringArray(qw422016, model.Where)
+			qw422016.E().V(model.Where)
 //line views/vtrouble/Detail.html:71
 			qw422016.N().S(`/selectcol/`)
 //line views/vtrouble/Detail.html:71
@@ -194,7 +194,7 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
 //line views/vtrouble/Detail.html:72
 			qw422016.N().S(`/`)
 //line views/vtrouble/Detail.html:72
-			components.StreamDisplayStringArray(qw422016, model.Where)
+			qw422016.E().V(model.Where)
 //line views/vtrouble/Detail.html:72
 			qw422016.N().S(`/selectcol/`)
 //line views/vtrouble/Detail.html:72

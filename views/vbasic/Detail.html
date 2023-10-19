@@ -56,7 +56,7 @@
         <input id="accordion-RelationsByBasicID" type="checkbox" hidden />
         <label for="accordion-RelationsByBasicID">
           {%= components.ExpandCollapse(3, ps) %}
-          {%= components.SVGRefIcon(`star`, ps) %}
+          {%= components.SVGRef(`star`, 16, 16, `icon`, ps) %}
           {%s util.StringPlural(len(p.RelRelationsByBasicID), "Relation") %} by [Basic ID]
         </label>
         <div class="bd"><div><div>

@@ -84,7 +84,7 @@ func StreamTable(qw422016 *qt422016.Writer, models trouble.Troubles, params filt
 //line views/vtrouble/Table.html:26
 		qw422016.N().S(`/`)
 //line views/vtrouble/Table.html:26
-		components.StreamDisplayStringArray(qw422016, model.Where)
+		qw422016.E().V(model.Where)
 //line views/vtrouble/Table.html:26
 		qw422016.N().S(`">`)
 //line views/vtrouble/Table.html:26
@@ -97,7 +97,7 @@ func StreamTable(qw422016 *qt422016.Writer, models trouble.Troubles, params filt
 //line views/vtrouble/Table.html:27
 		qw422016.N().S(`/`)
 //line views/vtrouble/Table.html:27
-		components.StreamDisplayStringArray(qw422016, model.Where)
+		qw422016.E().V(model.Where)
 //line views/vtrouble/Table.html:27
 		qw422016.N().S(`">`)
 //line views/vtrouble/Table.html:27

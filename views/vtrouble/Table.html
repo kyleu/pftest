@@ -23,8 +23,8 @@
     <tbody>
       {%- for _, model := range models -%}
       <tr>
-        <td><a href="/troub/le/{%u model.From %}/{%= components.DisplayStringArray(model.Where) %}">{%s model.From %}</a></td>
-        <td><a href="/troub/le/{%u model.From %}/{%= components.DisplayStringArray(model.Where) %}">{%= components.DisplayStringArray(model.Where) %}</a></td>
+        <td><a href="/troub/le/{%u model.From %}/{%v model.Where %}">{%s model.From %}</a></td>
+        <td><a href="/troub/le/{%u model.From %}/{%v model.Where %}">{%= components.DisplayStringArray(model.Where) %}</a></td>
         <td>{%d model.Selectcol %}</td>
         <td>{%s model.Limit %}</td>
         <td>{%s model.Group %}</td>
