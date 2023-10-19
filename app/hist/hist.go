@@ -9,9 +9,9 @@ import (
 )
 
 type Hist struct {
-	ID      string        `json:"id"`
-	Data    util.ValueMap `json:"data"`
-	Created time.Time     `json:"created"`
+	ID      string        `json:"id,omitempty"`
+	Data    util.ValueMap `json:"data,omitempty"`
+	Created time.Time     `json:"created,omitempty"`
 	Updated *time.Time    `json:"updated,omitempty"`
 }
 

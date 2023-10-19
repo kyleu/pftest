@@ -11,10 +11,10 @@ import (
 )
 
 type Reference struct {
-	ID      uuid.UUID   `json:"id"`
-	Custom  *foo.Custom `json:"custom"`
-	Self    *SelfCustom `json:"self"`
-	Created time.Time   `json:"created"`
+	ID      uuid.UUID   `json:"id,omitempty"`
+	Custom  *foo.Custom `json:"custom,omitempty"`
+	Self    *SelfCustom `json:"self,omitempty"`
+	Created time.Time   `json:"created,omitempty"`
 }
 
 func New(id uuid.UUID) *Reference {

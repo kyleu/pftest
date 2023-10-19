@@ -8,9 +8,9 @@ import (
 )
 
 type MixedCase struct {
-	ID           string `json:"id"`
-	TestField    string `json:"testField"`
-	AnotherField string `json:"anotherField"`
+	ID           string `json:"id,omitempty"`
+	TestField    string `json:"testField,omitempty"`
+	AnotherField string `json:"anotherField,omitempty"`
 }
 
 func New(id string) *MixedCase {

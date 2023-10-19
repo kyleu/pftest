@@ -10,11 +10,11 @@ import (
 )
 
 type Version struct {
-	ID       string        `json:"id"`
-	Revision int           `json:"revision"`
-	Constcol string        `json:"constcol"`
-	Varcol   util.ValueMap `json:"varcol"`
-	Created  time.Time     `json:"created"`
+	ID       string        `json:"id,omitempty"`
+	Revision int           `json:"revision,omitempty"`
+	Constcol string        `json:"constcol,omitempty"`
+	Varcol   util.ValueMap `json:"varcol,omitempty"`
+	Created  time.Time     `json:"created,omitempty"`
 	Updated  *time.Time    `json:"updated,omitempty"`
 }
 

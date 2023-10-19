@@ -10,8 +10,8 @@ import (
 )
 
 type Softdel struct {
-	ID      string     `json:"id"`
-	Created time.Time  `json:"created"`
+	ID      string     `json:"id,omitempty"`
+	Created time.Time  `json:"created,omitempty"`
 	Updated *time.Time `json:"updated,omitempty"`
 	Deleted *time.Time `json:"deleted,omitempty"`
 }

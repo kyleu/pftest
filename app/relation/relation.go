@@ -10,10 +10,10 @@ import (
 )
 
 type Relation struct {
-	ID      uuid.UUID `json:"id"`
-	BasicID uuid.UUID `json:"basicID"`
-	Name    string    `json:"name"`
-	Created time.Time `json:"created"`
+	ID      uuid.UUID `json:"id,omitempty"`
+	BasicID uuid.UUID `json:"basicID,omitempty"`
+	Name    string    `json:"name,omitempty"`
+	Created time.Time `json:"created,omitempty"`
 }
 
 func New(id uuid.UUID) *Relation {

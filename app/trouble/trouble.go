@@ -11,16 +11,16 @@ import (
 )
 
 type PK struct {
-	From  string   `json:"from"`
-	Where []string `json:"where"`
+	From  string   `json:"from,omitempty"`
+	Where []string `json:"where,omitempty"`
 }
 
 type Trouble struct {
-	From      string     `json:"from"`
-	Where     []string   `json:"where"`
-	Selectcol int        `json:"selectcol"`
-	Limit     string     `json:"limit"`
-	Group     string     `json:"group"`
+	From      string     `json:"from,omitempty"`
+	Where     []string   `json:"where,omitempty"`
+	Selectcol int        `json:"selectcol,omitempty"`
+	Limit     string     `json:"limit,omitempty"`
+	Group     string     `json:"group,omitempty"`
 	Delete    *time.Time `json:"delete,omitempty"`
 }
 

@@ -10,10 +10,10 @@ import (
 )
 
 type Capital struct {
-	ID       string     `json:"id"`
-	Name     string     `json:"name"`
-	Birthday time.Time  `json:"birthday"`
-	Version  int        `json:"version"`
+	ID       string     `json:"id,omitempty"`
+	Name     string     `json:"name,omitempty"`
+	Birthday time.Time  `json:"birthday,omitempty"`
+	Version  int        `json:"version,omitempty"`
 	Deathday *time.Time `json:"deathday,omitempty"`
 }
 

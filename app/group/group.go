@@ -10,10 +10,10 @@ import (
 )
 
 type Group struct {
-	ID      string        `json:"id"`
-	Child   string        `json:"child"`
-	Data    util.ValueMap `json:"data"`
-	Created time.Time     `json:"created"`
+	ID      string        `json:"id,omitempty"`
+	Child   string        `json:"child,omitempty"`
+	Data    util.ValueMap `json:"data,omitempty"`
+	Created time.Time     `json:"created,omitempty"`
 	Updated *time.Time    `json:"updated,omitempty"`
 	Deleted *time.Time    `json:"deleted,omitempty"`
 }

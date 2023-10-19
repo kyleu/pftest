@@ -10,10 +10,10 @@ import (
 )
 
 type Seed struct {
-	ID   uuid.UUID     `json:"id"`
-	Name string        `json:"name"`
-	Size int           `json:"size"`
-	Obj  util.ValueMap `json:"obj"`
+	ID   uuid.UUID     `json:"id,omitempty"`
+	Name string        `json:"name,omitempty"`
+	Size int           `json:"size,omitempty"`
+	Obj  util.ValueMap `json:"obj,omitempty"`
 }
 
 func New(id uuid.UUID) *Seed {

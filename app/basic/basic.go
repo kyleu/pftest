@@ -10,10 +10,10 @@ import (
 )
 
 type Basic struct {
-	ID      uuid.UUID `json:"id"`
-	Name    string    `json:"name"`
-	Status  string    `json:"status"`
-	Created time.Time `json:"created"`
+	ID      uuid.UUID `json:"id,omitempty"`
+	Name    string    `json:"name,omitempty"`
+	Status  string    `json:"status,omitempty"`
+	Created time.Time `json:"created,omitempty"`
 }
 
 func New(id uuid.UUID) *Basic {
