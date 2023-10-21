@@ -33,38 +33,9 @@ func CapitalDetail(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		prms := ps.Params.Get("capital", nil, ps.Logger).Sanitize("capital")
-		versions, err := as.Services.Capital.GetAllVersions(ps.Context, nil, ret.ID, prms, ps.Logger)
-		if err != nil {
-			return "", err
-		}
 		ps.Title = ret.TitleString() + " (Capital)"
 		ps.Data = ret
 
-		return Render(rc, as, &vcapital.Detail{
-			Model:    ret,
-			Params:   ps.Params,
-			Versions: versions,
-		}, ps, "capital", ret.String())
-	})
-}
-
-func CapitalVersion(rc *fasthttp.RequestCtx) {
-	Act("capital.Version", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		latest, err := capitalFromPath(rc, as, ps)
-		if err != nil {
-			return "", err
-		}
-		version, err := cutil.RCRequiredInt(rc, "version")
-		if err != nil {
-			return "", err
-		}
-		ret, err := as.Services.Capital.GetVersion(ps.Context, nil, latest.ID, version, ps.Logger)
-		if err != nil {
-			return "", err
-		}
-		ps.Title = ret.String()
-		ps.Data = ret
 		return Render(rc, as, &vcapital.Detail{Model: ret}, ps, "capital", ret.String())
 	})
 }
@@ -104,7 +75,6 @@ func CapitalCreate(rc *fasthttp.RequestCtx) {
 
 func CapitalEditForm(rc *fasthttp.RequestCtx) {
 	Act("capital.edit.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		rc.SetUserValue("includeDeleted", true)
 		ret, err := capitalFromPath(rc, as, ps)
 		if err != nil {
 			return "", err
@@ -117,7 +87,6 @@ func CapitalEditForm(rc *fasthttp.RequestCtx) {
 
 func CapitalEdit(rc *fasthttp.RequestCtx) {
 	Act("capital.edit", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		rc.SetUserValue("includeDeleted", true)
 		ret, err := capitalFromPath(rc, as, ps)
 		if err != nil {
 			return "", err

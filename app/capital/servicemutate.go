@@ -15,55 +15,18 @@ func (s *Service) Create(ctx context.Context, tx *sqlx.Tx, logger util.Logger, m
 	if len(models) == 0 {
 		return nil
 	}
-	revs, err := s.getCurrentVersions(ctx, tx, logger, models...)
-	if err != nil {
-		return err
-	}
-	lo.ForEach(models, func(model *Capital, _ int) {
-		model.Version = revs[model.String()] + 1
+	q := database.SQLInsert(tableQuoted, columnsQuoted, len(models), s.db.Placeholder())
+	vals := lo.FlatMap(models, func(arg *Capital, _ int) []any {
+		return arg.ToData()
 	})
-
-	err = s.upsertCore(ctx, tx, logger, models...)
-	if err != nil {
-		return err
-	}
-	err = s.insertVersion(ctx, tx, logger, models...)
-	if err != nil {
-		return err
-	}
-	return nil
+	return s.db.Insert(ctx, q, tx, logger, vals...)
 }
 
 func (s *Service) Update(ctx context.Context, tx *sqlx.Tx, model *Capital, logger util.Logger) error {
-	revs, err := s.getCurrentVersions(ctx, tx, logger, model)
-	if err != nil {
-		return err
-	}
-	model.Version = revs[model.String()] + 1
-
-	err = s.upsertCore(ctx, tx, logger, model)
-	if err != nil {
-		return err
-	}
-	err = s.insertVersion(ctx, tx, logger, model)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *Service) UpdateIfNeeded(ctx context.Context, tx *sqlx.Tx, model *Capital, logger util.Logger) error {
-	revs, err := s.getCurrentVersions(ctx, tx, logger, model)
-	if err != nil {
-		return err
-	}
-	model.Version = revs[model.String()] + 1
-
-	err = s.upsertCore(ctx, tx, logger, model)
-	if err != nil {
-		return err
-	}
-	err = s.insertVersion(ctx, tx, logger, model)
+	q := database.SQLUpdate(tableQuoted, columnsQuoted, "\"ID\" = $5", s.db.Placeholder())
+	data := model.ToData()
+	data = append(data, model.ID)
+	_, err := s.db.Update(ctx, q, tx, 1, logger, data...)
 	if err != nil {
 		return err
 	}
@@ -74,39 +37,9 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, logger util.Logger, mod
 	if len(models) == 0 {
 		return nil
 	}
-	revs, err := s.getCurrentVersions(ctx, tx, logger, models...)
-	if err != nil {
-		return err
-	}
-	lo.ForEach(models, func(model *Capital, _ int) {
-		model.Version = revs[model.String()] + 1
-	})
-
-	err = s.upsertCore(ctx, tx, logger, models...)
-	if err != nil {
-		return err
-	}
-	err = s.insertVersion(ctx, tx, logger, models...)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *Service) upsertCore(ctx context.Context, tx *sqlx.Tx, logger util.Logger, models ...*Capital) error {
-	conflicts := util.StringArrayQuoted([]string{"ID"})
-	q := database.SQLUpsert(tableQuoted, columnsCore, len(models), conflicts, columnsCore, s.db.Placeholder())
+	q := database.SQLUpsert(tableQuoted, columnsQuoted, len(models), []string{"ID"}, columnsQuoted, s.db.Placeholder())
 	data := lo.FlatMap(models, func(model *Capital, _ int) []any {
-		return model.ToDataCore()
-	})
-	_, err := s.db.Update(ctx, q, tx, 1, logger, data...)
-	return err
-}
-
-func (s *Service) insertVersion(ctx context.Context, tx *sqlx.Tx, logger util.Logger, models ...*Capital) error {
-	q := database.SQLInsert(tableVersionQuoted, columnsVersion, len(models), s.db.Placeholder())
-	data := lo.FlatMap(models, func(model *Capital, _ int) []any {
-		return model.ToDataVersion()
+		return model.ToData()
 	})
 	return s.db.Insert(ctx, q, tx, logger, data...)
 }

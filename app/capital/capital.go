@@ -13,7 +13,6 @@ type Capital struct {
 	ID       string     `json:"id,omitempty"`
 	Name     string     `json:"name,omitempty"`
 	Birthday time.Time  `json:"birthday,omitempty"`
-	Version  int        `json:"version,omitempty"`
 	Deathday *time.Time `json:"deathday,omitempty"`
 }
 
@@ -26,7 +25,6 @@ func Random() *Capital {
 		ID:       util.RandomString(12),
 		Name:     util.RandomString(12),
 		Birthday: util.TimeCurrent(),
-		Version:  util.RandomInt(10000),
 		Deathday: util.TimeCurrentP(),
 	}
 }
@@ -63,7 +61,7 @@ func FromMap(m util.ValueMap, setPK bool) (*Capital, error) {
 }
 
 func (c *Capital) Clone() *Capital {
-	return &Capital{c.ID, c.Name, c.Birthday, c.Version, c.Deathday}
+	return &Capital{c.ID, c.Name, c.Birthday, c.Deathday}
 }
 
 func (c *Capital) String() string {
@@ -90,9 +88,6 @@ func (c *Capital) Diff(cx *Capital) util.Diffs {
 	if c.Birthday != cx.Birthday {
 		diffs = append(diffs, util.NewDiff("birthday", c.Birthday.String(), cx.Birthday.String()))
 	}
-	if c.Version != cx.Version {
-		diffs = append(diffs, util.NewDiff("version", fmt.Sprint(c.Version), fmt.Sprint(cx.Version)))
-	}
 	if (c.Deathday == nil && cx.Deathday != nil) || (c.Deathday != nil && cx.Deathday == nil) || (c.Deathday != nil && cx.Deathday != nil && *c.Deathday != *cx.Deathday) {
 		diffs = append(diffs, util.NewDiff("deathday", fmt.Sprint(c.Deathday), fmt.Sprint(cx.Deathday))) //nolint:gocritic // it's nullable
 	}
@@ -100,13 +95,5 @@ func (c *Capital) Diff(cx *Capital) util.Diffs {
 }
 
 func (c *Capital) ToData() []any {
-	return []any{c.ID, c.Name, c.Birthday, c.Version, c.Deathday}
-}
-
-func (c *Capital) ToDataCore() []any {
-	return []any{c.ID, c.Version}
-}
-
-func (c *Capital) ToDataVersion() []any {
-	return []any{c.ID, c.Version, c.Name, c.Birthday, c.Deathday}
+	return []any{c.ID, c.Name, c.Birthday, c.Deathday}
 }

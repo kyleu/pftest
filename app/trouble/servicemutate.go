@@ -15,55 +15,18 @@ func (s *Service) Create(ctx context.Context, tx *sqlx.Tx, logger util.Logger, m
 	if len(models) == 0 {
 		return nil
 	}
-	revs, err := s.getCurrentSelectcols(ctx, tx, logger, models...)
-	if err != nil {
-		return err
-	}
-	lo.ForEach(models, func(model *Trouble, _ int) {
-		model.Selectcol = revs[model.String()] + 1
+	q := database.SQLInsert(tableQuoted, columnsQuoted, len(models), s.db.Placeholder())
+	vals := lo.FlatMap(models, func(arg *Trouble, _ int) []any {
+		return arg.ToData()
 	})
-
-	err = s.upsertCore(ctx, tx, logger, models...)
-	if err != nil {
-		return err
-	}
-	err = s.insertSelectcol(ctx, tx, logger, models...)
-	if err != nil {
-		return err
-	}
-	return nil
+	return s.db.Insert(ctx, q, tx, logger, vals...)
 }
 
 func (s *Service) Update(ctx context.Context, tx *sqlx.Tx, model *Trouble, logger util.Logger) error {
-	revs, err := s.getCurrentSelectcols(ctx, tx, logger, model)
-	if err != nil {
-		return err
-	}
-	model.Selectcol = revs[model.String()] + 1
-
-	err = s.upsertCore(ctx, tx, logger, model)
-	if err != nil {
-		return err
-	}
-	err = s.insertSelectcol(ctx, tx, logger, model)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *Service) UpdateIfNeeded(ctx context.Context, tx *sqlx.Tx, model *Trouble, logger util.Logger) error {
-	revs, err := s.getCurrentSelectcols(ctx, tx, logger, model)
-	if err != nil {
-		return err
-	}
-	model.Selectcol = revs[model.String()] + 1
-
-	err = s.upsertCore(ctx, tx, logger, model)
-	if err != nil {
-		return err
-	}
-	err = s.insertSelectcol(ctx, tx, logger, model)
+	q := database.SQLUpdate(tableQuoted, columnsQuoted, "\"from\" = $7 and \"where\" = $8", s.db.Placeholder())
+	data := model.ToData()
+	data = append(data, model.From, model.Where)
+	_, err := s.db.Update(ctx, q, tx, 1, logger, data...)
 	if err != nil {
 		return err
 	}
@@ -74,39 +37,9 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, logger util.Logger, mod
 	if len(models) == 0 {
 		return nil
 	}
-	revs, err := s.getCurrentSelectcols(ctx, tx, logger, models...)
-	if err != nil {
-		return err
-	}
-	lo.ForEach(models, func(model *Trouble, _ int) {
-		model.Selectcol = revs[model.String()] + 1
-	})
-
-	err = s.upsertCore(ctx, tx, logger, models...)
-	if err != nil {
-		return err
-	}
-	err = s.insertSelectcol(ctx, tx, logger, models...)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *Service) upsertCore(ctx context.Context, tx *sqlx.Tx, logger util.Logger, models ...*Trouble) error {
-	conflicts := util.StringArrayQuoted([]string{"from", "where"})
-	q := database.SQLUpsert(tableQuoted, columnsCore, len(models), conflicts, columnsCore, s.db.Placeholder())
+	q := database.SQLUpsert(tableQuoted, columnsQuoted, len(models), []string{"from", "where"}, columnsQuoted, s.db.Placeholder())
 	data := lo.FlatMap(models, func(model *Trouble, _ int) []any {
-		return model.ToDataCore()
-	})
-	_, err := s.db.Update(ctx, q, tx, 1, logger, data...)
-	return err
-}
-
-func (s *Service) insertSelectcol(ctx context.Context, tx *sqlx.Tx, logger util.Logger, models ...*Trouble) error {
-	q := database.SQLInsert(tableSelectcolQuoted, columnsSelectcol, len(models), s.db.Placeholder())
-	data := lo.FlatMap(models, func(model *Trouble, _ int) []any {
-		return model.ToDataSelectcol()
+		return model.ToData()
 	})
 	return s.db.Insert(ctx, q, tx, logger, data...)
 }

@@ -16,8 +16,14 @@ func (s Softdels) Get(id string) *Softdel {
 }
 
 func (s Softdels) GetByIDs(ids ...string) Softdels {
-	return lo.Filter(s, func(x *Softdel, _ int) bool {
-		return lo.Contains(ids, x.ID)
+	return lo.Filter(s, func(xx *Softdel, _ int) bool {
+		return lo.Contains(ids, xx.ID)
+	})
+}
+
+func (s Softdels) GetByID(id string) Softdels {
+	return lo.Filter(s, func(xx *Softdel, _ int) bool {
+		return xx.ID == id
 	})
 }
 

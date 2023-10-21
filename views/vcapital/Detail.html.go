@@ -11,57 +11,54 @@ import (
 	"github.com/kyleu/pftest/app"
 	"github.com/kyleu/pftest/app/capital"
 	"github.com/kyleu/pftest/app/controller/cutil"
-	"github.com/kyleu/pftest/app/lib/filter"
 	"github.com/kyleu/pftest/views/components"
 	"github.com/kyleu/pftest/views/layout"
 )
 
-//line views/vcapital/Detail.html:11
+//line views/vcapital/Detail.html:10
 import (
 	qtio422016 "io"
 
 	qt422016 "github.com/valyala/quicktemplate"
 )
 
-//line views/vcapital/Detail.html:11
+//line views/vcapital/Detail.html:10
 var (
 	_ = qtio422016.Copy
 	_ = qt422016.AcquireByteBuffer
 )
 
-//line views/vcapital/Detail.html:11
+//line views/vcapital/Detail.html:10
 type Detail struct {
 	layout.Basic
-	Model    *capital.Capital
-	Params   filter.ParamSet
-	Versions capital.Capitals
+	Model *capital.Capital
 }
 
-//line views/vcapital/Detail.html:18
+//line views/vcapital/Detail.html:15
 func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vcapital/Detail.html:18
+//line views/vcapital/Detail.html:15
 	qw422016.N().S(`
   <div class="card">
     <div class="right">
       <a href="#modal-capital"><button type="button">JSON</button></a>
       <a href="`)
-//line views/vcapital/Detail.html:22
+//line views/vcapital/Detail.html:19
 	qw422016.E().S(p.Model.WebPath())
-//line views/vcapital/Detail.html:22
+//line views/vcapital/Detail.html:19
 	qw422016.N().S(`/edit"><button>`)
-//line views/vcapital/Detail.html:22
+//line views/vcapital/Detail.html:19
 	components.StreamSVGRef(qw422016, "edit", 15, 15, "icon", ps)
-//line views/vcapital/Detail.html:22
+//line views/vcapital/Detail.html:19
 	qw422016.N().S(`Edit</button></a>
     </div>
     <h3>`)
-//line views/vcapital/Detail.html:24
+//line views/vcapital/Detail.html:21
 	components.StreamSVGRefIcon(qw422016, `star`, ps)
-//line views/vcapital/Detail.html:24
+//line views/vcapital/Detail.html:21
 	qw422016.N().S(` `)
-//line views/vcapital/Detail.html:24
+//line views/vcapital/Detail.html:21
 	qw422016.E().S(p.Model.TitleString())
-//line views/vcapital/Detail.html:24
+//line views/vcapital/Detail.html:21
 	qw422016.N().S(`</h3>
     <div><a href="/capital"><em>Capital</em></a></div>
     <table class="mt">
@@ -69,147 +66,71 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
         <tr>
           <th class="shrink" title="String text">ID</th>
           <td>`)
-//line views/vcapital/Detail.html:30
+//line views/vcapital/Detail.html:27
 	qw422016.E().S(p.Model.ID)
-//line views/vcapital/Detail.html:30
+//line views/vcapital/Detail.html:27
 	qw422016.N().S(`</td>
         </tr>
         <tr>
           <th class="shrink" title="String text">Name</th>
           <td><strong>`)
-//line views/vcapital/Detail.html:34
+//line views/vcapital/Detail.html:31
 	qw422016.E().S(p.Model.Name)
-//line views/vcapital/Detail.html:34
+//line views/vcapital/Detail.html:31
 	qw422016.N().S(`</strong></td>
         </tr>
         <tr>
           <th class="shrink" title="Date and time, in almost any format">Birthday</th>
           <td>`)
-//line views/vcapital/Detail.html:38
+//line views/vcapital/Detail.html:35
 	components.StreamDisplayTimestamp(qw422016, &p.Model.Birthday)
-//line views/vcapital/Detail.html:38
-	qw422016.N().S(`</td>
-        </tr>
-        <tr>
-          <th class="shrink" title="Integer">Version</th>
-          <td>`)
-//line views/vcapital/Detail.html:42
-	qw422016.N().D(p.Model.Version)
-//line views/vcapital/Detail.html:42
+//line views/vcapital/Detail.html:35
 	qw422016.N().S(`</td>
         </tr>
         <tr>
           <th class="shrink" title="Date and time, in almost any format (optional)">Deathday</th>
           <td>`)
-//line views/vcapital/Detail.html:46
+//line views/vcapital/Detail.html:39
 	components.StreamDisplayTimestamp(qw422016, p.Model.Deathday)
-//line views/vcapital/Detail.html:46
+//line views/vcapital/Detail.html:39
 	qw422016.N().S(`</td>
         </tr>
       </tbody>
     </table>
   </div>
 `)
-//line views/vcapital/Detail.html:51
-	if len(p.Versions) > 1 {
-//line views/vcapital/Detail.html:51
-		qw422016.N().S(`  <div class="card">
-    <h3>Versions</h3>
-`)
-//line views/vcapital/Detail.html:54
-		prms := p.Params.Get("capital", nil, ps.Logger).Sanitize("capital")
-
-//line views/vcapital/Detail.html:54
-		qw422016.N().S(`    <table class="mt">
-      <thead>
-        <tr>
-          `)
-//line views/vcapital/Detail.html:58
-		components.StreamTableHeaderSimple(qw422016, "capital", "ID", "ID", "String text", prms, ps.URI, ps)
-//line views/vcapital/Detail.html:58
-		qw422016.N().S(`
-          `)
-//line views/vcapital/Detail.html:59
-		components.StreamTableHeaderSimple(qw422016, "capital", "Version", "Version", "Integer", prms, ps.URI, ps)
-//line views/vcapital/Detail.html:59
-		qw422016.N().S(`
-        </tr>
-      </thead>
-      <tbody>
-`)
-//line views/vcapital/Detail.html:63
-		for _, model := range p.Versions {
-//line views/vcapital/Detail.html:63
-			qw422016.N().S(`        <tr>
-          <td><a href="/capital/`)
-//line views/vcapital/Detail.html:65
-			qw422016.N().U(model.ID)
-//line views/vcapital/Detail.html:65
-			qw422016.N().S(`/version/`)
-//line views/vcapital/Detail.html:65
-			qw422016.N().D(model.Version)
-//line views/vcapital/Detail.html:65
-			qw422016.N().S(`">`)
-//line views/vcapital/Detail.html:65
-			qw422016.E().S(model.ID)
-//line views/vcapital/Detail.html:65
-			qw422016.N().S(`</a></td>
-          <td><a href="/capital/`)
-//line views/vcapital/Detail.html:66
-			qw422016.N().U(model.ID)
-//line views/vcapital/Detail.html:66
-			qw422016.N().S(`/version/`)
-//line views/vcapital/Detail.html:66
-			qw422016.N().D(model.Version)
-//line views/vcapital/Detail.html:66
-			qw422016.N().S(`">`)
-//line views/vcapital/Detail.html:66
-			qw422016.N().D(model.Version)
-//line views/vcapital/Detail.html:66
-			qw422016.N().S(`</a></td>
-        </tr>
-`)
-//line views/vcapital/Detail.html:68
-		}
-//line views/vcapital/Detail.html:68
-		qw422016.N().S(`      </tbody>
-    </table>
-  </div>
-`)
-//line views/vcapital/Detail.html:72
-	}
-//line views/vcapital/Detail.html:74
+//line views/vcapital/Detail.html:45
 	qw422016.N().S(`  `)
-//line views/vcapital/Detail.html:75
+//line views/vcapital/Detail.html:46
 	components.StreamJSONModal(qw422016, "capital", "Capital JSON", p.Model, 1)
-//line views/vcapital/Detail.html:75
+//line views/vcapital/Detail.html:46
 	qw422016.N().S(`
 `)
-//line views/vcapital/Detail.html:76
+//line views/vcapital/Detail.html:47
 }
 
-//line views/vcapital/Detail.html:76
+//line views/vcapital/Detail.html:47
 func (p *Detail) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vcapital/Detail.html:76
+//line views/vcapital/Detail.html:47
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vcapital/Detail.html:76
+//line views/vcapital/Detail.html:47
 	p.StreamBody(qw422016, as, ps)
-//line views/vcapital/Detail.html:76
+//line views/vcapital/Detail.html:47
 	qt422016.ReleaseWriter(qw422016)
-//line views/vcapital/Detail.html:76
+//line views/vcapital/Detail.html:47
 }
 
-//line views/vcapital/Detail.html:76
+//line views/vcapital/Detail.html:47
 func (p *Detail) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vcapital/Detail.html:76
+//line views/vcapital/Detail.html:47
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vcapital/Detail.html:76
+//line views/vcapital/Detail.html:47
 	p.WriteBody(qb422016, as, ps)
-//line views/vcapital/Detail.html:76
+//line views/vcapital/Detail.html:47
 	qs422016 := string(qb422016.B)
-//line views/vcapital/Detail.html:76
+//line views/vcapital/Detail.html:47
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vcapital/Detail.html:76
+//line views/vcapital/Detail.html:47
 	return qs422016
-//line views/vcapital/Detail.html:76
+//line views/vcapital/Detail.html:47
 }

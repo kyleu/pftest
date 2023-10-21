@@ -17,8 +17,14 @@ func (b Basics) Get(id uuid.UUID) *Basic {
 }
 
 func (b Basics) GetByIDs(ids ...uuid.UUID) Basics {
-	return lo.Filter(b, func(x *Basic, _ int) bool {
-		return lo.Contains(ids, x.ID)
+	return lo.Filter(b, func(xx *Basic, _ int) bool {
+		return lo.Contains(ids, xx.ID)
+	})
+}
+
+func (b Basics) GetByID(id uuid.UUID) Basics {
+	return lo.Filter(b, func(xx *Basic, _ int) bool {
+		return xx.ID == id
 	})
 }
 

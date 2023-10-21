@@ -17,8 +17,14 @@ func (a Auditeds) Get(id uuid.UUID) *Audited {
 }
 
 func (a Auditeds) GetByIDs(ids ...uuid.UUID) Auditeds {
-	return lo.Filter(a, func(x *Audited, _ int) bool {
-		return lo.Contains(ids, x.ID)
+	return lo.Filter(a, func(xx *Audited, _ int) bool {
+		return lo.Contains(ids, xx.ID)
+	})
+}
+
+func (a Auditeds) GetByID(id uuid.UUID) Auditeds {
+	return lo.Filter(a, func(xx *Audited, _ int) bool {
+		return xx.ID == id
 	})
 }
 

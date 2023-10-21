@@ -14,23 +14,15 @@ import (
 var (
 	table         = "Capital"
 	tableQuoted   = fmt.Sprintf("%q", table)
-	columns       = []string{"ID", "Name", "Birthday", "Version", "Deathday"}
+	columns       = []string{"ID", "Name", "Birthday", "Deathday"}
 	columnsQuoted = util.StringArrayQuoted(columns)
 	columnsString = strings.Join(columnsQuoted, ", ")
-
-	columnsCore    = util.StringArrayQuoted([]string{"ID", "current_Version"})
-	columnsVersion = util.StringArrayQuoted([]string{"Capital_ID", "Version", "Name", "Birthday", "Deathday"})
-
-	tableVersion       = table + "_Version"
-	tableVersionQuoted = fmt.Sprintf("%q", tableVersion)
-	tablesJoined       = fmt.Sprintf(`%q c join %q cr on c."ID" = cr."Capital_ID" and c."current_Version" = cr."Version"`, table, tableVersion)
 )
 
 type row struct {
 	ID       string     `db:"ID"`
 	Name     string     `db:"Name"`
 	Birthday time.Time  `db:"Birthday"`
-	Version  int        `db:"Version"`
 	Deathday *time.Time `db:"Deathday"`
 }
 
@@ -42,7 +34,6 @@ func (r *row) ToCapital() *Capital {
 		ID:       r.ID,
 		Name:     r.Name,
 		Birthday: r.Birthday,
-		Version:  r.Version,
 		Deathday: r.Deathday,
 	}
 }

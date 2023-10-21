@@ -2,7 +2,6 @@
 {% import (
   "github.com/kyleu/pftest/app"
   "github.com/kyleu/pftest/app/controller/cutil"
-  "github.com/kyleu/pftest/app/lib/filter"
   "github.com/kyleu/pftest/app/trouble"
   "github.com/kyleu/pftest/views/components"
   "github.com/kyleu/pftest/views/layout"
@@ -11,8 +10,6 @@
 {% code type Detail struct {
   layout.Basic
   Model *trouble.Trouble
-  Params filter.ParamSet
-  Selectcols trouble.Troubles
 } %}
 
 {% func (p *Detail) Body(as *app.State, ps *cutil.PageState) %}
@@ -52,30 +49,6 @@
       </tbody>
     </table>
   </div>
-  {%- if len(p.Selectcols) > 1 -%}
-  <div class="card">
-    <h3>Selectcols</h3>
-    {%- code prms := p.Params.Get("trouble", nil, ps.Logger).Sanitize("trouble") -%}
-    <table class="mt">
-      <thead>
-        <tr>
-          {%= components.TableHeaderSimple("trouble", "from", "From", "String text", prms, ps.URI, ps) %}
-          {%= components.TableHeaderSimple("trouble", "where", "Where", "Comma-separated list of values", prms, ps.URI, ps) %}
-          {%= components.TableHeaderSimple("trouble", "selectcol", "Selectcol", "Integer", prms, ps.URI, ps) %}
-        </tr>
-      </thead>
-      <tbody>
-        {%- for _, model := range p.Selectcols -%}
-        <tr>
-          <td><a href="/troub/le/{%u model.From %}/{%v model.Where %}/selectcol/{%d model.Selectcol %}">{%s model.From %}</a></td>
-          <td><a href="/troub/le/{%u model.From %}/{%v model.Where %}/selectcol/{%d model.Selectcol %}">{%= components.DisplayStringArray(model.Where) %}</a></td>
-          <td><a href="/troub/le/{%u model.From %}/{%v model.Where %}/selectcol/{%d model.Selectcol %}">{%d model.Selectcol %}</a></td>
-        </tr>
-        {%- endfor -%}
-      </tbody>
-    </table>
-  </div>
-  {%- endif -%}
   {%- comment %}$PF_SECTION_START(extra)${% endcomment -%}
   {%- comment %}$PF_SECTION_END(extra)${% endcomment -%}
   {%= components.JSONModal("trouble", "Trouble JSON", p.Model, 1) %}

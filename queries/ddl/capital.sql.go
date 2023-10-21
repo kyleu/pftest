@@ -24,87 +24,76 @@ var (
 func StreamCapitalDrop(qw422016 *qt422016.Writer) {
 //line queries/ddl/Capital.sql:2
 	qw422016.N().S(`
-drop table if exists "Capital_Version";
 drop table if exists "Capital";
 -- `)
-//line queries/ddl/Capital.sql:5
+//line queries/ddl/Capital.sql:4
 }
 
-//line queries/ddl/Capital.sql:5
+//line queries/ddl/Capital.sql:4
 func WriteCapitalDrop(qq422016 qtio422016.Writer) {
-//line queries/ddl/Capital.sql:5
+//line queries/ddl/Capital.sql:4
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line queries/ddl/Capital.sql:5
+//line queries/ddl/Capital.sql:4
 	StreamCapitalDrop(qw422016)
-//line queries/ddl/Capital.sql:5
+//line queries/ddl/Capital.sql:4
 	qt422016.ReleaseWriter(qw422016)
-//line queries/ddl/Capital.sql:5
+//line queries/ddl/Capital.sql:4
 }
 
-//line queries/ddl/Capital.sql:5
+//line queries/ddl/Capital.sql:4
 func CapitalDrop() string {
-//line queries/ddl/Capital.sql:5
+//line queries/ddl/Capital.sql:4
 	qb422016 := qt422016.AcquireByteBuffer()
-//line queries/ddl/Capital.sql:5
+//line queries/ddl/Capital.sql:4
 	WriteCapitalDrop(qb422016)
-//line queries/ddl/Capital.sql:5
+//line queries/ddl/Capital.sql:4
 	qs422016 := string(qb422016.B)
-//line queries/ddl/Capital.sql:5
+//line queries/ddl/Capital.sql:4
 	qt422016.ReleaseByteBuffer(qb422016)
-//line queries/ddl/Capital.sql:5
+//line queries/ddl/Capital.sql:4
 	return qs422016
-//line queries/ddl/Capital.sql:5
+//line queries/ddl/Capital.sql:4
 }
 
 // --
 
-//line queries/ddl/Capital.sql:7
+//line queries/ddl/Capital.sql:6
 func StreamCapitalCreate(qw422016 *qt422016.Writer) {
-//line queries/ddl/Capital.sql:7
+//line queries/ddl/Capital.sql:6
 	qw422016.N().S(`
 create table if not exists "Capital" (
   "ID" text not null,
-  "current_Version" int not null default 1,
-  primary key ("ID")
-);
-
-create table if not exists "Capital_Version" (
-  "Capital_ID" text not null,
-  "Version" int not null default 1,
   "Name" text not null,
   "Birthday" timestamp not null,
   "Deathday" timestamp,
-  foreign key ("Capital_ID") references "Capital" ("ID"),
-  primary key ("Capital_ID", "Version")
+  primary key ("ID")
 );
-
-create index if not exists "Capital_Version__Capital_ID_idx" on "Capital_Version" ("Capital_ID");
 -- `)
-//line queries/ddl/Capital.sql:25
+//line queries/ddl/Capital.sql:14
 }
 
-//line queries/ddl/Capital.sql:25
+//line queries/ddl/Capital.sql:14
 func WriteCapitalCreate(qq422016 qtio422016.Writer) {
-//line queries/ddl/Capital.sql:25
+//line queries/ddl/Capital.sql:14
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line queries/ddl/Capital.sql:25
+//line queries/ddl/Capital.sql:14
 	StreamCapitalCreate(qw422016)
-//line queries/ddl/Capital.sql:25
+//line queries/ddl/Capital.sql:14
 	qt422016.ReleaseWriter(qw422016)
-//line queries/ddl/Capital.sql:25
+//line queries/ddl/Capital.sql:14
 }
 
-//line queries/ddl/Capital.sql:25
+//line queries/ddl/Capital.sql:14
 func CapitalCreate() string {
-//line queries/ddl/Capital.sql:25
+//line queries/ddl/Capital.sql:14
 	qb422016 := qt422016.AcquireByteBuffer()
-//line queries/ddl/Capital.sql:25
+//line queries/ddl/Capital.sql:14
 	WriteCapitalCreate(qb422016)
-//line queries/ddl/Capital.sql:25
+//line queries/ddl/Capital.sql:14
 	qs422016 := string(qb422016.B)
-//line queries/ddl/Capital.sql:25
+//line queries/ddl/Capital.sql:14
 	qt422016.ReleaseByteBuffer(qb422016)
-//line queries/ddl/Capital.sql:25
+//line queries/ddl/Capital.sql:14
 	return qs422016
-//line queries/ddl/Capital.sql:25
+//line queries/ddl/Capital.sql:14
 }

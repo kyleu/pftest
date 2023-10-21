@@ -24,43 +24,42 @@ var (
 func StreamHistDrop(qw422016 *qt422016.Writer) {
 //line queries/ddl/hist.sql:2
 	qw422016.N().S(`
-drop table if exists "hist_history";
 drop table if exists "hist";
 -- `)
-//line queries/ddl/hist.sql:5
+//line queries/ddl/hist.sql:4
 }
 
-//line queries/ddl/hist.sql:5
+//line queries/ddl/hist.sql:4
 func WriteHistDrop(qq422016 qtio422016.Writer) {
-//line queries/ddl/hist.sql:5
+//line queries/ddl/hist.sql:4
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line queries/ddl/hist.sql:5
+//line queries/ddl/hist.sql:4
 	StreamHistDrop(qw422016)
-//line queries/ddl/hist.sql:5
+//line queries/ddl/hist.sql:4
 	qt422016.ReleaseWriter(qw422016)
-//line queries/ddl/hist.sql:5
+//line queries/ddl/hist.sql:4
 }
 
-//line queries/ddl/hist.sql:5
+//line queries/ddl/hist.sql:4
 func HistDrop() string {
-//line queries/ddl/hist.sql:5
+//line queries/ddl/hist.sql:4
 	qb422016 := qt422016.AcquireByteBuffer()
-//line queries/ddl/hist.sql:5
+//line queries/ddl/hist.sql:4
 	WriteHistDrop(qb422016)
-//line queries/ddl/hist.sql:5
+//line queries/ddl/hist.sql:4
 	qs422016 := string(qb422016.B)
-//line queries/ddl/hist.sql:5
+//line queries/ddl/hist.sql:4
 	qt422016.ReleaseByteBuffer(qb422016)
-//line queries/ddl/hist.sql:5
+//line queries/ddl/hist.sql:4
 	return qs422016
-//line queries/ddl/hist.sql:5
+//line queries/ddl/hist.sql:4
 }
 
 // --
 
-//line queries/ddl/hist.sql:7
+//line queries/ddl/hist.sql:6
 func StreamHistCreate(qw422016 *qt422016.Writer) {
-//line queries/ddl/hist.sql:7
+//line queries/ddl/hist.sql:6
 	qw422016.N().S(`
 create table if not exists "hist" (
   "id" text not null,
@@ -69,43 +68,32 @@ create table if not exists "hist" (
   "updated" timestamp default now(),
   primary key ("id")
 );
-
-create table if not exists "hist_history" (
-  "id" uuid,
-  "hist_id" text not null,
-  "o" jsonb not null,
-  "n" jsonb not null,
-  "c" jsonb not null,
-  "created" timestamp not null default now(),
-  foreign key ("hist_id") references "hist" ("id"),
-  primary key ("id")
-);
 -- `)
-//line queries/ddl/hist.sql:26
+//line queries/ddl/hist.sql:14
 }
 
-//line queries/ddl/hist.sql:26
+//line queries/ddl/hist.sql:14
 func WriteHistCreate(qq422016 qtio422016.Writer) {
-//line queries/ddl/hist.sql:26
+//line queries/ddl/hist.sql:14
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line queries/ddl/hist.sql:26
+//line queries/ddl/hist.sql:14
 	StreamHistCreate(qw422016)
-//line queries/ddl/hist.sql:26
+//line queries/ddl/hist.sql:14
 	qt422016.ReleaseWriter(qw422016)
-//line queries/ddl/hist.sql:26
+//line queries/ddl/hist.sql:14
 }
 
-//line queries/ddl/hist.sql:26
+//line queries/ddl/hist.sql:14
 func HistCreate() string {
-//line queries/ddl/hist.sql:26
+//line queries/ddl/hist.sql:14
 	qb422016 := qt422016.AcquireByteBuffer()
-//line queries/ddl/hist.sql:26
+//line queries/ddl/hist.sql:14
 	WriteHistCreate(qb422016)
-//line queries/ddl/hist.sql:26
+//line queries/ddl/hist.sql:14
 	qs422016 := string(qb422016.B)
-//line queries/ddl/hist.sql:26
+//line queries/ddl/hist.sql:14
 	qt422016.ReleaseByteBuffer(qb422016)
-//line queries/ddl/hist.sql:26
+//line queries/ddl/hist.sql:14
 	return qs422016
-//line queries/ddl/hist.sql:26
+//line queries/ddl/hist.sql:14
 }

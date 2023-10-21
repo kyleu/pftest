@@ -33,38 +33,9 @@ func TroubleDetail(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		prms := ps.Params.Get("trouble", nil, ps.Logger).Sanitize("trouble")
-		selectcols, err := as.Services.Trouble.GetAllSelectcols(ps.Context, nil, ret.From, ret.Where, prms, false, ps.Logger)
-		if err != nil {
-			return "", err
-		}
 		ps.Title = ret.TitleString() + " (Trouble)"
 		ps.Data = ret
 
-		return Render(rc, as, &vtrouble.Detail{
-			Model:      ret,
-			Params:     ps.Params,
-			Selectcols: selectcols,
-		}, ps, "trouble", ret.String())
-	})
-}
-
-func TroubleSelectcol(rc *fasthttp.RequestCtx) {
-	Act("trouble.selectcol", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		latest, err := troubleFromPath(rc, as, ps)
-		if err != nil {
-			return "", err
-		}
-		selectcol, err := cutil.RCRequiredInt(rc, "selectcol")
-		if err != nil {
-			return "", err
-		}
-		ret, err := as.Services.Trouble.GetSelectcol(ps.Context, nil, latest.From, latest.Where, selectcol, ps.Logger)
-		if err != nil {
-			return "", err
-		}
-		ps.Title = ret.String()
-		ps.Data = ret
 		return Render(rc, as, &vtrouble.Detail{Model: ret}, ps, "trouble", ret.String())
 	})
 }
@@ -104,7 +75,6 @@ func TroubleCreate(rc *fasthttp.RequestCtx) {
 
 func TroubleEditForm(rc *fasthttp.RequestCtx) {
 	Act("trouble.edit.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		rc.SetUserValue("includeDeleted", true)
 		ret, err := troubleFromPath(rc, as, ps)
 		if err != nil {
 			return "", err
@@ -117,7 +87,6 @@ func TroubleEditForm(rc *fasthttp.RequestCtx) {
 
 func TroubleEdit(rc *fasthttp.RequestCtx) {
 	Act("trouble.edit", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		rc.SetUserValue("includeDeleted", true)
 		ret, err := troubleFromPath(rc, as, ps)
 		if err != nil {
 			return "", err

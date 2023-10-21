@@ -17,8 +17,26 @@ func (r Relations) Get(id uuid.UUID) *Relation {
 }
 
 func (r Relations) GetByIDs(ids ...uuid.UUID) Relations {
-	return lo.Filter(r, func(x *Relation, _ int) bool {
-		return lo.Contains(ids, x.ID)
+	return lo.Filter(r, func(xx *Relation, _ int) bool {
+		return lo.Contains(ids, xx.ID)
+	})
+}
+
+func (r Relations) GetByID(id uuid.UUID) Relations {
+	return lo.Filter(r, func(xx *Relation, _ int) bool {
+		return xx.ID == id
+	})
+}
+
+func (r Relations) GetByBasicIDs(basicIDs ...uuid.UUID) Relations {
+	return lo.Filter(r, func(xx *Relation, _ int) bool {
+		return lo.Contains(basicIDs, xx.BasicID)
+	})
+}
+
+func (r Relations) GetByBasicID(basicID uuid.UUID) Relations {
+	return lo.Filter(r, func(xx *Relation, _ int) bool {
+		return xx.BasicID == basicID
 	})
 }
 

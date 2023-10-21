@@ -16,8 +16,14 @@ func (c Capitals) Get(id string) *Capital {
 }
 
 func (c Capitals) GetByIDs(ids ...string) Capitals {
-	return lo.Filter(c, func(x *Capital, _ int) bool {
-		return lo.Contains(ids, x.ID)
+	return lo.Filter(c, func(xx *Capital, _ int) bool {
+		return lo.Contains(ids, xx.ID)
+	})
+}
+
+func (c Capitals) GetByID(id string) Capitals {
+	return lo.Filter(c, func(xx *Capital, _ int) bool {
+		return xx.ID == id
 	})
 }
 

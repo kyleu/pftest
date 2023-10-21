@@ -16,8 +16,14 @@ func (t Timestamps) Get(id string) *Timestamp {
 }
 
 func (t Timestamps) GetByIDs(ids ...string) Timestamps {
-	return lo.Filter(t, func(x *Timestamp, _ int) bool {
-		return lo.Contains(ids, x.ID)
+	return lo.Filter(t, func(xx *Timestamp, _ int) bool {
+		return lo.Contains(ids, xx.ID)
+	})
+}
+
+func (t Timestamps) GetByID(id string) Timestamps {
+	return lo.Filter(t, func(xx *Timestamp, _ int) bool {
+		return xx.ID == id
 	})
 }
 

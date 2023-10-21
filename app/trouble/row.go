@@ -18,13 +18,6 @@ var (
 	columns       = []string{"from", "where", "selectcol", "limit", "group", "delete"}
 	columnsQuoted = util.StringArrayQuoted(columns)
 	columnsString = strings.Join(columnsQuoted, ", ")
-
-	columnsCore      = util.StringArrayQuoted([]string{"from", "where", "current_selectcol", "limit", "delete"})
-	columnsSelectcol = util.StringArrayQuoted([]string{"trouble_from", "trouble_where", "selectcol", "group"})
-
-	tableSelectcol       = table + "_selectcol"
-	tableSelectcolQuoted = fmt.Sprintf("%q", tableSelectcol)
-	tablesJoined         = fmt.Sprintf(`%q t join %q tr on t."from" = tr."trouble_from" and t."where" = tr."trouble_where" and t."current_selectcol" = tr."selectcol"`, table, tableSelectcol) //nolint:lll
 )
 
 type row struct {

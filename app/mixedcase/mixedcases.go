@@ -16,8 +16,14 @@ func (m MixedCases) Get(id string) *MixedCase {
 }
 
 func (m MixedCases) GetByIDs(ids ...string) MixedCases {
-	return lo.Filter(m, func(x *MixedCase, _ int) bool {
-		return lo.Contains(ids, x.ID)
+	return lo.Filter(m, func(xx *MixedCase, _ int) bool {
+		return lo.Contains(ids, xx.ID)
+	})
+}
+
+func (m MixedCases) GetByID(id string) MixedCases {
+	return lo.Filter(m, func(xx *MixedCase, _ int) bool {
+		return xx.ID == id
 	})
 }
 

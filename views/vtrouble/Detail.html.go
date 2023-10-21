@@ -10,58 +10,55 @@ package vtrouble
 import (
 	"github.com/kyleu/pftest/app"
 	"github.com/kyleu/pftest/app/controller/cutil"
-	"github.com/kyleu/pftest/app/lib/filter"
 	"github.com/kyleu/pftest/app/trouble"
 	"github.com/kyleu/pftest/views/components"
 	"github.com/kyleu/pftest/views/layout"
 )
 
-//line views/vtrouble/Detail.html:11
+//line views/vtrouble/Detail.html:10
 import (
 	qtio422016 "io"
 
 	qt422016 "github.com/valyala/quicktemplate"
 )
 
-//line views/vtrouble/Detail.html:11
+//line views/vtrouble/Detail.html:10
 var (
 	_ = qtio422016.Copy
 	_ = qt422016.AcquireByteBuffer
 )
 
-//line views/vtrouble/Detail.html:11
+//line views/vtrouble/Detail.html:10
 type Detail struct {
 	layout.Basic
-	Model      *trouble.Trouble
-	Params     filter.ParamSet
-	Selectcols trouble.Troubles
+	Model *trouble.Trouble
 }
 
-//line views/vtrouble/Detail.html:18
+//line views/vtrouble/Detail.html:15
 func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vtrouble/Detail.html:18
+//line views/vtrouble/Detail.html:15
 	qw422016.N().S(`
   <div class="card">
     <div class="right">
       <a href="#modal-trouble"><button type="button">JSON</button></a>
       <a href="`)
-//line views/vtrouble/Detail.html:22
+//line views/vtrouble/Detail.html:19
 	qw422016.E().S(p.Model.WebPath())
-//line views/vtrouble/Detail.html:22
+//line views/vtrouble/Detail.html:19
 	qw422016.N().S(`/edit"><button>`)
-//line views/vtrouble/Detail.html:22
+//line views/vtrouble/Detail.html:19
 	components.StreamSVGRef(qw422016, "edit", 15, 15, "icon", ps)
-//line views/vtrouble/Detail.html:22
+//line views/vtrouble/Detail.html:19
 	qw422016.N().S(`Edit</button></a>
     </div>
     <h3>`)
-//line views/vtrouble/Detail.html:24
+//line views/vtrouble/Detail.html:21
 	components.StreamSVGRefIcon(qw422016, `star`, ps)
-//line views/vtrouble/Detail.html:24
+//line views/vtrouble/Detail.html:21
 	qw422016.N().S(` `)
-//line views/vtrouble/Detail.html:24
+//line views/vtrouble/Detail.html:21
 	qw422016.E().S(p.Model.TitleString())
-//line views/vtrouble/Detail.html:24
+//line views/vtrouble/Detail.html:21
 	qw422016.N().S(`</h3>
     <div><a href="/troub/le"><em>Trouble</em></a></div>
     <table class="mt">
@@ -69,185 +66,87 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
         <tr>
           <th class="shrink" title="String text">From</th>
           <td>`)
-//line views/vtrouble/Detail.html:30
+//line views/vtrouble/Detail.html:27
 	qw422016.E().S(p.Model.From)
-//line views/vtrouble/Detail.html:30
+//line views/vtrouble/Detail.html:27
 	qw422016.N().S(`</td>
         </tr>
         <tr>
           <th class="shrink" title="Comma-separated list of values">Where</th>
           <td>`)
-//line views/vtrouble/Detail.html:34
+//line views/vtrouble/Detail.html:31
 	components.StreamDisplayStringArray(qw422016, p.Model.Where)
-//line views/vtrouble/Detail.html:34
+//line views/vtrouble/Detail.html:31
 	qw422016.N().S(`</td>
         </tr>
         <tr>
           <th class="shrink" title="Integer">Selectcol</th>
           <td>`)
-//line views/vtrouble/Detail.html:38
+//line views/vtrouble/Detail.html:35
 	qw422016.N().D(p.Model.Selectcol)
-//line views/vtrouble/Detail.html:38
+//line views/vtrouble/Detail.html:35
 	qw422016.N().S(`</td>
         </tr>
         <tr>
           <th class="shrink" title="String text">Limit</th>
           <td>`)
-//line views/vtrouble/Detail.html:42
+//line views/vtrouble/Detail.html:39
 	qw422016.E().S(p.Model.Limit)
-//line views/vtrouble/Detail.html:42
+//line views/vtrouble/Detail.html:39
 	qw422016.N().S(`</td>
         </tr>
         <tr>
           <th class="shrink" title="String text">Group</th>
           <td>`)
-//line views/vtrouble/Detail.html:46
+//line views/vtrouble/Detail.html:43
 	qw422016.E().S(p.Model.Group)
-//line views/vtrouble/Detail.html:46
+//line views/vtrouble/Detail.html:43
 	qw422016.N().S(`</td>
         </tr>
         <tr>
           <th class="shrink" title="Date and time, in almost any format (optional)">Delete</th>
           <td>`)
-//line views/vtrouble/Detail.html:50
+//line views/vtrouble/Detail.html:47
 	components.StreamDisplayTimestamp(qw422016, p.Model.Delete)
-//line views/vtrouble/Detail.html:50
+//line views/vtrouble/Detail.html:47
 	qw422016.N().S(`</td>
         </tr>
       </tbody>
     </table>
   </div>
 `)
-//line views/vtrouble/Detail.html:55
-	if len(p.Selectcols) > 1 {
-//line views/vtrouble/Detail.html:55
-		qw422016.N().S(`  <div class="card">
-    <h3>Selectcols</h3>
-`)
-//line views/vtrouble/Detail.html:58
-		prms := p.Params.Get("trouble", nil, ps.Logger).Sanitize("trouble")
-
-//line views/vtrouble/Detail.html:58
-		qw422016.N().S(`    <table class="mt">
-      <thead>
-        <tr>
-          `)
-//line views/vtrouble/Detail.html:62
-		components.StreamTableHeaderSimple(qw422016, "trouble", "from", "From", "String text", prms, ps.URI, ps)
-//line views/vtrouble/Detail.html:62
-		qw422016.N().S(`
-          `)
-//line views/vtrouble/Detail.html:63
-		components.StreamTableHeaderSimple(qw422016, "trouble", "where", "Where", "Comma-separated list of values", prms, ps.URI, ps)
-//line views/vtrouble/Detail.html:63
-		qw422016.N().S(`
-          `)
-//line views/vtrouble/Detail.html:64
-		components.StreamTableHeaderSimple(qw422016, "trouble", "selectcol", "Selectcol", "Integer", prms, ps.URI, ps)
-//line views/vtrouble/Detail.html:64
-		qw422016.N().S(`
-        </tr>
-      </thead>
-      <tbody>
-`)
-//line views/vtrouble/Detail.html:68
-		for _, model := range p.Selectcols {
-//line views/vtrouble/Detail.html:68
-			qw422016.N().S(`        <tr>
-          <td><a href="/troub/le/`)
-//line views/vtrouble/Detail.html:70
-			qw422016.N().U(model.From)
-//line views/vtrouble/Detail.html:70
-			qw422016.N().S(`/`)
-//line views/vtrouble/Detail.html:70
-			qw422016.E().V(model.Where)
-//line views/vtrouble/Detail.html:70
-			qw422016.N().S(`/selectcol/`)
-//line views/vtrouble/Detail.html:70
-			qw422016.N().D(model.Selectcol)
-//line views/vtrouble/Detail.html:70
-			qw422016.N().S(`">`)
-//line views/vtrouble/Detail.html:70
-			qw422016.E().S(model.From)
-//line views/vtrouble/Detail.html:70
-			qw422016.N().S(`</a></td>
-          <td><a href="/troub/le/`)
-//line views/vtrouble/Detail.html:71
-			qw422016.N().U(model.From)
-//line views/vtrouble/Detail.html:71
-			qw422016.N().S(`/`)
-//line views/vtrouble/Detail.html:71
-			qw422016.E().V(model.Where)
-//line views/vtrouble/Detail.html:71
-			qw422016.N().S(`/selectcol/`)
-//line views/vtrouble/Detail.html:71
-			qw422016.N().D(model.Selectcol)
-//line views/vtrouble/Detail.html:71
-			qw422016.N().S(`">`)
-//line views/vtrouble/Detail.html:71
-			components.StreamDisplayStringArray(qw422016, model.Where)
-//line views/vtrouble/Detail.html:71
-			qw422016.N().S(`</a></td>
-          <td><a href="/troub/le/`)
-//line views/vtrouble/Detail.html:72
-			qw422016.N().U(model.From)
-//line views/vtrouble/Detail.html:72
-			qw422016.N().S(`/`)
-//line views/vtrouble/Detail.html:72
-			qw422016.E().V(model.Where)
-//line views/vtrouble/Detail.html:72
-			qw422016.N().S(`/selectcol/`)
-//line views/vtrouble/Detail.html:72
-			qw422016.N().D(model.Selectcol)
-//line views/vtrouble/Detail.html:72
-			qw422016.N().S(`">`)
-//line views/vtrouble/Detail.html:72
-			qw422016.N().D(model.Selectcol)
-//line views/vtrouble/Detail.html:72
-			qw422016.N().S(`</a></td>
-        </tr>
-`)
-//line views/vtrouble/Detail.html:74
-		}
-//line views/vtrouble/Detail.html:74
-		qw422016.N().S(`      </tbody>
-    </table>
-  </div>
-`)
-//line views/vtrouble/Detail.html:78
-	}
-//line views/vtrouble/Detail.html:80
+//line views/vtrouble/Detail.html:53
 	qw422016.N().S(`  `)
-//line views/vtrouble/Detail.html:81
+//line views/vtrouble/Detail.html:54
 	components.StreamJSONModal(qw422016, "trouble", "Trouble JSON", p.Model, 1)
-//line views/vtrouble/Detail.html:81
+//line views/vtrouble/Detail.html:54
 	qw422016.N().S(`
 `)
-//line views/vtrouble/Detail.html:82
+//line views/vtrouble/Detail.html:55
 }
 
-//line views/vtrouble/Detail.html:82
+//line views/vtrouble/Detail.html:55
 func (p *Detail) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vtrouble/Detail.html:82
+//line views/vtrouble/Detail.html:55
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vtrouble/Detail.html:82
+//line views/vtrouble/Detail.html:55
 	p.StreamBody(qw422016, as, ps)
-//line views/vtrouble/Detail.html:82
+//line views/vtrouble/Detail.html:55
 	qt422016.ReleaseWriter(qw422016)
-//line views/vtrouble/Detail.html:82
+//line views/vtrouble/Detail.html:55
 }
 
-//line views/vtrouble/Detail.html:82
+//line views/vtrouble/Detail.html:55
 func (p *Detail) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vtrouble/Detail.html:82
+//line views/vtrouble/Detail.html:55
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vtrouble/Detail.html:82
+//line views/vtrouble/Detail.html:55
 	p.WriteBody(qb422016, as, ps)
-//line views/vtrouble/Detail.html:82
+//line views/vtrouble/Detail.html:55
 	qs422016 := string(qb422016.B)
-//line views/vtrouble/Detail.html:82
+//line views/vtrouble/Detail.html:55
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vtrouble/Detail.html:82
+//line views/vtrouble/Detail.html:55
 	return qs422016
-//line views/vtrouble/Detail.html:82
+//line views/vtrouble/Detail.html:55
 }

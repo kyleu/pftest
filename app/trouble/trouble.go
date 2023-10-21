@@ -31,7 +31,7 @@ func New(from string, where []string) *Trouble {
 func Random() *Trouble {
 	return &Trouble{
 		From:      util.RandomString(12),
-		Where:     nil,
+		Where:     []string{util.RandomString(12), util.RandomString(12)},
 		Selectcol: util.RandomInt(10000),
 		Limit:     util.RandomString(12),
 		Group:     util.RandomString(12),
@@ -53,6 +53,10 @@ func FromMap(m util.ValueMap, setPK bool) (*Trouble, error) {
 		}
 		// $PF_SECTION_START(pkchecks)$
 		// $PF_SECTION_END(pkchecks)$
+	}
+	ret.Selectcol, err = m.ParseInt("selectcol", true, true)
+	if err != nil {
+		return nil, err
 	}
 	ret.Limit, err = m.ParseString("limit", true, true)
 	if err != nil {
@@ -117,12 +121,4 @@ func (t *Trouble) Diff(tx *Trouble) util.Diffs {
 
 func (t *Trouble) ToData() []any {
 	return []any{t.From, t.Where, t.Selectcol, t.Limit, t.Group, t.Delete}
-}
-
-func (t *Trouble) ToDataCore() []any {
-	return []any{t.From, t.Where, t.Selectcol, t.Limit, t.Delete}
-}
-
-func (t *Trouble) ToDataSelectcol() []any {
-	return []any{t.From, t.Where, t.Selectcol, t.Group}
 }

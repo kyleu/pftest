@@ -17,8 +17,14 @@ func (s Seeds) Get(id uuid.UUID) *Seed {
 }
 
 func (s Seeds) GetByIDs(ids ...uuid.UUID) Seeds {
-	return lo.Filter(s, func(x *Seed, _ int) bool {
-		return lo.Contains(ids, x.ID)
+	return lo.Filter(s, func(xx *Seed, _ int) bool {
+		return lo.Contains(ids, xx.ID)
+	})
+}
+
+func (s Seeds) GetByID(id uuid.UUID) Seeds {
+	return lo.Filter(s, func(xx *Seed, _ int) bool {
+		return xx.ID == id
 	})
 }
 

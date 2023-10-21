@@ -17,8 +17,14 @@ func (p Paths) Get(id uuid.UUID) *Path {
 }
 
 func (p Paths) GetByIDs(ids ...uuid.UUID) Paths {
-	return lo.Filter(p, func(x *Path, _ int) bool {
-		return lo.Contains(ids, x.ID)
+	return lo.Filter(p, func(xx *Path, _ int) bool {
+		return lo.Contains(ids, xx.ID)
+	})
+}
+
+func (p Paths) GetByID(id uuid.UUID) Paths {
+	return lo.Filter(p, func(xx *Path, _ int) bool {
+		return xx.ID == id
 	})
 }
 

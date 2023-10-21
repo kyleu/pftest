@@ -29,10 +29,7 @@
     {
       "name": "selectcol",
       "type": "int",
-      "sqlDefault": "1",
-      "tags": [
-        "revision"
-      ]
+      "sqlDefault": "1"
     },
     {
       "name": "limit",

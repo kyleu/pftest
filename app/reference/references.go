@@ -17,8 +17,14 @@ func (r References) Get(id uuid.UUID) *Reference {
 }
 
 func (r References) GetByIDs(ids ...uuid.UUID) References {
-	return lo.Filter(r, func(x *Reference, _ int) bool {
-		return lo.Contains(ids, x.ID)
+	return lo.Filter(r, func(xx *Reference, _ int) bool {
+		return lo.Contains(ids, xx.ID)
+	})
+}
+
+func (r References) GetByID(id uuid.UUID) References {
+	return lo.Filter(r, func(xx *Reference, _ int) bool {
+		return xx.ID == id
 	})
 }
 

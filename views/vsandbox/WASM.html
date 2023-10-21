@@ -5,7 +5,6 @@
   "github.com/kyleu/pftest/app/util"
   "github.com/kyleu/pftest/views/components"
   "github.com/kyleu/pftest/views/layout"
-  "github.com/kyleu/pftest/views/vutil"
 ) %}
 
 {% code type WASM struct {
@@ -26,5 +25,5 @@
     document.getElementById("load-status").innerText = "Loaded in [" + ms + "ms]";
   }
 </script>
-{%= vutil.WASMScript() %}
+{%= components.WASMScript() %}
 {% endfunc %}

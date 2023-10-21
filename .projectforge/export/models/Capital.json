@@ -26,14 +26,6 @@
       "search": true
     },
     {
-      "name": "Version",
-      "type": "int",
-      "sqlDefault": "1",
-      "tags": [
-        "revision"
-      ]
-    },
-    {
       "name": "Deathday",
       "type": "timestamp",
       "nullable": true,

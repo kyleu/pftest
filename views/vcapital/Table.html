@@ -15,7 +15,6 @@
         {%= components.TableHeaderSimple("capital", "ID", "ID", "String text", prms, ps.URI, ps) %}
         {%= components.TableHeaderSimple("capital", "Name", "Name", "String text", prms, ps.URI, ps) %}
         {%= components.TableHeaderSimple("capital", "Birthday", "Birthday", "Date and time, in almost any format", prms, ps.URI, ps) %}
-        {%= components.TableHeaderSimple("capital", "Version", "Version", "Integer", prms, ps.URI, ps) %}
         {%= components.TableHeaderSimple("capital", "Deathday", "Deathday", "Date and time, in almost any format (optional)", prms, ps.URI, ps) %}
       </tr>
     </thead>
@@ -25,13 +24,12 @@
         <td><a href="/capital/{%u model.ID %}">{%s model.ID %}</a></td>
         <td><strong>{%s model.Name %}</strong></td>
         <td>{%= components.DisplayTimestamp(&model.Birthday) %}</td>
-        <td>{%d model.Version %}</td>
         <td>{%= components.DisplayTimestamp(model.Deathday) %}</td>
       </tr>
       {%- endfor -%}
       {%- if prms.HasNextPage(len(models) + prms.Offset) || prms.HasPreviousPage() -%}
       <tr>
-        <td colspan="5">{%= components.Pagination(len(models) + prms.Offset, prms, ps.URI) %}</td>
+        <td colspan="4">{%= components.Pagination(len(models) + prms.Offset, prms, ps.URI) %}</td>
       </tr>
       {%- endif -%}
     </tbody>

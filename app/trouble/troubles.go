@@ -24,8 +24,14 @@ func (t Troubles) ToPKs() []*PK {
 }
 
 func (t Troubles) GetByFroms(froms ...string) Troubles {
-	return lo.Filter(t, func(x *Trouble, _ int) bool {
-		return lo.Contains(froms, x.From)
+	return lo.Filter(t, func(xx *Trouble, _ int) bool {
+		return lo.Contains(froms, xx.From)
+	})
+}
+
+func (t Troubles) GetByFrom(from string) Troubles {
+	return lo.Filter(t, func(xx *Trouble, _ int) bool {
+		return xx.From == from
 	})
 }
 

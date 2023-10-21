@@ -57,97 +57,87 @@ func StreamTable(qw422016 *qt422016.Writer, models capital.Capitals, params filt
 	qw422016.N().S(`
         `)
 //line views/vcapital/Table.html:18
-	components.StreamTableHeaderSimple(qw422016, "capital", "Version", "Version", "Integer", prms, ps.URI, ps)
-//line views/vcapital/Table.html:18
-	qw422016.N().S(`
-        `)
-//line views/vcapital/Table.html:19
 	components.StreamTableHeaderSimple(qw422016, "capital", "Deathday", "Deathday", "Date and time, in almost any format (optional)", prms, ps.URI, ps)
-//line views/vcapital/Table.html:19
+//line views/vcapital/Table.html:18
 	qw422016.N().S(`
       </tr>
     </thead>
     <tbody>
 `)
-//line views/vcapital/Table.html:23
+//line views/vcapital/Table.html:22
 	for _, model := range models {
-//line views/vcapital/Table.html:23
+//line views/vcapital/Table.html:22
 		qw422016.N().S(`      <tr>
         <td><a href="/capital/`)
-//line views/vcapital/Table.html:25
+//line views/vcapital/Table.html:24
 		qw422016.N().U(model.ID)
-//line views/vcapital/Table.html:25
+//line views/vcapital/Table.html:24
 		qw422016.N().S(`">`)
-//line views/vcapital/Table.html:25
+//line views/vcapital/Table.html:24
 		qw422016.E().S(model.ID)
-//line views/vcapital/Table.html:25
+//line views/vcapital/Table.html:24
 		qw422016.N().S(`</a></td>
         <td><strong>`)
-//line views/vcapital/Table.html:26
+//line views/vcapital/Table.html:25
 		qw422016.E().S(model.Name)
-//line views/vcapital/Table.html:26
+//line views/vcapital/Table.html:25
 		qw422016.N().S(`</strong></td>
         <td>`)
-//line views/vcapital/Table.html:27
+//line views/vcapital/Table.html:26
 		components.StreamDisplayTimestamp(qw422016, &model.Birthday)
+//line views/vcapital/Table.html:26
+		qw422016.N().S(`</td>
+        <td>`)
+//line views/vcapital/Table.html:27
+		components.StreamDisplayTimestamp(qw422016, model.Deathday)
 //line views/vcapital/Table.html:27
 		qw422016.N().S(`</td>
-        <td>`)
-//line views/vcapital/Table.html:28
-		qw422016.N().D(model.Version)
-//line views/vcapital/Table.html:28
-		qw422016.N().S(`</td>
-        <td>`)
-//line views/vcapital/Table.html:29
-		components.StreamDisplayTimestamp(qw422016, model.Deathday)
-//line views/vcapital/Table.html:29
-		qw422016.N().S(`</td>
       </tr>
 `)
-//line views/vcapital/Table.html:31
+//line views/vcapital/Table.html:29
 	}
-//line views/vcapital/Table.html:32
+//line views/vcapital/Table.html:30
 	if prms.HasNextPage(len(models)+prms.Offset) || prms.HasPreviousPage() {
-//line views/vcapital/Table.html:32
+//line views/vcapital/Table.html:30
 		qw422016.N().S(`      <tr>
-        <td colspan="5">`)
-//line views/vcapital/Table.html:34
+        <td colspan="4">`)
+//line views/vcapital/Table.html:32
 		components.StreamPagination(qw422016, len(models)+prms.Offset, prms, ps.URI)
-//line views/vcapital/Table.html:34
+//line views/vcapital/Table.html:32
 		qw422016.N().S(`</td>
       </tr>
 `)
-//line views/vcapital/Table.html:36
+//line views/vcapital/Table.html:34
 	}
-//line views/vcapital/Table.html:36
+//line views/vcapital/Table.html:34
 	qw422016.N().S(`    </tbody>
   </table>
 `)
-//line views/vcapital/Table.html:39
+//line views/vcapital/Table.html:37
 }
 
-//line views/vcapital/Table.html:39
+//line views/vcapital/Table.html:37
 func WriteTable(qq422016 qtio422016.Writer, models capital.Capitals, params filter.ParamSet, as *app.State, ps *cutil.PageState) {
-//line views/vcapital/Table.html:39
+//line views/vcapital/Table.html:37
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vcapital/Table.html:39
+//line views/vcapital/Table.html:37
 	StreamTable(qw422016, models, params, as, ps)
-//line views/vcapital/Table.html:39
+//line views/vcapital/Table.html:37
 	qt422016.ReleaseWriter(qw422016)
-//line views/vcapital/Table.html:39
+//line views/vcapital/Table.html:37
 }
 
-//line views/vcapital/Table.html:39
+//line views/vcapital/Table.html:37
 func Table(models capital.Capitals, params filter.ParamSet, as *app.State, ps *cutil.PageState) string {
-//line views/vcapital/Table.html:39
+//line views/vcapital/Table.html:37
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vcapital/Table.html:39
+//line views/vcapital/Table.html:37
 	WriteTable(qb422016, models, params, as, ps)
-//line views/vcapital/Table.html:39
+//line views/vcapital/Table.html:37
 	qs422016 := string(qb422016.B)
-//line views/vcapital/Table.html:39
+//line views/vcapital/Table.html:37
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vcapital/Table.html:39
+//line views/vcapital/Table.html:37
 	return qs422016
-//line views/vcapital/Table.html:39
+//line views/vcapital/Table.html:37
 }

@@ -101,13 +101,8 @@ func (p *Edit) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
 	qw422016.N().S(`
           `)
 //line views/vcapital/Edit.html:32
-	components.StreamTableInputNumber(qw422016, "version", "", "Version", p.Model.Version, 5, "Integer")
-//line views/vcapital/Edit.html:32
-	qw422016.N().S(`
-          `)
-//line views/vcapital/Edit.html:33
 	components.StreamTableInputTimestamp(qw422016, "deathday", "", "Deathday", p.Model.Deathday, 5, "Date and time, in almost any format (optional)")
-//line views/vcapital/Edit.html:33
+//line views/vcapital/Edit.html:32
 	qw422016.N().S(`
           <tr><td colspan="2"><button type="submit">Save Changes</button></td></tr>
         </tbody>
@@ -115,31 +110,31 @@ func (p *Edit) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
     </form>
   </div>
 `)
-//line views/vcapital/Edit.html:39
+//line views/vcapital/Edit.html:38
 }
 
-//line views/vcapital/Edit.html:39
+//line views/vcapital/Edit.html:38
 func (p *Edit) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vcapital/Edit.html:39
+//line views/vcapital/Edit.html:38
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vcapital/Edit.html:39
+//line views/vcapital/Edit.html:38
 	p.StreamBody(qw422016, as, ps)
-//line views/vcapital/Edit.html:39
+//line views/vcapital/Edit.html:38
 	qt422016.ReleaseWriter(qw422016)
-//line views/vcapital/Edit.html:39
+//line views/vcapital/Edit.html:38
 }
 
-//line views/vcapital/Edit.html:39
+//line views/vcapital/Edit.html:38
 func (p *Edit) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vcapital/Edit.html:39
+//line views/vcapital/Edit.html:38
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vcapital/Edit.html:39
+//line views/vcapital/Edit.html:38
 	p.WriteBody(qb422016, as, ps)
-//line views/vcapital/Edit.html:39
+//line views/vcapital/Edit.html:38
 	qs422016 := string(qb422016.B)
-//line views/vcapital/Edit.html:39
+//line views/vcapital/Edit.html:38
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vcapital/Edit.html:39
+//line views/vcapital/Edit.html:38
 	return qs422016
-//line views/vcapital/Edit.html:39
+//line views/vcapital/Edit.html:38
 }

@@ -24,49 +24,49 @@ var (
 func StreamTroubleDrop(qw422016 *qt422016.Writer) {
 //line queries/ddl/trouble.sql:2
 	qw422016.N().S(`
-drop table if exists "trouble_selectcol";
 drop table if exists "trouble";
 -- `)
-//line queries/ddl/trouble.sql:5
+//line queries/ddl/trouble.sql:4
 }
 
-//line queries/ddl/trouble.sql:5
+//line queries/ddl/trouble.sql:4
 func WriteTroubleDrop(qq422016 qtio422016.Writer) {
-//line queries/ddl/trouble.sql:5
+//line queries/ddl/trouble.sql:4
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line queries/ddl/trouble.sql:5
+//line queries/ddl/trouble.sql:4
 	StreamTroubleDrop(qw422016)
-//line queries/ddl/trouble.sql:5
+//line queries/ddl/trouble.sql:4
 	qt422016.ReleaseWriter(qw422016)
-//line queries/ddl/trouble.sql:5
+//line queries/ddl/trouble.sql:4
 }
 
-//line queries/ddl/trouble.sql:5
+//line queries/ddl/trouble.sql:4
 func TroubleDrop() string {
-//line queries/ddl/trouble.sql:5
+//line queries/ddl/trouble.sql:4
 	qb422016 := qt422016.AcquireByteBuffer()
-//line queries/ddl/trouble.sql:5
+//line queries/ddl/trouble.sql:4
 	WriteTroubleDrop(qb422016)
-//line queries/ddl/trouble.sql:5
+//line queries/ddl/trouble.sql:4
 	qs422016 := string(qb422016.B)
-//line queries/ddl/trouble.sql:5
+//line queries/ddl/trouble.sql:4
 	qt422016.ReleaseByteBuffer(qb422016)
-//line queries/ddl/trouble.sql:5
+//line queries/ddl/trouble.sql:4
 	return qs422016
-//line queries/ddl/trouble.sql:5
+//line queries/ddl/trouble.sql:4
 }
 
 // --
 
-//line queries/ddl/trouble.sql:7
+//line queries/ddl/trouble.sql:6
 func StreamTroubleCreate(qw422016 *qt422016.Writer) {
-//line queries/ddl/trouble.sql:7
+//line queries/ddl/trouble.sql:6
 	qw422016.N().S(`
 create table if not exists "trouble" (
   "from" text not null,
   "where" jsonb not null,
-  "current_selectcol" int not null default 1,
+  "selectcol" int not null default 1,
   "limit" text not null,
+  "group" text not null,
   "delete" timestamp default now(),
   primary key ("from", "where")
 );
@@ -74,47 +74,32 @@ create table if not exists "trouble" (
 create index if not exists "trouble__from_idx" on "trouble" ("from");
 
 create index if not exists "trouble__where_idx" on "trouble" ("where");
-
-create table if not exists "trouble_selectcol" (
-  "trouble_from" text not null,
-  "trouble_where" jsonb not null,
-  "selectcol" int not null default 1,
-  "group" text not null,
-  foreign key ("trouble_from", "trouble_where") references "trouble" ("from", "where"),
-  primary key ("trouble_from", "trouble_where", "selectcol")
-);
-
-create index if not exists "trouble_selectcol__trouble_from_trouble_where_idx" on "trouble_selectcol" ("trouble_from", "trouble_where");
-
-create index if not exists "trouble_selectcol__trouble_from_idx" on "trouble_selectcol" ("trouble_from");
-
-create index if not exists "trouble_selectcol__trouble_where_idx" on "trouble_selectcol" ("trouble_where");
 -- `)
-//line queries/ddl/trouble.sql:35
+//line queries/ddl/trouble.sql:20
 }
 
-//line queries/ddl/trouble.sql:35
+//line queries/ddl/trouble.sql:20
 func WriteTroubleCreate(qq422016 qtio422016.Writer) {
-//line queries/ddl/trouble.sql:35
+//line queries/ddl/trouble.sql:20
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line queries/ddl/trouble.sql:35
+//line queries/ddl/trouble.sql:20
 	StreamTroubleCreate(qw422016)
-//line queries/ddl/trouble.sql:35
+//line queries/ddl/trouble.sql:20
 	qt422016.ReleaseWriter(qw422016)
-//line queries/ddl/trouble.sql:35
+//line queries/ddl/trouble.sql:20
 }
 
-//line queries/ddl/trouble.sql:35
+//line queries/ddl/trouble.sql:20
 func TroubleCreate() string {
-//line queries/ddl/trouble.sql:35
+//line queries/ddl/trouble.sql:20
 	qb422016 := qt422016.AcquireByteBuffer()
-//line queries/ddl/trouble.sql:35
+//line queries/ddl/trouble.sql:20
 	WriteTroubleCreate(qb422016)
-//line queries/ddl/trouble.sql:35
+//line queries/ddl/trouble.sql:20
 	qs422016 := string(qb422016.B)
-//line queries/ddl/trouble.sql:35
+//line queries/ddl/trouble.sql:20
 	qt422016.ReleaseByteBuffer(qb422016)
-//line queries/ddl/trouble.sql:35
+//line queries/ddl/trouble.sql:20
 	return qs422016
-//line queries/ddl/trouble.sql:35
+//line queries/ddl/trouble.sql:20
 }
