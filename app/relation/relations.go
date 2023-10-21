@@ -16,33 +16,9 @@ func (r Relations) Get(id uuid.UUID) *Relation {
 	})
 }
 
-func (r Relations) GetByIDs(ids ...uuid.UUID) Relations {
-	return lo.Filter(r, func(xx *Relation, _ int) bool {
-		return lo.Contains(ids, xx.ID)
-	})
-}
-
-func (r Relations) GetByID(id uuid.UUID) Relations {
-	return lo.Filter(r, func(xx *Relation, _ int) bool {
-		return xx.ID == id
-	})
-}
-
-func (r Relations) GetByBasicIDs(basicIDs ...uuid.UUID) Relations {
-	return lo.Filter(r, func(xx *Relation, _ int) bool {
-		return lo.Contains(basicIDs, xx.BasicID)
-	})
-}
-
-func (r Relations) GetByBasicID(basicID uuid.UUID) Relations {
-	return lo.Filter(r, func(xx *Relation, _ int) bool {
-		return xx.BasicID == basicID
-	})
-}
-
 func (r Relations) IDs() []uuid.UUID {
-	return lo.Map(r, func(x *Relation, _ int) uuid.UUID {
-		return x.ID
+	return lo.Map(r, func(xx *Relation, _ int) uuid.UUID {
+		return xx.ID
 	})
 }
 
@@ -66,6 +42,36 @@ func (r Relations) TitleStrings(nilTitle string) []string {
 		ret = append(ret, x.TitleString())
 	})
 	return ret
+}
+
+func (r Relations) GetByID(id uuid.UUID) Relations {
+	return lo.Filter(r, func(xx *Relation, _ int) bool {
+		return xx.ID == id
+	})
+}
+
+func (r Relations) GetByIDs(ids ...uuid.UUID) Relations {
+	return lo.Filter(r, func(xx *Relation, _ int) bool {
+		return lo.Contains(ids, xx.ID)
+	})
+}
+
+func (r Relations) BasicIDs() []uuid.UUID {
+	return lo.Map(r, func(xx *Relation, _ int) uuid.UUID {
+		return xx.BasicID
+	})
+}
+
+func (r Relations) GetByBasicID(basicID uuid.UUID) Relations {
+	return lo.Filter(r, func(xx *Relation, _ int) bool {
+		return xx.BasicID == basicID
+	})
+}
+
+func (r Relations) GetByBasicIDs(basicIDs ...uuid.UUID) Relations {
+	return lo.Filter(r, func(xx *Relation, _ int) bool {
+		return lo.Contains(basicIDs, xx.BasicID)
+	})
 }
 
 func (r Relations) Clone() Relations {

@@ -15,21 +15,9 @@ func (c Capitals) Get(id string) *Capital {
 	})
 }
 
-func (c Capitals) GetByIDs(ids ...string) Capitals {
-	return lo.Filter(c, func(xx *Capital, _ int) bool {
-		return lo.Contains(ids, xx.ID)
-	})
-}
-
-func (c Capitals) GetByID(id string) Capitals {
-	return lo.Filter(c, func(xx *Capital, _ int) bool {
-		return xx.ID == id
-	})
-}
-
 func (c Capitals) IDs() []string {
-	return lo.Map(c, func(x *Capital, _ int) string {
-		return x.ID
+	return lo.Map(c, func(xx *Capital, _ int) string {
+		return xx.ID
 	})
 }
 
@@ -53,6 +41,18 @@ func (c Capitals) TitleStrings(nilTitle string) []string {
 		ret = append(ret, x.TitleString())
 	})
 	return ret
+}
+
+func (c Capitals) GetByID(id string) Capitals {
+	return lo.Filter(c, func(xx *Capital, _ int) bool {
+		return xx.ID == id
+	})
+}
+
+func (c Capitals) GetByIDs(ids ...string) Capitals {
+	return lo.Filter(c, func(xx *Capital, _ int) bool {
+		return lo.Contains(ids, xx.ID)
+	})
 }
 
 func (c Capitals) Clone() Capitals {

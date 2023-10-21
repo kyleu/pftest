@@ -36,7 +36,7 @@ func RelationList(rc *fasthttp.RequestCtx) {
 		basicIDsByBasicID := lo.Map(ret, func(x *relation.Relation, _ int) uuid.UUID {
 			return x.BasicID
 		})
-		basicsByBasicID, err := as.Services.Basic.GetMultiple(ps.Context, nil, ps.Logger, basicIDsByBasicID...)
+		basicsByBasicID, err := as.Services.Basic.GetMultiple(ps.Context, nil, nil, ps.Logger, basicIDsByBasicID...)
 		if err != nil {
 			return "", err
 		}

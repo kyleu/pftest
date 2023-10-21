@@ -60,14 +60,16 @@ func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, id string, includeDelete
 	return ret.ToSoftdel(), nil
 }
 
-func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, includeDeleted bool, logger util.Logger, ids ...string) (Softdels, error) {
+//nolint:lll
+func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, params *filter.Params, includeDeleted bool, logger util.Logger, ids ...string) (Softdels, error) {
 	if len(ids) == 0 {
 		return Softdels{}, nil
 	}
+	params = filters(params)
 	wc := database.SQLInClause("id", len(ids), 0, s.db.Placeholder())
 	wc = addDeletedClause(wc, includeDeleted)
+	q := database.SQLSelect(columnsString, tableQuoted, wc, params.OrderByString(), params.Limit, params.Offset, s.db.Placeholder())
 	ret := rows{}
-	q := database.SQLSelectSimple(columnsString, tableQuoted, s.db.Placeholder(), wc)
 	err := s.dbRead.Select(ctx, &ret, q, tx, logger, lo.ToAnySlice(ids)...)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to get Softdels for [%d] ids", len(ids))

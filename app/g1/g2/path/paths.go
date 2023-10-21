@@ -16,21 +16,9 @@ func (p Paths) Get(id uuid.UUID) *Path {
 	})
 }
 
-func (p Paths) GetByIDs(ids ...uuid.UUID) Paths {
-	return lo.Filter(p, func(xx *Path, _ int) bool {
-		return lo.Contains(ids, xx.ID)
-	})
-}
-
-func (p Paths) GetByID(id uuid.UUID) Paths {
-	return lo.Filter(p, func(xx *Path, _ int) bool {
-		return xx.ID == id
-	})
-}
-
 func (p Paths) IDs() []uuid.UUID {
-	return lo.Map(p, func(x *Path, _ int) uuid.UUID {
-		return x.ID
+	return lo.Map(p, func(xx *Path, _ int) uuid.UUID {
+		return xx.ID
 	})
 }
 
@@ -54,6 +42,18 @@ func (p Paths) TitleStrings(nilTitle string) []string {
 		ret = append(ret, x.TitleString())
 	})
 	return ret
+}
+
+func (p Paths) GetByID(id uuid.UUID) Paths {
+	return lo.Filter(p, func(xx *Path, _ int) bool {
+		return xx.ID == id
+	})
+}
+
+func (p Paths) GetByIDs(ids ...uuid.UUID) Paths {
+	return lo.Filter(p, func(xx *Path, _ int) bool {
+		return lo.Contains(ids, xx.ID)
+	})
 }
 
 func (p Paths) Clone() Paths {

@@ -16,21 +16,9 @@ func (r References) Get(id uuid.UUID) *Reference {
 	})
 }
 
-func (r References) GetByIDs(ids ...uuid.UUID) References {
-	return lo.Filter(r, func(xx *Reference, _ int) bool {
-		return lo.Contains(ids, xx.ID)
-	})
-}
-
-func (r References) GetByID(id uuid.UUID) References {
-	return lo.Filter(r, func(xx *Reference, _ int) bool {
-		return xx.ID == id
-	})
-}
-
 func (r References) IDs() []uuid.UUID {
-	return lo.Map(r, func(x *Reference, _ int) uuid.UUID {
-		return x.ID
+	return lo.Map(r, func(xx *Reference, _ int) uuid.UUID {
+		return xx.ID
 	})
 }
 
@@ -54,6 +42,18 @@ func (r References) TitleStrings(nilTitle string) []string {
 		ret = append(ret, x.TitleString())
 	})
 	return ret
+}
+
+func (r References) GetByID(id uuid.UUID) References {
+	return lo.Filter(r, func(xx *Reference, _ int) bool {
+		return xx.ID == id
+	})
+}
+
+func (r References) GetByIDs(ids ...uuid.UUID) References {
+	return lo.Filter(r, func(xx *Reference, _ int) bool {
+		return lo.Contains(ids, xx.ID)
+	})
 }
 
 func (r References) Clone() References {

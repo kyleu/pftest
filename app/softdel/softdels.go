@@ -15,21 +15,9 @@ func (s Softdels) Get(id string) *Softdel {
 	})
 }
 
-func (s Softdels) GetByIDs(ids ...string) Softdels {
-	return lo.Filter(s, func(xx *Softdel, _ int) bool {
-		return lo.Contains(ids, xx.ID)
-	})
-}
-
-func (s Softdels) GetByID(id string) Softdels {
-	return lo.Filter(s, func(xx *Softdel, _ int) bool {
-		return xx.ID == id
-	})
-}
-
 func (s Softdels) IDs() []string {
-	return lo.Map(s, func(x *Softdel, _ int) string {
-		return x.ID
+	return lo.Map(s, func(xx *Softdel, _ int) string {
+		return xx.ID
 	})
 }
 
@@ -53,6 +41,18 @@ func (s Softdels) TitleStrings(nilTitle string) []string {
 		ret = append(ret, x.TitleString())
 	})
 	return ret
+}
+
+func (s Softdels) GetByID(id string) Softdels {
+	return lo.Filter(s, func(xx *Softdel, _ int) bool {
+		return xx.ID == id
+	})
+}
+
+func (s Softdels) GetByIDs(ids ...string) Softdels {
+	return lo.Filter(s, func(xx *Softdel, _ int) bool {
+		return lo.Contains(ids, xx.ID)
+	})
 }
 
 func (s Softdels) Clone() Softdels {

@@ -15,21 +15,9 @@ func (m MixedCases) Get(id string) *MixedCase {
 	})
 }
 
-func (m MixedCases) GetByIDs(ids ...string) MixedCases {
-	return lo.Filter(m, func(xx *MixedCase, _ int) bool {
-		return lo.Contains(ids, xx.ID)
-	})
-}
-
-func (m MixedCases) GetByID(id string) MixedCases {
-	return lo.Filter(m, func(xx *MixedCase, _ int) bool {
-		return xx.ID == id
-	})
-}
-
 func (m MixedCases) IDs() []string {
-	return lo.Map(m, func(x *MixedCase, _ int) string {
-		return x.ID
+	return lo.Map(m, func(xx *MixedCase, _ int) string {
+		return xx.ID
 	})
 }
 
@@ -53,6 +41,18 @@ func (m MixedCases) TitleStrings(nilTitle string) []string {
 		ret = append(ret, x.TitleString())
 	})
 	return ret
+}
+
+func (m MixedCases) GetByID(id string) MixedCases {
+	return lo.Filter(m, func(xx *MixedCase, _ int) bool {
+		return xx.ID == id
+	})
+}
+
+func (m MixedCases) GetByIDs(ids ...string) MixedCases {
+	return lo.Filter(m, func(xx *MixedCase, _ int) bool {
+		return lo.Contains(ids, xx.ID)
+	})
 }
 
 func (m MixedCases) Clone() MixedCases {

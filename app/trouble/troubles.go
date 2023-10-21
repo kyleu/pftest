@@ -17,27 +17,9 @@ func (t Troubles) Get(from string, where []string) *Trouble {
 	})
 }
 
-func (t Troubles) ToPKs() []*PK {
-	return lo.Map(t, func(x *Trouble, _ int) *PK {
-		return x.ToPK()
-	})
-}
-
-func (t Troubles) GetByFroms(froms ...string) Troubles {
-	return lo.Filter(t, func(xx *Trouble, _ int) bool {
-		return lo.Contains(froms, xx.From)
-	})
-}
-
-func (t Troubles) GetByFrom(from string) Troubles {
-	return lo.Filter(t, func(xx *Trouble, _ int) bool {
-		return xx.From == from
-	})
-}
-
 func (t Troubles) Froms() []string {
-	return lo.Map(t, func(x *Trouble, _ int) string {
-		return x.From
+	return lo.Map(t, func(xx *Trouble, _ int) string {
+		return xx.From
 	})
 }
 
@@ -53,8 +35,8 @@ func (t Troubles) FromStrings(includeNil bool) []string {
 }
 
 func (t Troubles) Wheres() [][]string {
-	return lo.Map(t, func(x *Trouble, _ int) []string {
-		return x.Where
+	return lo.Map(t, func(xx *Trouble, _ int) []string {
+		return xx.Where
 	})
 }
 
@@ -78,6 +60,24 @@ func (t Troubles) TitleStrings(nilTitle string) []string {
 		ret = append(ret, x.TitleString())
 	})
 	return ret
+}
+
+func (t Troubles) ToPKs() []*PK {
+	return lo.Map(t, func(x *Trouble, _ int) *PK {
+		return x.ToPK()
+	})
+}
+
+func (t Troubles) GetByFrom(from string) Troubles {
+	return lo.Filter(t, func(xx *Trouble, _ int) bool {
+		return xx.From == from
+	})
+}
+
+func (t Troubles) GetByFroms(froms ...string) Troubles {
+	return lo.Filter(t, func(xx *Trouble, _ int) bool {
+		return lo.Contains(froms, xx.From)
+	})
 }
 
 func (t Troubles) Clone() Troubles {

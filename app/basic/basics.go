@@ -16,21 +16,9 @@ func (b Basics) Get(id uuid.UUID) *Basic {
 	})
 }
 
-func (b Basics) GetByIDs(ids ...uuid.UUID) Basics {
-	return lo.Filter(b, func(xx *Basic, _ int) bool {
-		return lo.Contains(ids, xx.ID)
-	})
-}
-
-func (b Basics) GetByID(id uuid.UUID) Basics {
-	return lo.Filter(b, func(xx *Basic, _ int) bool {
-		return xx.ID == id
-	})
-}
-
 func (b Basics) IDs() []uuid.UUID {
-	return lo.Map(b, func(x *Basic, _ int) uuid.UUID {
-		return x.ID
+	return lo.Map(b, func(xx *Basic, _ int) uuid.UUID {
+		return xx.ID
 	})
 }
 
@@ -54,6 +42,18 @@ func (b Basics) TitleStrings(nilTitle string) []string {
 		ret = append(ret, x.TitleString())
 	})
 	return ret
+}
+
+func (b Basics) GetByID(id uuid.UUID) Basics {
+	return lo.Filter(b, func(xx *Basic, _ int) bool {
+		return xx.ID == id
+	})
+}
+
+func (b Basics) GetByIDs(ids ...uuid.UUID) Basics {
+	return lo.Filter(b, func(xx *Basic, _ int) bool {
+		return lo.Contains(ids, xx.ID)
+	})
 }
 
 func (b Basics) Clone() Basics {

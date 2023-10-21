@@ -50,13 +50,14 @@ func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, id uuid.UUID, logger uti
 	return ret.ToRelation(), nil
 }
 
-func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, logger util.Logger, ids ...uuid.UUID) (Relations, error) {
+func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, params *filter.Params, logger util.Logger, ids ...uuid.UUID) (Relations, error) {
 	if len(ids) == 0 {
 		return Relations{}, nil
 	}
+	params = filters(params)
 	wc := database.SQLInClause("id", len(ids), 0, s.db.Placeholder())
+	q := database.SQLSelect(columnsString, tableQuoted, wc, params.OrderByString(), params.Limit, params.Offset, s.db.Placeholder())
 	ret := rows{}
-	q := database.SQLSelectSimple(columnsString, tableQuoted, s.db.Placeholder(), wc)
 	err := s.dbRead.Select(ctx, &ret, q, tx, logger, lo.ToAnySlice(ids)...)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to get Relations for [%d] ids", len(ids))
@@ -72,6 +73,21 @@ func (s *Service) GetByBasicID(ctx context.Context, tx *sqlx.Tx, basicID uuid.UU
 	err := s.dbRead.Select(ctx, &ret, q, tx, logger, basicID)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to get relations by basicID [%v]", basicID)
+	}
+	return ret.ToRelations(), nil
+}
+
+func (s *Service) GetByBasicIDs(ctx context.Context, tx *sqlx.Tx, params *filter.Params, logger util.Logger, basicIDs ...uuid.UUID) (Relations, error) {
+	if len(basicIDs) == 0 {
+		return Relations{}, nil
+	}
+	params = filters(params)
+	wc := database.SQLInClause("basic_id", len(basicIDs), 0, s.db.Placeholder())
+	q := database.SQLSelect(columnsString, tableQuoted, wc, params.OrderByString(), params.Limit, params.Offset, s.db.Placeholder())
+	ret := rows{}
+	err := s.dbRead.Select(ctx, &ret, q, tx, logger, lo.ToAnySlice(basicIDs)...)
+	if err != nil {
+		return nil, errors.Wrapf(err, "unable to get Relations for [%d] basicIDs", len(basicIDs))
 	}
 	return ret.ToRelations(), nil
 }

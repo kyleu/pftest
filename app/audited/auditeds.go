@@ -16,21 +16,9 @@ func (a Auditeds) Get(id uuid.UUID) *Audited {
 	})
 }
 
-func (a Auditeds) GetByIDs(ids ...uuid.UUID) Auditeds {
-	return lo.Filter(a, func(xx *Audited, _ int) bool {
-		return lo.Contains(ids, xx.ID)
-	})
-}
-
-func (a Auditeds) GetByID(id uuid.UUID) Auditeds {
-	return lo.Filter(a, func(xx *Audited, _ int) bool {
-		return xx.ID == id
-	})
-}
-
 func (a Auditeds) IDs() []uuid.UUID {
-	return lo.Map(a, func(x *Audited, _ int) uuid.UUID {
-		return x.ID
+	return lo.Map(a, func(xx *Audited, _ int) uuid.UUID {
+		return xx.ID
 	})
 }
 
@@ -54,6 +42,18 @@ func (a Auditeds) TitleStrings(nilTitle string) []string {
 		ret = append(ret, x.TitleString())
 	})
 	return ret
+}
+
+func (a Auditeds) GetByID(id uuid.UUID) Auditeds {
+	return lo.Filter(a, func(xx *Audited, _ int) bool {
+		return xx.ID == id
+	})
+}
+
+func (a Auditeds) GetByIDs(ids ...uuid.UUID) Auditeds {
+	return lo.Filter(a, func(xx *Audited, _ int) bool {
+		return lo.Contains(ids, xx.ID)
+	})
 }
 
 func (a Auditeds) Clone() Auditeds {
