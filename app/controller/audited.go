@@ -29,8 +29,7 @@ func AuditedList(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = "Auditeds"
-		ps.Data = ret
+		ps.SetTitleAndData("Auditeds", ret)
 		page := &vaudited.List{Models: ret, Params: ps.Params, SearchQuery: q}
 		return Render(rc, as, page, ps, "audited")
 	})
@@ -42,33 +41,36 @@ func AuditedDetail(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = ret.TitleString() + " (Audited)"
-		ps.Data = ret
+		ps.SetTitleAndData(ret.TitleString()+" (Audited)", ret)
 
 		relatedAuditRecords, err := as.Services.Audit.RecordsForModel(ps.Context, nil, "audited", ret.ID.String(), nil, ps.Logger)
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to retrieve related audit records")
 		}
 
-		return Render(rc, as, &vaudited.Detail{Model: ret, AuditRecords: relatedAuditRecords}, ps, "audited", ret.String())
+		return Render(rc, as, &vaudited.Detail{Model: ret, AuditRecords: relatedAuditRecords}, ps, "audited", ret.TitleString()+"**star")
 	})
 }
 
 func AuditedCreateForm(rc *fasthttp.RequestCtx) {
 	Act("audited.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &audited.Audited{}
-		ps.Title = "Create [Audited]"
+		if string(rc.QueryArgs().Peek("prototype")) == "random" {
+			ret = audited.Random()
+		}
+		ps.SetTitleAndData("Create [Audited]", ret)
 		ps.Data = ret
 		return Render(rc, as, &vaudited.Edit{Model: ret, IsNew: true}, ps, "audited", "Create")
 	})
 }
 
-func AuditedCreateFormRandom(rc *fasthttp.RequestCtx) {
-	Act("audited.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret := audited.Random()
-		ps.Title = "Create Random Audited"
-		ps.Data = ret
-		return Render(rc, as, &vaudited.Edit{Model: ret, IsNew: true}, ps, "audited", "Create")
+func AuditedRandom(rc *fasthttp.RequestCtx) {
+	Act("audited.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := as.Services.Audited.Random(ps.Context, nil, ps.Logger)
+		if err != nil {
+			return "", errors.Wrap(err, "unable to find random Audited")
+		}
+		return ret.WebPath(), nil
 	})
 }
 
@@ -93,8 +95,7 @@ func AuditedEditForm(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = "Edit " + ret.String()
-		ps.Data = ret
+		ps.SetTitleAndData("Edit "+ret.String(), ret)
 		return Render(rc, as, &vaudited.Edit{Model: ret}, ps, "audited", ret.String())
 	})
 }

@@ -9,7 +9,7 @@
 
 {% func Table(models trouble.Troubles, params filter.ParamSet, as *app.State, ps *cutil.PageState) %}
   {%- code prms := params.Get("trouble", nil, ps.Logger).Sanitize("trouble") -%}
-  <table class="mt">
+  <table>
     <thead>
       <tr>
         {%= components.TableHeaderSimple("trouble", "from", "From", "String text", prms, ps.URI, ps) %}

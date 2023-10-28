@@ -37,7 +37,7 @@ func StreamTable(qw422016 *qt422016.Writer, models mixedcase.MixedCases, params 
 	prms := params.Get("mixedcase", nil, ps.Logger).Sanitize("mixedcase")
 
 //line views/vmixedcase/Table.html:11
-	qw422016.N().S(`  <table class="mt">
+	qw422016.N().S(`  <table>
     <thead>
       <tr>
         `)

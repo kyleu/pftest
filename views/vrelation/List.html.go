@@ -49,72 +49,84 @@ func (p *List) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
 	components.StreamSearchForm(qw422016, "", "q", "Search relations", p.SearchQuery, ps)
 //line views/vrelation/List.html:22
 	qw422016.N().S(`</div>
+    <div class="right mrs large-buttons">
+`)
+//line views/vrelation/List.html:24
+	if len(p.Models) > 0 {
+//line views/vrelation/List.html:24
+		qw422016.N().S(`<a href="/relation/_random"><button>Random</button></a>`)
+//line views/vrelation/List.html:24
+	}
+//line views/vrelation/List.html:24
+	qw422016.N().S(`      <a href="/relation/_new"><button>New</button></a>
+    </div>
     <h3>`)
-//line views/vrelation/List.html:23
+//line views/vrelation/List.html:27
 	components.StreamSVGRefIcon(qw422016, `star`, ps)
-//line views/vrelation/List.html:23
+//line views/vrelation/List.html:27
 	qw422016.E().S(ps.Title)
-//line views/vrelation/List.html:23
-	qw422016.N().S(` <a href="/relation/new"><button>New</button></a></h3>
+//line views/vrelation/List.html:27
+	qw422016.N().S(`</h3>
     <div class="clear"></div>
 `)
-//line views/vrelation/List.html:25
+//line views/vrelation/List.html:29
 	if p.SearchQuery != "" {
-//line views/vrelation/List.html:25
-		qw422016.N().S(`    <em>Search results for [`)
-//line views/vrelation/List.html:26
+//line views/vrelation/List.html:29
+		qw422016.N().S(`    <hr />
+    <em>Search results for [`)
+//line views/vrelation/List.html:31
 		qw422016.E().S(p.SearchQuery)
-//line views/vrelation/List.html:26
+//line views/vrelation/List.html:31
 		qw422016.N().S(`]</em> (<a href="?">clear</a>)
 `)
-//line views/vrelation/List.html:27
+//line views/vrelation/List.html:32
 	}
-//line views/vrelation/List.html:28
+//line views/vrelation/List.html:33
 	if len(p.Models) == 0 {
-//line views/vrelation/List.html:28
+//line views/vrelation/List.html:33
 		qw422016.N().S(`    <div class="mt"><em>No relations available</em></div>
 `)
-//line views/vrelation/List.html:30
+//line views/vrelation/List.html:35
 	} else {
-//line views/vrelation/List.html:30
-		qw422016.N().S(`    <div class="overflow clear">
+//line views/vrelation/List.html:35
+		qw422016.N().S(`    <div class="overflow clear mt">
       `)
-//line views/vrelation/List.html:32
+//line views/vrelation/List.html:37
 		StreamTable(qw422016, p.Models, p.BasicsByBasicID, p.Params, as, ps)
-//line views/vrelation/List.html:32
+//line views/vrelation/List.html:37
 		qw422016.N().S(`
     </div>
 `)
-//line views/vrelation/List.html:34
+//line views/vrelation/List.html:39
 	}
-//line views/vrelation/List.html:34
+//line views/vrelation/List.html:39
 	qw422016.N().S(`  </div>
 `)
-//line views/vrelation/List.html:36
+//line views/vrelation/List.html:41
 }
 
-//line views/vrelation/List.html:36
+//line views/vrelation/List.html:41
 func (p *List) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vrelation/List.html:36
+//line views/vrelation/List.html:41
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vrelation/List.html:36
+//line views/vrelation/List.html:41
 	p.StreamBody(qw422016, as, ps)
-//line views/vrelation/List.html:36
+//line views/vrelation/List.html:41
 	qt422016.ReleaseWriter(qw422016)
-//line views/vrelation/List.html:36
+//line views/vrelation/List.html:41
 }
 
-//line views/vrelation/List.html:36
+//line views/vrelation/List.html:41
 func (p *List) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vrelation/List.html:36
+//line views/vrelation/List.html:41
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vrelation/List.html:36
+//line views/vrelation/List.html:41
 	p.WriteBody(qb422016, as, ps)
-//line views/vrelation/List.html:36
+//line views/vrelation/List.html:41
 	qs422016 := string(qb422016.B)
-//line views/vrelation/List.html:36
+//line views/vrelation/List.html:41
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vrelation/List.html:36
+//line views/vrelation/List.html:41
 	return qs422016
-//line views/vrelation/List.html:36
+//line views/vrelation/List.html:41
 }

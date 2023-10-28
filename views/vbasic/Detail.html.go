@@ -110,7 +110,15 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
     <h3 class="mb">Relations</h3>
     <ul class="accordion">
       <li>
-        <input id="accordion-RelationsByBasicID" type="checkbox" hidden />
+        <input id="accordion-RelationsByBasicID" type="checkbox" hidden="hidden"`)
+//line views/vbasic/Detail.html:56
+	if p.Params.Specifies(`relation`) {
+//line views/vbasic/Detail.html:56
+		qw422016.N().S(` checked="checked"`)
+//line views/vbasic/Detail.html:56
+	}
+//line views/vbasic/Detail.html:56
+	qw422016.N().S(` />
         <label for="accordion-RelationsByBasicID">
           `)
 //line views/vbasic/Detail.html:58

@@ -37,7 +37,7 @@ func StreamTable(qw422016 *qt422016.Writer, models trouble.Troubles, params filt
 	prms := params.Get("trouble", nil, ps.Logger).Sanitize("trouble")
 
 //line views/vtrouble/Table.html:11
-	qw422016.N().S(`  <table class="mt">
+	qw422016.N().S(`  <table>
     <thead>
       <tr>
         `)

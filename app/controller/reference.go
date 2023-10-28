@@ -29,8 +29,7 @@ func ReferenceList(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = "References"
-		ps.Data = ret
+		ps.SetTitleAndData("References", ret)
 		page := &vreference.List{Models: ret, Params: ps.Params, SearchQuery: q}
 		return Render(rc, as, page, ps, "reference")
 	})
@@ -42,28 +41,31 @@ func ReferenceDetail(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = ret.TitleString() + " (Reference)"
-		ps.Data = ret
+		ps.SetTitleAndData(ret.TitleString()+" (Reference)", ret)
 
-		return Render(rc, as, &vreference.Detail{Model: ret}, ps, "reference", ret.String())
+		return Render(rc, as, &vreference.Detail{Model: ret}, ps, "reference", ret.TitleString()+"**star")
 	})
 }
 
 func ReferenceCreateForm(rc *fasthttp.RequestCtx) {
 	Act("reference.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &reference.Reference{}
-		ps.Title = "Create [Reference]"
+		if string(rc.QueryArgs().Peek("prototype")) == "random" {
+			ret = reference.Random()
+		}
+		ps.SetTitleAndData("Create [Reference]", ret)
 		ps.Data = ret
 		return Render(rc, as, &vreference.Edit{Model: ret, IsNew: true}, ps, "reference", "Create")
 	})
 }
 
-func ReferenceCreateFormRandom(rc *fasthttp.RequestCtx) {
-	Act("reference.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret := reference.Random()
-		ps.Title = "Create Random Reference"
-		ps.Data = ret
-		return Render(rc, as, &vreference.Edit{Model: ret, IsNew: true}, ps, "reference", "Create")
+func ReferenceRandom(rc *fasthttp.RequestCtx) {
+	Act("reference.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := as.Services.Reference.Random(ps.Context, nil, ps.Logger)
+		if err != nil {
+			return "", errors.Wrap(err, "unable to find random Reference")
+		}
+		return ret.WebPath(), nil
 	})
 }
 
@@ -88,8 +90,7 @@ func ReferenceEditForm(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = "Edit " + ret.String()
-		ps.Data = ret
+		ps.SetTitleAndData("Edit "+ret.String(), ret)
 		return Render(rc, as, &vreference.Edit{Model: ret}, ps, "reference", ret.String())
 	})
 }

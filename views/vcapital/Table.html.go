@@ -37,7 +37,7 @@ func StreamTable(qw422016 *qt422016.Writer, models capital.Capitals, params filt
 	prms := params.Get("capital", nil, ps.Logger).Sanitize("capital")
 
 //line views/vcapital/Table.html:11
-	qw422016.N().S(`  <table class="mt">
+	qw422016.N().S(`  <table>
     <thead>
       <tr>
         `)

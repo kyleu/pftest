@@ -20,8 +20,7 @@ func TroubleList(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = "Troubles"
-		ps.Data = ret
+		ps.SetTitleAndData("Troubles", ret)
 		page := &vtrouble.List{Models: ret, Params: ps.Params}
 		return Render(rc, as, page, ps, "trouble")
 	})
@@ -33,28 +32,31 @@ func TroubleDetail(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = ret.TitleString() + " (Trouble)"
-		ps.Data = ret
+		ps.SetTitleAndData(ret.TitleString()+" (Trouble)", ret)
 
-		return Render(rc, as, &vtrouble.Detail{Model: ret}, ps, "trouble", ret.String())
+		return Render(rc, as, &vtrouble.Detail{Model: ret}, ps, "trouble", ret.TitleString()+"**star")
 	})
 }
 
 func TroubleCreateForm(rc *fasthttp.RequestCtx) {
 	Act("trouble.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &trouble.Trouble{}
-		ps.Title = "Create [Trouble]"
+		if string(rc.QueryArgs().Peek("prototype")) == "random" {
+			ret = trouble.Random()
+		}
+		ps.SetTitleAndData("Create [Trouble]", ret)
 		ps.Data = ret
 		return Render(rc, as, &vtrouble.Edit{Model: ret, IsNew: true}, ps, "trouble", "Create")
 	})
 }
 
-func TroubleCreateFormRandom(rc *fasthttp.RequestCtx) {
-	Act("trouble.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret := trouble.Random()
-		ps.Title = "Create Random Trouble"
-		ps.Data = ret
-		return Render(rc, as, &vtrouble.Edit{Model: ret, IsNew: true}, ps, "trouble", "Create")
+func TroubleRandom(rc *fasthttp.RequestCtx) {
+	Act("trouble.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := as.Services.Trouble.Random(ps.Context, nil, ps.Logger)
+		if err != nil {
+			return "", errors.Wrap(err, "unable to find random Trouble")
+		}
+		return ret.WebPath(), nil
 	})
 }
 
@@ -79,8 +81,7 @@ func TroubleEditForm(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = "Edit " + ret.String()
-		ps.Data = ret
+		ps.SetTitleAndData("Edit "+ret.String(), ret)
 		return Render(rc, as, &vtrouble.Edit{Model: ret}, ps, "trouble", ret.String())
 	})
 }

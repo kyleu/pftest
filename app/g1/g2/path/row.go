@@ -21,10 +21,10 @@ var (
 )
 
 type row struct {
-	ID      uuid.UUID `db:"id"`
-	Name    string    `db:"name"`
-	Status  string    `db:"status"`
-	Created time.Time `db:"created"`
+	ID      uuid.UUID `db:"id" json:"id"`
+	Name    string    `db:"name" json:"name"`
+	Status  string    `db:"status" json:"status"`
+	Created time.Time `db:"created" json:"created"`
 }
 
 func (r *row) ToPath() *Path {

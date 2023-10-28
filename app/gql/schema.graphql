@@ -1,3 +1,4 @@
-type Query {
-  hello: String!
-}
+## include[scalars.graphql]
+## include[generated.graphql]
+## include[query.graphql]
+## include[mutation.graphql]

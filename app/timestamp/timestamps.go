@@ -5,6 +5,8 @@ import (
 	"slices"
 
 	"github.com/samber/lo"
+
+	"github.com/kyleu/pftest/app/util"
 )
 
 type Timestamps []*Timestamp
@@ -53,6 +55,13 @@ func (t Timestamps) GetByIDs(ids ...string) Timestamps {
 	return lo.Filter(t, func(xx *Timestamp, _ int) bool {
 		return lo.Contains(ids, xx.ID)
 	})
+}
+
+func (t Timestamps) Random() *Timestamp {
+	if len(t) == 0 {
+		return nil
+	}
+	return t[util.RandomInt(len(t))]
 }
 
 func (t Timestamps) Clone() Timestamps {

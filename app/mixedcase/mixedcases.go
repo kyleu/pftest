@@ -5,6 +5,8 @@ import (
 	"slices"
 
 	"github.com/samber/lo"
+
+	"github.com/kyleu/pftest/app/util"
 )
 
 type MixedCases []*MixedCase
@@ -53,6 +55,13 @@ func (m MixedCases) GetByIDs(ids ...string) MixedCases {
 	return lo.Filter(m, func(xx *MixedCase, _ int) bool {
 		return lo.Contains(ids, xx.ID)
 	})
+}
+
+func (m MixedCases) Random() *MixedCase {
+	if len(m) == 0 {
+		return nil
+	}
+	return m[util.RandomInt(len(m))]
 }
 
 func (m MixedCases) Clone() MixedCases {

@@ -29,8 +29,7 @@ func BasicList(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = "Basics"
-		ps.Data = ret
+		ps.SetTitleAndData("Basics", ret)
 		page := &vbasic.List{Models: ret, Params: ps.Params, SearchQuery: q}
 		return Render(rc, as, page, ps, "basic")
 	})
@@ -42,8 +41,7 @@ func BasicDetail(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = ret.TitleString() + " (Basic)"
-		ps.Data = ret
+		ps.SetTitleAndData(ret.TitleString()+" (Basic)", ret)
 
 		relRelationsByBasicIDPrms := ps.Params.Get("relation", nil, ps.Logger).Sanitize("relation")
 		relRelationsByBasicID, err := as.Services.Relation.GetByBasicID(ps.Context, nil, ret.ID, relRelationsByBasicIDPrms, ps.Logger)
@@ -55,25 +53,29 @@ func BasicDetail(rc *fasthttp.RequestCtx) {
 			Params: ps.Params,
 
 			RelRelationsByBasicID: relRelationsByBasicID,
-		}, ps, "basic", ret.String())
+		}, ps, "basic", ret.TitleString()+"**star")
 	})
 }
 
 func BasicCreateForm(rc *fasthttp.RequestCtx) {
 	Act("basic.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &basic.Basic{}
-		ps.Title = "Create [Basic]"
+		if string(rc.QueryArgs().Peek("prototype")) == "random" {
+			ret = basic.Random()
+		}
+		ps.SetTitleAndData("Create [Basic]", ret)
 		ps.Data = ret
 		return Render(rc, as, &vbasic.Edit{Model: ret, IsNew: true}, ps, "basic", "Create")
 	})
 }
 
-func BasicCreateFormRandom(rc *fasthttp.RequestCtx) {
-	Act("basic.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret := basic.Random()
-		ps.Title = "Create Random Basic"
-		ps.Data = ret
-		return Render(rc, as, &vbasic.Edit{Model: ret, IsNew: true}, ps, "basic", "Create")
+func BasicRandom(rc *fasthttp.RequestCtx) {
+	Act("basic.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := as.Services.Basic.Random(ps.Context, nil, ps.Logger)
+		if err != nil {
+			return "", errors.Wrap(err, "unable to find random Basic")
+		}
+		return ret.WebPath(), nil
 	})
 }
 
@@ -98,8 +100,7 @@ func BasicEditForm(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = "Edit " + ret.String()
-		ps.Data = ret
+		ps.SetTitleAndData("Edit "+ret.String(), ret)
 		return Render(rc, as, &vbasic.Edit{Model: ret}, ps, "basic", ret.String())
 	})
 }

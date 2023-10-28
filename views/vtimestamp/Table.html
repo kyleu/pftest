@@ -9,7 +9,7 @@
 
 {% func Table(models timestamp.Timestamps, params filter.ParamSet, as *app.State, ps *cutil.PageState) %}
   {%- code prms := params.Get("timestamp", nil, ps.Logger).Sanitize("timestamp") -%}
-  <table class="mt">
+  <table>
     <thead>
       <tr>
         {%= components.TableHeaderSimple("timestamp", "id", "ID", "String text", prms, ps.URI, ps) %}

@@ -9,7 +9,7 @@
 
 {% func Table(models mixedcase.MixedCases, params filter.ParamSet, as *app.State, ps *cutil.PageState) %}
   {%- code prms := params.Get("mixedcase", nil, ps.Logger).Sanitize("mixedcase") -%}
-  <table class="mt">
+  <table>
     <thead>
       <tr>
         {%= components.TableHeaderSimple("mixedcase", "id", "ID", "String text", prms, ps.URI, ps) %}

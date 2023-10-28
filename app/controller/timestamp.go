@@ -20,8 +20,7 @@ func TimestampList(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = "Timestamps"
-		ps.Data = ret
+		ps.SetTitleAndData("Timestamps", ret)
 		page := &vtimestamp.List{Models: ret, Params: ps.Params}
 		return Render(rc, as, page, ps, "timestamp")
 	})
@@ -33,28 +32,31 @@ func TimestampDetail(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = ret.TitleString() + " (Timestamp)"
-		ps.Data = ret
+		ps.SetTitleAndData(ret.TitleString()+" (Timestamp)", ret)
 
-		return Render(rc, as, &vtimestamp.Detail{Model: ret}, ps, "timestamp", ret.String())
+		return Render(rc, as, &vtimestamp.Detail{Model: ret}, ps, "timestamp", ret.TitleString()+"**star")
 	})
 }
 
 func TimestampCreateForm(rc *fasthttp.RequestCtx) {
 	Act("timestamp.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &timestamp.Timestamp{}
-		ps.Title = "Create [Timestamp]"
+		if string(rc.QueryArgs().Peek("prototype")) == "random" {
+			ret = timestamp.Random()
+		}
+		ps.SetTitleAndData("Create [Timestamp]", ret)
 		ps.Data = ret
 		return Render(rc, as, &vtimestamp.Edit{Model: ret, IsNew: true}, ps, "timestamp", "Create")
 	})
 }
 
-func TimestampCreateFormRandom(rc *fasthttp.RequestCtx) {
-	Act("timestamp.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret := timestamp.Random()
-		ps.Title = "Create Random Timestamp"
-		ps.Data = ret
-		return Render(rc, as, &vtimestamp.Edit{Model: ret, IsNew: true}, ps, "timestamp", "Create")
+func TimestampRandom(rc *fasthttp.RequestCtx) {
+	Act("timestamp.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := as.Services.Timestamp.Random(ps.Context, nil, ps.Logger)
+		if err != nil {
+			return "", errors.Wrap(err, "unable to find random Timestamp")
+		}
+		return ret.WebPath(), nil
 	})
 }
 
@@ -79,8 +81,7 @@ func TimestampEditForm(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = "Edit " + ret.String()
-		ps.Data = ret
+		ps.SetTitleAndData("Edit "+ret.String(), ret)
 		return Render(rc, as, &vtimestamp.Edit{Model: ret}, ps, "timestamp", ret.String())
 	})
 }

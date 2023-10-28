@@ -6,6 +6,8 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/samber/lo"
+
+	"github.com/kyleu/pftest/app/util"
 )
 
 type Seeds []*Seed
@@ -54,6 +56,13 @@ func (s Seeds) GetByIDs(ids ...uuid.UUID) Seeds {
 	return lo.Filter(s, func(xx *Seed, _ int) bool {
 		return lo.Contains(ids, xx.ID)
 	})
+}
+
+func (s Seeds) Random() *Seed {
+	if len(s) == 0 {
+		return nil
+	}
+	return s[util.RandomInt(len(s))]
 }
 
 func (s Seeds) Clone() Seeds {

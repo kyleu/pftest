@@ -23,10 +23,10 @@ var (
 )
 
 type row struct {
-	ID      uuid.UUID       `db:"id"`
-	Custom  json.RawMessage `db:"custom"`
-	Self    json.RawMessage `db:"self"`
-	Created time.Time       `db:"created"`
+	ID      uuid.UUID       `db:"id" json:"id"`
+	Custom  json.RawMessage `db:"custom" json:"custom"`
+	Self    json.RawMessage `db:"self" json:"self"`
+	Created time.Time       `db:"created" json:"created"`
 }
 
 func (r *row) ToReference() *Reference {

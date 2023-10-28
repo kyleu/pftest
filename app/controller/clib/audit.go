@@ -21,12 +21,11 @@ var auditBreadcrumb = "Audit||/admin/audit"
 
 func AuditList(rc *fasthttp.RequestCtx) {
 	controller.Act("audit.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ps.Title = auditDefaultTitle
 		ret, err := as.Services.Audit.List(ps.Context, nil, ps.Params.Get("audit", nil, ps.Logger), ps.Logger)
 		if err != nil {
 			return "", err
 		}
-		ps.Data = ret
+		ps.SetTitleAndData(auditDefaultTitle, ret)
 		return controller.Render(rc, as, &vaudit.List{Models: ret, Params: ps.Params}, ps, "admin", "Audit")
 	})
 }
@@ -37,8 +36,7 @@ func AuditDetail(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = ret.String()
-		ps.Data = ret
+		ps.SetTitleAndData(ret.String(), ret)
 		records, err := as.Services.Audit.RecordsForAudits(ps.Context, nil, ps.Params.Get("auditRecord", nil, ps.Logger), ps.Logger, ret.ID)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to retrieve child auditrecords")
@@ -50,8 +48,7 @@ func AuditDetail(rc *fasthttp.RequestCtx) {
 func AuditCreateForm(rc *fasthttp.RequestCtx) {
 	controller.Act("audit.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &audit.Audit{}
-		ps.Title = "Create [Audit]"
-		ps.Data = ret
+		ps.SetTitleAndData("Create [Audit]", ret)
 		return controller.Render(rc, as, &vaudit.Edit{Model: ret, IsNew: true}, ps, "admin", auditBreadcrumb, "Create")
 	})
 }
@@ -59,8 +56,7 @@ func AuditCreateForm(rc *fasthttp.RequestCtx) {
 func AuditCreateFormRandom(rc *fasthttp.RequestCtx) {
 	controller.Act("audit.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := audit.Random()
-		ps.Title = "Create Random [Audit]"
-		ps.Data = ret
+		ps.SetTitleAndData("Create Random [Audit]", ret)
 		return controller.Render(rc, as, &vaudit.Edit{Model: ret, IsNew: true}, ps, "admin", auditBreadcrumb, "Create")
 	})
 }
@@ -86,8 +82,7 @@ func AuditEditForm(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = "Edit [" + ret.String() + "]"
-		ps.Data = ret
+		ps.SetTitleAndData("Edit ["+ret.String()+"]", ret)
 		return controller.Render(rc, as, &vaudit.Edit{Model: ret}, ps, "admin", auditBreadcrumb, ret.String())
 	})
 }
@@ -137,8 +132,7 @@ func RecordDetail(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = ret.String()
-		ps.Data = ret
+		ps.SetTitleAndData(ret.String(), ret)
 		return controller.Render(rc, as, &vaudit.RecordDetail{Model: ret, Audit: aud}, ps, "admin", auditBreadcrumb, ret.String())
 	})
 }

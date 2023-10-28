@@ -44,6 +44,18 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, logger util.Logger, mod
 	return s.db.Insert(ctx, q, tx, logger, data...)
 }
 
+func (s *Service) SaveChunked(ctx context.Context, tx *sqlx.Tx, chunkSize int, logger util.Logger, models ...*Trouble) error {
+	for idx, chunk := range lo.Chunk(models, chunkSize) {
+		if logger != nil {
+			logger.Infof("saving troubles [%d-%d]", idx*chunkSize, ((idx+1)*chunkSize)-1)
+		}
+		if err := s.Save(ctx, tx, logger, chunk...); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 // Delete doesn't actually delete, it only sets [delete].
 func (s *Service) Delete(ctx context.Context, tx *sqlx.Tx, from string, where []string, logger util.Logger) error {
 	cols := []string{"delete"}

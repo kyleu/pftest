@@ -59,7 +59,10 @@ func NewServices(ctx context.Context, st *State, logger util.Logger) (*Services,
 
 	aud := audit.NewService(st.DB, logger)
 	sock := websocket.NewService(nil, socketHandler, nil)
-	schema := gql.NewSchema(st.GraphQL)
+	schema, err := gql.NewSchema(st.GraphQL)
+	if err != nil {
+		return nil, err
+	}
 
 	return &Services{
 		Basic:     basic.NewService(st.DB, st.DBRead),

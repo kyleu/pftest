@@ -6,6 +6,8 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/samber/lo"
+
+	"github.com/kyleu/pftest/app/util"
 )
 
 type Auditeds []*Audited
@@ -54,6 +56,13 @@ func (a Auditeds) GetByIDs(ids ...uuid.UUID) Auditeds {
 	return lo.Filter(a, func(xx *Audited, _ int) bool {
 		return lo.Contains(ids, xx.ID)
 	})
+}
+
+func (a Auditeds) Random() *Audited {
+	if len(a) == 0 {
+		return nil
+	}
+	return a[util.RandomInt(len(a))]
 }
 
 func (a Auditeds) Clone() Auditeds {

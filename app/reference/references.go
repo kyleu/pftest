@@ -6,6 +6,8 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/samber/lo"
+
+	"github.com/kyleu/pftest/app/util"
 )
 
 type References []*Reference
@@ -54,6 +56,13 @@ func (r References) GetByIDs(ids ...uuid.UUID) References {
 	return lo.Filter(r, func(xx *Reference, _ int) bool {
 		return lo.Contains(ids, xx.ID)
 	})
+}
+
+func (r References) Random() *Reference {
+	if len(r) == 0 {
+		return nil
+	}
+	return r[util.RandomInt(len(r))]
 }
 
 func (r References) Clone() References {

@@ -21,8 +21,7 @@ func SeedList(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = "Seeds"
-		ps.Data = ret
+		ps.SetTitleAndData("Seeds", ret)
 		page := &vseed.List{Models: ret, Params: ps.Params}
 		return Render(rc, as, page, ps, "seed")
 	})
@@ -34,28 +33,31 @@ func SeedDetail(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = ret.TitleString() + " (Seed)"
-		ps.Data = ret
+		ps.SetTitleAndData(ret.TitleString()+" (Seed)", ret)
 
-		return Render(rc, as, &vseed.Detail{Model: ret}, ps, "seed", ret.String())
+		return Render(rc, as, &vseed.Detail{Model: ret}, ps, "seed", ret.TitleString()+"**star")
 	})
 }
 
 func SeedCreateForm(rc *fasthttp.RequestCtx) {
 	Act("seed.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &seed.Seed{}
-		ps.Title = "Create [Seed]"
+		if string(rc.QueryArgs().Peek("prototype")) == "random" {
+			ret = seed.Random()
+		}
+		ps.SetTitleAndData("Create [Seed]", ret)
 		ps.Data = ret
 		return Render(rc, as, &vseed.Edit{Model: ret, IsNew: true}, ps, "seed", "Create")
 	})
 }
 
-func SeedCreateFormRandom(rc *fasthttp.RequestCtx) {
-	Act("seed.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret := seed.Random()
-		ps.Title = "Create Random Seed"
-		ps.Data = ret
-		return Render(rc, as, &vseed.Edit{Model: ret, IsNew: true}, ps, "seed", "Create")
+func SeedRandom(rc *fasthttp.RequestCtx) {
+	Act("seed.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := as.Services.Seed.Random(ps.Context, nil, ps.Logger)
+		if err != nil {
+			return "", errors.Wrap(err, "unable to find random Seed")
+		}
+		return ret.WebPath(), nil
 	})
 }
 
@@ -80,8 +82,7 @@ func SeedEditForm(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = "Edit " + ret.String()
-		ps.Data = ret
+		ps.SetTitleAndData("Edit "+ret.String(), ret)
 		return Render(rc, as, &vseed.Edit{Model: ret}, ps, "seed", ret.String())
 	})
 }

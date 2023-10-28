@@ -21,18 +21,17 @@ var (
 )
 
 type row struct {
-	ID   uuid.UUID       `db:"id"`
-	Name string          `db:"name"`
-	Size int             `db:"size"`
-	Obj  json.RawMessage `db:"obj"`
+	ID   uuid.UUID       `db:"id" json:"id"`
+	Name string          `db:"name" json:"name"`
+	Size int             `db:"size" json:"size"`
+	Obj  json.RawMessage `db:"obj" json:"obj"`
 }
 
 func (r *row) ToSeed() *Seed {
 	if r == nil {
 		return nil
 	}
-	objArg := util.ValueMap{}
-	_ = util.FromJSON(r.Obj, &objArg)
+	objArg, _ := util.FromJSONMap(r.Obj)
 	return &Seed{
 		ID:   r.ID,
 		Name: r.Name,

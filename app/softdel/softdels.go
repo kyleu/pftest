@@ -5,6 +5,8 @@ import (
 	"slices"
 
 	"github.com/samber/lo"
+
+	"github.com/kyleu/pftest/app/util"
 )
 
 type Softdels []*Softdel
@@ -53,6 +55,13 @@ func (s Softdels) GetByIDs(ids ...string) Softdels {
 	return lo.Filter(s, func(xx *Softdel, _ int) bool {
 		return lo.Contains(ids, xx.ID)
 	})
+}
+
+func (s Softdels) Random() *Softdel {
+	if len(s) == 0 {
+		return nil
+	}
+	return s[util.RandomInt(len(s))]
 }
 
 func (s Softdels) Clone() Softdels {

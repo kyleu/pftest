@@ -20,8 +20,8 @@ var (
 )
 
 type row struct {
-	ID   uuid.UUID `db:"id"`
-	Name string    `db:"name"`
+	ID   uuid.UUID `db:"id" json:"id"`
+	Name string    `db:"name" json:"name"`
 }
 
 func (r *row) ToAudited() *Audited {

@@ -6,6 +6,8 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/samber/lo"
+
+	"github.com/kyleu/pftest/app/util"
 )
 
 type Paths []*Path
@@ -54,6 +56,13 @@ func (p Paths) GetByIDs(ids ...uuid.UUID) Paths {
 	return lo.Filter(p, func(xx *Path, _ int) bool {
 		return lo.Contains(ids, xx.ID)
 	})
+}
+
+func (p Paths) Random() *Path {
+	if len(p) == 0 {
+		return nil
+	}
+	return p[util.RandomInt(len(p))]
 }
 
 func (p Paths) Clone() Paths {

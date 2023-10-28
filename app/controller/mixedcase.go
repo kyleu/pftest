@@ -20,8 +20,7 @@ func MixedCaseList(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = "Mixed Cases"
-		ps.Data = ret
+		ps.SetTitleAndData("Mixed Cases", ret)
 		page := &vmixedcase.List{Models: ret, Params: ps.Params}
 		return Render(rc, as, page, ps, "mixedcase")
 	})
@@ -33,28 +32,31 @@ func MixedCaseDetail(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = ret.TitleString() + " (Mixed Case)"
-		ps.Data = ret
+		ps.SetTitleAndData(ret.TitleString()+" (Mixed Case)", ret)
 
-		return Render(rc, as, &vmixedcase.Detail{Model: ret}, ps, "mixedcase", ret.String())
+		return Render(rc, as, &vmixedcase.Detail{Model: ret}, ps, "mixedcase", ret.TitleString()+"**star")
 	})
 }
 
 func MixedCaseCreateForm(rc *fasthttp.RequestCtx) {
 	Act("mixedcase.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &mixedcase.MixedCase{}
-		ps.Title = "Create [MixedCase]"
+		if string(rc.QueryArgs().Peek("prototype")) == "random" {
+			ret = mixedcase.Random()
+		}
+		ps.SetTitleAndData("Create [MixedCase]", ret)
 		ps.Data = ret
 		return Render(rc, as, &vmixedcase.Edit{Model: ret, IsNew: true}, ps, "mixedcase", "Create")
 	})
 }
 
-func MixedCaseCreateFormRandom(rc *fasthttp.RequestCtx) {
-	Act("mixedcase.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret := mixedcase.Random()
-		ps.Title = "Create Random MixedCase"
-		ps.Data = ret
-		return Render(rc, as, &vmixedcase.Edit{Model: ret, IsNew: true}, ps, "mixedcase", "Create")
+func MixedCaseRandom(rc *fasthttp.RequestCtx) {
+	Act("mixedcase.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := as.Services.MixedCase.Random(ps.Context, nil, ps.Logger)
+		if err != nil {
+			return "", errors.Wrap(err, "unable to find random MixedCase")
+		}
+		return ret.WebPath(), nil
 	})
 }
 
@@ -79,8 +81,7 @@ func MixedCaseEditForm(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = "Edit " + ret.String()
-		ps.Data = ret
+		ps.SetTitleAndData("Edit "+ret.String(), ret)
 		return Render(rc, as, &vmixedcase.Edit{Model: ret}, ps, "mixedcase", ret.String())
 	})
 }

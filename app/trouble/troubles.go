@@ -80,6 +80,13 @@ func (t Troubles) GetByFroms(froms ...string) Troubles {
 	})
 }
 
+func (t Troubles) Random() *Trouble {
+	if len(t) == 0 {
+		return nil
+	}
+	return t[util.RandomInt(len(t))]
+}
+
 func (t Troubles) Clone() Troubles {
 	return slices.Clone(t)
 }

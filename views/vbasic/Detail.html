@@ -53,7 +53,7 @@
     <h3 class="mb">Relations</h3>
     <ul class="accordion">
       <li>
-        <input id="accordion-RelationsByBasicID" type="checkbox" hidden />
+        <input id="accordion-RelationsByBasicID" type="checkbox" hidden="hidden"{% if p.Params.Specifies(`relation`) %} checked="checked"{% endif %} />
         <label for="accordion-RelationsByBasicID">
           {%= components.ExpandCollapse(3, ps) %}
           {%= components.SVGRef(`star`, 16, 16, `icon`, ps) %}

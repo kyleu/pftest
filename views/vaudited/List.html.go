@@ -47,72 +47,84 @@ func (p *List) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
 	components.StreamSearchForm(qw422016, "", "q", "Search auditeds", p.SearchQuery, ps)
 //line views/vaudited/List.html:20
 	qw422016.N().S(`</div>
+    <div class="right mrs large-buttons">
+`)
+//line views/vaudited/List.html:22
+	if len(p.Models) > 0 {
+//line views/vaudited/List.html:22
+		qw422016.N().S(`<a href="/audited/_random"><button>Random</button></a>`)
+//line views/vaudited/List.html:22
+	}
+//line views/vaudited/List.html:22
+	qw422016.N().S(`      <a href="/audited/_new"><button>New</button></a>
+    </div>
     <h3>`)
-//line views/vaudited/List.html:21
+//line views/vaudited/List.html:25
 	components.StreamSVGRefIcon(qw422016, `star`, ps)
-//line views/vaudited/List.html:21
+//line views/vaudited/List.html:25
 	qw422016.E().S(ps.Title)
-//line views/vaudited/List.html:21
-	qw422016.N().S(` <a href="/audited/new"><button>New</button></a></h3>
+//line views/vaudited/List.html:25
+	qw422016.N().S(`</h3>
     <div class="clear"></div>
 `)
-//line views/vaudited/List.html:23
+//line views/vaudited/List.html:27
 	if p.SearchQuery != "" {
-//line views/vaudited/List.html:23
-		qw422016.N().S(`    <em>Search results for [`)
-//line views/vaudited/List.html:24
+//line views/vaudited/List.html:27
+		qw422016.N().S(`    <hr />
+    <em>Search results for [`)
+//line views/vaudited/List.html:29
 		qw422016.E().S(p.SearchQuery)
-//line views/vaudited/List.html:24
+//line views/vaudited/List.html:29
 		qw422016.N().S(`]</em> (<a href="?">clear</a>)
 `)
-//line views/vaudited/List.html:25
+//line views/vaudited/List.html:30
 	}
-//line views/vaudited/List.html:26
+//line views/vaudited/List.html:31
 	if len(p.Models) == 0 {
-//line views/vaudited/List.html:26
+//line views/vaudited/List.html:31
 		qw422016.N().S(`    <div class="mt"><em>No auditeds available</em></div>
 `)
-//line views/vaudited/List.html:28
+//line views/vaudited/List.html:33
 	} else {
-//line views/vaudited/List.html:28
-		qw422016.N().S(`    <div class="overflow clear">
+//line views/vaudited/List.html:33
+		qw422016.N().S(`    <div class="overflow clear mt">
       `)
-//line views/vaudited/List.html:30
+//line views/vaudited/List.html:35
 		StreamTable(qw422016, p.Models, p.Params, as, ps)
-//line views/vaudited/List.html:30
+//line views/vaudited/List.html:35
 		qw422016.N().S(`
     </div>
 `)
-//line views/vaudited/List.html:32
+//line views/vaudited/List.html:37
 	}
-//line views/vaudited/List.html:32
+//line views/vaudited/List.html:37
 	qw422016.N().S(`  </div>
 `)
-//line views/vaudited/List.html:34
+//line views/vaudited/List.html:39
 }
 
-//line views/vaudited/List.html:34
+//line views/vaudited/List.html:39
 func (p *List) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vaudited/List.html:34
+//line views/vaudited/List.html:39
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vaudited/List.html:34
+//line views/vaudited/List.html:39
 	p.StreamBody(qw422016, as, ps)
-//line views/vaudited/List.html:34
+//line views/vaudited/List.html:39
 	qt422016.ReleaseWriter(qw422016)
-//line views/vaudited/List.html:34
+//line views/vaudited/List.html:39
 }
 
-//line views/vaudited/List.html:34
+//line views/vaudited/List.html:39
 func (p *List) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vaudited/List.html:34
+//line views/vaudited/List.html:39
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vaudited/List.html:34
+//line views/vaudited/List.html:39
 	p.WriteBody(qb422016, as, ps)
-//line views/vaudited/List.html:34
+//line views/vaudited/List.html:39
 	qs422016 := string(qb422016.B)
-//line views/vaudited/List.html:34
+//line views/vaudited/List.html:39
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vaudited/List.html:34
+//line views/vaudited/List.html:39
 	return qs422016
-//line views/vaudited/List.html:34
+//line views/vaudited/List.html:39
 }

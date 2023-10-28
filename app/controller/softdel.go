@@ -20,8 +20,7 @@ func SoftdelList(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = "Softdels"
-		ps.Data = ret
+		ps.SetTitleAndData("Softdels", ret)
 		page := &vsoftdel.List{Models: ret, Params: ps.Params}
 		return Render(rc, as, page, ps, "softdel")
 	})
@@ -33,28 +32,31 @@ func SoftdelDetail(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = ret.TitleString() + " (Softdel)"
-		ps.Data = ret
+		ps.SetTitleAndData(ret.TitleString()+" (Softdel)", ret)
 
-		return Render(rc, as, &vsoftdel.Detail{Model: ret}, ps, "softdel", ret.String())
+		return Render(rc, as, &vsoftdel.Detail{Model: ret}, ps, "softdel", ret.TitleString()+"**star")
 	})
 }
 
 func SoftdelCreateForm(rc *fasthttp.RequestCtx) {
 	Act("softdel.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &softdel.Softdel{}
-		ps.Title = "Create [Softdel]"
+		if string(rc.QueryArgs().Peek("prototype")) == "random" {
+			ret = softdel.Random()
+		}
+		ps.SetTitleAndData("Create [Softdel]", ret)
 		ps.Data = ret
 		return Render(rc, as, &vsoftdel.Edit{Model: ret, IsNew: true}, ps, "softdel", "Create")
 	})
 }
 
-func SoftdelCreateFormRandom(rc *fasthttp.RequestCtx) {
-	Act("softdel.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret := softdel.Random()
-		ps.Title = "Create Random Softdel"
-		ps.Data = ret
-		return Render(rc, as, &vsoftdel.Edit{Model: ret, IsNew: true}, ps, "softdel", "Create")
+func SoftdelRandom(rc *fasthttp.RequestCtx) {
+	Act("softdel.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := as.Services.Softdel.Random(ps.Context, nil, ps.Logger)
+		if err != nil {
+			return "", errors.Wrap(err, "unable to find random Softdel")
+		}
+		return ret.WebPath(), nil
 	})
 }
 
@@ -79,8 +81,7 @@ func SoftdelEditForm(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = "Edit " + ret.String()
-		ps.Data = ret
+		ps.SetTitleAndData("Edit "+ret.String(), ret)
 		return Render(rc, as, &vsoftdel.Edit{Model: ret}, ps, "softdel", ret.String())
 	})
 }

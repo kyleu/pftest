@@ -21,10 +21,10 @@ var (
 )
 
 type row struct {
-	ID      uuid.UUID `db:"id"`
-	BasicID uuid.UUID `db:"basic_id"`
-	Name    string    `db:"name"`
-	Created time.Time `db:"created"`
+	ID      uuid.UUID `db:"id" json:"id"`
+	BasicID uuid.UUID `db:"basic_id" json:"basic_id"`
+	Name    string    `db:"name" json:"name"`
+	Created time.Time `db:"created" json:"created"`
 }
 
 func (r *row) ToRelation() *Relation {

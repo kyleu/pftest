@@ -19,9 +19,9 @@ var (
 )
 
 type row struct {
-	ID           string `db:"id"`
-	TestField    string `db:"test_field"`
-	AnotherField string `db:"another_field"`
+	ID           string `db:"id" json:"id"`
+	TestField    string `db:"test_field" json:"test_field"`
+	AnotherField string `db:"another_field" json:"another_field"`
 }
 
 func (r *row) ToMixedCase() *MixedCase {

@@ -6,6 +6,8 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/samber/lo"
+
+	"github.com/kyleu/pftest/app/util"
 )
 
 type Basics []*Basic
@@ -54,6 +56,13 @@ func (b Basics) GetByIDs(ids ...uuid.UUID) Basics {
 	return lo.Filter(b, func(xx *Basic, _ int) bool {
 		return lo.Contains(ids, xx.ID)
 	})
+}
+
+func (b Basics) Random() *Basic {
+	if len(b) == 0 {
+		return nil
+	}
+	return b[util.RandomInt(len(b))]
 }
 
 func (b Basics) Clone() Basics {

@@ -5,6 +5,8 @@ import (
 	"slices"
 
 	"github.com/samber/lo"
+
+	"github.com/kyleu/pftest/app/util"
 )
 
 type Capitals []*Capital
@@ -53,6 +55,13 @@ func (c Capitals) GetByIDs(ids ...string) Capitals {
 	return lo.Filter(c, func(xx *Capital, _ int) bool {
 		return lo.Contains(ids, xx.ID)
 	})
+}
+
+func (c Capitals) Random() *Capital {
+	if len(c) == 0 {
+		return nil
+	}
+	return c[util.RandomInt(len(c))]
 }
 
 func (c Capitals) Clone() Capitals {

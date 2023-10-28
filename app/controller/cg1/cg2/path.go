@@ -30,8 +30,7 @@ func PathList(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = "Paths"
-		ps.Data = ret
+		ps.SetTitleAndData("Paths", ret)
 		page := &vpath.List{Models: ret, Params: ps.Params, SearchQuery: q}
 		return controller.Render(rc, as, page, ps, "g1", "g2", "path")
 	})
@@ -43,28 +42,31 @@ func PathDetail(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = ret.TitleString() + " (Path)"
-		ps.Data = ret
+		ps.SetTitleAndData(ret.TitleString()+" (Path)", ret)
 
-		return controller.Render(rc, as, &vpath.Detail{Model: ret}, ps, "g1", "g2", "path", ret.String())
+		return controller.Render(rc, as, &vpath.Detail{Model: ret}, ps, "g1", "g2", "path", ret.TitleString()+"**star")
 	})
 }
 
 func PathCreateForm(rc *fasthttp.RequestCtx) {
 	controller.Act("path.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &path.Path{}
-		ps.Title = "Create [Path]"
+		if string(rc.QueryArgs().Peek("prototype")) == "random" {
+			ret = path.Random()
+		}
+		ps.SetTitleAndData("Create [Path]", ret)
 		ps.Data = ret
 		return controller.Render(rc, as, &vpath.Edit{Model: ret, IsNew: true}, ps, "g1", "g2", "path", "Create")
 	})
 }
 
-func PathCreateFormRandom(rc *fasthttp.RequestCtx) {
-	controller.Act("path.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret := path.Random()
-		ps.Title = "Create Random Path"
-		ps.Data = ret
-		return controller.Render(rc, as, &vpath.Edit{Model: ret, IsNew: true}, ps, "g1", "g2", "path", "Create")
+func PathRandom(rc *fasthttp.RequestCtx) {
+	controller.Act("path.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := as.Services.Path.Random(ps.Context, nil, ps.Logger)
+		if err != nil {
+			return "", errors.Wrap(err, "unable to find random Path")
+		}
+		return ret.WebPath(), nil
 	})
 }
 
@@ -89,8 +91,7 @@ func PathEditForm(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = "Edit " + ret.String()
-		ps.Data = ret
+		ps.SetTitleAndData("Edit "+ret.String(), ret)
 		return controller.Render(rc, as, &vpath.Edit{Model: ret}, ps, "g1", "g2", "path", ret.String())
 	})
 }

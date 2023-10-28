@@ -20,10 +20,10 @@ var (
 )
 
 type row struct {
-	ID      string     `db:"id"`
-	Created time.Time  `db:"created"`
-	Updated *time.Time `db:"updated"`
-	Deleted *time.Time `db:"deleted"`
+	ID      string     `db:"id" json:"id"`
+	Created time.Time  `db:"created" json:"created"`
+	Updated *time.Time `db:"updated" json:"updated"`
+	Deleted *time.Time `db:"deleted" json:"deleted"`
 }
 
 func (r *row) ToTimestamp() *Timestamp {

@@ -37,7 +37,7 @@ func StreamTable(qw422016 *qt422016.Writer, models softdel.Softdels, params filt
 	prms := params.Get("softdel", nil, ps.Logger).Sanitize("softdel")
 
 //line views/vsoftdel/Table.html:11
-	qw422016.N().S(`  <table class="mt">
+	qw422016.N().S(`  <table>
     <thead>
       <tr>
         `)

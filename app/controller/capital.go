@@ -20,8 +20,7 @@ func CapitalList(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = "Capitals"
-		ps.Data = ret
+		ps.SetTitleAndData("Capitals", ret)
 		page := &vcapital.List{Models: ret, Params: ps.Params}
 		return Render(rc, as, page, ps, "capital")
 	})
@@ -33,28 +32,31 @@ func CapitalDetail(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = ret.TitleString() + " (Capital)"
-		ps.Data = ret
+		ps.SetTitleAndData(ret.TitleString()+" (Capital)", ret)
 
-		return Render(rc, as, &vcapital.Detail{Model: ret}, ps, "capital", ret.String())
+		return Render(rc, as, &vcapital.Detail{Model: ret}, ps, "capital", ret.TitleString()+"**star")
 	})
 }
 
 func CapitalCreateForm(rc *fasthttp.RequestCtx) {
 	Act("capital.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &capital.Capital{}
-		ps.Title = "Create [Capital]"
+		if string(rc.QueryArgs().Peek("prototype")) == "random" {
+			ret = capital.Random()
+		}
+		ps.SetTitleAndData("Create [Capital]", ret)
 		ps.Data = ret
 		return Render(rc, as, &vcapital.Edit{Model: ret, IsNew: true}, ps, "capital", "Create")
 	})
 }
 
-func CapitalCreateFormRandom(rc *fasthttp.RequestCtx) {
-	Act("capital.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret := capital.Random()
-		ps.Title = "Create Random Capital"
-		ps.Data = ret
-		return Render(rc, as, &vcapital.Edit{Model: ret, IsNew: true}, ps, "capital", "Create")
+func CapitalRandom(rc *fasthttp.RequestCtx) {
+	Act("capital.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := as.Services.Capital.Random(ps.Context, nil, ps.Logger)
+		if err != nil {
+			return "", errors.Wrap(err, "unable to find random Capital")
+		}
+		return ret.WebPath(), nil
 	})
 }
 
@@ -79,8 +81,7 @@ func CapitalEditForm(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = "Edit " + ret.String()
-		ps.Data = ret
+		ps.SetTitleAndData("Edit "+ret.String(), ret)
 		return Render(rc, as, &vcapital.Edit{Model: ret}, ps, "capital", ret.String())
 	})
 }

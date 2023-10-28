@@ -18,10 +18,11 @@ import (
 	"github.com/kyleu/pftest/views/vexec"
 )
 
+const execIcon = "file"
+
 func ExecList(rc *fasthttp.RequestCtx) {
 	controller.Act("exec.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ps.Title = "Processes"
-		ps.Data = as.Services.Exec.Execs
+		ps.SetTitleAndData("Processes", as.Services.Exec.Execs)
 		return controller.Render(rc, as, &vexec.List{Execs: as.Services.Exec.Execs}, ps, "exec")
 	})
 }
@@ -29,9 +30,8 @@ func ExecList(rc *fasthttp.RequestCtx) {
 func ExecForm(rc *fasthttp.RequestCtx) {
 	controller.Act("exec.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		x := &exec.Exec{}
-		ps.Title = "New Process"
-		ps.Data = x
-		ps.DefaultNavIcon = "file"
+		ps.SetTitleAndData("New Process", x)
+		ps.DefaultNavIcon = execIcon
 		return controller.Render(rc, as, &vexec.Form{Exec: x}, ps, "exec", "New Process")
 	})
 }
@@ -75,9 +75,8 @@ func ExecDetail(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = ex.String()
-		ps.Data = ex
-		ps.DefaultNavIcon = "file"
+		ps.SetTitleAndData(ex.String(), ex)
+		ps.DefaultNavIcon = execIcon
 		return controller.Render(rc, as, &vexec.Detail{Exec: ex}, ps, "exec", ex.String())
 	})
 }

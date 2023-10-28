@@ -6,6 +6,8 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/samber/lo"
+
+	"github.com/kyleu/pftest/app/util"
 )
 
 type Relations []*Relation
@@ -72,6 +74,13 @@ func (r Relations) GetByBasicIDs(basicIDs ...uuid.UUID) Relations {
 	return lo.Filter(r, func(xx *Relation, _ int) bool {
 		return lo.Contains(basicIDs, xx.BasicID)
 	})
+}
+
+func (r Relations) Random() *Relation {
+	if len(r) == 0 {
+		return nil
+	}
+	return r[util.RandomInt(len(r))]
 }
 
 func (r Relations) Clone() Relations {

@@ -31,8 +31,7 @@ func RelationList(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = "Relations"
-		ps.Data = ret
+		ps.SetTitleAndData("Relations", ret)
 		basicIDsByBasicID := lo.Map(ret, func(x *relation.Relation, _ int) uuid.UUID {
 			return x.BasicID
 		})
@@ -51,30 +50,33 @@ func RelationDetail(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = ret.TitleString() + " (Relation)"
-		ps.Data = ret
+		ps.SetTitleAndData(ret.TitleString()+" (Relation)", ret)
 
 		basicByBasicID, _ := as.Services.Basic.Get(ps.Context, nil, ret.BasicID, ps.Logger)
 
-		return Render(rc, as, &vrelation.Detail{Model: ret, BasicByBasicID: basicByBasicID}, ps, "relation", ret.String())
+		return Render(rc, as, &vrelation.Detail{Model: ret, BasicByBasicID: basicByBasicID}, ps, "relation", ret.TitleString()+"**star")
 	})
 }
 
 func RelationCreateForm(rc *fasthttp.RequestCtx) {
 	Act("relation.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &relation.Relation{}
-		ps.Title = "Create [Relation]"
+		if string(rc.QueryArgs().Peek("prototype")) == "random" {
+			ret = relation.Random()
+		}
+		ps.SetTitleAndData("Create [Relation]", ret)
 		ps.Data = ret
 		return Render(rc, as, &vrelation.Edit{Model: ret, IsNew: true}, ps, "relation", "Create")
 	})
 }
 
-func RelationCreateFormRandom(rc *fasthttp.RequestCtx) {
-	Act("relation.create.form.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret := relation.Random()
-		ps.Title = "Create Random Relation"
-		ps.Data = ret
-		return Render(rc, as, &vrelation.Edit{Model: ret, IsNew: true}, ps, "relation", "Create")
+func RelationRandom(rc *fasthttp.RequestCtx) {
+	Act("relation.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := as.Services.Relation.Random(ps.Context, nil, ps.Logger)
+		if err != nil {
+			return "", errors.Wrap(err, "unable to find random Relation")
+		}
+		return ret.WebPath(), nil
 	})
 }
 
@@ -99,8 +101,7 @@ func RelationEditForm(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", err
 		}
-		ps.Title = "Edit " + ret.String()
-		ps.Data = ret
+		ps.SetTitleAndData("Edit "+ret.String(), ret)
 		return Render(rc, as, &vrelation.Edit{Model: ret}, ps, "relation", ret.String())
 	})
 }

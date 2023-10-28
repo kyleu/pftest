@@ -21,12 +21,12 @@ var (
 )
 
 type row struct {
-	From      string          `db:"from"`
-	Where     json.RawMessage `db:"where"`
-	Selectcol int             `db:"selectcol"`
-	Limit     string          `db:"limit"`
-	Group     string          `db:"group"`
-	Delete    *time.Time      `db:"delete"`
+	From      string          `db:"from" json:"from"`
+	Where     json.RawMessage `db:"where" json:"where"`
+	Selectcol int             `db:"selectcol" json:"selectcol"`
+	Limit     string          `db:"limit" json:"limit"`
+	Group     string          `db:"group" json:"group"`
+	Delete    *time.Time      `db:"delete" json:"delete"`
 }
 
 func (r *row) ToTrouble() *Trouble {

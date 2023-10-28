@@ -20,10 +20,10 @@ var (
 )
 
 type row struct {
-	ID       string     `db:"ID"`
-	Name     string     `db:"Name"`
-	Birthday time.Time  `db:"Birthday"`
-	Deathday *time.Time `db:"Deathday"`
+	ID       string     `db:"ID" json:"ID"`
+	Name     string     `db:"Name" json:"Name"`
+	Birthday time.Time  `db:"Birthday" json:"Birthday"`
+	Deathday *time.Time `db:"Deathday" json:"Deathday"`
 }
 
 func (r *row) ToCapital() *Capital {
