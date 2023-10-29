@@ -10,6 +10,7 @@ import (
 	"github.com/kyleu/pftest/app"
 	"github.com/kyleu/pftest/app/controller/cutil"
 	"github.com/kyleu/pftest/app/softdel"
+	"github.com/kyleu/pftest/app/util"
 	"github.com/kyleu/pftest/views/vsoftdel"
 )
 
@@ -41,7 +42,7 @@ func SoftdelDetail(rc *fasthttp.RequestCtx) {
 func SoftdelCreateForm(rc *fasthttp.RequestCtx) {
 	Act("softdel.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &softdel.Softdel{}
-		if string(rc.QueryArgs().Peek("prototype")) == "random" {
+		if string(rc.QueryArgs().Peek("prototype")) == util.KeyRandom {
 			ret = softdel.Random()
 		}
 		ps.SetTitleAndData("Create [Softdel]", ret)

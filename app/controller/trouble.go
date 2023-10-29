@@ -10,6 +10,7 @@ import (
 	"github.com/kyleu/pftest/app"
 	"github.com/kyleu/pftest/app/controller/cutil"
 	"github.com/kyleu/pftest/app/trouble"
+	"github.com/kyleu/pftest/app/util"
 	"github.com/kyleu/pftest/views/vtrouble"
 )
 
@@ -41,7 +42,7 @@ func TroubleDetail(rc *fasthttp.RequestCtx) {
 func TroubleCreateForm(rc *fasthttp.RequestCtx) {
 	Act("trouble.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &trouble.Trouble{}
-		if string(rc.QueryArgs().Peek("prototype")) == "random" {
+		if string(rc.QueryArgs().Peek("prototype")) == util.KeyRandom {
 			ret = trouble.Random()
 		}
 		ps.SetTitleAndData("Create [Trouble]", ret)

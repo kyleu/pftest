@@ -10,6 +10,7 @@ import (
 	"github.com/kyleu/pftest/app"
 	"github.com/kyleu/pftest/app/controller/cutil"
 	"github.com/kyleu/pftest/app/timestamp"
+	"github.com/kyleu/pftest/app/util"
 	"github.com/kyleu/pftest/views/vtimestamp"
 )
 
@@ -41,7 +42,7 @@ func TimestampDetail(rc *fasthttp.RequestCtx) {
 func TimestampCreateForm(rc *fasthttp.RequestCtx) {
 	Act("timestamp.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &timestamp.Timestamp{}
-		if string(rc.QueryArgs().Peek("prototype")) == "random" {
+		if string(rc.QueryArgs().Peek("prototype")) == util.KeyRandom {
 			ret = timestamp.Random()
 		}
 		ps.SetTitleAndData("Create [Timestamp]", ret)

@@ -50,7 +50,7 @@ func ReferenceDetail(rc *fasthttp.RequestCtx) {
 func ReferenceCreateForm(rc *fasthttp.RequestCtx) {
 	Act("reference.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &reference.Reference{}
-		if string(rc.QueryArgs().Peek("prototype")) == "random" {
+		if string(rc.QueryArgs().Peek("prototype")) == util.KeyRandom {
 			ret = reference.Random()
 		}
 		ps.SetTitleAndData("Create [Reference]", ret)

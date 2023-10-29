@@ -42,7 +42,7 @@ func SeedDetail(rc *fasthttp.RequestCtx) {
 func SeedCreateForm(rc *fasthttp.RequestCtx) {
 	Act("seed.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &seed.Seed{}
-		if string(rc.QueryArgs().Peek("prototype")) == "random" {
+		if string(rc.QueryArgs().Peek("prototype")) == util.KeyRandom {
 			ret = seed.Random()
 		}
 		ps.SetTitleAndData("Create [Seed]", ret)

@@ -55,7 +55,7 @@ func AuditedDetail(rc *fasthttp.RequestCtx) {
 func AuditedCreateForm(rc *fasthttp.RequestCtx) {
 	Act("audited.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &audited.Audited{}
-		if string(rc.QueryArgs().Peek("prototype")) == "random" {
+		if string(rc.QueryArgs().Peek("prototype")) == util.KeyRandom {
 			ret = audited.Random()
 		}
 		ps.SetTitleAndData("Create [Audited]", ret)

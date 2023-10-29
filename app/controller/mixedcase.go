@@ -10,6 +10,7 @@ import (
 	"github.com/kyleu/pftest/app"
 	"github.com/kyleu/pftest/app/controller/cutil"
 	"github.com/kyleu/pftest/app/mixedcase"
+	"github.com/kyleu/pftest/app/util"
 	"github.com/kyleu/pftest/views/vmixedcase"
 )
 
@@ -41,7 +42,7 @@ func MixedCaseDetail(rc *fasthttp.RequestCtx) {
 func MixedCaseCreateForm(rc *fasthttp.RequestCtx) {
 	Act("mixedcase.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &mixedcase.MixedCase{}
-		if string(rc.QueryArgs().Peek("prototype")) == "random" {
+		if string(rc.QueryArgs().Peek("prototype")) == util.KeyRandom {
 			ret = mixedcase.Random()
 		}
 		ps.SetTitleAndData("Create [MixedCase]", ret)

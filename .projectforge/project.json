@@ -40,6 +40,7 @@
     "types",
     "upgrade",
     "user",
+    "vmbuild",
     "wasmclient",
     "wasmserver",
     "websocket"
@@ -119,7 +120,6 @@
     "freeBSD": true,
     "netBSD": true,
     "openBSD": true,
-    "plan9": true,
     "solaris": true,
     "homebrew": true,
     "nfpms": true,

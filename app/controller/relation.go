@@ -61,7 +61,7 @@ func RelationDetail(rc *fasthttp.RequestCtx) {
 func RelationCreateForm(rc *fasthttp.RequestCtx) {
 	Act("relation.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &relation.Relation{}
-		if string(rc.QueryArgs().Peek("prototype")) == "random" {
+		if string(rc.QueryArgs().Peek("prototype")) == util.KeyRandom {
 			ret = relation.Random()
 		}
 		ps.SetTitleAndData("Create [Relation]", ret)

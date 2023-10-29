@@ -51,7 +51,7 @@ func PathDetail(rc *fasthttp.RequestCtx) {
 func PathCreateForm(rc *fasthttp.RequestCtx) {
 	controller.Act("path.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &path.Path{}
-		if string(rc.QueryArgs().Peek("prototype")) == "random" {
+		if string(rc.QueryArgs().Peek("prototype")) == util.KeyRandom {
 			ret = path.Random()
 		}
 		ps.SetTitleAndData("Create [Path]", ret)

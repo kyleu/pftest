@@ -40,6 +40,7 @@ The following modules were used to build this project:
 - [types](./doc/module/types.md)
 - [upgrade](./doc/module/upgrade.md)
 - [user](./doc/module/user.md)
+- [vmbuild](./doc/module/vmbuild.md)
 - [wasmclient](./doc/module/wasmclient.md)
 - [wasmserver](./doc/module/wasmserver.md)
 - [websocket](./doc/module/websocket.md)

@@ -10,6 +10,7 @@ import (
 	"github.com/kyleu/pftest/app"
 	"github.com/kyleu/pftest/app/capital"
 	"github.com/kyleu/pftest/app/controller/cutil"
+	"github.com/kyleu/pftest/app/util"
 	"github.com/kyleu/pftest/views/vcapital"
 )
 
@@ -41,7 +42,7 @@ func CapitalDetail(rc *fasthttp.RequestCtx) {
 func CapitalCreateForm(rc *fasthttp.RequestCtx) {
 	Act("capital.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &capital.Capital{}
-		if string(rc.QueryArgs().Peek("prototype")) == "random" {
+		if string(rc.QueryArgs().Peek("prototype")) == util.KeyRandom {
 			ret = capital.Random()
 		}
 		ps.SetTitleAndData("Create [Capital]", ret)

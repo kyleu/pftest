@@ -60,7 +60,7 @@ func BasicDetail(rc *fasthttp.RequestCtx) {
 func BasicCreateForm(rc *fasthttp.RequestCtx) {
 	Act("basic.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &basic.Basic{}
-		if string(rc.QueryArgs().Peek("prototype")) == "random" {
+		if string(rc.QueryArgs().Peek("prototype")) == util.KeyRandom {
 			ret = basic.Random()
 		}
 		ps.SetTitleAndData("Create [Basic]", ret)
