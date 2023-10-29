@@ -40,7 +40,6 @@
     "types",
     "upgrade",
     "user",
-    "vmbuild",
     "wasmclient",
     "wasmserver",
     "websocket"
