@@ -112,7 +112,7 @@ func StreamRenderResponse(qw422016 *qt422016.Writer, key string, r *har.Response
 //line views/vhar/Response.html:42
 		qw422016.E().S(key)
 //line views/vhar/Response.html:42
-		qw422016.N().S(`" type="checkbox" hidden />
+		qw422016.N().S(`" type="checkbox" hidden="hidden" />
                 <label class="no-padding" for="accordion-response-body-`)
 //line views/vhar/Response.html:43
 		qw422016.E().S(key)

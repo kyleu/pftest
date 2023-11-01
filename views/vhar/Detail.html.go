@@ -111,7 +111,7 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
 //line views/vhar/Detail.html:46
 		qw422016.E().S(key)
 //line views/vhar/Detail.html:46
-		qw422016.N().S(`" type="checkbox" hidden />
+		qw422016.N().S(`" type="checkbox" hidden="hidden" />
           <label title="`)
 //line views/vhar/Detail.html:47
 		qw422016.E().S(e.Request.URL)

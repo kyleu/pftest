@@ -145,7 +145,7 @@ func StreamRenderRequest(qw422016 *qt422016.Writer, key string, r *har.Request, 
 //line views/vhar/Request.html:53
 			qw422016.E().S(key)
 //line views/vhar/Request.html:53
-			qw422016.N().S(`" type="checkbox" hidden />
+			qw422016.N().S(`" type="checkbox" hidden="hidden" />
                 <label class="no-padding" for="accordion-request-body-`)
 //line views/vhar/Request.html:54
 			qw422016.E().S(key)
@@ -213,7 +213,7 @@ func streamrenderCookiesHidden(qw422016 *qt422016.Writer, key string, cookies ha
 //line views/vhar/Request.html:72
 	qw422016.E().S(key)
 //line views/vhar/Request.html:72
-	qw422016.N().S(`" type="checkbox" hidden />
+	qw422016.N().S(`" type="checkbox" hidden="hidden" />
       <label class="no-padding" for="accordion-cookies-`)
 //line views/vhar/Request.html:73
 	qw422016.E().S(key)
@@ -304,7 +304,7 @@ func streamrenderCookies(qw422016 *qt422016.Writer, key string, cs har.Cookies, 
 //line views/vhar/Request.html:102
 			qw422016.N().D(i)
 //line views/vhar/Request.html:102
-			qw422016.N().S(`" type="checkbox" hidden />
+			qw422016.N().S(`" type="checkbox" hidden="hidden" />
                 <label class="no-padding" for="accordion-`)
 //line views/vhar/Request.html:103
 			qw422016.E().S(key)
@@ -413,7 +413,7 @@ func streamrenderNVPsHidden(qw422016 *qt422016.Writer, key string, title string,
 //line views/vhar/Request.html:127
 	qw422016.E().S(key)
 //line views/vhar/Request.html:127
-	qw422016.N().S(`" type="checkbox" hidden />
+	qw422016.N().S(`" type="checkbox" hidden="hidden" />
       <label class="no-padding" for="accordion-`)
 //line views/vhar/Request.html:128
 	qw422016.E().S(key)

@@ -180,7 +180,7 @@ func StreamRenderEntry(qw422016 *qt422016.Writer, key string, e *har.Entry, ps *
 //line views/vhar/Entry.html:45
 	qw422016.E().S(key)
 //line views/vhar/Entry.html:45
-	qw422016.N().S(`-duration" type="checkbox" hidden />
+	qw422016.N().S(`-duration" type="checkbox" hidden="hidden" />
       <label for="accordion-entry-`)
 //line views/vhar/Entry.html:46
 	qw422016.E().S(key)
@@ -231,7 +231,7 @@ func StreamRenderEntry(qw422016 *qt422016.Writer, key string, e *har.Entry, ps *
 //line views/vhar/Entry.html:66
 	qw422016.E().S(key)
 //line views/vhar/Entry.html:66
-	qw422016.N().S(`-request" type="checkbox" hidden />
+	qw422016.N().S(`-request" type="checkbox" hidden="hidden" />
       <label for="accordion-entry-`)
 //line views/vhar/Entry.html:67
 	qw422016.E().S(key)
@@ -261,7 +261,7 @@ func StreamRenderEntry(qw422016 *qt422016.Writer, key string, e *har.Entry, ps *
 //line views/vhar/Entry.html:76
 	qw422016.E().S(key)
 //line views/vhar/Entry.html:76
-	qw422016.N().S(`-response" type="checkbox" hidden />
+	qw422016.N().S(`-response" type="checkbox" hidden="hidden" />
       <label for="accordion-entry-`)
 //line views/vhar/Entry.html:77
 	qw422016.E().S(key)
