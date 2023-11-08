@@ -63,6 +63,10 @@ func RelationCreateForm(rc *fasthttp.RequestCtx) {
 		ret := &relation.Relation{}
 		if string(rc.QueryArgs().Peek("prototype")) == util.KeyRandom {
 			ret = relation.Random()
+			randomBasic, err := as.Services.Basic.Random(ps.Context, nil, ps.Logger)
+			if err == nil && randomBasic != nil {
+				ret.BasicID = randomBasic.ID
+			}
 		}
 		ps.SetTitleAndData("Create [Relation]", ret)
 		ps.Data = ret
