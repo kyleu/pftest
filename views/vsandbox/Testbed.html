@@ -2,6 +2,8 @@
   "github.com/kyleu/pftest/app"
   "github.com/kyleu/pftest/app/controller/cutil"
   "github.com/kyleu/pftest/views/components"
+  "github.com/kyleu/pftest/views/components/edit"
+  "github.com/kyleu/pftest/views/components/view"
   "github.com/kyleu/pftest/views/layout"
 ) %}
 
@@ -12,6 +14,7 @@
 {%= tabs(as, ps) %}
 {%= accordion(as, ps) %}
 {%= modal(as, ps) %}
+{%= display(as, ps) %}
 {% endfunc %}
 
 {%- func icons(as *app.State, ps *cutil.PageState) -%}
@@ -72,6 +75,40 @@
       <div class="modal-body">
         Here's a modal body!
       </div>
+    </div>
+  </div>
+{%- endfunc -%}
+
+{%- func display(as *app.State, ps *cutil.PageState) -%}
+  <div class="card">
+    <h3>Display Types</h3>
+    <div class="mt overflow full-width min-200">
+      <table class="mt">
+        <thead>
+        <tr>
+          <th style="width: 25%;">Type</th>
+          <th style="width: 25%;">Code</th>
+          <th style="width: 25%;">View</th>
+          <th style="width: 25%;">Edit</th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr>
+            {%- code str := "Hello, world" -%}
+            <td><em>String</em></td>
+            <td><code>view.String(str)</code></td>
+            <td>{%= view.String(str) %}</td>
+            <td>{%= edit.String("str", "id-str", str) %}</td>
+          </tr>
+          <tr>
+            {%- code i := 12345 -%}
+            <td><em>Integer</em></td>
+            <td><code>view.Int(i)</code></td>
+            <td>{%= view.Int(i) %}</td>
+            <td>{%= edit.Int("i", "id-i", i) %}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 {%- endfunc -%}

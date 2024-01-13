@@ -12,53 +12,54 @@ import (
 	"github.com/kyleu/pftest/app/controller/cutil"
 	"github.com/kyleu/pftest/app/mixedcase"
 	"github.com/kyleu/pftest/views/components"
+	"github.com/kyleu/pftest/views/components/view"
 	"github.com/kyleu/pftest/views/layout"
 )
 
-//line views/vmixedcase/Detail.html:10
+//line views/vmixedcase/Detail.html:11
 import (
 	qtio422016 "io"
 
 	qt422016 "github.com/valyala/quicktemplate"
 )
 
-//line views/vmixedcase/Detail.html:10
+//line views/vmixedcase/Detail.html:11
 var (
 	_ = qtio422016.Copy
 	_ = qt422016.AcquireByteBuffer
 )
 
-//line views/vmixedcase/Detail.html:10
+//line views/vmixedcase/Detail.html:11
 type Detail struct {
 	layout.Basic
 	Model *mixedcase.MixedCase
 }
 
-//line views/vmixedcase/Detail.html:15
+//line views/vmixedcase/Detail.html:16
 func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vmixedcase/Detail.html:15
+//line views/vmixedcase/Detail.html:16
 	qw422016.N().S(`
   <div class="card">
     <div class="right">
       <a href="#modal-mixedCase"><button type="button">JSON</button></a>
       <a href="`)
-//line views/vmixedcase/Detail.html:19
+//line views/vmixedcase/Detail.html:20
 	qw422016.E().S(p.Model.WebPath())
-//line views/vmixedcase/Detail.html:19
+//line views/vmixedcase/Detail.html:20
 	qw422016.N().S(`/edit"><button>`)
-//line views/vmixedcase/Detail.html:19
+//line views/vmixedcase/Detail.html:20
 	components.StreamSVGRef(qw422016, "edit", 15, 15, "icon", ps)
-//line views/vmixedcase/Detail.html:19
+//line views/vmixedcase/Detail.html:20
 	qw422016.N().S(`Edit</button></a>
     </div>
     <h3>`)
-//line views/vmixedcase/Detail.html:21
+//line views/vmixedcase/Detail.html:22
 	components.StreamSVGRefIcon(qw422016, `star`, ps)
-//line views/vmixedcase/Detail.html:21
+//line views/vmixedcase/Detail.html:22
 	qw422016.N().S(` `)
-//line views/vmixedcase/Detail.html:21
+//line views/vmixedcase/Detail.html:22
 	qw422016.E().S(p.Model.TitleString())
-//line views/vmixedcase/Detail.html:21
+//line views/vmixedcase/Detail.html:22
 	qw422016.N().S(`</h3>
     <div><a href="/mixedcase"><em>Mixed Case</em></a></div>
     <table class="mt">
@@ -66,63 +67,63 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
         <tr>
           <th class="shrink" title="String text">ID</th>
           <td>`)
-//line views/vmixedcase/Detail.html:27
-	qw422016.E().S(p.Model.ID)
-//line views/vmixedcase/Detail.html:27
+//line views/vmixedcase/Detail.html:28
+	view.StreamString(qw422016, p.Model.ID)
+//line views/vmixedcase/Detail.html:28
 	qw422016.N().S(`</td>
         </tr>
         <tr>
           <th class="shrink" title="String text">Test Field</th>
           <td>`)
-//line views/vmixedcase/Detail.html:31
-	qw422016.E().S(p.Model.TestField)
-//line views/vmixedcase/Detail.html:31
+//line views/vmixedcase/Detail.html:32
+	view.StreamString(qw422016, p.Model.TestField)
+//line views/vmixedcase/Detail.html:32
 	qw422016.N().S(`</td>
         </tr>
         <tr>
           <th class="shrink" title="String text">Another Field</th>
           <td>`)
-//line views/vmixedcase/Detail.html:35
-	qw422016.E().S(p.Model.AnotherField)
-//line views/vmixedcase/Detail.html:35
+//line views/vmixedcase/Detail.html:36
+	view.StreamString(qw422016, p.Model.AnotherField)
+//line views/vmixedcase/Detail.html:36
 	qw422016.N().S(`</td>
         </tr>
       </tbody>
     </table>
   </div>
 `)
-//line views/vmixedcase/Detail.html:41
+//line views/vmixedcase/Detail.html:42
 	qw422016.N().S(`  `)
-//line views/vmixedcase/Detail.html:42
+//line views/vmixedcase/Detail.html:43
 	components.StreamJSONModal(qw422016, "mixedCase", "Mixed Case JSON", p.Model, 1)
-//line views/vmixedcase/Detail.html:42
+//line views/vmixedcase/Detail.html:43
 	qw422016.N().S(`
 `)
-//line views/vmixedcase/Detail.html:43
+//line views/vmixedcase/Detail.html:44
 }
 
-//line views/vmixedcase/Detail.html:43
+//line views/vmixedcase/Detail.html:44
 func (p *Detail) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vmixedcase/Detail.html:43
+//line views/vmixedcase/Detail.html:44
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vmixedcase/Detail.html:43
+//line views/vmixedcase/Detail.html:44
 	p.StreamBody(qw422016, as, ps)
-//line views/vmixedcase/Detail.html:43
+//line views/vmixedcase/Detail.html:44
 	qt422016.ReleaseWriter(qw422016)
-//line views/vmixedcase/Detail.html:43
+//line views/vmixedcase/Detail.html:44
 }
 
-//line views/vmixedcase/Detail.html:43
+//line views/vmixedcase/Detail.html:44
 func (p *Detail) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vmixedcase/Detail.html:43
+//line views/vmixedcase/Detail.html:44
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vmixedcase/Detail.html:43
+//line views/vmixedcase/Detail.html:44
 	p.WriteBody(qb422016, as, ps)
-//line views/vmixedcase/Detail.html:43
+//line views/vmixedcase/Detail.html:44
 	qs422016 := string(qb422016.B)
-//line views/vmixedcase/Detail.html:43
+//line views/vmixedcase/Detail.html:44
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vmixedcase/Detail.html:43
+//line views/vmixedcase/Detail.html:44
 	return qs422016
-//line views/vmixedcase/Detail.html:43
+//line views/vmixedcase/Detail.html:44
 }

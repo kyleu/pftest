@@ -4,6 +4,7 @@
   "github.com/kyleu/pftest/app/controller/cutil"
   "github.com/kyleu/pftest/app/timestamp"
   "github.com/kyleu/pftest/views/components"
+  "github.com/kyleu/pftest/views/components/view"
   "github.com/kyleu/pftest/views/layout"
 ) %}
 
@@ -24,19 +25,19 @@
       <tbody>
         <tr>
           <th class="shrink" title="String text">ID</th>
-          <td>{%s p.Model.ID %}</td>
+          <td>{%= view.String(p.Model.ID) %}</td>
         </tr>
         <tr>
           <th class="shrink" title="Date and time, in almost any format">Created</th>
-          <td>{%= components.DisplayTimestamp(&p.Model.Created) %}</td>
+          <td>{%= view.Timestamp(&p.Model.Created) %}</td>
         </tr>
         <tr>
           <th class="shrink" title="Date and time, in almost any format (optional)">Updated</th>
-          <td>{%= components.DisplayTimestamp(p.Model.Updated) %}</td>
+          <td>{%= view.Timestamp(p.Model.Updated) %}</td>
         </tr>
         <tr>
           <th class="shrink" title="Date and time, in almost any format (optional)">Deleted</th>
-          <td>{%= components.DisplayTimestamp(p.Model.Deleted) %}</td>
+          <td>{%= view.Timestamp(p.Model.Deleted) %}</td>
         </tr>
       </tbody>
     </table>

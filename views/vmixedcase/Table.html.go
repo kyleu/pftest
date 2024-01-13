@@ -13,121 +13,122 @@ import (
 	"github.com/kyleu/pftest/app/lib/filter"
 	"github.com/kyleu/pftest/app/mixedcase"
 	"github.com/kyleu/pftest/views/components"
+	"github.com/kyleu/pftest/views/components/view"
 )
 
-//line views/vmixedcase/Table.html:10
+//line views/vmixedcase/Table.html:11
 import (
 	qtio422016 "io"
 
 	qt422016 "github.com/valyala/quicktemplate"
 )
 
-//line views/vmixedcase/Table.html:10
+//line views/vmixedcase/Table.html:11
 var (
 	_ = qtio422016.Copy
 	_ = qt422016.AcquireByteBuffer
 )
 
-//line views/vmixedcase/Table.html:10
+//line views/vmixedcase/Table.html:11
 func StreamTable(qw422016 *qt422016.Writer, models mixedcase.MixedCases, params filter.ParamSet, as *app.State, ps *cutil.PageState) {
-//line views/vmixedcase/Table.html:10
+//line views/vmixedcase/Table.html:11
 	qw422016.N().S(`
 `)
-//line views/vmixedcase/Table.html:11
+//line views/vmixedcase/Table.html:12
 	prms := params.Get("mixedcase", nil, ps.Logger).Sanitize("mixedcase")
 
-//line views/vmixedcase/Table.html:11
+//line views/vmixedcase/Table.html:12
 	qw422016.N().S(`  <table>
     <thead>
       <tr>
         `)
-//line views/vmixedcase/Table.html:15
+//line views/vmixedcase/Table.html:16
 	components.StreamTableHeaderSimple(qw422016, "mixedcase", "id", "ID", "String text", prms, ps.URI, ps)
-//line views/vmixedcase/Table.html:15
+//line views/vmixedcase/Table.html:16
 	qw422016.N().S(`
         `)
-//line views/vmixedcase/Table.html:16
+//line views/vmixedcase/Table.html:17
 	components.StreamTableHeaderSimple(qw422016, "mixedcase", "test_field", "Test Field", "String text", prms, ps.URI, ps)
-//line views/vmixedcase/Table.html:16
+//line views/vmixedcase/Table.html:17
 	qw422016.N().S(`
         `)
-//line views/vmixedcase/Table.html:17
+//line views/vmixedcase/Table.html:18
 	components.StreamTableHeaderSimple(qw422016, "mixedcase", "another_field", "Another Field", "String text", prms, ps.URI, ps)
-//line views/vmixedcase/Table.html:17
+//line views/vmixedcase/Table.html:18
 	qw422016.N().S(`
       </tr>
     </thead>
     <tbody>
 `)
-//line views/vmixedcase/Table.html:21
+//line views/vmixedcase/Table.html:22
 	for _, model := range models {
-//line views/vmixedcase/Table.html:21
+//line views/vmixedcase/Table.html:22
 		qw422016.N().S(`      <tr>
         <td><a href="/mixedcase/`)
-//line views/vmixedcase/Table.html:23
+//line views/vmixedcase/Table.html:24
 		qw422016.N().U(model.ID)
-//line views/vmixedcase/Table.html:23
+//line views/vmixedcase/Table.html:24
 		qw422016.N().S(`">`)
-//line views/vmixedcase/Table.html:23
-		qw422016.E().S(model.ID)
-//line views/vmixedcase/Table.html:23
+//line views/vmixedcase/Table.html:24
+		view.StreamString(qw422016, model.ID)
+//line views/vmixedcase/Table.html:24
 		qw422016.N().S(`</a></td>
         <td>`)
-//line views/vmixedcase/Table.html:24
-		qw422016.E().S(model.TestField)
-//line views/vmixedcase/Table.html:24
+//line views/vmixedcase/Table.html:25
+		view.StreamString(qw422016, model.TestField)
+//line views/vmixedcase/Table.html:25
 		qw422016.N().S(`</td>
         <td>`)
-//line views/vmixedcase/Table.html:25
-		qw422016.E().S(model.AnotherField)
-//line views/vmixedcase/Table.html:25
+//line views/vmixedcase/Table.html:26
+		view.StreamString(qw422016, model.AnotherField)
+//line views/vmixedcase/Table.html:26
 		qw422016.N().S(`</td>
       </tr>
 `)
-//line views/vmixedcase/Table.html:27
+//line views/vmixedcase/Table.html:28
 	}
-//line views/vmixedcase/Table.html:28
+//line views/vmixedcase/Table.html:29
 	if prms.HasNextPage(len(models)+prms.Offset) || prms.HasPreviousPage() {
-//line views/vmixedcase/Table.html:28
+//line views/vmixedcase/Table.html:29
 		qw422016.N().S(`      <tr>
         <td colspan="3">`)
-//line views/vmixedcase/Table.html:30
+//line views/vmixedcase/Table.html:31
 		components.StreamPagination(qw422016, len(models)+prms.Offset, prms, ps.URI)
-//line views/vmixedcase/Table.html:30
+//line views/vmixedcase/Table.html:31
 		qw422016.N().S(`</td>
       </tr>
 `)
-//line views/vmixedcase/Table.html:32
+//line views/vmixedcase/Table.html:33
 	}
-//line views/vmixedcase/Table.html:32
+//line views/vmixedcase/Table.html:33
 	qw422016.N().S(`    </tbody>
   </table>
 `)
-//line views/vmixedcase/Table.html:35
+//line views/vmixedcase/Table.html:36
 }
 
-//line views/vmixedcase/Table.html:35
+//line views/vmixedcase/Table.html:36
 func WriteTable(qq422016 qtio422016.Writer, models mixedcase.MixedCases, params filter.ParamSet, as *app.State, ps *cutil.PageState) {
-//line views/vmixedcase/Table.html:35
+//line views/vmixedcase/Table.html:36
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vmixedcase/Table.html:35
+//line views/vmixedcase/Table.html:36
 	StreamTable(qw422016, models, params, as, ps)
-//line views/vmixedcase/Table.html:35
+//line views/vmixedcase/Table.html:36
 	qt422016.ReleaseWriter(qw422016)
-//line views/vmixedcase/Table.html:35
+//line views/vmixedcase/Table.html:36
 }
 
-//line views/vmixedcase/Table.html:35
+//line views/vmixedcase/Table.html:36
 func Table(models mixedcase.MixedCases, params filter.ParamSet, as *app.State, ps *cutil.PageState) string {
-//line views/vmixedcase/Table.html:35
+//line views/vmixedcase/Table.html:36
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vmixedcase/Table.html:35
+//line views/vmixedcase/Table.html:36
 	WriteTable(qb422016, models, params, as, ps)
-//line views/vmixedcase/Table.html:35
+//line views/vmixedcase/Table.html:36
 	qs422016 := string(qb422016.B)
-//line views/vmixedcase/Table.html:35
+//line views/vmixedcase/Table.html:36
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vmixedcase/Table.html:35
+//line views/vmixedcase/Table.html:36
 	return qs422016
-//line views/vmixedcase/Table.html:35
+//line views/vmixedcase/Table.html:36
 }

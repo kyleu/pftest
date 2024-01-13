@@ -13,128 +13,129 @@ import (
 	"github.com/kyleu/pftest/app/lib/audit"
 	"github.com/kyleu/pftest/app/util"
 	"github.com/kyleu/pftest/views/components"
+	"github.com/kyleu/pftest/views/components/edit"
 	"github.com/kyleu/pftest/views/layout"
 )
 
-//line views/vaudit/Edit.html:11
+//line views/vaudit/Edit.html:12
 import (
 	qtio422016 "io"
 
 	qt422016 "github.com/valyala/quicktemplate"
 )
 
-//line views/vaudit/Edit.html:11
+//line views/vaudit/Edit.html:12
 var (
 	_ = qtio422016.Copy
 	_ = qt422016.AcquireByteBuffer
 )
 
-//line views/vaudit/Edit.html:11
+//line views/vaudit/Edit.html:12
 type Edit struct {
 	layout.Basic
 	Model *audit.Audit
 	IsNew bool
 }
 
-//line views/vaudit/Edit.html:17
+//line views/vaudit/Edit.html:18
 func (p *Edit) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vaudit/Edit.html:17
+//line views/vaudit/Edit.html:18
 	qw422016.N().S(`
   <div class="card">
 `)
-//line views/vaudit/Edit.html:19
+//line views/vaudit/Edit.html:20
 	if p.IsNew {
-//line views/vaudit/Edit.html:19
+//line views/vaudit/Edit.html:20
 		qw422016.N().S(`    <div class="right"><a href="/admin/audit/random"><button>Random</button></a></div>
     <h3>`)
-//line views/vaudit/Edit.html:21
+//line views/vaudit/Edit.html:22
 		components.StreamSVGRefIcon(qw422016, `cog`, ps)
-//line views/vaudit/Edit.html:21
+//line views/vaudit/Edit.html:22
 		qw422016.N().S(` New Audit</h3>
     <form action="/admin/audit/new" class="mt" method="post">
 `)
-//line views/vaudit/Edit.html:23
+//line views/vaudit/Edit.html:24
 	} else {
-//line views/vaudit/Edit.html:23
+//line views/vaudit/Edit.html:24
 		qw422016.N().S(`    <div class="right"><a href="`)
-//line views/vaudit/Edit.html:24
+//line views/vaudit/Edit.html:25
 		qw422016.E().S(p.Model.WebPath())
-//line views/vaudit/Edit.html:24
+//line views/vaudit/Edit.html:25
 		qw422016.N().S(`/delete" onclick="return confirm('Are you sure you wish to delete audit [`)
-//line views/vaudit/Edit.html:24
+//line views/vaudit/Edit.html:25
 		qw422016.E().S(p.Model.String())
-//line views/vaudit/Edit.html:24
+//line views/vaudit/Edit.html:25
 		qw422016.N().S(`]?')"><button>Delete</button></a></div>
     <h3>`)
-//line views/vaudit/Edit.html:25
+//line views/vaudit/Edit.html:26
 		components.StreamSVGRefIcon(qw422016, `cog`, ps)
-//line views/vaudit/Edit.html:25
+//line views/vaudit/Edit.html:26
 		qw422016.N().S(` Edit Audit [`)
-//line views/vaudit/Edit.html:25
+//line views/vaudit/Edit.html:26
 		qw422016.E().S(p.Model.String())
-//line views/vaudit/Edit.html:25
+//line views/vaudit/Edit.html:26
 		qw422016.N().S(`]</h3>
     <form action="" class="mt" method="post">
 `)
-//line views/vaudit/Edit.html:27
+//line views/vaudit/Edit.html:28
 	}
-//line views/vaudit/Edit.html:27
+//line views/vaudit/Edit.html:28
 	qw422016.N().S(`      <div class="overflow full-width">
         <table class="mt expanded">
           <tbody>
             `)
-//line views/vaudit/Edit.html:31
+//line views/vaudit/Edit.html:32
 	if p.IsNew {
-//line views/vaudit/Edit.html:31
-		components.StreamTableInput(qw422016, "id", "", "ID", p.Model.ID.String(), 5, "UUID in format (00000000-0000-0000-0000-000000000000)")
-//line views/vaudit/Edit.html:31
+//line views/vaudit/Edit.html:32
+		edit.StreamStringTable(qw422016, "id", "", "ID", p.Model.ID.String(), 5, "UUID in format (00000000-0000-0000-0000-000000000000)")
+//line views/vaudit/Edit.html:32
 	}
-//line views/vaudit/Edit.html:31
-	qw422016.N().S(`
-            `)
-//line views/vaudit/Edit.html:32
-	components.StreamTableInput(qw422016, "app", "", "App", p.Model.App, 5, "String text")
 //line views/vaudit/Edit.html:32
 	qw422016.N().S(`
             `)
 //line views/vaudit/Edit.html:33
-	components.StreamTableInput(qw422016, "act", "", "Act", p.Model.Act, 5, "String text")
+	edit.StreamStringTable(qw422016, "app", "", "App", p.Model.App, 5, "String text")
 //line views/vaudit/Edit.html:33
 	qw422016.N().S(`
             `)
 //line views/vaudit/Edit.html:34
-	components.StreamTableInput(qw422016, "client", "", "Client", p.Model.Client, 5, "String text")
+	edit.StreamStringTable(qw422016, "act", "", "Act", p.Model.Act, 5, "String text")
 //line views/vaudit/Edit.html:34
 	qw422016.N().S(`
             `)
 //line views/vaudit/Edit.html:35
-	components.StreamTableInput(qw422016, "server", "", "Server", p.Model.Server, 5, "String text")
+	edit.StreamStringTable(qw422016, "client", "", "Client", p.Model.Client, 5, "String text")
 //line views/vaudit/Edit.html:35
 	qw422016.N().S(`
             `)
 //line views/vaudit/Edit.html:36
-	components.StreamTableInput(qw422016, "user", "", "User", p.Model.User, 5, "String text")
+	edit.StreamStringTable(qw422016, "server", "", "Server", p.Model.Server, 5, "String text")
 //line views/vaudit/Edit.html:36
 	qw422016.N().S(`
             `)
 //line views/vaudit/Edit.html:37
-	components.StreamTableTextarea(qw422016, "metadata", "", "Metadata", 8, util.ToJSON(p.Model.Metadata), 5, "JSON object")
+	edit.StreamStringTable(qw422016, "user", "", "User", p.Model.User, 5, "String text")
 //line views/vaudit/Edit.html:37
 	qw422016.N().S(`
             `)
 //line views/vaudit/Edit.html:38
-	components.StreamTableInput(qw422016, "message", "", "Message", p.Model.Message, 5, "String text")
+	edit.StreamTextareaTable(qw422016, "metadata", "", "Metadata", 8, util.ToJSON(p.Model.Metadata), 5, "JSON object")
 //line views/vaudit/Edit.html:38
 	qw422016.N().S(`
             `)
 //line views/vaudit/Edit.html:39
-	components.StreamTableInputTimestamp(qw422016, "started", "", "Started", &p.Model.Started, 5, "Date and time, in almost any format")
+	edit.StreamStringTable(qw422016, "message", "", "Message", p.Model.Message, 5, "String text")
 //line views/vaudit/Edit.html:39
 	qw422016.N().S(`
             `)
 //line views/vaudit/Edit.html:40
-	components.StreamTableInputTimestamp(qw422016, "completed", "", "Completed", &p.Model.Completed, 5, "Date and time, in almost any format")
+	edit.StreamTimestampTable(qw422016, "started", "", "Started", &p.Model.Started, 5, "Date and time, in almost any format")
 //line views/vaudit/Edit.html:40
+	qw422016.N().S(`
+            `)
+//line views/vaudit/Edit.html:41
+	edit.StreamTimestampTable(qw422016, "completed", "", "Completed", &p.Model.Completed, 5, "Date and time, in almost any format")
+//line views/vaudit/Edit.html:41
 	qw422016.N().S(`
             <tr><td colspan="2"><button type="submit">Save Changes</button></td></tr>
           </tbody>
@@ -143,31 +144,31 @@ func (p *Edit) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
     </form>
   </div>
 `)
-//line views/vaudit/Edit.html:47
+//line views/vaudit/Edit.html:48
 }
 
-//line views/vaudit/Edit.html:47
+//line views/vaudit/Edit.html:48
 func (p *Edit) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vaudit/Edit.html:47
+//line views/vaudit/Edit.html:48
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vaudit/Edit.html:47
+//line views/vaudit/Edit.html:48
 	p.StreamBody(qw422016, as, ps)
-//line views/vaudit/Edit.html:47
+//line views/vaudit/Edit.html:48
 	qt422016.ReleaseWriter(qw422016)
-//line views/vaudit/Edit.html:47
+//line views/vaudit/Edit.html:48
 }
 
-//line views/vaudit/Edit.html:47
+//line views/vaudit/Edit.html:48
 func (p *Edit) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vaudit/Edit.html:47
+//line views/vaudit/Edit.html:48
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vaudit/Edit.html:47
+//line views/vaudit/Edit.html:48
 	p.WriteBody(qb422016, as, ps)
-//line views/vaudit/Edit.html:47
+//line views/vaudit/Edit.html:48
 	qs422016 := string(qb422016.B)
-//line views/vaudit/Edit.html:47
+//line views/vaudit/Edit.html:48
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vaudit/Edit.html:47
+//line views/vaudit/Edit.html:48
 	return qs422016
-//line views/vaudit/Edit.html:47
+//line views/vaudit/Edit.html:48
 }

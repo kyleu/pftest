@@ -12,87 +12,88 @@ import (
 	"github.com/kyleu/pftest/app/controller/cutil"
 	"github.com/kyleu/pftest/app/softdel"
 	"github.com/kyleu/pftest/views/components"
+	"github.com/kyleu/pftest/views/components/edit"
 	"github.com/kyleu/pftest/views/layout"
 )
 
-//line views/vsoftdel/Edit.html:10
+//line views/vsoftdel/Edit.html:11
 import (
 	qtio422016 "io"
 
 	qt422016 "github.com/valyala/quicktemplate"
 )
 
-//line views/vsoftdel/Edit.html:10
+//line views/vsoftdel/Edit.html:11
 var (
 	_ = qtio422016.Copy
 	_ = qt422016.AcquireByteBuffer
 )
 
-//line views/vsoftdel/Edit.html:10
+//line views/vsoftdel/Edit.html:11
 type Edit struct {
 	layout.Basic
 	Model *softdel.Softdel
 	IsNew bool
 }
 
-//line views/vsoftdel/Edit.html:16
+//line views/vsoftdel/Edit.html:17
 func (p *Edit) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vsoftdel/Edit.html:16
+//line views/vsoftdel/Edit.html:17
 	qw422016.N().S(`
   <div class="card">
 `)
-//line views/vsoftdel/Edit.html:18
+//line views/vsoftdel/Edit.html:19
 	if p.IsNew {
-//line views/vsoftdel/Edit.html:18
+//line views/vsoftdel/Edit.html:19
 		qw422016.N().S(`    <div class="right"><a href="?prototype=random"><button>Random</button></a></div>
     <h3>`)
-//line views/vsoftdel/Edit.html:20
+//line views/vsoftdel/Edit.html:21
 		components.StreamSVGRefIcon(qw422016, `star`, ps)
-//line views/vsoftdel/Edit.html:20
+//line views/vsoftdel/Edit.html:21
 		qw422016.N().S(` New Softdel</h3>
     <form action="/softdel/_new" class="mt" method="post">
 `)
-//line views/vsoftdel/Edit.html:22
+//line views/vsoftdel/Edit.html:23
 	} else {
-//line views/vsoftdel/Edit.html:22
+//line views/vsoftdel/Edit.html:23
 		qw422016.N().S(`    <div class="right"><a href="`)
-//line views/vsoftdel/Edit.html:23
+//line views/vsoftdel/Edit.html:24
 		qw422016.E().S(p.Model.WebPath())
-//line views/vsoftdel/Edit.html:23
+//line views/vsoftdel/Edit.html:24
 		qw422016.N().S(`/delete" onclick="return confirm('Are you sure you wish to delete softdel [`)
-//line views/vsoftdel/Edit.html:23
+//line views/vsoftdel/Edit.html:24
 		qw422016.E().S(p.Model.String())
-//line views/vsoftdel/Edit.html:23
+//line views/vsoftdel/Edit.html:24
 		qw422016.N().S(`]?')"><button>Delete</button></a></div>
     <h3>`)
-//line views/vsoftdel/Edit.html:24
+//line views/vsoftdel/Edit.html:25
 		components.StreamSVGRefIcon(qw422016, `star`, ps)
-//line views/vsoftdel/Edit.html:24
+//line views/vsoftdel/Edit.html:25
 		qw422016.N().S(` Edit Softdel [`)
-//line views/vsoftdel/Edit.html:24
+//line views/vsoftdel/Edit.html:25
 		qw422016.E().S(p.Model.String())
-//line views/vsoftdel/Edit.html:24
+//line views/vsoftdel/Edit.html:25
 		qw422016.N().S(`]</h3>
     <form action="" method="post">
 `)
-//line views/vsoftdel/Edit.html:26
+//line views/vsoftdel/Edit.html:27
 	}
-//line views/vsoftdel/Edit.html:26
+//line views/vsoftdel/Edit.html:27
 	qw422016.N().S(`      <table class="mt expanded">
         <tbody>
           `)
-//line views/vsoftdel/Edit.html:29
+//line views/vsoftdel/Edit.html:30
 	if p.IsNew {
-//line views/vsoftdel/Edit.html:29
-		components.StreamTableInput(qw422016, "id", "", "ID", p.Model.ID, 5, "String text")
-//line views/vsoftdel/Edit.html:29
+//line views/vsoftdel/Edit.html:30
+		edit.StreamStringTable(qw422016, "id", "", "ID", p.Model.ID, 5, "String text")
+//line views/vsoftdel/Edit.html:30
 	}
-//line views/vsoftdel/Edit.html:29
+//line views/vsoftdel/Edit.html:30
 	qw422016.N().S(`
           `)
-//line views/vsoftdel/Edit.html:30
-	components.StreamTableInputTimestamp(qw422016, "deleted", "", "Deleted", p.Model.Deleted, 5, "Date and time, in almost any format (optional)")
-//line views/vsoftdel/Edit.html:30
+//line views/vsoftdel/Edit.html:31
+	edit.StreamTimestampTable(qw422016, "deleted", "", "Deleted", p.Model.Deleted, 5, "Date and time, in almost any format (optional)")
+//line views/vsoftdel/Edit.html:31
 	qw422016.N().S(`
           <tr><td colspan="2"><button type="submit">Save Changes</button></td></tr>
         </tbody>
@@ -100,31 +101,31 @@ func (p *Edit) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
     </form>
   </div>
 `)
-//line views/vsoftdel/Edit.html:36
+//line views/vsoftdel/Edit.html:37
 }
 
-//line views/vsoftdel/Edit.html:36
+//line views/vsoftdel/Edit.html:37
 func (p *Edit) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vsoftdel/Edit.html:36
+//line views/vsoftdel/Edit.html:37
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vsoftdel/Edit.html:36
+//line views/vsoftdel/Edit.html:37
 	p.StreamBody(qw422016, as, ps)
-//line views/vsoftdel/Edit.html:36
+//line views/vsoftdel/Edit.html:37
 	qt422016.ReleaseWriter(qw422016)
-//line views/vsoftdel/Edit.html:36
+//line views/vsoftdel/Edit.html:37
 }
 
-//line views/vsoftdel/Edit.html:36
+//line views/vsoftdel/Edit.html:37
 func (p *Edit) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vsoftdel/Edit.html:36
+//line views/vsoftdel/Edit.html:37
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vsoftdel/Edit.html:36
+//line views/vsoftdel/Edit.html:37
 	p.WriteBody(qb422016, as, ps)
-//line views/vsoftdel/Edit.html:36
+//line views/vsoftdel/Edit.html:37
 	qs422016 := string(qb422016.B)
-//line views/vsoftdel/Edit.html:36
+//line views/vsoftdel/Edit.html:37
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vsoftdel/Edit.html:36
+//line views/vsoftdel/Edit.html:37
 	return qs422016
-//line views/vsoftdel/Edit.html:36
+//line views/vsoftdel/Edit.html:37
 }

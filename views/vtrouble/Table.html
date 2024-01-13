@@ -5,6 +5,7 @@
   "github.com/kyleu/pftest/app/lib/filter"
   "github.com/kyleu/pftest/app/trouble"
   "github.com/kyleu/pftest/views/components"
+  "github.com/kyleu/pftest/views/components/view"
 ) %}
 
 {% func Table(models trouble.Troubles, params filter.ParamSet, as *app.State, ps *cutil.PageState) %}
@@ -23,12 +24,12 @@
     <tbody>
       {%- for _, model := range models -%}
       <tr>
-        <td><a href="/troub/le/{%u model.From %}/{%v model.Where %}">{%s model.From %}</a></td>
-        <td><a href="/troub/le/{%u model.From %}/{%v model.Where %}">{%= components.DisplayStringArray(model.Where) %}</a></td>
+        <td><a href="/troub/le/{%u model.From %}/{%v model.Where %}">{%= view.String(model.From) %}</a></td>
+        <td><a href="/troub/le/{%u model.From %}/{%v model.Where %}">{%= view.StringArray(model.Where) %}</a></td>
         <td>{%d model.Selectcol %}</td>
-        <td>{%s model.Limit %}</td>
-        <td>{%s model.Group %}</td>
-        <td>{%= components.DisplayTimestamp(model.Delete) %}</td>
+        <td>{%= view.String(model.Limit) %}</td>
+        <td>{%= view.String(model.Group) %}</td>
+        <td>{%= view.Timestamp(model.Delete) %}</td>
       </tr>
       {%- endfor -%}
       {%- if prms.HasNextPage(len(models) + prms.Offset) || prms.HasPreviousPage() -%}

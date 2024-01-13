@@ -4,6 +4,7 @@
   "github.com/kyleu/pftest/app/controller/cutil"
   "github.com/kyleu/pftest/app/mixedcase"
   "github.com/kyleu/pftest/views/components"
+  "github.com/kyleu/pftest/views/components/view"
   "github.com/kyleu/pftest/views/layout"
 ) %}
 
@@ -24,15 +25,15 @@
       <tbody>
         <tr>
           <th class="shrink" title="String text">ID</th>
-          <td>{%s p.Model.ID %}</td>
+          <td>{%= view.String(p.Model.ID) %}</td>
         </tr>
         <tr>
           <th class="shrink" title="String text">Test Field</th>
-          <td>{%s p.Model.TestField %}</td>
+          <td>{%= view.String(p.Model.TestField) %}</td>
         </tr>
         <tr>
           <th class="shrink" title="String text">Another Field</th>
-          <td>{%s p.Model.AnotherField %}</td>
+          <td>{%= view.String(p.Model.AnotherField) %}</td>
         </tr>
       </tbody>
     </table>

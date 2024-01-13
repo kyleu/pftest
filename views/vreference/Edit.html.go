@@ -13,92 +13,93 @@ import (
 	"github.com/kyleu/pftest/app/reference"
 	"github.com/kyleu/pftest/app/util"
 	"github.com/kyleu/pftest/views/components"
+	"github.com/kyleu/pftest/views/components/edit"
 	"github.com/kyleu/pftest/views/layout"
 )
 
-//line views/vreference/Edit.html:11
+//line views/vreference/Edit.html:12
 import (
 	qtio422016 "io"
 
 	qt422016 "github.com/valyala/quicktemplate"
 )
 
-//line views/vreference/Edit.html:11
+//line views/vreference/Edit.html:12
 var (
 	_ = qtio422016.Copy
 	_ = qt422016.AcquireByteBuffer
 )
 
-//line views/vreference/Edit.html:11
+//line views/vreference/Edit.html:12
 type Edit struct {
 	layout.Basic
 	Model *reference.Reference
 	IsNew bool
 }
 
-//line views/vreference/Edit.html:17
+//line views/vreference/Edit.html:18
 func (p *Edit) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vreference/Edit.html:17
+//line views/vreference/Edit.html:18
 	qw422016.N().S(`
   <div class="card">
 `)
-//line views/vreference/Edit.html:19
+//line views/vreference/Edit.html:20
 	if p.IsNew {
-//line views/vreference/Edit.html:19
+//line views/vreference/Edit.html:20
 		qw422016.N().S(`    <div class="right"><a href="?prototype=random"><button>Random</button></a></div>
     <h3>`)
-//line views/vreference/Edit.html:21
+//line views/vreference/Edit.html:22
 		components.StreamSVGRefIcon(qw422016, `star`, ps)
-//line views/vreference/Edit.html:21
+//line views/vreference/Edit.html:22
 		qw422016.N().S(` New Reference</h3>
     <form action="/reference/_new" class="mt" method="post">
 `)
-//line views/vreference/Edit.html:23
+//line views/vreference/Edit.html:24
 	} else {
-//line views/vreference/Edit.html:23
+//line views/vreference/Edit.html:24
 		qw422016.N().S(`    <div class="right"><a href="`)
-//line views/vreference/Edit.html:24
+//line views/vreference/Edit.html:25
 		qw422016.E().S(p.Model.WebPath())
-//line views/vreference/Edit.html:24
+//line views/vreference/Edit.html:25
 		qw422016.N().S(`/delete" onclick="return confirm('Are you sure you wish to delete reference [`)
-//line views/vreference/Edit.html:24
+//line views/vreference/Edit.html:25
 		qw422016.E().S(p.Model.String())
-//line views/vreference/Edit.html:24
+//line views/vreference/Edit.html:25
 		qw422016.N().S(`]?')"><button>Delete</button></a></div>
     <h3>`)
-//line views/vreference/Edit.html:25
+//line views/vreference/Edit.html:26
 		components.StreamSVGRefIcon(qw422016, `star`, ps)
-//line views/vreference/Edit.html:25
+//line views/vreference/Edit.html:26
 		qw422016.N().S(` Edit Reference [`)
-//line views/vreference/Edit.html:25
+//line views/vreference/Edit.html:26
 		qw422016.E().S(p.Model.String())
-//line views/vreference/Edit.html:25
+//line views/vreference/Edit.html:26
 		qw422016.N().S(`]</h3>
     <form action="" method="post">
 `)
-//line views/vreference/Edit.html:27
+//line views/vreference/Edit.html:28
 	}
-//line views/vreference/Edit.html:27
+//line views/vreference/Edit.html:28
 	qw422016.N().S(`      <table class="mt expanded">
         <tbody>
           `)
-//line views/vreference/Edit.html:30
+//line views/vreference/Edit.html:31
 	if p.IsNew {
-//line views/vreference/Edit.html:30
-		components.StreamTableInputUUID(qw422016, "id", "", "ID", &p.Model.ID, 5, "UUID in format (00000000-0000-0000-0000-000000000000)")
-//line views/vreference/Edit.html:30
+//line views/vreference/Edit.html:31
+		edit.StreamUUIDTable(qw422016, "id", "", "ID", &p.Model.ID, 5, "UUID in format (00000000-0000-0000-0000-000000000000)")
+//line views/vreference/Edit.html:31
 	}
-//line views/vreference/Edit.html:30
-	qw422016.N().S(`
-          `)
-//line views/vreference/Edit.html:31
-	components.StreamTableTextarea(qw422016, "custom", "", "Custom", 8, util.ToJSON(p.Model.Custom), 5, "[Custom], as a JSON object")
 //line views/vreference/Edit.html:31
 	qw422016.N().S(`
           `)
 //line views/vreference/Edit.html:32
-	components.StreamTableTextarea(qw422016, "self", "", "Self", 8, util.ToJSON(p.Model.Self), 5, "[SelfCustom], as a JSON object")
+	edit.StreamTextareaTable(qw422016, "custom", "", "Custom", 8, util.ToJSON(p.Model.Custom), 5, "[Custom], as a JSON object")
 //line views/vreference/Edit.html:32
+	qw422016.N().S(`
+          `)
+//line views/vreference/Edit.html:33
+	edit.StreamTextareaTable(qw422016, "self", "", "Self", 8, util.ToJSON(p.Model.Self), 5, "[SelfCustom], as a JSON object")
+//line views/vreference/Edit.html:33
 	qw422016.N().S(`
           <tr><td colspan="2"><button type="submit">Save Changes</button></td></tr>
         </tbody>
@@ -106,31 +107,31 @@ func (p *Edit) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
     </form>
   </div>
 `)
-//line views/vreference/Edit.html:38
+//line views/vreference/Edit.html:39
 }
 
-//line views/vreference/Edit.html:38
+//line views/vreference/Edit.html:39
 func (p *Edit) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vreference/Edit.html:38
+//line views/vreference/Edit.html:39
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vreference/Edit.html:38
+//line views/vreference/Edit.html:39
 	p.StreamBody(qw422016, as, ps)
-//line views/vreference/Edit.html:38
+//line views/vreference/Edit.html:39
 	qt422016.ReleaseWriter(qw422016)
-//line views/vreference/Edit.html:38
+//line views/vreference/Edit.html:39
 }
 
-//line views/vreference/Edit.html:38
+//line views/vreference/Edit.html:39
 func (p *Edit) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vreference/Edit.html:38
+//line views/vreference/Edit.html:39
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vreference/Edit.html:38
+//line views/vreference/Edit.html:39
 	p.WriteBody(qb422016, as, ps)
-//line views/vreference/Edit.html:38
+//line views/vreference/Edit.html:39
 	qs422016 := string(qb422016.B)
-//line views/vreference/Edit.html:38
+//line views/vreference/Edit.html:39
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vreference/Edit.html:38
+//line views/vreference/Edit.html:39
 	return qs422016
-//line views/vreference/Edit.html:38
+//line views/vreference/Edit.html:39
 }

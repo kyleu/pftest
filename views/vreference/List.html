@@ -5,6 +5,7 @@
   "github.com/kyleu/pftest/app/lib/filter"
   "github.com/kyleu/pftest/app/reference"
   "github.com/kyleu/pftest/views/components"
+  "github.com/kyleu/pftest/views/components/edit"
   "github.com/kyleu/pftest/views/layout"
 ) %}
 
@@ -17,7 +18,7 @@
 
 {% func (p *List) Body(as *app.State, ps *cutil.PageState) %}
   <div class="card">
-    <div class="right">{%= components.SearchForm("", "q", "Search references", p.SearchQuery, ps) %}</div>
+    <div class="right">{%= edit.SearchForm("", "q", "Search References", p.SearchQuery, ps) %}</div>
     <div class="right mrs large-buttons">
       {%- if len(p.Models) > 0 -%}<a href="/reference/_random"><button>Random</button></a>{%- endif -%}
       <a href="/reference/_new"><button>New</button></a>

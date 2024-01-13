@@ -12,92 +12,93 @@ import (
 	"github.com/kyleu/pftest/app/controller/cutil"
 	"github.com/kyleu/pftest/app/relation"
 	"github.com/kyleu/pftest/views/components"
+	"github.com/kyleu/pftest/views/components/edit"
 	"github.com/kyleu/pftest/views/layout"
 )
 
-//line views/vrelation/Edit.html:10
+//line views/vrelation/Edit.html:11
 import (
 	qtio422016 "io"
 
 	qt422016 "github.com/valyala/quicktemplate"
 )
 
-//line views/vrelation/Edit.html:10
+//line views/vrelation/Edit.html:11
 var (
 	_ = qtio422016.Copy
 	_ = qt422016.AcquireByteBuffer
 )
 
-//line views/vrelation/Edit.html:10
+//line views/vrelation/Edit.html:11
 type Edit struct {
 	layout.Basic
 	Model *relation.Relation
 	IsNew bool
 }
 
-//line views/vrelation/Edit.html:16
+//line views/vrelation/Edit.html:17
 func (p *Edit) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vrelation/Edit.html:16
+//line views/vrelation/Edit.html:17
 	qw422016.N().S(`
   <div class="card">
 `)
-//line views/vrelation/Edit.html:18
+//line views/vrelation/Edit.html:19
 	if p.IsNew {
-//line views/vrelation/Edit.html:18
+//line views/vrelation/Edit.html:19
 		qw422016.N().S(`    <div class="right"><a href="?prototype=random"><button>Random</button></a></div>
     <h3>`)
-//line views/vrelation/Edit.html:20
+//line views/vrelation/Edit.html:21
 		components.StreamSVGRefIcon(qw422016, `star`, ps)
-//line views/vrelation/Edit.html:20
+//line views/vrelation/Edit.html:21
 		qw422016.N().S(` New Relation</h3>
     <form action="/relation/_new" class="mt" method="post">
 `)
-//line views/vrelation/Edit.html:22
+//line views/vrelation/Edit.html:23
 	} else {
-//line views/vrelation/Edit.html:22
+//line views/vrelation/Edit.html:23
 		qw422016.N().S(`    <div class="right"><a href="`)
-//line views/vrelation/Edit.html:23
+//line views/vrelation/Edit.html:24
 		qw422016.E().S(p.Model.WebPath())
-//line views/vrelation/Edit.html:23
+//line views/vrelation/Edit.html:24
 		qw422016.N().S(`/delete" onclick="return confirm('Are you sure you wish to delete relation [`)
-//line views/vrelation/Edit.html:23
+//line views/vrelation/Edit.html:24
 		qw422016.E().S(p.Model.String())
-//line views/vrelation/Edit.html:23
+//line views/vrelation/Edit.html:24
 		qw422016.N().S(`]?')"><button>Delete</button></a></div>
     <h3>`)
-//line views/vrelation/Edit.html:24
+//line views/vrelation/Edit.html:25
 		components.StreamSVGRefIcon(qw422016, `star`, ps)
-//line views/vrelation/Edit.html:24
+//line views/vrelation/Edit.html:25
 		qw422016.N().S(` Edit Relation [`)
-//line views/vrelation/Edit.html:24
+//line views/vrelation/Edit.html:25
 		qw422016.E().S(p.Model.String())
-//line views/vrelation/Edit.html:24
+//line views/vrelation/Edit.html:25
 		qw422016.N().S(`]</h3>
     <form action="" method="post">
 `)
-//line views/vrelation/Edit.html:26
+//line views/vrelation/Edit.html:27
 	}
-//line views/vrelation/Edit.html:26
+//line views/vrelation/Edit.html:27
 	qw422016.N().S(`      <table class="mt expanded">
         <tbody>
           `)
-//line views/vrelation/Edit.html:29
+//line views/vrelation/Edit.html:30
 	if p.IsNew {
-//line views/vrelation/Edit.html:29
-		components.StreamTableInputUUID(qw422016, "id", "", "ID", &p.Model.ID, 5, "UUID in format (00000000-0000-0000-0000-000000000000)")
-//line views/vrelation/Edit.html:29
+//line views/vrelation/Edit.html:30
+		edit.StreamUUIDTable(qw422016, "id", "", "ID", &p.Model.ID, 5, "UUID in format (00000000-0000-0000-0000-000000000000)")
+//line views/vrelation/Edit.html:30
 	}
-//line views/vrelation/Edit.html:29
-	qw422016.N().S(`
-          `)
-//line views/vrelation/Edit.html:30
-	components.StreamTableInputUUID(qw422016, "basicID", "input-basicID", "Basic ID", &p.Model.BasicID, 5, "UUID in format (00000000-0000-0000-0000-000000000000)")
 //line views/vrelation/Edit.html:30
 	qw422016.N().S(`
           `)
 //line views/vrelation/Edit.html:31
-	components.StreamTableInput(qw422016, "name", "", "Name", p.Model.Name, 5, "String text")
+	edit.StreamUUIDTable(qw422016, "basicID", "input-basicID", "Basic ID", &p.Model.BasicID, 5, "UUID in format (00000000-0000-0000-0000-000000000000)")
 //line views/vrelation/Edit.html:31
+	qw422016.N().S(`
+          `)
+//line views/vrelation/Edit.html:32
+	edit.StreamStringTable(qw422016, "name", "", "Name", p.Model.Name, 5, "String text")
+//line views/vrelation/Edit.html:32
 	qw422016.N().S(`
           <tr><td colspan="2"><button type="submit">Save Changes</button></td></tr>
         </tbody>
@@ -109,31 +110,31 @@ func (p *Edit) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
     });
   </script>
 `)
-//line views/vrelation/Edit.html:41
+//line views/vrelation/Edit.html:42
 }
 
-//line views/vrelation/Edit.html:41
+//line views/vrelation/Edit.html:42
 func (p *Edit) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vrelation/Edit.html:41
+//line views/vrelation/Edit.html:42
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vrelation/Edit.html:41
+//line views/vrelation/Edit.html:42
 	p.StreamBody(qw422016, as, ps)
-//line views/vrelation/Edit.html:41
+//line views/vrelation/Edit.html:42
 	qt422016.ReleaseWriter(qw422016)
-//line views/vrelation/Edit.html:41
+//line views/vrelation/Edit.html:42
 }
 
-//line views/vrelation/Edit.html:41
+//line views/vrelation/Edit.html:42
 func (p *Edit) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vrelation/Edit.html:41
+//line views/vrelation/Edit.html:42
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vrelation/Edit.html:41
+//line views/vrelation/Edit.html:42
 	p.WriteBody(qb422016, as, ps)
-//line views/vrelation/Edit.html:41
+//line views/vrelation/Edit.html:42
 	qs422016 := string(qb422016.B)
-//line views/vrelation/Edit.html:41
+//line views/vrelation/Edit.html:42
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vrelation/Edit.html:41
+//line views/vrelation/Edit.html:42
 	return qs422016
-//line views/vrelation/Edit.html:41
+//line views/vrelation/Edit.html:42
 }

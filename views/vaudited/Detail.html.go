@@ -14,24 +14,25 @@ import (
 	"github.com/kyleu/pftest/app/lib/audit"
 	"github.com/kyleu/pftest/app/lib/filter"
 	"github.com/kyleu/pftest/views/components"
+	"github.com/kyleu/pftest/views/components/view"
 	"github.com/kyleu/pftest/views/layout"
 	"github.com/kyleu/pftest/views/vaudit"
 )
 
-//line views/vaudited/Detail.html:13
+//line views/vaudited/Detail.html:14
 import (
 	qtio422016 "io"
 
 	qt422016 "github.com/valyala/quicktemplate"
 )
 
-//line views/vaudited/Detail.html:13
+//line views/vaudited/Detail.html:14
 var (
 	_ = qtio422016.Copy
 	_ = qt422016.AcquireByteBuffer
 )
 
-//line views/vaudited/Detail.html:13
+//line views/vaudited/Detail.html:14
 type Detail struct {
 	layout.Basic
 	Model        *audited.Audited
@@ -39,31 +40,31 @@ type Detail struct {
 	AuditRecords audit.Records
 }
 
-//line views/vaudited/Detail.html:20
+//line views/vaudited/Detail.html:21
 func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vaudited/Detail.html:20
+//line views/vaudited/Detail.html:21
 	qw422016.N().S(`
   <div class="card">
     <div class="right">
       <a href="#modal-audited"><button type="button">JSON</button></a>
       <a href="`)
-//line views/vaudited/Detail.html:24
+//line views/vaudited/Detail.html:25
 	qw422016.E().S(p.Model.WebPath())
-//line views/vaudited/Detail.html:24
+//line views/vaudited/Detail.html:25
 	qw422016.N().S(`/edit"><button>`)
-//line views/vaudited/Detail.html:24
+//line views/vaudited/Detail.html:25
 	components.StreamSVGRef(qw422016, "edit", 15, 15, "icon", ps)
-//line views/vaudited/Detail.html:24
+//line views/vaudited/Detail.html:25
 	qw422016.N().S(`Edit</button></a>
     </div>
     <h3>`)
-//line views/vaudited/Detail.html:26
+//line views/vaudited/Detail.html:27
 	components.StreamSVGRefIcon(qw422016, `star`, ps)
-//line views/vaudited/Detail.html:26
+//line views/vaudited/Detail.html:27
 	qw422016.N().S(` `)
-//line views/vaudited/Detail.html:26
+//line views/vaudited/Detail.html:27
 	qw422016.E().S(p.Model.TitleString())
-//line views/vaudited/Detail.html:26
+//line views/vaudited/Detail.html:27
 	qw422016.N().S(`</h3>
     <div><a href="/audited"><em>Audited</em></a></div>
     <table class="mt">
@@ -71,69 +72,69 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
         <tr>
           <th class="shrink" title="UUID in format (00000000-0000-0000-0000-000000000000)">ID</th>
           <td>`)
-//line views/vaudited/Detail.html:32
-	components.StreamDisplayUUID(qw422016, &p.Model.ID)
-//line views/vaudited/Detail.html:32
+//line views/vaudited/Detail.html:33
+	view.StreamUUID(qw422016, &p.Model.ID)
+//line views/vaudited/Detail.html:33
 	qw422016.N().S(`</td>
         </tr>
         <tr>
           <th class="shrink" title="String text">Name</th>
           <td><strong>`)
-//line views/vaudited/Detail.html:36
-	qw422016.E().S(p.Model.Name)
-//line views/vaudited/Detail.html:36
+//line views/vaudited/Detail.html:37
+	view.StreamString(qw422016, p.Model.Name)
+//line views/vaudited/Detail.html:37
 	qw422016.N().S(`</strong></td>
         </tr>
       </tbody>
     </table>
   </div>
 `)
-//line views/vaudited/Detail.html:43
+//line views/vaudited/Detail.html:44
 	if len(p.AuditRecords) > 0 {
-//line views/vaudited/Detail.html:43
+//line views/vaudited/Detail.html:44
 		qw422016.N().S(`  <div class="card">
     <h3>Audits</h3>
     `)
-//line views/vaudited/Detail.html:46
+//line views/vaudited/Detail.html:47
 		vaudit.StreamRecordTable(qw422016, p.AuditRecords, p.Params, as, ps)
-//line views/vaudited/Detail.html:46
+//line views/vaudited/Detail.html:47
 		qw422016.N().S(`
   </div>
 `)
-//line views/vaudited/Detail.html:48
+//line views/vaudited/Detail.html:49
 	}
-//line views/vaudited/Detail.html:48
+//line views/vaudited/Detail.html:49
 	qw422016.N().S(`  `)
-//line views/vaudited/Detail.html:49
+//line views/vaudited/Detail.html:50
 	components.StreamJSONModal(qw422016, "audited", "Audited JSON", p.Model, 1)
-//line views/vaudited/Detail.html:49
+//line views/vaudited/Detail.html:50
 	qw422016.N().S(`
 `)
-//line views/vaudited/Detail.html:50
+//line views/vaudited/Detail.html:51
 }
 
-//line views/vaudited/Detail.html:50
+//line views/vaudited/Detail.html:51
 func (p *Detail) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vaudited/Detail.html:50
+//line views/vaudited/Detail.html:51
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vaudited/Detail.html:50
+//line views/vaudited/Detail.html:51
 	p.StreamBody(qw422016, as, ps)
-//line views/vaudited/Detail.html:50
+//line views/vaudited/Detail.html:51
 	qt422016.ReleaseWriter(qw422016)
-//line views/vaudited/Detail.html:50
+//line views/vaudited/Detail.html:51
 }
 
-//line views/vaudited/Detail.html:50
+//line views/vaudited/Detail.html:51
 func (p *Detail) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vaudited/Detail.html:50
+//line views/vaudited/Detail.html:51
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vaudited/Detail.html:50
+//line views/vaudited/Detail.html:51
 	p.WriteBody(qb422016, as, ps)
-//line views/vaudited/Detail.html:50
+//line views/vaudited/Detail.html:51
 	qs422016 := string(qb422016.B)
-//line views/vaudited/Detail.html:50
+//line views/vaudited/Detail.html:51
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vaudited/Detail.html:50
+//line views/vaudited/Detail.html:51
 	return qs422016
-//line views/vaudited/Detail.html:50
+//line views/vaudited/Detail.html:51
 }

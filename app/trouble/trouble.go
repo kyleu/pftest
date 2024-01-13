@@ -15,6 +15,10 @@ type PK struct {
 	Where []string `json:"where,omitempty"`
 }
 
+func (p *PK) String() string {
+	return fmt.Sprintf("%s::%v", p.From, p.Where)
+}
+
 type Trouble struct {
 	From      string     `json:"from,omitempty"`
 	Where     []string   `json:"where,omitempty"`

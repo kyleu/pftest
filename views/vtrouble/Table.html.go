@@ -13,163 +13,164 @@ import (
 	"github.com/kyleu/pftest/app/lib/filter"
 	"github.com/kyleu/pftest/app/trouble"
 	"github.com/kyleu/pftest/views/components"
+	"github.com/kyleu/pftest/views/components/view"
 )
 
-//line views/vtrouble/Table.html:10
+//line views/vtrouble/Table.html:11
 import (
 	qtio422016 "io"
 
 	qt422016 "github.com/valyala/quicktemplate"
 )
 
-//line views/vtrouble/Table.html:10
+//line views/vtrouble/Table.html:11
 var (
 	_ = qtio422016.Copy
 	_ = qt422016.AcquireByteBuffer
 )
 
-//line views/vtrouble/Table.html:10
+//line views/vtrouble/Table.html:11
 func StreamTable(qw422016 *qt422016.Writer, models trouble.Troubles, params filter.ParamSet, as *app.State, ps *cutil.PageState) {
-//line views/vtrouble/Table.html:10
+//line views/vtrouble/Table.html:11
 	qw422016.N().S(`
 `)
-//line views/vtrouble/Table.html:11
+//line views/vtrouble/Table.html:12
 	prms := params.Get("trouble", nil, ps.Logger).Sanitize("trouble")
 
-//line views/vtrouble/Table.html:11
+//line views/vtrouble/Table.html:12
 	qw422016.N().S(`  <table>
     <thead>
       <tr>
         `)
-//line views/vtrouble/Table.html:15
+//line views/vtrouble/Table.html:16
 	components.StreamTableHeaderSimple(qw422016, "trouble", "from", "From", "String text", prms, ps.URI, ps)
-//line views/vtrouble/Table.html:15
+//line views/vtrouble/Table.html:16
 	qw422016.N().S(`
         `)
-//line views/vtrouble/Table.html:16
+//line views/vtrouble/Table.html:17
 	components.StreamTableHeaderSimple(qw422016, "trouble", "where", "Where", "Comma-separated list of values", prms, ps.URI, ps)
-//line views/vtrouble/Table.html:16
+//line views/vtrouble/Table.html:17
 	qw422016.N().S(`
         `)
-//line views/vtrouble/Table.html:17
+//line views/vtrouble/Table.html:18
 	components.StreamTableHeaderSimple(qw422016, "trouble", "selectcol", "Selectcol", "Integer", prms, ps.URI, ps)
-//line views/vtrouble/Table.html:17
+//line views/vtrouble/Table.html:18
 	qw422016.N().S(`
         `)
-//line views/vtrouble/Table.html:18
+//line views/vtrouble/Table.html:19
 	components.StreamTableHeaderSimple(qw422016, "trouble", "limit", "Limit", "String text", prms, ps.URI, ps)
-//line views/vtrouble/Table.html:18
+//line views/vtrouble/Table.html:19
 	qw422016.N().S(`
         `)
-//line views/vtrouble/Table.html:19
+//line views/vtrouble/Table.html:20
 	components.StreamTableHeaderSimple(qw422016, "trouble", "group", "Group", "String text", prms, ps.URI, ps)
-//line views/vtrouble/Table.html:19
+//line views/vtrouble/Table.html:20
 	qw422016.N().S(`
         `)
-//line views/vtrouble/Table.html:20
+//line views/vtrouble/Table.html:21
 	components.StreamTableHeaderSimple(qw422016, "trouble", "delete", "Delete", "Date and time, in almost any format (optional)", prms, ps.URI, ps)
-//line views/vtrouble/Table.html:20
+//line views/vtrouble/Table.html:21
 	qw422016.N().S(`
       </tr>
     </thead>
     <tbody>
 `)
-//line views/vtrouble/Table.html:24
+//line views/vtrouble/Table.html:25
 	for _, model := range models {
-//line views/vtrouble/Table.html:24
+//line views/vtrouble/Table.html:25
 		qw422016.N().S(`      <tr>
         <td><a href="/troub/le/`)
-//line views/vtrouble/Table.html:26
+//line views/vtrouble/Table.html:27
 		qw422016.N().U(model.From)
-//line views/vtrouble/Table.html:26
+//line views/vtrouble/Table.html:27
 		qw422016.N().S(`/`)
-//line views/vtrouble/Table.html:26
+//line views/vtrouble/Table.html:27
 		qw422016.E().V(model.Where)
-//line views/vtrouble/Table.html:26
+//line views/vtrouble/Table.html:27
 		qw422016.N().S(`">`)
-//line views/vtrouble/Table.html:26
-		qw422016.E().S(model.From)
-//line views/vtrouble/Table.html:26
+//line views/vtrouble/Table.html:27
+		view.StreamString(qw422016, model.From)
+//line views/vtrouble/Table.html:27
 		qw422016.N().S(`</a></td>
         <td><a href="/troub/le/`)
-//line views/vtrouble/Table.html:27
+//line views/vtrouble/Table.html:28
 		qw422016.N().U(model.From)
-//line views/vtrouble/Table.html:27
+//line views/vtrouble/Table.html:28
 		qw422016.N().S(`/`)
-//line views/vtrouble/Table.html:27
+//line views/vtrouble/Table.html:28
 		qw422016.E().V(model.Where)
-//line views/vtrouble/Table.html:27
+//line views/vtrouble/Table.html:28
 		qw422016.N().S(`">`)
-//line views/vtrouble/Table.html:27
-		components.StreamDisplayStringArray(qw422016, model.Where)
-//line views/vtrouble/Table.html:27
+//line views/vtrouble/Table.html:28
+		view.StreamStringArray(qw422016, model.Where)
+//line views/vtrouble/Table.html:28
 		qw422016.N().S(`</a></td>
         <td>`)
-//line views/vtrouble/Table.html:28
+//line views/vtrouble/Table.html:29
 		qw422016.N().D(model.Selectcol)
-//line views/vtrouble/Table.html:28
-		qw422016.N().S(`</td>
-        <td>`)
-//line views/vtrouble/Table.html:29
-		qw422016.E().S(model.Limit)
 //line views/vtrouble/Table.html:29
 		qw422016.N().S(`</td>
         <td>`)
 //line views/vtrouble/Table.html:30
-		qw422016.E().S(model.Group)
+		view.StreamString(qw422016, model.Limit)
 //line views/vtrouble/Table.html:30
 		qw422016.N().S(`</td>
         <td>`)
 //line views/vtrouble/Table.html:31
-		components.StreamDisplayTimestamp(qw422016, model.Delete)
+		view.StreamString(qw422016, model.Group)
 //line views/vtrouble/Table.html:31
+		qw422016.N().S(`</td>
+        <td>`)
+//line views/vtrouble/Table.html:32
+		view.StreamTimestamp(qw422016, model.Delete)
+//line views/vtrouble/Table.html:32
 		qw422016.N().S(`</td>
       </tr>
 `)
-//line views/vtrouble/Table.html:33
+//line views/vtrouble/Table.html:34
 	}
-//line views/vtrouble/Table.html:34
+//line views/vtrouble/Table.html:35
 	if prms.HasNextPage(len(models)+prms.Offset) || prms.HasPreviousPage() {
-//line views/vtrouble/Table.html:34
+//line views/vtrouble/Table.html:35
 		qw422016.N().S(`      <tr>
         <td colspan="6">`)
-//line views/vtrouble/Table.html:36
+//line views/vtrouble/Table.html:37
 		components.StreamPagination(qw422016, len(models)+prms.Offset, prms, ps.URI)
-//line views/vtrouble/Table.html:36
+//line views/vtrouble/Table.html:37
 		qw422016.N().S(`</td>
       </tr>
 `)
-//line views/vtrouble/Table.html:38
+//line views/vtrouble/Table.html:39
 	}
-//line views/vtrouble/Table.html:38
+//line views/vtrouble/Table.html:39
 	qw422016.N().S(`    </tbody>
   </table>
 `)
-//line views/vtrouble/Table.html:41
+//line views/vtrouble/Table.html:42
 }
 
-//line views/vtrouble/Table.html:41
+//line views/vtrouble/Table.html:42
 func WriteTable(qq422016 qtio422016.Writer, models trouble.Troubles, params filter.ParamSet, as *app.State, ps *cutil.PageState) {
-//line views/vtrouble/Table.html:41
+//line views/vtrouble/Table.html:42
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vtrouble/Table.html:41
+//line views/vtrouble/Table.html:42
 	StreamTable(qw422016, models, params, as, ps)
-//line views/vtrouble/Table.html:41
+//line views/vtrouble/Table.html:42
 	qt422016.ReleaseWriter(qw422016)
-//line views/vtrouble/Table.html:41
+//line views/vtrouble/Table.html:42
 }
 
-//line views/vtrouble/Table.html:41
+//line views/vtrouble/Table.html:42
 func Table(models trouble.Troubles, params filter.ParamSet, as *app.State, ps *cutil.PageState) string {
-//line views/vtrouble/Table.html:41
+//line views/vtrouble/Table.html:42
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vtrouble/Table.html:41
+//line views/vtrouble/Table.html:42
 	WriteTable(qb422016, models, params, as, ps)
-//line views/vtrouble/Table.html:41
+//line views/vtrouble/Table.html:42
 	qs422016 := string(qb422016.B)
-//line views/vtrouble/Table.html:41
+//line views/vtrouble/Table.html:42
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vtrouble/Table.html:41
+//line views/vtrouble/Table.html:42
 	return qs422016
-//line views/vtrouble/Table.html:41
+//line views/vtrouble/Table.html:42
 }

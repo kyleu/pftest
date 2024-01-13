@@ -12,50 +12,51 @@ import (
 	"github.com/kyleu/pftest/app/controller/cutil"
 	"github.com/kyleu/pftest/app/lib/audit"
 	"github.com/kyleu/pftest/views/components"
+	"github.com/kyleu/pftest/views/components/view"
 	"github.com/kyleu/pftest/views/layout"
 )
 
-//line views/vaudit/RecordDetail.html:10
+//line views/vaudit/RecordDetail.html:11
 import (
 	qtio422016 "io"
 
 	qt422016 "github.com/valyala/quicktemplate"
 )
 
-//line views/vaudit/RecordDetail.html:10
+//line views/vaudit/RecordDetail.html:11
 var (
 	_ = qtio422016.Copy
 	_ = qt422016.AcquireByteBuffer
 )
 
-//line views/vaudit/RecordDetail.html:10
+//line views/vaudit/RecordDetail.html:11
 type RecordDetail struct {
 	layout.Basic
 	Model *audit.Record
 	Audit *audit.Audit
 }
 
-//line views/vaudit/RecordDetail.html:16
+//line views/vaudit/RecordDetail.html:17
 func (p *RecordDetail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vaudit/RecordDetail.html:16
+//line views/vaudit/RecordDetail.html:17
 	qw422016.N().S(`
   <div class="card">
     <div class="right">
       <a href="#modal-record"><button type="button">JSON</button></a>
       <a href="`)
-//line views/vaudit/RecordDetail.html:20
+//line views/vaudit/RecordDetail.html:21
 	qw422016.E().S(p.Model.WebPath())
-//line views/vaudit/RecordDetail.html:20
+//line views/vaudit/RecordDetail.html:21
 	qw422016.N().S(`/edit"><button>Edit</button></a>
     </div>
     <h3>`)
-//line views/vaudit/RecordDetail.html:22
+//line views/vaudit/RecordDetail.html:23
 	components.StreamSVGRefIcon(qw422016, `cog`, ps)
-//line views/vaudit/RecordDetail.html:22
+//line views/vaudit/RecordDetail.html:23
 	qw422016.N().S(` Audit Record [`)
-//line views/vaudit/RecordDetail.html:22
+//line views/vaudit/RecordDetail.html:23
 	qw422016.E().S(p.Model.String())
-//line views/vaudit/RecordDetail.html:22
+//line views/vaudit/RecordDetail.html:23
 	qw422016.N().S(`]</h3>
     <div class="overflow full-width">
       <table class="mt">
@@ -63,68 +64,68 @@ func (p *RecordDetail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *
           <tr>
             <th class="shrink" title="UUID in format (00000000-0000-0000-0000-000000000000)">ID</th>
             <td>`)
-//line views/vaudit/RecordDetail.html:28
-	components.StreamDisplayUUID(qw422016, &p.Model.ID)
-//line views/vaudit/RecordDetail.html:28
+//line views/vaudit/RecordDetail.html:29
+	view.StreamUUID(qw422016, &p.Model.ID)
+//line views/vaudit/RecordDetail.html:29
 	qw422016.N().S(`</td>
           </tr>
           <tr>
             <th class="shrink" title="UUID in format (00000000-0000-0000-0000-000000000000)">Audit ID</th>
             <td>
               <div class="icon">`)
-//line views/vaudit/RecordDetail.html:33
-	components.StreamDisplayUUID(qw422016, &p.Model.AuditID)
-//line views/vaudit/RecordDetail.html:33
+//line views/vaudit/RecordDetail.html:34
+	view.StreamUUID(qw422016, &p.Model.AuditID)
+//line views/vaudit/RecordDetail.html:34
 	qw422016.N().S(`</div>
               <a title="Audit" href="`)
-//line views/vaudit/RecordDetail.html:34
+//line views/vaudit/RecordDetail.html:35
 	qw422016.E().S(`/admin/audit` + `/` + p.Model.AuditID.String())
-//line views/vaudit/RecordDetail.html:34
+//line views/vaudit/RecordDetail.html:35
 	qw422016.N().S(`">`)
-//line views/vaudit/RecordDetail.html:34
+//line views/vaudit/RecordDetail.html:35
 	components.StreamSVGRefIcon(qw422016, "cog", ps)
-//line views/vaudit/RecordDetail.html:34
+//line views/vaudit/RecordDetail.html:35
 	qw422016.N().S(`</a>
             </td>
           </tr>
           <tr>
             <th class="shrink" title="String text">T</th>
             <td>`)
-//line views/vaudit/RecordDetail.html:39
+//line views/vaudit/RecordDetail.html:40
 	qw422016.E().S(p.Model.T)
-//line views/vaudit/RecordDetail.html:39
+//line views/vaudit/RecordDetail.html:40
 	qw422016.N().S(`</td>
           </tr>
           <tr>
             <th class="shrink" title="String text">Pk</th>
             <td>`)
-//line views/vaudit/RecordDetail.html:43
+//line views/vaudit/RecordDetail.html:44
 	qw422016.E().S(p.Model.PK)
-//line views/vaudit/RecordDetail.html:43
+//line views/vaudit/RecordDetail.html:44
 	qw422016.N().S(`</td>
           </tr>
           <tr>
             <th class="shrink" title="JSON object">Changes</th>
             <td>`)
-//line views/vaudit/RecordDetail.html:47
-	components.StreamDisplayDiffs(qw422016, p.Model.Changes)
-//line views/vaudit/RecordDetail.html:47
+//line views/vaudit/RecordDetail.html:48
+	view.StreamDiffs(qw422016, p.Model.Changes)
+//line views/vaudit/RecordDetail.html:48
 	qw422016.N().S(`</td>
           </tr>
           <tr>
             <th class="shrink" title="JSON object">Metadata</th>
             <td>`)
-//line views/vaudit/RecordDetail.html:51
+//line views/vaudit/RecordDetail.html:52
 	components.StreamJSON(qw422016, p.Model.Metadata)
-//line views/vaudit/RecordDetail.html:51
+//line views/vaudit/RecordDetail.html:52
 	qw422016.N().S(`</td>
           </tr>
           <tr>
             <th class="shrink" title="Date and time, in almost any format">Occurred</th>
             <td>`)
-//line views/vaudit/RecordDetail.html:55
-	components.StreamDisplayTimestamp(qw422016, &p.Model.Occurred)
-//line views/vaudit/RecordDetail.html:55
+//line views/vaudit/RecordDetail.html:56
+	view.StreamTimestamp(qw422016, &p.Model.Occurred)
+//line views/vaudit/RecordDetail.html:56
 	qw422016.N().S(`</td>
           </tr>
         </tbody>
@@ -132,38 +133,38 @@ func (p *RecordDetail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *
     </div>
   </div>
 `)
-//line views/vaudit/RecordDetail.html:62
+//line views/vaudit/RecordDetail.html:63
 	qw422016.N().S(`  `)
-//line views/vaudit/RecordDetail.html:63
+//line views/vaudit/RecordDetail.html:64
 	components.StreamJSONModal(qw422016, "record", "Audit Record JSON", p.Model, 1)
-//line views/vaudit/RecordDetail.html:63
+//line views/vaudit/RecordDetail.html:64
 	qw422016.N().S(`
 `)
-//line views/vaudit/RecordDetail.html:64
+//line views/vaudit/RecordDetail.html:65
 }
 
-//line views/vaudit/RecordDetail.html:64
+//line views/vaudit/RecordDetail.html:65
 func (p *RecordDetail) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vaudit/RecordDetail.html:64
+//line views/vaudit/RecordDetail.html:65
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vaudit/RecordDetail.html:64
+//line views/vaudit/RecordDetail.html:65
 	p.StreamBody(qw422016, as, ps)
-//line views/vaudit/RecordDetail.html:64
+//line views/vaudit/RecordDetail.html:65
 	qt422016.ReleaseWriter(qw422016)
-//line views/vaudit/RecordDetail.html:64
+//line views/vaudit/RecordDetail.html:65
 }
 
-//line views/vaudit/RecordDetail.html:64
+//line views/vaudit/RecordDetail.html:65
 func (p *RecordDetail) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vaudit/RecordDetail.html:64
+//line views/vaudit/RecordDetail.html:65
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vaudit/RecordDetail.html:64
+//line views/vaudit/RecordDetail.html:65
 	p.WriteBody(qb422016, as, ps)
-//line views/vaudit/RecordDetail.html:64
+//line views/vaudit/RecordDetail.html:65
 	qs422016 := string(qb422016.B)
-//line views/vaudit/RecordDetail.html:64
+//line views/vaudit/RecordDetail.html:65
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vaudit/RecordDetail.html:64
+//line views/vaudit/RecordDetail.html:65
 	return qs422016
-//line views/vaudit/RecordDetail.html:64
+//line views/vaudit/RecordDetail.html:65
 }

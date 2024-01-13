@@ -5,6 +5,7 @@
   "github.com/kyleu/pftest/app/g1/g2/path"
   "github.com/kyleu/pftest/app/lib/filter"
   "github.com/kyleu/pftest/views/components"
+  "github.com/kyleu/pftest/views/components/view"
 ) %}
 
 {% func Table(models path.Paths, params filter.ParamSet, as *app.State, ps *cutil.PageState) %}
@@ -21,10 +22,10 @@
     <tbody>
       {%- for _, model := range models -%}
       <tr>
-        <td><a href="/g1/g2/path/{%= components.DisplayUUID(&model.ID) %}">{%= components.DisplayUUID(&model.ID) %}</a></td>
-        <td><strong>{%s model.Name %}</strong></td>
+        <td><a href="/g1/g2/path/{%= view.UUID(&model.ID) %}">{%= view.UUID(&model.ID) %}</a></td>
+        <td><strong>{%= view.String(model.Name) %}</strong></td>
         <td><strong>{%s model.Status %}</strong></td>
-        <td>{%= components.DisplayTimestamp(&model.Created) %}</td>
+        <td>{%= view.Timestamp(&model.Created) %}</td>
       </tr>
       {%- endfor -%}
       {%- if prms.HasNextPage(len(models) + prms.Offset) || prms.HasPreviousPage() -%}

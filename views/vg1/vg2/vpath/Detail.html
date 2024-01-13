@@ -4,6 +4,7 @@
   "github.com/kyleu/pftest/app/controller/cutil"
   "github.com/kyleu/pftest/app/g1/g2/path"
   "github.com/kyleu/pftest/views/components"
+  "github.com/kyleu/pftest/views/components/view"
   "github.com/kyleu/pftest/views/layout"
 ) %}
 
@@ -24,11 +25,11 @@
       <tbody>
         <tr>
           <th class="shrink" title="UUID in format (00000000-0000-0000-0000-000000000000)">ID</th>
-          <td>{%= components.DisplayUUID(&p.Model.ID) %}</td>
+          <td>{%= view.UUID(&p.Model.ID) %}</td>
         </tr>
         <tr>
           <th class="shrink" title="String text">Name</th>
-          <td><strong>{%s p.Model.Name %}</strong></td>
+          <td><strong>{%= view.String(p.Model.Name) %}</strong></td>
         </tr>
         <tr>
           <th class="shrink" title="String text">Status</th>
@@ -36,7 +37,7 @@
         </tr>
         <tr>
           <th class="shrink" title="Date and time, in almost any format">Created</th>
-          <td>{%= components.DisplayTimestamp(&p.Model.Created) %}</td>
+          <td>{%= view.Timestamp(&p.Model.Created) %}</td>
         </tr>
       </tbody>
     </table>

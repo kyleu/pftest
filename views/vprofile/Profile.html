@@ -6,6 +6,7 @@
   "github.com/kyleu/pftest/app/lib/theme"
   "github.com/kyleu/pftest/app/lib/user"
   "github.com/kyleu/pftest/views/components"
+  "github.com/kyleu/pftest/views/components/edit"
   "github.com/kyleu/pftest/views/layout"
   "github.com/kyleu/pftest/views/vauth"
   "github.com/kyleu/pftest/views/vtheme"
@@ -32,7 +33,7 @@
       <div class="overflow full-width">
         <table class="mt expanded">
           <tbody>
-            {%= components.TableInput("name", "", "Name", ps.Username(), 5) %}
+            {%= edit.StringTable("name", "", "Name", ps.Username(), 5) %}
             <tr>
               <th class="shrink"><label>Mode</label></th>
               <td>

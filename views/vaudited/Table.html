@@ -5,6 +5,7 @@
   "github.com/kyleu/pftest/app/controller/cutil"
   "github.com/kyleu/pftest/app/lib/filter"
   "github.com/kyleu/pftest/views/components"
+  "github.com/kyleu/pftest/views/components/view"
 ) %}
 
 {% func Table(models audited.Auditeds, params filter.ParamSet, as *app.State, ps *cutil.PageState) %}
@@ -19,8 +20,8 @@
     <tbody>
       {%- for _, model := range models -%}
       <tr>
-        <td><a href="/audited/{%= components.DisplayUUID(&model.ID) %}">{%= components.DisplayUUID(&model.ID) %}</a></td>
-        <td><strong>{%s model.Name %}</strong></td>
+        <td><a href="/audited/{%= view.UUID(&model.ID) %}">{%= view.UUID(&model.ID) %}</a></td>
+        <td><strong>{%= view.String(model.Name) %}</strong></td>
       </tr>
       {%- endfor -%}
       {%- if prms.HasNextPage(len(models) + prms.Offset) || prms.HasPreviousPage() -%}

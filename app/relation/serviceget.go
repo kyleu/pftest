@@ -72,7 +72,7 @@ func (s *Service) GetByBasicID(ctx context.Context, tx *sqlx.Tx, basicID uuid.UU
 	ret := rows{}
 	err := s.dbRead.Select(ctx, &ret, q, tx, logger, basicID)
 	if err != nil {
-		return nil, errors.Wrapf(err, "unable to get relations by basicID [%v]", basicID)
+		return nil, errors.Wrapf(err, "unable to get Relations by basicID [%v]", basicID)
 	}
 	return ret.ToRelations(), nil
 }

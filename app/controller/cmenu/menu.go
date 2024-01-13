@@ -17,7 +17,7 @@ func MenuFor(
 ) (menu.Items, any, error) {
 	var ret menu.Items
 	var data any
-	// $PF_SECTION_START(routes)$
+	// $PF_SECTION_START(menu)$
 	if isAdmin {
 		ret = append(ret, processMenu(as.Services.Exec.Execs), harMenu(as.Services.Har), scriptingMenu(as.Services.Script, logger))
 	}
@@ -30,6 +30,6 @@ func MenuFor(
 	}
 	const aboutDesc = "Get assistance and advice for using " + util.AppName
 	ret = append(ret, &menu.Item{Key: "about", Title: "About", Description: aboutDesc, Icon: "question", Route: "/about"})
-	// $PF_SECTION_END(routes)$
+	// $PF_SECTION_END(menu)$
 	return ret, data, nil
 }

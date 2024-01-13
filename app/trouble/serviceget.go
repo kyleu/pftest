@@ -94,7 +94,7 @@ func (s *Service) GetByFrom(ctx context.Context, tx *sqlx.Tx, from string, param
 	ret := rows{}
 	err := s.dbRead.Select(ctx, &ret, q, tx, logger, from)
 	if err != nil {
-		return nil, errors.Wrapf(err, "unable to get troubles by from [%v]", from)
+		return nil, errors.Wrapf(err, "unable to get Troubles by from [%v]", from)
 	}
 	return ret.ToTroubles(), nil
 }
@@ -108,7 +108,7 @@ func (s *Service) GetByWhere(ctx context.Context, tx *sqlx.Tx, where []string, p
 	ret := rows{}
 	err := s.dbRead.Select(ctx, &ret, q, tx, logger, where)
 	if err != nil {
-		return nil, errors.Wrapf(err, "unable to get troubles by where [%v]", where)
+		return nil, errors.Wrapf(err, "unable to get Troubles by where [%v]", where)
 	}
 	return ret.ToTroubles(), nil
 }

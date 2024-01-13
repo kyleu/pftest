@@ -6,6 +6,7 @@
   "github.com/kyleu/pftest/app/lib/filter"
   "github.com/kyleu/pftest/app/relation"
   "github.com/kyleu/pftest/views/components"
+  "github.com/kyleu/pftest/views/components/view"
 ) %}
 
 {% func Table(models relation.Relations, basicsByBasicID basic.Basics, params filter.ParamSet, as *app.State, ps *cutil.PageState) %}
@@ -22,13 +23,13 @@
     <tbody>
       {%- for _, model := range models -%}
       <tr>
-        <td><a href="/relation/{%= components.DisplayUUID(&model.ID) %}">{%= components.DisplayUUID(&model.ID) %}</a></td>
+        <td><a href="/relation/{%= view.UUID(&model.ID) %}">{%= view.UUID(&model.ID) %}</a></td>
         <td class="nowrap">
-          {%= components.DisplayUUID(&model.BasicID) %}{% if x := basicsByBasicID.Get(model.BasicID); x != nil %} ({%s x.TitleString() %}){% endif %}
+          {%= view.UUID(&model.BasicID) %}{% if x := basicsByBasicID.Get(model.BasicID); x != nil %} ({%s x.TitleString() %}){% endif %}
           <a title="Basic" href="{%s `/basic`+`/`+model.BasicID.String() %}">{%= components.SVGRef("star", 18, 18, "", ps) %}</a>
         </td>
-        <td><strong>{%s model.Name %}</strong></td>
-        <td>{%= components.DisplayTimestamp(&model.Created) %}</td>
+        <td><strong>{%= view.String(model.Name) %}</strong></td>
+        <td>{%= view.Timestamp(&model.Created) %}</td>
       </tr>
       {%- endfor -%}
       {%- if prms.HasNextPage(len(models) + prms.Offset) || prms.HasPreviousPage() -%}

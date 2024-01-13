@@ -4,6 +4,7 @@
   "github.com/kyleu/pftest/app/controller/cutil"
   "github.com/kyleu/pftest/app/trouble"
   "github.com/kyleu/pftest/views/components"
+  "github.com/kyleu/pftest/views/components/view"
   "github.com/kyleu/pftest/views/layout"
 ) %}
 
@@ -24,11 +25,11 @@
       <tbody>
         <tr>
           <th class="shrink" title="String text">From</th>
-          <td>{%s p.Model.From %}</td>
+          <td>{%= view.String(p.Model.From) %}</td>
         </tr>
         <tr>
           <th class="shrink" title="Comma-separated list of values">Where</th>
-          <td>{%= components.DisplayStringArray(p.Model.Where) %}</td>
+          <td>{%= view.StringArray(p.Model.Where) %}</td>
         </tr>
         <tr>
           <th class="shrink" title="Integer">Selectcol</th>
@@ -36,15 +37,15 @@
         </tr>
         <tr>
           <th class="shrink" title="String text">Limit</th>
-          <td>{%s p.Model.Limit %}</td>
+          <td>{%= view.String(p.Model.Limit) %}</td>
         </tr>
         <tr>
           <th class="shrink" title="String text">Group</th>
-          <td>{%s p.Model.Group %}</td>
+          <td>{%= view.String(p.Model.Group) %}</td>
         </tr>
         <tr>
           <th class="shrink" title="Date and time, in almost any format (optional)">Delete</th>
-          <td>{%= components.DisplayTimestamp(p.Model.Delete) %}</td>
+          <td>{%= view.Timestamp(p.Model.Delete) %}</td>
         </tr>
       </tbody>
     </table>

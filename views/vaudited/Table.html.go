@@ -13,111 +13,112 @@ import (
 	"github.com/kyleu/pftest/app/controller/cutil"
 	"github.com/kyleu/pftest/app/lib/filter"
 	"github.com/kyleu/pftest/views/components"
+	"github.com/kyleu/pftest/views/components/view"
 )
 
-//line views/vaudited/Table.html:10
+//line views/vaudited/Table.html:11
 import (
 	qtio422016 "io"
 
 	qt422016 "github.com/valyala/quicktemplate"
 )
 
-//line views/vaudited/Table.html:10
+//line views/vaudited/Table.html:11
 var (
 	_ = qtio422016.Copy
 	_ = qt422016.AcquireByteBuffer
 )
 
-//line views/vaudited/Table.html:10
+//line views/vaudited/Table.html:11
 func StreamTable(qw422016 *qt422016.Writer, models audited.Auditeds, params filter.ParamSet, as *app.State, ps *cutil.PageState) {
-//line views/vaudited/Table.html:10
+//line views/vaudited/Table.html:11
 	qw422016.N().S(`
 `)
-//line views/vaudited/Table.html:11
+//line views/vaudited/Table.html:12
 	prms := params.Get("audited", nil, ps.Logger).Sanitize("audited")
 
-//line views/vaudited/Table.html:11
+//line views/vaudited/Table.html:12
 	qw422016.N().S(`  <table>
     <thead>
       <tr>
         `)
-//line views/vaudited/Table.html:15
+//line views/vaudited/Table.html:16
 	components.StreamTableHeaderSimple(qw422016, "audited", "id", "ID", "UUID in format (00000000-0000-0000-0000-000000000000)", prms, ps.URI, ps)
-//line views/vaudited/Table.html:15
+//line views/vaudited/Table.html:16
 	qw422016.N().S(`
         `)
-//line views/vaudited/Table.html:16
+//line views/vaudited/Table.html:17
 	components.StreamTableHeaderSimple(qw422016, "audited", "name", "Name", "String text", prms, ps.URI, ps)
-//line views/vaudited/Table.html:16
+//line views/vaudited/Table.html:17
 	qw422016.N().S(`
       </tr>
     </thead>
     <tbody>
 `)
-//line views/vaudited/Table.html:20
+//line views/vaudited/Table.html:21
 	for _, model := range models {
-//line views/vaudited/Table.html:20
+//line views/vaudited/Table.html:21
 		qw422016.N().S(`      <tr>
         <td><a href="/audited/`)
-//line views/vaudited/Table.html:22
-		components.StreamDisplayUUID(qw422016, &model.ID)
-//line views/vaudited/Table.html:22
+//line views/vaudited/Table.html:23
+		view.StreamUUID(qw422016, &model.ID)
+//line views/vaudited/Table.html:23
 		qw422016.N().S(`">`)
-//line views/vaudited/Table.html:22
-		components.StreamDisplayUUID(qw422016, &model.ID)
-//line views/vaudited/Table.html:22
+//line views/vaudited/Table.html:23
+		view.StreamUUID(qw422016, &model.ID)
+//line views/vaudited/Table.html:23
 		qw422016.N().S(`</a></td>
         <td><strong>`)
-//line views/vaudited/Table.html:23
-		qw422016.E().S(model.Name)
-//line views/vaudited/Table.html:23
+//line views/vaudited/Table.html:24
+		view.StreamString(qw422016, model.Name)
+//line views/vaudited/Table.html:24
 		qw422016.N().S(`</strong></td>
       </tr>
 `)
-//line views/vaudited/Table.html:25
+//line views/vaudited/Table.html:26
 	}
-//line views/vaudited/Table.html:26
+//line views/vaudited/Table.html:27
 	if prms.HasNextPage(len(models)+prms.Offset) || prms.HasPreviousPage() {
-//line views/vaudited/Table.html:26
+//line views/vaudited/Table.html:27
 		qw422016.N().S(`      <tr>
         <td colspan="2">`)
-//line views/vaudited/Table.html:28
+//line views/vaudited/Table.html:29
 		components.StreamPagination(qw422016, len(models)+prms.Offset, prms, ps.URI)
-//line views/vaudited/Table.html:28
+//line views/vaudited/Table.html:29
 		qw422016.N().S(`</td>
       </tr>
 `)
-//line views/vaudited/Table.html:30
+//line views/vaudited/Table.html:31
 	}
-//line views/vaudited/Table.html:30
+//line views/vaudited/Table.html:31
 	qw422016.N().S(`    </tbody>
   </table>
 `)
-//line views/vaudited/Table.html:33
+//line views/vaudited/Table.html:34
 }
 
-//line views/vaudited/Table.html:33
+//line views/vaudited/Table.html:34
 func WriteTable(qq422016 qtio422016.Writer, models audited.Auditeds, params filter.ParamSet, as *app.State, ps *cutil.PageState) {
-//line views/vaudited/Table.html:33
+//line views/vaudited/Table.html:34
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vaudited/Table.html:33
+//line views/vaudited/Table.html:34
 	StreamTable(qw422016, models, params, as, ps)
-//line views/vaudited/Table.html:33
+//line views/vaudited/Table.html:34
 	qt422016.ReleaseWriter(qw422016)
-//line views/vaudited/Table.html:33
+//line views/vaudited/Table.html:34
 }
 
-//line views/vaudited/Table.html:33
+//line views/vaudited/Table.html:34
 func Table(models audited.Auditeds, params filter.ParamSet, as *app.State, ps *cutil.PageState) string {
-//line views/vaudited/Table.html:33
+//line views/vaudited/Table.html:34
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vaudited/Table.html:33
+//line views/vaudited/Table.html:34
 	WriteTable(qb422016, models, params, as, ps)
-//line views/vaudited/Table.html:33
+//line views/vaudited/Table.html:34
 	qs422016 := string(qb422016.B)
-//line views/vaudited/Table.html:33
+//line views/vaudited/Table.html:34
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vaudited/Table.html:33
+//line views/vaudited/Table.html:34
 	return qs422016
-//line views/vaudited/Table.html:33
+//line views/vaudited/Table.html:34
 }
