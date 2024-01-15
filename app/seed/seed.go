@@ -46,3 +46,10 @@ func (s *Seed) WebPath() string {
 func (s *Seed) ToData() []any {
 	return []any{s.ID, s.Name, s.Size, s.Obj}
 }
+
+var FieldDescs = util.FieldDescs{
+	{Key: "id", Title: "ID", Description: "", Type: "uuid"},
+	{Key: "name", Title: "Name", Description: "", Type: "string"},
+	{Key: "size", Title: "Size", Description: "", Type: "int"},
+	{Key: "obj", Title: "Obj", Description: "", Type: "map[string]any"},
+}

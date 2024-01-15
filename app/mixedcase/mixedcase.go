@@ -44,3 +44,9 @@ func (m *MixedCase) WebPath() string {
 func (m *MixedCase) ToData() []any {
 	return []any{m.ID, m.TestField, m.AnotherField}
 }
+
+var FieldDescs = util.FieldDescs{
+	{Key: "id", Title: "ID", Description: "", Type: "string"},
+	{Key: "testField", Title: "Test Field", Description: "", Type: "string"},
+	{Key: "anotherField", Title: "Another Field", Description: "", Type: "string"},
+}

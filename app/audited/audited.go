@@ -42,3 +42,8 @@ func (a *Audited) WebPath() string {
 func (a *Audited) ToData() []any {
 	return []any{a.ID, a.Name}
 }
+
+var FieldDescs = util.FieldDescs{
+	{Key: "id", Title: "ID", Description: "", Type: "uuid"},
+	{Key: "name", Title: "Name", Description: "", Type: "string"},
+}

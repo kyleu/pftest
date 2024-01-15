@@ -47,3 +47,10 @@ func (s *Softdel) WebPath() string {
 func (s *Softdel) ToData() []any {
 	return []any{s.ID, s.Created, s.Updated, s.Deleted}
 }
+
+var FieldDescs = util.FieldDescs{
+	{Key: "id", Title: "ID", Description: "", Type: "string"},
+	{Key: "created", Title: "Created", Description: "", Type: "timestamp"},
+	{Key: "updated", Title: "Updated", Description: "", Type: "timestamp"},
+	{Key: "deleted", Title: "Deleted", Description: "", Type: "timestamp"},
+}

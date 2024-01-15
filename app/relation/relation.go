@@ -48,3 +48,10 @@ func (r *Relation) WebPath() string {
 func (r *Relation) ToData() []any {
 	return []any{r.ID, r.BasicID, r.Name, r.Created}
 }
+
+var FieldDescs = util.FieldDescs{
+	{Key: "id", Title: "ID", Description: "", Type: "uuid"},
+	{Key: "basicID", Title: "Basic ID", Description: "", Type: "uuid"},
+	{Key: "name", Title: "Name", Description: "", Type: "string"},
+	{Key: "created", Title: "Created", Description: "", Type: "timestamp"},
+}

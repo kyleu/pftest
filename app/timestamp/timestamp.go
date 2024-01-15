@@ -47,3 +47,10 @@ func (t *Timestamp) WebPath() string {
 func (t *Timestamp) ToData() []any {
 	return []any{t.ID, t.Created, t.Updated, t.Deleted}
 }
+
+var FieldDescs = util.FieldDescs{
+	{Key: "id", Title: "ID", Description: "", Type: "string"},
+	{Key: "created", Title: "Created", Description: "", Type: "timestamp"},
+	{Key: "updated", Title: "Updated", Description: "", Type: "timestamp"},
+	{Key: "deleted", Title: "Deleted", Description: "", Type: "timestamp"},
+}

@@ -69,3 +69,12 @@ func (t *Trouble) WebPath() string {
 func (t *Trouble) ToData() []any {
 	return []any{t.From, t.Where, t.Selectcol, t.Limit, t.Group, t.Delete}
 }
+
+var FieldDescs = util.FieldDescs{
+	{Key: "from", Title: "From", Description: "", Type: "string"},
+	{Key: "where", Title: "Where", Description: "", Type: "[]string"},
+	{Key: "selectcol", Title: "Selectcol", Description: "", Type: "int"},
+	{Key: "limit", Title: "Limit", Description: "", Type: "string"},
+	{Key: "group", Title: "Group", Description: "", Type: "string"},
+	{Key: "delete", Title: "Delete", Description: "", Type: "timestamp"},
+}

@@ -47,3 +47,10 @@ func (c *Capital) WebPath() string {
 func (c *Capital) ToData() []any {
 	return []any{c.ID, c.Name, c.Birthday, c.Deathday}
 }
+
+var FieldDescs = util.FieldDescs{
+	{Key: "id", Title: "ID", Description: "", Type: "string"},
+	{Key: "name", Title: "Name", Description: "", Type: "string"},
+	{Key: "birthday", Title: "Birthday", Description: "", Type: "timestamp"},
+	{Key: "deathday", Title: "Deathday", Description: "", Type: "timestamp"},
+}

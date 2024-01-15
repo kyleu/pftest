@@ -49,3 +49,10 @@ func (r *Reference) WebPath() string {
 func (r *Reference) ToData() []any {
 	return []any{r.ID, r.Custom, r.Self, r.Created}
 }
+
+var FieldDescs = util.FieldDescs{
+	{Key: "id", Title: "ID", Description: "", Type: "uuid"},
+	{Key: "custom", Title: "Custom", Description: "", Type: "ref:github.com.kyleu.pftest.app.foo.Custom"},
+	{Key: "self", Title: "Self", Description: "", Type: "ref:github.com.kyleu.pftest.app.reference.SelfCustom"},
+	{Key: "created", Title: "Created", Description: "", Type: "timestamp"},
+}
