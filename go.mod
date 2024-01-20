@@ -3,7 +3,6 @@ module github.com/kyleu/pftest
 go 1.21
 
 require (
-	admini.dev/admini v0.3.9
 	github.com/alecthomas/chroma v0.10.0
 	github.com/andybalholm/brotli v1.1.0
 	github.com/araddon/dateparse v0.0.0-20210429162001-6b43995a97de

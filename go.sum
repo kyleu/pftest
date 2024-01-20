@@ -1,5 +1,3 @@
-admini.dev/admini v0.3.9 h1:JJubcbj/CQzkcsNPyIOhCtsWiLjVPDPKcsSUOmkx2tg=
-admini.dev/admini v0.3.9/go.mod h1:tpF7BedudqsrNl1f5Oe27EwYe4wwvjdwudZ/pY0lFFk=
 cloud.google.com/go v0.26.0/go.mod h1:aQUYkXzVsufM+DwF1aE+0xfcU+56JwCaLick0ClmMTw=
 cloud.google.com/go v0.34.0/go.mod h1:aQUYkXzVsufM+DwF1aE+0xfcU+56JwCaLick0ClmMTw=
 cloud.google.com/go v0.38.0/go.mod h1:990N+gfupTy94rShfmMCWGDn0LpTmnzTp2qbd1dvSRU=
