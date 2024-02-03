@@ -20,7 +20,7 @@ func (s *Service) Create(ctx context.Context, tx *sqlx.Tx, logger util.Logger, m
 		model.Created = util.TimeCurrent()
 		model.Updated = util.TimeCurrentP()
 	})
-	q := database.SQLInsert(tableQuoted, columnsQuoted, len(models), s.db.Placeholder())
+	q := database.SQLInsert(tableQuoted, columnsQuoted, len(models), s.db.Type)
 	vals := lo.FlatMap(models, func(arg *Timestamp, _ int) []any {
 		return arg.ToData()
 	})
@@ -46,7 +46,7 @@ func (s *Service) Update(ctx context.Context, tx *sqlx.Tx, model *Timestamp, log
 	}
 	model.Created = curr.Created
 	model.Updated = util.TimeCurrentP()
-	q := database.SQLUpdate(tableQuoted, columnsQuoted, "\"id\" = $5", s.db.Placeholder())
+	q := database.SQLUpdate(tableQuoted, columnsQuoted, "\"id\" = $5", s.db.Type)
 	data := model.ToData()
 	data = append(data, model.ID)
 	_, err = s.db.Update(ctx, q, tx, 1, logger, data...)
@@ -64,7 +64,7 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, logger util.Logger, mod
 		model.Created = util.TimeCurrent()
 		model.Updated = util.TimeCurrentP()
 	})
-	q := database.SQLUpsert(tableQuoted, columnsQuoted, len(models), []string{"id"}, columnsQuoted, s.db.Placeholder())
+	q := database.SQLUpsert(tableQuoted, columnsQuoted, len(models), []string{"id"}, columnsQuoted, s.db.Type)
 	data := lo.FlatMap(models, func(model *Timestamp, _ int) []any {
 		return model.ToData()
 	})
@@ -90,7 +90,7 @@ func (s *Service) SaveChunked(ctx context.Context, tx *sqlx.Tx, chunkSize int, l
 // Delete doesn't actually delete, it only sets [deleted].
 func (s *Service) Delete(ctx context.Context, tx *sqlx.Tx, id string, logger util.Logger) error {
 	cols := []string{"deleted"}
-	q := database.SQLUpdate(tableQuoted, cols, defaultWC(len(cols)), s.db.Placeholder())
+	q := database.SQLUpdate(tableQuoted, cols, defaultWC(len(cols)), s.db.Type)
 	_, err := s.db.Update(ctx, q, tx, 1, logger, util.TimeCurrent(), id)
 	return err
 }
@@ -98,7 +98,7 @@ func (s *Service) Delete(ctx context.Context, tx *sqlx.Tx, id string, logger uti
 // Delete doesn't actually delete, it only sets [deleted].
 func (s *Service) DeleteWhere(ctx context.Context, tx *sqlx.Tx, wc string, expected int, logger util.Logger, values ...any) error {
 	cols := []string{"deleted"}
-	q := database.SQLUpdate(tableQuoted, cols, wc, s.db.Placeholder())
+	q := database.SQLUpdate(tableQuoted, cols, wc, s.db.Type)
 	_, err := s.db.Update(ctx, q, tx, expected, logger, append([]any{util.TimeCurrent()}, values...)...)
 	return err
 }

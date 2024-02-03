@@ -18,7 +18,7 @@ func (s *Service) Create(ctx context.Context, tx *sqlx.Tx, logger util.Logger, m
 	if len(models) == 0 {
 		return nil
 	}
-	q := database.SQLInsert(tableQuoted, columnsQuoted, len(models), s.db.Placeholder())
+	q := database.SQLInsert(tableQuoted, columnsQuoted, len(models), s.db.Type)
 	vals := make([]any, 0, len(models)*len(columnsQuoted))
 	for _, arg := range models {
 		_, _, err := s.audit.ApplyObjSimple(ctx, "Audited.create", "created new audited", nil, arg, "Audited", nil, logger)
@@ -47,7 +47,7 @@ func (s *Service) Update(ctx context.Context, tx *sqlx.Tx, model *Audited, logge
 	if err != nil {
 		return errors.Wrapf(err, "can't get original audited [%s]", model.String())
 	}
-	q := database.SQLUpdate(tableQuoted, columnsQuoted, "\"id\" = $3", s.db.Placeholder())
+	q := database.SQLUpdate(tableQuoted, columnsQuoted, "\"id\" = $3", s.db.Type)
 	data := model.ToData()
 	data = append(data, model.ID)
 	_, err = s.db.Update(ctx, q, tx, 1, logger, data...)
@@ -66,7 +66,7 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, logger util.Logger, mod
 	if len(models) == 0 {
 		return nil
 	}
-	q := database.SQLUpsert(tableQuoted, columnsQuoted, len(models), []string{"id"}, columnsQuoted, s.db.Placeholder())
+	q := database.SQLUpsert(tableQuoted, columnsQuoted, len(models), []string{"id"}, columnsQuoted, s.db.Type)
 	data := lo.FlatMap(models, func(model *Audited, _ int) []any {
 		return model.ToData()
 	})
@@ -90,13 +90,13 @@ func (s *Service) SaveChunked(ctx context.Context, tx *sqlx.Tx, chunkSize int, l
 }
 
 func (s *Service) Delete(ctx context.Context, tx *sqlx.Tx, id uuid.UUID, logger util.Logger) error {
-	q := database.SQLDelete(tableQuoted, defaultWC(0), s.db.Placeholder())
+	q := database.SQLDelete(tableQuoted, defaultWC(0), s.db.Type)
 	_, err := s.db.Delete(ctx, q, tx, 1, logger, id)
 	return err
 }
 
 func (s *Service) DeleteWhere(ctx context.Context, tx *sqlx.Tx, wc string, expected int, logger util.Logger, values ...any) error {
-	q := database.SQLDelete(tableQuoted, wc, s.db.Placeholder())
+	q := database.SQLDelete(tableQuoted, wc, s.db.Type)
 	_, err := s.db.Delete(ctx, q, tx, expected, logger, values...)
 	return err
 }

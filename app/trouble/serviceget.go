@@ -21,7 +21,7 @@ func (s *Service) List(ctx context.Context, tx *sqlx.Tx, params *filter.Params, 
 	if !includeDeleted {
 		wc = "\"delete\" is null"
 	}
-	q := database.SQLSelect(columnsString, tableQuoted, wc, params.OrderByString(), params.Limit, params.Offset, s.db.Placeholder())
+	q := database.SQLSelect(columnsString, tableQuoted, wc, params.OrderByString(), params.Limit, params.Offset, s.db.Type)
 	ret := rows{}
 	err := s.dbRead.Select(ctx, &ret, q, tx, logger)
 	if err != nil {
@@ -41,7 +41,7 @@ func (s *Service) Count(ctx context.Context, tx *sqlx.Tx, whereClause string, in
 			whereClause += " and " + "\"delete\" is null"
 		}
 	}
-	q := database.SQLSelectSimple("count(*) as x", tableQuoted, s.db.Placeholder(), whereClause)
+	q := database.SQLSelectSimple("count(*) as x", tableQuoted, s.db.Type, whereClause)
 	ret, err := s.dbRead.SingleInt(ctx, q, tx, logger, args...)
 	if err != nil {
 		return 0, errors.Wrap(err, "unable to get count of troubles")
@@ -53,7 +53,7 @@ func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, from string, where []str
 	wc := defaultWC(0)
 	wc = addDeletedClause(wc, includeDeleted)
 	ret := &row{}
-	q := database.SQLSelectSimple(columnsString, tableQuoted, s.db.Placeholder(), wc)
+	q := database.SQLSelectSimple(columnsString, tableQuoted, s.db.Type, wc)
 	err := s.dbRead.Get(ctx, ret, q, tx, logger, from, where)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to get trouble by from [%v], where [%v]", from, where)
@@ -75,7 +75,7 @@ func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, includeDeleted b
 	wc += ")"
 	wc = addDeletedClause(wc, includeDeleted)
 	ret := rows{}
-	q := database.SQLSelectSimple(columnsString, tableQuoted, s.db.Placeholder(), wc)
+	q := database.SQLSelectSimple(columnsString, tableQuoted, s.db.Type, wc)
 	vals := lo.FlatMap(pks, func(x *PK, _ int) []any {
 		return []any{x.From, x.Where}
 	})
@@ -90,7 +90,7 @@ func (s *Service) GetByFrom(ctx context.Context, tx *sqlx.Tx, from string, param
 	params = filters(params)
 	wc := "\"from\" = $1"
 	wc = addDeletedClause(wc, includeDeleted)
-	q := database.SQLSelect(columnsString, tableQuoted, wc, params.OrderByString(), params.Limit, params.Offset, s.db.Placeholder())
+	q := database.SQLSelect(columnsString, tableQuoted, wc, params.OrderByString(), params.Limit, params.Offset, s.db.Type)
 	ret := rows{}
 	err := s.dbRead.Select(ctx, &ret, q, tx, logger, from)
 	if err != nil {
@@ -104,7 +104,7 @@ func (s *Service) GetByWhere(ctx context.Context, tx *sqlx.Tx, where []string, p
 	params = filters(params)
 	wc := "\"where\" = $1"
 	wc = addDeletedClause(wc, includeDeleted)
-	q := database.SQLSelect(columnsString, tableQuoted, wc, params.OrderByString(), params.Limit, params.Offset, s.db.Placeholder())
+	q := database.SQLSelect(columnsString, tableQuoted, wc, params.OrderByString(), params.Limit, params.Offset, s.db.Type)
 	ret := rows{}
 	err := s.dbRead.Select(ctx, &ret, q, tx, logger, where)
 	if err != nil {
@@ -124,7 +124,7 @@ func (s *Service) ListSQL(ctx context.Context, tx *sqlx.Tx, sql string, logger u
 
 func (s *Service) Random(ctx context.Context, tx *sqlx.Tx, logger util.Logger) (*Trouble, error) {
 	ret := &row{}
-	q := database.SQLSelect(columnsString, tableQuoted, "", "random()", 1, 0, s.db.Placeholder())
+	q := database.SQLSelect(columnsString, tableQuoted, "", "random()", 1, 0, s.db.Type)
 	err := s.db.Get(ctx, ret, q, tx, logger)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to get random troubles")
