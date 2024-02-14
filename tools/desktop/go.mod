@@ -1,7 +1,7 @@
 // Content managed by Project Forge, see [projectforge.md] for details.
 module github.com/kyleu/pftest/tools/desktop
 
-go 1.21
+go 1.22
 
 require (
 	github.com/kyleu/pftest v0.0.0
