@@ -21,7 +21,7 @@ func (s *Service) Create(ctx context.Context, tx *sqlx.Tx, logger util.Logger, m
 	q := database.SQLInsert(tableQuoted, columnsQuoted, len(models), s.db.Type)
 	vals := make([]any, 0, len(models)*len(columnsQuoted))
 	for _, arg := range models {
-		_, _, err := s.audit.ApplyObjSimple(ctx, "Audited.create", "created new audited", nil, arg, "Audited", nil, logger)
+		_, _, err := s.audit.ApplyObjSimple(ctx, "Audited.create", "created new audited", nil, arg, "audited", nil, logger)
 		if err != nil {
 			return err
 		}
@@ -55,7 +55,7 @@ func (s *Service) Update(ctx context.Context, tx *sqlx.Tx, model *Audited, logge
 		return err
 	}
 	msg := fmt.Sprintf("updated Audited [%s]", model.String())
-	_, _, err = s.audit.ApplyObjSimple(ctx, "Audited.update", msg, curr, model, "Audited", nil, logger)
+	_, _, err = s.audit.ApplyObjSimple(ctx, "Audited.update", msg, curr, model, "audited", nil, logger)
 	if err != nil {
 		return err
 	}
