@@ -70,6 +70,18 @@ func (s *Service) Save(ctx context.Context, tx *sqlx.Tx, logger util.Logger, mod
 	data := lo.FlatMap(models, func(model *Audited, _ int) []any {
 		return model.ToData()
 	})
+	curr, err := s.GetMultiple(ctx, tx, nil, logger, Auditeds(models).IDs()...)
+	if err != nil {
+		return err
+	}
+	for _, arg := range models {
+		if x := curr.Get(arg.ID); x != nil {
+			_, _, err := s.audit.ApplyObjSimple(ctx, "Audited.create", "created new audited", x, arg, "audited", nil, logger)
+			if err != nil {
+				return err
+			}
+		}
+	}
 	return s.db.Insert(ctx, q, tx, logger, data...)
 }
 

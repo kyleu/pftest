@@ -61,7 +61,7 @@ func (s *Service) Get(ctx context.Context, tx *sqlx.Tx, from string, where []str
 	return ret.ToTrouble(), nil
 }
 
-func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, includeDeleted bool, logger util.Logger, pks ...*PK) (Troubles, error) {
+func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, params *filter.Params, includeDeleted bool, logger util.Logger, pks ...*PK) (Troubles, error) {
 	if len(pks) == 0 {
 		return Troubles{}, nil
 	}
@@ -75,7 +75,8 @@ func (s *Service) GetMultiple(ctx context.Context, tx *sqlx.Tx, includeDeleted b
 	wc += ")"
 	wc = addDeletedClause(wc, includeDeleted)
 	ret := rows{}
-	q := database.SQLSelectSimple(columnsString, tableQuoted, s.db.Type, wc)
+	params = filters(params)
+	q := database.SQLSelect(columnsString, tableQuoted, wc, params.OrderByString(), params.Limit, params.Offset, s.db.Type)
 	vals := lo.FlatMap(pks, func(x *PK, _ int) []any {
 		return []any{x.From, x.Where}
 	})
