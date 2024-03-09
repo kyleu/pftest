@@ -1,0 +1,52 @@
+// Package app - Content managed by Project Forge, see [projectforge.md] for details.
+package app
+
+import (
+	"context"
+
+	"github.com/kyleu/pftest/app/audited"
+	"github.com/kyleu/pftest/app/basic"
+	"github.com/kyleu/pftest/app/capital"
+	"github.com/kyleu/pftest/app/g1/g2/path"
+	"github.com/kyleu/pftest/app/lib/audit"
+	"github.com/kyleu/pftest/app/lib/database"
+	"github.com/kyleu/pftest/app/mixedcase"
+	"github.com/kyleu/pftest/app/reference"
+	"github.com/kyleu/pftest/app/relation"
+	"github.com/kyleu/pftest/app/seed"
+	"github.com/kyleu/pftest/app/softdel"
+	"github.com/kyleu/pftest/app/timestamp"
+	"github.com/kyleu/pftest/app/trouble"
+	"github.com/kyleu/pftest/app/util"
+)
+
+type GeneratedServices struct {
+	Capital   *capital.Service
+	Audited   *audited.Service
+	Basic     *basic.Service
+	MixedCase *mixedcase.Service
+	Path      *path.Service
+	Reference *reference.Service
+	Relation  *relation.Service
+	Seed      *seed.Service
+	Softdel   *softdel.Service
+	Timestamp *timestamp.Service
+	Trouble   *trouble.Service
+}
+
+//nolint:lll
+func initGeneratedServices(ctx context.Context, dbSvc *database.Service, dbReadSvc *database.Service, audSvc *audit.Service, logger util.Logger) GeneratedServices {
+	return GeneratedServices{
+		Capital:   capital.NewService(dbSvc, dbReadSvc),
+		Audited:   audited.NewService(dbSvc, audSvc),
+		Basic:     basic.NewService(dbSvc, dbReadSvc),
+		MixedCase: mixedcase.NewService(dbSvc, dbReadSvc),
+		Path:      path.NewService(dbSvc, dbReadSvc),
+		Reference: reference.NewService(dbSvc, dbReadSvc),
+		Relation:  relation.NewService(dbSvc, dbReadSvc),
+		Seed:      seed.NewService(dbSvc, dbReadSvc),
+		Softdel:   softdel.NewService(dbSvc, dbReadSvc),
+		Timestamp: timestamp.NewService(dbSvc, dbReadSvc),
+		Trouble:   trouble.NewService(dbSvc, dbReadSvc),
+	}
+}
