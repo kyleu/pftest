@@ -33,7 +33,7 @@ func (r *row) ToTrouble() *Trouble {
 	if r == nil {
 		return nil
 	}
-	whereArg := []string{}
+	var whereArg []string
 	_ = util.FromJSON(r.Where, &whereArg)
 	return &Trouble{
 		From:      r.From,

@@ -51,5 +51,5 @@ var FieldDescs = util.FieldDescs{
 	{Key: "id", Title: "ID", Description: "", Type: "uuid"},
 	{Key: "name", Title: "Name", Description: "", Type: "string"},
 	{Key: "size", Title: "Size", Description: "", Type: "int"},
-	{Key: "obj", Title: "Obj", Description: "", Type: "map[string]any"},
+	{Key: "obj", Title: "Obj", Description: "", Type: "map"},
 }
