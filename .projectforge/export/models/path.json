@@ -9,8 +9,7 @@
   "icon": "star",
   "ordering": [
     {
-      "column": "created",
-      "asc": false
+      "column": "created"
     }
   ],
   "search": [

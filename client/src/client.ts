@@ -10,6 +10,7 @@ import {timeInit} from "./time";
 import {autocompleteInit} from "./autocomplete";
 import {modalInit} from "./modal";
 import {tagsInit} from "./tags";
+import {editorInit} from "./editor";
 import {formInit} from "./form";
 import {themeInit} from "./theme";
 import {socketInit} from "./socket";
@@ -47,6 +48,7 @@ export function init(): void {
   linkInit();
   modalInit();
   themeInit();
+  editorInit();
   window.audit = audit;
   window.JSX = JSX;
   appInit();
