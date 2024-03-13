@@ -1,11 +1,12 @@
 // Content managed by Project Forge, see [projectforge.md] for details.
 export default {
+  root: "docs",
+  output: "dist",
+  theme: ["default", "wide"],
   title: "Test Project",
-  header: "",
+  sidebar: true,
   footer: "",
   toc: true,
   pager: true,
-  root: "docs",
-  output: "dist",
   search: true
 };

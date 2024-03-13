@@ -8,16 +8,19 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/kyleu/pftest/app/lib/exec"
+	"github.com/kyleu/pftest/app/lib/filesystem"
 	"github.com/kyleu/pftest/app/util"
 )
 
 var baseURL = fmt.Sprintf("http://localhost:%d/", util.AppPort+10)
 
 type Service struct {
+	FS filesystem.FileLoader
 }
 
 func NewService() *Service {
-	return &Service{}
+	fs, _ := filesystem.NewFileSystem("notebook/docs", false, "")
+	return &Service{FS: fs}
 }
 
 func (s *Service) Status() string {

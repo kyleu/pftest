@@ -10,6 +10,7 @@ import (
 	"github.com/kyleu/pftest/app/lib/exec"
 	"github.com/kyleu/pftest/app/lib/har"
 	"github.com/kyleu/pftest/app/lib/help"
+	"github.com/kyleu/pftest/app/lib/notebook"
 	"github.com/kyleu/pftest/app/lib/scripting"
 	"github.com/kyleu/pftest/app/lib/websocket"
 	"github.com/kyleu/pftest/app/user"
@@ -20,14 +21,15 @@ import (
 type Services struct {
 	GeneratedServices
 
-	Audit  *audit.Service
-	Exec   *exec.Service
-	Script *scripting.Service
-	User   *user.Service
-	Help   *help.Service
-	Socket *websocket.Service
-	Schema *gql.Schema
-	Har    *har.Service
+	Audit    *audit.Service
+	Exec     *exec.Service
+	Script   *scripting.Service
+	User     *user.Service
+	Help     *help.Service
+	Socket   *websocket.Service
+	Notebook *notebook.Service
+	Schema   *gql.Schema
+	Har      *har.Service
 }
 
 func NewServices(ctx context.Context, st *State, logger util.Logger) (*Services, error) {
@@ -47,14 +49,15 @@ func NewServices(ctx context.Context, st *State, logger util.Logger) (*Services,
 	return &Services{
 		GeneratedServices: initGeneratedServices(ctx, st.DB, st.DBRead, aud, logger),
 
-		Audit:  aud,
-		Exec:   exec.NewService(),
-		Script: scripting.NewService(st.Files, "scripts"),
-		User:   user.NewService(st.Files, logger),
-		Help:   help.NewService(logger),
-		Socket: sock,
-		Schema: schema,
-		Har:    har.NewService(st.Files),
+		Audit:    aud,
+		Exec:     exec.NewService(),
+		Script:   scripting.NewService(st.Files, "scripts"),
+		User:     user.NewService(st.Files, logger),
+		Help:     help.NewService(logger),
+		Socket:   sock,
+		Notebook: notebook.NewService(),
+		Schema:   schema,
+		Har:      har.NewService(st.Files),
 	}, nil
 }
 

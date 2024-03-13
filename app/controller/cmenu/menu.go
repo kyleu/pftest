@@ -27,7 +27,7 @@ func MenuFor(
 	if isAdmin {
 		admin := &menu.Item{Key: "admin", Title: "Settings", Description: "System-wide settings and preferences", Icon: "cog", Route: "/admin"}
 		ret = append(ret,
-			menu.Separator, notebookMenu(ctx), graphQLMenu(ctx, as.GraphQL), sandbox.Menu(ctx),
+			menu.Separator, notebookMenu(ctx, isAdmin), graphQLMenu(ctx, as.GraphQL), sandbox.Menu(ctx),
 			menu.Separator, admin, menu.Separator, docMenu(logger),
 		)
 	}

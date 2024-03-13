@@ -39,8 +39,7 @@ func (r *row) ToAudit() *Audit {
 	if r == nil {
 		return nil
 	}
-	metadataArg := util.ValueMap{}
-	_ = util.FromJSON(r.Metadata, &metadataArg)
+	metadataArg, _ := util.FromJSONMap(r.Metadata)
 	return &Audit{
 		ID: r.ID, App: r.App, Act: r.Act, Client: r.Client, Server: r.Server, User: r.User,
 		Metadata: metadataArg, Message: r.Message, Started: r.Started, Completed: r.Completed,
