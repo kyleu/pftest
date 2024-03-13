@@ -9,6 +9,7 @@ package vnotebook
 //line views/vnotebook/Files.html:2
 import (
 	"path/filepath"
+	"strings"
 
 	"github.com/kyleu/pftest/app"
 	"github.com/kyleu/pftest/app/controller/cutil"
@@ -18,116 +19,132 @@ import (
 	"github.com/kyleu/pftest/views/vfile"
 )
 
-//line views/vnotebook/Files.html:13
+//line views/vnotebook/Files.html:14
 import (
 	qtio422016 "io"
 
 	qt422016 "github.com/valyala/quicktemplate"
 )
 
-//line views/vnotebook/Files.html:13
+//line views/vnotebook/Files.html:14
 var (
 	_ = qtio422016.Copy
 	_ = qt422016.AcquireByteBuffer
 )
 
-//line views/vnotebook/Files.html:13
+//line views/vnotebook/Files.html:14
 type Files struct {
 	layout.Basic
 	FS   filesystem.FileLoader
 	Path []string
 }
 
-//line views/vnotebook/Files.html:19
+//line views/vnotebook/Files.html:20
 func (p *Files) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vnotebook/Files.html:19
+//line views/vnotebook/Files.html:20
 	qw422016.N().S(`
 `)
-//line views/vnotebook/Files.html:21
+//line views/vnotebook/Files.html:22
 	u := "/notebook/files"
-	pth := filepath.Join(p.Path...)
+	editPath := filepath.Join(p.Path...)
+	hasView := strings.HasSuffix(editPath, ".md")
 	isDir := p.FS.IsDir(filepath.Join(p.Path...))
 
-//line views/vnotebook/Files.html:24
+//line views/vnotebook/Files.html:26
 	qw422016.N().S(`  <div class="card">
 `)
-//line views/vnotebook/Files.html:26
+//line views/vnotebook/Files.html:28
 	if !isDir {
-//line views/vnotebook/Files.html:26
-		qw422016.N().S(`    <div class="right"><a href="/notebook/edit/`)
-//line views/vnotebook/Files.html:27
-		qw422016.N().S(pth)
-//line views/vnotebook/Files.html:27
-		qw422016.N().S(`"><button type="button">Edit</button></a></div>
+//line views/vnotebook/Files.html:28
+		qw422016.N().S(`    <div class="right">
 `)
-//line views/vnotebook/Files.html:28
+//line views/vnotebook/Files.html:30
+		if hasView {
+//line views/vnotebook/Files.html:30
+			qw422016.N().S(`      <a href="/notebook/view/`)
+//line views/vnotebook/Files.html:31
+			qw422016.N().S(strings.TrimSuffix(editPath, `.md`))
+//line views/vnotebook/Files.html:31
+			qw422016.N().S(`"><button type="button">View</button></a>
+`)
+//line views/vnotebook/Files.html:32
+		}
+//line views/vnotebook/Files.html:32
+		qw422016.N().S(`      <a href="/notebook/edit/`)
+//line views/vnotebook/Files.html:33
+		qw422016.N().S(editPath)
+//line views/vnotebook/Files.html:33
+		qw422016.N().S(`"><button type="button">Edit</button></a>
+    </div>
+`)
+//line views/vnotebook/Files.html:35
 	}
-//line views/vnotebook/Files.html:28
+//line views/vnotebook/Files.html:35
 	qw422016.N().S(`    <h3>`)
-//line views/vnotebook/Files.html:29
+//line views/vnotebook/Files.html:36
 	components.StreamSVGRefIcon(qw422016, `notebook`, ps)
-//line views/vnotebook/Files.html:29
+//line views/vnotebook/Files.html:36
 	qw422016.N().S(`Notebook Files</h3>
   </div>
 `)
-//line views/vnotebook/Files.html:31
+//line views/vnotebook/Files.html:38
 	if isDir {
-//line views/vnotebook/Files.html:32
-		files := p.FS.ListFiles(pth, nil, ps.Logger)
+//line views/vnotebook/Files.html:39
+		files := p.FS.ListFiles(editPath, nil, ps.Logger)
 
-//line views/vnotebook/Files.html:32
+//line views/vnotebook/Files.html:39
 		qw422016.N().S(`  <div class="card">
     `)
-//line views/vnotebook/Files.html:34
+//line views/vnotebook/Files.html:41
 		vfile.StreamList(qw422016, p.Path, files, p.FS, u, as, ps)
-//line views/vnotebook/Files.html:34
+//line views/vnotebook/Files.html:41
 		qw422016.N().S(`
   </div>
 `)
-//line views/vnotebook/Files.html:36
+//line views/vnotebook/Files.html:43
 	} else {
-//line views/vnotebook/Files.html:38
+//line views/vnotebook/Files.html:45
 		b, err := p.FS.ReadFile(filepath.Join(p.Path...))
 		if err != nil {
 			panic(err)
 		}
 
-//line views/vnotebook/Files.html:42
+//line views/vnotebook/Files.html:49
 		qw422016.N().S(`  <div class="card">
     `)
-//line views/vnotebook/Files.html:44
+//line views/vnotebook/Files.html:51
 		vfile.StreamDetail(qw422016, p.Path, b, u, nil, as, ps)
-//line views/vnotebook/Files.html:44
+//line views/vnotebook/Files.html:51
 		qw422016.N().S(`
   </div>
 `)
-//line views/vnotebook/Files.html:46
+//line views/vnotebook/Files.html:53
 	}
-//line views/vnotebook/Files.html:47
+//line views/vnotebook/Files.html:54
 }
 
-//line views/vnotebook/Files.html:47
+//line views/vnotebook/Files.html:54
 func (p *Files) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vnotebook/Files.html:47
+//line views/vnotebook/Files.html:54
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vnotebook/Files.html:47
+//line views/vnotebook/Files.html:54
 	p.StreamBody(qw422016, as, ps)
-//line views/vnotebook/Files.html:47
+//line views/vnotebook/Files.html:54
 	qt422016.ReleaseWriter(qw422016)
-//line views/vnotebook/Files.html:47
+//line views/vnotebook/Files.html:54
 }
 
-//line views/vnotebook/Files.html:47
+//line views/vnotebook/Files.html:54
 func (p *Files) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vnotebook/Files.html:47
+//line views/vnotebook/Files.html:54
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vnotebook/Files.html:47
+//line views/vnotebook/Files.html:54
 	p.WriteBody(qb422016, as, ps)
-//line views/vnotebook/Files.html:47
+//line views/vnotebook/Files.html:54
 	qs422016 := string(qb422016.B)
-//line views/vnotebook/Files.html:47
+//line views/vnotebook/Files.html:54
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vnotebook/Files.html:47
+//line views/vnotebook/Files.html:54
 	return qs422016
-//line views/vnotebook/Files.html:47
+//line views/vnotebook/Files.html:54
 }
