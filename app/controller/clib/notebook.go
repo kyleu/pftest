@@ -29,10 +29,14 @@ func Notebook(rc *fasthttp.RequestCtx) {
 			pathS, _ := cutil.RCRequiredString(rc, "path", false)
 			path := util.StringSplitAndTrim(pathS, "/")
 			ps.SetTitleAndData("Notebook", path)
-			return controller.Render(rc, as, &vnotebook.Notebook{BaseURL: NotebookBaseURL, Path: pathS}, ps, "notebook", pathS)
+			bc := []string{"notebook"}
+			if pathS != "" {
+				bc = append(bc, pathS)
+			}
+			return controller.Render(rc, as, &vnotebook.Notebook{BaseURL: NotebookBaseURL, Path: pathS}, ps, bc...)
 		}
 		ps.SetTitleAndData("Notebook Options", status)
-		return controller.Render(rc, as, &vnotebook.Options{}, ps)
+		return controller.Render(rc, as, &vnotebook.Options{}, ps, "notebook")
 	})
 }
 
@@ -113,7 +117,7 @@ func NotebookAction(rc *fasthttp.RequestCtx) {
 		}
 		switch act {
 		case "start":
-			err = as.Services.Notebook.Start(as.Services.Exec)
+			err = as.Services.Notebook.Start()
 			return controller.FlashAndRedir(true, "Notebook started", "/notebook", rc, ps)
 		default:
 			return "", errors.Errorf("invalid notebook action [%s]", act)

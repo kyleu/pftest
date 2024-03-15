@@ -7,7 +7,6 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/kyleu/pftest/app/lib/exec"
 	"github.com/kyleu/pftest/app/lib/filesystem"
 	"github.com/kyleu/pftest/app/util"
 )
@@ -37,7 +36,7 @@ func (s *Service) Status() string {
 	return "running"
 }
 
-func (s *Service) Start(execSvc *exec.Service) error {
+func (s *Service) Start() error {
 	if s.Status() == "running" {
 		return errors.Errorf("can't start notebook, something is already listening on port [%d]", util.AppPort+10)
 	}
