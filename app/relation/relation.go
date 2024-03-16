@@ -41,6 +41,14 @@ func Random() *Relation {
 	}
 }
 
+func (r *Relation) Strings() []string {
+	return []string{r.ID.String(), r.BasicID.String(), r.Name, util.TimeToFull(&r.Created)}
+}
+
+func (r *Relation) ToCSV() ([]string, [][]string) {
+	return FieldDescs.Keys(), [][]string{r.Strings()}
+}
+
 func (r *Relation) WebPath() string {
 	return "/relation/" + r.ID.String()
 }

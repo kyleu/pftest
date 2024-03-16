@@ -41,6 +41,14 @@ func Random() *Basic {
 	}
 }
 
+func (b *Basic) Strings() []string {
+	return []string{b.ID.String(), b.Name, b.Status, util.TimeToFull(&b.Created)}
+}
+
+func (b *Basic) ToCSV() ([]string, [][]string) {
+	return FieldDescs.Keys(), [][]string{b.Strings()}
+}
+
 func (b *Basic) WebPath() string {
 	return "/basic/" + b.ID.String()
 }

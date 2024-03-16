@@ -57,6 +57,12 @@ func (c Capitals) GetByIDs(ids ...string) Capitals {
 	})
 }
 
+func (c Capitals) ToCSV() ([]string, [][]string) {
+	return FieldDescs.Keys(), lo.Map(c, func(x *Capital, _ int) []string {
+		return x.Strings()
+	})
+}
+
 func (c Capitals) Random() *Capital {
 	if len(c) == 0 {
 		return nil

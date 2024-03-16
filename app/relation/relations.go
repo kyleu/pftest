@@ -76,6 +76,12 @@ func (r Relations) GetByBasicIDs(basicIDs ...uuid.UUID) Relations {
 	})
 }
 
+func (r Relations) ToCSV() ([]string, [][]string) {
+	return FieldDescs.Keys(), lo.Map(r, func(x *Relation, _ int) []string {
+		return x.Strings()
+	})
+}
+
 func (r Relations) Random() *Relation {
 	if len(r) == 0 {
 		return nil

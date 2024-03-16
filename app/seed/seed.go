@@ -2,6 +2,8 @@
 package seed
 
 import (
+	"fmt"
+
 	"github.com/google/uuid"
 
 	"github.com/kyleu/pftest/app/util"
@@ -37,6 +39,14 @@ func Random() *Seed {
 		Size: util.RandomInt(10000),
 		Obj:  util.RandomValueMap(4),
 	}
+}
+
+func (s *Seed) Strings() []string {
+	return []string{s.ID.String(), s.Name, fmt.Sprint(s.Size), s.Obj.String()}
+}
+
+func (s *Seed) ToCSV() ([]string, [][]string) {
+	return FieldDescs.Keys(), [][]string{s.Strings()}
 }
 
 func (s *Seed) WebPath() string {

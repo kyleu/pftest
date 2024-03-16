@@ -40,6 +40,14 @@ func Random() *Timestamp {
 	}
 }
 
+func (t *Timestamp) Strings() []string {
+	return []string{t.ID, util.TimeToFull(&t.Created), util.TimeToFull(t.Updated), util.TimeToFull(t.Deleted)}
+}
+
+func (t *Timestamp) ToCSV() ([]string, [][]string) {
+	return FieldDescs.Keys(), [][]string{t.Strings()}
+}
+
 func (t *Timestamp) WebPath() string {
 	return "/timestamp/" + url.QueryEscape(t.ID)
 }

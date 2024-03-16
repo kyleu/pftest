@@ -40,6 +40,14 @@ func Random() *Softdel {
 	}
 }
 
+func (s *Softdel) Strings() []string {
+	return []string{s.ID, util.TimeToFull(&s.Created), util.TimeToFull(s.Updated), util.TimeToFull(s.Deleted)}
+}
+
+func (s *Softdel) ToCSV() ([]string, [][]string) {
+	return FieldDescs.Keys(), [][]string{s.Strings()}
+}
+
 func (s *Softdel) WebPath() string {
 	return "/softdel/" + url.QueryEscape(s.ID)
 }

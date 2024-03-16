@@ -41,6 +41,14 @@ func Random() *Path {
 	}
 }
 
+func (p *Path) Strings() []string {
+	return []string{p.ID.String(), p.Name, p.Status, util.TimeToFull(&p.Created)}
+}
+
+func (p *Path) ToCSV() ([]string, [][]string) {
+	return FieldDescs.Keys(), [][]string{p.Strings()}
+}
+
 func (p *Path) WebPath() string {
 	return "/g1/g2/path/" + p.ID.String()
 }

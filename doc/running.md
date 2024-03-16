@@ -23,6 +23,7 @@ All variable names can be set in uppercase or lowercase
 | `logging_format`              | string | When set to `json`, forces the logging format                                    |
 | `logging_level`               | string | minimum logging level to display, one of [`debug`, `info`, `warn`, `error`]      |
 | `max_connections`             | int    | max connection count for the default MySQL connection                            |
+| `notebook_base_url`           | string | base URL of the notebook server, defaults to [app port + 10]                     |
 | `oauth_protocol`              | string | protocol to use for OAuth callbacks, defaults to the request's hostname          |
 | `oauth_redirect`              | string | final URL to use for OAuth callbacks, overrides other options                    |
 | `openid_connect_name`         | string | when OpenID is enabled, this controls the display name                           |

@@ -58,6 +58,12 @@ func (a Auditeds) GetByIDs(ids ...uuid.UUID) Auditeds {
 	})
 }
 
+func (a Auditeds) ToCSV() ([]string, [][]string) {
+	return FieldDescs.Keys(), lo.Map(a, func(x *Audited, _ int) []string {
+		return x.Strings()
+	})
+}
+
 func (a Auditeds) Random() *Audited {
 	if len(a) == 0 {
 		return nil

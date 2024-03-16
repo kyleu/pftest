@@ -57,6 +57,12 @@ func (s Softdels) GetByIDs(ids ...string) Softdels {
 	})
 }
 
+func (s Softdels) ToCSV() ([]string, [][]string) {
+	return FieldDescs.Keys(), lo.Map(s, func(x *Softdel, _ int) []string {
+		return x.Strings()
+	})
+}
+
 func (s Softdels) Random() *Softdel {
 	if len(s) == 0 {
 		return nil

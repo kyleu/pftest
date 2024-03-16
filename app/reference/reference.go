@@ -42,6 +42,14 @@ func Random() *Reference {
 	}
 }
 
+func (r *Reference) Strings() []string {
+	return []string{r.ID.String(), r.Custom.String(), r.Self.String(), util.TimeToFull(&r.Created)}
+}
+
+func (r *Reference) ToCSV() ([]string, [][]string) {
+	return FieldDescs.Keys(), [][]string{r.Strings()}
+}
+
 func (r *Reference) WebPath() string {
 	return "/reference/" + r.ID.String()
 }

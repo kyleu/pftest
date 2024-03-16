@@ -57,6 +57,12 @@ func (m MixedCases) GetByIDs(ids ...string) MixedCases {
 	})
 }
 
+func (m MixedCases) ToCSV() ([]string, [][]string) {
+	return FieldDescs.Keys(), lo.Map(m, func(x *MixedCase, _ int) []string {
+		return x.Strings()
+	})
+}
+
 func (m MixedCases) Random() *MixedCase {
 	if len(m) == 0 {
 		return nil

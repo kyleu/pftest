@@ -58,6 +58,12 @@ func (p Paths) GetByIDs(ids ...uuid.UUID) Paths {
 	})
 }
 
+func (p Paths) ToCSV() ([]string, [][]string) {
+	return FieldDescs.Keys(), lo.Map(p, func(x *Path, _ int) []string {
+		return x.Strings()
+	})
+}
+
 func (p Paths) Random() *Path {
 	if len(p) == 0 {
 		return nil

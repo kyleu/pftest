@@ -62,6 +62,14 @@ func Random() *Trouble {
 	}
 }
 
+func (t *Trouble) Strings() []string {
+	return []string{t.From, util.ToJSON(&t.Where), fmt.Sprint(t.Selectcol), t.Limit, t.Group, util.TimeToFull(t.Delete)}
+}
+
+func (t *Trouble) ToCSV() ([]string, [][]string) {
+	return FieldDescs.Keys(), [][]string{t.Strings()}
+}
+
 func (t *Trouble) WebPath() string {
 	return "/troub/le/" + url.QueryEscape(t.From) + "/" + strings.Join(t.Where, ",")
 }

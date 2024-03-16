@@ -35,6 +35,14 @@ func Random() *Audited {
 	}
 }
 
+func (a *Audited) Strings() []string {
+	return []string{a.ID.String(), a.Name}
+}
+
+func (a *Audited) ToCSV() ([]string, [][]string) {
+	return FieldDescs.Keys(), [][]string{a.Strings()}
+}
+
 func (a *Audited) WebPath() string {
 	return "/audited/" + a.ID.String()
 }

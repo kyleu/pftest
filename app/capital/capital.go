@@ -40,6 +40,14 @@ func Random() *Capital {
 	}
 }
 
+func (c *Capital) Strings() []string {
+	return []string{c.ID, c.Name, util.TimeToFull(&c.Birthday), util.TimeToFull(c.Deathday)}
+}
+
+func (c *Capital) ToCSV() ([]string, [][]string) {
+	return FieldDescs.Keys(), [][]string{c.Strings()}
+}
+
 func (c *Capital) WebPath() string {
 	return "/capital/" + url.QueryEscape(c.ID)
 }

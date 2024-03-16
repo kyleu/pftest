@@ -58,6 +58,12 @@ func (b Basics) GetByIDs(ids ...uuid.UUID) Basics {
 	})
 }
 
+func (b Basics) ToCSV() ([]string, [][]string) {
+	return FieldDescs.Keys(), lo.Map(b, func(x *Basic, _ int) []string {
+		return x.Strings()
+	})
+}
+
 func (b Basics) Random() *Basic {
 	if len(b) == 0 {
 		return nil

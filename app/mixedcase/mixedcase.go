@@ -37,6 +37,14 @@ func Random() *MixedCase {
 	}
 }
 
+func (m *MixedCase) Strings() []string {
+	return []string{m.ID, m.TestField, m.AnotherField}
+}
+
+func (m *MixedCase) ToCSV() ([]string, [][]string) {
+	return FieldDescs.Keys(), [][]string{m.Strings()}
+}
+
 func (m *MixedCase) WebPath() string {
 	return "/mixedcase/" + url.QueryEscape(m.ID)
 }
