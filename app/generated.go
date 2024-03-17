@@ -9,7 +9,6 @@ import (
 	"github.com/kyleu/pftest/app/capital"
 	"github.com/kyleu/pftest/app/g1/g2/path"
 	"github.com/kyleu/pftest/app/lib/audit"
-	"github.com/kyleu/pftest/app/lib/database"
 	"github.com/kyleu/pftest/app/mixedcase"
 	"github.com/kyleu/pftest/app/reference"
 	"github.com/kyleu/pftest/app/relation"
@@ -34,19 +33,18 @@ type GeneratedServices struct {
 	Trouble   *trouble.Service
 }
 
-//nolint:lll
-func initGeneratedServices(ctx context.Context, dbSvc *database.Service, dbReadSvc *database.Service, audSvc *audit.Service, logger util.Logger) GeneratedServices {
+func initGeneratedServices(ctx context.Context, st *State, audSvc *audit.Service, logger util.Logger) GeneratedServices {
 	return GeneratedServices{
-		Capital:   capital.NewService(dbSvc, dbReadSvc),
-		Audited:   audited.NewService(dbSvc, audSvc),
-		Basic:     basic.NewService(dbSvc, dbReadSvc),
-		MixedCase: mixedcase.NewService(dbSvc, dbReadSvc),
-		Path:      path.NewService(dbSvc, dbReadSvc),
-		Reference: reference.NewService(dbSvc, dbReadSvc),
-		Relation:  relation.NewService(dbSvc, dbReadSvc),
-		Seed:      seed.NewService(dbSvc, dbReadSvc),
-		Softdel:   softdel.NewService(dbSvc, dbReadSvc),
-		Timestamp: timestamp.NewService(dbSvc, dbReadSvc),
-		Trouble:   trouble.NewService(dbSvc, dbReadSvc),
+		Capital:   capital.NewService(st.DB, st.DBRead),
+		Audited:   audited.NewService(st.DB, audSvc),
+		Basic:     basic.NewService(st.DB, st.DBRead),
+		MixedCase: mixedcase.NewService(st.DB, st.DBRead),
+		Path:      path.NewService(st.DB, st.DBRead),
+		Reference: reference.NewService(st.DB, st.DBRead),
+		Relation:  relation.NewService(st.DB, st.DBRead),
+		Seed:      seed.NewService(st.DB, st.DBRead),
+		Softdel:   softdel.NewService(st.DB, st.DBRead),
+		Timestamp: timestamp.NewService(st.DB, st.DBRead),
+		Trouble:   trouble.NewService(st.DB, st.DBRead),
 	}
 }

@@ -7,29 +7,23 @@ import (
 	"github.com/kyleu/pftest/app/gql"
 	"github.com/kyleu/pftest/app/lib/audit"
 	"github.com/kyleu/pftest/app/lib/database/migrate"
-	"github.com/kyleu/pftest/app/lib/exec"
-	"github.com/kyleu/pftest/app/lib/har"
 	"github.com/kyleu/pftest/app/lib/help"
 	"github.com/kyleu/pftest/app/lib/notebook"
 	"github.com/kyleu/pftest/app/lib/scripting"
 	"github.com/kyleu/pftest/app/lib/websocket"
-	"github.com/kyleu/pftest/app/user"
 	"github.com/kyleu/pftest/app/util"
 	"github.com/kyleu/pftest/queries/migrations"
 )
 
 type Services struct {
+	CoreServices
 	GeneratedServices
 
-	Audit    *audit.Service
-	Exec     *exec.Service
 	Script   *scripting.Service
-	User     *user.Service
 	Help     *help.Service
 	Socket   *websocket.Service
 	Notebook *notebook.Service
 	Schema   *gql.Schema
-	Har      *har.Service
 }
 
 func NewServices(ctx context.Context, st *State, logger util.Logger) (*Services, error) {
@@ -40,25 +34,18 @@ func NewServices(ctx context.Context, st *State, logger util.Logger) (*Services,
 	}
 
 	aud := audit.NewService(st.DB, logger)
-	sock := websocket.NewService(nil, socketHandler, nil)
+
+	core := initCoreServices(ctx, st, aud, logger)
+	core.Socket.Close()
+	core.Socket = websocket.NewService(nil, socketHandler, nil)
+	gen := initGeneratedServices(ctx, st, aud, logger)
+
 	schema, err := gql.NewSchema(st.GraphQL)
 	if err != nil {
 		return nil, err
 	}
 
-	return &Services{
-		GeneratedServices: initGeneratedServices(ctx, st.DB, st.DBRead, aud, logger),
-
-		Audit:    aud,
-		Exec:     exec.NewService(),
-		Script:   scripting.NewService(st.Files, "scripts"),
-		User:     user.NewService(st.Files, logger),
-		Help:     help.NewService(logger),
-		Socket:   sock,
-		Notebook: notebook.NewService(),
-		Schema:   schema,
-		Har:      har.NewService(st.Files),
-	}, nil
+	return &Services{CoreServices: core, GeneratedServices: gen, Schema: schema}, nil
 }
 
 func (s *Services) Close(_ context.Context, _ util.Logger) error {
