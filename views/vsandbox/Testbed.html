@@ -1,8 +1,8 @@
 {% import (
   "github.com/kyleu/pftest/app"
   "github.com/kyleu/pftest/app/controller/cutil"
+  "github.com/kyleu/pftest/app/util"
   "github.com/kyleu/pftest/views/components"
-  "github.com/kyleu/pftest/views/components/edit"
   "github.com/kyleu/pftest/views/components/view"
   "github.com/kyleu/pftest/views/layout"
 ) %}
@@ -10,19 +10,12 @@
 {% code type Testbed struct { layout.Basic } %}
 
 {% func (p *Testbed) Body(as *app.State, ps *cutil.PageState) %}
-{%= icons(as, ps) %}
 {%= tabs(as, ps) %}
 {%= accordion(as, ps) %}
 {%= modal(as, ps) %}
-{%= display(as, ps) %}
+{%= icons(as, ps) %}
+{%= script(as, ps) %}
 {% endfunc %}
-
-{%- func icons(as *app.State, ps *cutil.PageState) -%}
-  <div class="card">
-    <h3>SVG Icons</h3>
-    {%= components.IconGallery(as, ps) %}
-  </div>
-{%- endfunc -%}
 
 {%- func tabs(as *app.State, ps *cutil.PageState) -%}
   <div class="card">
@@ -42,19 +35,18 @@
     <h3>Accordion</h3>
     <ul class="accordion">
       <li>
-        <input id="accordion-a" type="checkbox" hidden />
+        <input id="accordion-a" type="checkbox" hidden="hidden" />
         <label for="accordion-a">{%= components.ExpandCollapse(3, ps) %} Option A</label>
-        <div class="bd"><div><div>Option A!</div></div></div>
+        <div class="bd"><div><div>
+          Option A!
+        </div></div></div>
       </li>
       <li>
-        <input id="accordion-b" type="checkbox" hidden />
-        <label for="accordion-b">{%= components.ExpandCollapse(3, ps) %} Option B</label>
-        <div class="bd"><div><div>Option B!</div></div></div>
-      </li>
-      <li>
-        <input id="accordion-c" type="checkbox" hidden />
-        <label for="accordion-c">{%= components.ExpandCollapse(3, ps) %} Option C (not animated)</label>
-        <div class="bd-no-animation">Option C!</div>
+        <input id="accordion-c" type="checkbox" hidden="hidden" />
+        <label for="accordion-c">{%= components.ExpandCollapse(3, ps) %} Option B (no animation)</label>
+        <div class="bd-no-animation">
+          Option B!
+        </div>
       </li>
     </ul>
   </div>
@@ -63,7 +55,7 @@
 {%- func modal(as *app.State, ps *cutil.PageState) -%}
   <div class="card">
     <h3>Modal</h3>
-    <div><a href="#modal-x">Open modal</a></div>
+    <div class="mt"><a href="#modal-x"><button>Open modal</button></a></div>
   </div>
   <div id="modal-x" class="modal" style="display: none;">
     <a class="backdrop" href="#"></a>
@@ -79,33 +71,36 @@
   </div>
 {%- endfunc -%}
 
-{%- func display(as *app.State, ps *cutil.PageState) -%}
+{%- func icons(as *app.State, ps *cutil.PageState) -%}
   <div class="card">
-    <h3>Display Types</h3>
-    <div class="mt overflow full-width min-200">
-      <table class="mt">
-        <thead>
-        <tr>
-          <th style="width: 25%;">Type</th>
-          <th style="width: 25%;">Code</th>
-          <th style="width: 25%;">View</th>
-          <th style="width: 25%;">Edit</th>
-        </tr>
-        </thead>
+    <h3>SVG Icons</h3>
+    {%= components.IconGallery(as, ps) %}
+  </div>
+{%- endfunc -%}
+
+{%- func script(as *app.State, ps *cutil.PageState) -%}
+  <div class="card">
+    <div class="right"><a class="link-confirm" href="/about" data-message="Are you sure you want to go to the about page?"><button>Safe Link</button></a></div>
+    <h3>JavaScript</h3>
+    <div class="mt">
+      {%- code t := util.TimeCurrentP() -%}
+      <table class="mt min-200">
         <tbody>
           <tr>
-            {%- code str := "Hello, world" -%}
-            <td><em>String</em></td>
-            <td><code>view.String(str)</code></td>
-            <td>{%= view.String(str) %}</td>
-            <td>{%= edit.String("str", "id-str", str) %}</td>
+            <th>Timestamp</th>
+            <td>{%= view.Timestamp(t) %}</td>
           </tr>
           <tr>
-            {%- code i := 12345 -%}
-            <td><em>Integer</em></td>
-            <td><code>view.Int(i)</code></td>
-            <td>{%= view.Int(i) %}</td>
-            <td>{%= edit.Int("i", "id-i", i) %}</td>
+            <th>Timestamp (ms)</th>
+            <td>{%= view.TimestampMillis(t) %}</td>
+          </tr>
+          <tr>
+            <th>Relative</th>
+            <td>{%= view.TimestampRelative(t, true) %}</td>
+          </tr>
+          <tr>
+            <th>Relative (live)</th>
+            <td>{%= view.TimestampRelative(t, false) %}</td>
           </tr>
         </tbody>
       </table>

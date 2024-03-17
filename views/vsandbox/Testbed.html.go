@@ -8,8 +8,8 @@ package vsandbox
 import (
 	"github.com/kyleu/pftest/app"
 	"github.com/kyleu/pftest/app/controller/cutil"
+	"github.com/kyleu/pftest/app/util"
 	"github.com/kyleu/pftest/views/components"
-	"github.com/kyleu/pftest/views/components/edit"
 	"github.com/kyleu/pftest/views/components/view"
 	"github.com/kyleu/pftest/views/layout"
 )
@@ -36,27 +36,27 @@ func (p *Testbed) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil
 	qw422016.N().S(`
 `)
 //line views/vsandbox/Testbed.html:13
-	streamicons(qw422016, as, ps)
+	streamtabs(qw422016, as, ps)
 //line views/vsandbox/Testbed.html:13
 	qw422016.N().S(`
 `)
 //line views/vsandbox/Testbed.html:14
-	streamtabs(qw422016, as, ps)
+	streamaccordion(qw422016, as, ps)
 //line views/vsandbox/Testbed.html:14
 	qw422016.N().S(`
 `)
 //line views/vsandbox/Testbed.html:15
-	streamaccordion(qw422016, as, ps)
+	streammodal(qw422016, as, ps)
 //line views/vsandbox/Testbed.html:15
 	qw422016.N().S(`
 `)
 //line views/vsandbox/Testbed.html:16
-	streammodal(qw422016, as, ps)
+	streamicons(qw422016, as, ps)
 //line views/vsandbox/Testbed.html:16
 	qw422016.N().S(`
 `)
 //line views/vsandbox/Testbed.html:17
-	streamdisplay(qw422016, as, ps)
+	streamscript(qw422016, as, ps)
 //line views/vsandbox/Testbed.html:17
 	qw422016.N().S(`
 `)
@@ -90,182 +90,136 @@ func (p *Testbed) Body(as *app.State, ps *cutil.PageState) string {
 }
 
 //line views/vsandbox/Testbed.html:20
-func streamicons(qw422016 *qt422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vsandbox/Testbed.html:20
-	qw422016.N().S(`  <div class="card">
-    <h3>SVG Icons</h3>
-    `)
-//line views/vsandbox/Testbed.html:23
-	components.StreamIconGallery(qw422016, as, ps)
-//line views/vsandbox/Testbed.html:23
-	qw422016.N().S(`
-  </div>
-`)
-//line views/vsandbox/Testbed.html:25
-}
-
-//line views/vsandbox/Testbed.html:25
-func writeicons(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vsandbox/Testbed.html:25
-	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vsandbox/Testbed.html:25
-	streamicons(qw422016, as, ps)
-//line views/vsandbox/Testbed.html:25
-	qt422016.ReleaseWriter(qw422016)
-//line views/vsandbox/Testbed.html:25
-}
-
-//line views/vsandbox/Testbed.html:25
-func icons(as *app.State, ps *cutil.PageState) string {
-//line views/vsandbox/Testbed.html:25
-	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vsandbox/Testbed.html:25
-	writeicons(qb422016, as, ps)
-//line views/vsandbox/Testbed.html:25
-	qs422016 := string(qb422016.B)
-//line views/vsandbox/Testbed.html:25
-	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vsandbox/Testbed.html:25
-	return qs422016
-//line views/vsandbox/Testbed.html:25
-}
-
-//line views/vsandbox/Testbed.html:27
 func streamtabs(qw422016 *qt422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vsandbox/Testbed.html:27
+//line views/vsandbox/Testbed.html:20
 	qw422016.N().S(`  <div class="card">
     <h3>Tabs</h3>
     <div class="tabs">
 `)
-//line views/vsandbox/Testbed.html:31
+//line views/vsandbox/Testbed.html:24
 	for _, o := range []string{"Alpha", "Beta", "Gamma", "Delta", "Epsilon"} {
-//line views/vsandbox/Testbed.html:31
+//line views/vsandbox/Testbed.html:24
 		qw422016.N().S(`      <input name="type" type="radio" id="tab-`)
-//line views/vsandbox/Testbed.html:32
+//line views/vsandbox/Testbed.html:25
 		qw422016.E().S(o)
-//line views/vsandbox/Testbed.html:32
+//line views/vsandbox/Testbed.html:25
 		qw422016.N().S(`" class="input"/>
       <label for="tab-`)
-//line views/vsandbox/Testbed.html:33
+//line views/vsandbox/Testbed.html:26
 		qw422016.E().S(o)
-//line views/vsandbox/Testbed.html:33
+//line views/vsandbox/Testbed.html:26
 		qw422016.N().S(`" class="label">`)
-//line views/vsandbox/Testbed.html:33
+//line views/vsandbox/Testbed.html:26
 		qw422016.E().S(o)
-//line views/vsandbox/Testbed.html:33
+//line views/vsandbox/Testbed.html:26
 		qw422016.N().S(`</label>
       <div class="panel"><p>This is a tab named `)
-//line views/vsandbox/Testbed.html:34
+//line views/vsandbox/Testbed.html:27
 		qw422016.E().S(o)
-//line views/vsandbox/Testbed.html:34
+//line views/vsandbox/Testbed.html:27
 		qw422016.N().S(`</p></div>
 `)
-//line views/vsandbox/Testbed.html:35
+//line views/vsandbox/Testbed.html:28
 	}
-//line views/vsandbox/Testbed.html:35
+//line views/vsandbox/Testbed.html:28
 	qw422016.N().S(`    </div>
   </div>
 `)
-//line views/vsandbox/Testbed.html:38
+//line views/vsandbox/Testbed.html:31
 }
 
-//line views/vsandbox/Testbed.html:38
+//line views/vsandbox/Testbed.html:31
 func writetabs(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vsandbox/Testbed.html:38
+//line views/vsandbox/Testbed.html:31
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vsandbox/Testbed.html:38
+//line views/vsandbox/Testbed.html:31
 	streamtabs(qw422016, as, ps)
-//line views/vsandbox/Testbed.html:38
+//line views/vsandbox/Testbed.html:31
 	qt422016.ReleaseWriter(qw422016)
-//line views/vsandbox/Testbed.html:38
+//line views/vsandbox/Testbed.html:31
 }
 
-//line views/vsandbox/Testbed.html:38
+//line views/vsandbox/Testbed.html:31
 func tabs(as *app.State, ps *cutil.PageState) string {
-//line views/vsandbox/Testbed.html:38
+//line views/vsandbox/Testbed.html:31
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vsandbox/Testbed.html:38
+//line views/vsandbox/Testbed.html:31
 	writetabs(qb422016, as, ps)
-//line views/vsandbox/Testbed.html:38
+//line views/vsandbox/Testbed.html:31
 	qs422016 := string(qb422016.B)
-//line views/vsandbox/Testbed.html:38
+//line views/vsandbox/Testbed.html:31
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vsandbox/Testbed.html:38
+//line views/vsandbox/Testbed.html:31
 	return qs422016
-//line views/vsandbox/Testbed.html:38
+//line views/vsandbox/Testbed.html:31
 }
 
-//line views/vsandbox/Testbed.html:40
+//line views/vsandbox/Testbed.html:33
 func streamaccordion(qw422016 *qt422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vsandbox/Testbed.html:40
+//line views/vsandbox/Testbed.html:33
 	qw422016.N().S(`  <div class="card">
     <h3>Accordion</h3>
     <ul class="accordion">
       <li>
-        <input id="accordion-a" type="checkbox" hidden />
+        <input id="accordion-a" type="checkbox" hidden="hidden" />
         <label for="accordion-a">`)
-//line views/vsandbox/Testbed.html:46
+//line views/vsandbox/Testbed.html:39
 	components.StreamExpandCollapse(qw422016, 3, ps)
-//line views/vsandbox/Testbed.html:46
+//line views/vsandbox/Testbed.html:39
 	qw422016.N().S(` Option A</label>
-        <div class="bd"><div><div>Option A!</div></div></div>
+        <div class="bd"><div><div>
+          Option A!
+        </div></div></div>
       </li>
       <li>
-        <input id="accordion-b" type="checkbox" hidden />
-        <label for="accordion-b">`)
-//line views/vsandbox/Testbed.html:51
-	components.StreamExpandCollapse(qw422016, 3, ps)
-//line views/vsandbox/Testbed.html:51
-	qw422016.N().S(` Option B</label>
-        <div class="bd"><div><div>Option B!</div></div></div>
-      </li>
-      <li>
-        <input id="accordion-c" type="checkbox" hidden />
+        <input id="accordion-c" type="checkbox" hidden="hidden" />
         <label for="accordion-c">`)
-//line views/vsandbox/Testbed.html:56
+//line views/vsandbox/Testbed.html:46
 	components.StreamExpandCollapse(qw422016, 3, ps)
-//line views/vsandbox/Testbed.html:56
-	qw422016.N().S(` Option C (not animated)</label>
-        <div class="bd-no-animation">Option C!</div>
+//line views/vsandbox/Testbed.html:46
+	qw422016.N().S(` Option B (no animation)</label>
+        <div class="bd-no-animation">
+          Option B!
+        </div>
       </li>
     </ul>
   </div>
 `)
-//line views/vsandbox/Testbed.html:61
+//line views/vsandbox/Testbed.html:53
 }
 
-//line views/vsandbox/Testbed.html:61
+//line views/vsandbox/Testbed.html:53
 func writeaccordion(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vsandbox/Testbed.html:61
+//line views/vsandbox/Testbed.html:53
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vsandbox/Testbed.html:61
+//line views/vsandbox/Testbed.html:53
 	streamaccordion(qw422016, as, ps)
-//line views/vsandbox/Testbed.html:61
+//line views/vsandbox/Testbed.html:53
 	qt422016.ReleaseWriter(qw422016)
-//line views/vsandbox/Testbed.html:61
+//line views/vsandbox/Testbed.html:53
 }
 
-//line views/vsandbox/Testbed.html:61
+//line views/vsandbox/Testbed.html:53
 func accordion(as *app.State, ps *cutil.PageState) string {
-//line views/vsandbox/Testbed.html:61
+//line views/vsandbox/Testbed.html:53
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vsandbox/Testbed.html:61
+//line views/vsandbox/Testbed.html:53
 	writeaccordion(qb422016, as, ps)
-//line views/vsandbox/Testbed.html:61
+//line views/vsandbox/Testbed.html:53
 	qs422016 := string(qb422016.B)
-//line views/vsandbox/Testbed.html:61
+//line views/vsandbox/Testbed.html:53
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vsandbox/Testbed.html:61
+//line views/vsandbox/Testbed.html:53
 	return qs422016
-//line views/vsandbox/Testbed.html:61
+//line views/vsandbox/Testbed.html:53
 }
 
-//line views/vsandbox/Testbed.html:63
+//line views/vsandbox/Testbed.html:55
 func streammodal(qw422016 *qt422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vsandbox/Testbed.html:63
+//line views/vsandbox/Testbed.html:55
 	qw422016.N().S(`  <div class="card">
     <h3>Modal</h3>
-    <div><a href="#modal-x">Open modal</a></div>
+    <div class="mt"><a href="#modal-x"><button>Open modal</button></a></div>
   </div>
   <div id="modal-x" class="modal" style="display: none;">
     <a class="backdrop" href="#"></a>
@@ -280,87 +234,120 @@ func streammodal(qw422016 *qt422016.Writer, as *app.State, ps *cutil.PageState) 
     </div>
   </div>
 `)
-//line views/vsandbox/Testbed.html:80
+//line views/vsandbox/Testbed.html:72
 }
 
-//line views/vsandbox/Testbed.html:80
+//line views/vsandbox/Testbed.html:72
 func writemodal(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vsandbox/Testbed.html:80
+//line views/vsandbox/Testbed.html:72
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vsandbox/Testbed.html:80
+//line views/vsandbox/Testbed.html:72
 	streammodal(qw422016, as, ps)
-//line views/vsandbox/Testbed.html:80
+//line views/vsandbox/Testbed.html:72
 	qt422016.ReleaseWriter(qw422016)
-//line views/vsandbox/Testbed.html:80
+//line views/vsandbox/Testbed.html:72
 }
 
-//line views/vsandbox/Testbed.html:80
+//line views/vsandbox/Testbed.html:72
 func modal(as *app.State, ps *cutil.PageState) string {
-//line views/vsandbox/Testbed.html:80
+//line views/vsandbox/Testbed.html:72
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vsandbox/Testbed.html:80
+//line views/vsandbox/Testbed.html:72
 	writemodal(qb422016, as, ps)
-//line views/vsandbox/Testbed.html:80
+//line views/vsandbox/Testbed.html:72
 	qs422016 := string(qb422016.B)
-//line views/vsandbox/Testbed.html:80
+//line views/vsandbox/Testbed.html:72
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vsandbox/Testbed.html:80
+//line views/vsandbox/Testbed.html:72
 	return qs422016
-//line views/vsandbox/Testbed.html:80
+//line views/vsandbox/Testbed.html:72
 }
 
-//line views/vsandbox/Testbed.html:82
-func streamdisplay(qw422016 *qt422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vsandbox/Testbed.html:82
+//line views/vsandbox/Testbed.html:74
+func streamicons(qw422016 *qt422016.Writer, as *app.State, ps *cutil.PageState) {
+//line views/vsandbox/Testbed.html:74
 	qw422016.N().S(`  <div class="card">
-    <h3>Display Types</h3>
-    <div class="mt overflow full-width min-200">
-      <table class="mt">
-        <thead>
-        <tr>
-          <th style="width: 25%;">Type</th>
-          <th style="width: 25%;">Code</th>
-          <th style="width: 25%;">View</th>
-          <th style="width: 25%;">Edit</th>
-        </tr>
-        </thead>
+    <h3>SVG Icons</h3>
+    `)
+//line views/vsandbox/Testbed.html:77
+	components.StreamIconGallery(qw422016, as, ps)
+//line views/vsandbox/Testbed.html:77
+	qw422016.N().S(`
+  </div>
+`)
+//line views/vsandbox/Testbed.html:79
+}
+
+//line views/vsandbox/Testbed.html:79
+func writeicons(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
+//line views/vsandbox/Testbed.html:79
+	qw422016 := qt422016.AcquireWriter(qq422016)
+//line views/vsandbox/Testbed.html:79
+	streamicons(qw422016, as, ps)
+//line views/vsandbox/Testbed.html:79
+	qt422016.ReleaseWriter(qw422016)
+//line views/vsandbox/Testbed.html:79
+}
+
+//line views/vsandbox/Testbed.html:79
+func icons(as *app.State, ps *cutil.PageState) string {
+//line views/vsandbox/Testbed.html:79
+	qb422016 := qt422016.AcquireByteBuffer()
+//line views/vsandbox/Testbed.html:79
+	writeicons(qb422016, as, ps)
+//line views/vsandbox/Testbed.html:79
+	qs422016 := string(qb422016.B)
+//line views/vsandbox/Testbed.html:79
+	qt422016.ReleaseByteBuffer(qb422016)
+//line views/vsandbox/Testbed.html:79
+	return qs422016
+//line views/vsandbox/Testbed.html:79
+}
+
+//line views/vsandbox/Testbed.html:81
+func streamscript(qw422016 *qt422016.Writer, as *app.State, ps *cutil.PageState) {
+//line views/vsandbox/Testbed.html:81
+	qw422016.N().S(`  <div class="card">
+    <div class="right"><a class="link-confirm" href="/about" data-message="Are you sure you want to go to the about page?"><button>Safe Link</button></a></div>
+    <h3>JavaScript</h3>
+    <div class="mt">
+`)
+//line views/vsandbox/Testbed.html:86
+	t := util.TimeCurrentP()
+
+//line views/vsandbox/Testbed.html:86
+	qw422016.N().S(`      <table class="mt min-200">
         <tbody>
           <tr>
-`)
-//line views/vsandbox/Testbed.html:97
-	str := "Hello, world"
-
-//line views/vsandbox/Testbed.html:97
-	qw422016.N().S(`            <td><em>String</em></td>
-            <td><code>view.String(str)</code></td>
+            <th>Timestamp</th>
             <td>`)
-//line views/vsandbox/Testbed.html:100
-	view.StreamString(qw422016, str)
-//line views/vsandbox/Testbed.html:100
-	qw422016.N().S(`</td>
-            <td>`)
-//line views/vsandbox/Testbed.html:101
-	edit.StreamString(qw422016, "str", "id-str", str)
-//line views/vsandbox/Testbed.html:101
+//line views/vsandbox/Testbed.html:91
+	view.StreamTimestamp(qw422016, t)
+//line views/vsandbox/Testbed.html:91
 	qw422016.N().S(`</td>
           </tr>
           <tr>
-`)
-//line views/vsandbox/Testbed.html:104
-	i := 12345
-
-//line views/vsandbox/Testbed.html:104
-	qw422016.N().S(`            <td><em>Integer</em></td>
-            <td><code>view.Int(i)</code></td>
+            <th>Timestamp (ms)</th>
             <td>`)
-//line views/vsandbox/Testbed.html:107
-	view.StreamInt(qw422016, i)
-//line views/vsandbox/Testbed.html:107
+//line views/vsandbox/Testbed.html:95
+	view.StreamTimestampMillis(qw422016, t)
+//line views/vsandbox/Testbed.html:95
 	qw422016.N().S(`</td>
+          </tr>
+          <tr>
+            <th>Relative</th>
             <td>`)
-//line views/vsandbox/Testbed.html:108
-	edit.StreamInt(qw422016, "i", "id-i", i)
-//line views/vsandbox/Testbed.html:108
+//line views/vsandbox/Testbed.html:99
+	view.StreamTimestampRelative(qw422016, t, true)
+//line views/vsandbox/Testbed.html:99
+	qw422016.N().S(`</td>
+          </tr>
+          <tr>
+            <th>Relative (live)</th>
+            <td>`)
+//line views/vsandbox/Testbed.html:103
+	view.StreamTimestampRelative(qw422016, t, false)
+//line views/vsandbox/Testbed.html:103
 	qw422016.N().S(`</td>
           </tr>
         </tbody>
@@ -368,31 +355,31 @@ func streamdisplay(qw422016 *qt422016.Writer, as *app.State, ps *cutil.PageState
     </div>
   </div>
 `)
-//line views/vsandbox/Testbed.html:114
+//line views/vsandbox/Testbed.html:109
 }
 
-//line views/vsandbox/Testbed.html:114
-func writedisplay(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vsandbox/Testbed.html:114
+//line views/vsandbox/Testbed.html:109
+func writescript(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
+//line views/vsandbox/Testbed.html:109
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vsandbox/Testbed.html:114
-	streamdisplay(qw422016, as, ps)
-//line views/vsandbox/Testbed.html:114
+//line views/vsandbox/Testbed.html:109
+	streamscript(qw422016, as, ps)
+//line views/vsandbox/Testbed.html:109
 	qt422016.ReleaseWriter(qw422016)
-//line views/vsandbox/Testbed.html:114
+//line views/vsandbox/Testbed.html:109
 }
 
-//line views/vsandbox/Testbed.html:114
-func display(as *app.State, ps *cutil.PageState) string {
-//line views/vsandbox/Testbed.html:114
+//line views/vsandbox/Testbed.html:109
+func script(as *app.State, ps *cutil.PageState) string {
+//line views/vsandbox/Testbed.html:109
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vsandbox/Testbed.html:114
-	writedisplay(qb422016, as, ps)
-//line views/vsandbox/Testbed.html:114
+//line views/vsandbox/Testbed.html:109
+	writescript(qb422016, as, ps)
+//line views/vsandbox/Testbed.html:109
 	qs422016 := string(qb422016.B)
-//line views/vsandbox/Testbed.html:114
+//line views/vsandbox/Testbed.html:109
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vsandbox/Testbed.html:114
+//line views/vsandbox/Testbed.html:109
 	return qs422016
-//line views/vsandbox/Testbed.html:114
+//line views/vsandbox/Testbed.html:109
 }

@@ -7,9 +7,6 @@ import (
 	"github.com/kyleu/pftest/app/gql"
 	"github.com/kyleu/pftest/app/lib/audit"
 	"github.com/kyleu/pftest/app/lib/database/migrate"
-	"github.com/kyleu/pftest/app/lib/help"
-	"github.com/kyleu/pftest/app/lib/notebook"
-	"github.com/kyleu/pftest/app/lib/scripting"
 	"github.com/kyleu/pftest/app/lib/websocket"
 	"github.com/kyleu/pftest/app/util"
 	"github.com/kyleu/pftest/queries/migrations"
@@ -19,11 +16,7 @@ type Services struct {
 	CoreServices
 	GeneratedServices
 
-	Script   *scripting.Service
-	Help     *help.Service
-	Socket   *websocket.Service
-	Notebook *notebook.Service
-	Schema   *gql.Schema
+	Schema *gql.Schema
 }
 
 func NewServices(ctx context.Context, st *State, logger util.Logger) (*Services, error) {
