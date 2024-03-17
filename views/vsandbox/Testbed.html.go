@@ -319,7 +319,7 @@ func streamscript(qw422016 *qt422016.Writer, as *app.State, ps *cutil.PageState)
 	qw422016.N().S(`      <table class="mt min-200">
         <tbody>
           <tr>
-            <th>Timestamp</th>
+            <th class="shrink">Timestamp</th>
             <td>`)
 //line views/vsandbox/Testbed.html:91
 	view.StreamTimestamp(qw422016, t)

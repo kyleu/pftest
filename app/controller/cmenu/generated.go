@@ -20,7 +20,6 @@ var (
 	menuGroupG2 = &menu.Item{Key: "g2", Title: "g2", Children: menu.Items{menuItemG2Path}}
 )
 
-//nolint:unused
 func generatedMenu() menu.Items {
 	return menu.Items{
 		menuGroupG1,
