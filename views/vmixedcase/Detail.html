@@ -21,22 +21,24 @@
     </div>
     <h3>{%= components.SVGRefIcon(`star`, ps) %} {%s p.Model.TitleString() %}</h3>
     <div><a href="/mixedcase"><em>Mixed Case</em></a></div>
-    <table class="mt">
-      <tbody>
-        <tr>
-          <th class="shrink" title="String text">ID</th>
-          <td>{%= view.String(p.Model.ID) %}</td>
-        </tr>
-        <tr>
-          <th class="shrink" title="String text">Test Field</th>
-          <td>{%= view.String(p.Model.TestField) %}</td>
-        </tr>
-        <tr>
-          <th class="shrink" title="String text">Another Field</th>
-          <td>{%= view.String(p.Model.AnotherField) %}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="mt overflow full-width">
+      <table>
+        <tbody>
+          <tr>
+            <th class="shrink" title="String text">ID</th>
+            <td>{%= view.String(p.Model.ID) %}</td>
+          </tr>
+          <tr>
+            <th class="shrink" title="String text">Test Field</th>
+            <td>{%= view.String(p.Model.TestField) %}</td>
+          </tr>
+          <tr>
+            <th class="shrink" title="String text">Another Field</th>
+            <td>{%= view.String(p.Model.AnotherField) %}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
   {%- comment %}$PF_SECTION_START(extra)${% endcomment -%}
   {%- comment %}$PF_SECTION_END(extra)${% endcomment -%}

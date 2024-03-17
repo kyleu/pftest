@@ -21,34 +21,36 @@
     </div>
     <h3>{%= components.SVGRefIcon(`star`, ps) %} {%s p.Model.TitleString() %}</h3>
     <div><a href="/troub/le"><em>Trouble</em></a></div>
-    <table class="mt">
-      <tbody>
-        <tr>
-          <th class="shrink" title="String text">From</th>
-          <td>{%= view.String(p.Model.From) %}</td>
-        </tr>
-        <tr>
-          <th class="shrink" title="Comma-separated list of values">Where</th>
-          <td>{%= view.StringArray(p.Model.Where) %}</td>
-        </tr>
-        <tr>
-          <th class="shrink" title="Integer">Selectcol</th>
-          <td>{%d p.Model.Selectcol %}</td>
-        </tr>
-        <tr>
-          <th class="shrink" title="String text">Limit</th>
-          <td>{%= view.String(p.Model.Limit) %}</td>
-        </tr>
-        <tr>
-          <th class="shrink" title="String text">Group</th>
-          <td>{%= view.String(p.Model.Group) %}</td>
-        </tr>
-        <tr>
-          <th class="shrink" title="Date and time, in almost any format (optional)">Delete</th>
-          <td>{%= view.Timestamp(p.Model.Delete) %}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="mt overflow full-width">
+      <table>
+        <tbody>
+          <tr>
+            <th class="shrink" title="String text">From</th>
+            <td>{%= view.String(p.Model.From) %}</td>
+          </tr>
+          <tr>
+            <th class="shrink" title="Comma-separated list of values">Where</th>
+            <td>{%= view.StringArray(p.Model.Where) %}</td>
+          </tr>
+          <tr>
+            <th class="shrink" title="Integer">Selectcol</th>
+            <td>{%d p.Model.Selectcol %}</td>
+          </tr>
+          <tr>
+            <th class="shrink" title="String text">Limit</th>
+            <td>{%= view.String(p.Model.Limit) %}</td>
+          </tr>
+          <tr>
+            <th class="shrink" title="String text">Group</th>
+            <td>{%= view.String(p.Model.Group) %}</td>
+          </tr>
+          <tr>
+            <th class="shrink" title="Date and time, in almost any format (optional)">Delete</th>
+            <td>{%= view.Timestamp(p.Model.Delete) %}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
   {%- comment %}$PF_SECTION_START(extra)${% endcomment -%}
   {%- comment %}$PF_SECTION_END(extra)${% endcomment -%}

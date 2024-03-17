@@ -64,97 +64,99 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
 //line views/vrelation/Detail.html:24
 	qw422016.N().S(`</h3>
     <div><a href="/relation"><em>Relation</em></a></div>
-    <table class="mt">
-      <tbody>
-        <tr>
-          <th class="shrink" title="UUID in format (00000000-0000-0000-0000-000000000000)">ID</th>
-          <td>`)
-//line views/vrelation/Detail.html:30
+    <div class="mt overflow full-width">
+      <table>
+        <tbody>
+          <tr>
+            <th class="shrink" title="UUID in format (00000000-0000-0000-0000-000000000000)">ID</th>
+            <td>`)
+//line views/vrelation/Detail.html:31
 	view.StreamUUID(qw422016, &p.Model.ID)
-//line views/vrelation/Detail.html:30
+//line views/vrelation/Detail.html:31
 	qw422016.N().S(`</td>
-        </tr>
-        <tr>
-          <th class="shrink" title="UUID in format (00000000-0000-0000-0000-000000000000)">Basic ID</th>
-          <td class="nowrap">
-            `)
-//line views/vrelation/Detail.html:35
+          </tr>
+          <tr>
+            <th class="shrink" title="UUID in format (00000000-0000-0000-0000-000000000000)">Basic ID</th>
+            <td class="nowrap">
+              `)
+//line views/vrelation/Detail.html:36
 	view.StreamUUID(qw422016, &p.Model.BasicID)
-//line views/vrelation/Detail.html:35
+//line views/vrelation/Detail.html:36
 	if p.BasicByBasicID != nil {
-//line views/vrelation/Detail.html:35
+//line views/vrelation/Detail.html:36
 		qw422016.N().S(` (`)
-//line views/vrelation/Detail.html:35
+//line views/vrelation/Detail.html:36
 		qw422016.E().S(p.BasicByBasicID.TitleString())
-//line views/vrelation/Detail.html:35
+//line views/vrelation/Detail.html:36
 		qw422016.N().S(`)`)
-//line views/vrelation/Detail.html:35
+//line views/vrelation/Detail.html:36
 	}
-//line views/vrelation/Detail.html:35
+//line views/vrelation/Detail.html:36
 	qw422016.N().S(`
-            <a title="Basic" href="`)
-//line views/vrelation/Detail.html:36
+              <a title="Basic" href="`)
+//line views/vrelation/Detail.html:37
 	qw422016.E().S(`/basic` + `/` + p.Model.BasicID.String())
-//line views/vrelation/Detail.html:36
+//line views/vrelation/Detail.html:37
 	qw422016.N().S(`">`)
-//line views/vrelation/Detail.html:36
+//line views/vrelation/Detail.html:37
 	components.StreamSVGRef(qw422016, "star", 18, 18, "", ps)
-//line views/vrelation/Detail.html:36
+//line views/vrelation/Detail.html:37
 	qw422016.N().S(`</a>
-          </td>
-        </tr>
-        <tr>
-          <th class="shrink" title="String text">Name</th>
-          <td><strong>`)
-//line views/vrelation/Detail.html:41
+            </td>
+          </tr>
+          <tr>
+            <th class="shrink" title="String text">Name</th>
+            <td><strong>`)
+//line views/vrelation/Detail.html:42
 	view.StreamString(qw422016, p.Model.Name)
-//line views/vrelation/Detail.html:41
+//line views/vrelation/Detail.html:42
 	qw422016.N().S(`</strong></td>
-        </tr>
-        <tr>
-          <th class="shrink" title="Date and time, in almost any format">Created</th>
-          <td>`)
-//line views/vrelation/Detail.html:45
+          </tr>
+          <tr>
+            <th class="shrink" title="Date and time, in almost any format">Created</th>
+            <td>`)
+//line views/vrelation/Detail.html:46
 	view.StreamTimestamp(qw422016, &p.Model.Created)
-//line views/vrelation/Detail.html:45
+//line views/vrelation/Detail.html:46
 	qw422016.N().S(`</td>
-        </tr>
-      </tbody>
-    </table>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 `)
-//line views/vrelation/Detail.html:51
+//line views/vrelation/Detail.html:53
 	qw422016.N().S(`  `)
-//line views/vrelation/Detail.html:52
+//line views/vrelation/Detail.html:54
 	components.StreamJSONModal(qw422016, "relation", "Relation JSON", p.Model, 1)
-//line views/vrelation/Detail.html:52
+//line views/vrelation/Detail.html:54
 	qw422016.N().S(`
 `)
-//line views/vrelation/Detail.html:53
+//line views/vrelation/Detail.html:55
 }
 
-//line views/vrelation/Detail.html:53
+//line views/vrelation/Detail.html:55
 func (p *Detail) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vrelation/Detail.html:53
+//line views/vrelation/Detail.html:55
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vrelation/Detail.html:53
+//line views/vrelation/Detail.html:55
 	p.StreamBody(qw422016, as, ps)
-//line views/vrelation/Detail.html:53
+//line views/vrelation/Detail.html:55
 	qt422016.ReleaseWriter(qw422016)
-//line views/vrelation/Detail.html:53
+//line views/vrelation/Detail.html:55
 }
 
-//line views/vrelation/Detail.html:53
+//line views/vrelation/Detail.html:55
 func (p *Detail) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vrelation/Detail.html:53
+//line views/vrelation/Detail.html:55
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vrelation/Detail.html:53
+//line views/vrelation/Detail.html:55
 	p.WriteBody(qb422016, as, ps)
-//line views/vrelation/Detail.html:53
+//line views/vrelation/Detail.html:55
 	qs422016 := string(qb422016.B)
-//line views/vrelation/Detail.html:53
+//line views/vrelation/Detail.html:55
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vrelation/Detail.html:53
+//line views/vrelation/Detail.html:55
 	return qs422016
-//line views/vrelation/Detail.html:53
+//line views/vrelation/Detail.html:55
 }

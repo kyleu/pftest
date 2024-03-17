@@ -62,76 +62,78 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
 //line views/vcapital/Detail.html:22
 	qw422016.N().S(`</h3>
     <div><a href="/capital"><em>Capital</em></a></div>
-    <table class="mt">
-      <tbody>
-        <tr>
-          <th class="shrink" title="String text">ID</th>
-          <td>`)
-//line views/vcapital/Detail.html:28
+    <div class="mt overflow full-width">
+      <table>
+        <tbody>
+          <tr>
+            <th class="shrink" title="String text">ID</th>
+            <td>`)
+//line views/vcapital/Detail.html:29
 	view.StreamString(qw422016, p.Model.ID)
-//line views/vcapital/Detail.html:28
+//line views/vcapital/Detail.html:29
 	qw422016.N().S(`</td>
-        </tr>
-        <tr>
-          <th class="shrink" title="String text">Name</th>
-          <td><strong>`)
-//line views/vcapital/Detail.html:32
+          </tr>
+          <tr>
+            <th class="shrink" title="String text">Name</th>
+            <td><strong>`)
+//line views/vcapital/Detail.html:33
 	view.StreamString(qw422016, p.Model.Name)
-//line views/vcapital/Detail.html:32
+//line views/vcapital/Detail.html:33
 	qw422016.N().S(`</strong></td>
-        </tr>
-        <tr>
-          <th class="shrink" title="Date and time, in almost any format">Birthday</th>
-          <td>`)
-//line views/vcapital/Detail.html:36
+          </tr>
+          <tr>
+            <th class="shrink" title="Date and time, in almost any format">Birthday</th>
+            <td>`)
+//line views/vcapital/Detail.html:37
 	view.StreamTimestamp(qw422016, &p.Model.Birthday)
-//line views/vcapital/Detail.html:36
+//line views/vcapital/Detail.html:37
 	qw422016.N().S(`</td>
-        </tr>
-        <tr>
-          <th class="shrink" title="Date and time, in almost any format (optional)">Deathday</th>
-          <td>`)
-//line views/vcapital/Detail.html:40
+          </tr>
+          <tr>
+            <th class="shrink" title="Date and time, in almost any format (optional)">Deathday</th>
+            <td>`)
+//line views/vcapital/Detail.html:41
 	view.StreamTimestamp(qw422016, p.Model.Deathday)
-//line views/vcapital/Detail.html:40
+//line views/vcapital/Detail.html:41
 	qw422016.N().S(`</td>
-        </tr>
-      </tbody>
-    </table>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 `)
-//line views/vcapital/Detail.html:46
+//line views/vcapital/Detail.html:48
 	qw422016.N().S(`  `)
-//line views/vcapital/Detail.html:47
+//line views/vcapital/Detail.html:49
 	components.StreamJSONModal(qw422016, "capital", "Capital JSON", p.Model, 1)
-//line views/vcapital/Detail.html:47
+//line views/vcapital/Detail.html:49
 	qw422016.N().S(`
 `)
-//line views/vcapital/Detail.html:48
+//line views/vcapital/Detail.html:50
 }
 
-//line views/vcapital/Detail.html:48
+//line views/vcapital/Detail.html:50
 func (p *Detail) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vcapital/Detail.html:48
+//line views/vcapital/Detail.html:50
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vcapital/Detail.html:48
+//line views/vcapital/Detail.html:50
 	p.StreamBody(qw422016, as, ps)
-//line views/vcapital/Detail.html:48
+//line views/vcapital/Detail.html:50
 	qt422016.ReleaseWriter(qw422016)
-//line views/vcapital/Detail.html:48
+//line views/vcapital/Detail.html:50
 }
 
-//line views/vcapital/Detail.html:48
+//line views/vcapital/Detail.html:50
 func (p *Detail) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vcapital/Detail.html:48
+//line views/vcapital/Detail.html:50
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vcapital/Detail.html:48
+//line views/vcapital/Detail.html:50
 	p.WriteBody(qb422016, as, ps)
-//line views/vcapital/Detail.html:48
+//line views/vcapital/Detail.html:50
 	qs422016 := string(qb422016.B)
-//line views/vcapital/Detail.html:48
+//line views/vcapital/Detail.html:50
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vcapital/Detail.html:48
+//line views/vcapital/Detail.html:50
 	return qs422016
-//line views/vcapital/Detail.html:48
+//line views/vcapital/Detail.html:50
 }

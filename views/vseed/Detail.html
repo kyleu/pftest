@@ -21,26 +21,28 @@
     </div>
     <h3>{%= components.SVGRefIcon(`star`, ps) %} {%s p.Model.TitleString() %}</h3>
     <div><a href="/seed"><em>Seed</em></a></div>
-    <table class="mt">
-      <tbody>
-        <tr>
-          <th class="shrink" title="UUID in format (00000000-0000-0000-0000-000000000000)">ID</th>
-          <td>{%= view.UUID(&p.Model.ID) %}</td>
-        </tr>
-        <tr>
-          <th class="shrink" title="String text">Name</th>
-          <td><strong>{%= view.String(p.Model.Name) %}</strong></td>
-        </tr>
-        <tr>
-          <th class="shrink" title="Integer">Size</th>
-          <td>{%d p.Model.Size %}</td>
-        </tr>
-        <tr>
-          <th class="shrink" title="JSON object">Obj</th>
-          <td>{%= components.JSON(p.Model.Obj) %}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="mt overflow full-width">
+      <table>
+        <tbody>
+          <tr>
+            <th class="shrink" title="UUID in format (00000000-0000-0000-0000-000000000000)">ID</th>
+            <td>{%= view.UUID(&p.Model.ID) %}</td>
+          </tr>
+          <tr>
+            <th class="shrink" title="String text">Name</th>
+            <td><strong>{%= view.String(p.Model.Name) %}</strong></td>
+          </tr>
+          <tr>
+            <th class="shrink" title="Integer">Size</th>
+            <td>{%d p.Model.Size %}</td>
+          </tr>
+          <tr>
+            <th class="shrink" title="JSON object">Obj</th>
+            <td>{%= components.JSON(p.Model.Obj) %}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
   {%- comment %}$PF_SECTION_START(extra)${% endcomment -%}
   {%- comment %}$PF_SECTION_END(extra)${% endcomment -%}

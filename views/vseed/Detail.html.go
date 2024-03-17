@@ -62,76 +62,78 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
 //line views/vseed/Detail.html:22
 	qw422016.N().S(`</h3>
     <div><a href="/seed"><em>Seed</em></a></div>
-    <table class="mt">
-      <tbody>
-        <tr>
-          <th class="shrink" title="UUID in format (00000000-0000-0000-0000-000000000000)">ID</th>
-          <td>`)
-//line views/vseed/Detail.html:28
+    <div class="mt overflow full-width">
+      <table>
+        <tbody>
+          <tr>
+            <th class="shrink" title="UUID in format (00000000-0000-0000-0000-000000000000)">ID</th>
+            <td>`)
+//line views/vseed/Detail.html:29
 	view.StreamUUID(qw422016, &p.Model.ID)
-//line views/vseed/Detail.html:28
+//line views/vseed/Detail.html:29
 	qw422016.N().S(`</td>
-        </tr>
-        <tr>
-          <th class="shrink" title="String text">Name</th>
-          <td><strong>`)
-//line views/vseed/Detail.html:32
+          </tr>
+          <tr>
+            <th class="shrink" title="String text">Name</th>
+            <td><strong>`)
+//line views/vseed/Detail.html:33
 	view.StreamString(qw422016, p.Model.Name)
-//line views/vseed/Detail.html:32
+//line views/vseed/Detail.html:33
 	qw422016.N().S(`</strong></td>
-        </tr>
-        <tr>
-          <th class="shrink" title="Integer">Size</th>
-          <td>`)
-//line views/vseed/Detail.html:36
+          </tr>
+          <tr>
+            <th class="shrink" title="Integer">Size</th>
+            <td>`)
+//line views/vseed/Detail.html:37
 	qw422016.N().D(p.Model.Size)
-//line views/vseed/Detail.html:36
+//line views/vseed/Detail.html:37
 	qw422016.N().S(`</td>
-        </tr>
-        <tr>
-          <th class="shrink" title="JSON object">Obj</th>
-          <td>`)
-//line views/vseed/Detail.html:40
+          </tr>
+          <tr>
+            <th class="shrink" title="JSON object">Obj</th>
+            <td>`)
+//line views/vseed/Detail.html:41
 	components.StreamJSON(qw422016, p.Model.Obj)
-//line views/vseed/Detail.html:40
+//line views/vseed/Detail.html:41
 	qw422016.N().S(`</td>
-        </tr>
-      </tbody>
-    </table>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 `)
-//line views/vseed/Detail.html:46
+//line views/vseed/Detail.html:48
 	qw422016.N().S(`  `)
-//line views/vseed/Detail.html:47
+//line views/vseed/Detail.html:49
 	components.StreamJSONModal(qw422016, "seed", "Seed JSON", p.Model, 1)
-//line views/vseed/Detail.html:47
+//line views/vseed/Detail.html:49
 	qw422016.N().S(`
 `)
-//line views/vseed/Detail.html:48
+//line views/vseed/Detail.html:50
 }
 
-//line views/vseed/Detail.html:48
+//line views/vseed/Detail.html:50
 func (p *Detail) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vseed/Detail.html:48
+//line views/vseed/Detail.html:50
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vseed/Detail.html:48
+//line views/vseed/Detail.html:50
 	p.StreamBody(qw422016, as, ps)
-//line views/vseed/Detail.html:48
+//line views/vseed/Detail.html:50
 	qt422016.ReleaseWriter(qw422016)
-//line views/vseed/Detail.html:48
+//line views/vseed/Detail.html:50
 }
 
-//line views/vseed/Detail.html:48
+//line views/vseed/Detail.html:50
 func (p *Detail) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vseed/Detail.html:48
+//line views/vseed/Detail.html:50
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vseed/Detail.html:48
+//line views/vseed/Detail.html:50
 	p.WriteBody(qb422016, as, ps)
-//line views/vseed/Detail.html:48
+//line views/vseed/Detail.html:50
 	qs422016 := string(qb422016.B)
-//line views/vseed/Detail.html:48
+//line views/vseed/Detail.html:50
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vseed/Detail.html:48
+//line views/vseed/Detail.html:50
 	return qs422016
-//line views/vseed/Detail.html:48
+//line views/vseed/Detail.html:50
 }

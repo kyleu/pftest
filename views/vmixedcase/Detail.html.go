@@ -62,68 +62,70 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
 //line views/vmixedcase/Detail.html:22
 	qw422016.N().S(`</h3>
     <div><a href="/mixedcase"><em>Mixed Case</em></a></div>
-    <table class="mt">
-      <tbody>
-        <tr>
-          <th class="shrink" title="String text">ID</th>
-          <td>`)
-//line views/vmixedcase/Detail.html:28
+    <div class="mt overflow full-width">
+      <table>
+        <tbody>
+          <tr>
+            <th class="shrink" title="String text">ID</th>
+            <td>`)
+//line views/vmixedcase/Detail.html:29
 	view.StreamString(qw422016, p.Model.ID)
-//line views/vmixedcase/Detail.html:28
+//line views/vmixedcase/Detail.html:29
 	qw422016.N().S(`</td>
-        </tr>
-        <tr>
-          <th class="shrink" title="String text">Test Field</th>
-          <td>`)
-//line views/vmixedcase/Detail.html:32
+          </tr>
+          <tr>
+            <th class="shrink" title="String text">Test Field</th>
+            <td>`)
+//line views/vmixedcase/Detail.html:33
 	view.StreamString(qw422016, p.Model.TestField)
-//line views/vmixedcase/Detail.html:32
+//line views/vmixedcase/Detail.html:33
 	qw422016.N().S(`</td>
-        </tr>
-        <tr>
-          <th class="shrink" title="String text">Another Field</th>
-          <td>`)
-//line views/vmixedcase/Detail.html:36
+          </tr>
+          <tr>
+            <th class="shrink" title="String text">Another Field</th>
+            <td>`)
+//line views/vmixedcase/Detail.html:37
 	view.StreamString(qw422016, p.Model.AnotherField)
-//line views/vmixedcase/Detail.html:36
+//line views/vmixedcase/Detail.html:37
 	qw422016.N().S(`</td>
-        </tr>
-      </tbody>
-    </table>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 `)
-//line views/vmixedcase/Detail.html:42
+//line views/vmixedcase/Detail.html:44
 	qw422016.N().S(`  `)
-//line views/vmixedcase/Detail.html:43
+//line views/vmixedcase/Detail.html:45
 	components.StreamJSONModal(qw422016, "mixedCase", "Mixed Case JSON", p.Model, 1)
-//line views/vmixedcase/Detail.html:43
+//line views/vmixedcase/Detail.html:45
 	qw422016.N().S(`
 `)
-//line views/vmixedcase/Detail.html:44
+//line views/vmixedcase/Detail.html:46
 }
 
-//line views/vmixedcase/Detail.html:44
+//line views/vmixedcase/Detail.html:46
 func (p *Detail) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vmixedcase/Detail.html:44
+//line views/vmixedcase/Detail.html:46
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vmixedcase/Detail.html:44
+//line views/vmixedcase/Detail.html:46
 	p.StreamBody(qw422016, as, ps)
-//line views/vmixedcase/Detail.html:44
+//line views/vmixedcase/Detail.html:46
 	qt422016.ReleaseWriter(qw422016)
-//line views/vmixedcase/Detail.html:44
+//line views/vmixedcase/Detail.html:46
 }
 
-//line views/vmixedcase/Detail.html:44
+//line views/vmixedcase/Detail.html:46
 func (p *Detail) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vmixedcase/Detail.html:44
+//line views/vmixedcase/Detail.html:46
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vmixedcase/Detail.html:44
+//line views/vmixedcase/Detail.html:46
 	p.WriteBody(qb422016, as, ps)
-//line views/vmixedcase/Detail.html:44
+//line views/vmixedcase/Detail.html:46
 	qs422016 := string(qb422016.B)
-//line views/vmixedcase/Detail.html:44
+//line views/vmixedcase/Detail.html:46
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vmixedcase/Detail.html:44
+//line views/vmixedcase/Detail.html:46
 	return qs422016
-//line views/vmixedcase/Detail.html:44
+//line views/vmixedcase/Detail.html:46
 }

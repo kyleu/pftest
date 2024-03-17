@@ -21,26 +21,28 @@
     </div>
     <h3>{%= components.SVGRefIcon(`star`, ps) %} {%s p.Model.TitleString() %}</h3>
     <div><a href="/g1/g2/path"><em>Path</em></a></div>
-    <table class="mt">
-      <tbody>
-        <tr>
-          <th class="shrink" title="UUID in format (00000000-0000-0000-0000-000000000000)">ID</th>
-          <td>{%= view.UUID(&p.Model.ID) %}</td>
-        </tr>
-        <tr>
-          <th class="shrink" title="String text">Name</th>
-          <td><strong>{%= view.String(p.Model.Name) %}</strong></td>
-        </tr>
-        <tr>
-          <th class="shrink" title="String text">Status</th>
-          <td><strong>{%s p.Model.Status %}</strong></td>
-        </tr>
-        <tr>
-          <th class="shrink" title="Date and time, in almost any format">Created</th>
-          <td>{%= view.Timestamp(&p.Model.Created) %}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="mt overflow full-width">
+      <table>
+        <tbody>
+          <tr>
+            <th class="shrink" title="UUID in format (00000000-0000-0000-0000-000000000000)">ID</th>
+            <td>{%= view.UUID(&p.Model.ID) %}</td>
+          </tr>
+          <tr>
+            <th class="shrink" title="String text">Name</th>
+            <td><strong>{%= view.String(p.Model.Name) %}</strong></td>
+          </tr>
+          <tr>
+            <th class="shrink" title="String text">Status</th>
+            <td><strong>{%s p.Model.Status %}</strong></td>
+          </tr>
+          <tr>
+            <th class="shrink" title="Date and time, in almost any format">Created</th>
+            <td>{%= view.Timestamp(&p.Model.Created) %}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
   {%- comment %}$PF_SECTION_START(extra)${% endcomment -%}
   {%- comment %}$PF_SECTION_END(extra)${% endcomment -%}

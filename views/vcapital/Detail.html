@@ -21,26 +21,28 @@
     </div>
     <h3>{%= components.SVGRefIcon(`star`, ps) %} {%s p.Model.TitleString() %}</h3>
     <div><a href="/capital"><em>Capital</em></a></div>
-    <table class="mt">
-      <tbody>
-        <tr>
-          <th class="shrink" title="String text">ID</th>
-          <td>{%= view.String(p.Model.ID) %}</td>
-        </tr>
-        <tr>
-          <th class="shrink" title="String text">Name</th>
-          <td><strong>{%= view.String(p.Model.Name) %}</strong></td>
-        </tr>
-        <tr>
-          <th class="shrink" title="Date and time, in almost any format">Birthday</th>
-          <td>{%= view.Timestamp(&p.Model.Birthday) %}</td>
-        </tr>
-        <tr>
-          <th class="shrink" title="Date and time, in almost any format (optional)">Deathday</th>
-          <td>{%= view.Timestamp(p.Model.Deathday) %}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="mt overflow full-width">
+      <table>
+        <tbody>
+          <tr>
+            <th class="shrink" title="String text">ID</th>
+            <td>{%= view.String(p.Model.ID) %}</td>
+          </tr>
+          <tr>
+            <th class="shrink" title="String text">Name</th>
+            <td><strong>{%= view.String(p.Model.Name) %}</strong></td>
+          </tr>
+          <tr>
+            <th class="shrink" title="Date and time, in almost any format">Birthday</th>
+            <td>{%= view.Timestamp(&p.Model.Birthday) %}</td>
+          </tr>
+          <tr>
+            <th class="shrink" title="Date and time, in almost any format (optional)">Deathday</th>
+            <td>{%= view.Timestamp(p.Model.Deathday) %}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
   {%- comment %}$PF_SECTION_START(extra)${% endcomment -%}
   {%- comment %}$PF_SECTION_END(extra)${% endcomment -%}
