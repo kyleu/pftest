@@ -12,175 +12,176 @@ import (
 	"github.com/kyleu/pftest/app/controller/cutil"
 	"github.com/kyleu/pftest/app/util"
 	"github.com/kyleu/pftest/views/components"
+	"github.com/kyleu/pftest/views/components/view"
 	"github.com/kyleu/pftest/views/layout"
 )
 
-//line views/About.html:10
+//line views/About.html:11
 import (
 	qtio422016 "io"
 
 	qt422016 "github.com/valyala/quicktemplate"
 )
 
-//line views/About.html:10
+//line views/About.html:11
 var (
 	_ = qtio422016.Copy
 	_ = qt422016.AcquireByteBuffer
 )
 
-//line views/About.html:10
+//line views/About.html:11
 type About struct{ layout.Basic }
 
-//line views/About.html:12
+//line views/About.html:13
 func (p *About) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/About.html:12
+//line views/About.html:13
 	qw422016.N().S(`
   <div class="card">
     <h3>`)
-//line views/About.html:14
+//line views/About.html:15
 	components.StreamSVGRefIcon(qw422016, `app`, ps)
-//line views/About.html:14
+//line views/About.html:15
 	qw422016.E().S(util.AppName)
-//line views/About.html:14
+//line views/About.html:15
 	qw422016.N().S(`</h3>
     <em>v`)
-//line views/About.html:15
+//line views/About.html:16
 	qw422016.E().S(as.BuildInfo.Version)
-//line views/About.html:15
+//line views/About.html:16
 	qw422016.N().S(`, started `)
-//line views/About.html:15
-	qw422016.E().S(util.TimeRelative(&as.Started))
-//line views/About.html:15
+//line views/About.html:16
+	view.StreamTimestampRelative(qw422016, &as.Started, false)
+//line views/About.html:16
 	qw422016.N().S(`</em>
   </div>
   <div class="card">
     <h3>About</h3>
 `)
-//line views/About.html:19
+//line views/About.html:20
 	qw422016.N().S(`    <p>Coming soon...</p>
 `)
-//line views/About.html:21
+//line views/About.html:22
 	qw422016.N().S(`  </div>
   <div class="card">
     <h3>Help</h3>
 `)
-//line views/About.html:25
+//line views/About.html:26
 	qw422016.N().S(`    <p>Pages with help files, like this one, have a <a href="#help">link</a> in the upper-right.</p>
 `)
-//line views/About.html:27
+//line views/About.html:28
 	qw422016.N().S(`  </div>
   `)
-//line views/About.html:29
+//line views/About.html:30
 	StreamSourceCode(qw422016)
-//line views/About.html:29
+//line views/About.html:30
 	qw422016.N().S(`
   `)
-//line views/About.html:30
+//line views/About.html:31
 	StreamFeedback(qw422016)
-//line views/About.html:30
+//line views/About.html:31
 	qw422016.N().S(`
 `)
-//line views/About.html:31
+//line views/About.html:32
 }
 
-//line views/About.html:31
+//line views/About.html:32
 func (p *About) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/About.html:31
+//line views/About.html:32
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/About.html:31
+//line views/About.html:32
 	p.StreamBody(qw422016, as, ps)
-//line views/About.html:31
+//line views/About.html:32
 	qt422016.ReleaseWriter(qw422016)
-//line views/About.html:31
+//line views/About.html:32
 }
 
-//line views/About.html:31
+//line views/About.html:32
 func (p *About) Body(as *app.State, ps *cutil.PageState) string {
-//line views/About.html:31
+//line views/About.html:32
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/About.html:31
+//line views/About.html:32
 	p.WriteBody(qb422016, as, ps)
-//line views/About.html:31
+//line views/About.html:32
 	qs422016 := string(qb422016.B)
-//line views/About.html:31
+//line views/About.html:32
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/About.html:31
+//line views/About.html:32
 	return qs422016
-//line views/About.html:31
+//line views/About.html:32
 }
 
-//line views/About.html:33
+//line views/About.html:34
 func StreamSourceCode(qw422016 *qt422016.Writer) {
-//line views/About.html:33
+//line views/About.html:34
 	qw422016.N().S(`
   <div class="card">
     <h3>Source Code</h3>
     <p>The project is available on <a href="https://github.com/kyleu/pftest" target="_blank" rel="noopener noreferrer">GitHub</a></p>
   </div>
 `)
-//line views/About.html:38
+//line views/About.html:39
 }
 
-//line views/About.html:38
+//line views/About.html:39
 func WriteSourceCode(qq422016 qtio422016.Writer) {
-//line views/About.html:38
+//line views/About.html:39
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/About.html:38
+//line views/About.html:39
 	StreamSourceCode(qw422016)
-//line views/About.html:38
+//line views/About.html:39
 	qt422016.ReleaseWriter(qw422016)
-//line views/About.html:38
+//line views/About.html:39
 }
 
-//line views/About.html:38
+//line views/About.html:39
 func SourceCode() string {
-//line views/About.html:38
+//line views/About.html:39
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/About.html:38
+//line views/About.html:39
 	WriteSourceCode(qb422016)
-//line views/About.html:38
+//line views/About.html:39
 	qs422016 := string(qb422016.B)
-//line views/About.html:38
+//line views/About.html:39
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/About.html:38
+//line views/About.html:39
 	return qs422016
-//line views/About.html:38
+//line views/About.html:39
 }
 
-//line views/About.html:40
+//line views/About.html:41
 func StreamFeedback(qw422016 *qt422016.Writer) {
-//line views/About.html:40
+//line views/About.html:41
 	qw422016.N().S(`
   <div class="card">
     <h3>Feedback</h3>
     <p>For now, email <a href="mailto:projectforge@kyleu.com">Kyle U</a></p>
   </div>
 `)
-//line views/About.html:45
+//line views/About.html:46
 }
 
-//line views/About.html:45
+//line views/About.html:46
 func WriteFeedback(qq422016 qtio422016.Writer) {
-//line views/About.html:45
+//line views/About.html:46
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/About.html:45
+//line views/About.html:46
 	StreamFeedback(qw422016)
-//line views/About.html:45
+//line views/About.html:46
 	qt422016.ReleaseWriter(qw422016)
-//line views/About.html:45
+//line views/About.html:46
 }
 
-//line views/About.html:45
+//line views/About.html:46
 func Feedback() string {
-//line views/About.html:45
+//line views/About.html:46
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/About.html:45
+//line views/About.html:46
 	WriteFeedback(qb422016)
-//line views/About.html:45
+//line views/About.html:46
 	qs422016 := string(qb422016.B)
-//line views/About.html:45
+//line views/About.html:46
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/About.html:45
+//line views/About.html:46
 	return qs422016
-//line views/About.html:45
+//line views/About.html:46
 }
