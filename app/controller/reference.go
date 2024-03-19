@@ -3,10 +3,10 @@ package controller
 
 import (
 	"fmt"
+	"net/http"
 	"strings"
 
 	"github.com/pkg/errors"
-	"github.com/valyala/fasthttp"
 
 	"github.com/kyleu/pftest/app"
 	"github.com/kyleu/pftest/app/controller/cutil"
@@ -15,9 +15,9 @@ import (
 	"github.com/kyleu/pftest/views/vreference"
 )
 
-func ReferenceList(rc *fasthttp.RequestCtx) {
-	Act("reference.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		q := strings.TrimSpace(string(rc.URI().QueryArgs().Peek("q")))
+func ReferenceList(w http.ResponseWriter, r *http.Request) {
+	Act("reference.list", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
+		q := strings.TrimSpace(r.URL.Query().Get("q"))
 		prms := ps.Params.Get("reference", nil, ps.Logger).Sanitize("reference")
 		var ret reference.References
 		var err error
@@ -31,36 +31,36 @@ func ReferenceList(rc *fasthttp.RequestCtx) {
 		}
 		ps.SetTitleAndData("References", ret)
 		page := &vreference.List{Models: ret, Params: ps.Params, SearchQuery: q}
-		return Render(rc, as, page, ps, "reference")
+		return Render(w, r, as, page, ps, "reference")
 	})
 }
 
-func ReferenceDetail(rc *fasthttp.RequestCtx) {
-	Act("reference.detail", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret, err := referenceFromPath(rc, as, ps)
+func ReferenceDetail(w http.ResponseWriter, r *http.Request) {
+	Act("reference.detail", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := referenceFromPath(r, as, ps)
 		if err != nil {
 			return "", err
 		}
 		ps.SetTitleAndData(ret.TitleString()+" (Reference)", ret)
 
-		return Render(rc, as, &vreference.Detail{Model: ret}, ps, "reference", ret.TitleString()+"**star")
+		return Render(w, r, as, &vreference.Detail{Model: ret}, ps, "reference", ret.TitleString()+"**star")
 	})
 }
 
-func ReferenceCreateForm(rc *fasthttp.RequestCtx) {
-	Act("reference.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+func ReferenceCreateForm(w http.ResponseWriter, r *http.Request) {
+	Act("reference.create.form", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &reference.Reference{}
-		if string(rc.QueryArgs().Peek("prototype")) == util.KeyRandom {
+		if r.URL.Query().Get("prototype") == util.KeyRandom {
 			ret = reference.Random()
 		}
 		ps.SetTitleAndData("Create [Reference]", ret)
 		ps.Data = ret
-		return Render(rc, as, &vreference.Edit{Model: ret, IsNew: true}, ps, "reference", "Create")
+		return Render(w, r, as, &vreference.Edit{Model: ret, IsNew: true}, ps, "reference", "Create")
 	})
 }
 
-func ReferenceRandom(rc *fasthttp.RequestCtx) {
-	Act("reference.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+func ReferenceRandom(w http.ResponseWriter, r *http.Request) {
+	Act("reference.random", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := as.Services.Reference.Random(ps.Context, nil, ps.Logger)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to find random Reference")
@@ -69,9 +69,9 @@ func ReferenceRandom(rc *fasthttp.RequestCtx) {
 	})
 }
 
-func ReferenceCreate(rc *fasthttp.RequestCtx) {
-	Act("reference.create", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret, err := referenceFromForm(rc, true)
+func ReferenceCreate(w http.ResponseWriter, r *http.Request) {
+	Act("reference.create", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := referenceFromForm(r, ps.RequestBody, true)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to parse Reference from form")
 		}
@@ -80,28 +80,28 @@ func ReferenceCreate(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrap(err, "unable to save newly-created Reference")
 		}
 		msg := fmt.Sprintf("Reference [%s] created", ret.String())
-		return FlashAndRedir(true, msg, ret.WebPath(), rc, ps)
+		return FlashAndRedir(true, msg, ret.WebPath(), w, ps)
 	})
 }
 
-func ReferenceEditForm(rc *fasthttp.RequestCtx) {
-	Act("reference.edit.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret, err := referenceFromPath(rc, as, ps)
+func ReferenceEditForm(w http.ResponseWriter, r *http.Request) {
+	Act("reference.edit.form", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := referenceFromPath(r, as, ps)
 		if err != nil {
 			return "", err
 		}
 		ps.SetTitleAndData("Edit "+ret.String(), ret)
-		return Render(rc, as, &vreference.Edit{Model: ret}, ps, "reference", ret.String())
+		return Render(w, r, as, &vreference.Edit{Model: ret}, ps, "reference", ret.String())
 	})
 }
 
-func ReferenceEdit(rc *fasthttp.RequestCtx) {
-	Act("reference.edit", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret, err := referenceFromPath(rc, as, ps)
+func ReferenceEdit(w http.ResponseWriter, r *http.Request) {
+	Act("reference.edit", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := referenceFromPath(r, as, ps)
 		if err != nil {
 			return "", err
 		}
-		frm, err := referenceFromForm(rc, false)
+		frm, err := referenceFromForm(r, ps.RequestBody, false)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to parse Reference from form")
 		}
@@ -111,13 +111,13 @@ func ReferenceEdit(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrapf(err, "unable to update Reference [%s]", frm.String())
 		}
 		msg := fmt.Sprintf("Reference [%s] updated", frm.String())
-		return FlashAndRedir(true, msg, frm.WebPath(), rc, ps)
+		return FlashAndRedir(true, msg, frm.WebPath(), w, ps)
 	})
 }
 
-func ReferenceDelete(rc *fasthttp.RequestCtx) {
-	Act("reference.delete", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret, err := referenceFromPath(rc, as, ps)
+func ReferenceDelete(w http.ResponseWriter, r *http.Request) {
+	Act("reference.delete", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := referenceFromPath(r, as, ps)
 		if err != nil {
 			return "", err
 		}
@@ -126,12 +126,12 @@ func ReferenceDelete(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrapf(err, "unable to delete reference [%s]", ret.String())
 		}
 		msg := fmt.Sprintf("Reference [%s] deleted", ret.String())
-		return FlashAndRedir(true, msg, "/reference", rc, ps)
+		return FlashAndRedir(true, msg, "/reference", w, ps)
 	})
 }
 
-func referenceFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageState) (*reference.Reference, error) {
-	idArgStr, err := cutil.RCRequiredString(rc, "id", false)
+func referenceFromPath(r *http.Request, as *app.State, ps *cutil.PageState) (*reference.Reference, error) {
+	idArgStr, err := cutil.RCRequiredString(r, "id", false)
 	if err != nil {
 		return nil, errors.Wrap(err, "must provide [id] as an argument")
 	}
@@ -143,8 +143,8 @@ func referenceFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageSta
 	return as.Services.Reference.Get(ps.Context, nil, idArg, ps.Logger)
 }
 
-func referenceFromForm(rc *fasthttp.RequestCtx, setPK bool) (*reference.Reference, error) {
-	frm, err := cutil.ParseForm(rc)
+func referenceFromForm(r *http.Request, b []byte, setPK bool) (*reference.Reference, error) {
+	frm, err := cutil.ParseForm(r, b)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to parse form")
 	}

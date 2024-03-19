@@ -3,10 +3,10 @@ package cg2
 
 import (
 	"fmt"
+	"net/http"
 	"strings"
 
 	"github.com/pkg/errors"
-	"github.com/valyala/fasthttp"
 
 	"github.com/kyleu/pftest/app"
 	"github.com/kyleu/pftest/app/controller"
@@ -16,9 +16,9 @@ import (
 	"github.com/kyleu/pftest/views/vg1/vg2/vpath"
 )
 
-func PathList(rc *fasthttp.RequestCtx) {
-	controller.Act("path.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		q := strings.TrimSpace(string(rc.URI().QueryArgs().Peek("q")))
+func PathList(w http.ResponseWriter, r *http.Request) {
+	controller.Act("path.list", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
+		q := strings.TrimSpace(r.URL.Query().Get("q"))
 		prms := ps.Params.Get("path", nil, ps.Logger).Sanitize("path")
 		var ret path.Paths
 		var err error
@@ -32,36 +32,36 @@ func PathList(rc *fasthttp.RequestCtx) {
 		}
 		ps.SetTitleAndData("Paths", ret)
 		page := &vpath.List{Models: ret, Params: ps.Params, SearchQuery: q}
-		return controller.Render(rc, as, page, ps, "g1", "g2", "path")
+		return controller.Render(w, r, as, page, ps, "g1", "g2", "path")
 	})
 }
 
-func PathDetail(rc *fasthttp.RequestCtx) {
-	controller.Act("path.detail", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret, err := pathFromPath(rc, as, ps)
+func PathDetail(w http.ResponseWriter, r *http.Request) {
+	controller.Act("path.detail", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := pathFromPath(r, as, ps)
 		if err != nil {
 			return "", err
 		}
 		ps.SetTitleAndData(ret.TitleString()+" (Path)", ret)
 
-		return controller.Render(rc, as, &vpath.Detail{Model: ret}, ps, "g1", "g2", "path", ret.TitleString()+"**star")
+		return controller.Render(w, r, as, &vpath.Detail{Model: ret}, ps, "g1", "g2", "path", ret.TitleString()+"**star")
 	})
 }
 
-func PathCreateForm(rc *fasthttp.RequestCtx) {
-	controller.Act("path.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+func PathCreateForm(w http.ResponseWriter, r *http.Request) {
+	controller.Act("path.create.form", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &path.Path{}
-		if string(rc.QueryArgs().Peek("prototype")) == util.KeyRandom {
+		if r.URL.Query().Get("prototype") == util.KeyRandom {
 			ret = path.Random()
 		}
 		ps.SetTitleAndData("Create [Path]", ret)
 		ps.Data = ret
-		return controller.Render(rc, as, &vpath.Edit{Model: ret, IsNew: true}, ps, "g1", "g2", "path", "Create")
+		return controller.Render(w, r, as, &vpath.Edit{Model: ret, IsNew: true}, ps, "g1", "g2", "path", "Create")
 	})
 }
 
-func PathRandom(rc *fasthttp.RequestCtx) {
-	controller.Act("path.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+func PathRandom(w http.ResponseWriter, r *http.Request) {
+	controller.Act("path.random", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := as.Services.Path.Random(ps.Context, nil, ps.Logger)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to find random Path")
@@ -70,9 +70,9 @@ func PathRandom(rc *fasthttp.RequestCtx) {
 	})
 }
 
-func PathCreate(rc *fasthttp.RequestCtx) {
-	controller.Act("path.create", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret, err := pathFromForm(rc, true)
+func PathCreate(w http.ResponseWriter, r *http.Request) {
+	controller.Act("path.create", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := pathFromForm(r, ps.RequestBody, true)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to parse Path from form")
 		}
@@ -81,28 +81,28 @@ func PathCreate(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrap(err, "unable to save newly-created Path")
 		}
 		msg := fmt.Sprintf("Path [%s] created", ret.String())
-		return controller.FlashAndRedir(true, msg, ret.WebPath(), rc, ps)
+		return controller.FlashAndRedir(true, msg, ret.WebPath(), w, ps)
 	})
 }
 
-func PathEditForm(rc *fasthttp.RequestCtx) {
-	controller.Act("path.edit.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret, err := pathFromPath(rc, as, ps)
+func PathEditForm(w http.ResponseWriter, r *http.Request) {
+	controller.Act("path.edit.form", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := pathFromPath(r, as, ps)
 		if err != nil {
 			return "", err
 		}
 		ps.SetTitleAndData("Edit "+ret.String(), ret)
-		return controller.Render(rc, as, &vpath.Edit{Model: ret}, ps, "g1", "g2", "path", ret.String())
+		return controller.Render(w, r, as, &vpath.Edit{Model: ret}, ps, "g1", "g2", "path", ret.String())
 	})
 }
 
-func PathEdit(rc *fasthttp.RequestCtx) {
-	controller.Act("path.edit", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret, err := pathFromPath(rc, as, ps)
+func PathEdit(w http.ResponseWriter, r *http.Request) {
+	controller.Act("path.edit", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := pathFromPath(r, as, ps)
 		if err != nil {
 			return "", err
 		}
-		frm, err := pathFromForm(rc, false)
+		frm, err := pathFromForm(r, ps.RequestBody, false)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to parse Path from form")
 		}
@@ -112,13 +112,13 @@ func PathEdit(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrapf(err, "unable to update Path [%s]", frm.String())
 		}
 		msg := fmt.Sprintf("Path [%s] updated", frm.String())
-		return controller.FlashAndRedir(true, msg, frm.WebPath(), rc, ps)
+		return controller.FlashAndRedir(true, msg, frm.WebPath(), w, ps)
 	})
 }
 
-func PathDelete(rc *fasthttp.RequestCtx) {
-	controller.Act("path.delete", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret, err := pathFromPath(rc, as, ps)
+func PathDelete(w http.ResponseWriter, r *http.Request) {
+	controller.Act("path.delete", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := pathFromPath(r, as, ps)
 		if err != nil {
 			return "", err
 		}
@@ -127,12 +127,12 @@ func PathDelete(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrapf(err, "unable to delete path [%s]", ret.String())
 		}
 		msg := fmt.Sprintf("Path [%s] deleted", ret.String())
-		return controller.FlashAndRedir(true, msg, "/g1/g2/path", rc, ps)
+		return controller.FlashAndRedir(true, msg, "/g1/g2/path", w, ps)
 	})
 }
 
-func pathFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageState) (*path.Path, error) {
-	idArgStr, err := cutil.RCRequiredString(rc, "id", false)
+func pathFromPath(r *http.Request, as *app.State, ps *cutil.PageState) (*path.Path, error) {
+	idArgStr, err := cutil.RCRequiredString(r, "id", false)
 	if err != nil {
 		return nil, errors.Wrap(err, "must provide [id] as an argument")
 	}
@@ -144,8 +144,8 @@ func pathFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageState) (
 	return as.Services.Path.Get(ps.Context, nil, idArg, ps.Logger)
 }
 
-func pathFromForm(rc *fasthttp.RequestCtx, setPK bool) (*path.Path, error) {
-	frm, err := cutil.ParseForm(rc)
+func pathFromForm(r *http.Request, b []byte, setPK bool) (*path.Path, error) {
+	frm, err := cutil.ParseForm(r, b)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to parse form")
 	}

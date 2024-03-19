@@ -3,10 +3,10 @@ package controller
 
 import (
 	"fmt"
+	"net/http"
 	"strings"
 
 	"github.com/pkg/errors"
-	"github.com/valyala/fasthttp"
 
 	"github.com/kyleu/pftest/app"
 	"github.com/kyleu/pftest/app/basic"
@@ -15,9 +15,9 @@ import (
 	"github.com/kyleu/pftest/views/vbasic"
 )
 
-func BasicList(rc *fasthttp.RequestCtx) {
-	Act("basic.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		q := strings.TrimSpace(string(rc.URI().QueryArgs().Peek("q")))
+func BasicList(w http.ResponseWriter, r *http.Request) {
+	Act("basic.list", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
+		q := strings.TrimSpace(r.URL.Query().Get("q"))
 		prms := ps.Params.Get("basic", nil, ps.Logger).Sanitize("basic")
 		var ret basic.Basics
 		var err error
@@ -31,13 +31,13 @@ func BasicList(rc *fasthttp.RequestCtx) {
 		}
 		ps.SetTitleAndData("Basics", ret)
 		page := &vbasic.List{Models: ret, Params: ps.Params, SearchQuery: q}
-		return Render(rc, as, page, ps, "basic")
+		return Render(w, r, as, page, ps, "basic")
 	})
 }
 
-func BasicDetail(rc *fasthttp.RequestCtx) {
-	Act("basic.detail", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret, err := basicFromPath(rc, as, ps)
+func BasicDetail(w http.ResponseWriter, r *http.Request) {
+	Act("basic.detail", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := basicFromPath(r, as, ps)
 		if err != nil {
 			return "", err
 		}
@@ -48,7 +48,7 @@ func BasicDetail(rc *fasthttp.RequestCtx) {
 		if err != nil {
 			return "", errors.Wrap(err, "unable to retrieve child relations")
 		}
-		return Render(rc, as, &vbasic.Detail{
+		return Render(w, r, as, &vbasic.Detail{
 			Model:  ret,
 			Params: ps.Params,
 
@@ -57,20 +57,20 @@ func BasicDetail(rc *fasthttp.RequestCtx) {
 	})
 }
 
-func BasicCreateForm(rc *fasthttp.RequestCtx) {
-	Act("basic.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+func BasicCreateForm(w http.ResponseWriter, r *http.Request) {
+	Act("basic.create.form", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &basic.Basic{}
-		if string(rc.QueryArgs().Peek("prototype")) == util.KeyRandom {
+		if r.URL.Query().Get("prototype") == util.KeyRandom {
 			ret = basic.Random()
 		}
 		ps.SetTitleAndData("Create [Basic]", ret)
 		ps.Data = ret
-		return Render(rc, as, &vbasic.Edit{Model: ret, IsNew: true}, ps, "basic", "Create")
+		return Render(w, r, as, &vbasic.Edit{Model: ret, IsNew: true}, ps, "basic", "Create")
 	})
 }
 
-func BasicRandom(rc *fasthttp.RequestCtx) {
-	Act("basic.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+func BasicRandom(w http.ResponseWriter, r *http.Request) {
+	Act("basic.random", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := as.Services.Basic.Random(ps.Context, nil, ps.Logger)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to find random Basic")
@@ -79,9 +79,9 @@ func BasicRandom(rc *fasthttp.RequestCtx) {
 	})
 }
 
-func BasicCreate(rc *fasthttp.RequestCtx) {
-	Act("basic.create", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret, err := basicFromForm(rc, true)
+func BasicCreate(w http.ResponseWriter, r *http.Request) {
+	Act("basic.create", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := basicFromForm(r, ps.RequestBody, true)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to parse Basic from form")
 		}
@@ -90,28 +90,28 @@ func BasicCreate(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrap(err, "unable to save newly-created Basic")
 		}
 		msg := fmt.Sprintf("Basic [%s] created", ret.String())
-		return FlashAndRedir(true, msg, ret.WebPath(), rc, ps)
+		return FlashAndRedir(true, msg, ret.WebPath(), w, ps)
 	})
 }
 
-func BasicEditForm(rc *fasthttp.RequestCtx) {
-	Act("basic.edit.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret, err := basicFromPath(rc, as, ps)
+func BasicEditForm(w http.ResponseWriter, r *http.Request) {
+	Act("basic.edit.form", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := basicFromPath(r, as, ps)
 		if err != nil {
 			return "", err
 		}
 		ps.SetTitleAndData("Edit "+ret.String(), ret)
-		return Render(rc, as, &vbasic.Edit{Model: ret}, ps, "basic", ret.String())
+		return Render(w, r, as, &vbasic.Edit{Model: ret}, ps, "basic", ret.String())
 	})
 }
 
-func BasicEdit(rc *fasthttp.RequestCtx) {
-	Act("basic.edit", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret, err := basicFromPath(rc, as, ps)
+func BasicEdit(w http.ResponseWriter, r *http.Request) {
+	Act("basic.edit", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := basicFromPath(r, as, ps)
 		if err != nil {
 			return "", err
 		}
-		frm, err := basicFromForm(rc, false)
+		frm, err := basicFromForm(r, ps.RequestBody, false)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to parse Basic from form")
 		}
@@ -121,13 +121,13 @@ func BasicEdit(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrapf(err, "unable to update Basic [%s]", frm.String())
 		}
 		msg := fmt.Sprintf("Basic [%s] updated", frm.String())
-		return FlashAndRedir(true, msg, frm.WebPath(), rc, ps)
+		return FlashAndRedir(true, msg, frm.WebPath(), w, ps)
 	})
 }
 
-func BasicDelete(rc *fasthttp.RequestCtx) {
-	Act("basic.delete", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret, err := basicFromPath(rc, as, ps)
+func BasicDelete(w http.ResponseWriter, r *http.Request) {
+	Act("basic.delete", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := basicFromPath(r, as, ps)
 		if err != nil {
 			return "", err
 		}
@@ -136,12 +136,12 @@ func BasicDelete(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrapf(err, "unable to delete basic [%s]", ret.String())
 		}
 		msg := fmt.Sprintf("Basic [%s] deleted", ret.String())
-		return FlashAndRedir(true, msg, "/basic", rc, ps)
+		return FlashAndRedir(true, msg, "/basic", w, ps)
 	})
 }
 
-func basicFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageState) (*basic.Basic, error) {
-	idArgStr, err := cutil.RCRequiredString(rc, "id", false)
+func basicFromPath(r *http.Request, as *app.State, ps *cutil.PageState) (*basic.Basic, error) {
+	idArgStr, err := cutil.RCRequiredString(r, "id", false)
 	if err != nil {
 		return nil, errors.Wrap(err, "must provide [id] as an argument")
 	}
@@ -153,8 +153,8 @@ func basicFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageState) 
 	return as.Services.Basic.Get(ps.Context, nil, idArg, ps.Logger)
 }
 
-func basicFromForm(rc *fasthttp.RequestCtx, setPK bool) (*basic.Basic, error) {
-	frm, err := cutil.ParseForm(rc)
+func basicFromForm(r *http.Request, b []byte, setPK bool) (*basic.Basic, error) {
+	frm, err := cutil.ParseForm(r, b)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to parse form")
 	}

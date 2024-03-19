@@ -3,9 +3,9 @@ package controller
 
 import (
 	"fmt"
+	"net/http"
 
 	"github.com/pkg/errors"
-	"github.com/valyala/fasthttp"
 
 	"github.com/kyleu/pftest/app"
 	"github.com/kyleu/pftest/app/capital"
@@ -14,8 +14,8 @@ import (
 	"github.com/kyleu/pftest/views/vcapital"
 )
 
-func CapitalList(rc *fasthttp.RequestCtx) {
-	Act("capital.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+func CapitalList(w http.ResponseWriter, r *http.Request) {
+	Act("capital.list", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		prms := ps.Params.Get("capital", nil, ps.Logger).Sanitize("capital")
 		ret, err := as.Services.Capital.List(ps.Context, nil, prms, ps.Logger)
 		if err != nil {
@@ -23,36 +23,36 @@ func CapitalList(rc *fasthttp.RequestCtx) {
 		}
 		ps.SetTitleAndData("Capitals", ret)
 		page := &vcapital.List{Models: ret, Params: ps.Params}
-		return Render(rc, as, page, ps, "capital")
+		return Render(w, r, as, page, ps, "capital")
 	})
 }
 
-func CapitalDetail(rc *fasthttp.RequestCtx) {
-	Act("capital.detail", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret, err := capitalFromPath(rc, as, ps)
+func CapitalDetail(w http.ResponseWriter, r *http.Request) {
+	Act("capital.detail", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := capitalFromPath(r, as, ps)
 		if err != nil {
 			return "", err
 		}
 		ps.SetTitleAndData(ret.TitleString()+" (Capital)", ret)
 
-		return Render(rc, as, &vcapital.Detail{Model: ret}, ps, "capital", ret.TitleString()+"**star")
+		return Render(w, r, as, &vcapital.Detail{Model: ret}, ps, "capital", ret.TitleString()+"**star")
 	})
 }
 
-func CapitalCreateForm(rc *fasthttp.RequestCtx) {
-	Act("capital.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+func CapitalCreateForm(w http.ResponseWriter, r *http.Request) {
+	Act("capital.create.form", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &capital.Capital{}
-		if string(rc.QueryArgs().Peek("prototype")) == util.KeyRandom {
+		if r.URL.Query().Get("prototype") == util.KeyRandom {
 			ret = capital.Random()
 		}
 		ps.SetTitleAndData("Create [Capital]", ret)
 		ps.Data = ret
-		return Render(rc, as, &vcapital.Edit{Model: ret, IsNew: true}, ps, "capital", "Create")
+		return Render(w, r, as, &vcapital.Edit{Model: ret, IsNew: true}, ps, "capital", "Create")
 	})
 }
 
-func CapitalRandom(rc *fasthttp.RequestCtx) {
-	Act("capital.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+func CapitalRandom(w http.ResponseWriter, r *http.Request) {
+	Act("capital.random", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := as.Services.Capital.Random(ps.Context, nil, ps.Logger)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to find random Capital")
@@ -61,9 +61,9 @@ func CapitalRandom(rc *fasthttp.RequestCtx) {
 	})
 }
 
-func CapitalCreate(rc *fasthttp.RequestCtx) {
-	Act("capital.create", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret, err := capitalFromForm(rc, true)
+func CapitalCreate(w http.ResponseWriter, r *http.Request) {
+	Act("capital.create", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := capitalFromForm(r, ps.RequestBody, true)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to parse Capital from form")
 		}
@@ -72,28 +72,28 @@ func CapitalCreate(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrap(err, "unable to save newly-created Capital")
 		}
 		msg := fmt.Sprintf("Capital [%s] created", ret.String())
-		return FlashAndRedir(true, msg, ret.WebPath(), rc, ps)
+		return FlashAndRedir(true, msg, ret.WebPath(), w, ps)
 	})
 }
 
-func CapitalEditForm(rc *fasthttp.RequestCtx) {
-	Act("capital.edit.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret, err := capitalFromPath(rc, as, ps)
+func CapitalEditForm(w http.ResponseWriter, r *http.Request) {
+	Act("capital.edit.form", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := capitalFromPath(r, as, ps)
 		if err != nil {
 			return "", err
 		}
 		ps.SetTitleAndData("Edit "+ret.String(), ret)
-		return Render(rc, as, &vcapital.Edit{Model: ret}, ps, "capital", ret.String())
+		return Render(w, r, as, &vcapital.Edit{Model: ret}, ps, "capital", ret.String())
 	})
 }
 
-func CapitalEdit(rc *fasthttp.RequestCtx) {
-	Act("capital.edit", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret, err := capitalFromPath(rc, as, ps)
+func CapitalEdit(w http.ResponseWriter, r *http.Request) {
+	Act("capital.edit", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := capitalFromPath(r, as, ps)
 		if err != nil {
 			return "", err
 		}
-		frm, err := capitalFromForm(rc, false)
+		frm, err := capitalFromForm(r, ps.RequestBody, false)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to parse Capital from form")
 		}
@@ -103,13 +103,13 @@ func CapitalEdit(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrapf(err, "unable to update Capital [%s]", frm.String())
 		}
 		msg := fmt.Sprintf("Capital [%s] updated", frm.String())
-		return FlashAndRedir(true, msg, frm.WebPath(), rc, ps)
+		return FlashAndRedir(true, msg, frm.WebPath(), w, ps)
 	})
 }
 
-func CapitalDelete(rc *fasthttp.RequestCtx) {
-	Act("capital.delete", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret, err := capitalFromPath(rc, as, ps)
+func CapitalDelete(w http.ResponseWriter, r *http.Request) {
+	Act("capital.delete", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := capitalFromPath(r, as, ps)
 		if err != nil {
 			return "", err
 		}
@@ -118,20 +118,20 @@ func CapitalDelete(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrapf(err, "unable to delete capital [%s]", ret.String())
 		}
 		msg := fmt.Sprintf("Capital [%s] deleted", ret.String())
-		return FlashAndRedir(true, msg, "/capital", rc, ps)
+		return FlashAndRedir(true, msg, "/capital", w, ps)
 	})
 }
 
-func capitalFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageState) (*capital.Capital, error) {
-	idArg, err := cutil.RCRequiredString(rc, "id", false)
+func capitalFromPath(r *http.Request, as *app.State, ps *cutil.PageState) (*capital.Capital, error) {
+	idArg, err := cutil.RCRequiredString(r, "id", false)
 	if err != nil {
 		return nil, errors.Wrap(err, "must provide [id] as a string argument")
 	}
 	return as.Services.Capital.Get(ps.Context, nil, idArg, ps.Logger)
 }
 
-func capitalFromForm(rc *fasthttp.RequestCtx, setPK bool) (*capital.Capital, error) {
-	frm, err := cutil.ParseForm(rc)
+func capitalFromForm(r *http.Request, b []byte, setPK bool) (*capital.Capital, error) {
+	frm, err := cutil.ParseForm(r, b)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to parse form")
 	}

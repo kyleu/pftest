@@ -3,9 +3,9 @@ package controller
 
 import (
 	"fmt"
+	"net/http"
 
 	"github.com/pkg/errors"
-	"github.com/valyala/fasthttp"
 
 	"github.com/kyleu/pftest/app"
 	"github.com/kyleu/pftest/app/controller/cutil"
@@ -14,8 +14,8 @@ import (
 	"github.com/kyleu/pftest/views/vseed"
 )
 
-func SeedList(rc *fasthttp.RequestCtx) {
-	Act("seed.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+func SeedList(w http.ResponseWriter, r *http.Request) {
+	Act("seed.list", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		prms := ps.Params.Get("seed", nil, ps.Logger).Sanitize("seed")
 		ret, err := as.Services.Seed.List(ps.Context, nil, prms, ps.Logger)
 		if err != nil {
@@ -23,36 +23,36 @@ func SeedList(rc *fasthttp.RequestCtx) {
 		}
 		ps.SetTitleAndData("Seeds", ret)
 		page := &vseed.List{Models: ret, Params: ps.Params}
-		return Render(rc, as, page, ps, "seed")
+		return Render(w, r, as, page, ps, "seed")
 	})
 }
 
-func SeedDetail(rc *fasthttp.RequestCtx) {
-	Act("seed.detail", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret, err := seedFromPath(rc, as, ps)
+func SeedDetail(w http.ResponseWriter, r *http.Request) {
+	Act("seed.detail", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := seedFromPath(r, as, ps)
 		if err != nil {
 			return "", err
 		}
 		ps.SetTitleAndData(ret.TitleString()+" (Seed)", ret)
 
-		return Render(rc, as, &vseed.Detail{Model: ret}, ps, "seed", ret.TitleString()+"**star")
+		return Render(w, r, as, &vseed.Detail{Model: ret}, ps, "seed", ret.TitleString()+"**star")
 	})
 }
 
-func SeedCreateForm(rc *fasthttp.RequestCtx) {
-	Act("seed.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+func SeedCreateForm(w http.ResponseWriter, r *http.Request) {
+	Act("seed.create.form", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &seed.Seed{}
-		if string(rc.QueryArgs().Peek("prototype")) == util.KeyRandom {
+		if r.URL.Query().Get("prototype") == util.KeyRandom {
 			ret = seed.Random()
 		}
 		ps.SetTitleAndData("Create [Seed]", ret)
 		ps.Data = ret
-		return Render(rc, as, &vseed.Edit{Model: ret, IsNew: true}, ps, "seed", "Create")
+		return Render(w, r, as, &vseed.Edit{Model: ret, IsNew: true}, ps, "seed", "Create")
 	})
 }
 
-func SeedRandom(rc *fasthttp.RequestCtx) {
-	Act("seed.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+func SeedRandom(w http.ResponseWriter, r *http.Request) {
+	Act("seed.random", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := as.Services.Seed.Random(ps.Context, nil, ps.Logger)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to find random Seed")
@@ -61,9 +61,9 @@ func SeedRandom(rc *fasthttp.RequestCtx) {
 	})
 }
 
-func SeedCreate(rc *fasthttp.RequestCtx) {
-	Act("seed.create", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret, err := seedFromForm(rc, true)
+func SeedCreate(w http.ResponseWriter, r *http.Request) {
+	Act("seed.create", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := seedFromForm(r, ps.RequestBody, true)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to parse Seed from form")
 		}
@@ -72,28 +72,28 @@ func SeedCreate(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrap(err, "unable to save newly-created Seed")
 		}
 		msg := fmt.Sprintf("Seed [%s] created", ret.String())
-		return FlashAndRedir(true, msg, ret.WebPath(), rc, ps)
+		return FlashAndRedir(true, msg, ret.WebPath(), w, ps)
 	})
 }
 
-func SeedEditForm(rc *fasthttp.RequestCtx) {
-	Act("seed.edit.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret, err := seedFromPath(rc, as, ps)
+func SeedEditForm(w http.ResponseWriter, r *http.Request) {
+	Act("seed.edit.form", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := seedFromPath(r, as, ps)
 		if err != nil {
 			return "", err
 		}
 		ps.SetTitleAndData("Edit "+ret.String(), ret)
-		return Render(rc, as, &vseed.Edit{Model: ret}, ps, "seed", ret.String())
+		return Render(w, r, as, &vseed.Edit{Model: ret}, ps, "seed", ret.String())
 	})
 }
 
-func SeedEdit(rc *fasthttp.RequestCtx) {
-	Act("seed.edit", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret, err := seedFromPath(rc, as, ps)
+func SeedEdit(w http.ResponseWriter, r *http.Request) {
+	Act("seed.edit", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := seedFromPath(r, as, ps)
 		if err != nil {
 			return "", err
 		}
-		frm, err := seedFromForm(rc, false)
+		frm, err := seedFromForm(r, ps.RequestBody, false)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to parse Seed from form")
 		}
@@ -103,13 +103,13 @@ func SeedEdit(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrapf(err, "unable to update Seed [%s]", frm.String())
 		}
 		msg := fmt.Sprintf("Seed [%s] updated", frm.String())
-		return FlashAndRedir(true, msg, frm.WebPath(), rc, ps)
+		return FlashAndRedir(true, msg, frm.WebPath(), w, ps)
 	})
 }
 
-func SeedDelete(rc *fasthttp.RequestCtx) {
-	Act("seed.delete", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret, err := seedFromPath(rc, as, ps)
+func SeedDelete(w http.ResponseWriter, r *http.Request) {
+	Act("seed.delete", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := seedFromPath(r, as, ps)
 		if err != nil {
 			return "", err
 		}
@@ -118,12 +118,12 @@ func SeedDelete(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrapf(err, "unable to delete seed [%s]", ret.String())
 		}
 		msg := fmt.Sprintf("Seed [%s] deleted", ret.String())
-		return FlashAndRedir(true, msg, "/seed", rc, ps)
+		return FlashAndRedir(true, msg, "/seed", w, ps)
 	})
 }
 
-func seedFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageState) (*seed.Seed, error) {
-	idArgStr, err := cutil.RCRequiredString(rc, "id", false)
+func seedFromPath(r *http.Request, as *app.State, ps *cutil.PageState) (*seed.Seed, error) {
+	idArgStr, err := cutil.RCRequiredString(r, "id", false)
 	if err != nil {
 		return nil, errors.Wrap(err, "must provide [id] as an argument")
 	}
@@ -135,8 +135,8 @@ func seedFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageState) (
 	return as.Services.Seed.Get(ps.Context, nil, idArg, ps.Logger)
 }
 
-func seedFromForm(rc *fasthttp.RequestCtx, setPK bool) (*seed.Seed, error) {
-	frm, err := cutil.ParseForm(rc)
+func seedFromForm(r *http.Request, b []byte, setPK bool) (*seed.Seed, error) {
+	frm, err := cutil.ParseForm(r, b)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to parse form")
 	}

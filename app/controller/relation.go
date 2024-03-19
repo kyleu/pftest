@@ -3,12 +3,12 @@ package controller
 
 import (
 	"fmt"
+	"net/http"
 	"strings"
 
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	"github.com/samber/lo"
-	"github.com/valyala/fasthttp"
 
 	"github.com/kyleu/pftest/app"
 	"github.com/kyleu/pftest/app/controller/cutil"
@@ -17,9 +17,9 @@ import (
 	"github.com/kyleu/pftest/views/vrelation"
 )
 
-func RelationList(rc *fasthttp.RequestCtx) {
-	Act("relation.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		q := strings.TrimSpace(string(rc.URI().QueryArgs().Peek("q")))
+func RelationList(w http.ResponseWriter, r *http.Request) {
+	Act("relation.list", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
+		q := strings.TrimSpace(r.URL.Query().Get("q"))
 		prms := ps.Params.Get("relation", nil, ps.Logger).Sanitize("relation")
 		var ret relation.Relations
 		var err error
@@ -40,13 +40,13 @@ func RelationList(rc *fasthttp.RequestCtx) {
 			return "", err
 		}
 		page := &vrelation.List{Models: ret, BasicsByBasicID: basicsByBasicID, Params: ps.Params, SearchQuery: q}
-		return Render(rc, as, page, ps, "relation")
+		return Render(w, r, as, page, ps, "relation")
 	})
 }
 
-func RelationDetail(rc *fasthttp.RequestCtx) {
-	Act("relation.detail", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret, err := relationFromPath(rc, as, ps)
+func RelationDetail(w http.ResponseWriter, r *http.Request) {
+	Act("relation.detail", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := relationFromPath(r, as, ps)
 		if err != nil {
 			return "", err
 		}
@@ -54,14 +54,14 @@ func RelationDetail(rc *fasthttp.RequestCtx) {
 
 		basicByBasicID, _ := as.Services.Basic.Get(ps.Context, nil, ret.BasicID, ps.Logger)
 
-		return Render(rc, as, &vrelation.Detail{Model: ret, BasicByBasicID: basicByBasicID}, ps, "relation", ret.TitleString()+"**star")
+		return Render(w, r, as, &vrelation.Detail{Model: ret, BasicByBasicID: basicByBasicID}, ps, "relation", ret.TitleString()+"**star")
 	})
 }
 
-func RelationCreateForm(rc *fasthttp.RequestCtx) {
-	Act("relation.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+func RelationCreateForm(w http.ResponseWriter, r *http.Request) {
+	Act("relation.create.form", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &relation.Relation{}
-		if string(rc.QueryArgs().Peek("prototype")) == util.KeyRandom {
+		if r.URL.Query().Get("prototype") == util.KeyRandom {
 			ret = relation.Random()
 			randomBasic, err := as.Services.Basic.Random(ps.Context, nil, ps.Logger)
 			if err == nil && randomBasic != nil {
@@ -70,12 +70,12 @@ func RelationCreateForm(rc *fasthttp.RequestCtx) {
 		}
 		ps.SetTitleAndData("Create [Relation]", ret)
 		ps.Data = ret
-		return Render(rc, as, &vrelation.Edit{Model: ret, IsNew: true}, ps, "relation", "Create")
+		return Render(w, r, as, &vrelation.Edit{Model: ret, IsNew: true}, ps, "relation", "Create")
 	})
 }
 
-func RelationRandom(rc *fasthttp.RequestCtx) {
-	Act("relation.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+func RelationRandom(w http.ResponseWriter, r *http.Request) {
+	Act("relation.random", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := as.Services.Relation.Random(ps.Context, nil, ps.Logger)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to find random Relation")
@@ -84,9 +84,9 @@ func RelationRandom(rc *fasthttp.RequestCtx) {
 	})
 }
 
-func RelationCreate(rc *fasthttp.RequestCtx) {
-	Act("relation.create", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret, err := relationFromForm(rc, true)
+func RelationCreate(w http.ResponseWriter, r *http.Request) {
+	Act("relation.create", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := relationFromForm(r, ps.RequestBody, true)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to parse Relation from form")
 		}
@@ -95,28 +95,28 @@ func RelationCreate(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrap(err, "unable to save newly-created Relation")
 		}
 		msg := fmt.Sprintf("Relation [%s] created", ret.String())
-		return FlashAndRedir(true, msg, ret.WebPath(), rc, ps)
+		return FlashAndRedir(true, msg, ret.WebPath(), w, ps)
 	})
 }
 
-func RelationEditForm(rc *fasthttp.RequestCtx) {
-	Act("relation.edit.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret, err := relationFromPath(rc, as, ps)
+func RelationEditForm(w http.ResponseWriter, r *http.Request) {
+	Act("relation.edit.form", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := relationFromPath(r, as, ps)
 		if err != nil {
 			return "", err
 		}
 		ps.SetTitleAndData("Edit "+ret.String(), ret)
-		return Render(rc, as, &vrelation.Edit{Model: ret}, ps, "relation", ret.String())
+		return Render(w, r, as, &vrelation.Edit{Model: ret}, ps, "relation", ret.String())
 	})
 }
 
-func RelationEdit(rc *fasthttp.RequestCtx) {
-	Act("relation.edit", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret, err := relationFromPath(rc, as, ps)
+func RelationEdit(w http.ResponseWriter, r *http.Request) {
+	Act("relation.edit", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := relationFromPath(r, as, ps)
 		if err != nil {
 			return "", err
 		}
-		frm, err := relationFromForm(rc, false)
+		frm, err := relationFromForm(r, ps.RequestBody, false)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to parse Relation from form")
 		}
@@ -126,13 +126,13 @@ func RelationEdit(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrapf(err, "unable to update Relation [%s]", frm.String())
 		}
 		msg := fmt.Sprintf("Relation [%s] updated", frm.String())
-		return FlashAndRedir(true, msg, frm.WebPath(), rc, ps)
+		return FlashAndRedir(true, msg, frm.WebPath(), w, ps)
 	})
 }
 
-func RelationDelete(rc *fasthttp.RequestCtx) {
-	Act("relation.delete", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret, err := relationFromPath(rc, as, ps)
+func RelationDelete(w http.ResponseWriter, r *http.Request) {
+	Act("relation.delete", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := relationFromPath(r, as, ps)
 		if err != nil {
 			return "", err
 		}
@@ -141,12 +141,12 @@ func RelationDelete(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrapf(err, "unable to delete relation [%s]", ret.String())
 		}
 		msg := fmt.Sprintf("Relation [%s] deleted", ret.String())
-		return FlashAndRedir(true, msg, "/relation", rc, ps)
+		return FlashAndRedir(true, msg, "/relation", w, ps)
 	})
 }
 
-func relationFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageState) (*relation.Relation, error) {
-	idArgStr, err := cutil.RCRequiredString(rc, "id", false)
+func relationFromPath(r *http.Request, as *app.State, ps *cutil.PageState) (*relation.Relation, error) {
+	idArgStr, err := cutil.RCRequiredString(r, "id", false)
 	if err != nil {
 		return nil, errors.Wrap(err, "must provide [id] as an argument")
 	}
@@ -158,8 +158,8 @@ func relationFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageStat
 	return as.Services.Relation.Get(ps.Context, nil, idArg, ps.Logger)
 }
 
-func relationFromForm(rc *fasthttp.RequestCtx, setPK bool) (*relation.Relation, error) {
-	frm, err := cutil.ParseForm(rc)
+func relationFromForm(r *http.Request, b []byte, setPK bool) (*relation.Relation, error) {
+	frm, err := cutil.ParseForm(r, b)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to parse form")
 	}

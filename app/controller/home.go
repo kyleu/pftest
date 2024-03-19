@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"github.com/valyala/fasthttp"
+	"net/http"
 
 	"github.com/kyleu/pftest/app"
 	"github.com/kyleu/pftest/app/controller/cutil"
@@ -16,9 +16,9 @@ var homeContent = util.ValueMap{
 	},
 }
 
-func Home(rc *fasthttp.RequestCtx) {
-	Act("home", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+func Home(w http.ResponseWriter, r *http.Request) {
+	Act("home", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ps.Data = homeContent
-		return Render(rc, as, &views.Home{}, ps)
+		return Render(w, r, as, &views.Home{}, ps)
 	})
 }

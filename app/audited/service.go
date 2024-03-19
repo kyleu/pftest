@@ -19,5 +19,5 @@ func NewService(db *database.Service, aud *audit.Service) *Service {
 }
 
 func filters(orig *filter.Params) *filter.Params {
-	return orig.Sanitize("audited", &filter.Ordering{Column: "created"})
+	return orig.Sanitize("audited", &filter.Ordering{Column: "name"})
 }

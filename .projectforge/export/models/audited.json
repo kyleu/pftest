@@ -5,7 +5,7 @@
   "icon": "star",
   "ordering": [
     {
-      "column": "created"
+      "column": "name"
     }
   ],
   "search": [

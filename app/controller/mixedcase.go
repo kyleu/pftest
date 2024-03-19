@@ -3,9 +3,9 @@ package controller
 
 import (
 	"fmt"
+	"net/http"
 
 	"github.com/pkg/errors"
-	"github.com/valyala/fasthttp"
 
 	"github.com/kyleu/pftest/app"
 	"github.com/kyleu/pftest/app/controller/cutil"
@@ -14,8 +14,8 @@ import (
 	"github.com/kyleu/pftest/views/vmixedcase"
 )
 
-func MixedCaseList(rc *fasthttp.RequestCtx) {
-	Act("mixedcase.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+func MixedCaseList(w http.ResponseWriter, r *http.Request) {
+	Act("mixedcase.list", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		prms := ps.Params.Get("mixedcase", nil, ps.Logger).Sanitize("mixedcase")
 		ret, err := as.Services.MixedCase.List(ps.Context, nil, prms, ps.Logger)
 		if err != nil {
@@ -23,36 +23,36 @@ func MixedCaseList(rc *fasthttp.RequestCtx) {
 		}
 		ps.SetTitleAndData("Mixed Cases", ret)
 		page := &vmixedcase.List{Models: ret, Params: ps.Params}
-		return Render(rc, as, page, ps, "mixedcase")
+		return Render(w, r, as, page, ps, "mixedcase")
 	})
 }
 
-func MixedCaseDetail(rc *fasthttp.RequestCtx) {
-	Act("mixedcase.detail", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret, err := mixedcaseFromPath(rc, as, ps)
+func MixedCaseDetail(w http.ResponseWriter, r *http.Request) {
+	Act("mixedcase.detail", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := mixedcaseFromPath(r, as, ps)
 		if err != nil {
 			return "", err
 		}
 		ps.SetTitleAndData(ret.TitleString()+" (Mixed Case)", ret)
 
-		return Render(rc, as, &vmixedcase.Detail{Model: ret}, ps, "mixedcase", ret.TitleString()+"**star")
+		return Render(w, r, as, &vmixedcase.Detail{Model: ret}, ps, "mixedcase", ret.TitleString()+"**star")
 	})
 }
 
-func MixedCaseCreateForm(rc *fasthttp.RequestCtx) {
-	Act("mixedcase.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+func MixedCaseCreateForm(w http.ResponseWriter, r *http.Request) {
+	Act("mixedcase.create.form", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &mixedcase.MixedCase{}
-		if string(rc.QueryArgs().Peek("prototype")) == util.KeyRandom {
+		if r.URL.Query().Get("prototype") == util.KeyRandom {
 			ret = mixedcase.Random()
 		}
 		ps.SetTitleAndData("Create [MixedCase]", ret)
 		ps.Data = ret
-		return Render(rc, as, &vmixedcase.Edit{Model: ret, IsNew: true}, ps, "mixedcase", "Create")
+		return Render(w, r, as, &vmixedcase.Edit{Model: ret, IsNew: true}, ps, "mixedcase", "Create")
 	})
 }
 
-func MixedCaseRandom(rc *fasthttp.RequestCtx) {
-	Act("mixedcase.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+func MixedCaseRandom(w http.ResponseWriter, r *http.Request) {
+	Act("mixedcase.random", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := as.Services.MixedCase.Random(ps.Context, nil, ps.Logger)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to find random MixedCase")
@@ -61,9 +61,9 @@ func MixedCaseRandom(rc *fasthttp.RequestCtx) {
 	})
 }
 
-func MixedCaseCreate(rc *fasthttp.RequestCtx) {
-	Act("mixedcase.create", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret, err := mixedcaseFromForm(rc, true)
+func MixedCaseCreate(w http.ResponseWriter, r *http.Request) {
+	Act("mixedcase.create", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := mixedcaseFromForm(r, ps.RequestBody, true)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to parse MixedCase from form")
 		}
@@ -72,28 +72,28 @@ func MixedCaseCreate(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrap(err, "unable to save newly-created MixedCase")
 		}
 		msg := fmt.Sprintf("MixedCase [%s] created", ret.String())
-		return FlashAndRedir(true, msg, ret.WebPath(), rc, ps)
+		return FlashAndRedir(true, msg, ret.WebPath(), w, ps)
 	})
 }
 
-func MixedCaseEditForm(rc *fasthttp.RequestCtx) {
-	Act("mixedcase.edit.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret, err := mixedcaseFromPath(rc, as, ps)
+func MixedCaseEditForm(w http.ResponseWriter, r *http.Request) {
+	Act("mixedcase.edit.form", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := mixedcaseFromPath(r, as, ps)
 		if err != nil {
 			return "", err
 		}
 		ps.SetTitleAndData("Edit "+ret.String(), ret)
-		return Render(rc, as, &vmixedcase.Edit{Model: ret}, ps, "mixedcase", ret.String())
+		return Render(w, r, as, &vmixedcase.Edit{Model: ret}, ps, "mixedcase", ret.String())
 	})
 }
 
-func MixedCaseEdit(rc *fasthttp.RequestCtx) {
-	Act("mixedcase.edit", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret, err := mixedcaseFromPath(rc, as, ps)
+func MixedCaseEdit(w http.ResponseWriter, r *http.Request) {
+	Act("mixedcase.edit", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := mixedcaseFromPath(r, as, ps)
 		if err != nil {
 			return "", err
 		}
-		frm, err := mixedcaseFromForm(rc, false)
+		frm, err := mixedcaseFromForm(r, ps.RequestBody, false)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to parse MixedCase from form")
 		}
@@ -103,13 +103,13 @@ func MixedCaseEdit(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrapf(err, "unable to update MixedCase [%s]", frm.String())
 		}
 		msg := fmt.Sprintf("MixedCase [%s] updated", frm.String())
-		return FlashAndRedir(true, msg, frm.WebPath(), rc, ps)
+		return FlashAndRedir(true, msg, frm.WebPath(), w, ps)
 	})
 }
 
-func MixedCaseDelete(rc *fasthttp.RequestCtx) {
-	Act("mixedcase.delete", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret, err := mixedcaseFromPath(rc, as, ps)
+func MixedCaseDelete(w http.ResponseWriter, r *http.Request) {
+	Act("mixedcase.delete", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := mixedcaseFromPath(r, as, ps)
 		if err != nil {
 			return "", err
 		}
@@ -118,20 +118,20 @@ func MixedCaseDelete(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrapf(err, "unable to delete mixed case [%s]", ret.String())
 		}
 		msg := fmt.Sprintf("MixedCase [%s] deleted", ret.String())
-		return FlashAndRedir(true, msg, "/mixedcase", rc, ps)
+		return FlashAndRedir(true, msg, "/mixedcase", w, ps)
 	})
 }
 
-func mixedcaseFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageState) (*mixedcase.MixedCase, error) {
-	idArg, err := cutil.RCRequiredString(rc, "id", false)
+func mixedcaseFromPath(r *http.Request, as *app.State, ps *cutil.PageState) (*mixedcase.MixedCase, error) {
+	idArg, err := cutil.RCRequiredString(r, "id", false)
 	if err != nil {
 		return nil, errors.Wrap(err, "must provide [id] as a string argument")
 	}
 	return as.Services.MixedCase.Get(ps.Context, nil, idArg, ps.Logger)
 }
 
-func mixedcaseFromForm(rc *fasthttp.RequestCtx, setPK bool) (*mixedcase.MixedCase, error) {
-	frm, err := cutil.ParseForm(rc)
+func mixedcaseFromForm(r *http.Request, b []byte, setPK bool) (*mixedcase.MixedCase, error) {
+	frm, err := cutil.ParseForm(r, b)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to parse form")
 	}

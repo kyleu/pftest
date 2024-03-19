@@ -3,9 +3,9 @@ package controller
 
 import (
 	"fmt"
+	"net/http"
 
 	"github.com/pkg/errors"
-	"github.com/valyala/fasthttp"
 
 	"github.com/kyleu/pftest/app"
 	"github.com/kyleu/pftest/app/controller/cutil"
@@ -14,45 +14,45 @@ import (
 	"github.com/kyleu/pftest/views/vtrouble"
 )
 
-func TroubleList(rc *fasthttp.RequestCtx) {
-	Act("trouble.list", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+func TroubleList(w http.ResponseWriter, r *http.Request) {
+	Act("trouble.list", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		prms := ps.Params.Get("trouble", nil, ps.Logger).Sanitize("trouble")
-		ret, err := as.Services.Trouble.List(ps.Context, nil, prms, cutil.QueryStringBool(rc, "includeDeleted"), ps.Logger)
+		ret, err := as.Services.Trouble.List(ps.Context, nil, prms, cutil.QueryStringBool(r, "includeDeleted"), ps.Logger)
 		if err != nil {
 			return "", err
 		}
 		ps.SetTitleAndData("Troubles", ret)
 		page := &vtrouble.List{Models: ret, Params: ps.Params}
-		return Render(rc, as, page, ps, "trouble")
+		return Render(w, r, as, page, ps, "trouble")
 	})
 }
 
-func TroubleDetail(rc *fasthttp.RequestCtx) {
-	Act("trouble.detail", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret, err := troubleFromPath(rc, as, ps)
+func TroubleDetail(w http.ResponseWriter, r *http.Request) {
+	Act("trouble.detail", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := troubleFromPath(r, as, ps)
 		if err != nil {
 			return "", err
 		}
 		ps.SetTitleAndData(ret.TitleString()+" (Trouble)", ret)
 
-		return Render(rc, as, &vtrouble.Detail{Model: ret}, ps, "trouble", ret.TitleString()+"**star")
+		return Render(w, r, as, &vtrouble.Detail{Model: ret}, ps, "trouble", ret.TitleString()+"**star")
 	})
 }
 
-func TroubleCreateForm(rc *fasthttp.RequestCtx) {
-	Act("trouble.create.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+func TroubleCreateForm(w http.ResponseWriter, r *http.Request) {
+	Act("trouble.create.form", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &trouble.Trouble{}
-		if string(rc.QueryArgs().Peek("prototype")) == util.KeyRandom {
+		if r.URL.Query().Get("prototype") == util.KeyRandom {
 			ret = trouble.Random()
 		}
 		ps.SetTitleAndData("Create [Trouble]", ret)
 		ps.Data = ret
-		return Render(rc, as, &vtrouble.Edit{Model: ret, IsNew: true}, ps, "trouble", "Create")
+		return Render(w, r, as, &vtrouble.Edit{Model: ret, IsNew: true}, ps, "trouble", "Create")
 	})
 }
 
-func TroubleRandom(rc *fasthttp.RequestCtx) {
-	Act("trouble.random", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
+func TroubleRandom(w http.ResponseWriter, r *http.Request) {
+	Act("trouble.random", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret, err := as.Services.Trouble.Random(ps.Context, nil, ps.Logger)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to find random Trouble")
@@ -61,9 +61,9 @@ func TroubleRandom(rc *fasthttp.RequestCtx) {
 	})
 }
 
-func TroubleCreate(rc *fasthttp.RequestCtx) {
-	Act("trouble.create", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret, err := troubleFromForm(rc, true)
+func TroubleCreate(w http.ResponseWriter, r *http.Request) {
+	Act("trouble.create", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := troubleFromForm(r, ps.RequestBody, true)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to parse Trouble from form")
 		}
@@ -72,28 +72,28 @@ func TroubleCreate(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrap(err, "unable to save newly-created Trouble")
 		}
 		msg := fmt.Sprintf("Trouble [%s] created", ret.String())
-		return FlashAndRedir(true, msg, ret.WebPath(), rc, ps)
+		return FlashAndRedir(true, msg, ret.WebPath(), w, ps)
 	})
 }
 
-func TroubleEditForm(rc *fasthttp.RequestCtx) {
-	Act("trouble.edit.form", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret, err := troubleFromPath(rc, as, ps)
+func TroubleEditForm(w http.ResponseWriter, r *http.Request) {
+	Act("trouble.edit.form", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := troubleFromPath(r, as, ps)
 		if err != nil {
 			return "", err
 		}
 		ps.SetTitleAndData("Edit "+ret.String(), ret)
-		return Render(rc, as, &vtrouble.Edit{Model: ret}, ps, "trouble", ret.String())
+		return Render(w, r, as, &vtrouble.Edit{Model: ret}, ps, "trouble", ret.String())
 	})
 }
 
-func TroubleEdit(rc *fasthttp.RequestCtx) {
-	Act("trouble.edit", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret, err := troubleFromPath(rc, as, ps)
+func TroubleEdit(w http.ResponseWriter, r *http.Request) {
+	Act("trouble.edit", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := troubleFromPath(r, as, ps)
 		if err != nil {
 			return "", err
 		}
-		frm, err := troubleFromForm(rc, false)
+		frm, err := troubleFromForm(r, ps.RequestBody, false)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to parse Trouble from form")
 		}
@@ -104,13 +104,13 @@ func TroubleEdit(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrapf(err, "unable to update Trouble [%s]", frm.String())
 		}
 		msg := fmt.Sprintf("Trouble [%s] updated", frm.String())
-		return FlashAndRedir(true, msg, frm.WebPath(), rc, ps)
+		return FlashAndRedir(true, msg, frm.WebPath(), w, ps)
 	})
 }
 
-func TroubleDelete(rc *fasthttp.RequestCtx) {
-	Act("trouble.delete", rc, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ret, err := troubleFromPath(rc, as, ps)
+func TroubleDelete(w http.ResponseWriter, r *http.Request) {
+	Act("trouble.delete", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
+		ret, err := troubleFromPath(r, as, ps)
 		if err != nil {
 			return "", err
 		}
@@ -119,25 +119,25 @@ func TroubleDelete(rc *fasthttp.RequestCtx) {
 			return "", errors.Wrapf(err, "unable to delete trouble [%s]", ret.String())
 		}
 		msg := fmt.Sprintf("Trouble [%s] deleted", ret.String())
-		return FlashAndRedir(true, msg, "/troub/le", rc, ps)
+		return FlashAndRedir(true, msg, "/troub/le", w, ps)
 	})
 }
 
-func troubleFromPath(rc *fasthttp.RequestCtx, as *app.State, ps *cutil.PageState) (*trouble.Trouble, error) {
-	fromArg, err := cutil.RCRequiredString(rc, "from", false)
+func troubleFromPath(r *http.Request, as *app.State, ps *cutil.PageState) (*trouble.Trouble, error) {
+	fromArg, err := cutil.RCRequiredString(r, "from", false)
 	if err != nil {
 		return nil, errors.Wrap(err, "must provide [from] as a string argument")
 	}
-	whereArg, err := cutil.RCRequiredArray(rc, "where")
+	whereArg, err := cutil.RCRequiredArray(r, "where")
 	if err != nil {
 		return nil, errors.Wrap(err, "must provide [where] as an comma-separated argument")
 	}
-	includeDeleted := rc.UserValue("includeDeleted") != nil || cutil.QueryStringBool(rc, "includeDeleted")
+	includeDeleted := cutil.QueryStringBool(r, "includeDeleted")
 	return as.Services.Trouble.Get(ps.Context, nil, fromArg, whereArg, includeDeleted, ps.Logger)
 }
 
-func troubleFromForm(rc *fasthttp.RequestCtx, setPK bool) (*trouble.Trouble, error) {
-	frm, err := cutil.ParseForm(rc)
+func troubleFromForm(r *http.Request, b []byte, setPK bool) (*trouble.Trouble, error) {
+	frm, err := cutil.ParseForm(r, b)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to parse form")
 	}

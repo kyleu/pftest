@@ -3,6 +3,7 @@ module github.com/kyleu/pftest
 go 1.22
 
 require (
+	github.com/CAFxX/httpcompression v0.0.9
 	github.com/alecthomas/chroma v0.10.0
 	github.com/andybalholm/brotli v1.1.0
 	github.com/araddon/dateparse v0.0.0-20210429162001-6b43995a97de
@@ -12,8 +13,6 @@ require (
 	github.com/dop251/goja v0.0.0-20240220182346-e401ed450204
 	github.com/dsoprea/go-exif/v3 v3.0.1
 	github.com/dustin/go-humanize v1.0.1
-	github.com/fasthttp/router v1.5.0
-	github.com/fasthttp/websocket v1.5.8
 	github.com/gertd/go-pluralize v0.2.1
 	github.com/go-ini/ini v1.67.0
 	github.com/go-sql-driver/mysql v1.8.0
@@ -21,6 +20,8 @@ require (
 	github.com/google/cel-go v0.20.1
 	github.com/google/go-github/v39 v39.2.0
 	github.com/google/uuid v1.6.0
+	github.com/gorilla/mux v1.6.2
+	github.com/gorilla/websocket v1.5.1
 	github.com/graph-gophers/graphql-go v1.5.0
 	github.com/iancoleman/strcase v0.2.0
 	github.com/jackc/pgx/v4 v4.18.3
@@ -78,6 +79,7 @@ require (
 	github.com/golang/protobuf v1.5.4 // indirect
 	github.com/google/go-querystring v1.1.0 // indirect
 	github.com/google/pprof v0.0.0-20240227163752-401108e1b7e7 // indirect
+	github.com/gorilla/context v1.1.1 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.19.1 // indirect
 	github.com/hashicorp/golang-lru/v2 v2.0.7 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
@@ -107,7 +109,6 @@ require (
 	github.com/prometheus/common v0.50.0 // indirect
 	github.com/prometheus/procfs v0.13.0 // indirect
 	github.com/remyoudompheng/bigfft v0.0.0-20230129092748-24d4a6f8daec // indirect
-	github.com/savsgio/gotils v0.0.0-20240303185622-093b76447511 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/stoewer/go-strcase v1.2.0 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
