@@ -20,7 +20,7 @@ require (
 	github.com/google/cel-go v0.20.1
 	github.com/google/go-github/v39 v39.2.0
 	github.com/google/uuid v1.6.0
-	github.com/gorilla/mux v1.6.2
+	github.com/gorilla/mux v1.8.1
 	github.com/gorilla/websocket v1.5.1
 	github.com/graph-gophers/graphql-go v1.5.0
 	github.com/iancoleman/strcase v0.2.0
@@ -78,7 +78,6 @@ require (
 	github.com/golang/protobuf v1.5.4 // indirect
 	github.com/google/go-querystring v1.1.0 // indirect
 	github.com/google/pprof v0.0.0-20240227163752-401108e1b7e7 // indirect
-	github.com/gorilla/context v1.1.1 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.19.1 // indirect
 	github.com/hashicorp/golang-lru/v2 v2.0.7 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect

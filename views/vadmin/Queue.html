@@ -1,0 +1,27 @@
+<!-- Content managed by Project Forge, see [projectforge.md] for details. -->
+{% import (
+  "github.com/kyleu/pftest/app"
+  "github.com/kyleu/pftest/app/controller/cutil"
+  "github.com/kyleu/pftest/app/lib/queue"
+  "github.com/kyleu/pftest/views/components"
+  "github.com/kyleu/pftest/views/layout"
+) %}
+
+{% code type Queue struct {
+  layout.Basic
+  Status *queue.Status
+  Message *queue.Message
+} %}
+
+{% func (p *Queue) Body(as *app.State, ps *cutil.PageState) %}
+  <div class="card">
+    <h3>{%= components.SVGRefIcon(`queue`, ps) %}Queue Test</h3>
+    <div class="mt">{%= components.JSON(p.Status) %}</div>
+  </div>
+  {%- if p.Message != nil -%}
+  <div class="card">
+    <h3>{%= components.SVGRefIcon(`cog`, ps) %}Message</h3>
+    <div class="mt">{%= components.JSON(p.Message) %}</div>
+  </div>
+  {%- endif -%}
+{% endfunc %}
