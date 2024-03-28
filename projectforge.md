@@ -34,6 +34,7 @@ The following modules were used to build this project:
 - [readonlydb](./doc/module/readonlydb.md)
 - [richedit](./doc/module/richedit.md)
 - [sandbox](./doc/module/sandbox.md)
+- [schedule](./doc/module/schedule.md)
 - [schema](./doc/module/schema.md)
 - [scripting](./doc/module/scripting.md)
 - [search](./doc/module/search.md)

@@ -9,6 +9,7 @@ import (
 	"github.com/kyleu/pftest/app/lib/har"
 	"github.com/kyleu/pftest/app/lib/help"
 	"github.com/kyleu/pftest/app/lib/notebook"
+	"github.com/kyleu/pftest/app/lib/schedule"
 	"github.com/kyleu/pftest/app/lib/scripting"
 	"github.com/kyleu/pftest/app/lib/websocket"
 	"github.com/kyleu/pftest/app/user"
@@ -21,6 +22,7 @@ type CoreServices struct {
 	Har      *har.Service
 	Exec     *exec.Service
 	Notebook *notebook.Service
+	Schedule *schedule.Service
 	Script   *scripting.Service
 	Socket   *websocket.Service
 	Help     *help.Service
@@ -33,6 +35,7 @@ func initCoreServices(ctx context.Context, st *State, auditSvc *audit.Service, l
 		Har:      har.NewService(st.Files),
 		Exec:     exec.NewService(),
 		Notebook: notebook.NewService(),
+		Schedule: schedule.NewService(),
 		Script:   scripting.NewService(st.Files, "scripts"),
 		Socket:   websocket.NewService(nil, nil, nil),
 		Help:     help.NewService(logger),
