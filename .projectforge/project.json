@@ -27,6 +27,7 @@
     "notarize",
     "notebook",
     "oauth",
+    "openapi",
     "playwright",
     "postgres",
     "process",

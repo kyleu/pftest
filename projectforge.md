@@ -27,6 +27,7 @@ The following modules were used to build this project:
 - [notarize](./doc/module/notarize.md)
 - [notebook](./doc/module/notebook.md)
 - [oauth](./doc/module/oauth.md)
+- [openapi](./doc/module/openapi.md)
 - [playwright](./doc/module/playwright.md)
 - [postgres](./doc/module/postgres.md)
 - [process](./doc/module/process.md)
