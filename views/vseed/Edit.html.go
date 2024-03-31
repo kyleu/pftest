@@ -103,7 +103,7 @@ func (p *Edit) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
 	qw422016.N().S(`
           `)
 //line views/vseed/Edit.html:34
-	edit.StreamTextareaTable(qw422016, "obj", "", "Obj", 8, util.ToJSON(p.Model.Obj.String()), 5, "JSON object")
+	edit.StreamTextareaTable(qw422016, "obj", "", "Obj", 8, util.ToJSON(p.Model.Obj), 5, "JSON object")
 //line views/vseed/Edit.html:34
 	qw422016.N().S(`
           <tr><td colspan="2"><button type="submit">Save Changes</button></td></tr>

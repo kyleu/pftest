@@ -46,7 +46,7 @@ func (t Troubles) WhereStrings(includeNil bool) []string {
 		ret = append(ret, "")
 	}
 	lo.ForEach(t, func(x *Trouble, _ int) {
-		ret = append(ret, util.ToJSON(&x.Where))
+		ret = append(ret, util.ToJSON(x.Where))
 	})
 	return ret
 }
