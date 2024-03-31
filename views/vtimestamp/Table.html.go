@@ -35,7 +35,7 @@ func StreamTable(qw422016 *qt422016.Writer, models timestamp.Timestamps, params 
 	qw422016.N().S(`
 `)
 //line views/vtimestamp/Table.html:12
-	prms := params.Get("timestamp", nil, ps.Logger).Sanitize("timestamp")
+	prms := params.Sanitized("timestamp", ps.Logger)
 
 //line views/vtimestamp/Table.html:12
 	qw422016.N().S(`  <table>

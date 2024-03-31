@@ -16,7 +16,7 @@ import (
 
 func SoftdelList(w http.ResponseWriter, r *http.Request) {
 	Act("softdel.list", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
-		prms := ps.Params.Get("softdel", nil, ps.Logger).Sanitize("softdel")
+		prms := ps.Params.Sanitized("softdel", ps.Logger)
 		ret, err := as.Services.Softdel.List(ps.Context, nil, prms, cutil.QueryStringBool(r, "includeDeleted"), ps.Logger)
 		if err != nil {
 			return "", err

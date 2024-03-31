@@ -18,16 +18,22 @@ import (
 func AuditedList(w http.ResponseWriter, r *http.Request) {
 	Act("audited.list", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		q := strings.TrimSpace(r.URL.Query().Get("q"))
-		prms := ps.Params.Get("audited", nil, ps.Logger).Sanitize("audited")
+		prms := ps.Params.Sanitized("audited", ps.Logger)
 		var ret audited.Auditeds
 		var err error
 		if q == "" {
 			ret, err = as.Services.Audited.List(ps.Context, nil, prms, ps.Logger)
+			if err != nil {
+				return "", err
+			}
 		} else {
 			ret, err = as.Services.Audited.Search(ps.Context, q, nil, prms, ps.Logger)
-		}
-		if err != nil {
-			return "", err
+			if err != nil {
+				return "", err
+			}
+			if len(ret) == 1 {
+				return FlashAndRedir(true, "single result found", ret[0].WebPath(), w, ps)
+			}
 		}
 		ps.SetTitleAndData("Auditeds", ret)
 		page := &vaudited.List{Models: ret, Params: ps.Params, SearchQuery: q}

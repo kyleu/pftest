@@ -35,7 +35,7 @@ func StreamTable(qw422016 *qt422016.Writer, models capital.Capitals, params filt
 	qw422016.N().S(`
 `)
 //line views/vcapital/Table.html:12
-	prms := params.Get("capital", nil, ps.Logger).Sanitize("capital")
+	prms := params.Sanitized("capital", ps.Logger)
 
 //line views/vcapital/Table.html:12
 	qw422016.N().S(`  <table>

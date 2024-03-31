@@ -9,7 +9,7 @@
 ) %}
 
 {% func Table(models path.Paths, params filter.ParamSet, as *app.State, ps *cutil.PageState) %}
-  {%- code prms := params.Get("path", nil, ps.Logger).Sanitize("path") -%}
+  {%- code prms := params.Sanitized("path", ps.Logger) -%}
   <table>
     <thead>
       <tr>

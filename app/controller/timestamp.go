@@ -16,7 +16,7 @@ import (
 
 func TimestampList(w http.ResponseWriter, r *http.Request) {
 	Act("timestamp.list", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
-		prms := ps.Params.Get("timestamp", nil, ps.Logger).Sanitize("timestamp")
+		prms := ps.Params.Sanitized("timestamp", ps.Logger)
 		ret, err := as.Services.Timestamp.List(ps.Context, nil, prms, cutil.QueryStringBool(r, "includeDeleted"), ps.Logger)
 		if err != nil {
 			return "", err

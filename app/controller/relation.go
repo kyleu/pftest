@@ -20,16 +20,22 @@ import (
 func RelationList(w http.ResponseWriter, r *http.Request) {
 	Act("relation.list", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		q := strings.TrimSpace(r.URL.Query().Get("q"))
-		prms := ps.Params.Get("relation", nil, ps.Logger).Sanitize("relation")
+		prms := ps.Params.Sanitized("relation", ps.Logger)
 		var ret relation.Relations
 		var err error
 		if q == "" {
 			ret, err = as.Services.Relation.List(ps.Context, nil, prms, ps.Logger)
+			if err != nil {
+				return "", err
+			}
 		} else {
 			ret, err = as.Services.Relation.Search(ps.Context, q, nil, prms, ps.Logger)
-		}
-		if err != nil {
-			return "", err
+			if err != nil {
+				return "", err
+			}
+			if len(ret) == 1 {
+				return FlashAndRedir(true, "single result found", ret[0].WebPath(), w, ps)
+			}
 		}
 		ps.SetTitleAndData("Relations", ret)
 		basicIDsByBasicID := lo.Map(ret, func(x *relation.Relation, _ int) uuid.UUID {

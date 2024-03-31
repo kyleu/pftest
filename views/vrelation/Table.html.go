@@ -36,7 +36,7 @@ func StreamTable(qw422016 *qt422016.Writer, models relation.Relations, basicsByB
 	qw422016.N().S(`
 `)
 //line views/vrelation/Table.html:13
-	prms := params.Get("relation", nil, ps.Logger).Sanitize("relation")
+	prms := params.Sanitized("relation", ps.Logger)
 
 //line views/vrelation/Table.html:13
 	qw422016.N().S(`  <table>

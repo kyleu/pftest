@@ -16,7 +16,7 @@ import (
 
 func MixedCaseList(w http.ResponseWriter, r *http.Request) {
 	Act("mixedcase.list", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
-		prms := ps.Params.Get("mixedcase", nil, ps.Logger).Sanitize("mixedcase")
+		prms := ps.Params.Sanitized("mixedcase", ps.Logger)
 		ret, err := as.Services.MixedCase.List(ps.Context, nil, prms, ps.Logger)
 		if err != nil {
 			return "", err

@@ -35,7 +35,7 @@ func StreamTable(qw422016 *qt422016.Writer, models seed.Seeds, params filter.Par
 	qw422016.N().S(`
 `)
 //line views/vseed/Table.html:12
-	prms := params.Get("seed", nil, ps.Logger).Sanitize("seed")
+	prms := params.Sanitized("seed", ps.Logger)
 
 //line views/vseed/Table.html:12
 	qw422016.N().S(`  <table>

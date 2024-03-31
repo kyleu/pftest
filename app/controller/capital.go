@@ -16,7 +16,7 @@ import (
 
 func CapitalList(w http.ResponseWriter, r *http.Request) {
 	Act("capital.list", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
-		prms := ps.Params.Get("capital", nil, ps.Logger).Sanitize("capital")
+		prms := ps.Params.Sanitized("capital", ps.Logger)
 		ret, err := as.Services.Capital.List(ps.Context, nil, prms, ps.Logger)
 		if err != nil {
 			return "", err

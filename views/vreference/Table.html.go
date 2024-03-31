@@ -35,7 +35,7 @@ func StreamTable(qw422016 *qt422016.Writer, models reference.References, params 
 	qw422016.N().S(`
 `)
 //line views/vreference/Table.html:12
-	prms := params.Get("reference", nil, ps.Logger).Sanitize("reference")
+	prms := params.Sanitized("reference", ps.Logger)
 
 //line views/vreference/Table.html:12
 	qw422016.N().S(`  <table>

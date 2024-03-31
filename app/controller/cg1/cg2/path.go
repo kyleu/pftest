@@ -19,16 +19,22 @@ import (
 func PathList(w http.ResponseWriter, r *http.Request) {
 	controller.Act("path.list", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		q := strings.TrimSpace(r.URL.Query().Get("q"))
-		prms := ps.Params.Get("path", nil, ps.Logger).Sanitize("path")
+		prms := ps.Params.Sanitized("path", ps.Logger)
 		var ret path.Paths
 		var err error
 		if q == "" {
 			ret, err = as.Services.Path.List(ps.Context, nil, prms, ps.Logger)
+			if err != nil {
+				return "", err
+			}
 		} else {
 			ret, err = as.Services.Path.Search(ps.Context, q, nil, prms, ps.Logger)
-		}
-		if err != nil {
-			return "", err
+			if err != nil {
+				return "", err
+			}
+			if len(ret) == 1 {
+				return controller.FlashAndRedir(true, "single result found", ret[0].WebPath(), w, ps)
+			}
 		}
 		ps.SetTitleAndData("Paths", ret)
 		page := &vpath.List{Models: ret, Params: ps.Params, SearchQuery: q}

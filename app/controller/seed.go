@@ -16,7 +16,7 @@ import (
 
 func SeedList(w http.ResponseWriter, r *http.Request) {
 	Act("seed.list", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
-		prms := ps.Params.Get("seed", nil, ps.Logger).Sanitize("seed")
+		prms := ps.Params.Sanitized("seed", ps.Logger)
 		ret, err := as.Services.Seed.List(ps.Context, nil, prms, ps.Logger)
 		if err != nil {
 			return "", err

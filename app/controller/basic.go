@@ -18,16 +18,22 @@ import (
 func BasicList(w http.ResponseWriter, r *http.Request) {
 	Act("basic.list", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		q := strings.TrimSpace(r.URL.Query().Get("q"))
-		prms := ps.Params.Get("basic", nil, ps.Logger).Sanitize("basic")
+		prms := ps.Params.Sanitized("basic", ps.Logger)
 		var ret basic.Basics
 		var err error
 		if q == "" {
 			ret, err = as.Services.Basic.List(ps.Context, nil, prms, ps.Logger)
+			if err != nil {
+				return "", err
+			}
 		} else {
 			ret, err = as.Services.Basic.Search(ps.Context, q, nil, prms, ps.Logger)
-		}
-		if err != nil {
-			return "", err
+			if err != nil {
+				return "", err
+			}
+			if len(ret) == 1 {
+				return FlashAndRedir(true, "single result found", ret[0].WebPath(), w, ps)
+			}
 		}
 		ps.SetTitleAndData("Basics", ret)
 		page := &vbasic.List{Models: ret, Params: ps.Params, SearchQuery: q}
@@ -43,7 +49,7 @@ func BasicDetail(w http.ResponseWriter, r *http.Request) {
 		}
 		ps.SetTitleAndData(ret.TitleString()+" (Basic)", ret)
 
-		relRelationsByBasicIDPrms := ps.Params.Get("relation", nil, ps.Logger).Sanitize("relation")
+		relRelationsByBasicIDPrms := ps.Params.Sanitized("relation", ps.Logger)
 		relRelationsByBasicID, err := as.Services.Relation.GetByBasicID(ps.Context, nil, ret.ID, relRelationsByBasicIDPrms, ps.Logger)
 		if err != nil {
 			return "", errors.Wrap(err, "unable to retrieve child relations")

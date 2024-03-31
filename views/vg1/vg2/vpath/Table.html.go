@@ -35,7 +35,7 @@ func StreamTable(qw422016 *qt422016.Writer, models path.Paths, params filter.Par
 	qw422016.N().S(`
 `)
 //line views/vg1/vg2/vpath/Table.html:12
-	prms := params.Get("path", nil, ps.Logger).Sanitize("path")
+	prms := params.Sanitized("path", ps.Logger)
 
 //line views/vg1/vg2/vpath/Table.html:12
 	qw422016.N().S(`  <table>

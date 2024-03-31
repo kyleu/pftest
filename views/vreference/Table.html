@@ -9,7 +9,7 @@
 ) %}
 
 {% func Table(models reference.References, params filter.ParamSet, as *app.State, ps *cutil.PageState) %}
-  {%- code prms := params.Get("reference", nil, ps.Logger).Sanitize("reference") -%}
+  {%- code prms := params.Sanitized("reference", ps.Logger) -%}
   <table>
     <thead>
       <tr>

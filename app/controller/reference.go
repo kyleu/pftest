@@ -18,16 +18,22 @@ import (
 func ReferenceList(w http.ResponseWriter, r *http.Request) {
 	Act("reference.list", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		q := strings.TrimSpace(r.URL.Query().Get("q"))
-		prms := ps.Params.Get("reference", nil, ps.Logger).Sanitize("reference")
+		prms := ps.Params.Sanitized("reference", ps.Logger)
 		var ret reference.References
 		var err error
 		if q == "" {
 			ret, err = as.Services.Reference.List(ps.Context, nil, prms, ps.Logger)
+			if err != nil {
+				return "", err
+			}
 		} else {
 			ret, err = as.Services.Reference.Search(ps.Context, q, nil, prms, ps.Logger)
-		}
-		if err != nil {
-			return "", err
+			if err != nil {
+				return "", err
+			}
+			if len(ret) == 1 {
+				return FlashAndRedir(true, "single result found", ret[0].WebPath(), w, ps)
+			}
 		}
 		ps.SetTitleAndData("References", ret)
 		page := &vreference.List{Models: ret, Params: ps.Params, SearchQuery: q}
