@@ -39,128 +39,130 @@ func StreamTable(qw422016 *qt422016.Writer, models relation.Relations, basicsByB
 	prms := params.Sanitized("relation", ps.Logger)
 
 //line views/vrelation/Table.html:13
-	qw422016.N().S(`  <table>
-    <thead>
-      <tr>
-        `)
-//line views/vrelation/Table.html:17
-	components.StreamTableHeaderSimple(qw422016, "relation", "id", "ID", "UUID in format (00000000-0000-0000-0000-000000000000)", prms, ps.URI, ps)
-//line views/vrelation/Table.html:17
-	qw422016.N().S(`
-        `)
-//line views/vrelation/Table.html:18
-	components.StreamTableHeaderSimple(qw422016, "relation", "basic_id", "Basic ID", "UUID in format (00000000-0000-0000-0000-000000000000)", prms, ps.URI, ps)
-//line views/vrelation/Table.html:18
-	qw422016.N().S(`
-        `)
-//line views/vrelation/Table.html:19
-	components.StreamTableHeaderSimple(qw422016, "relation", "name", "Name", "String text", prms, ps.URI, ps)
-//line views/vrelation/Table.html:19
-	qw422016.N().S(`
-        `)
-//line views/vrelation/Table.html:20
-	components.StreamTableHeaderSimple(qw422016, "relation", "created", "Created", "Date and time, in almost any format", prms, ps.URI, ps)
-//line views/vrelation/Table.html:20
-	qw422016.N().S(`
-      </tr>
-    </thead>
-    <tbody>
-`)
-//line views/vrelation/Table.html:24
-	for _, model := range models {
-//line views/vrelation/Table.html:24
-		qw422016.N().S(`      <tr>
-        <td><a href="/relation/`)
-//line views/vrelation/Table.html:26
-		view.StreamUUID(qw422016, &model.ID)
-//line views/vrelation/Table.html:26
-		qw422016.N().S(`">`)
-//line views/vrelation/Table.html:26
-		view.StreamUUID(qw422016, &model.ID)
-//line views/vrelation/Table.html:26
-		qw422016.N().S(`</a></td>
-        <td class="nowrap">
+	qw422016.N().S(`  <div class="overflow clear">
+    <table>
+      <thead>
+        <tr>
           `)
-//line views/vrelation/Table.html:28
-		view.StreamUUID(qw422016, &model.BasicID)
-//line views/vrelation/Table.html:28
-		if x := basicsByBasicID.Get(model.BasicID); x != nil {
-//line views/vrelation/Table.html:28
-			qw422016.N().S(` (`)
-//line views/vrelation/Table.html:28
-			qw422016.E().S(x.TitleString())
-//line views/vrelation/Table.html:28
-			qw422016.N().S(`)`)
-//line views/vrelation/Table.html:28
-		}
-//line views/vrelation/Table.html:28
-		qw422016.N().S(`
-          <a title="Basic" href="`)
-//line views/vrelation/Table.html:29
-		qw422016.E().S(`/basic` + `/` + model.BasicID.String())
-//line views/vrelation/Table.html:29
+//line views/vrelation/Table.html:18
+	components.StreamTableHeaderSimple(qw422016, "relation", "id", "ID", "UUID in format (00000000-0000-0000-0000-000000000000)", prms, ps.URI, ps)
+//line views/vrelation/Table.html:18
+	qw422016.N().S(`
+          `)
+//line views/vrelation/Table.html:19
+	components.StreamTableHeaderSimple(qw422016, "relation", "basic_id", "Basic ID", "UUID in format (00000000-0000-0000-0000-000000000000)", prms, ps.URI, ps)
+//line views/vrelation/Table.html:19
+	qw422016.N().S(`
+          `)
+//line views/vrelation/Table.html:20
+	components.StreamTableHeaderSimple(qw422016, "relation", "name", "Name", "String text", prms, ps.URI, ps)
+//line views/vrelation/Table.html:20
+	qw422016.N().S(`
+          `)
+//line views/vrelation/Table.html:21
+	components.StreamTableHeaderSimple(qw422016, "relation", "created", "Created", "Date and time, in almost any format", prms, ps.URI, ps)
+//line views/vrelation/Table.html:21
+	qw422016.N().S(`
+        </tr>
+      </thead>
+      <tbody>
+`)
+//line views/vrelation/Table.html:25
+	for _, model := range models {
+//line views/vrelation/Table.html:25
+		qw422016.N().S(`        <tr>
+          <td><a href="/relation/`)
+//line views/vrelation/Table.html:27
+		view.StreamUUID(qw422016, &model.ID)
+//line views/vrelation/Table.html:27
 		qw422016.N().S(`">`)
+//line views/vrelation/Table.html:27
+		view.StreamUUID(qw422016, &model.ID)
+//line views/vrelation/Table.html:27
+		qw422016.N().S(`</a></td>
+          <td class="nowrap">
+            `)
 //line views/vrelation/Table.html:29
+		view.StreamUUID(qw422016, &model.BasicID)
+//line views/vrelation/Table.html:29
+		if x := basicsByBasicID.Get(model.BasicID); x != nil {
+//line views/vrelation/Table.html:29
+			qw422016.N().S(` (`)
+//line views/vrelation/Table.html:29
+			qw422016.E().S(x.TitleString())
+//line views/vrelation/Table.html:29
+			qw422016.N().S(`)`)
+//line views/vrelation/Table.html:29
+		}
+//line views/vrelation/Table.html:29
+		qw422016.N().S(`
+            <a title="Basic" href="`)
+//line views/vrelation/Table.html:30
+		qw422016.E().S(`/basic` + `/` + model.BasicID.String())
+//line views/vrelation/Table.html:30
+		qw422016.N().S(`">`)
+//line views/vrelation/Table.html:30
 		components.StreamSVGRef(qw422016, "star", 18, 18, "", ps)
-//line views/vrelation/Table.html:29
+//line views/vrelation/Table.html:30
 		qw422016.N().S(`</a>
-        </td>
-        <td><strong>`)
-//line views/vrelation/Table.html:31
+          </td>
+          <td><strong>`)
+//line views/vrelation/Table.html:32
 		view.StreamString(qw422016, model.Name)
-//line views/vrelation/Table.html:31
+//line views/vrelation/Table.html:32
 		qw422016.N().S(`</strong></td>
-        <td>`)
-//line views/vrelation/Table.html:32
+          <td>`)
+//line views/vrelation/Table.html:33
 		view.StreamTimestamp(qw422016, &model.Created)
-//line views/vrelation/Table.html:32
+//line views/vrelation/Table.html:33
 		qw422016.N().S(`</td>
-      </tr>
+        </tr>
 `)
-//line views/vrelation/Table.html:34
+//line views/vrelation/Table.html:35
 	}
 //line views/vrelation/Table.html:35
+	qw422016.N().S(`      </tbody>
+    </table>
+  </div>
+`)
+//line views/vrelation/Table.html:39
 	if prms.HasNextPage(len(models)+prms.Offset) || prms.HasPreviousPage() {
-//line views/vrelation/Table.html:35
-		qw422016.N().S(`      <tr>
-        <td colspan="4">`)
-//line views/vrelation/Table.html:37
+//line views/vrelation/Table.html:39
+		qw422016.N().S(`  <hr />
+  `)
+//line views/vrelation/Table.html:41
 		components.StreamPagination(qw422016, len(models)+prms.Offset, prms, ps.URI)
-//line views/vrelation/Table.html:37
-		qw422016.N().S(`</td>
-      </tr>
+//line views/vrelation/Table.html:41
+		qw422016.N().S(`
+  <div class="clear"></div>
 `)
-//line views/vrelation/Table.html:39
+//line views/vrelation/Table.html:43
 	}
-//line views/vrelation/Table.html:39
-	qw422016.N().S(`    </tbody>
-  </table>
-`)
-//line views/vrelation/Table.html:42
+//line views/vrelation/Table.html:44
 }
 
-//line views/vrelation/Table.html:42
+//line views/vrelation/Table.html:44
 func WriteTable(qq422016 qtio422016.Writer, models relation.Relations, basicsByBasicID basic.Basics, params filter.ParamSet, as *app.State, ps *cutil.PageState) {
-//line views/vrelation/Table.html:42
+//line views/vrelation/Table.html:44
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vrelation/Table.html:42
+//line views/vrelation/Table.html:44
 	StreamTable(qw422016, models, basicsByBasicID, params, as, ps)
-//line views/vrelation/Table.html:42
+//line views/vrelation/Table.html:44
 	qt422016.ReleaseWriter(qw422016)
-//line views/vrelation/Table.html:42
+//line views/vrelation/Table.html:44
 }
 
-//line views/vrelation/Table.html:42
+//line views/vrelation/Table.html:44
 func Table(models relation.Relations, basicsByBasicID basic.Basics, params filter.ParamSet, as *app.State, ps *cutil.PageState) string {
-//line views/vrelation/Table.html:42
+//line views/vrelation/Table.html:44
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vrelation/Table.html:42
+//line views/vrelation/Table.html:44
 	WriteTable(qb422016, models, basicsByBasicID, params, as, ps)
-//line views/vrelation/Table.html:42
+//line views/vrelation/Table.html:44
 	qs422016 := string(qb422016.B)
-//line views/vrelation/Table.html:42
+//line views/vrelation/Table.html:44
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vrelation/Table.html:42
+//line views/vrelation/Table.html:44
 	return qs422016
-//line views/vrelation/Table.html:42
+//line views/vrelation/Table.html:44
 }

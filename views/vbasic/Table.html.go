@@ -38,107 +38,109 @@ func StreamTable(qw422016 *qt422016.Writer, models basic.Basics, params filter.P
 	prms := params.Sanitized("basic", ps.Logger)
 
 //line views/vbasic/Table.html:12
-	qw422016.N().S(`  <table>
-    <thead>
-      <tr>
-        `)
-//line views/vbasic/Table.html:16
+	qw422016.N().S(`  <div class="overflow clear">
+    <table>
+      <thead>
+        <tr>
+          `)
+//line views/vbasic/Table.html:17
 	components.StreamTableHeaderSimple(qw422016, "basic", "id", "ID", "UUID in format (00000000-0000-0000-0000-000000000000)", prms, ps.URI, ps)
-//line views/vbasic/Table.html:16
-	qw422016.N().S(`
-        `)
 //line views/vbasic/Table.html:17
+	qw422016.N().S(`
+          `)
+//line views/vbasic/Table.html:18
 	components.StreamTableHeaderSimple(qw422016, "basic", "name", "Name", "String text", prms, ps.URI, ps)
-//line views/vbasic/Table.html:17
-	qw422016.N().S(`
-        `)
 //line views/vbasic/Table.html:18
+	qw422016.N().S(`
+          `)
+//line views/vbasic/Table.html:19
 	components.StreamTableHeaderSimple(qw422016, "basic", "status", "Status", "String text", prms, ps.URI, ps)
-//line views/vbasic/Table.html:18
-	qw422016.N().S(`
-        `)
 //line views/vbasic/Table.html:19
+	qw422016.N().S(`
+          `)
+//line views/vbasic/Table.html:20
 	components.StreamTableHeaderSimple(qw422016, "basic", "created", "Created", "Date and time, in almost any format", prms, ps.URI, ps)
-//line views/vbasic/Table.html:19
+//line views/vbasic/Table.html:20
 	qw422016.N().S(`
-      </tr>
-    </thead>
-    <tbody>
+        </tr>
+      </thead>
+      <tbody>
 `)
-//line views/vbasic/Table.html:23
+//line views/vbasic/Table.html:24
 	for _, model := range models {
-//line views/vbasic/Table.html:23
-		qw422016.N().S(`      <tr>
-        <td><a href="/basic/`)
-//line views/vbasic/Table.html:25
+//line views/vbasic/Table.html:24
+		qw422016.N().S(`        <tr>
+          <td><a href="/basic/`)
+//line views/vbasic/Table.html:26
 		view.StreamUUID(qw422016, &model.ID)
-//line views/vbasic/Table.html:25
+//line views/vbasic/Table.html:26
 		qw422016.N().S(`">`)
-//line views/vbasic/Table.html:25
+//line views/vbasic/Table.html:26
 		view.StreamUUID(qw422016, &model.ID)
-//line views/vbasic/Table.html:25
+//line views/vbasic/Table.html:26
 		qw422016.N().S(`</a></td>
-        <td><strong>`)
-//line views/vbasic/Table.html:26
+          <td><strong>`)
+//line views/vbasic/Table.html:27
 		view.StreamString(qw422016, model.Name)
-//line views/vbasic/Table.html:26
-		qw422016.N().S(`</strong></td>
-        <td><strong>`)
 //line views/vbasic/Table.html:27
+		qw422016.N().S(`</strong></td>
+          <td><strong>`)
+//line views/vbasic/Table.html:28
 		qw422016.E().S(model.Status)
-//line views/vbasic/Table.html:27
+//line views/vbasic/Table.html:28
 		qw422016.N().S(`</strong></td>
-        <td>`)
-//line views/vbasic/Table.html:28
+          <td>`)
+//line views/vbasic/Table.html:29
 		view.StreamTimestamp(qw422016, &model.Created)
-//line views/vbasic/Table.html:28
+//line views/vbasic/Table.html:29
 		qw422016.N().S(`</td>
-      </tr>
+        </tr>
 `)
-//line views/vbasic/Table.html:30
+//line views/vbasic/Table.html:31
 	}
 //line views/vbasic/Table.html:31
+	qw422016.N().S(`      </tbody>
+    </table>
+  </div>
+`)
+//line views/vbasic/Table.html:35
 	if prms.HasNextPage(len(models)+prms.Offset) || prms.HasPreviousPage() {
-//line views/vbasic/Table.html:31
-		qw422016.N().S(`      <tr>
-        <td colspan="4">`)
-//line views/vbasic/Table.html:33
+//line views/vbasic/Table.html:35
+		qw422016.N().S(`  <hr />
+  `)
+//line views/vbasic/Table.html:37
 		components.StreamPagination(qw422016, len(models)+prms.Offset, prms, ps.URI)
-//line views/vbasic/Table.html:33
-		qw422016.N().S(`</td>
-      </tr>
+//line views/vbasic/Table.html:37
+		qw422016.N().S(`
+  <div class="clear"></div>
 `)
-//line views/vbasic/Table.html:35
+//line views/vbasic/Table.html:39
 	}
-//line views/vbasic/Table.html:35
-	qw422016.N().S(`    </tbody>
-  </table>
-`)
-//line views/vbasic/Table.html:38
+//line views/vbasic/Table.html:40
 }
 
-//line views/vbasic/Table.html:38
+//line views/vbasic/Table.html:40
 func WriteTable(qq422016 qtio422016.Writer, models basic.Basics, params filter.ParamSet, as *app.State, ps *cutil.PageState) {
-//line views/vbasic/Table.html:38
+//line views/vbasic/Table.html:40
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vbasic/Table.html:38
+//line views/vbasic/Table.html:40
 	StreamTable(qw422016, models, params, as, ps)
-//line views/vbasic/Table.html:38
+//line views/vbasic/Table.html:40
 	qt422016.ReleaseWriter(qw422016)
-//line views/vbasic/Table.html:38
+//line views/vbasic/Table.html:40
 }
 
-//line views/vbasic/Table.html:38
+//line views/vbasic/Table.html:40
 func Table(models basic.Basics, params filter.ParamSet, as *app.State, ps *cutil.PageState) string {
-//line views/vbasic/Table.html:38
+//line views/vbasic/Table.html:40
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vbasic/Table.html:38
+//line views/vbasic/Table.html:40
 	WriteTable(qb422016, models, params, as, ps)
-//line views/vbasic/Table.html:38
+//line views/vbasic/Table.html:40
 	qs422016 := string(qb422016.B)
-//line views/vbasic/Table.html:38
+//line views/vbasic/Table.html:40
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vbasic/Table.html:38
+//line views/vbasic/Table.html:40
 	return qs422016
-//line views/vbasic/Table.html:38
+//line views/vbasic/Table.html:40
 }
