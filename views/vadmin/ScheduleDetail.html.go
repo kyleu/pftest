@@ -68,11 +68,11 @@ func (p *ScheduleDetail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps
 		qw422016.E().S(util.TimeToFull(&p.Result.Occurred))
 //line views/vadmin/ScheduleDetail.html:26
 		qw422016.N().S(`</em>
-    `)
+    <div class="mt">`)
 //line views/vadmin/ScheduleDetail.html:27
 		components.StreamJSON(qw422016, p.Result.Returned)
 //line views/vadmin/ScheduleDetail.html:27
-		qw422016.N().S(`
+		qw422016.N().S(`</div>
   </div>
 `)
 //line views/vadmin/ScheduleDetail.html:29
