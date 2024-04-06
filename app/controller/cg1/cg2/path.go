@@ -138,7 +138,7 @@ func PathDelete(w http.ResponseWriter, r *http.Request) {
 }
 
 func pathFromPath(r *http.Request, as *app.State, ps *cutil.PageState) (*path.Path, error) {
-	idArgStr, err := cutil.RCRequiredString(r, "id", false)
+	idArgStr, err := cutil.PathString(r, "id", false)
 	if err != nil {
 		return nil, errors.Wrap(err, "must provide [id] as an argument")
 	}

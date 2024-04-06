@@ -30,7 +30,7 @@ func GraphQLIndex(w http.ResponseWriter, r *http.Request) {
 
 func GraphQLDetail(w http.ResponseWriter, r *http.Request) {
 	controller.Act("graphql.detail", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
-		key, err := cutil.RCRequiredString(r, "key", false)
+		key, err := cutil.PathString(r, "key", false)
 		if err != nil {
 			return "", err
 		}
@@ -51,7 +51,7 @@ func GraphQLDetail(w http.ResponseWriter, r *http.Request) {
 
 func GraphQLRun(w http.ResponseWriter, r *http.Request) {
 	controller.Act("graphql.run", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
-		key, err := cutil.RCRequiredString(r, "key", false)
+		key, err := cutil.PathString(r, "key", false)
 		if err != nil {
 			return "", err
 		}

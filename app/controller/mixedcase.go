@@ -123,7 +123,7 @@ func MixedCaseDelete(w http.ResponseWriter, r *http.Request) {
 }
 
 func mixedcaseFromPath(r *http.Request, as *app.State, ps *cutil.PageState) (*mixedcase.MixedCase, error) {
-	idArg, err := cutil.RCRequiredString(r, "id", false)
+	idArg, err := cutil.PathString(r, "id", false)
 	if err != nil {
 		return nil, errors.Wrap(err, "must provide [id] as a string argument")
 	}

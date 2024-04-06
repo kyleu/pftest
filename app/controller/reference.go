@@ -137,7 +137,7 @@ func ReferenceDelete(w http.ResponseWriter, r *http.Request) {
 }
 
 func referenceFromPath(r *http.Request, as *app.State, ps *cutil.PageState) (*reference.Reference, error) {
-	idArgStr, err := cutil.RCRequiredString(r, "id", false)
+	idArgStr, err := cutil.PathString(r, "id", false)
 	if err != nil {
 		return nil, errors.Wrap(err, "must provide [id] as an argument")
 	}

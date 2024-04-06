@@ -124,11 +124,11 @@ func TroubleDelete(w http.ResponseWriter, r *http.Request) {
 }
 
 func troubleFromPath(r *http.Request, as *app.State, ps *cutil.PageState) (*trouble.Trouble, error) {
-	fromArg, err := cutil.RCRequiredString(r, "from", false)
+	fromArg, err := cutil.PathString(r, "from", false)
 	if err != nil {
 		return nil, errors.Wrap(err, "must provide [from] as a string argument")
 	}
-	whereArg, err := cutil.RCRequiredArray(r, "where")
+	whereArg, err := cutil.PathArray(r, "where")
 	if err != nil {
 		return nil, errors.Wrap(err, "must provide [where] as an comma-separated argument")
 	}

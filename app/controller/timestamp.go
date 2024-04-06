@@ -123,7 +123,7 @@ func TimestampDelete(w http.ResponseWriter, r *http.Request) {
 }
 
 func timestampFromPath(r *http.Request, as *app.State, ps *cutil.PageState) (*timestamp.Timestamp, error) {
-	idArg, err := cutil.RCRequiredString(r, "id", false)
+	idArg, err := cutil.PathString(r, "id", false)
 	if err != nil {
 		return nil, errors.Wrap(err, "must provide [id] as a string argument")
 	}
