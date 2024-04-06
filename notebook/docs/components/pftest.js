@@ -1,3 +1,4 @@
+// Content managed by Project Forge, see [projectforge.md] for details.
 import * as d3 from "npm:d3";
 
 export async function load(u, t) {
