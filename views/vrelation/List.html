@@ -34,7 +34,7 @@
     {%- if len(p.Models) == 0 -%}
     <div class="mt"><em>No relations available</em></div>
     {%- else -%}
-    <div class="overflow clear mt">
+    <div class="mt">
       {%= Table(p.Models, p.BasicsByBasicID, p.Params, as, ps) %}
     </div>
     {%- endif -%}

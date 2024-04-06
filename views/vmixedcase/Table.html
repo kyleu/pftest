@@ -10,27 +10,29 @@
 
 {% func Table(models mixedcase.MixedCases, params filter.ParamSet, as *app.State, ps *cutil.PageState) %}
   {%- code prms := params.Sanitized("mixedcase", ps.Logger) -%}
-  <table>
-    <thead>
-      <tr>
-        {%= components.TableHeaderSimple("mixedcase", "id", "ID", "String text", prms, ps.URI, ps) %}
-        {%= components.TableHeaderSimple("mixedcase", "test_field", "Test Field", "String text", prms, ps.URI, ps) %}
-        {%= components.TableHeaderSimple("mixedcase", "another_field", "Another Field", "String text", prms, ps.URI, ps) %}
-      </tr>
-    </thead>
-    <tbody>
-      {%- for _, model := range models -%}
-      <tr>
-        <td><a href="/mixedcase/{%u model.ID %}">{%= view.String(model.ID) %}</a></td>
-        <td>{%= view.String(model.TestField) %}</td>
-        <td>{%= view.String(model.AnotherField) %}</td>
-      </tr>
-      {%- endfor -%}
-      {%- if prms.HasNextPage(len(models) + prms.Offset) || prms.HasPreviousPage() -%}
-      <tr>
-        <td colspan="3">{%= components.Pagination(len(models) + prms.Offset, prms, ps.URI) %}</td>
-      </tr>
-      {%- endif -%}
-    </tbody>
-  </table>
+  <div class="overflow clear">
+    <table>
+      <thead>
+        <tr>
+          {%= components.TableHeaderSimple("mixedcase", "id", "ID", "String text", prms, ps.URI, ps) %}
+          {%= components.TableHeaderSimple("mixedcase", "test_field", "Test Field", "String text", prms, ps.URI, ps) %}
+          {%= components.TableHeaderSimple("mixedcase", "another_field", "Another Field", "String text", prms, ps.URI, ps) %}
+        </tr>
+      </thead>
+      <tbody>
+        {%- for _, model := range models -%}
+        <tr>
+          <td><a href="/mixedcase/{%u model.ID %}">{%= view.String(model.ID) %}</a></td>
+          <td>{%= view.String(model.TestField) %}</td>
+          <td>{%= view.String(model.AnotherField) %}</td>
+        </tr>
+        {%- endfor -%}
+      </tbody>
+    </table>
+  </div>
+  {%- if prms.HasNextPage(len(models) + prms.Offset) || prms.HasPreviousPage() -%}
+  <hr />
+  {%= components.Pagination(len(models) + prms.Offset, prms, ps.URI) %}
+  <div class="clear"></div>
+  {%- endif -%}
 {% endfunc %}

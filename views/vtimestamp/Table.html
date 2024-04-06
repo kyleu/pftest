@@ -10,29 +10,31 @@
 
 {% func Table(models timestamp.Timestamps, params filter.ParamSet, as *app.State, ps *cutil.PageState) %}
   {%- code prms := params.Sanitized("timestamp", ps.Logger) -%}
-  <table>
-    <thead>
-      <tr>
-        {%= components.TableHeaderSimple("timestamp", "id", "ID", "String text", prms, ps.URI, ps) %}
-        {%= components.TableHeaderSimple("timestamp", "created", "Created", "Date and time, in almost any format", prms, ps.URI, ps) %}
-        {%= components.TableHeaderSimple("timestamp", "updated", "Updated", "Date and time, in almost any format (optional)", prms, ps.URI, ps) %}
-        {%= components.TableHeaderSimple("timestamp", "deleted", "Deleted", "Date and time, in almost any format (optional)", prms, ps.URI, ps) %}
-      </tr>
-    </thead>
-    <tbody>
-      {%- for _, model := range models -%}
-      <tr>
-        <td><a href="/timestamp/{%u model.ID %}">{%= view.String(model.ID) %}</a></td>
-        <td>{%= view.Timestamp(&model.Created) %}</td>
-        <td>{%= view.Timestamp(model.Updated) %}</td>
-        <td>{%= view.Timestamp(model.Deleted) %}</td>
-      </tr>
-      {%- endfor -%}
-      {%- if prms.HasNextPage(len(models) + prms.Offset) || prms.HasPreviousPage() -%}
-      <tr>
-        <td colspan="4">{%= components.Pagination(len(models) + prms.Offset, prms, ps.URI) %}</td>
-      </tr>
-      {%- endif -%}
-    </tbody>
-  </table>
+  <div class="overflow clear">
+    <table>
+      <thead>
+        <tr>
+          {%= components.TableHeaderSimple("timestamp", "id", "ID", "String text", prms, ps.URI, ps) %}
+          {%= components.TableHeaderSimple("timestamp", "created", "Created", "Date and time, in almost any format", prms, ps.URI, ps) %}
+          {%= components.TableHeaderSimple("timestamp", "updated", "Updated", "Date and time, in almost any format (optional)", prms, ps.URI, ps) %}
+          {%= components.TableHeaderSimple("timestamp", "deleted", "Deleted", "Date and time, in almost any format (optional)", prms, ps.URI, ps) %}
+        </tr>
+      </thead>
+      <tbody>
+        {%- for _, model := range models -%}
+        <tr>
+          <td><a href="/timestamp/{%u model.ID %}">{%= view.String(model.ID) %}</a></td>
+          <td>{%= view.Timestamp(&model.Created) %}</td>
+          <td>{%= view.Timestamp(model.Updated) %}</td>
+          <td>{%= view.Timestamp(model.Deleted) %}</td>
+        </tr>
+        {%- endfor -%}
+      </tbody>
+    </table>
+  </div>
+  {%- if prms.HasNextPage(len(models) + prms.Offset) || prms.HasPreviousPage() -%}
+  <hr />
+  {%= components.Pagination(len(models) + prms.Offset, prms, ps.URI) %}
+  <div class="clear"></div>
+  {%- endif -%}
 {% endfunc %}

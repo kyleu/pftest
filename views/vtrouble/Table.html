@@ -10,33 +10,35 @@
 
 {% func Table(models trouble.Troubles, params filter.ParamSet, as *app.State, ps *cutil.PageState) %}
   {%- code prms := params.Sanitized("trouble", ps.Logger) -%}
-  <table>
-    <thead>
-      <tr>
-        {%= components.TableHeaderSimple("trouble", "from", "From", "String text", prms, ps.URI, ps) %}
-        {%= components.TableHeaderSimple("trouble", "where", "Where", "Comma-separated list of values", prms, ps.URI, ps) %}
-        {%= components.TableHeaderSimple("trouble", "selectcol", "Selectcol", "Integer", prms, ps.URI, ps) %}
-        {%= components.TableHeaderSimple("trouble", "limit", "Limit", "String text", prms, ps.URI, ps) %}
-        {%= components.TableHeaderSimple("trouble", "group", "Group", "String text", prms, ps.URI, ps) %}
-        {%= components.TableHeaderSimple("trouble", "delete", "Delete", "Date and time, in almost any format (optional)", prms, ps.URI, ps) %}
-      </tr>
-    </thead>
-    <tbody>
-      {%- for _, model := range models -%}
-      <tr>
-        <td><a href="/troub/le/{%u model.From %}/{%v model.Where %}">{%= view.String(model.From) %}</a></td>
-        <td><a href="/troub/le/{%u model.From %}/{%v model.Where %}">{%= view.StringArray(model.Where) %}</a></td>
-        <td>{%d model.Selectcol %}</td>
-        <td>{%= view.String(model.Limit) %}</td>
-        <td>{%= view.String(model.Group) %}</td>
-        <td>{%= view.Timestamp(model.Delete) %}</td>
-      </tr>
-      {%- endfor -%}
-      {%- if prms.HasNextPage(len(models) + prms.Offset) || prms.HasPreviousPage() -%}
-      <tr>
-        <td colspan="6">{%= components.Pagination(len(models) + prms.Offset, prms, ps.URI) %}</td>
-      </tr>
-      {%- endif -%}
-    </tbody>
-  </table>
+  <div class="overflow clear">
+    <table>
+      <thead>
+        <tr>
+          {%= components.TableHeaderSimple("trouble", "from", "From", "String text", prms, ps.URI, ps) %}
+          {%= components.TableHeaderSimple("trouble", "where", "Where", "Comma-separated list of values", prms, ps.URI, ps) %}
+          {%= components.TableHeaderSimple("trouble", "selectcol", "Selectcol", "Integer", prms, ps.URI, ps) %}
+          {%= components.TableHeaderSimple("trouble", "limit", "Limit", "String text", prms, ps.URI, ps) %}
+          {%= components.TableHeaderSimple("trouble", "group", "Group", "String text", prms, ps.URI, ps) %}
+          {%= components.TableHeaderSimple("trouble", "delete", "Delete", "Date and time, in almost any format (optional)", prms, ps.URI, ps) %}
+        </tr>
+      </thead>
+      <tbody>
+        {%- for _, model := range models -%}
+        <tr>
+          <td><a href="/troub/le/{%u model.From %}/{%v model.Where %}">{%= view.String(model.From) %}</a></td>
+          <td><a href="/troub/le/{%u model.From %}/{%v model.Where %}">{%= view.StringArray(model.Where) %}</a></td>
+          <td>{%d model.Selectcol %}</td>
+          <td>{%= view.String(model.Limit) %}</td>
+          <td>{%= view.String(model.Group) %}</td>
+          <td>{%= view.Timestamp(model.Delete) %}</td>
+        </tr>
+        {%- endfor -%}
+      </tbody>
+    </table>
+  </div>
+  {%- if prms.HasNextPage(len(models) + prms.Offset) || prms.HasPreviousPage() -%}
+  <hr />
+  {%= components.Pagination(len(models) + prms.Offset, prms, ps.URI) %}
+  <div class="clear"></div>
+  {%- endif -%}
 {% endfunc %}

@@ -10,25 +10,27 @@
 
 {% func Table(models audited.Auditeds, params filter.ParamSet, as *app.State, ps *cutil.PageState) %}
   {%- code prms := params.Sanitized("audited", ps.Logger) -%}
-  <table>
-    <thead>
-      <tr>
-        {%= components.TableHeaderSimple("audited", "id", "ID", "UUID in format (00000000-0000-0000-0000-000000000000)", prms, ps.URI, ps) %}
-        {%= components.TableHeaderSimple("audited", "name", "Name", "String text", prms, ps.URI, ps) %}
-      </tr>
-    </thead>
-    <tbody>
-      {%- for _, model := range models -%}
-      <tr>
-        <td><a href="/audited/{%= view.UUID(&model.ID) %}">{%= view.UUID(&model.ID) %}</a></td>
-        <td><strong>{%= view.String(model.Name) %}</strong></td>
-      </tr>
-      {%- endfor -%}
-      {%- if prms.HasNextPage(len(models) + prms.Offset) || prms.HasPreviousPage() -%}
-      <tr>
-        <td colspan="2">{%= components.Pagination(len(models) + prms.Offset, prms, ps.URI) %}</td>
-      </tr>
-      {%- endif -%}
-    </tbody>
-  </table>
+  <div class="overflow clear">
+    <table>
+      <thead>
+        <tr>
+          {%= components.TableHeaderSimple("audited", "id", "ID", "UUID in format (00000000-0000-0000-0000-000000000000)", prms, ps.URI, ps) %}
+          {%= components.TableHeaderSimple("audited", "name", "Name", "String text", prms, ps.URI, ps) %}
+        </tr>
+      </thead>
+      <tbody>
+        {%- for _, model := range models -%}
+        <tr>
+          <td><a href="/audited/{%= view.UUID(&model.ID) %}">{%= view.UUID(&model.ID) %}</a></td>
+          <td><strong>{%= view.String(model.Name) %}</strong></td>
+        </tr>
+        {%- endfor -%}
+      </tbody>
+    </table>
+  </div>
+  {%- if prms.HasNextPage(len(models) + prms.Offset) || prms.HasPreviousPage() -%}
+  <hr />
+  {%= components.Pagination(len(models) + prms.Offset, prms, ps.URI) %}
+  <div class="clear"></div>
+  {%- endif -%}
 {% endfunc %}
