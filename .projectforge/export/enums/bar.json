@@ -1,0 +1,31 @@
+{
+  "name": "bar",
+  "package": "bar",
+  "description": "A complex enum",
+  "icon": "star",
+  "values": [
+    {
+      "key": "first_value",
+      "name": "First Value",
+      "extra": {
+        "start": "2001-01-01",
+        "end": "2001-12-31",
+        "version": "0.0.1"
+      }
+    },
+    {
+      "key": "second_value",
+      "name": "Second Value",
+      "extra": {
+        "start": "2002-01-01",
+        "end": "2002-12-31",
+        "version": "0.0.2"
+      }
+    },
+    {
+      "key": "unknown",
+      "name": "Unknown",
+      "default": true
+    }
+  ]
+}

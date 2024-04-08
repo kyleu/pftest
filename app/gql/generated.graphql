@@ -3,6 +3,9 @@
 ### To use these definitions, include them inside your `schema.graphql` file
 
 
+# Enum Type [Bar]
+
+
 # Enum Type [Foo]
 
 
