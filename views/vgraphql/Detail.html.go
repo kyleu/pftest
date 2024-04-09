@@ -36,6 +36,11 @@ type Detail struct {
 func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.PageState) {
 //line views/vgraphql/Detail.html:13
 	qw422016.N().S(`
+  <style>
+    html, body {
+      height: 100%;
+    }
+  </style>
   <link rel="stylesheet" media="screen" href="/assets/graphql/graphiql.min.css">
 
   <script src="/assets/graphql/fetch.min.js" type="application/javascript" defer="defer"></script>
@@ -49,31 +54,31 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
     <em>Loading...</em>
   </div>
 `)
-//line views/vgraphql/Detail.html:26
+//line views/vgraphql/Detail.html:31
 }
 
-//line views/vgraphql/Detail.html:26
+//line views/vgraphql/Detail.html:31
 func (p *Detail) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vgraphql/Detail.html:26
+//line views/vgraphql/Detail.html:31
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vgraphql/Detail.html:26
+//line views/vgraphql/Detail.html:31
 	p.StreamBody(qw422016, as, ps)
-//line views/vgraphql/Detail.html:26
+//line views/vgraphql/Detail.html:31
 	qt422016.ReleaseWriter(qw422016)
-//line views/vgraphql/Detail.html:26
+//line views/vgraphql/Detail.html:31
 }
 
-//line views/vgraphql/Detail.html:26
+//line views/vgraphql/Detail.html:31
 func (p *Detail) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vgraphql/Detail.html:26
+//line views/vgraphql/Detail.html:31
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vgraphql/Detail.html:26
+//line views/vgraphql/Detail.html:31
 	p.WriteBody(qb422016, as, ps)
-//line views/vgraphql/Detail.html:26
+//line views/vgraphql/Detail.html:31
 	qs422016 := string(qb422016.B)
-//line views/vgraphql/Detail.html:26
+//line views/vgraphql/Detail.html:31
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vgraphql/Detail.html:26
+//line views/vgraphql/Detail.html:31
 	return qs422016
-//line views/vgraphql/Detail.html:26
+//line views/vgraphql/Detail.html:31
 }

@@ -39,6 +39,10 @@ func (b Bar) String() string {
 	return b.Key
 }
 
+func (b Bar) Matches(xx Bar) bool {
+	return b.Key == xx.Key
+}
+
 func (b Bar) MarshalJSON() ([]byte, error) {
 	return util.ToJSONBytes(b.Key, false), nil
 }

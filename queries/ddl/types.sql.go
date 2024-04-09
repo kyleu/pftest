@@ -25,73 +25,79 @@ func StreamTypesDrop(qw422016 *qt422016.Writer) {
 //line queries/ddl/types.sql:2
 	qw422016.N().S(`
 drop type if exists "foo";
+drop type if exists "bar";
 -- `)
-//line queries/ddl/types.sql:4
+//line queries/ddl/types.sql:5
 }
 
-//line queries/ddl/types.sql:4
+//line queries/ddl/types.sql:5
 func WriteTypesDrop(qq422016 qtio422016.Writer) {
-//line queries/ddl/types.sql:4
+//line queries/ddl/types.sql:5
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line queries/ddl/types.sql:4
+//line queries/ddl/types.sql:5
 	StreamTypesDrop(qw422016)
-//line queries/ddl/types.sql:4
+//line queries/ddl/types.sql:5
 	qt422016.ReleaseWriter(qw422016)
-//line queries/ddl/types.sql:4
+//line queries/ddl/types.sql:5
 }
 
-//line queries/ddl/types.sql:4
+//line queries/ddl/types.sql:5
 func TypesDrop() string {
-//line queries/ddl/types.sql:4
+//line queries/ddl/types.sql:5
 	qb422016 := qt422016.AcquireByteBuffer()
-//line queries/ddl/types.sql:4
+//line queries/ddl/types.sql:5
 	WriteTypesDrop(qb422016)
-//line queries/ddl/types.sql:4
+//line queries/ddl/types.sql:5
 	qs422016 := string(qb422016.B)
-//line queries/ddl/types.sql:4
+//line queries/ddl/types.sql:5
 	qt422016.ReleaseByteBuffer(qb422016)
-//line queries/ddl/types.sql:4
+//line queries/ddl/types.sql:5
 	return qs422016
-//line queries/ddl/types.sql:4
+//line queries/ddl/types.sql:5
 }
 
 // --
 
-//line queries/ddl/types.sql:6
+//line queries/ddl/types.sql:7
 func StreamTypesCreate(qw422016 *qt422016.Writer) {
-//line queries/ddl/types.sql:6
+//line queries/ddl/types.sql:7
 	qw422016.N().S(`
+do $$ begin
+  create type "bar" as enum ('first_value', 'second_value', 'unknown');
+exception
+  when duplicate_object then null;
+end $$;
 do $$ begin
   create type "foo" as enum ('a', 'b', 'c', 'd');
 exception
   when duplicate_object then null;
 end $$;
 -- `)
-//line queries/ddl/types.sql:12
+//line queries/ddl/types.sql:18
 }
 
-//line queries/ddl/types.sql:12
+//line queries/ddl/types.sql:18
 func WriteTypesCreate(qq422016 qtio422016.Writer) {
-//line queries/ddl/types.sql:12
+//line queries/ddl/types.sql:18
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line queries/ddl/types.sql:12
+//line queries/ddl/types.sql:18
 	StreamTypesCreate(qw422016)
-//line queries/ddl/types.sql:12
+//line queries/ddl/types.sql:18
 	qt422016.ReleaseWriter(qw422016)
-//line queries/ddl/types.sql:12
+//line queries/ddl/types.sql:18
 }
 
-//line queries/ddl/types.sql:12
+//line queries/ddl/types.sql:18
 func TypesCreate() string {
-//line queries/ddl/types.sql:12
+//line queries/ddl/types.sql:18
 	qb422016 := qt422016.AcquireByteBuffer()
-//line queries/ddl/types.sql:12
+//line queries/ddl/types.sql:18
 	WriteTypesCreate(qb422016)
-//line queries/ddl/types.sql:12
+//line queries/ddl/types.sql:18
 	qs422016 := string(qb422016.B)
-//line queries/ddl/types.sql:12
+//line queries/ddl/types.sql:18
 	qt422016.ReleaseByteBuffer(qb422016)
-//line queries/ddl/types.sql:12
+//line queries/ddl/types.sql:18
 	return qs422016
-//line queries/ddl/types.sql:12
+//line queries/ddl/types.sql:18
 }
