@@ -4,8 +4,11 @@ package audited
 import (
 	"github.com/google/uuid"
 
+	"github.com/kyleu/pftest/app/lib/svc"
 	"github.com/kyleu/pftest/app/util"
 )
+
+var _ svc.Model = (*Audited)(nil)
 
 type Audited struct {
 	ID   uuid.UUID `json:"id,omitempty"`

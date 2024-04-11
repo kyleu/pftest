@@ -2,8 +2,16 @@
 package reference
 
 import (
+	"github.com/google/uuid"
+
 	"github.com/kyleu/pftest/app/lib/database"
 	"github.com/kyleu/pftest/app/lib/filter"
+	"github.com/kyleu/pftest/app/lib/svc"
+)
+
+var (
+	_ svc.ServiceID[*Reference, References, uuid.UUID] = (*Service)(nil)
+	_ svc.ServiceSearch[References]                    = (*Service)(nil)
 )
 
 type Service struct {

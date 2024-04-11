@@ -5,8 +5,11 @@ import (
 	"net/url"
 	"time"
 
+	"github.com/kyleu/pftest/app/lib/svc"
 	"github.com/kyleu/pftest/app/util"
 )
+
+var _ svc.Model = (*Capital)(nil)
 
 type Capital struct {
 	ID       string     `json:"id,omitempty"`

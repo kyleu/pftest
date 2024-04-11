@@ -4,7 +4,10 @@ package softdel
 import (
 	"github.com/kyleu/pftest/app/lib/database"
 	"github.com/kyleu/pftest/app/lib/filter"
+	"github.com/kyleu/pftest/app/lib/svc"
 )
+
+var _ svc.ServiceSoftDeleteID[*Softdel, Softdels, string] = (*Service)(nil)
 
 type Service struct {
 	db     *database.Service

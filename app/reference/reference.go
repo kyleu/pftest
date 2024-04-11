@@ -7,8 +7,11 @@ import (
 	"github.com/google/uuid"
 
 	"github.com/kyleu/pftest/app/foo"
+	"github.com/kyleu/pftest/app/lib/svc"
 	"github.com/kyleu/pftest/app/util"
 )
+
+var _ svc.Model = (*Reference)(nil)
 
 type Reference struct {
 	ID      uuid.UUID   `json:"id,omitempty"`

@@ -6,8 +6,11 @@ import (
 
 	"github.com/google/uuid"
 
+	"github.com/kyleu/pftest/app/lib/svc"
 	"github.com/kyleu/pftest/app/util"
 )
+
+var _ svc.Model = (*Path)(nil)
 
 type Path struct {
 	ID      uuid.UUID `json:"id,omitempty"`

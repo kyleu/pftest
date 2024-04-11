@@ -7,8 +7,11 @@ import (
 	"strings"
 	"time"
 
+	"github.com/kyleu/pftest/app/lib/svc"
 	"github.com/kyleu/pftest/app/util"
 )
+
+var _ svc.Model = (*Trouble)(nil)
 
 type PK struct {
 	From  string   `json:"from,omitempty"`

@@ -4,8 +4,11 @@ package mixedcase
 import (
 	"net/url"
 
+	"github.com/kyleu/pftest/app/lib/svc"
 	"github.com/kyleu/pftest/app/util"
 )
+
+var _ svc.Model = (*MixedCase)(nil)
 
 type MixedCase struct {
 	ID           string `json:"id,omitempty"`
