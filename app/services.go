@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 
-	"github.com/kyleu/pftest/app/gql"
 	"github.com/kyleu/pftest/app/lib/audit"
 	"github.com/kyleu/pftest/app/lib/database/migrate"
 	"github.com/kyleu/pftest/app/lib/websocket"
@@ -15,8 +14,6 @@ import (
 type Services struct {
 	CoreServices
 	GeneratedServices
-
-	Schema *gql.Schema
 }
 
 func NewServices(ctx context.Context, st *State, logger util.Logger) (*Services, error) {
@@ -33,12 +30,7 @@ func NewServices(ctx context.Context, st *State, logger util.Logger) (*Services,
 	core.Socket = websocket.NewService(nil, socketHandler, nil)
 	gen := initGeneratedServices(ctx, st, aud, logger)
 
-	schema, err := gql.NewSchema(st.GraphQL)
-	if err != nil {
-		return nil, err
-	}
-
-	return &Services{CoreServices: core, GeneratedServices: gen, Schema: schema}, nil
+	return &Services{CoreServices: core, GeneratedServices: gen}, nil
 }
 
 func (s *Services) Close(_ context.Context, _ util.Logger) error {

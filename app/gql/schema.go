@@ -1,3 +1,4 @@
+// Package gql - Content managed by Project Forge, see [projectforge.md] for details.
 package gql
 
 import (
@@ -8,6 +9,7 @@ import (
 
 	"github.com/samber/lo"
 
+	"github.com/kyleu/pftest/app"
 	"github.com/kyleu/pftest/app/lib/graphql"
 	"github.com/kyleu/pftest/app/util"
 )
@@ -16,16 +18,17 @@ import (
 var FS embed.FS
 
 type Schema struct {
-	svc *graphql.Service
 	sch string
+	svc *graphql.Service
+	st  *app.State
 }
 
-func NewSchema(svc *graphql.Service) (*Schema, error) {
+func NewSchema(st *app.State) (*Schema, error) {
 	sch, err := read("schema.graphql", 0)
 	if err != nil {
 		return nil, err
 	}
-	ret := &Schema{svc: svc, sch: sch}
+	ret := &Schema{sch: sch, svc: st.GraphQL, st: st}
 	err = ret.svc.RegisterStringSchema(util.AppKey, util.AppName, ret.sch, ret)
 	if err != nil {
 		return nil, err

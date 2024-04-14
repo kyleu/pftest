@@ -1,38 +1,31 @@
-
 # Enum Type [Bar]
-
 
 # Enum Type [Foo]
 
-
 # Model Class [Capital]
-
 
 # Model Class [Audited]
 
-
 # Model Class [Basic]
-
 
 # Model Class [Mixed Case]
 
-
 # Model Class [Path]
-
 
 # Model Class [Reference]
 
-
 # Model Class [Relation]
-
 
 # Model Class [Seed]
 
-
 # Model Class [Softdel]
-
 
 # Model Class [Timestamp]
 
-
 # Model Class [Trouble]
+
+extend type Query {
+}
+
+extend type Mutation {
+}
