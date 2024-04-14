@@ -1,7 +1,3 @@
-# Content managed by Project Forge, see [projectforge.md] for details.
-### This file contains generated definitions of generated models and enums
-### To use these definitions, include them inside your `schema.graphql` file
-
 
 # Enum Type [Bar]
 
