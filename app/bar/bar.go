@@ -110,7 +110,7 @@ func (b Bars) Strings() []string {
 }
 
 func (b Bars) Help() string {
-	return "Available options: [" + strings.Join(b.Strings(), ", ") + "]"
+	return "Available bar options: [" + strings.Join(b.Strings(), ", ") + "]"
 }
 
 func (b Bars) Get(key string, logger util.Logger) Bar {
@@ -154,8 +154,8 @@ func (b Bars) GetByStart(input string, logger util.Logger) Bar {
 	if input == "" {
 		return BarUnknown
 	}
-	msg := fmt.Sprintf("unable to find [Bar] with Start [%s]", input)
 	if logger != nil {
+		msg := fmt.Sprintf("unable to find [Bar] with Start [%s]", input)
 		logger.Warn(msg)
 	}
 	return BarUnknown
@@ -170,8 +170,8 @@ func (b Bars) GetByEnd(input string, logger util.Logger) Bar {
 	if input == "" {
 		return BarUnknown
 	}
-	msg := fmt.Sprintf("unable to find [Bar] with End [%s]", input)
 	if logger != nil {
+		msg := fmt.Sprintf("unable to find [Bar] with End [%s]", input)
 		logger.Warn(msg)
 	}
 	return BarUnknown
@@ -186,8 +186,8 @@ func (b Bars) GetByVersion(input string, logger util.Logger) Bar {
 	if input == "" {
 		return BarUnknown
 	}
-	msg := fmt.Sprintf("unable to find [Bar] with Version [%s]", input)
 	if logger != nil {
+		msg := fmt.Sprintf("unable to find [Bar] with Version [%s]", input)
 		logger.Warn(msg)
 	}
 	return BarUnknown
