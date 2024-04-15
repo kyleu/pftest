@@ -34,7 +34,7 @@ func RelationList(w http.ResponseWriter, r *http.Request) {
 				return "", err
 			}
 			if len(ret) == 1 {
-				return FlashAndRedir(true, "single result found", ret[0].WebPath(), w, ps)
+				return FlashAndRedir(true, "single result found", ret[0].WebPath(), ps)
 			}
 		}
 		ps.SetTitleAndData("Relations", ret)
@@ -46,7 +46,7 @@ func RelationList(w http.ResponseWriter, r *http.Request) {
 			return "", err
 		}
 		page := &vrelation.List{Models: ret, BasicsByBasicID: basicsByBasicID, Params: ps.Params, SearchQuery: q}
-		return Render(w, r, as, page, ps, "relation")
+		return Render(r, as, page, ps, "relation")
 	})
 }
 
@@ -60,7 +60,7 @@ func RelationDetail(w http.ResponseWriter, r *http.Request) {
 
 		basicByBasicID, _ := as.Services.Basic.Get(ps.Context, nil, ret.BasicID, ps.Logger)
 
-		return Render(w, r, as, &vrelation.Detail{Model: ret, BasicByBasicID: basicByBasicID}, ps, "relation", ret.TitleString()+"**star")
+		return Render(r, as, &vrelation.Detail{Model: ret, BasicByBasicID: basicByBasicID}, ps, "relation", ret.TitleString()+"**star")
 	})
 }
 
@@ -76,7 +76,7 @@ func RelationCreateForm(w http.ResponseWriter, r *http.Request) {
 		}
 		ps.SetTitleAndData("Create [Relation]", ret)
 		ps.Data = ret
-		return Render(w, r, as, &vrelation.Edit{Model: ret, IsNew: true}, ps, "relation", "Create")
+		return Render(r, as, &vrelation.Edit{Model: ret, IsNew: true}, ps, "relation", "Create")
 	})
 }
 
@@ -101,7 +101,7 @@ func RelationCreate(w http.ResponseWriter, r *http.Request) {
 			return "", errors.Wrap(err, "unable to save newly-created Relation")
 		}
 		msg := fmt.Sprintf("Relation [%s] created", ret.String())
-		return FlashAndRedir(true, msg, ret.WebPath(), w, ps)
+		return FlashAndRedir(true, msg, ret.WebPath(), ps)
 	})
 }
 
@@ -112,7 +112,7 @@ func RelationEditForm(w http.ResponseWriter, r *http.Request) {
 			return "", err
 		}
 		ps.SetTitleAndData("Edit "+ret.String(), ret)
-		return Render(w, r, as, &vrelation.Edit{Model: ret}, ps, "relation", ret.String())
+		return Render(r, as, &vrelation.Edit{Model: ret}, ps, "relation", ret.String())
 	})
 }
 
@@ -132,7 +132,7 @@ func RelationEdit(w http.ResponseWriter, r *http.Request) {
 			return "", errors.Wrapf(err, "unable to update Relation [%s]", frm.String())
 		}
 		msg := fmt.Sprintf("Relation [%s] updated", frm.String())
-		return FlashAndRedir(true, msg, frm.WebPath(), w, ps)
+		return FlashAndRedir(true, msg, frm.WebPath(), ps)
 	})
 }
 
@@ -147,7 +147,7 @@ func RelationDelete(w http.ResponseWriter, r *http.Request) {
 			return "", errors.Wrapf(err, "unable to delete relation [%s]", ret.String())
 		}
 		msg := fmt.Sprintf("Relation [%s] deleted", ret.String())
-		return FlashAndRedir(true, msg, "/relation", w, ps)
+		return FlashAndRedir(true, msg, "/relation", ps)
 	})
 }
 

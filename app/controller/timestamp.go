@@ -23,7 +23,7 @@ func TimestampList(w http.ResponseWriter, r *http.Request) {
 		}
 		ps.SetTitleAndData("Timestamps", ret)
 		page := &vtimestamp.List{Models: ret, Params: ps.Params}
-		return Render(w, r, as, page, ps, "timestamp")
+		return Render(r, as, page, ps, "timestamp")
 	})
 }
 
@@ -35,7 +35,7 @@ func TimestampDetail(w http.ResponseWriter, r *http.Request) {
 		}
 		ps.SetTitleAndData(ret.TitleString()+" (Timestamp)", ret)
 
-		return Render(w, r, as, &vtimestamp.Detail{Model: ret}, ps, "timestamp", ret.TitleString()+"**star")
+		return Render(r, as, &vtimestamp.Detail{Model: ret}, ps, "timestamp", ret.TitleString()+"**star")
 	})
 }
 
@@ -47,7 +47,7 @@ func TimestampCreateForm(w http.ResponseWriter, r *http.Request) {
 		}
 		ps.SetTitleAndData("Create [Timestamp]", ret)
 		ps.Data = ret
-		return Render(w, r, as, &vtimestamp.Edit{Model: ret, IsNew: true}, ps, "timestamp", "Create")
+		return Render(r, as, &vtimestamp.Edit{Model: ret, IsNew: true}, ps, "timestamp", "Create")
 	})
 }
 
@@ -72,7 +72,7 @@ func TimestampCreate(w http.ResponseWriter, r *http.Request) {
 			return "", errors.Wrap(err, "unable to save newly-created Timestamp")
 		}
 		msg := fmt.Sprintf("Timestamp [%s] created", ret.String())
-		return FlashAndRedir(true, msg, ret.WebPath(), w, ps)
+		return FlashAndRedir(true, msg, ret.WebPath(), ps)
 	})
 }
 
@@ -83,7 +83,7 @@ func TimestampEditForm(w http.ResponseWriter, r *http.Request) {
 			return "", err
 		}
 		ps.SetTitleAndData("Edit "+ret.String(), ret)
-		return Render(w, r, as, &vtimestamp.Edit{Model: ret}, ps, "timestamp", ret.String())
+		return Render(r, as, &vtimestamp.Edit{Model: ret}, ps, "timestamp", ret.String())
 	})
 }
 
@@ -103,7 +103,7 @@ func TimestampEdit(w http.ResponseWriter, r *http.Request) {
 			return "", errors.Wrapf(err, "unable to update Timestamp [%s]", frm.String())
 		}
 		msg := fmt.Sprintf("Timestamp [%s] updated", frm.String())
-		return FlashAndRedir(true, msg, frm.WebPath(), w, ps)
+		return FlashAndRedir(true, msg, frm.WebPath(), ps)
 	})
 }
 
@@ -118,7 +118,7 @@ func TimestampDelete(w http.ResponseWriter, r *http.Request) {
 			return "", errors.Wrapf(err, "unable to delete timestamp [%s]", ret.String())
 		}
 		msg := fmt.Sprintf("Timestamp [%s] deleted", ret.String())
-		return FlashAndRedir(true, msg, "/timestamp", w, ps)
+		return FlashAndRedir(true, msg, "/timestamp", ps)
 	})
 }
 

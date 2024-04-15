@@ -32,12 +32,12 @@ func ReferenceList(w http.ResponseWriter, r *http.Request) {
 				return "", err
 			}
 			if len(ret) == 1 {
-				return FlashAndRedir(true, "single result found", ret[0].WebPath(), w, ps)
+				return FlashAndRedir(true, "single result found", ret[0].WebPath(), ps)
 			}
 		}
 		ps.SetTitleAndData("References", ret)
 		page := &vreference.List{Models: ret, Params: ps.Params, SearchQuery: q}
-		return Render(w, r, as, page, ps, "reference")
+		return Render(r, as, page, ps, "reference")
 	})
 }
 
@@ -49,7 +49,7 @@ func ReferenceDetail(w http.ResponseWriter, r *http.Request) {
 		}
 		ps.SetTitleAndData(ret.TitleString()+" (Reference)", ret)
 
-		return Render(w, r, as, &vreference.Detail{Model: ret}, ps, "reference", ret.TitleString()+"**star")
+		return Render(r, as, &vreference.Detail{Model: ret}, ps, "reference", ret.TitleString()+"**star")
 	})
 }
 
@@ -61,7 +61,7 @@ func ReferenceCreateForm(w http.ResponseWriter, r *http.Request) {
 		}
 		ps.SetTitleAndData("Create [Reference]", ret)
 		ps.Data = ret
-		return Render(w, r, as, &vreference.Edit{Model: ret, IsNew: true}, ps, "reference", "Create")
+		return Render(r, as, &vreference.Edit{Model: ret, IsNew: true}, ps, "reference", "Create")
 	})
 }
 
@@ -86,7 +86,7 @@ func ReferenceCreate(w http.ResponseWriter, r *http.Request) {
 			return "", errors.Wrap(err, "unable to save newly-created Reference")
 		}
 		msg := fmt.Sprintf("Reference [%s] created", ret.String())
-		return FlashAndRedir(true, msg, ret.WebPath(), w, ps)
+		return FlashAndRedir(true, msg, ret.WebPath(), ps)
 	})
 }
 
@@ -97,7 +97,7 @@ func ReferenceEditForm(w http.ResponseWriter, r *http.Request) {
 			return "", err
 		}
 		ps.SetTitleAndData("Edit "+ret.String(), ret)
-		return Render(w, r, as, &vreference.Edit{Model: ret}, ps, "reference", ret.String())
+		return Render(r, as, &vreference.Edit{Model: ret}, ps, "reference", ret.String())
 	})
 }
 
@@ -117,7 +117,7 @@ func ReferenceEdit(w http.ResponseWriter, r *http.Request) {
 			return "", errors.Wrapf(err, "unable to update Reference [%s]", frm.String())
 		}
 		msg := fmt.Sprintf("Reference [%s] updated", frm.String())
-		return FlashAndRedir(true, msg, frm.WebPath(), w, ps)
+		return FlashAndRedir(true, msg, frm.WebPath(), ps)
 	})
 }
 
@@ -132,7 +132,7 @@ func ReferenceDelete(w http.ResponseWriter, r *http.Request) {
 			return "", errors.Wrapf(err, "unable to delete reference [%s]", ret.String())
 		}
 		msg := fmt.Sprintf("Reference [%s] deleted", ret.String())
-		return FlashAndRedir(true, msg, "/reference", w, ps)
+		return FlashAndRedir(true, msg, "/reference", ps)
 	})
 }
 

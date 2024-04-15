@@ -23,7 +23,7 @@ func SeedList(w http.ResponseWriter, r *http.Request) {
 		}
 		ps.SetTitleAndData("Seeds", ret)
 		page := &vseed.List{Models: ret, Params: ps.Params}
-		return Render(w, r, as, page, ps, "seed")
+		return Render(r, as, page, ps, "seed")
 	})
 }
 
@@ -35,7 +35,7 @@ func SeedDetail(w http.ResponseWriter, r *http.Request) {
 		}
 		ps.SetTitleAndData(ret.TitleString()+" (Seed)", ret)
 
-		return Render(w, r, as, &vseed.Detail{Model: ret}, ps, "seed", ret.TitleString()+"**star")
+		return Render(r, as, &vseed.Detail{Model: ret}, ps, "seed", ret.TitleString()+"**star")
 	})
 }
 
@@ -47,7 +47,7 @@ func SeedCreateForm(w http.ResponseWriter, r *http.Request) {
 		}
 		ps.SetTitleAndData("Create [Seed]", ret)
 		ps.Data = ret
-		return Render(w, r, as, &vseed.Edit{Model: ret, IsNew: true}, ps, "seed", "Create")
+		return Render(r, as, &vseed.Edit{Model: ret, IsNew: true}, ps, "seed", "Create")
 	})
 }
 
@@ -72,7 +72,7 @@ func SeedCreate(w http.ResponseWriter, r *http.Request) {
 			return "", errors.Wrap(err, "unable to save newly-created Seed")
 		}
 		msg := fmt.Sprintf("Seed [%s] created", ret.String())
-		return FlashAndRedir(true, msg, ret.WebPath(), w, ps)
+		return FlashAndRedir(true, msg, ret.WebPath(), ps)
 	})
 }
 
@@ -83,7 +83,7 @@ func SeedEditForm(w http.ResponseWriter, r *http.Request) {
 			return "", err
 		}
 		ps.SetTitleAndData("Edit "+ret.String(), ret)
-		return Render(w, r, as, &vseed.Edit{Model: ret}, ps, "seed", ret.String())
+		return Render(r, as, &vseed.Edit{Model: ret}, ps, "seed", ret.String())
 	})
 }
 
@@ -103,7 +103,7 @@ func SeedEdit(w http.ResponseWriter, r *http.Request) {
 			return "", errors.Wrapf(err, "unable to update Seed [%s]", frm.String())
 		}
 		msg := fmt.Sprintf("Seed [%s] updated", frm.String())
-		return FlashAndRedir(true, msg, frm.WebPath(), w, ps)
+		return FlashAndRedir(true, msg, frm.WebPath(), ps)
 	})
 }
 
@@ -118,7 +118,7 @@ func SeedDelete(w http.ResponseWriter, r *http.Request) {
 			return "", errors.Wrapf(err, "unable to delete seed [%s]", ret.String())
 		}
 		msg := fmt.Sprintf("Seed [%s] deleted", ret.String())
-		return FlashAndRedir(true, msg, "/seed", w, ps)
+		return FlashAndRedir(true, msg, "/seed", ps)
 	})
 }
 

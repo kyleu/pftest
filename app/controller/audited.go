@@ -32,12 +32,12 @@ func AuditedList(w http.ResponseWriter, r *http.Request) {
 				return "", err
 			}
 			if len(ret) == 1 {
-				return FlashAndRedir(true, "single result found", ret[0].WebPath(), w, ps)
+				return FlashAndRedir(true, "single result found", ret[0].WebPath(), ps)
 			}
 		}
 		ps.SetTitleAndData("Auditeds", ret)
 		page := &vaudited.List{Models: ret, Params: ps.Params, SearchQuery: q}
-		return Render(w, r, as, page, ps, "audited")
+		return Render(r, as, page, ps, "audited")
 	})
 }
 
@@ -54,7 +54,7 @@ func AuditedDetail(w http.ResponseWriter, r *http.Request) {
 			return "", errors.Wrapf(err, "unable to retrieve related audit records")
 		}
 
-		return Render(w, r, as, &vaudited.Detail{Model: ret, AuditRecords: relatedAuditRecords}, ps, "audited", ret.TitleString()+"**star")
+		return Render(r, as, &vaudited.Detail{Model: ret, AuditRecords: relatedAuditRecords}, ps, "audited", ret.TitleString()+"**star")
 	})
 }
 
@@ -66,7 +66,7 @@ func AuditedCreateForm(w http.ResponseWriter, r *http.Request) {
 		}
 		ps.SetTitleAndData("Create [Audited]", ret)
 		ps.Data = ret
-		return Render(w, r, as, &vaudited.Edit{Model: ret, IsNew: true}, ps, "audited", "Create")
+		return Render(r, as, &vaudited.Edit{Model: ret, IsNew: true}, ps, "audited", "Create")
 	})
 }
 
@@ -91,7 +91,7 @@ func AuditedCreate(w http.ResponseWriter, r *http.Request) {
 			return "", errors.Wrap(err, "unable to save newly-created Audited")
 		}
 		msg := fmt.Sprintf("Audited [%s] created", ret.String())
-		return FlashAndRedir(true, msg, ret.WebPath(), w, ps)
+		return FlashAndRedir(true, msg, ret.WebPath(), ps)
 	})
 }
 
@@ -102,7 +102,7 @@ func AuditedEditForm(w http.ResponseWriter, r *http.Request) {
 			return "", err
 		}
 		ps.SetTitleAndData("Edit "+ret.String(), ret)
-		return Render(w, r, as, &vaudited.Edit{Model: ret}, ps, "audited", ret.String())
+		return Render(r, as, &vaudited.Edit{Model: ret}, ps, "audited", ret.String())
 	})
 }
 
@@ -122,7 +122,7 @@ func AuditedEdit(w http.ResponseWriter, r *http.Request) {
 			return "", errors.Wrapf(err, "unable to update Audited [%s]", frm.String())
 		}
 		msg := fmt.Sprintf("Audited [%s] updated", frm.String())
-		return FlashAndRedir(true, msg, frm.WebPath(), w, ps)
+		return FlashAndRedir(true, msg, frm.WebPath(), ps)
 	})
 }
 
@@ -137,7 +137,7 @@ func AuditedDelete(w http.ResponseWriter, r *http.Request) {
 			return "", errors.Wrapf(err, "unable to delete audited [%s]", ret.String())
 		}
 		msg := fmt.Sprintf("Audited [%s] deleted", ret.String())
-		return FlashAndRedir(true, msg, "/audited", w, ps)
+		return FlashAndRedir(true, msg, "/audited", ps)
 	})
 }
 

@@ -23,7 +23,7 @@ func MixedCaseList(w http.ResponseWriter, r *http.Request) {
 		}
 		ps.SetTitleAndData("Mixed Cases", ret)
 		page := &vmixedcase.List{Models: ret, Params: ps.Params}
-		return Render(w, r, as, page, ps, "mixedcase")
+		return Render(r, as, page, ps, "mixedcase")
 	})
 }
 
@@ -35,7 +35,7 @@ func MixedCaseDetail(w http.ResponseWriter, r *http.Request) {
 		}
 		ps.SetTitleAndData(ret.TitleString()+" (Mixed Case)", ret)
 
-		return Render(w, r, as, &vmixedcase.Detail{Model: ret}, ps, "mixedcase", ret.TitleString()+"**star")
+		return Render(r, as, &vmixedcase.Detail{Model: ret}, ps, "mixedcase", ret.TitleString()+"**star")
 	})
 }
 
@@ -47,7 +47,7 @@ func MixedCaseCreateForm(w http.ResponseWriter, r *http.Request) {
 		}
 		ps.SetTitleAndData("Create [MixedCase]", ret)
 		ps.Data = ret
-		return Render(w, r, as, &vmixedcase.Edit{Model: ret, IsNew: true}, ps, "mixedcase", "Create")
+		return Render(r, as, &vmixedcase.Edit{Model: ret, IsNew: true}, ps, "mixedcase", "Create")
 	})
 }
 
@@ -72,7 +72,7 @@ func MixedCaseCreate(w http.ResponseWriter, r *http.Request) {
 			return "", errors.Wrap(err, "unable to save newly-created MixedCase")
 		}
 		msg := fmt.Sprintf("MixedCase [%s] created", ret.String())
-		return FlashAndRedir(true, msg, ret.WebPath(), w, ps)
+		return FlashAndRedir(true, msg, ret.WebPath(), ps)
 	})
 }
 
@@ -83,7 +83,7 @@ func MixedCaseEditForm(w http.ResponseWriter, r *http.Request) {
 			return "", err
 		}
 		ps.SetTitleAndData("Edit "+ret.String(), ret)
-		return Render(w, r, as, &vmixedcase.Edit{Model: ret}, ps, "mixedcase", ret.String())
+		return Render(r, as, &vmixedcase.Edit{Model: ret}, ps, "mixedcase", ret.String())
 	})
 }
 
@@ -103,7 +103,7 @@ func MixedCaseEdit(w http.ResponseWriter, r *http.Request) {
 			return "", errors.Wrapf(err, "unable to update MixedCase [%s]", frm.String())
 		}
 		msg := fmt.Sprintf("MixedCase [%s] updated", frm.String())
-		return FlashAndRedir(true, msg, frm.WebPath(), w, ps)
+		return FlashAndRedir(true, msg, frm.WebPath(), ps)
 	})
 }
 
@@ -118,7 +118,7 @@ func MixedCaseDelete(w http.ResponseWriter, r *http.Request) {
 			return "", errors.Wrapf(err, "unable to delete mixed case [%s]", ret.String())
 		}
 		msg := fmt.Sprintf("MixedCase [%s] deleted", ret.String())
-		return FlashAndRedir(true, msg, "/mixedcase", w, ps)
+		return FlashAndRedir(true, msg, "/mixedcase", ps)
 	})
 }
 

@@ -23,7 +23,7 @@ func SoftdelList(w http.ResponseWriter, r *http.Request) {
 		}
 		ps.SetTitleAndData("Softdels", ret)
 		page := &vsoftdel.List{Models: ret, Params: ps.Params}
-		return Render(w, r, as, page, ps, "softdel")
+		return Render(r, as, page, ps, "softdel")
 	})
 }
 
@@ -35,7 +35,7 @@ func SoftdelDetail(w http.ResponseWriter, r *http.Request) {
 		}
 		ps.SetTitleAndData(ret.TitleString()+" (Softdel)", ret)
 
-		return Render(w, r, as, &vsoftdel.Detail{Model: ret}, ps, "softdel", ret.TitleString()+"**star")
+		return Render(r, as, &vsoftdel.Detail{Model: ret}, ps, "softdel", ret.TitleString()+"**star")
 	})
 }
 
@@ -47,7 +47,7 @@ func SoftdelCreateForm(w http.ResponseWriter, r *http.Request) {
 		}
 		ps.SetTitleAndData("Create [Softdel]", ret)
 		ps.Data = ret
-		return Render(w, r, as, &vsoftdel.Edit{Model: ret, IsNew: true}, ps, "softdel", "Create")
+		return Render(r, as, &vsoftdel.Edit{Model: ret, IsNew: true}, ps, "softdel", "Create")
 	})
 }
 
@@ -72,7 +72,7 @@ func SoftdelCreate(w http.ResponseWriter, r *http.Request) {
 			return "", errors.Wrap(err, "unable to save newly-created Softdel")
 		}
 		msg := fmt.Sprintf("Softdel [%s] created", ret.String())
-		return FlashAndRedir(true, msg, ret.WebPath(), w, ps)
+		return FlashAndRedir(true, msg, ret.WebPath(), ps)
 	})
 }
 
@@ -83,7 +83,7 @@ func SoftdelEditForm(w http.ResponseWriter, r *http.Request) {
 			return "", err
 		}
 		ps.SetTitleAndData("Edit "+ret.String(), ret)
-		return Render(w, r, as, &vsoftdel.Edit{Model: ret}, ps, "softdel", ret.String())
+		return Render(r, as, &vsoftdel.Edit{Model: ret}, ps, "softdel", ret.String())
 	})
 }
 
@@ -103,7 +103,7 @@ func SoftdelEdit(w http.ResponseWriter, r *http.Request) {
 			return "", errors.Wrapf(err, "unable to update Softdel [%s]", frm.String())
 		}
 		msg := fmt.Sprintf("Softdel [%s] updated", frm.String())
-		return FlashAndRedir(true, msg, frm.WebPath(), w, ps)
+		return FlashAndRedir(true, msg, frm.WebPath(), ps)
 	})
 }
 
@@ -118,7 +118,7 @@ func SoftdelDelete(w http.ResponseWriter, r *http.Request) {
 			return "", errors.Wrapf(err, "unable to delete softdel [%s]", ret.String())
 		}
 		msg := fmt.Sprintf("Softdel [%s] deleted", ret.String())
-		return FlashAndRedir(true, msg, "/softdel", w, ps)
+		return FlashAndRedir(true, msg, "/softdel", ps)
 	})
 }
 

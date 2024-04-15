@@ -33,12 +33,12 @@ func PathList(w http.ResponseWriter, r *http.Request) {
 				return "", err
 			}
 			if len(ret) == 1 {
-				return controller.FlashAndRedir(true, "single result found", ret[0].WebPath(), w, ps)
+				return controller.FlashAndRedir(true, "single result found", ret[0].WebPath(), ps)
 			}
 		}
 		ps.SetTitleAndData("Paths", ret)
 		page := &vpath.List{Models: ret, Params: ps.Params, SearchQuery: q}
-		return controller.Render(w, r, as, page, ps, "g1", "g2", "path")
+		return controller.Render(r, as, page, ps, "g1", "g2", "path")
 	})
 }
 
@@ -50,7 +50,7 @@ func PathDetail(w http.ResponseWriter, r *http.Request) {
 		}
 		ps.SetTitleAndData(ret.TitleString()+" (Path)", ret)
 
-		return controller.Render(w, r, as, &vpath.Detail{Model: ret}, ps, "g1", "g2", "path", ret.TitleString()+"**star")
+		return controller.Render(r, as, &vpath.Detail{Model: ret}, ps, "g1", "g2", "path", ret.TitleString()+"**star")
 	})
 }
 
@@ -62,7 +62,7 @@ func PathCreateForm(w http.ResponseWriter, r *http.Request) {
 		}
 		ps.SetTitleAndData("Create [Path]", ret)
 		ps.Data = ret
-		return controller.Render(w, r, as, &vpath.Edit{Model: ret, IsNew: true}, ps, "g1", "g2", "path", "Create")
+		return controller.Render(r, as, &vpath.Edit{Model: ret, IsNew: true}, ps, "g1", "g2", "path", "Create")
 	})
 }
 
@@ -87,7 +87,7 @@ func PathCreate(w http.ResponseWriter, r *http.Request) {
 			return "", errors.Wrap(err, "unable to save newly-created Path")
 		}
 		msg := fmt.Sprintf("Path [%s] created", ret.String())
-		return controller.FlashAndRedir(true, msg, ret.WebPath(), w, ps)
+		return controller.FlashAndRedir(true, msg, ret.WebPath(), ps)
 	})
 }
 
@@ -98,7 +98,7 @@ func PathEditForm(w http.ResponseWriter, r *http.Request) {
 			return "", err
 		}
 		ps.SetTitleAndData("Edit "+ret.String(), ret)
-		return controller.Render(w, r, as, &vpath.Edit{Model: ret}, ps, "g1", "g2", "path", ret.String())
+		return controller.Render(r, as, &vpath.Edit{Model: ret}, ps, "g1", "g2", "path", ret.String())
 	})
 }
 
@@ -118,7 +118,7 @@ func PathEdit(w http.ResponseWriter, r *http.Request) {
 			return "", errors.Wrapf(err, "unable to update Path [%s]", frm.String())
 		}
 		msg := fmt.Sprintf("Path [%s] updated", frm.String())
-		return controller.FlashAndRedir(true, msg, frm.WebPath(), w, ps)
+		return controller.FlashAndRedir(true, msg, frm.WebPath(), ps)
 	})
 }
 
@@ -133,7 +133,7 @@ func PathDelete(w http.ResponseWriter, r *http.Request) {
 			return "", errors.Wrapf(err, "unable to delete path [%s]", ret.String())
 		}
 		msg := fmt.Sprintf("Path [%s] deleted", ret.String())
-		return controller.FlashAndRedir(true, msg, "/g1/g2/path", w, ps)
+		return controller.FlashAndRedir(true, msg, "/g1/g2/path", ps)
 	})
 }
 

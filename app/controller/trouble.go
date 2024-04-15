@@ -23,7 +23,7 @@ func TroubleList(w http.ResponseWriter, r *http.Request) {
 		}
 		ps.SetTitleAndData("Troubles", ret)
 		page := &vtrouble.List{Models: ret, Params: ps.Params}
-		return Render(w, r, as, page, ps, "trouble")
+		return Render(r, as, page, ps, "trouble")
 	})
 }
 
@@ -35,7 +35,7 @@ func TroubleDetail(w http.ResponseWriter, r *http.Request) {
 		}
 		ps.SetTitleAndData(ret.TitleString()+" (Trouble)", ret)
 
-		return Render(w, r, as, &vtrouble.Detail{Model: ret}, ps, "trouble", ret.TitleString()+"**star")
+		return Render(r, as, &vtrouble.Detail{Model: ret}, ps, "trouble", ret.TitleString()+"**star")
 	})
 }
 
@@ -47,7 +47,7 @@ func TroubleCreateForm(w http.ResponseWriter, r *http.Request) {
 		}
 		ps.SetTitleAndData("Create [Trouble]", ret)
 		ps.Data = ret
-		return Render(w, r, as, &vtrouble.Edit{Model: ret, IsNew: true}, ps, "trouble", "Create")
+		return Render(r, as, &vtrouble.Edit{Model: ret, IsNew: true}, ps, "trouble", "Create")
 	})
 }
 
@@ -72,7 +72,7 @@ func TroubleCreate(w http.ResponseWriter, r *http.Request) {
 			return "", errors.Wrap(err, "unable to save newly-created Trouble")
 		}
 		msg := fmt.Sprintf("Trouble [%s] created", ret.String())
-		return FlashAndRedir(true, msg, ret.WebPath(), w, ps)
+		return FlashAndRedir(true, msg, ret.WebPath(), ps)
 	})
 }
 
@@ -83,7 +83,7 @@ func TroubleEditForm(w http.ResponseWriter, r *http.Request) {
 			return "", err
 		}
 		ps.SetTitleAndData("Edit "+ret.String(), ret)
-		return Render(w, r, as, &vtrouble.Edit{Model: ret}, ps, "trouble", ret.String())
+		return Render(r, as, &vtrouble.Edit{Model: ret}, ps, "trouble", ret.String())
 	})
 }
 
@@ -104,7 +104,7 @@ func TroubleEdit(w http.ResponseWriter, r *http.Request) {
 			return "", errors.Wrapf(err, "unable to update Trouble [%s]", frm.String())
 		}
 		msg := fmt.Sprintf("Trouble [%s] updated", frm.String())
-		return FlashAndRedir(true, msg, frm.WebPath(), w, ps)
+		return FlashAndRedir(true, msg, frm.WebPath(), ps)
 	})
 }
 
@@ -119,7 +119,7 @@ func TroubleDelete(w http.ResponseWriter, r *http.Request) {
 			return "", errors.Wrapf(err, "unable to delete trouble [%s]", ret.String())
 		}
 		msg := fmt.Sprintf("Trouble [%s] deleted", ret.String())
-		return FlashAndRedir(true, msg, "/troub/le", w, ps)
+		return FlashAndRedir(true, msg, "/troub/le", ps)
 	})
 }
 

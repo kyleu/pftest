@@ -23,7 +23,7 @@ func CapitalList(w http.ResponseWriter, r *http.Request) {
 		}
 		ps.SetTitleAndData("Capitals", ret)
 		page := &vcapital.List{Models: ret, Params: ps.Params}
-		return Render(w, r, as, page, ps, "capital")
+		return Render(r, as, page, ps, "capital")
 	})
 }
 
@@ -35,7 +35,7 @@ func CapitalDetail(w http.ResponseWriter, r *http.Request) {
 		}
 		ps.SetTitleAndData(ret.TitleString()+" (Capital)", ret)
 
-		return Render(w, r, as, &vcapital.Detail{Model: ret}, ps, "capital", ret.TitleString()+"**star")
+		return Render(r, as, &vcapital.Detail{Model: ret}, ps, "capital", ret.TitleString()+"**star")
 	})
 }
 
@@ -47,7 +47,7 @@ func CapitalCreateForm(w http.ResponseWriter, r *http.Request) {
 		}
 		ps.SetTitleAndData("Create [Capital]", ret)
 		ps.Data = ret
-		return Render(w, r, as, &vcapital.Edit{Model: ret, IsNew: true}, ps, "capital", "Create")
+		return Render(r, as, &vcapital.Edit{Model: ret, IsNew: true}, ps, "capital", "Create")
 	})
 }
 
@@ -72,7 +72,7 @@ func CapitalCreate(w http.ResponseWriter, r *http.Request) {
 			return "", errors.Wrap(err, "unable to save newly-created Capital")
 		}
 		msg := fmt.Sprintf("Capital [%s] created", ret.String())
-		return FlashAndRedir(true, msg, ret.WebPath(), w, ps)
+		return FlashAndRedir(true, msg, ret.WebPath(), ps)
 	})
 }
 
@@ -83,7 +83,7 @@ func CapitalEditForm(w http.ResponseWriter, r *http.Request) {
 			return "", err
 		}
 		ps.SetTitleAndData("Edit "+ret.String(), ret)
-		return Render(w, r, as, &vcapital.Edit{Model: ret}, ps, "capital", ret.String())
+		return Render(r, as, &vcapital.Edit{Model: ret}, ps, "capital", ret.String())
 	})
 }
 
@@ -103,7 +103,7 @@ func CapitalEdit(w http.ResponseWriter, r *http.Request) {
 			return "", errors.Wrapf(err, "unable to update Capital [%s]", frm.String())
 		}
 		msg := fmt.Sprintf("Capital [%s] updated", frm.String())
-		return FlashAndRedir(true, msg, frm.WebPath(), w, ps)
+		return FlashAndRedir(true, msg, frm.WebPath(), ps)
 	})
 }
 
@@ -118,7 +118,7 @@ func CapitalDelete(w http.ResponseWriter, r *http.Request) {
 			return "", errors.Wrapf(err, "unable to delete capital [%s]", ret.String())
 		}
 		msg := fmt.Sprintf("Capital [%s] deleted", ret.String())
-		return FlashAndRedir(true, msg, "/capital", w, ps)
+		return FlashAndRedir(true, msg, "/capital", ps)
 	})
 }
 
