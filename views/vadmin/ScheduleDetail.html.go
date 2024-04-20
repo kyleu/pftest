@@ -8,6 +8,8 @@ package vadmin
 
 //line views/vadmin/ScheduleDetail.html:2
 import (
+	"strings"
+
 	"github.com/kyleu/pftest/app"
 	"github.com/kyleu/pftest/app/controller/cutil"
 	"github.com/kyleu/pftest/app/lib/schedule"
@@ -16,92 +18,147 @@ import (
 	"github.com/kyleu/pftest/views/layout"
 )
 
-//line views/vadmin/ScheduleDetail.html:11
+//line views/vadmin/ScheduleDetail.html:13
 import (
 	qtio422016 "io"
 
 	qt422016 "github.com/valyala/quicktemplate"
 )
 
-//line views/vadmin/ScheduleDetail.html:11
+//line views/vadmin/ScheduleDetail.html:13
 var (
 	_ = qtio422016.Copy
 	_ = qt422016.AcquireByteBuffer
 )
 
-//line views/vadmin/ScheduleDetail.html:11
+//line views/vadmin/ScheduleDetail.html:13
 type ScheduleDetail struct {
 	layout.Basic
-	Job    *schedule.Job
-	Result *schedule.Result
+	Job       *schedule.Job
+	Result    *schedule.Result
+	ExecCount int
 }
 
-//line views/vadmin/ScheduleDetail.html:17
+//line views/vadmin/ScheduleDetail.html:20
 func (p *ScheduleDetail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vadmin/ScheduleDetail.html:17
+//line views/vadmin/ScheduleDetail.html:20
 	qw422016.N().S(`
   <div class="card">
+    <div class="right">`)
+//line views/vadmin/ScheduleDetail.html:22
+	qw422016.E().S(util.StringPlural(p.ExecCount, "runs"))
+//line views/vadmin/ScheduleDetail.html:22
+	qw422016.N().S(`</div>
     <h3>Scheduled Job [`)
-//line views/vadmin/ScheduleDetail.html:19
+//line views/vadmin/ScheduleDetail.html:23
 	qw422016.E().S(p.Job.String())
-//line views/vadmin/ScheduleDetail.html:19
+//line views/vadmin/ScheduleDetail.html:23
 	qw422016.N().S(`]</h3>
-    `)
-//line views/vadmin/ScheduleDetail.html:20
-	streamjobTable(qw422016, schedule.Jobs{p.Job})
-//line views/vadmin/ScheduleDetail.html:20
-	qw422016.N().S(`
+    <div class="mt overflow full-width">
+      <table class="min-200 expanded">
+        <tbody>
+          <tr>
+            <th class="shrink">ID</th>
+            <td>`)
+//line views/vadmin/ScheduleDetail.html:29
+	qw422016.E().S(p.Job.ID.String())
+//line views/vadmin/ScheduleDetail.html:29
+	qw422016.N().S(`</td>
+          </tr>
+          <tr>
+            <th class="shrink">Name</th>
+            <td>`)
+//line views/vadmin/ScheduleDetail.html:33
+	qw422016.E().S(p.Job.Name)
+//line views/vadmin/ScheduleDetail.html:33
+	qw422016.N().S(`</td>
+          </tr>
+          <tr>
+            <th class="shrink">Tags</th>
+            <td>`)
+//line views/vadmin/ScheduleDetail.html:37
+	qw422016.E().S(strings.Join(p.Job.Tags, ", "))
+//line views/vadmin/ScheduleDetail.html:37
+	qw422016.N().S(`</td>
+          </tr>
+          <tr>
+            <th class="shrink">Last Run</th>
+            <td>`)
+//line views/vadmin/ScheduleDetail.html:41
+	qw422016.E().S(util.TimeToFullMS(p.Job.Last))
+//line views/vadmin/ScheduleDetail.html:41
+	qw422016.N().S(`</td>
+          </tr>
+          <tr>
+            <th class="shrink">Next Run</th>
+            <td>`)
+//line views/vadmin/ScheduleDetail.html:45
+	qw422016.E().S(util.TimeToFullMS(p.Job.Next))
+//line views/vadmin/ScheduleDetail.html:45
+	qw422016.N().S(`</td>
+          </tr>
+          <tr>
+            <th class="shrink">Runs</th>
+            <td>`)
+//line views/vadmin/ScheduleDetail.html:49
+	qw422016.N().D(p.ExecCount)
+//line views/vadmin/ScheduleDetail.html:49
+	qw422016.N().S(`</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 `)
-//line views/vadmin/ScheduleDetail.html:22
+//line views/vadmin/ScheduleDetail.html:55
 	if p.Result != nil {
-//line views/vadmin/ScheduleDetail.html:22
+//line views/vadmin/ScheduleDetail.html:55
 		qw422016.N().S(`  <div class="card">
     <div class="right">`)
-//line views/vadmin/ScheduleDetail.html:24
+//line views/vadmin/ScheduleDetail.html:57
 		qw422016.E().S(util.MicrosToMillis(p.Result.DurationMicro))
-//line views/vadmin/ScheduleDetail.html:24
+//line views/vadmin/ScheduleDetail.html:57
 		qw422016.N().S(`</div>
     <h3>Most Recent Result</h3>
     <em>`)
-//line views/vadmin/ScheduleDetail.html:26
+//line views/vadmin/ScheduleDetail.html:59
 		qw422016.E().S(util.TimeToFull(&p.Result.Occurred))
-//line views/vadmin/ScheduleDetail.html:26
+//line views/vadmin/ScheduleDetail.html:59
 		qw422016.N().S(`</em>
     <div class="mt">`)
-//line views/vadmin/ScheduleDetail.html:27
+//line views/vadmin/ScheduleDetail.html:60
 		components.StreamJSON(qw422016, p.Result.Returned)
-//line views/vadmin/ScheduleDetail.html:27
+//line views/vadmin/ScheduleDetail.html:60
 		qw422016.N().S(`</div>
   </div>
 `)
-//line views/vadmin/ScheduleDetail.html:29
+//line views/vadmin/ScheduleDetail.html:62
 	}
-//line views/vadmin/ScheduleDetail.html:30
+//line views/vadmin/ScheduleDetail.html:63
 }
 
-//line views/vadmin/ScheduleDetail.html:30
+//line views/vadmin/ScheduleDetail.html:63
 func (p *ScheduleDetail) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vadmin/ScheduleDetail.html:30
+//line views/vadmin/ScheduleDetail.html:63
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vadmin/ScheduleDetail.html:30
+//line views/vadmin/ScheduleDetail.html:63
 	p.StreamBody(qw422016, as, ps)
-//line views/vadmin/ScheduleDetail.html:30
+//line views/vadmin/ScheduleDetail.html:63
 	qt422016.ReleaseWriter(qw422016)
-//line views/vadmin/ScheduleDetail.html:30
+//line views/vadmin/ScheduleDetail.html:63
 }
 
-//line views/vadmin/ScheduleDetail.html:30
+//line views/vadmin/ScheduleDetail.html:63
 func (p *ScheduleDetail) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vadmin/ScheduleDetail.html:30
+//line views/vadmin/ScheduleDetail.html:63
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vadmin/ScheduleDetail.html:30
+//line views/vadmin/ScheduleDetail.html:63
 	p.WriteBody(qb422016, as, ps)
-//line views/vadmin/ScheduleDetail.html:30
+//line views/vadmin/ScheduleDetail.html:63
 	qs422016 := string(qb422016.B)
-//line views/vadmin/ScheduleDetail.html:30
+//line views/vadmin/ScheduleDetail.html:63
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vadmin/ScheduleDetail.html:30
+//line views/vadmin/ScheduleDetail.html:63
 	return qs422016
-//line views/vadmin/ScheduleDetail.html:30
+//line views/vadmin/ScheduleDetail.html:63
 }
