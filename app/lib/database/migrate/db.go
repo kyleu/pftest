@@ -21,6 +21,14 @@ const (
   "src" text not null,
   "created" timestamp not null
 );`
+	migrationTableSQLServer = `if not exists (select * from sysobjects where name='migration' and xtype='U')
+create table migration (
+	"idx" int not null,
+	"title" varchar(max) not null,
+	"src" varchar(max) not null,
+	"created" datetime not null,
+	primary key (idx)
+);`
 )
 
 func ListMigrations(ctx context.Context, s *database.Service, params *filter.Params, tx *sqlx.Tx, logger util.Logger) Migrations {
@@ -40,7 +48,11 @@ func createMigrationTableIfNeeded(ctx context.Context, s *database.Service, tx *
 	_, err := s.SingleInt(ctx, q, tx, logger)
 	if err != nil {
 		logger.Info("first run, creating migration table")
-		_, err = s.Exec(ctx, migrationTableSQL, nil, -1, logger)
+		if s.Type.Key == database.TypeSQLServer.Key {
+			_, err = s.Exec(ctx, migrationTableSQLServer, nil, -1, logger)
+		} else {
+			_, err = s.Exec(ctx, migrationTableSQL, nil, -1, logger)
+		}
 		if err != nil {
 			return errors.Wrapf(err, "error creating migration table: %+v", err)
 		}
@@ -50,7 +62,7 @@ func createMigrationTableIfNeeded(ctx context.Context, s *database.Service, tx *
 
 func getMigrationByIdx(ctx context.Context, s *database.Service, idx int, tx *sqlx.Tx, logger util.Logger) *Migration {
 	row := &migrationRow{}
-	q := database.SQLSelectSimple("*", "migration", s.Type, "idx = $1")
+	q := database.SQLSelectSimple("*", "migration", s.Type, "idx = "+s.Type.PlaceholderFor(1))
 	err := s.Get(ctx, row, q, tx, logger, idx)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
@@ -63,7 +75,7 @@ func getMigrationByIdx(ctx context.Context, s *database.Service, idx int, tx *sq
 }
 
 func removeMigrationByIdx(ctx context.Context, s *database.Service, idx int, tx *sqlx.Tx, logger util.Logger) error {
-	q := database.SQLDelete("migration", "idx = $1", s.Type)
+	q := database.SQLDelete("migration", "idx = "+s.Type.PlaceholderFor(1), s.Type)
 	_, err := s.Delete(ctx, q, tx, 1, logger, idx)
 	if err != nil {
 		return errors.Wrap(err, "error removing migration")

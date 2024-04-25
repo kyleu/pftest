@@ -21,9 +21,18 @@ var (
 )
 
 //line queries/schema/SizeInfo.sql:2
-func StreamSizeInfo(qw422016 *qt422016.Writer) {
+func StreamSizeInfo(qw422016 *qt422016.Writer, dbType string) {
 //line queries/schema/SizeInfo.sql:2
 	qw422016.N().S(`
+-- `)
+//line queries/schema/SizeInfo.sql:3
+	switch dbType {
+	// --
+
+//line queries/schema/SizeInfo.sql:4
+	case "postgres":
+//line queries/schema/SizeInfo.sql:4
+		qw422016.N().S(`
 with recursive
   pg_inherit(inhrelid, inhparent) as (
     select inhrelid, inhparent
@@ -69,31 +78,72 @@ from (
 ) a
 order by total_bytes desc;
 -- `)
-//line queries/schema/SizeInfo.sql:47
+//line queries/schema/SizeInfo.sql:49
+	case "sqlite":
+//line queries/schema/SizeInfo.sql:49
+		qw422016.N().S(`
+select
+  'default' as "table_schema",
+  "name" as "table_name",
+  0 as "row_estimate",
+  0 as "total",
+  '' as "total_pretty",
+  0 as "index",
+  '' as "index_pretty",
+  0 as "toast",
+  '' as "toast_pretty",
+  0 as "table",
+  '' as "table_pretty"
+from "sqlite_master"
+where "type" = 'table'
+order by "table_name";
+-- `)
+//line queries/schema/SizeInfo.sql:65
+	case "sqlserver":
+//line queries/schema/SizeInfo.sql:65
+		qw422016.N().S(`
+select 'TODO';
+-- `)
+//line queries/schema/SizeInfo.sql:67
+	default:
+//line queries/schema/SizeInfo.sql:67
+		qw422016.N().S(`
+select 'unhandled database type [`)
+//line queries/schema/SizeInfo.sql:68
+		qw422016.E().S(dbType)
+//line queries/schema/SizeInfo.sql:68
+		qw422016.N().S(`]';
+-- `)
+//line queries/schema/SizeInfo.sql:69
+	}
+//line queries/schema/SizeInfo.sql:69
+	qw422016.N().S(`
+-- `)
+//line queries/schema/SizeInfo.sql:70
 }
 
-//line queries/schema/SizeInfo.sql:47
-func WriteSizeInfo(qq422016 qtio422016.Writer) {
-//line queries/schema/SizeInfo.sql:47
+//line queries/schema/SizeInfo.sql:70
+func WriteSizeInfo(qq422016 qtio422016.Writer, dbType string) {
+//line queries/schema/SizeInfo.sql:70
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line queries/schema/SizeInfo.sql:47
-	StreamSizeInfo(qw422016)
-//line queries/schema/SizeInfo.sql:47
+//line queries/schema/SizeInfo.sql:70
+	StreamSizeInfo(qw422016, dbType)
+//line queries/schema/SizeInfo.sql:70
 	qt422016.ReleaseWriter(qw422016)
-//line queries/schema/SizeInfo.sql:47
+//line queries/schema/SizeInfo.sql:70
 }
 
-//line queries/schema/SizeInfo.sql:47
-func SizeInfo() string {
-//line queries/schema/SizeInfo.sql:47
+//line queries/schema/SizeInfo.sql:70
+func SizeInfo(dbType string) string {
+//line queries/schema/SizeInfo.sql:70
 	qb422016 := qt422016.AcquireByteBuffer()
-//line queries/schema/SizeInfo.sql:47
-	WriteSizeInfo(qb422016)
-//line queries/schema/SizeInfo.sql:47
+//line queries/schema/SizeInfo.sql:70
+	WriteSizeInfo(qb422016, dbType)
+//line queries/schema/SizeInfo.sql:70
 	qs422016 := string(qb422016.B)
-//line queries/schema/SizeInfo.sql:47
+//line queries/schema/SizeInfo.sql:70
 	qt422016.ReleaseByteBuffer(qb422016)
-//line queries/schema/SizeInfo.sql:47
+//line queries/schema/SizeInfo.sql:70
 	return qs422016
-//line queries/schema/SizeInfo.sql:47
+//line queries/schema/SizeInfo.sql:70
 }
