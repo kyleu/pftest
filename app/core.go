@@ -38,7 +38,7 @@ func initCoreServices(ctx context.Context, st *State, auditSvc *audit.Service, l
 		Notebook: notebook.NewService(),
 		Schedule: schedule.NewService(),
 		Script:   scripting.NewService(st.Files, "scripts"),
-		Socket:   websocket.NewService(nil, nil, nil),
+		Socket:   websocket.NewService(nil, nil),
 		Help:     help.NewService(logger),
 	}
 }
