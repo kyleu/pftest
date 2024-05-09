@@ -7,13 +7,11 @@ import (
 	"strings"
 
 	"github.com/pkg/errors"
-	"github.com/robert-nix/ansihtml"
 
 	"github.com/kyleu/pftest/app"
 	"github.com/kyleu/pftest/app/controller"
 	"github.com/kyleu/pftest/app/controller/cutil"
 	"github.com/kyleu/pftest/app/lib/exec"
-	"github.com/kyleu/pftest/app/lib/websocket"
 	"github.com/kyleu/pftest/app/util"
 	"github.com/kyleu/pftest/views/vexec"
 )
@@ -56,12 +54,7 @@ func ExecNew(w http.ResponseWriter, r *http.Request) {
 		}
 		env := util.StringSplitAndTrim(strings.TrimSpace(frm.GetStringOpt("env")), ",")
 		x := as.Services.Exec.NewExec(key, cmd, path, env...)
-		wf := func(key string, b []byte) error {
-			m := util.ValueMap{"msg": string(b), "html": string(ansihtml.ConvertToHTML(b))}
-			msg := &websocket.Message{Channel: key, Cmd: "output", Param: util.ToJSONBytes(m, true)}
-			return as.Services.Socket.WriteChannel(msg, ps.Logger)
-		}
-		err = x.Start(wf)
+		err = x.Start(as.Services.Socket.Terminal(key, ps.Logger))
 		if err != nil {
 			return "", err
 		}
@@ -71,7 +64,7 @@ func ExecNew(w http.ResponseWriter, r *http.Request) {
 
 func ExecDetail(w http.ResponseWriter, r *http.Request) {
 	controller.Act("exec.detail", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ex, err := getExecRC(r, as)
+		ex, err := getExecPath(r, as)
 		if err != nil {
 			return "", err
 		}
@@ -83,22 +76,22 @@ func ExecDetail(w http.ResponseWriter, r *http.Request) {
 
 func ExecSocket(w http.ResponseWriter, r *http.Request) {
 	controller.Act("exec.socket", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
-		ex, err := getExecRC(r, as)
+		ex, err := getExecPath(r, as)
 		if err != nil {
 			return "", err
 		}
-		_, err = as.Services.Socket.Upgrade(ps.Context, w, r, ex.String(), ps.User, ps.Profile, ps.Accounts, nil, ps.Logger)
+		id, err := as.Services.Socket.Upgrade(ps.Context, w, r, ex.String(), ps.User, ps.Profile, ps.Accounts, nil, ps.Logger)
 		if err != nil {
 			ps.Logger.Warn("unable to upgrade connection to websocket")
 			return "", err
 		}
-		return "", nil
+		return "", as.Services.Socket.ReadLoop(ps.Context, id, ps.Logger)
 	})
 }
 
 func ExecKill(w http.ResponseWriter, r *http.Request) {
 	controller.Act("exec.kill", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
-		proc, err := getExecRC(r, as)
+		proc, err := getExecPath(r, as)
 		if err != nil {
 			return "", err
 		}
@@ -110,7 +103,7 @@ func ExecKill(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
-func getExecRC(r *http.Request, as *app.State) (*exec.Exec, error) {
+func getExecPath(r *http.Request, as *app.State) (*exec.Exec, error) {
 	key, err := cutil.PathString(r, "key", false)
 	if err != nil {
 		return nil, err
