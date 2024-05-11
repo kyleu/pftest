@@ -39,6 +39,7 @@ func AppRoutes(as *app.State, logger util.Logger) (http.Handler, error) {
 	// $PF_SECTION_START(routes)$
 	notebookRoutes(r)
 	harRoutes(r)
+	proxyRoutes("/proxy", r)
 	// $PF_SECTION_END(routes)$
 
 	makeRoute(r, http.MethodGet, "/docs", clib.Docs)

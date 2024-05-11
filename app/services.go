@@ -5,6 +5,7 @@ import (
 
 	"github.com/kyleu/pftest/app/lib/audit"
 	"github.com/kyleu/pftest/app/lib/database/migrate"
+	"github.com/kyleu/pftest/app/lib/proxy"
 	"github.com/kyleu/pftest/app/util"
 	"github.com/kyleu/pftest/queries/migrations"
 )
@@ -12,6 +13,8 @@ import (
 type Services struct {
 	CoreServices
 	GeneratedServices
+
+	Proxy *proxy.Service
 }
 
 func NewServices(ctx context.Context, st *State, logger util.Logger) (*Services, error) {
@@ -22,11 +25,12 @@ func NewServices(ctx context.Context, st *State, logger util.Logger) (*Services,
 	}
 
 	aud := audit.NewService(st.DB, logger)
+	prx := proxy.NewService("/proxy", nil)
 
 	core := initCoreServices(ctx, st, aud, logger)
 	gen := initGeneratedServices(ctx, st, aud, logger)
 
-	return &Services{CoreServices: core, GeneratedServices: gen}, nil
+	return &Services{CoreServices: core, GeneratedServices: gen, Proxy: prx}, nil
 }
 
 func (s *Services) Close(_ context.Context, _ util.Logger) error {
