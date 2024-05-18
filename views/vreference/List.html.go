@@ -53,11 +53,19 @@ func (p *List) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
 //line views/vreference/List.html:23
 	if len(p.Models) > 0 {
 //line views/vreference/List.html:23
-		qw422016.N().S(`<a href="/reference/_random"><button>Random</button></a>`)
+		qw422016.N().S(`<a href="/reference/_random"><button>`)
+//line views/vreference/List.html:23
+		components.StreamSVGRef(qw422016, "gift", 15, 15, "icon", ps)
+//line views/vreference/List.html:23
+		qw422016.N().S(`Random</button></a>`)
 //line views/vreference/List.html:23
 	}
 //line views/vreference/List.html:23
-	qw422016.N().S(`      <a href="/reference/_new"><button>New</button></a>
+	qw422016.N().S(`      <a href="/reference/_new"><button>`)
+//line views/vreference/List.html:24
+	components.StreamSVGRef(qw422016, "plus", 15, 15, "icon", ps)
+//line views/vreference/List.html:24
+	qw422016.N().S(`New</button></a>
     </div>
     <h3>`)
 //line views/vreference/List.html:26
