@@ -66,6 +66,23 @@ func (s *Service) GetByFrom(ctx context.Context, tx *sqlx.Tx, from string, param
 }
 
 //nolint:lll
+func (s *Service) GetByFroms(ctx context.Context, tx *sqlx.Tx, params *filter.Params, includeDeleted bool, logger util.Logger, froms ...string) (Troubles, error) {
+	if len(froms) == 0 {
+		return Troubles{}, nil
+	}
+	params = filters(params)
+	wc := database.SQLInClause("from", len(froms), 0, s.db.Type)
+	wc = addDeletedClause(wc, includeDeleted)
+	q := database.SQLSelect(columnsString, tableQuoted, wc, params.OrderByString(), params.Limit, params.Offset, s.db.Type)
+	ret := rows{}
+	err := s.dbRead.Select(ctx, &ret, q, tx, logger, lo.ToAnySlice(froms)...)
+	if err != nil {
+		return nil, errors.Wrapf(err, "unable to get Troubles for [%d] froms", len(froms))
+	}
+	return ret.ToTroubles(), nil
+}
+
+//nolint:lll
 func (s *Service) GetByWhere(ctx context.Context, tx *sqlx.Tx, where []string, params *filter.Params, includeDeleted bool, logger util.Logger) (Troubles, error) {
 	params = filters(params)
 	wc := "\"where\" = $1"
@@ -75,6 +92,23 @@ func (s *Service) GetByWhere(ctx context.Context, tx *sqlx.Tx, where []string, p
 	err := s.dbRead.Select(ctx, &ret, q, tx, logger, where)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to get Troubles by where [%v]", where)
+	}
+	return ret.ToTroubles(), nil
+}
+
+//nolint:lll
+func (s *Service) GetByWheres(ctx context.Context, tx *sqlx.Tx, params *filter.Params, includeDeleted bool, logger util.Logger, wheres ...[]string) (Troubles, error) {
+	if len(wheres) == 0 {
+		return Troubles{}, nil
+	}
+	params = filters(params)
+	wc := database.SQLInClause("where", len(wheres), 0, s.db.Type)
+	wc = addDeletedClause(wc, includeDeleted)
+	q := database.SQLSelect(columnsString, tableQuoted, wc, params.OrderByString(), params.Limit, params.Offset, s.db.Type)
+	ret := rows{}
+	err := s.dbRead.Select(ctx, &ret, q, tx, logger, lo.ToAnySlice(wheres)...)
+	if err != nil {
+		return nil, errors.Wrapf(err, "unable to get Troubles for [%d] wheres", len(wheres))
 	}
 	return ret.ToTroubles(), nil
 }
