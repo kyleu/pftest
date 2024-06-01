@@ -14,6 +14,7 @@ import (
 	"github.com/kyleu/pftest/app/controller"
 	"github.com/kyleu/pftest/app/controller/cutil"
 	"github.com/kyleu/pftest/app/lib/database/migrate"
+	"github.com/kyleu/pftest/app/lib/icons"
 	"github.com/kyleu/pftest/app/lib/log"
 	"github.com/kyleu/pftest/app/lib/user"
 	"github.com/kyleu/pftest/app/util"
@@ -37,6 +38,9 @@ func Admin(w http.ResponseWriter, r *http.Request) {
 			info := util.DebugGetInfo(as.BuildInfo.Version, as.Started)
 			ps.SetTitleAndData("Server Info", info)
 			return controller.Render(r, as, &vadmin.ServerInfo{Info: info}, ps, "admin", "App Information")
+		case "brands":
+			ps.SetTitleAndData("Brand Icons", icons.BrandLibrary())
+			return controller.Render(r, as, &vadmin.BrandIcons{Library: icons.BrandLibrary()}, ps, "admin", "Brand Icons**folder")
 		case "cpu":
 			switch path[1] {
 			case "start":

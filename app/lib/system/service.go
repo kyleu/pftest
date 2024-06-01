@@ -16,8 +16,7 @@ import (
 	"github.com/kyleu/pftest/app/util"
 )
 
-type Service struct {
-}
+type Service struct{}
 
 func NewService() *Service {
 	return &Service{}

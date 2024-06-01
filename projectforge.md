@@ -8,6 +8,7 @@ The following modules were used to build this project:
 
 - [android](./doc/module/android.md)
 - [audit](./doc/module/audit.md)
+- [brands](./doc/module/brands.md)
 - [core](./doc/module/core.md)
 - [database](./doc/module/database.md)
 - [databaseui](./doc/module/databaseui.md)
