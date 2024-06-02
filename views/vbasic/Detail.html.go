@@ -112,93 +112,96 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
     </div>
   </div>
 `)
-//line views/vbasic/Detail.html:54
+//line views/vbasic/Detail.html:55
+	relationHelper := basic.Basics{p.Model}
+
+//line views/vbasic/Detail.html:55
 	qw422016.N().S(`  <div class="card">
     <h3 class="mb">Relations</h3>
     <ul class="accordion">
       <li>
         <input id="accordion-RelationsByBasicID" type="checkbox" hidden="hidden"`)
-//line views/vbasic/Detail.html:59
+//line views/vbasic/Detail.html:60
 	if p.Params.Specifies(`relation`) {
-//line views/vbasic/Detail.html:59
+//line views/vbasic/Detail.html:60
 		qw422016.N().S(` checked="checked"`)
-//line views/vbasic/Detail.html:59
+//line views/vbasic/Detail.html:60
 	}
-//line views/vbasic/Detail.html:59
+//line views/vbasic/Detail.html:60
 	qw422016.N().S(` />
         <label for="accordion-RelationsByBasicID">
           `)
-//line views/vbasic/Detail.html:61
+//line views/vbasic/Detail.html:62
 	components.StreamExpandCollapse(qw422016, 3, ps)
-//line views/vbasic/Detail.html:61
+//line views/vbasic/Detail.html:62
 	qw422016.N().S(`
           `)
-//line views/vbasic/Detail.html:62
+//line views/vbasic/Detail.html:63
 	components.StreamSVGRef(qw422016, `star`, 16, 16, `icon`, ps)
-//line views/vbasic/Detail.html:62
+//line views/vbasic/Detail.html:63
 	qw422016.N().S(`
           `)
-//line views/vbasic/Detail.html:63
+//line views/vbasic/Detail.html:64
 	qw422016.E().S(util.StringPlural(len(p.RelRelationsByBasicID), "Relation"))
-//line views/vbasic/Detail.html:63
+//line views/vbasic/Detail.html:64
 	qw422016.N().S(` by [Basic ID]
         </label>
         <div class="bd"><div><div>
 `)
-//line views/vbasic/Detail.html:66
+//line views/vbasic/Detail.html:67
 	if len(p.RelRelationsByBasicID) == 0 {
-//line views/vbasic/Detail.html:66
+//line views/vbasic/Detail.html:67
 		qw422016.N().S(`          <em>no related Relations</em>
 `)
-//line views/vbasic/Detail.html:68
+//line views/vbasic/Detail.html:69
 	} else {
-//line views/vbasic/Detail.html:68
+//line views/vbasic/Detail.html:69
 		qw422016.N().S(`          <div class="overflow clear">
             `)
-//line views/vbasic/Detail.html:70
-		vrelation.StreamTable(qw422016, p.RelRelationsByBasicID, nil, p.Params, as, ps)
-//line views/vbasic/Detail.html:70
+//line views/vbasic/Detail.html:71
+		vrelation.StreamTable(qw422016, p.RelRelationsByBasicID, relationHelper, p.Params, as, ps)
+//line views/vbasic/Detail.html:71
 		qw422016.N().S(`
           </div>
 `)
-//line views/vbasic/Detail.html:72
+//line views/vbasic/Detail.html:73
 	}
-//line views/vbasic/Detail.html:72
+//line views/vbasic/Detail.html:73
 	qw422016.N().S(`        </div></div></div>
       </li>
     </ul>
   </div>
   `)
-//line views/vbasic/Detail.html:77
+//line views/vbasic/Detail.html:78
 	components.StreamJSONModal(qw422016, "basic", "Basic JSON", p.Model, 1)
-//line views/vbasic/Detail.html:77
+//line views/vbasic/Detail.html:78
 	qw422016.N().S(`
 `)
-//line views/vbasic/Detail.html:78
+//line views/vbasic/Detail.html:79
 }
 
-//line views/vbasic/Detail.html:78
+//line views/vbasic/Detail.html:79
 func (p *Detail) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vbasic/Detail.html:78
+//line views/vbasic/Detail.html:79
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vbasic/Detail.html:78
+//line views/vbasic/Detail.html:79
 	p.StreamBody(qw422016, as, ps)
-//line views/vbasic/Detail.html:78
+//line views/vbasic/Detail.html:79
 	qt422016.ReleaseWriter(qw422016)
-//line views/vbasic/Detail.html:78
+//line views/vbasic/Detail.html:79
 }
 
-//line views/vbasic/Detail.html:78
+//line views/vbasic/Detail.html:79
 func (p *Detail) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vbasic/Detail.html:78
+//line views/vbasic/Detail.html:79
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vbasic/Detail.html:78
+//line views/vbasic/Detail.html:79
 	p.WriteBody(qb422016, as, ps)
-//line views/vbasic/Detail.html:78
+//line views/vbasic/Detail.html:79
 	qs422016 := string(qb422016.B)
-//line views/vbasic/Detail.html:78
+//line views/vbasic/Detail.html:79
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vbasic/Detail.html:78
+//line views/vbasic/Detail.html:79
 	return qs422016
-//line views/vbasic/Detail.html:78
+//line views/vbasic/Detail.html:79
 }

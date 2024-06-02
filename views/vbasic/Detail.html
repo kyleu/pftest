@@ -52,6 +52,7 @@
   </div>
   {%- comment %}$PF_SECTION_START(extra)${% endcomment -%}
   {%- comment %}$PF_SECTION_END(extra)${% endcomment -%}
+  {%- code relationHelper := basic.Basics{p.Model} -%}
   <div class="card">
     <h3 class="mb">Relations</h3>
     <ul class="accordion">
@@ -67,7 +68,7 @@
           <em>no related Relations</em>
           {%- else -%}
           <div class="overflow clear">
-            {%= vrelation.Table(p.RelRelationsByBasicID, nil, p.Params, as, ps) %}
+            {%= vrelation.Table(p.RelRelationsByBasicID, relationHelper, p.Params, as, ps) %}
           </div>
           {%- endif -%}
         </div></div></div>
