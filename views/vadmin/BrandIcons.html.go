@@ -51,6 +51,9 @@ func (p *BrandIcons) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cu
       justify-content: center;
       overflow: hidden;
       margin: var(--padding);
+      padding-bottom: var(--padding-small);
+      border-bottom-width: var(--padding-small);
+      border-bottom-style: solid;
     }
     .brand-icon .svg {
       width: 48px;
@@ -58,67 +61,76 @@ func (p *BrandIcons) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cu
     }
   </style>
   <div class="card">
+    <div class="right"><em>`)
+//line views/vadmin/BrandIcons.html:39
+	qw422016.N().D(len(p.Library.Icons))
+//line views/vadmin/BrandIcons.html:39
+	qw422016.N().S(` icons</em></div>
     <h3>`)
-//line views/vadmin/BrandIcons.html:36
+//line views/vadmin/BrandIcons.html:40
 	components.StreamSVGRefIcon(qw422016, `image`, ps)
-//line views/vadmin/BrandIcons.html:36
+//line views/vadmin/BrandIcons.html:40
 	qw422016.N().S(`Brand Icon Library</h3>
     <div class="mt library">
 `)
-//line views/vadmin/BrandIcons.html:38
+//line views/vadmin/BrandIcons.html:42
 	for _, key := range p.Library.SortedKeys() {
-//line views/vadmin/BrandIcons.html:39
+//line views/vadmin/BrandIcons.html:43
 		x := p.Library.Icons[key]
 
-//line views/vadmin/BrandIcons.html:39
-		qw422016.N().S(`      <div class="brand-icon" title="`)
-//line views/vadmin/BrandIcons.html:40
+//line views/vadmin/BrandIcons.html:43
+		qw422016.N().S(`      <div class="brand-icon" style="border-color: #`)
+//line views/vadmin/BrandIcons.html:44
+		qw422016.E().S(x.Color)
+//line views/vadmin/BrandIcons.html:44
+		qw422016.N().S(`;" title="`)
+//line views/vadmin/BrandIcons.html:44
 		qw422016.E().S(x.Key)
-//line views/vadmin/BrandIcons.html:40
+//line views/vadmin/BrandIcons.html:44
 		qw422016.N().S(`">
         <div class="svg">`)
-//line views/vadmin/BrandIcons.html:41
+//line views/vadmin/BrandIcons.html:45
 		qw422016.N().S(x.HTML("brand-"))
-//line views/vadmin/BrandIcons.html:41
+//line views/vadmin/BrandIcons.html:45
 		qw422016.N().S(`</div>
         <div>`)
-//line views/vadmin/BrandIcons.html:42
+//line views/vadmin/BrandIcons.html:46
 		qw422016.E().S(x.Title)
-//line views/vadmin/BrandIcons.html:42
+//line views/vadmin/BrandIcons.html:46
 		qw422016.N().S(`</div>
       </div>
 `)
-//line views/vadmin/BrandIcons.html:44
+//line views/vadmin/BrandIcons.html:48
 	}
-//line views/vadmin/BrandIcons.html:44
+//line views/vadmin/BrandIcons.html:48
 	qw422016.N().S(`    </div>
   </div>
 `)
-//line views/vadmin/BrandIcons.html:47
+//line views/vadmin/BrandIcons.html:51
 }
 
-//line views/vadmin/BrandIcons.html:47
+//line views/vadmin/BrandIcons.html:51
 func (p *BrandIcons) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vadmin/BrandIcons.html:47
+//line views/vadmin/BrandIcons.html:51
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vadmin/BrandIcons.html:47
+//line views/vadmin/BrandIcons.html:51
 	p.StreamBody(qw422016, as, ps)
-//line views/vadmin/BrandIcons.html:47
+//line views/vadmin/BrandIcons.html:51
 	qt422016.ReleaseWriter(qw422016)
-//line views/vadmin/BrandIcons.html:47
+//line views/vadmin/BrandIcons.html:51
 }
 
-//line views/vadmin/BrandIcons.html:47
+//line views/vadmin/BrandIcons.html:51
 func (p *BrandIcons) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vadmin/BrandIcons.html:47
+//line views/vadmin/BrandIcons.html:51
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vadmin/BrandIcons.html:47
+//line views/vadmin/BrandIcons.html:51
 	p.WriteBody(qb422016, as, ps)
-//line views/vadmin/BrandIcons.html:47
+//line views/vadmin/BrandIcons.html:51
 	qs422016 := string(qb422016.B)
-//line views/vadmin/BrandIcons.html:47
+//line views/vadmin/BrandIcons.html:51
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vadmin/BrandIcons.html:47
+//line views/vadmin/BrandIcons.html:51
 	return qs422016
-//line views/vadmin/BrandIcons.html:47
+//line views/vadmin/BrandIcons.html:51
 }
