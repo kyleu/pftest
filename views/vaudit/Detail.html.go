@@ -53,7 +53,7 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
     </div>
     <h3>`)
 //line views/vaudit/Detail.html:25
-	components.StreamSVGRefIcon(qw422016, `cog`, ps)
+	components.StreamSVGIcon(qw422016, `cog`, ps)
 //line views/vaudit/Detail.html:25
 	qw422016.N().S(` Audit [`)
 //line views/vaudit/Detail.html:25
@@ -154,7 +154,7 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
 		qw422016.N().S(`  <div class="card">
     <h3>`)
 //line views/vaudit/Detail.html:77
-		components.StreamSVGRefIcon(qw422016, `cog`, ps)
+		components.StreamSVGIcon(qw422016, `cog`, ps)
 //line views/vaudit/Detail.html:77
 		qw422016.N().S(` Audit Records</h3>
     `)

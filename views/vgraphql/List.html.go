@@ -46,7 +46,7 @@ func (p *List) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
 	qw422016.N().S(`  <div class="card">
     <h3>`)
 //line views/vgraphql/List.html:18
-	components.StreamSVGRefIcon(qw422016, `graph`, ps)
+	components.StreamSVGIcon(qw422016, `graph`, ps)
 //line views/vgraphql/List.html:18
 	qw422016.N().S(`GraphQL</h3>
 `)

@@ -43,12 +43,12 @@ func (p *List) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
   <div class="card">
     <div class="right"><a href="/softdel/_new"><button>`)
 //line views/vsoftdel/List.html:19
-	components.StreamSVGRef(qw422016, "plus", 15, 15, "icon", ps)
+	components.StreamSVGButton(qw422016, "plus", ps)
 //line views/vsoftdel/List.html:19
 	qw422016.N().S(`New</button></a></div>
     <h3>`)
 //line views/vsoftdel/List.html:20
-	components.StreamSVGRefIcon(qw422016, `star`, ps)
+	components.StreamSVGIcon(qw422016, `star`, ps)
 //line views/vsoftdel/List.html:20
 	qw422016.E().S(ps.Title)
 //line views/vsoftdel/List.html:20

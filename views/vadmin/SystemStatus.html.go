@@ -41,7 +41,7 @@ func (p *SystemStatus) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *
   <div class="card">
     <h3>`)
 //line views/vadmin/SystemStatus.html:17
-	components.StreamSVGRefIcon(qw422016, `desktop`, ps)
+	components.StreamSVGIcon(qw422016, `desktop`, ps)
 //line views/vadmin/SystemStatus.html:17
 	qw422016.N().S(`System Status</h3>
     <div class="mt">`)

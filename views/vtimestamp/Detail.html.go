@@ -43,7 +43,7 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
     <div class="right">
       <a href="#modal-timestamp"><button type="button">`)
 //line views/vtimestamp/Detail.html:19
-	components.StreamSVGRef(qw422016, "file", 15, 15, "icon", ps)
+	components.StreamSVGButton(qw422016, "file", ps)
 //line views/vtimestamp/Detail.html:19
 	qw422016.N().S(`JSON</button></a>
       <a href="`)
@@ -52,15 +52,13 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
 //line views/vtimestamp/Detail.html:20
 	qw422016.N().S(`/edit"><button>`)
 //line views/vtimestamp/Detail.html:20
-	components.StreamSVGRef(qw422016, "edit", 15, 15, "icon", ps)
+	components.StreamSVGButton(qw422016, "edit", ps)
 //line views/vtimestamp/Detail.html:20
 	qw422016.N().S(`Edit</button></a>
     </div>
     <h3>`)
 //line views/vtimestamp/Detail.html:22
-	components.StreamSVGRefIcon(qw422016, `star`, ps)
-//line views/vtimestamp/Detail.html:22
-	qw422016.N().S(` `)
+	components.StreamSVGIcon(qw422016, `star`, ps)
 //line views/vtimestamp/Detail.html:22
 	qw422016.E().S(p.Model.TitleString())
 //line views/vtimestamp/Detail.html:22

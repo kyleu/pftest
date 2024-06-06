@@ -106,7 +106,7 @@ func StreamRecordTable(qw422016 *qt422016.Writer, models audit.Records, params f
 //line views/vaudit/RecordTable.html:32
 		qw422016.N().S(`">`)
 //line views/vaudit/RecordTable.html:32
-		components.StreamSVGRefIcon(qw422016, "cog", ps)
+		components.StreamSVGIcon(qw422016, "cog", ps)
 //line views/vaudit/RecordTable.html:32
 		qw422016.N().S(`</a>
           </td>

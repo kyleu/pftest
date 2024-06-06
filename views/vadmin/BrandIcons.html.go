@@ -68,7 +68,7 @@ func (p *BrandIcons) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cu
 	qw422016.N().S(` icons</em></div>
     <h3>`)
 //line views/vadmin/BrandIcons.html:40
-	components.StreamSVGRefIcon(qw422016, `image`, ps)
+	components.StreamSVGIcon(qw422016, `image`, ps)
 //line views/vadmin/BrandIcons.html:40
 	qw422016.N().S(`Brand Icon Library</h3>
     <div class="mt library">

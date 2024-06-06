@@ -39,7 +39,7 @@ func (p *Options) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil
   <div class="card">
     <h3>`)
 //line views/vnotebook/Options.html:15
-	components.StreamSVGRefIcon(qw422016, `notebook`, ps)
+	components.StreamSVGIcon(qw422016, `notebook`, ps)
 //line views/vnotebook/Options.html:15
 	qw422016.N().S(`Notebook</h3>
     <p>The notebook service isn't running. Here are your options:</p>

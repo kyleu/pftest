@@ -57,7 +57,7 @@ func (p *Notebook) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cuti
   <div class="iframe-container">
     <h3 style="display: none;">`)
 //line views/vnotebook/Notebook.html:33
-	components.StreamSVGRefIcon(qw422016, `notebook`, ps)
+	components.StreamSVGIcon(qw422016, `notebook`, ps)
 //line views/vnotebook/Notebook.html:33
 	qw422016.N().S(`Notebook</h3>
     <iframe class="iframe" src="`)

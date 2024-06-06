@@ -51,7 +51,7 @@ func (p *RecordDetail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *
     </div>
     <h3>`)
 //line views/vaudit/RecordDetail.html:23
-	components.StreamSVGRefIcon(qw422016, `cog`, ps)
+	components.StreamSVGIcon(qw422016, `cog`, ps)
 //line views/vaudit/RecordDetail.html:23
 	qw422016.N().S(` Audit Record [`)
 //line views/vaudit/RecordDetail.html:23
@@ -83,7 +83,7 @@ func (p *RecordDetail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *
 //line views/vaudit/RecordDetail.html:35
 	qw422016.N().S(`">`)
 //line views/vaudit/RecordDetail.html:35
-	components.StreamSVGRefIcon(qw422016, "cog", ps)
+	components.StreamSVGIcon(qw422016, "cog", ps)
 //line views/vaudit/RecordDetail.html:35
 	qw422016.N().S(`</a>
             </td>

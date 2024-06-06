@@ -60,7 +60,7 @@ func (p *Settings) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cuti
 //line views/vadmin/Settings.html:22
 	qw422016.N().S(`">`)
 //line views/vadmin/Settings.html:22
-	components.StreamSVGRefIcon(qw422016, `cog`, ps)
+	components.StreamSVGIcon(qw422016, `cog`, ps)
 //line views/vadmin/Settings.html:22
 	qw422016.E().S(util.AppName)
 //line views/vadmin/Settings.html:22
@@ -105,7 +105,7 @@ func (p *Settings) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cuti
     <ul class="mt">
       <li><a href="/admin/audit">`)
 //line views/vadmin/Settings.html:35
-	components.StreamSVGRefIcon(qw422016, `cog`, ps)
+	components.StreamSVGIcon(qw422016, `cog`, ps)
 //line views/vadmin/Settings.html:35
 	qw422016.N().S(`View audit logs</a></li>
     </ul>
@@ -114,7 +114,7 @@ func (p *Settings) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cuti
   <div class="card">
     <h3>`)
 //line views/vadmin/Settings.html:40
-	components.StreamSVGRefIcon(qw422016, `archive`, ps)
+	components.StreamSVGIcon(qw422016, `archive`, ps)
 //line views/vadmin/Settings.html:40
 	qw422016.N().S(`Admin Functions</h3>
     `)
@@ -162,7 +162,7 @@ func (p *Settings) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cuti
   <div class="card">
     <h3>`)
 //line views/vadmin/Settings.html:52
-	components.StreamSVGRefIcon(qw422016, `bolt`, ps)
+	components.StreamSVGIcon(qw422016, `bolt`, ps)
 //line views/vadmin/Settings.html:52
 	qw422016.N().S(`HTTP Methods</h3>
     `)
@@ -200,7 +200,7 @@ func (p *Settings) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cuti
   <div class="card">
     <h3>`)
 //line views/vadmin/Settings.html:62
-	components.StreamSVGRefIcon(qw422016, `cog`, ps)
+	components.StreamSVGIcon(qw422016, `cog`, ps)
 //line views/vadmin/Settings.html:62
 	qw422016.N().S(`App Profiling</h3>
     `)
@@ -238,7 +238,7 @@ func (p *Settings) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cuti
   <div class="card">
     <h3>`)
 //line views/vadmin/Settings.html:72
-	components.StreamSVGRefIcon(qw422016, `database`, ps)
+	components.StreamSVGIcon(qw422016, `database`, ps)
 //line views/vadmin/Settings.html:72
 	qw422016.N().S(`Database Management</h3>
     `)

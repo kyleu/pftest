@@ -42,7 +42,7 @@ func (p *Queue) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.P
   <div class="card">
     <h3>`)
 //line views/vadmin/Queue.html:18
-	components.StreamSVGRefIcon(qw422016, `queue`, ps)
+	components.StreamSVGIcon(qw422016, `queue`, ps)
 //line views/vadmin/Queue.html:18
 	qw422016.N().S(`Queue Test</h3>
     <div class="mt">`)
@@ -58,7 +58,7 @@ func (p *Queue) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.P
 		qw422016.N().S(`  <div class="card">
     <h3>`)
 //line views/vadmin/Queue.html:23
-		components.StreamSVGRefIcon(qw422016, `cog`, ps)
+		components.StreamSVGIcon(qw422016, `cog`, ps)
 //line views/vadmin/Queue.html:23
 		qw422016.N().S(`Message</h3>
     <div class="mt">`)

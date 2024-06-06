@@ -55,7 +55,7 @@ func (p *List) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
 //line views/vg1/vg2/vpath/List.html:23
 		qw422016.N().S(`<a href="/g1/g2/path/_random"><button>`)
 //line views/vg1/vg2/vpath/List.html:23
-		components.StreamSVGRef(qw422016, "gift", 15, 15, "icon", ps)
+		components.StreamSVGButton(qw422016, "gift", ps)
 //line views/vg1/vg2/vpath/List.html:23
 		qw422016.N().S(`Random</button></a>`)
 //line views/vg1/vg2/vpath/List.html:23
@@ -63,13 +63,13 @@ func (p *List) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
 //line views/vg1/vg2/vpath/List.html:23
 	qw422016.N().S(`      <a href="/g1/g2/path/_new"><button>`)
 //line views/vg1/vg2/vpath/List.html:24
-	components.StreamSVGRef(qw422016, "plus", 15, 15, "icon", ps)
+	components.StreamSVGButton(qw422016, "plus", ps)
 //line views/vg1/vg2/vpath/List.html:24
 	qw422016.N().S(`New</button></a>
     </div>
     <h3>`)
 //line views/vg1/vg2/vpath/List.html:26
-	components.StreamSVGRefIcon(qw422016, `star`, ps)
+	components.StreamSVGIcon(qw422016, `star`, ps)
 //line views/vg1/vg2/vpath/List.html:26
 	qw422016.E().S(ps.Title)
 //line views/vg1/vg2/vpath/List.html:26

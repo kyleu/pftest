@@ -47,11 +47,15 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
 //line views/vhar/Detail.html:21
 	qw422016.E().S(p.Har.WebPath())
 //line views/vhar/Detail.html:21
-	qw422016.N().S(`/delete" class="link-confirm" data-message="Are you sure?"><button>Delete</button></a>
+	qw422016.N().S(`/delete" class="link-confirm" data-message="Are you sure?"><button>`)
+//line views/vhar/Detail.html:21
+	components.StreamSVGButton(qw422016, "times", ps)
+//line views/vhar/Detail.html:21
+	qw422016.N().S(`Delete</button></a>
     </div>
     <h3>`)
 //line views/vhar/Detail.html:23
-	components.StreamSVGRefIcon(qw422016, `book`, ps)
+	components.StreamSVGIcon(qw422016, `book`, ps)
 //line views/vhar/Detail.html:23
 	qw422016.N().S(` `)
 //line views/vhar/Detail.html:23
