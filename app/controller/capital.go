@@ -135,5 +135,6 @@ func capitalFromForm(r *http.Request, b []byte, setPK bool) (*capital.Capital, e
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to parse form")
 	}
-	return capital.FromMap(frm, setPK)
+	ret, _, err := capital.FromMap(frm, setPK)
+	return ret, err
 }

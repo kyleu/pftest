@@ -3,32 +3,40 @@ package relation
 
 import "github.com/kyleu/pftest/app/util"
 
-func FromMap(m util.ValueMap, setPK bool) (*Relation, error) {
+func FromMap(m util.ValueMap, setPK bool) (*Relation, util.ValueMap, error) {
 	ret := &Relation{}
-	var err error
-	if setPK {
-		retID, e := m.ParseUUID("id", true, true)
-		if e != nil {
-			return nil, e
+	extra := util.ValueMap{}
+	for k, v := range m {
+		var err error
+		switch k {
+		case "id":
+			if setPK {
+				retID, e := m.ParseUUID(k, true, true)
+				if e != nil {
+					return nil, nil, e
+				}
+				if retID != nil {
+					ret.ID = *retID
+				}
+			}
+		case "basicID":
+			retBasicID, e := m.ParseUUID(k, true, true)
+			if e != nil {
+				return nil, nil, e
+			}
+			if retBasicID != nil {
+				ret.BasicID = *retBasicID
+			}
+		case "name":
+			ret.Name, err = m.ParseString(k, true, true)
+		default:
+			extra[k] = v
 		}
-		if retID != nil {
-			ret.ID = *retID
+		if err != nil {
+			return nil, nil, err
 		}
-		// $PF_SECTION_START(pkchecks)$
-		// $PF_SECTION_END(pkchecks)$
-	}
-	retBasicID, e := m.ParseUUID("basicID", true, true)
-	if e != nil {
-		return nil, e
-	}
-	if retBasicID != nil {
-		ret.BasicID = *retBasicID
-	}
-	ret.Name, err = m.ParseString("name", true, true)
-	if err != nil {
-		return nil, err
 	}
 	// $PF_SECTION_START(extrachecks)$
 	// $PF_SECTION_END(extrachecks)$
-	return ret, nil
+	return ret, extra, nil
 }

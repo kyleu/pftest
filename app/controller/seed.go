@@ -140,5 +140,6 @@ func seedFromForm(r *http.Request, b []byte, setPK bool) (*seed.Seed, error) {
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to parse form")
 	}
-	return seed.FromMap(frm, setPK)
+	ret, _, err := seed.FromMap(frm, setPK)
+	return ret, err
 }

@@ -169,5 +169,6 @@ func relationFromForm(r *http.Request, b []byte, setPK bool) (*relation.Relation
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to parse form")
 	}
-	return relation.FromMap(frm, setPK)
+	ret, _, err := relation.FromMap(frm, setPK)
+	return ret, err
 }

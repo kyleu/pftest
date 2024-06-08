@@ -155,5 +155,6 @@ func pathFromForm(r *http.Request, b []byte, setPK bool) (*path.Path, error) {
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to parse form")
 	}
-	return path.FromMap(frm, setPK)
+	ret, _, err := path.FromMap(frm, setPK)
+	return ret, err
 }

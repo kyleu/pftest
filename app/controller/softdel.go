@@ -136,5 +136,6 @@ func softdelFromForm(r *http.Request, b []byte, setPK bool) (*softdel.Softdel, e
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to parse form")
 	}
-	return softdel.FromMap(frm, setPK)
+	ret, _, err := softdel.FromMap(frm, setPK)
+	return ret, err
 }

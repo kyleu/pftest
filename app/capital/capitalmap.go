@@ -3,33 +3,36 @@ package capital
 
 import "github.com/kyleu/pftest/app/util"
 
-func FromMap(m util.ValueMap, setPK bool) (*Capital, error) {
+func FromMap(m util.ValueMap, setPK bool) (*Capital, util.ValueMap, error) {
 	ret := &Capital{}
-	var err error
-	if setPK {
-		ret.ID, err = m.ParseString("id", true, true)
-		if err != nil {
-			return nil, err
+	extra := util.ValueMap{}
+	for k, v := range m {
+		var err error
+		switch k {
+		case "id":
+			if setPK {
+				ret.ID, err = m.ParseString(k, true, true)
+			}
+		case "name":
+			ret.Name, err = m.ParseString(k, true, true)
+		case "birthday":
+			retBirthday, e := m.ParseTime(k, true, true)
+			if e != nil {
+				return nil, nil, e
+			}
+			if retBirthday != nil {
+				ret.Birthday = *retBirthday
+			}
+		case "deathday":
+			ret.Deathday, err = m.ParseTime(k, true, true)
+		default:
+			extra[k] = v
 		}
-		// $PF_SECTION_START(pkchecks)$
-		// $PF_SECTION_END(pkchecks)$
-	}
-	ret.Name, err = m.ParseString("name", true, true)
-	if err != nil {
-		return nil, err
-	}
-	retBirthday, e := m.ParseTime("birthday", true, true)
-	if e != nil {
-		return nil, e
-	}
-	if retBirthday != nil {
-		ret.Birthday = *retBirthday
-	}
-	ret.Deathday, err = m.ParseTime("deathday", true, true)
-	if err != nil {
-		return nil, err
+		if err != nil {
+			return nil, nil, err
+		}
 	}
 	// $PF_SECTION_START(extrachecks)$
 	// $PF_SECTION_END(extrachecks)$
-	return ret, nil
+	return ret, extra, nil
 }

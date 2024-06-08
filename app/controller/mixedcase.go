@@ -135,5 +135,6 @@ func mixedcaseFromForm(r *http.Request, b []byte, setPK bool) (*mixedcase.MixedC
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to parse form")
 	}
-	return mixedcase.FromMap(frm, setPK)
+	ret, _, err := mixedcase.FromMap(frm, setPK)
+	return ret, err
 }

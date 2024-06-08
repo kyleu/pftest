@@ -6,40 +6,52 @@ import (
 	"github.com/kyleu/pftest/app/util"
 )
 
-func FromMap(m util.ValueMap, setPK bool) (*Reference, error) {
+func FromMap(m util.ValueMap, setPK bool) (*Reference, util.ValueMap, error) {
 	ret := &Reference{}
-	if setPK {
-		retID, e := m.ParseUUID("id", true, true)
-		if e != nil {
-			return nil, e
-		}
-		if retID != nil {
-			ret.ID = *retID
-		}
-		// $PF_SECTION_START(pkchecks)$
-		// $PF_SECTION_END(pkchecks)$
-	}
-	tmpCustom, err := m.ParseString("custom", true, true)
-	if err != nil {
-		return nil, err
-	}
+	extra := util.ValueMap{}
+	for k, v := range m {
+		var err error
+		switch k {
+		case "id":
+			if setPK {
+				retID, e := m.ParseUUID(k, true, true)
+				if e != nil {
+					return nil, nil, e
+				}
+				if retID != nil {
+					ret.ID = *retID
+				}
+			}
+		case "custom":
+			tmpCustom, err := m.ParseString("custom", true, true)
+			if err != nil {
+				return nil, nil, err
+			}
 	customArg := &foo.Custom{}
-	err = util.FromJSON([]byte(tmpCustom), customArg)
-	if err != nil {
-		return nil, err
-	}
-	ret.Custom = customArg
-	tmpSelf, err := m.ParseString("self", true, true)
-	if err != nil {
-		return nil, err
-	}
+			err = util.FromJSON([]byte(tmpCustom), customArg)
+			if err != nil {
+				return nil, nil, err
+			}
+			ret.Custom = customArg
+		case "self":
+			tmpSelf, err := m.ParseString("self", true, true)
+			if err != nil {
+				return nil, nil, err
+			}
 	selfArg := &SelfCustom{}
-	err = util.FromJSON([]byte(tmpSelf), selfArg)
-	if err != nil {
-		return nil, err
+			err = util.FromJSON([]byte(tmpSelf), selfArg)
+			if err != nil {
+				return nil, nil, err
+			}
+			ret.Self = selfArg
+		default:
+			extra[k] = v
+		}
+		if err != nil {
+			return nil, nil, err
+		}
 	}
-	ret.Self = selfArg
 	// $PF_SECTION_START(extrachecks)$
 	// $PF_SECTION_END(extrachecks)$
-	return ret, nil
+	return ret, extra, nil
 }

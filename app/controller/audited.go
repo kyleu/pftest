@@ -159,5 +159,6 @@ func auditedFromForm(r *http.Request, b []byte, setPK bool) (*audited.Audited, e
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to parse form")
 	}
-	return audited.FromMap(frm, setPK)
+	ret, _, err := audited.FromMap(frm, setPK)
+	return ret, err
 }

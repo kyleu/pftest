@@ -154,5 +154,6 @@ func referenceFromForm(r *http.Request, b []byte, setPK bool) (*reference.Refere
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to parse form")
 	}
-	return reference.FromMap(frm, setPK)
+	ret, _, err := reference.FromMap(frm, setPK)
+	return ret, err
 }

@@ -136,5 +136,6 @@ func timestampFromForm(r *http.Request, b []byte, setPK bool) (*timestamp.Timest
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to parse form")
 	}
-	return timestamp.FromMap(frm, setPK)
+	ret, _, err := timestamp.FromMap(frm, setPK)
+	return ret, err
 }
