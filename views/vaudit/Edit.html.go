@@ -51,7 +51,7 @@ func (p *Edit) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
 //line views/vaudit/Edit.html:22
 		components.StreamSVGIcon(qw422016, `cog`, ps)
 //line views/vaudit/Edit.html:22
-		qw422016.N().S(` New Audit</h3>
+		qw422016.N().S(`New Audit</h3>
     <form action="/admin/audit/new" class="mt" method="post">
 `)
 //line views/vaudit/Edit.html:24
@@ -74,7 +74,7 @@ func (p *Edit) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
 //line views/vaudit/Edit.html:26
 		components.StreamSVGIcon(qw422016, `cog`, ps)
 //line views/vaudit/Edit.html:26
-		qw422016.N().S(` Edit Audit [`)
+		qw422016.N().S(`Edit Audit [`)
 //line views/vaudit/Edit.html:26
 		qw422016.E().S(p.Model.String())
 //line views/vaudit/Edit.html:26

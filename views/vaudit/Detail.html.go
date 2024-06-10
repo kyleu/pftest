@@ -55,7 +55,7 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
 //line views/vaudit/Detail.html:25
 	components.StreamSVGIcon(qw422016, `cog`, ps)
 //line views/vaudit/Detail.html:25
-	qw422016.N().S(` Audit [`)
+	qw422016.N().S(`Audit [`)
 //line views/vaudit/Detail.html:25
 	qw422016.E().S(p.Model.String())
 //line views/vaudit/Detail.html:25
@@ -156,7 +156,7 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
 //line views/vaudit/Detail.html:77
 		components.StreamSVGIcon(qw422016, `cog`, ps)
 //line views/vaudit/Detail.html:77
-		qw422016.N().S(` Audit Records</h3>
+		qw422016.N().S(`Audit Records</h3>
     `)
 //line views/vaudit/Detail.html:78
 		StreamRecordTable(qw422016, p.Records, p.Params, as, ps)

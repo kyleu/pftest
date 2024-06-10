@@ -60,7 +60,7 @@
         <input id="accordion-RelationsByBasicID" type="checkbox" hidden="hidden"{% if p.Params.Specifies(`relation`) %} checked="checked"{% endif %} />
         <label for="accordion-RelationsByBasicID">
           {%= components.ExpandCollapse(3, ps) %}
-          {%= components.SVGRef(`star`, 16, 16, `icon`, ps) %}
+          {%= components.SVGInline(`star`, 16, ps) %}
           {%s util.StringPlural(len(p.RelRelationsByBasicID), "Relation") %} by [Basic ID]
         </label>
         <div class="bd"><div><div>

@@ -135,7 +135,7 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
 	qw422016.N().S(`
           `)
 //line views/vbasic/Detail.html:63
-	components.StreamSVGRef(qw422016, `star`, 16, 16, `icon`, ps)
+	components.StreamSVGInline(qw422016, `star`, 16, ps)
 //line views/vbasic/Detail.html:63
 	qw422016.N().S(`
           `)

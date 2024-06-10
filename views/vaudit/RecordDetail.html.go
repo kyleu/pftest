@@ -53,7 +53,7 @@ func (p *RecordDetail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *
 //line views/vaudit/RecordDetail.html:23
 	components.StreamSVGIcon(qw422016, `cog`, ps)
 //line views/vaudit/RecordDetail.html:23
-	qw422016.N().S(` Audit Record [`)
+	qw422016.N().S(`Audit Record [`)
 //line views/vaudit/RecordDetail.html:23
 	qw422016.E().S(p.Model.String())
 //line views/vaudit/RecordDetail.html:23

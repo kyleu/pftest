@@ -195,7 +195,7 @@ func StreamRenderEntry(qw422016 *qt422016.Writer, key string, e *har.Entry, ps *
 //line views/vhar/Entry.html:48
 	components.StreamExpandCollapse(qw422016, 3, ps)
 //line views/vhar/Entry.html:48
-	qw422016.N().S(` Duration
+	qw422016.N().S(`Duration
       </label>
       <div class="bd"><div><div>
         <div class="overflow full-width">
@@ -246,7 +246,7 @@ func StreamRenderEntry(qw422016 *qt422016.Writer, key string, e *har.Entry, ps *
 //line views/vhar/Entry.html:69
 	components.StreamExpandCollapse(qw422016, 3, ps)
 //line views/vhar/Entry.html:69
-	qw422016.N().S(` Request
+	qw422016.N().S(`Request
       </label>
       <div class="bd"><div><div>
         `)
@@ -276,7 +276,7 @@ func StreamRenderEntry(qw422016 *qt422016.Writer, key string, e *har.Entry, ps *
 //line views/vhar/Entry.html:79
 	components.StreamExpandCollapse(qw422016, 3, ps)
 //line views/vhar/Entry.html:79
-	qw422016.N().S(` Response
+	qw422016.N().S(`Response
       </label>
       <div class="bd"><div><div>
         `)
