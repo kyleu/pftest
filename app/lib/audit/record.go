@@ -132,7 +132,7 @@ func (a *Record) Diff(ax *Record) util.Diffs {
 }
 
 func (a *Record) ToData() []any {
-	return []any{a.ID, a.AuditID, a.T, a.PK, a.Changes, a.Metadata, a.Occurred}
+	return []any{a.ID.String(), a.AuditID.String(), a.T, a.PK, util.ToJSON(a.Changes), util.ToJSON(a.Metadata), a.Occurred}
 }
 
 type Records []*Record
