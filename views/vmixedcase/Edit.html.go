@@ -11,47 +11,47 @@ import (
 	"github.com/kyleu/pftest/app"
 	"github.com/kyleu/pftest/app/controller/cutil"
 	"github.com/kyleu/pftest/app/mixedcase"
+	"github.com/kyleu/pftest/app/util"
 	"github.com/kyleu/pftest/views/components"
 	"github.com/kyleu/pftest/views/components/edit"
 	"github.com/kyleu/pftest/views/layout"
 )
 
-//line views/vmixedcase/Edit.html:11
+//line views/vmixedcase/Edit.html:12
 import (
 	qtio422016 "io"
 
 	qt422016 "github.com/valyala/quicktemplate"
 )
 
-//line views/vmixedcase/Edit.html:11
+//line views/vmixedcase/Edit.html:12
 var (
 	_ = qtio422016.Copy
 	_ = qt422016.AcquireByteBuffer
 )
 
-//line views/vmixedcase/Edit.html:11
+//line views/vmixedcase/Edit.html:12
 type Edit struct {
 	layout.Basic
 	Model *mixedcase.MixedCase
 	IsNew bool
 }
 
-//line views/vmixedcase/Edit.html:17
+//line views/vmixedcase/Edit.html:18
 func (p *Edit) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vmixedcase/Edit.html:17
+//line views/vmixedcase/Edit.html:18
 	qw422016.N().S(`
   <div class="card">
 `)
-//line views/vmixedcase/Edit.html:19
+//line views/vmixedcase/Edit.html:20
 	if p.IsNew {
-//line views/vmixedcase/Edit.html:19
+//line views/vmixedcase/Edit.html:20
 		qw422016.N().S(`    <div class="right"><a href="?prototype=random"><button>Random</button></a></div>
     <h3>`)
-//line views/vmixedcase/Edit.html:21
+//line views/vmixedcase/Edit.html:22
 		components.StreamSVGIcon(qw422016, `star`, ps)
-//line views/vmixedcase/Edit.html:21
+//line views/vmixedcase/Edit.html:22
 		qw422016.N().S(` New Mixed Case</h3>
-    <form action="/mixedcase/_new" class="mt" method="post">
 `)
 //line views/vmixedcase/Edit.html:23
 	} else {
@@ -68,7 +68,7 @@ func (p *Edit) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
 //line views/vmixedcase/Edit.html:24
 		components.StreamSVGButton(qw422016, "times", ps)
 //line views/vmixedcase/Edit.html:24
-		qw422016.N().S(`Delete</button></a></div>
+		qw422016.N().S(` Delete</button></a></div>
     <h3>`)
 //line views/vmixedcase/Edit.html:25
 		components.StreamSVGIcon(qw422016, `star`, ps)
@@ -78,12 +78,16 @@ func (p *Edit) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
 		qw422016.E().S(p.Model.String())
 //line views/vmixedcase/Edit.html:25
 		qw422016.N().S(`]</h3>
-    <form action="" method="post">
 `)
-//line views/vmixedcase/Edit.html:27
+//line views/vmixedcase/Edit.html:26
 	}
+//line views/vmixedcase/Edit.html:26
+	qw422016.N().S(`    <form action="`)
 //line views/vmixedcase/Edit.html:27
-	qw422016.N().S(`      <table class="mt expanded">
+	qw422016.E().S(util.Choose(p.IsNew, `/mixedcase/_new`, ``))
+//line views/vmixedcase/Edit.html:27
+	qw422016.N().S(`" class="mt" method="post">
+      <table class="mt expanded">
         <tbody>
           `)
 //line views/vmixedcase/Edit.html:30

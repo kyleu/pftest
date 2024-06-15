@@ -44,7 +44,7 @@ func (p *Queue) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.P
 //line views/vadmin/Queue.html:18
 	components.StreamSVGIcon(qw422016, `queue`, ps)
 //line views/vadmin/Queue.html:18
-	qw422016.N().S(`Queue Test</h3>
+	qw422016.N().S(` Queue Test</h3>
     <div class="mt">`)
 //line views/vadmin/Queue.html:19
 	components.StreamJSON(qw422016, p.Status)
@@ -60,7 +60,7 @@ func (p *Queue) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.P
 //line views/vadmin/Queue.html:23
 		components.StreamSVGIcon(qw422016, `cog`, ps)
 //line views/vadmin/Queue.html:23
-		qw422016.N().S(`Message</h3>
+		qw422016.N().S(` Message</h3>
     <div class="mt">`)
 //line views/vadmin/Queue.html:24
 		components.StreamJSON(qw422016, p.Message)

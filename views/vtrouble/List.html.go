@@ -50,7 +50,7 @@ func (p *List) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
 //line views/vtrouble/List.html:20
 		components.StreamSVGButton(qw422016, "gift", ps)
 //line views/vtrouble/List.html:20
-		qw422016.N().S(`Random</button></a>`)
+		qw422016.N().S(` Random</button></a>`)
 //line views/vtrouble/List.html:20
 	}
 //line views/vtrouble/List.html:20
@@ -58,11 +58,13 @@ func (p *List) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
 //line views/vtrouble/List.html:21
 	components.StreamSVGButton(qw422016, "plus", ps)
 //line views/vtrouble/List.html:21
-	qw422016.N().S(`New</button></a>
+	qw422016.N().S(` New</button></a>
     </div>
     <h3>`)
 //line views/vtrouble/List.html:23
 	components.StreamSVGIcon(qw422016, `star`, ps)
+//line views/vtrouble/List.html:23
+	qw422016.N().S(` `)
 //line views/vtrouble/List.html:23
 	qw422016.E().S(ps.Title)
 //line views/vtrouble/List.html:23

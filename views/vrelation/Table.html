@@ -27,7 +27,7 @@
           <td><a href="/relation/{%= view.UUID(&model.ID) %}">{%= view.UUID(&model.ID) %}</a></td>
           <td class="nowrap">
             {%= view.UUID(&model.BasicID) %}{% if x := basicsByBasicID.Get(model.BasicID); x != nil %} ({%s x.TitleString() %}){% endif %}
-            <a title="Basic" href="{%s `/basic`+`/`+model.BasicID.String() %}">{%= components.SVGSimple("star", 18, ps) %}</a>
+            <a title="Basic" href="{%s `/basic`+`/`+model.BasicID.String() %}">{%= components.SVGLink(`star`, ps) %}</a>
           </td>
           <td><strong>{%= view.String(model.Name) %}</strong></td>
           <td>{%= view.Timestamp(&model.Created) %}</td>

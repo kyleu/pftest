@@ -59,7 +59,7 @@ func (p *Notebook) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cuti
 //line views/vnotebook/Notebook.html:33
 	components.StreamSVGIcon(qw422016, `notebook`, ps)
 //line views/vnotebook/Notebook.html:33
-	qw422016.N().S(`Notebook</h3>
+	qw422016.N().S(` Notebook</h3>
     <iframe class="iframe" src="`)
 //line views/vnotebook/Notebook.html:34
 	qw422016.E().S(p.BaseURL)

@@ -27,7 +27,7 @@ func FromMap(m util.ValueMap, setPK bool) (*Reference, util.ValueMap, error) {
 			if err != nil {
 				return nil, nil, err
 			}
-	customArg := &foo.Custom{}
+			customArg := &foo.Custom{}
 			err = util.FromJSON([]byte(tmpCustom), customArg)
 			if err != nil {
 				return nil, nil, err
@@ -38,7 +38,7 @@ func FromMap(m util.ValueMap, setPK bool) (*Reference, util.ValueMap, error) {
 			if err != nil {
 				return nil, nil, err
 			}
-	selfArg := &SelfCustom{}
+			selfArg := &SelfCustom{}
 			err = util.FromJSON([]byte(tmpSelf), selfArg)
 			if err != nil {
 				return nil, nil, err

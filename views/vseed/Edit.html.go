@@ -52,63 +52,66 @@ func (p *Edit) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
 		components.StreamSVGIcon(qw422016, `star`, ps)
 //line views/vseed/Edit.html:22
 		qw422016.N().S(` New Seed</h3>
-    <form action="/seed/_new" class="mt" method="post">
 `)
-//line views/vseed/Edit.html:24
+//line views/vseed/Edit.html:23
 	} else {
-//line views/vseed/Edit.html:24
+//line views/vseed/Edit.html:23
 		qw422016.N().S(`    <div class="right"><a class="link-confirm" href="`)
-//line views/vseed/Edit.html:25
+//line views/vseed/Edit.html:24
 		qw422016.E().S(p.Model.WebPath())
-//line views/vseed/Edit.html:25
+//line views/vseed/Edit.html:24
 		qw422016.N().S(`/delete" data-message="Are you sure you wish to delete seed [`)
-//line views/vseed/Edit.html:25
+//line views/vseed/Edit.html:24
 		qw422016.E().S(p.Model.String())
-//line views/vseed/Edit.html:25
+//line views/vseed/Edit.html:24
 		qw422016.N().S(`]?"><button>`)
-//line views/vseed/Edit.html:25
+//line views/vseed/Edit.html:24
 		components.StreamSVGButton(qw422016, "times", ps)
-//line views/vseed/Edit.html:25
-		qw422016.N().S(`Delete</button></a></div>
+//line views/vseed/Edit.html:24
+		qw422016.N().S(` Delete</button></a></div>
     <h3>`)
-//line views/vseed/Edit.html:26
+//line views/vseed/Edit.html:25
 		components.StreamSVGIcon(qw422016, `star`, ps)
-//line views/vseed/Edit.html:26
+//line views/vseed/Edit.html:25
 		qw422016.N().S(` Edit Seed [`)
-//line views/vseed/Edit.html:26
+//line views/vseed/Edit.html:25
 		qw422016.E().S(p.Model.String())
-//line views/vseed/Edit.html:26
+//line views/vseed/Edit.html:25
 		qw422016.N().S(`]</h3>
-    <form action="" method="post">
 `)
-//line views/vseed/Edit.html:28
+//line views/vseed/Edit.html:26
 	}
-//line views/vseed/Edit.html:28
-	qw422016.N().S(`      <table class="mt expanded">
+//line views/vseed/Edit.html:26
+	qw422016.N().S(`    <form action="`)
+//line views/vseed/Edit.html:27
+	qw422016.E().S(util.Choose(p.IsNew, `/seed/_new`, ``))
+//line views/vseed/Edit.html:27
+	qw422016.N().S(`" class="mt" method="post">
+      <table class="mt expanded">
         <tbody>
           `)
-//line views/vseed/Edit.html:31
+//line views/vseed/Edit.html:30
 	if p.IsNew {
-//line views/vseed/Edit.html:31
+//line views/vseed/Edit.html:30
 		edit.StreamUUIDTable(qw422016, "id", "", "ID", &p.Model.ID, 5, "UUID in format (00000000-0000-0000-0000-000000000000)")
-//line views/vseed/Edit.html:31
+//line views/vseed/Edit.html:30
 	}
+//line views/vseed/Edit.html:30
+	qw422016.N().S(`
+          `)
+//line views/vseed/Edit.html:31
+	edit.StreamStringTable(qw422016, "name", "", "Name", p.Model.Name, 5, "String text")
 //line views/vseed/Edit.html:31
 	qw422016.N().S(`
           `)
 //line views/vseed/Edit.html:32
-	edit.StreamStringTable(qw422016, "name", "", "Name", p.Model.Name, 5, "String text")
+	edit.StreamIntTable(qw422016, "size", "", "Size", p.Model.Size, 5, "Integer")
 //line views/vseed/Edit.html:32
 	qw422016.N().S(`
           `)
 //line views/vseed/Edit.html:33
-	edit.StreamIntTable(qw422016, "size", "", "Size", p.Model.Size, 5, "Integer")
-//line views/vseed/Edit.html:33
-	qw422016.N().S(`
-          `)
-//line views/vseed/Edit.html:34
 	edit.StreamTextareaTable(qw422016, "obj", "", "Obj", 8, util.ToJSON(p.Model.Obj), 5, "JSON object")
-//line views/vseed/Edit.html:34
+//line views/vseed/Edit.html:33
 	qw422016.N().S(`
           <tr><td colspan="2"><button type="submit">Save Changes</button></td></tr>
         </tbody>
@@ -116,31 +119,31 @@ func (p *Edit) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
     </form>
   </div>
 `)
-//line views/vseed/Edit.html:40
+//line views/vseed/Edit.html:39
 }
 
-//line views/vseed/Edit.html:40
+//line views/vseed/Edit.html:39
 func (p *Edit) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vseed/Edit.html:40
+//line views/vseed/Edit.html:39
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vseed/Edit.html:40
+//line views/vseed/Edit.html:39
 	p.StreamBody(qw422016, as, ps)
-//line views/vseed/Edit.html:40
+//line views/vseed/Edit.html:39
 	qt422016.ReleaseWriter(qw422016)
-//line views/vseed/Edit.html:40
+//line views/vseed/Edit.html:39
 }
 
-//line views/vseed/Edit.html:40
+//line views/vseed/Edit.html:39
 func (p *Edit) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vseed/Edit.html:40
+//line views/vseed/Edit.html:39
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vseed/Edit.html:40
+//line views/vseed/Edit.html:39
 	p.WriteBody(qb422016, as, ps)
-//line views/vseed/Edit.html:40
+//line views/vseed/Edit.html:39
 	qs422016 := string(qb422016.B)
-//line views/vseed/Edit.html:40
+//line views/vseed/Edit.html:39
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vseed/Edit.html:40
+//line views/vseed/Edit.html:39
 	return qs422016
-//line views/vseed/Edit.html:40
+//line views/vseed/Edit.html:39
 }

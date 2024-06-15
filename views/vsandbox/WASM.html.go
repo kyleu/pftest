@@ -42,6 +42,8 @@ func (p *WASM) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
 //line views/vsandbox/WASM.html:16
 	components.StreamSVGIcon(qw422016, `gift`, ps)
 //line views/vsandbox/WASM.html:16
+	qw422016.N().S(` `)
+//line views/vsandbox/WASM.html:16
 	qw422016.E().S(util.AppName)
 //line views/vsandbox/WASM.html:16
 	qw422016.N().S(` WASM</h3>

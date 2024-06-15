@@ -84,7 +84,7 @@ func (p *Files) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.P
 //line views/vnotebook/Files.html:36
 	components.StreamSVGIcon(qw422016, `notebook`, ps)
 //line views/vnotebook/Files.html:36
-	qw422016.N().S(`Notebook Files</h3>
+	qw422016.N().S(` Notebook Files</h3>
   </div>
 `)
 //line views/vnotebook/Files.html:38

@@ -48,7 +48,7 @@ func (p *List) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
 //line views/vgraphql/List.html:18
 	components.StreamSVGIcon(qw422016, `graph`, ps)
 //line views/vgraphql/List.html:18
-	qw422016.N().S(`GraphQL</h3>
+	qw422016.N().S(` GraphQL</h3>
 `)
 //line views/vgraphql/List.html:19
 	if len(p.Keys) == 0 {

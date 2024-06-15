@@ -62,6 +62,8 @@ func (p *Settings) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cuti
 //line views/vadmin/Settings.html:22
 	components.StreamSVGIcon(qw422016, `cog`, ps)
 //line views/vadmin/Settings.html:22
+	qw422016.N().S(` `)
+//line views/vadmin/Settings.html:22
 	qw422016.E().S(util.AppName)
 //line views/vadmin/Settings.html:22
 	qw422016.N().S(` `)
@@ -107,7 +109,7 @@ func (p *Settings) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cuti
 //line views/vadmin/Settings.html:35
 	components.StreamSVGIcon(qw422016, `cog`, ps)
 //line views/vadmin/Settings.html:35
-	qw422016.N().S(`View audit logs</a></li>
+	qw422016.N().S(` View audit logs</a></li>
     </ul>
   </div>
 
@@ -116,7 +118,7 @@ func (p *Settings) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cuti
 //line views/vadmin/Settings.html:40
 	components.StreamSVGIcon(qw422016, `archive`, ps)
 //line views/vadmin/Settings.html:40
-	qw422016.N().S(`Admin Functions</h3>
+	qw422016.N().S(` Admin Functions</h3>
     `)
 //line views/vadmin/Settings.html:41
 	streamsettingsLink(qw422016, "/admin/server", "archive", "App Information", "All sorts of info about the server and runtime", ps)
@@ -164,7 +166,7 @@ func (p *Settings) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cuti
 //line views/vadmin/Settings.html:52
 	components.StreamSVGIcon(qw422016, `bolt`, ps)
 //line views/vadmin/Settings.html:52
-	qw422016.N().S(`HTTP Methods</h3>
+	qw422016.N().S(` HTTP Methods</h3>
     `)
 //line views/vadmin/Settings.html:53
 	streamsettingsLink(qw422016, "/admin/sitemap", "bolt", "Sitemap", "Displays the HTTP actions that are available, with documentation", ps)
@@ -202,7 +204,7 @@ func (p *Settings) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cuti
 //line views/vadmin/Settings.html:62
 	components.StreamSVGIcon(qw422016, `cog`, ps)
 //line views/vadmin/Settings.html:62
-	qw422016.N().S(`App Profiling</h3>
+	qw422016.N().S(` App Profiling</h3>
     `)
 //line views/vadmin/Settings.html:63
 	streamsettingsLink(qw422016, "/admin/system", "desktop", "System Status", "Tons of info about the computer running this application", ps)
@@ -240,7 +242,7 @@ func (p *Settings) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cuti
 //line views/vadmin/Settings.html:72
 	components.StreamSVGIcon(qw422016, `database`, ps)
 //line views/vadmin/Settings.html:72
-	qw422016.N().S(`Database Management</h3>
+	qw422016.N().S(` Database Management</h3>
     `)
 //line views/vadmin/Settings.html:73
 	streamsettingsLink(qw422016, "/admin/database", "database", "Database Management", "Tools for exploring and manipulating your database", ps)

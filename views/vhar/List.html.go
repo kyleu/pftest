@@ -42,7 +42,7 @@ func (p *List) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
 //line views/vhar/List.html:16
 	components.StreamSVGIcon(qw422016, `upload`, ps)
 //line views/vhar/List.html:16
-	qw422016.N().S(`HTTP Archives</h3>
+	qw422016.N().S(` HTTP Archives</h3>
     <div>
       <form action="" method="post" enctype="multipart/form-data">
         <div class="mt"><input type="file" name="f" /></div>
@@ -56,7 +56,7 @@ func (p *List) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
 //line views/vhar/List.html:26
 	components.StreamSVGIcon(qw422016, `book`, ps)
 //line views/vhar/List.html:26
-	qw422016.N().S(`Managed Archives</h3>
+	qw422016.N().S(` Managed Archives</h3>
     <ul class="mts">
 `)
 //line views/vhar/List.html:28
