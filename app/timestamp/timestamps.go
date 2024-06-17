@@ -64,10 +64,7 @@ func (t Timestamps) ToCSV() ([]string, [][]string) {
 }
 
 func (t Timestamps) Random() *Timestamp {
-	if len(t) == 0 {
-		return nil
-	}
-	return t[util.RandomInt(len(t))]
+	return util.RandomElement(t)
 }
 
 func (t Timestamps) Clone() Timestamps {

@@ -65,10 +65,7 @@ func (p Paths) ToCSV() ([]string, [][]string) {
 }
 
 func (p Paths) Random() *Path {
-	if len(p) == 0 {
-		return nil
-	}
-	return p[util.RandomInt(len(p))]
+	return util.RandomElement(p)
 }
 
 func (p Paths) Clone() Paths {

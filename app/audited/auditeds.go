@@ -65,10 +65,7 @@ func (a Auditeds) ToCSV() ([]string, [][]string) {
 }
 
 func (a Auditeds) Random() *Audited {
-	if len(a) == 0 {
-		return nil
-	}
-	return a[util.RandomInt(len(a))]
+	return util.RandomElement(a)
 }
 
 func (a Auditeds) Clone() Auditeds {

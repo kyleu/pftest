@@ -194,5 +194,5 @@ func (b Bars) GetByVersion(input string, logger util.Logger) Bar {
 }
 
 func (b Bars) Random() Bar {
-	return b[util.RandomInt(len(b))]
+	return util.RandomElement(b)
 }

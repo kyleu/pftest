@@ -64,10 +64,7 @@ func (m MixedCases) ToCSV() ([]string, [][]string) {
 }
 
 func (m MixedCases) Random() *MixedCase {
-	if len(m) == 0 {
-		return nil
-	}
-	return m[util.RandomInt(len(m))]
+	return util.RandomElement(m)
 }
 
 func (m MixedCases) Clone() MixedCases {

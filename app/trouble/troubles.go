@@ -87,10 +87,7 @@ func (t Troubles) ToCSV() ([]string, [][]string) {
 }
 
 func (t Troubles) Random() *Trouble {
-	if len(t) == 0 {
-		return nil
-	}
-	return t[util.RandomInt(len(t))]
+	return util.RandomElement(t)
 }
 
 func (t Troubles) Clone() Troubles {

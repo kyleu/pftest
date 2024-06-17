@@ -65,10 +65,7 @@ func (s Seeds) ToCSV() ([]string, [][]string) {
 }
 
 func (s Seeds) Random() *Seed {
-	if len(s) == 0 {
-		return nil
-	}
-	return s[util.RandomInt(len(s))]
+	return util.RandomElement(s)
 }
 
 func (s Seeds) Clone() Seeds {

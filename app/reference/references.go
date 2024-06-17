@@ -65,10 +65,7 @@ func (r References) ToCSV() ([]string, [][]string) {
 }
 
 func (r References) Random() *Reference {
-	if len(r) == 0 {
-		return nil
-	}
-	return r[util.RandomInt(len(r))]
+	return util.RandomElement(r)
 }
 
 func (r References) Clone() References {

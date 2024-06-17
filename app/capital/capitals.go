@@ -64,10 +64,7 @@ func (c Capitals) ToCSV() ([]string, [][]string) {
 }
 
 func (c Capitals) Random() *Capital {
-	if len(c) == 0 {
-		return nil
-	}
-	return c[util.RandomInt(len(c))]
+	return util.RandomElement(c)
 }
 
 func (c Capitals) Clone() Capitals {

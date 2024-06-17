@@ -64,10 +64,7 @@ func (s Softdels) ToCSV() ([]string, [][]string) {
 }
 
 func (s Softdels) Random() *Softdel {
-	if len(s) == 0 {
-		return nil
-	}
-	return s[util.RandomInt(len(s))]
+	return util.RandomElement(s)
 }
 
 func (s Softdels) Clone() Softdels {
