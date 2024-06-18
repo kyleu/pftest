@@ -1,4 +1,3 @@
-// Package timestamp - Content managed by Project Forge, see [projectforge.md] for details.
 package timestamp
 
 import (

@@ -1,4 +1,3 @@
-// Package har - Content managed by Project Forge, see [projectforge.md] for details.
 package har
 
 import "net/url"

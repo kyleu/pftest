@@ -1,4 +1,3 @@
-// Package proxy - Content managed by Project Forge, see [projectforge.md] for details.
 package proxy
 
 import (

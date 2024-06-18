@@ -1,4 +1,3 @@
--- Content managed by Project Forge, see [projectforge.md] for details.
 -- {% func ReferenceDrop() %}
 drop table if exists "reference";
 -- {% endfunc %}

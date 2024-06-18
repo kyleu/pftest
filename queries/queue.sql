@@ -1,4 +1,3 @@
--- Content managed by Project Forge, see [projectforge.md] for details.
 -- {% func QueueCreateTable(table string) %}
 create table "{%s table %}" (
   id text primary key,

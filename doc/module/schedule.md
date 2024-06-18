@@ -1,4 +1,3 @@
-<!--- Content managed by Project Forge, see [projectforge.md] for details. -->
 # Scheduled Jobs
 
 This is a module for [Project Forge](https://projectforge.dev). It provides a scheduled job engine and UI based on `gocron`

@@ -1,4 +1,3 @@
-// Package queue - Content managed by Project Forge, see [projectforge.md] for details.
 package queue
 
 import (

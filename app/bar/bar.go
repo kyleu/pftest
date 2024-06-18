@@ -1,4 +1,3 @@
-// Package bar - Content managed by Project Forge, see [projectforge.md] for details.
 package bar
 
 import (

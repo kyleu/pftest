@@ -1,4 +1,3 @@
-// Package trouble - Content managed by Project Forge, see [projectforge.md] for details.
 package trouble
 
 import "github.com/kyleu/pftest/app/util"

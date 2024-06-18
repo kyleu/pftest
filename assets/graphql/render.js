@@ -1,4 +1,3 @@
-// Content managed by Project Forge, see [projectforge.md] for details.
 var search = window.location.search;
 var parameters = {};
 search

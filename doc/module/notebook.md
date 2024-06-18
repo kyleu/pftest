@@ -1,4 +1,3 @@
-<!--- Content managed by Project Forge, see [projectforge.md] for details. -->
 # Notebook
 
 This is a module for [Project Forge](https://projectforge.dev). It provides an Observable Framework notebook

@@ -1,4 +1,3 @@
-// Package relation - Content managed by Project Forge, see [projectforge.md] for details.
 package relation
 
 import "github.com/kyleu/pftest/app/util"

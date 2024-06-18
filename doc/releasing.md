@@ -1,4 +1,3 @@
-<!--- Content managed by Project Forge, see [projectforge.md] for details. -->
 # Releasing
 
 Test Project uses `goreleaser` to create build artifacts.

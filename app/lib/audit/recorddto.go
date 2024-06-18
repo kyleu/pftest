@@ -1,4 +1,3 @@
-// Package audit - Content managed by Project Forge, see [projectforge.md] for details.
 package audit
 
 import (

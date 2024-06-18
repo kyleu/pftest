@@ -1,4 +1,3 @@
-// Package seed - Content managed by Project Forge, see [projectforge.md] for details.
 package seed
 
 import "github.com/kyleu/pftest/app/util"

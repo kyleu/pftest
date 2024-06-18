@@ -1,4 +1,3 @@
-// Package basic - Content managed by Project Forge, see [projectforge.md] for details.
 package basic
 
 import "github.com/kyleu/pftest/app/util"

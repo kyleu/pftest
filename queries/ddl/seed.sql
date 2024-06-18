@@ -1,4 +1,3 @@
--- Content managed by Project Forge, see [projectforge.md] for details.
 -- {% func SeedDrop() %}
 drop table if exists "seed";
 -- {% endfunc %}

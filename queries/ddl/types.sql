@@ -1,4 +1,3 @@
--- Content managed by Project Forge, see [projectforge.md] for details.
 -- {% func TypesDrop() %}
 drop type if exists "foo";
 drop type if exists "bar";

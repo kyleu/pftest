@@ -1,6 +1,4 @@
 //go:build js
-
-// Package wasm - Content managed by Project Forge, see [projectforge.md] for details.
 package main
 
 import (

@@ -1,4 +1,3 @@
-<!--- Content managed by Project Forge, see [projectforge.md] for details. -->
 # System Status
 
 This is a module for [Project Forge](https://projectforge.dev). It provides logic and a UI for getting the status of the system the app is running on

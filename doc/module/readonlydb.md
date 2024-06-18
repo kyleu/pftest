@@ -1,4 +1,3 @@
-<!--- Content managed by Project Forge, see [projectforge.md] for details. -->
 # Read-only Database
 
 This is a module for [Project Forge](https://projectforge.dev). Provides a read-only database

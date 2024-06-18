@@ -1,4 +1,3 @@
-<!--- Content managed by Project Forge, see [projectforge.md] for details. -->
 # Test Project Desktop Project
 
 This folder contains the template for the desktop build of Test Project.

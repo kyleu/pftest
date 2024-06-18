@@ -1,4 +1,3 @@
-// Package softdel - Content managed by Project Forge, see [projectforge.md] for details.
 package softdel
 
 import "github.com/kyleu/pftest/app/util"

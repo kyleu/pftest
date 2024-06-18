@@ -1,4 +1,3 @@
-<!--- Content managed by Project Forge, see [projectforge.md] for details. -->
 # OpenAPI
 
 This is a module for [Project Forge](https://projectforge.dev). It embeds the Swagger UI, using your OpenAPI specification 

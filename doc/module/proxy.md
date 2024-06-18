@@ -1,4 +1,3 @@
-<!--- Content managed by Project Forge, see [projectforge.md] for details. -->
 # Proxy
 
 This is a module for [Project Forge](https://projectforge.dev). It provides an HTTP proxy while still enforcing this app's security.

@@ -1,4 +1,3 @@
-<!--- Content managed by Project Forge, see [projectforge.md] for details. -->
 # Brand Icons
 
 This is a module for [Project Forge](https://projectforge.dev). It provides thousands of SVG icons from [simple-icons](https://github.com/simple-icons/simple-icons) for representing common logos
