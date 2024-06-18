@@ -31,7 +31,10 @@ func (b *Basic) String() string {
 }
 
 func (b *Basic) TitleString() string {
-	return b.Name
+	if xx := b.Name; xx != "" {
+		return xx
+	}
+	return b.String()
 }
 
 func Random() *Basic {

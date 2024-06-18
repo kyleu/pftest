@@ -31,7 +31,10 @@ func (s *Seed) String() string {
 }
 
 func (s *Seed) TitleString() string {
-	return s.Name
+	if xx := s.Name; xx != "" {
+		return xx
+	}
+	return s.String()
 }
 
 func Random() *Seed {

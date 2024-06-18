@@ -27,7 +27,10 @@ func (a *Audited) String() string {
 }
 
 func (a *Audited) TitleString() string {
-	return a.Name
+	if xx := a.Name; xx != "" {
+		return xx
+	}
+	return a.String()
 }
 
 func Random() *Audited {

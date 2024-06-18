@@ -31,7 +31,10 @@ func (p *Path) String() string {
 }
 
 func (p *Path) TitleString() string {
-	return p.Name
+	if xx := p.Name; xx != "" {
+		return xx
+	}
+	return p.String()
 }
 
 func Random() *Path {

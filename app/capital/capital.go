@@ -30,7 +30,10 @@ func (c *Capital) String() string {
 }
 
 func (c *Capital) TitleString() string {
-	return c.Name
+	if xx := c.Name; xx != "" {
+		return xx
+	}
+	return c.String()
 }
 
 func Random() *Capital {

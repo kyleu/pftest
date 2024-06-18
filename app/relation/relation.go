@@ -31,7 +31,10 @@ func (r *Relation) String() string {
 }
 
 func (r *Relation) TitleString() string {
-	return r.Name
+	if xx := r.Name; xx != "" {
+		return xx
+	}
+	return r.String()
 }
 
 func Random() *Relation {
