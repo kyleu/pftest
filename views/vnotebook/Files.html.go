@@ -109,40 +109,45 @@ func (p *Files) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.P
 
 //line views/vnotebook/Files.html:48
 		qw422016.N().S(`  <div class="card">
-    `)
+`)
 //line views/vnotebook/Files.html:50
-		vfile.StreamDetail(qw422016, p.Path, b, u, nil, as, ps)
+		links := map[string]string{"Download": "?download=true"}
+
 //line views/vnotebook/Files.html:50
+		qw422016.N().S(`    `)
+//line views/vnotebook/Files.html:51
+		vfile.StreamDetail(qw422016, p.Path, b, u, links, as, ps)
+//line views/vnotebook/Files.html:51
 		qw422016.N().S(`
   </div>
 `)
-//line views/vnotebook/Files.html:52
+//line views/vnotebook/Files.html:53
 	}
-//line views/vnotebook/Files.html:53
+//line views/vnotebook/Files.html:54
 }
 
-//line views/vnotebook/Files.html:53
+//line views/vnotebook/Files.html:54
 func (p *Files) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vnotebook/Files.html:53
+//line views/vnotebook/Files.html:54
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vnotebook/Files.html:53
+//line views/vnotebook/Files.html:54
 	p.StreamBody(qw422016, as, ps)
-//line views/vnotebook/Files.html:53
+//line views/vnotebook/Files.html:54
 	qt422016.ReleaseWriter(qw422016)
-//line views/vnotebook/Files.html:53
+//line views/vnotebook/Files.html:54
 }
 
-//line views/vnotebook/Files.html:53
+//line views/vnotebook/Files.html:54
 func (p *Files) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vnotebook/Files.html:53
+//line views/vnotebook/Files.html:54
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vnotebook/Files.html:53
+//line views/vnotebook/Files.html:54
 	p.WriteBody(qb422016, as, ps)
-//line views/vnotebook/Files.html:53
+//line views/vnotebook/Files.html:54
 	qs422016 := string(qb422016.B)
-//line views/vnotebook/Files.html:53
+//line views/vnotebook/Files.html:54
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vnotebook/Files.html:53
+//line views/vnotebook/Files.html:54
 	return qs422016
-//line views/vnotebook/Files.html:53
+//line views/vnotebook/Files.html:54
 }
