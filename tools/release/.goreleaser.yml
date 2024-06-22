@@ -1,4 +1,6 @@
 # http://goreleaser.com
+version: 2
+
 project_name: pftest
 
 archives:
@@ -15,7 +17,7 @@ brews:
     commit_author:
       name: "Kyle U"
       email: "projectforge@kyleu.com"
-    folder: Formula
+    directory: Formula
     homepage: "https://github.com/kyleu/pftest"
     description: "This app is pretty much totally generated via Project Forge"
     license: "CC0"
