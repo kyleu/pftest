@@ -52,7 +52,6 @@ require (
 	golang.org/x/oauth2 v0.21.0
 	gopkg.in/yaml.v2 v2.4.0
 	modernc.org/sqlite v1.30.1
-	projectforge.dev/projectforge v1.4.4
 )
 
 require (
@@ -81,7 +80,6 @@ require (
 	github.com/google/pprof v0.0.0-20240528025155-186aa0362fba // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.20.0 // indirect
 	github.com/hashicorp/golang-lru/v2 v2.0.7 // indirect
-	github.com/iancoleman/strcase v0.2.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/jackc/chunkreader/v2 v2.0.1 // indirect
 	github.com/jackc/pgconn v1.14.3 // indirect

@@ -8,7 +8,7 @@ import (
 
 	"github.com/samber/lo"
 
-	"projectforge.dev/projectforge/app/util"
+	"github.com/kyleu/pftest/app/util"
 )
 
 type ImportType string
