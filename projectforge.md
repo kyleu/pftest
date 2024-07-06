@@ -16,6 +16,7 @@ The following modules were used to build this project:
 - [export](./doc/module/export.md)
 - [expression](./doc/module/expression.md)
 - [filesystem](./doc/module/filesystem.md)
+- [git](./doc/module/git.md)
 - [graphql](./doc/module/graphql.md)
 - [har](./doc/module/har.md)
 - [help](./doc/module/help.md)
