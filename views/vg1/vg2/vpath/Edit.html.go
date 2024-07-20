@@ -32,79 +32,80 @@ var (
 type Edit struct {
 	layout.Basic
 	Model *path.Path
+	Paths []string
 	IsNew bool
 }
 
-//line views/vg1/vg2/vpath/Edit.html:17
+//line views/vg1/vg2/vpath/Edit.html:18
 func (p *Edit) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vg1/vg2/vpath/Edit.html:17
+//line views/vg1/vg2/vpath/Edit.html:18
 	qw422016.N().S(`
   <div class="card">
 `)
-//line views/vg1/vg2/vpath/Edit.html:19
+//line views/vg1/vg2/vpath/Edit.html:20
 	if p.IsNew {
-//line views/vg1/vg2/vpath/Edit.html:19
+//line views/vg1/vg2/vpath/Edit.html:20
 		qw422016.N().S(`    <div class="right"><a href="?prototype=random"><button>Random</button></a></div>
     <h3>`)
-//line views/vg1/vg2/vpath/Edit.html:21
+//line views/vg1/vg2/vpath/Edit.html:22
 		components.StreamSVGIcon(qw422016, `star`, ps)
-//line views/vg1/vg2/vpath/Edit.html:21
+//line views/vg1/vg2/vpath/Edit.html:22
 		qw422016.N().S(` New Path</h3>
 `)
-//line views/vg1/vg2/vpath/Edit.html:22
+//line views/vg1/vg2/vpath/Edit.html:23
 	} else {
-//line views/vg1/vg2/vpath/Edit.html:22
+//line views/vg1/vg2/vpath/Edit.html:23
 		qw422016.N().S(`    <div class="right"><a class="link-confirm" href="`)
-//line views/vg1/vg2/vpath/Edit.html:23
-		qw422016.E().S(p.Model.WebPath())
-//line views/vg1/vg2/vpath/Edit.html:23
+//line views/vg1/vg2/vpath/Edit.html:24
+		qw422016.E().S(p.Model.WebPath(p.Paths...))
+//line views/vg1/vg2/vpath/Edit.html:24
 		qw422016.N().S(`/delete" data-message="Are you sure you wish to delete path [`)
-//line views/vg1/vg2/vpath/Edit.html:23
+//line views/vg1/vg2/vpath/Edit.html:24
 		qw422016.E().S(p.Model.String())
-//line views/vg1/vg2/vpath/Edit.html:23
+//line views/vg1/vg2/vpath/Edit.html:24
 		qw422016.N().S(`]?"><button>`)
-//line views/vg1/vg2/vpath/Edit.html:23
+//line views/vg1/vg2/vpath/Edit.html:24
 		components.StreamSVGButton(qw422016, "times", ps)
-//line views/vg1/vg2/vpath/Edit.html:23
+//line views/vg1/vg2/vpath/Edit.html:24
 		qw422016.N().S(` Delete</button></a></div>
     <h3>`)
-//line views/vg1/vg2/vpath/Edit.html:24
+//line views/vg1/vg2/vpath/Edit.html:25
 		components.StreamSVGIcon(qw422016, `star`, ps)
-//line views/vg1/vg2/vpath/Edit.html:24
+//line views/vg1/vg2/vpath/Edit.html:25
 		qw422016.N().S(` Edit Path [`)
-//line views/vg1/vg2/vpath/Edit.html:24
+//line views/vg1/vg2/vpath/Edit.html:25
 		qw422016.E().S(p.Model.String())
-//line views/vg1/vg2/vpath/Edit.html:24
+//line views/vg1/vg2/vpath/Edit.html:25
 		qw422016.N().S(`]</h3>
 `)
-//line views/vg1/vg2/vpath/Edit.html:25
+//line views/vg1/vg2/vpath/Edit.html:26
 	}
-//line views/vg1/vg2/vpath/Edit.html:25
+//line views/vg1/vg2/vpath/Edit.html:26
 	qw422016.N().S(`    <form action="`)
-//line views/vg1/vg2/vpath/Edit.html:26
-	qw422016.E().S(util.Choose(p.IsNew, `/g1/g2/path/_new`, ``))
-//line views/vg1/vg2/vpath/Edit.html:26
+//line views/vg1/vg2/vpath/Edit.html:27
+	qw422016.E().S(util.Choose(p.IsNew, path.Route(p.Paths...)+`/_new`, p.Model.WebPath(p.Paths...)+`/edit`))
+//line views/vg1/vg2/vpath/Edit.html:27
 	qw422016.N().S(`" class="mt" method="post">
       <table class="mt expanded">
         <tbody>
           `)
-//line views/vg1/vg2/vpath/Edit.html:29
+//line views/vg1/vg2/vpath/Edit.html:30
 	if p.IsNew {
-//line views/vg1/vg2/vpath/Edit.html:29
+//line views/vg1/vg2/vpath/Edit.html:30
 		edit.StreamUUIDTable(qw422016, "id", "", "ID", &p.Model.ID, 5, "UUID in format (00000000-0000-0000-0000-000000000000)")
-//line views/vg1/vg2/vpath/Edit.html:29
+//line views/vg1/vg2/vpath/Edit.html:30
 	}
-//line views/vg1/vg2/vpath/Edit.html:29
+//line views/vg1/vg2/vpath/Edit.html:30
 	qw422016.N().S(`
           `)
-//line views/vg1/vg2/vpath/Edit.html:30
+//line views/vg1/vg2/vpath/Edit.html:31
 	edit.StreamStringTable(qw422016, "name", "", "Name", p.Model.Name, 5, "String text")
-//line views/vg1/vg2/vpath/Edit.html:30
+//line views/vg1/vg2/vpath/Edit.html:31
 	qw422016.N().S(`
           `)
-//line views/vg1/vg2/vpath/Edit.html:31
+//line views/vg1/vg2/vpath/Edit.html:32
 	edit.StreamSelectTable(qw422016, "status", "", "Status", p.Model.Status, []string{"a", "b", "c"}, nil, 5, "String text")
-//line views/vg1/vg2/vpath/Edit.html:31
+//line views/vg1/vg2/vpath/Edit.html:32
 	qw422016.N().S(`
           <tr><td colspan="2"><button type="submit">Save Changes</button></td></tr>
         </tbody>
@@ -112,31 +113,31 @@ func (p *Edit) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
     </form>
   </div>
 `)
-//line views/vg1/vg2/vpath/Edit.html:37
+//line views/vg1/vg2/vpath/Edit.html:38
 }
 
-//line views/vg1/vg2/vpath/Edit.html:37
+//line views/vg1/vg2/vpath/Edit.html:38
 func (p *Edit) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vg1/vg2/vpath/Edit.html:37
+//line views/vg1/vg2/vpath/Edit.html:38
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vg1/vg2/vpath/Edit.html:37
+//line views/vg1/vg2/vpath/Edit.html:38
 	p.StreamBody(qw422016, as, ps)
-//line views/vg1/vg2/vpath/Edit.html:37
+//line views/vg1/vg2/vpath/Edit.html:38
 	qt422016.ReleaseWriter(qw422016)
-//line views/vg1/vg2/vpath/Edit.html:37
+//line views/vg1/vg2/vpath/Edit.html:38
 }
 
-//line views/vg1/vg2/vpath/Edit.html:37
+//line views/vg1/vg2/vpath/Edit.html:38
 func (p *Edit) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vg1/vg2/vpath/Edit.html:37
+//line views/vg1/vg2/vpath/Edit.html:38
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vg1/vg2/vpath/Edit.html:37
+//line views/vg1/vg2/vpath/Edit.html:38
 	p.WriteBody(qb422016, as, ps)
-//line views/vg1/vg2/vpath/Edit.html:37
+//line views/vg1/vg2/vpath/Edit.html:38
 	qs422016 := string(qb422016.B)
-//line views/vg1/vg2/vpath/Edit.html:37
+//line views/vg1/vg2/vpath/Edit.html:38
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vg1/vg2/vpath/Edit.html:37
+//line views/vg1/vg2/vpath/Edit.html:38
 	return qs422016
-//line views/vg1/vg2/vpath/Edit.html:37
+//line views/vg1/vg2/vpath/Edit.html:38
 }

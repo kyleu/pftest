@@ -1,6 +1,8 @@
 package relation
 
 import (
+	"net/url"
+	"path"
 	"time"
 
 	"github.com/google/uuid"
@@ -8,6 +10,15 @@ import (
 	"github.com/kyleu/pftest/app/lib/svc"
 	"github.com/kyleu/pftest/app/util"
 )
+
+const DefaultRoute = "/relation"
+
+func Route(paths ...string) string {
+	if len(paths) == 0 {
+		paths = []string{DefaultRoute}
+	}
+	return path.Join(paths...)
+}
 
 var _ svc.Model = (*Relation)(nil)
 
@@ -54,8 +65,11 @@ func (r *Relation) ToCSV() ([]string, [][]string) {
 	return FieldDescs.Keys(), [][]string{r.Strings()}
 }
 
-func (r *Relation) WebPath() string {
-	return "/relation/" + r.ID.String()
+func (r *Relation) WebPath(paths ...string) string {
+	if len(paths) == 0 {
+		paths = []string{DefaultRoute}
+	}
+	return path.Join(append(paths, url.QueryEscape(r.ID.String()))...)
 }
 
 func (r *Relation) ToData() []any {

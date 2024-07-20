@@ -35,107 +35,112 @@ type List struct {
 	Models          relation.Relations
 	BasicsByBasicID basic.Basics
 	Params          filter.ParamSet
+	Paths           []string
 	SearchQuery     string
 }
 
-//line views/vrelation/List.html:20
+//line views/vrelation/List.html:21
 func (p *List) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vrelation/List.html:20
+//line views/vrelation/List.html:21
 	qw422016.N().S(`
   <div class="card">
     <div class="right">`)
-//line views/vrelation/List.html:22
+//line views/vrelation/List.html:23
 	edit.StreamSearchForm(qw422016, "", "q", "Search Relations", p.SearchQuery, ps)
-//line views/vrelation/List.html:22
+//line views/vrelation/List.html:23
 	qw422016.N().S(`</div>
     <div class="right mrs large-buttons">
 `)
-//line views/vrelation/List.html:24
+//line views/vrelation/List.html:25
 	if len(p.Models) > 1 {
-//line views/vrelation/List.html:24
+//line views/vrelation/List.html:25
 		qw422016.N().S(`<a href="/relation/_random"><button>`)
-//line views/vrelation/List.html:24
+//line views/vrelation/List.html:25
 		components.StreamSVGButton(qw422016, "gift", ps)
-//line views/vrelation/List.html:24
+//line views/vrelation/List.html:25
 		qw422016.N().S(` Random</button></a>`)
-//line views/vrelation/List.html:24
+//line views/vrelation/List.html:25
 	}
-//line views/vrelation/List.html:24
-	qw422016.N().S(`      <a href="/relation/_new"><button>`)
 //line views/vrelation/List.html:25
+	qw422016.N().S(`      <a href="`)
+//line views/vrelation/List.html:26
+	qw422016.E().S(relation.Route(p.Paths...))
+//line views/vrelation/List.html:26
+	qw422016.N().S(`/_new"><button>`)
+//line views/vrelation/List.html:26
 	components.StreamSVGButton(qw422016, "plus", ps)
-//line views/vrelation/List.html:25
+//line views/vrelation/List.html:26
 	qw422016.N().S(` New</button></a>
     </div>
     <h3>`)
-//line views/vrelation/List.html:27
+//line views/vrelation/List.html:28
 	components.StreamSVGIcon(qw422016, `star`, ps)
-//line views/vrelation/List.html:27
+//line views/vrelation/List.html:28
 	qw422016.N().S(` `)
-//line views/vrelation/List.html:27
+//line views/vrelation/List.html:28
 	qw422016.E().S(ps.Title)
-//line views/vrelation/List.html:27
+//line views/vrelation/List.html:28
 	qw422016.N().S(`</h3>
     <div class="clear"></div>
 `)
-//line views/vrelation/List.html:29
+//line views/vrelation/List.html:30
 	if p.SearchQuery != "" {
-//line views/vrelation/List.html:29
+//line views/vrelation/List.html:30
 		qw422016.N().S(`    <hr />
     <em>Search results for [`)
-//line views/vrelation/List.html:31
+//line views/vrelation/List.html:32
 		qw422016.E().S(p.SearchQuery)
-//line views/vrelation/List.html:31
+//line views/vrelation/List.html:32
 		qw422016.N().S(`]</em> (<a href="?">clear</a>)
 `)
-//line views/vrelation/List.html:32
+//line views/vrelation/List.html:33
 	}
-//line views/vrelation/List.html:33
+//line views/vrelation/List.html:34
 	if len(p.Models) == 0 {
-//line views/vrelation/List.html:33
+//line views/vrelation/List.html:34
 		qw422016.N().S(`    <div class="mt"><em>No relations available</em></div>
 `)
-//line views/vrelation/List.html:35
+//line views/vrelation/List.html:36
 	} else {
-//line views/vrelation/List.html:35
+//line views/vrelation/List.html:36
 		qw422016.N().S(`    <div class="mt">
       `)
-//line views/vrelation/List.html:37
-		StreamTable(qw422016, p.Models, p.BasicsByBasicID, p.Params, as, ps)
-//line views/vrelation/List.html:37
+//line views/vrelation/List.html:38
+		StreamTable(qw422016, p.Models, p.BasicsByBasicID, p.Params, as, ps, p.Paths...)
+//line views/vrelation/List.html:38
 		qw422016.N().S(`
     </div>
 `)
-//line views/vrelation/List.html:39
+//line views/vrelation/List.html:40
 	}
-//line views/vrelation/List.html:39
+//line views/vrelation/List.html:40
 	qw422016.N().S(`  </div>
 `)
-//line views/vrelation/List.html:41
+//line views/vrelation/List.html:42
 }
 
-//line views/vrelation/List.html:41
+//line views/vrelation/List.html:42
 func (p *List) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vrelation/List.html:41
+//line views/vrelation/List.html:42
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vrelation/List.html:41
+//line views/vrelation/List.html:42
 	p.StreamBody(qw422016, as, ps)
-//line views/vrelation/List.html:41
+//line views/vrelation/List.html:42
 	qt422016.ReleaseWriter(qw422016)
-//line views/vrelation/List.html:41
+//line views/vrelation/List.html:42
 }
 
-//line views/vrelation/List.html:41
+//line views/vrelation/List.html:42
 func (p *List) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vrelation/List.html:41
+//line views/vrelation/List.html:42
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vrelation/List.html:41
+//line views/vrelation/List.html:42
 	p.WriteBody(qb422016, as, ps)
-//line views/vrelation/List.html:41
+//line views/vrelation/List.html:42
 	qs422016 := string(qb422016.B)
-//line views/vrelation/List.html:41
+//line views/vrelation/List.html:42
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vrelation/List.html:41
+//line views/vrelation/List.html:42
 	return qs422016
-//line views/vrelation/List.html:41
+//line views/vrelation/List.html:42
 }

@@ -7,7 +7,7 @@
   "github.com/kyleu/pftest/views/components/view"
 ) %}
 
-{% func Table(models capital.Capitals, params filter.ParamSet, as *app.State, ps *cutil.PageState) %}
+{% func Table(models capital.Capitals, params filter.ParamSet, as *app.State, ps *cutil.PageState, paths ...string) %}
   {%- code prms := params.Sanitized("capital", ps.Logger) -%}
   <div class="overflow clear">
     <table>
@@ -22,7 +22,7 @@
       <tbody>
         {%- for _, model := range models -%}
         <tr>
-          <td><a href="/capital/{%u model.ID %}">{%= view.String(model.ID) %}</a></td>
+          <td><a href="{%s model.WebPath(paths...) %}">{%= view.String(model.ID) %}</a></td>
           <td><strong>{%= view.String(model.Name) %}</strong></td>
           <td>{%= view.Timestamp(&model.Birthday) %}</td>
           <td>{%= view.Timestamp(model.Deathday) %}</td>

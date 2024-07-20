@@ -1,6 +1,8 @@
 package path
 
 import (
+	"net/url"
+	"path"
 	"time"
 
 	"github.com/google/uuid"
@@ -8,6 +10,15 @@ import (
 	"github.com/kyleu/pftest/app/lib/svc"
 	"github.com/kyleu/pftest/app/util"
 )
+
+const DefaultRoute = "/g1/g2/path"
+
+func Route(paths ...string) string {
+	if len(paths) == 0 {
+		paths = []string{DefaultRoute}
+	}
+	return path.Join(paths...)
+}
 
 var _ svc.Model = (*Path)(nil)
 
@@ -54,8 +65,11 @@ func (p *Path) ToCSV() ([]string, [][]string) {
 	return FieldDescs.Keys(), [][]string{p.Strings()}
 }
 
-func (p *Path) WebPath() string {
-	return "/g1/g2/path/" + p.ID.String()
+func (p *Path) WebPath(paths ...string) string {
+	if len(paths) == 0 {
+		paths = []string{DefaultRoute}
+	}
+	return path.Join(append(paths, url.QueryEscape(p.ID.String()))...)
 }
 
 func (p *Path) ToData() []any {

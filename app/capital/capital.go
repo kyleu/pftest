@@ -2,11 +2,21 @@ package capital
 
 import (
 	"net/url"
+	"path"
 	"time"
 
 	"github.com/kyleu/pftest/app/lib/svc"
 	"github.com/kyleu/pftest/app/util"
 )
+
+const DefaultRoute = "/capital"
+
+func Route(paths ...string) string {
+	if len(paths) == 0 {
+		paths = []string{DefaultRoute}
+	}
+	return path.Join(paths...)
+}
 
 var _ svc.Model = (*Capital)(nil)
 
@@ -53,8 +63,11 @@ func (c *Capital) ToCSV() ([]string, [][]string) {
 	return FieldDescs.Keys(), [][]string{c.Strings()}
 }
 
-func (c *Capital) WebPath() string {
-	return "/capital/" + url.QueryEscape(c.ID)
+func (c *Capital) WebPath(paths ...string) string {
+	if len(paths) == 0 {
+		paths = []string{DefaultRoute}
+	}
+	return path.Join(append(paths, url.QueryEscape(c.ID))...)
 }
 
 func (c *Capital) ToData() []any {

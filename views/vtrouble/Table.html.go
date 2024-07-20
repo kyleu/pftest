@@ -28,7 +28,7 @@ var (
 )
 
 //line views/vtrouble/Table.html:10
-func StreamTable(qw422016 *qt422016.Writer, models trouble.Troubles, params filter.ParamSet, as *app.State, ps *cutil.PageState) {
+func StreamTable(qw422016 *qt422016.Writer, models trouble.Troubles, params filter.ParamSet, as *app.State, ps *cutil.PageState, paths ...string) {
 //line views/vtrouble/Table.html:10
 	qw422016.N().S(`
 `)
@@ -78,26 +78,18 @@ func StreamTable(qw422016 *qt422016.Writer, models trouble.Troubles, params filt
 	for _, model := range models {
 //line views/vtrouble/Table.html:25
 		qw422016.N().S(`        <tr>
-          <td><a href="/troub/le/`)
+          <td><a href="`)
 //line views/vtrouble/Table.html:27
-		qw422016.N().U(model.From)
-//line views/vtrouble/Table.html:27
-		qw422016.N().S(`/`)
-//line views/vtrouble/Table.html:27
-		qw422016.E().V(model.Where)
+		qw422016.E().S(model.WebPath(paths...))
 //line views/vtrouble/Table.html:27
 		qw422016.N().S(`">`)
 //line views/vtrouble/Table.html:27
 		view.StreamString(qw422016, model.From)
 //line views/vtrouble/Table.html:27
 		qw422016.N().S(`</a></td>
-          <td><a href="/troub/le/`)
+          <td><a href="`)
 //line views/vtrouble/Table.html:28
-		qw422016.N().U(model.From)
-//line views/vtrouble/Table.html:28
-		qw422016.N().S(`/`)
-//line views/vtrouble/Table.html:28
-		qw422016.E().V(model.Where)
+		qw422016.E().S(model.WebPath(paths...))
 //line views/vtrouble/Table.html:28
 		qw422016.N().S(`">`)
 //line views/vtrouble/Table.html:28
@@ -150,22 +142,22 @@ func StreamTable(qw422016 *qt422016.Writer, models trouble.Troubles, params filt
 }
 
 //line views/vtrouble/Table.html:43
-func WriteTable(qq422016 qtio422016.Writer, models trouble.Troubles, params filter.ParamSet, as *app.State, ps *cutil.PageState) {
+func WriteTable(qq422016 qtio422016.Writer, models trouble.Troubles, params filter.ParamSet, as *app.State, ps *cutil.PageState, paths ...string) {
 //line views/vtrouble/Table.html:43
 	qw422016 := qt422016.AcquireWriter(qq422016)
 //line views/vtrouble/Table.html:43
-	StreamTable(qw422016, models, params, as, ps)
+	StreamTable(qw422016, models, params, as, ps, paths...)
 //line views/vtrouble/Table.html:43
 	qt422016.ReleaseWriter(qw422016)
 //line views/vtrouble/Table.html:43
 }
 
 //line views/vtrouble/Table.html:43
-func Table(models trouble.Troubles, params filter.ParamSet, as *app.State, ps *cutil.PageState) string {
+func Table(models trouble.Troubles, params filter.ParamSet, as *app.State, ps *cutil.PageState, paths ...string) string {
 //line views/vtrouble/Table.html:43
 	qb422016 := qt422016.AcquireByteBuffer()
 //line views/vtrouble/Table.html:43
-	WriteTable(qb422016, models, params, as, ps)
+	WriteTable(qb422016, models, params, as, ps, paths...)
 //line views/vtrouble/Table.html:43
 	qs422016 := string(qb422016.B)
 //line views/vtrouble/Table.html:43

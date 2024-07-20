@@ -10,16 +10,17 @@
 {% code type Detail struct {
   layout.Basic
   Model *timestamp.Timestamp
+  Paths []string
 } %}
 
 {% func (p *Detail) Body(as *app.State, ps *cutil.PageState) %}
   <div class="card">
     <div class="right">
       <a href="#modal-timestamp"><button type="button">{%= components.SVGButton("file", ps) %} JSON</button></a>
-      <a href="{%s p.Model.WebPath() %}/edit"><button>{%= components.SVGButton("edit", ps) %} Edit</button></a>
+      <a href="{%s p.Model.WebPath(p.Paths...) %}/edit"><button>{%= components.SVGButton("edit", ps) %} Edit</button></a>
     </div>
     <h3>{%= components.SVGIcon(`star`, ps) %} {%s p.Model.TitleString() %}</h3>
-    <div><a href="/timestamp"><em>Timestamp</em></a></div>
+    <div><a href="{%s timestamp.Route(p.Paths...) %}"><em>Timestamp</em></a></div>
     <div class="mt overflow full-width">
       <table>
         <tbody>

@@ -7,7 +7,7 @@
   "github.com/kyleu/pftest/views/components/view"
 ) %}
 
-{% func Table(models reference.References, params filter.ParamSet, as *app.State, ps *cutil.PageState) %}
+{% func Table(models reference.References, params filter.ParamSet, as *app.State, ps *cutil.PageState, paths ...string) %}
   {%- code prms := params.Sanitized("reference", ps.Logger) -%}
   <div class="overflow clear">
     <table>
@@ -22,7 +22,7 @@
       <tbody>
         {%- for _, model := range models -%}
         <tr>
-          <td><a href="/reference/{%= view.UUID(&model.ID) %}">{%= view.UUID(&model.ID) %}</a></td>
+          <td><a href="{%s model.WebPath(paths...) %}">{%= view.UUID(&model.ID) %}</a></td>
           <td>{%= components.JSON(model.Custom) %}</td>
           <td>{%= components.JSON(model.Self) %}</td>
           <td>{%= view.Timestamp(&model.Created) %}</td>

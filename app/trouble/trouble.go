@@ -3,12 +3,22 @@ package trouble
 import (
 	"fmt"
 	"net/url"
+	"path"
 	"strings"
 	"time"
 
 	"github.com/kyleu/pftest/app/lib/svc"
 	"github.com/kyleu/pftest/app/util"
 )
+
+const DefaultRoute = "/troub/le"
+
+func Route(paths ...string) string {
+	if len(paths) == 0 {
+		paths = []string{DefaultRoute}
+	}
+	return path.Join(paths...)
+}
 
 var _ svc.Model = (*Trouble)(nil)
 
@@ -72,8 +82,11 @@ func (t *Trouble) ToCSV() ([]string, [][]string) {
 	return FieldDescs.Keys(), [][]string{t.Strings()}
 }
 
-func (t *Trouble) WebPath() string {
-	return "/troub/le/" + url.QueryEscape(t.From) + "/" + strings.Join(t.Where, ",")
+func (t *Trouble) WebPath(paths ...string) string {
+	if len(paths) == 0 {
+		paths = []string{DefaultRoute}
+	}
+	return path.Join(append(paths, url.QueryEscape(t.From), url.QueryEscape(strings.Join(t.Where, ",")))...)
 }
 
 func (t *Trouble) ToData() []any {

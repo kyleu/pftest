@@ -2,10 +2,20 @@ package mixedcase
 
 import (
 	"net/url"
+	"path"
 
 	"github.com/kyleu/pftest/app/lib/svc"
 	"github.com/kyleu/pftest/app/util"
 )
+
+const DefaultRoute = "/mixedcase"
+
+func Route(paths ...string) string {
+	if len(paths) == 0 {
+		paths = []string{DefaultRoute}
+	}
+	return path.Join(paths...)
+}
 
 var _ svc.Model = (*MixedCase)(nil)
 
@@ -47,8 +57,11 @@ func (m *MixedCase) ToCSV() ([]string, [][]string) {
 	return FieldDescs.Keys(), [][]string{m.Strings()}
 }
 
-func (m *MixedCase) WebPath() string {
-	return "/mixedcase/" + url.QueryEscape(m.ID)
+func (m *MixedCase) WebPath(paths ...string) string {
+	if len(paths) == 0 {
+		paths = []string{DefaultRoute}
+	}
+	return path.Join(append(paths, url.QueryEscape(m.ID))...)
 }
 
 func (m *MixedCase) ToData() []any {

@@ -2,11 +2,21 @@ package softdel
 
 import (
 	"net/url"
+	"path"
 	"time"
 
 	"github.com/kyleu/pftest/app/lib/svc"
 	"github.com/kyleu/pftest/app/util"
 )
+
+const DefaultRoute = "/softdel"
+
+func Route(paths ...string) string {
+	if len(paths) == 0 {
+		paths = []string{DefaultRoute}
+	}
+	return path.Join(paths...)
+}
 
 var _ svc.Model = (*Softdel)(nil)
 
@@ -50,8 +60,11 @@ func (s *Softdel) ToCSV() ([]string, [][]string) {
 	return FieldDescs.Keys(), [][]string{s.Strings()}
 }
 
-func (s *Softdel) WebPath() string {
-	return "/softdel/" + url.QueryEscape(s.ID)
+func (s *Softdel) WebPath(paths ...string) string {
+	if len(paths) == 0 {
+		paths = []string{DefaultRoute}
+	}
+	return path.Join(append(paths, url.QueryEscape(s.ID))...)
 }
 
 func (s *Softdel) ToData() []any {

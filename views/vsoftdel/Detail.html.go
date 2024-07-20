@@ -31,72 +31,77 @@ var (
 type Detail struct {
 	layout.Basic
 	Model *softdel.Softdel
+	Paths []string
 }
 
-//line views/vsoftdel/Detail.html:15
+//line views/vsoftdel/Detail.html:16
 func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vsoftdel/Detail.html:15
+//line views/vsoftdel/Detail.html:16
 	qw422016.N().S(`
   <div class="card">
     <div class="right">
       <a href="#modal-softdel"><button type="button">`)
-//line views/vsoftdel/Detail.html:18
+//line views/vsoftdel/Detail.html:19
 	components.StreamSVGButton(qw422016, "file", ps)
-//line views/vsoftdel/Detail.html:18
+//line views/vsoftdel/Detail.html:19
 	qw422016.N().S(` JSON</button></a>
       <a href="`)
-//line views/vsoftdel/Detail.html:19
-	qw422016.E().S(p.Model.WebPath())
-//line views/vsoftdel/Detail.html:19
+//line views/vsoftdel/Detail.html:20
+	qw422016.E().S(p.Model.WebPath(p.Paths...))
+//line views/vsoftdel/Detail.html:20
 	qw422016.N().S(`/edit"><button>`)
-//line views/vsoftdel/Detail.html:19
+//line views/vsoftdel/Detail.html:20
 	components.StreamSVGButton(qw422016, "edit", ps)
-//line views/vsoftdel/Detail.html:19
+//line views/vsoftdel/Detail.html:20
 	qw422016.N().S(` Edit</button></a>
     </div>
     <h3>`)
-//line views/vsoftdel/Detail.html:21
+//line views/vsoftdel/Detail.html:22
 	components.StreamSVGIcon(qw422016, `star`, ps)
-//line views/vsoftdel/Detail.html:21
+//line views/vsoftdel/Detail.html:22
 	qw422016.N().S(` `)
-//line views/vsoftdel/Detail.html:21
+//line views/vsoftdel/Detail.html:22
 	qw422016.E().S(p.Model.TitleString())
-//line views/vsoftdel/Detail.html:21
+//line views/vsoftdel/Detail.html:22
 	qw422016.N().S(`</h3>
-    <div><a href="/softdel"><em>Softdel</em></a></div>
+    <div><a href="`)
+//line views/vsoftdel/Detail.html:23
+	qw422016.E().S(softdel.Route(p.Paths...))
+//line views/vsoftdel/Detail.html:23
+	qw422016.N().S(`"><em>Softdel</em></a></div>
     <div class="mt overflow full-width">
       <table>
         <tbody>
           <tr>
             <th class="shrink" title="String text">ID</th>
             <td>`)
-//line views/vsoftdel/Detail.html:28
+//line views/vsoftdel/Detail.html:29
 	view.StreamString(qw422016, p.Model.ID)
-//line views/vsoftdel/Detail.html:28
+//line views/vsoftdel/Detail.html:29
 	qw422016.N().S(`</td>
           </tr>
           <tr>
             <th class="shrink" title="Date and time, in almost any format">Created</th>
             <td>`)
-//line views/vsoftdel/Detail.html:32
+//line views/vsoftdel/Detail.html:33
 	view.StreamTimestamp(qw422016, &p.Model.Created)
-//line views/vsoftdel/Detail.html:32
+//line views/vsoftdel/Detail.html:33
 	qw422016.N().S(`</td>
           </tr>
           <tr>
             <th class="shrink" title="Date and time, in almost any format (optional)">Updated</th>
             <td>`)
-//line views/vsoftdel/Detail.html:36
+//line views/vsoftdel/Detail.html:37
 	view.StreamTimestamp(qw422016, p.Model.Updated)
-//line views/vsoftdel/Detail.html:36
+//line views/vsoftdel/Detail.html:37
 	qw422016.N().S(`</td>
           </tr>
           <tr>
             <th class="shrink" title="Date and time, in almost any format (optional)">Deleted</th>
             <td>`)
-//line views/vsoftdel/Detail.html:40
+//line views/vsoftdel/Detail.html:41
 	view.StreamTimestamp(qw422016, p.Model.Deleted)
-//line views/vsoftdel/Detail.html:40
+//line views/vsoftdel/Detail.html:41
 	qw422016.N().S(`</td>
           </tr>
         </tbody>
@@ -104,38 +109,38 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
     </div>
   </div>
 `)
-//line views/vsoftdel/Detail.html:47
+//line views/vsoftdel/Detail.html:48
 	qw422016.N().S(`  `)
-//line views/vsoftdel/Detail.html:48
+//line views/vsoftdel/Detail.html:49
 	components.StreamJSONModal(qw422016, "softdel", "Softdel JSON", p.Model, 1)
-//line views/vsoftdel/Detail.html:48
+//line views/vsoftdel/Detail.html:49
 	qw422016.N().S(`
 `)
-//line views/vsoftdel/Detail.html:49
+//line views/vsoftdel/Detail.html:50
 }
 
-//line views/vsoftdel/Detail.html:49
+//line views/vsoftdel/Detail.html:50
 func (p *Detail) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vsoftdel/Detail.html:49
+//line views/vsoftdel/Detail.html:50
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vsoftdel/Detail.html:49
+//line views/vsoftdel/Detail.html:50
 	p.StreamBody(qw422016, as, ps)
-//line views/vsoftdel/Detail.html:49
+//line views/vsoftdel/Detail.html:50
 	qt422016.ReleaseWriter(qw422016)
-//line views/vsoftdel/Detail.html:49
+//line views/vsoftdel/Detail.html:50
 }
 
-//line views/vsoftdel/Detail.html:49
+//line views/vsoftdel/Detail.html:50
 func (p *Detail) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vsoftdel/Detail.html:49
+//line views/vsoftdel/Detail.html:50
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vsoftdel/Detail.html:49
+//line views/vsoftdel/Detail.html:50
 	p.WriteBody(qb422016, as, ps)
-//line views/vsoftdel/Detail.html:49
+//line views/vsoftdel/Detail.html:50
 	qs422016 := string(qb422016.B)
-//line views/vsoftdel/Detail.html:49
+//line views/vsoftdel/Detail.html:50
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vsoftdel/Detail.html:49
+//line views/vsoftdel/Detail.html:50
 	return qs422016
-//line views/vsoftdel/Detail.html:49
+//line views/vsoftdel/Detail.html:50
 }

@@ -1,11 +1,23 @@
 package audited
 
 import (
+	"net/url"
+	"path"
+
 	"github.com/google/uuid"
 
 	"github.com/kyleu/pftest/app/lib/svc"
 	"github.com/kyleu/pftest/app/util"
 )
+
+const DefaultRoute = "/audited"
+
+func Route(paths ...string) string {
+	if len(paths) == 0 {
+		paths = []string{DefaultRoute}
+	}
+	return path.Join(paths...)
+}
 
 var _ svc.Model = (*Audited)(nil)
 
@@ -48,8 +60,11 @@ func (a *Audited) ToCSV() ([]string, [][]string) {
 	return FieldDescs.Keys(), [][]string{a.Strings()}
 }
 
-func (a *Audited) WebPath() string {
-	return "/audited/" + a.ID.String()
+func (a *Audited) WebPath(paths ...string) string {
+	if len(paths) == 0 {
+		paths = []string{DefaultRoute}
+	}
+	return path.Join(append(paths, url.QueryEscape(a.ID.String()))...)
 }
 
 func (a *Audited) ToData() []any {

@@ -2,11 +2,21 @@ package timestamp
 
 import (
 	"net/url"
+	"path"
 	"time"
 
 	"github.com/kyleu/pftest/app/lib/svc"
 	"github.com/kyleu/pftest/app/util"
 )
+
+const DefaultRoute = "/timestamp"
+
+func Route(paths ...string) string {
+	if len(paths) == 0 {
+		paths = []string{DefaultRoute}
+	}
+	return path.Join(paths...)
+}
 
 var _ svc.Model = (*Timestamp)(nil)
 
@@ -50,8 +60,11 @@ func (t *Timestamp) ToCSV() ([]string, [][]string) {
 	return FieldDescs.Keys(), [][]string{t.Strings()}
 }
 
-func (t *Timestamp) WebPath() string {
-	return "/timestamp/" + url.QueryEscape(t.ID)
+func (t *Timestamp) WebPath(paths ...string) string {
+	if len(paths) == 0 {
+		paths = []string{DefaultRoute}
+	}
+	return path.Join(append(paths, url.QueryEscape(t.ID))...)
 }
 
 func (t *Timestamp) ToData() []any {

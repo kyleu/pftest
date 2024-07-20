@@ -2,12 +2,23 @@ package seed
 
 import (
 	"fmt"
+	"net/url"
+	"path"
 
 	"github.com/google/uuid"
 
 	"github.com/kyleu/pftest/app/lib/svc"
 	"github.com/kyleu/pftest/app/util"
 )
+
+const DefaultRoute = "/seed"
+
+func Route(paths ...string) string {
+	if len(paths) == 0 {
+		paths = []string{DefaultRoute}
+	}
+	return path.Join(paths...)
+}
 
 var _ svc.Model = (*Seed)(nil)
 
@@ -54,8 +65,11 @@ func (s *Seed) ToCSV() ([]string, [][]string) {
 	return FieldDescs.Keys(), [][]string{s.Strings()}
 }
 
-func (s *Seed) WebPath() string {
-	return "/seed/" + s.ID.String()
+func (s *Seed) WebPath(paths ...string) string {
+	if len(paths) == 0 {
+		paths = []string{DefaultRoute}
+	}
+	return path.Join(append(paths, url.QueryEscape(s.ID.String()))...)
 }
 
 func (s *Seed) ToData() []any {

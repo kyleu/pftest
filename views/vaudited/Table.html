@@ -7,7 +7,7 @@
   "github.com/kyleu/pftest/views/components/view"
 ) %}
 
-{% func Table(models audited.Auditeds, params filter.ParamSet, as *app.State, ps *cutil.PageState) %}
+{% func Table(models audited.Auditeds, params filter.ParamSet, as *app.State, ps *cutil.PageState, paths ...string) %}
   {%- code prms := params.Sanitized("audited", ps.Logger) -%}
   <div class="overflow clear">
     <table>
@@ -20,7 +20,7 @@
       <tbody>
         {%- for _, model := range models -%}
         <tr>
-          <td><a href="/audited/{%= view.UUID(&model.ID) %}">{%= view.UUID(&model.ID) %}</a></td>
+          <td><a href="{%s model.WebPath(paths...) %}">{%= view.UUID(&model.ID) %}</a></td>
           <td><strong>{%= view.String(model.Name) %}</strong></td>
         </tr>
         {%- endfor -%}

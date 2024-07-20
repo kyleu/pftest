@@ -28,7 +28,7 @@ var (
 )
 
 //line views/vseed/Table.html:10
-func StreamTable(qw422016 *qt422016.Writer, models seed.Seeds, params filter.ParamSet, as *app.State, ps *cutil.PageState) {
+func StreamTable(qw422016 *qt422016.Writer, models seed.Seeds, params filter.ParamSet, as *app.State, ps *cutil.PageState, paths ...string) {
 //line views/vseed/Table.html:10
 	qw422016.N().S(`
 `)
@@ -68,9 +68,9 @@ func StreamTable(qw422016 *qt422016.Writer, models seed.Seeds, params filter.Par
 	for _, model := range models {
 //line views/vseed/Table.html:23
 		qw422016.N().S(`        <tr>
-          <td><a href="/seed/`)
+          <td><a href="`)
 //line views/vseed/Table.html:25
-		view.StreamUUID(qw422016, &model.ID)
+		qw422016.E().S(model.WebPath(paths...))
 //line views/vseed/Table.html:25
 		qw422016.N().S(`">`)
 //line views/vseed/Table.html:25
@@ -118,22 +118,22 @@ func StreamTable(qw422016 *qt422016.Writer, models seed.Seeds, params filter.Par
 }
 
 //line views/vseed/Table.html:39
-func WriteTable(qq422016 qtio422016.Writer, models seed.Seeds, params filter.ParamSet, as *app.State, ps *cutil.PageState) {
+func WriteTable(qq422016 qtio422016.Writer, models seed.Seeds, params filter.ParamSet, as *app.State, ps *cutil.PageState, paths ...string) {
 //line views/vseed/Table.html:39
 	qw422016 := qt422016.AcquireWriter(qq422016)
 //line views/vseed/Table.html:39
-	StreamTable(qw422016, models, params, as, ps)
+	StreamTable(qw422016, models, params, as, ps, paths...)
 //line views/vseed/Table.html:39
 	qt422016.ReleaseWriter(qw422016)
 //line views/vseed/Table.html:39
 }
 
 //line views/vseed/Table.html:39
-func Table(models seed.Seeds, params filter.ParamSet, as *app.State, ps *cutil.PageState) string {
+func Table(models seed.Seeds, params filter.ParamSet, as *app.State, ps *cutil.PageState, paths ...string) string {
 //line views/vseed/Table.html:39
 	qb422016 := qt422016.AcquireByteBuffer()
 //line views/vseed/Table.html:39
-	WriteTable(qb422016, models, params, as, ps)
+	WriteTable(qb422016, models, params, as, ps, paths...)
 //line views/vseed/Table.html:39
 	qs422016 := string(qb422016.B)
 //line views/vseed/Table.html:39

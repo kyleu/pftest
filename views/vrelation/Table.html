@@ -8,7 +8,7 @@
   "github.com/kyleu/pftest/views/components/view"
 ) %}
 
-{% func Table(models relation.Relations, basicsByBasicID basic.Basics, params filter.ParamSet, as *app.State, ps *cutil.PageState) %}
+{% func Table(models relation.Relations, basicsByBasicID basic.Basics, params filter.ParamSet, as *app.State, ps *cutil.PageState, paths ...string) %}
   {%- code prms := params.Sanitized("relation", ps.Logger) -%}
   <div class="overflow clear">
     <table>
@@ -23,10 +23,10 @@
       <tbody>
         {%- for _, model := range models -%}
         <tr>
-          <td><a href="/relation/{%= view.UUID(&model.ID) %}">{%= view.UUID(&model.ID) %}</a></td>
+          <td><a href="{%s model.WebPath(paths...) %}">{%= view.UUID(&model.ID) %}</a></td>
           <td class="nowrap">
             {%= view.UUID(&model.BasicID) %}{% if x := basicsByBasicID.Get(model.BasicID); x != nil %} ({%s x.TitleString() %}){% endif %}
-            <a title="Basic" href="{%s `/basic`+`/`+model.BasicID.String() %}">{%= components.SVGLink(`star`, ps) %}</a>
+            <a title="Basic" href="{%s model.WebPath(paths...) %}">{%= components.SVGLink(`star`, ps) %}</a>
           </td>
           <td><strong>{%= view.String(model.Name) %}</strong></td>
           <td>{%= view.Timestamp(&model.Created) %}</td>

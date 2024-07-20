@@ -14,6 +14,7 @@
   Models relation.Relations
   BasicsByBasicID basic.Basics
   Params filter.ParamSet
+  Paths []string
   SearchQuery string
 } %}
 
@@ -22,7 +23,7 @@
     <div class="right">{%= edit.SearchForm("", "q", "Search Relations", p.SearchQuery, ps) %}</div>
     <div class="right mrs large-buttons">
       {%- if len(p.Models) > 1 -%}<a href="/relation/_random"><button>{%= components.SVGButton("gift", ps) %} Random</button></a>{%- endif -%}
-      <a href="/relation/_new"><button>{%= components.SVGButton("plus", ps) %} New</button></a>
+      <a href="{%s relation.Route(p.Paths...) %}/_new"><button>{%= components.SVGButton("plus", ps) %} New</button></a>
     </div>
     <h3>{%= components.SVGIcon(`star`, ps) %} {%s ps.Title %}</h3>
     <div class="clear"></div>
@@ -34,7 +35,7 @@
     <div class="mt"><em>No relations available</em></div>
     {%- else -%}
     <div class="mt">
-      {%= Table(p.Models, p.BasicsByBasicID, p.Params, as, ps) %}
+      {%= Table(p.Models, p.BasicsByBasicID, p.Params, as, ps, p.Paths...) %}
     </div>
     {%- endif -%}
   </div>

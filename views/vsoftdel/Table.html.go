@@ -28,7 +28,7 @@ var (
 )
 
 //line views/vsoftdel/Table.html:10
-func StreamTable(qw422016 *qt422016.Writer, models softdel.Softdels, params filter.ParamSet, as *app.State, ps *cutil.PageState) {
+func StreamTable(qw422016 *qt422016.Writer, models softdel.Softdels, params filter.ParamSet, as *app.State, ps *cutil.PageState, paths ...string) {
 //line views/vsoftdel/Table.html:10
 	qw422016.N().S(`
 `)
@@ -68,9 +68,9 @@ func StreamTable(qw422016 *qt422016.Writer, models softdel.Softdels, params filt
 	for _, model := range models {
 //line views/vsoftdel/Table.html:23
 		qw422016.N().S(`        <tr>
-          <td><a href="/softdel/`)
+          <td><a href="`)
 //line views/vsoftdel/Table.html:25
-		qw422016.N().U(model.ID)
+		qw422016.E().S(model.WebPath(paths...))
 //line views/vsoftdel/Table.html:25
 		qw422016.N().S(`">`)
 //line views/vsoftdel/Table.html:25
@@ -118,22 +118,22 @@ func StreamTable(qw422016 *qt422016.Writer, models softdel.Softdels, params filt
 }
 
 //line views/vsoftdel/Table.html:39
-func WriteTable(qq422016 qtio422016.Writer, models softdel.Softdels, params filter.ParamSet, as *app.State, ps *cutil.PageState) {
+func WriteTable(qq422016 qtio422016.Writer, models softdel.Softdels, params filter.ParamSet, as *app.State, ps *cutil.PageState, paths ...string) {
 //line views/vsoftdel/Table.html:39
 	qw422016 := qt422016.AcquireWriter(qq422016)
 //line views/vsoftdel/Table.html:39
-	StreamTable(qw422016, models, params, as, ps)
+	StreamTable(qw422016, models, params, as, ps, paths...)
 //line views/vsoftdel/Table.html:39
 	qt422016.ReleaseWriter(qw422016)
 //line views/vsoftdel/Table.html:39
 }
 
 //line views/vsoftdel/Table.html:39
-func Table(models softdel.Softdels, params filter.ParamSet, as *app.State, ps *cutil.PageState) string {
+func Table(models softdel.Softdels, params filter.ParamSet, as *app.State, ps *cutil.PageState, paths ...string) string {
 //line views/vsoftdel/Table.html:39
 	qb422016 := qt422016.AcquireByteBuffer()
 //line views/vsoftdel/Table.html:39
-	WriteTable(qb422016, models, params, as, ps)
+	WriteTable(qb422016, models, params, as, ps, paths...)
 //line views/vsoftdel/Table.html:39
 	qs422016 := string(qb422016.B)
 //line views/vsoftdel/Table.html:39

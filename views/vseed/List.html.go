@@ -32,88 +32,93 @@ type List struct {
 	layout.Basic
 	Models seed.Seeds
 	Params filter.ParamSet
+	Paths  []string
 }
 
-//line views/vseed/List.html:16
+//line views/vseed/List.html:17
 func (p *List) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vseed/List.html:16
+//line views/vseed/List.html:17
 	qw422016.N().S(`
   <div class="card">
     <div class="right mrs large-buttons">
 `)
-//line views/vseed/List.html:19
+//line views/vseed/List.html:20
 	if len(p.Models) > 1 {
-//line views/vseed/List.html:19
+//line views/vseed/List.html:20
 		qw422016.N().S(`<a href="/seed/_random"><button>`)
-//line views/vseed/List.html:19
+//line views/vseed/List.html:20
 		components.StreamSVGButton(qw422016, "gift", ps)
-//line views/vseed/List.html:19
+//line views/vseed/List.html:20
 		qw422016.N().S(` Random</button></a>`)
-//line views/vseed/List.html:19
+//line views/vseed/List.html:20
 	}
-//line views/vseed/List.html:19
-	qw422016.N().S(`      <a href="/seed/_new"><button>`)
 //line views/vseed/List.html:20
+	qw422016.N().S(`      <a href="`)
+//line views/vseed/List.html:21
+	qw422016.E().S(seed.Route(p.Paths...))
+//line views/vseed/List.html:21
+	qw422016.N().S(`/_new"><button>`)
+//line views/vseed/List.html:21
 	components.StreamSVGButton(qw422016, "plus", ps)
-//line views/vseed/List.html:20
+//line views/vseed/List.html:21
 	qw422016.N().S(` New</button></a>
     </div>
     <h3>`)
-//line views/vseed/List.html:22
+//line views/vseed/List.html:23
 	components.StreamSVGIcon(qw422016, `star`, ps)
-//line views/vseed/List.html:22
+//line views/vseed/List.html:23
 	qw422016.N().S(` `)
-//line views/vseed/List.html:22
+//line views/vseed/List.html:23
 	qw422016.E().S(ps.Title)
-//line views/vseed/List.html:22
+//line views/vseed/List.html:23
 	qw422016.N().S(`</h3>
 `)
-//line views/vseed/List.html:23
+//line views/vseed/List.html:24
 	if len(p.Models) == 0 {
-//line views/vseed/List.html:23
+//line views/vseed/List.html:24
 		qw422016.N().S(`    <div class="mt"><em>No seeds available</em></div>
 `)
-//line views/vseed/List.html:25
+//line views/vseed/List.html:26
 	} else {
-//line views/vseed/List.html:25
+//line views/vseed/List.html:26
 		qw422016.N().S(`    <div class="mt">
       `)
-//line views/vseed/List.html:27
-		StreamTable(qw422016, p.Models, p.Params, as, ps)
-//line views/vseed/List.html:27
+//line views/vseed/List.html:28
+		StreamTable(qw422016, p.Models, p.Params, as, ps, p.Paths...)
+//line views/vseed/List.html:28
 		qw422016.N().S(`
     </div>
 `)
-//line views/vseed/List.html:29
+//line views/vseed/List.html:30
 	}
-//line views/vseed/List.html:29
+//line views/vseed/List.html:30
 	qw422016.N().S(`  </div>
 `)
-//line views/vseed/List.html:31
+//line views/vseed/List.html:32
 }
 
-//line views/vseed/List.html:31
+//line views/vseed/List.html:32
 func (p *List) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vseed/List.html:31
+//line views/vseed/List.html:32
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vseed/List.html:31
+//line views/vseed/List.html:32
 	p.StreamBody(qw422016, as, ps)
-//line views/vseed/List.html:31
+//line views/vseed/List.html:32
 	qt422016.ReleaseWriter(qw422016)
-//line views/vseed/List.html:31
+//line views/vseed/List.html:32
 }
 
-//line views/vseed/List.html:31
+//line views/vseed/List.html:32
 func (p *List) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vseed/List.html:31
+//line views/vseed/List.html:32
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vseed/List.html:31
+//line views/vseed/List.html:32
 	p.WriteBody(qb422016, as, ps)
-//line views/vseed/List.html:31
+//line views/vseed/List.html:32
 	qs422016 := string(qb422016.B)
-//line views/vseed/List.html:31
+//line views/vseed/List.html:32
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vseed/List.html:31
+//line views/vseed/List.html:32
 	return qs422016
-//line views/vseed/List.html:31
+//line views/vseed/List.html:32
 }

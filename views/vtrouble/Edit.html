@@ -11,6 +11,7 @@
 {% code type Edit struct {
   layout.Basic
   Model *trouble.Trouble
+  Paths []string
   IsNew bool
 } %}
 
@@ -20,10 +21,10 @@
     <div class="right"><a href="?prototype=random"><button>Random</button></a></div>
     <h3>{%= components.SVGIcon(`star`, ps) %} New Trouble</h3>
     {%- else -%}
-    <div class="right"><a class="link-confirm" href="{%s p.Model.WebPath() %}/delete" data-message="Are you sure you wish to delete trouble [{%s p.Model.String() %}]?"><button>{%= components.SVGButton("times", ps) %} Delete</button></a></div>
+    <div class="right"><a class="link-confirm" href="{%s p.Model.WebPath(p.Paths...) %}/delete" data-message="Are you sure you wish to delete trouble [{%s p.Model.String() %}]?"><button>{%= components.SVGButton("times", ps) %} Delete</button></a></div>
     <h3>{%= components.SVGIcon(`star`, ps) %} Edit Trouble [{%s p.Model.String() %}]</h3>
     {%- endif -%}
-    <form action="{%s util.Choose(p.IsNew, `/troub/le/_new`, ``) %}" class="mt" method="post">
+    <form action="{%s util.Choose(p.IsNew, trouble.Route(p.Paths...) + `/_new`, p.Model.WebPath(p.Paths...) + `/edit`) %}" class="mt" method="post">
       <table class="mt expanded">
         <tbody>
           {% if p.IsNew %}{%= edit.StringTable("from", "", "From", p.Model.From, 5, "String text") %}{% endif %}
