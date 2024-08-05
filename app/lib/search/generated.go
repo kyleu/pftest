@@ -3,16 +3,9 @@ package search
 import (
 	"context"
 
-	"github.com/samber/lo"
-
 	"github.com/kyleu/pftest/app"
-	"github.com/kyleu/pftest/app/audited"
-	"github.com/kyleu/pftest/app/basic"
 	"github.com/kyleu/pftest/app/controller/cutil"
-	"github.com/kyleu/pftest/app/g1/g2/path"
 	"github.com/kyleu/pftest/app/lib/search/result"
-	"github.com/kyleu/pftest/app/reference"
-	"github.com/kyleu/pftest/app/relation"
 	"github.com/kyleu/pftest/app/util"
 )
 
@@ -22,65 +15,35 @@ func generatedSearch() []Provider {
 			return nil, nil
 		}
 		prm := params.PS.Sanitized("audited", logger).WithLimit(5)
-		models, err := as.Services.Audited.Search(ctx, params.Q, nil, prm, logger)
-		if err != nil {
-			return nil, err
-		}
-		return lo.Map(models, func(m *audited.Audited, _ int) *result.Result {
-			return result.NewResult("Audited", m.String(), m.WebPath(), m.TitleString(), "star", m, m, params.Q)
-		}), nil
+		return as.Services.Audited.SearchEntries(ctx, params.Q, nil, prm, logger)
 	}
 	basicFunc := func(ctx context.Context, params *Params, as *app.State, page *cutil.PageState, logger util.Logger) (result.Results, error) {
 		if !page.Admin {
 			return nil, nil
 		}
 		prm := params.PS.Sanitized("basic", logger).WithLimit(5)
-		models, err := as.Services.Basic.Search(ctx, params.Q, nil, prm, logger)
-		if err != nil {
-			return nil, err
-		}
-		return lo.Map(models, func(m *basic.Basic, _ int) *result.Result {
-			return result.NewResult("Basic", m.String(), m.WebPath(), m.TitleString(), "star", m, m, params.Q)
-		}), nil
+		return as.Services.Basic.SearchEntries(ctx, params.Q, nil, prm, logger)
 	}
 	pathFunc := func(ctx context.Context, params *Params, as *app.State, page *cutil.PageState, logger util.Logger) (result.Results, error) {
 		if !page.Admin {
 			return nil, nil
 		}
 		prm := params.PS.Sanitized("path", logger).WithLimit(5)
-		models, err := as.Services.Path.Search(ctx, params.Q, nil, prm, logger)
-		if err != nil {
-			return nil, err
-		}
-		return lo.Map(models, func(m *path.Path, _ int) *result.Result {
-			return result.NewResult("Path", m.String(), m.WebPath(), m.TitleString(), "star", m, m, params.Q)
-		}), nil
+		return as.Services.Path.SearchEntries(ctx, params.Q, nil, prm, logger)
 	}
 	referenceFunc := func(ctx context.Context, params *Params, as *app.State, page *cutil.PageState, logger util.Logger) (result.Results, error) {
 		if !page.Admin {
 			return nil, nil
 		}
 		prm := params.PS.Sanitized("reference", logger).WithLimit(5)
-		models, err := as.Services.Reference.Search(ctx, params.Q, nil, prm, logger)
-		if err != nil {
-			return nil, err
-		}
-		return lo.Map(models, func(m *reference.Reference, _ int) *result.Result {
-			return result.NewResult("Reference", m.String(), m.WebPath(), m.TitleString(), "star", m, m, params.Q)
-		}), nil
+		return as.Services.Reference.SearchEntries(ctx, params.Q, nil, prm, logger)
 	}
 	relationFunc := func(ctx context.Context, params *Params, as *app.State, page *cutil.PageState, logger util.Logger) (result.Results, error) {
 		if !page.Admin {
 			return nil, nil
 		}
 		prm := params.PS.Sanitized("relation", logger).WithLimit(5)
-		models, err := as.Services.Relation.Search(ctx, params.Q, nil, prm, logger)
-		if err != nil {
-			return nil, err
-		}
-		return lo.Map(models, func(m *relation.Relation, _ int) *result.Result {
-			return result.NewResult("Relation", m.String(), m.WebPath(), m.TitleString(), "star", m, m, params.Q)
-		}), nil
+		return as.Services.Relation.SearchEntries(ctx, params.Q, nil, prm, logger)
 	}
 	return []Provider{auditedFunc, basicFunc, pathFunc, referenceFunc, relationFunc}
 }
