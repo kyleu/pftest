@@ -10,8 +10,8 @@ import (
 )
 
 // Initialize app-specific system dependencies.
-func initApp(_ context.Context, as *app.State, _ util.Logger) error {
-	_, err := gql.NewSchema(as)
+func initApp(_ context.Context, as *app.State, logger util.Logger) error {
+	_, err := gql.NewSchema(as, logger)
 	if err != nil {
 		return err
 	}
