@@ -34,7 +34,7 @@
             <th class="shrink" title="UUID in format (00000000-0000-0000-0000-000000000000)">Basic ID</th>
             <td class="nowrap">
               {%= view.UUID(&p.Model.BasicID) %}{% if p.BasicByBasicID != nil %} ({%s p.BasicByBasicID.TitleString() %}){% endif %}
-              <a title="Basic" href="{%s p.Model.WebPath(p.Paths...) %}">{%= components.SVGLink(`star`, ps) %}</a>
+              <a title="Basic" href="{% if x := p.BasicByBasicID; x != nil %}{%s x.WebPath(p.Paths...) %}{% endif %}">{%= components.SVGLink(`star`, ps) %}</a>
             </td>
           </tr>
           <tr>

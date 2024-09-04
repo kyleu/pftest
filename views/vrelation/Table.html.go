@@ -96,7 +96,11 @@ func StreamTable(qw422016 *qt422016.Writer, models relation.Relations, basicsByB
 		qw422016.N().S(`
             <a title="Basic" href="`)
 //line views/vrelation/Table.html:29
-		qw422016.E().S(model.WebPath(paths...))
+		if x := basicsByBasicID.Get(model.BasicID); x != nil {
+//line views/vrelation/Table.html:29
+			qw422016.E().S(x.WebPath(paths...))
+//line views/vrelation/Table.html:29
+		}
 //line views/vrelation/Table.html:29
 		qw422016.N().S(`">`)
 //line views/vrelation/Table.html:29
