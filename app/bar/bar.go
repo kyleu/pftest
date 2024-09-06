@@ -114,7 +114,7 @@ func (b Bars) Help() string {
 
 func (b Bars) Get(key string, logger util.Logger) Bar {
 	for _, value := range b {
-		if value.Key == key {
+		if strings.EqualFold(value.Key, key) {
 			return value
 		}
 	}
@@ -130,7 +130,7 @@ func (b Bars) Get(key string, logger util.Logger) Bar {
 
 func (b Bars) GetByName(name string, logger util.Logger) Bar {
 	for _, value := range b {
-		if value.Name == name {
+		if strings.EqualFold(value.Name, name) {
 			return value
 		}
 	}
