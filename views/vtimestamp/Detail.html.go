@@ -69,78 +69,117 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
 	qw422016.E().S(timestamp.Route(p.Paths...))
 //line views/vtimestamp/Detail.html:23
 	qw422016.N().S(`"><em>Timestamp</em></a></div>
-    <div class="mt overflow full-width">
-      <table>
-        <tbody>
-          <tr>
-            <th class="shrink" title="String text">ID</th>
-            <td>`)
-//line views/vtimestamp/Detail.html:29
-	view.StreamString(qw422016, p.Model.ID)
-//line views/vtimestamp/Detail.html:29
-	qw422016.N().S(`</td>
-          </tr>
-          <tr>
-            <th class="shrink" title="Date and time, in almost any format">Created</th>
-            <td>`)
-//line views/vtimestamp/Detail.html:33
-	view.StreamTimestamp(qw422016, &p.Model.Created)
-//line views/vtimestamp/Detail.html:33
-	qw422016.N().S(`</td>
-          </tr>
-          <tr>
-            <th class="shrink" title="Date and time, in almost any format (optional)">Updated</th>
-            <td>`)
-//line views/vtimestamp/Detail.html:37
-	view.StreamTimestamp(qw422016, p.Model.Updated)
-//line views/vtimestamp/Detail.html:37
-	qw422016.N().S(`</td>
-          </tr>
-          <tr>
-            <th class="shrink" title="Date and time, in almost any format (optional)">Deleted</th>
-            <td>`)
-//line views/vtimestamp/Detail.html:41
-	view.StreamTimestamp(qw422016, p.Model.Deleted)
-//line views/vtimestamp/Detail.html:41
-	qw422016.N().S(`</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    `)
+//line views/vtimestamp/Detail.html:24
+	StreamDetailTable(qw422016, p, ps)
+//line views/vtimestamp/Detail.html:24
+	qw422016.N().S(`
   </div>
 `)
-//line views/vtimestamp/Detail.html:48
+//line views/vtimestamp/Detail.html:27
 	qw422016.N().S(`  `)
-//line views/vtimestamp/Detail.html:49
+//line views/vtimestamp/Detail.html:28
 	components.StreamJSONModal(qw422016, "timestamp", "Timestamp JSON", p.Model, 1)
-//line views/vtimestamp/Detail.html:49
+//line views/vtimestamp/Detail.html:28
 	qw422016.N().S(`
 `)
-//line views/vtimestamp/Detail.html:50
+//line views/vtimestamp/Detail.html:29
 }
 
-//line views/vtimestamp/Detail.html:50
+//line views/vtimestamp/Detail.html:29
 func (p *Detail) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vtimestamp/Detail.html:50
+//line views/vtimestamp/Detail.html:29
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vtimestamp/Detail.html:50
+//line views/vtimestamp/Detail.html:29
 	p.StreamBody(qw422016, as, ps)
-//line views/vtimestamp/Detail.html:50
+//line views/vtimestamp/Detail.html:29
 	qt422016.ReleaseWriter(qw422016)
-//line views/vtimestamp/Detail.html:50
+//line views/vtimestamp/Detail.html:29
 }
 
-//line views/vtimestamp/Detail.html:50
+//line views/vtimestamp/Detail.html:29
 func (p *Detail) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vtimestamp/Detail.html:50
+//line views/vtimestamp/Detail.html:29
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vtimestamp/Detail.html:50
+//line views/vtimestamp/Detail.html:29
 	p.WriteBody(qb422016, as, ps)
-//line views/vtimestamp/Detail.html:50
+//line views/vtimestamp/Detail.html:29
 	qs422016 := string(qb422016.B)
-//line views/vtimestamp/Detail.html:50
+//line views/vtimestamp/Detail.html:29
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vtimestamp/Detail.html:50
+//line views/vtimestamp/Detail.html:29
 	return qs422016
-//line views/vtimestamp/Detail.html:50
+//line views/vtimestamp/Detail.html:29
+}
+
+//line views/vtimestamp/Detail.html:31
+func StreamDetailTable(qw422016 *qt422016.Writer, p *Detail, ps *cutil.PageState) {
+//line views/vtimestamp/Detail.html:31
+	qw422016.N().S(`
+  <div class="mt overflow full-width">
+    <table>
+      <tbody>
+        <tr>
+          <th class="shrink" title="String text">ID</th>
+          <td>`)
+//line views/vtimestamp/Detail.html:37
+	view.StreamString(qw422016, p.Model.ID)
+//line views/vtimestamp/Detail.html:37
+	qw422016.N().S(`</td>
+        </tr>
+        <tr>
+          <th class="shrink" title="Date and time, in almost any format">Created</th>
+          <td>`)
+//line views/vtimestamp/Detail.html:41
+	view.StreamTimestamp(qw422016, &p.Model.Created)
+//line views/vtimestamp/Detail.html:41
+	qw422016.N().S(`</td>
+        </tr>
+        <tr>
+          <th class="shrink" title="Date and time, in almost any format (optional)">Updated</th>
+          <td>`)
+//line views/vtimestamp/Detail.html:45
+	view.StreamTimestamp(qw422016, p.Model.Updated)
+//line views/vtimestamp/Detail.html:45
+	qw422016.N().S(`</td>
+        </tr>
+        <tr>
+          <th class="shrink" title="Date and time, in almost any format (optional)">Deleted</th>
+          <td>`)
+//line views/vtimestamp/Detail.html:49
+	view.StreamTimestamp(qw422016, p.Model.Deleted)
+//line views/vtimestamp/Detail.html:49
+	qw422016.N().S(`</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+`)
+//line views/vtimestamp/Detail.html:54
+}
+
+//line views/vtimestamp/Detail.html:54
+func WriteDetailTable(qq422016 qtio422016.Writer, p *Detail, ps *cutil.PageState) {
+//line views/vtimestamp/Detail.html:54
+	qw422016 := qt422016.AcquireWriter(qq422016)
+//line views/vtimestamp/Detail.html:54
+	StreamDetailTable(qw422016, p, ps)
+//line views/vtimestamp/Detail.html:54
+	qt422016.ReleaseWriter(qw422016)
+//line views/vtimestamp/Detail.html:54
+}
+
+//line views/vtimestamp/Detail.html:54
+func DetailTable(p *Detail, ps *cutil.PageState) string {
+//line views/vtimestamp/Detail.html:54
+	qb422016 := qt422016.AcquireByteBuffer()
+//line views/vtimestamp/Detail.html:54
+	WriteDetailTable(qb422016, p, ps)
+//line views/vtimestamp/Detail.html:54
+	qs422016 := string(qb422016.B)
+//line views/vtimestamp/Detail.html:54
+	qt422016.ReleaseByteBuffer(qb422016)
+//line views/vtimestamp/Detail.html:54
+	return qs422016
+//line views/vtimestamp/Detail.html:54
 }

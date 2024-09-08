@@ -75,136 +75,216 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
 	qw422016.E().S(basic.Route(p.Paths...))
 //line views/vbasic/Detail.html:29
 	qw422016.N().S(`"><em>Basic</em></a></div>
-    <div class="mt overflow full-width">
-      <table>
-        <tbody>
-          <tr>
-            <th class="shrink" title="UUID in format (00000000-0000-0000-0000-000000000000)">ID</th>
-            <td>`)
-//line views/vbasic/Detail.html:35
-	view.StreamUUID(qw422016, &p.Model.ID)
-//line views/vbasic/Detail.html:35
-	qw422016.N().S(`</td>
-          </tr>
-          <tr>
-            <th class="shrink" title="String text">Name</th>
-            <td><strong>`)
-//line views/vbasic/Detail.html:39
-	view.StreamString(qw422016, p.Model.Name)
-//line views/vbasic/Detail.html:39
-	qw422016.N().S(`</strong></td>
-          </tr>
-          <tr>
-            <th class="shrink" title="String text">Status</th>
-            <td><strong>`)
-//line views/vbasic/Detail.html:43
-	qw422016.E().S(p.Model.Status)
-//line views/vbasic/Detail.html:43
-	qw422016.N().S(`</strong></td>
-          </tr>
-          <tr>
-            <th class="shrink" title="Date and time, in almost any format">Created</th>
-            <td>`)
-//line views/vbasic/Detail.html:47
-	view.StreamTimestamp(qw422016, &p.Model.Created)
-//line views/vbasic/Detail.html:47
-	qw422016.N().S(`</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    `)
+//line views/vbasic/Detail.html:30
+	StreamDetailTable(qw422016, p, ps)
+//line views/vbasic/Detail.html:30
+	qw422016.N().S(`
   </div>
 `)
-//line views/vbasic/Detail.html:55
+//line views/vbasic/Detail.html:33
+	qw422016.N().S(`  `)
+//line views/vbasic/Detail.html:34
+	StreamDetailRelations(qw422016, as, p, ps)
+//line views/vbasic/Detail.html:34
+	qw422016.N().S(`
+  `)
+//line views/vbasic/Detail.html:35
+	components.StreamJSONModal(qw422016, "basic", "Basic JSON", p.Model, 1)
+//line views/vbasic/Detail.html:35
+	qw422016.N().S(`
+`)
+//line views/vbasic/Detail.html:36
+}
+
+//line views/vbasic/Detail.html:36
+func (p *Detail) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
+//line views/vbasic/Detail.html:36
+	qw422016 := qt422016.AcquireWriter(qq422016)
+//line views/vbasic/Detail.html:36
+	p.StreamBody(qw422016, as, ps)
+//line views/vbasic/Detail.html:36
+	qt422016.ReleaseWriter(qw422016)
+//line views/vbasic/Detail.html:36
+}
+
+//line views/vbasic/Detail.html:36
+func (p *Detail) Body(as *app.State, ps *cutil.PageState) string {
+//line views/vbasic/Detail.html:36
+	qb422016 := qt422016.AcquireByteBuffer()
+//line views/vbasic/Detail.html:36
+	p.WriteBody(qb422016, as, ps)
+//line views/vbasic/Detail.html:36
+	qs422016 := string(qb422016.B)
+//line views/vbasic/Detail.html:36
+	qt422016.ReleaseByteBuffer(qb422016)
+//line views/vbasic/Detail.html:36
+	return qs422016
+//line views/vbasic/Detail.html:36
+}
+
+//line views/vbasic/Detail.html:38
+func StreamDetailTable(qw422016 *qt422016.Writer, p *Detail, ps *cutil.PageState) {
+//line views/vbasic/Detail.html:38
+	qw422016.N().S(`
+  <div class="mt overflow full-width">
+    <table>
+      <tbody>
+        <tr>
+          <th class="shrink" title="UUID in format (00000000-0000-0000-0000-000000000000)">ID</th>
+          <td>`)
+//line views/vbasic/Detail.html:44
+	view.StreamUUID(qw422016, &p.Model.ID)
+//line views/vbasic/Detail.html:44
+	qw422016.N().S(`</td>
+        </tr>
+        <tr>
+          <th class="shrink" title="String text">Name</th>
+          <td><strong>`)
+//line views/vbasic/Detail.html:48
+	view.StreamString(qw422016, p.Model.Name)
+//line views/vbasic/Detail.html:48
+	qw422016.N().S(`</strong></td>
+        </tr>
+        <tr>
+          <th class="shrink" title="String text">Status</th>
+          <td><strong>`)
+//line views/vbasic/Detail.html:52
+	qw422016.E().S(p.Model.Status)
+//line views/vbasic/Detail.html:52
+	qw422016.N().S(`</strong></td>
+        </tr>
+        <tr>
+          <th class="shrink" title="Date and time, in almost any format">Created</th>
+          <td>`)
+//line views/vbasic/Detail.html:56
+	view.StreamTimestamp(qw422016, &p.Model.Created)
+//line views/vbasic/Detail.html:56
+	qw422016.N().S(`</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+`)
+//line views/vbasic/Detail.html:61
+}
+
+//line views/vbasic/Detail.html:61
+func WriteDetailTable(qq422016 qtio422016.Writer, p *Detail, ps *cutil.PageState) {
+//line views/vbasic/Detail.html:61
+	qw422016 := qt422016.AcquireWriter(qq422016)
+//line views/vbasic/Detail.html:61
+	StreamDetailTable(qw422016, p, ps)
+//line views/vbasic/Detail.html:61
+	qt422016.ReleaseWriter(qw422016)
+//line views/vbasic/Detail.html:61
+}
+
+//line views/vbasic/Detail.html:61
+func DetailTable(p *Detail, ps *cutil.PageState) string {
+//line views/vbasic/Detail.html:61
+	qb422016 := qt422016.AcquireByteBuffer()
+//line views/vbasic/Detail.html:61
+	WriteDetailTable(qb422016, p, ps)
+//line views/vbasic/Detail.html:61
+	qs422016 := string(qb422016.B)
+//line views/vbasic/Detail.html:61
+	qt422016.ReleaseByteBuffer(qb422016)
+//line views/vbasic/Detail.html:61
+	return qs422016
+//line views/vbasic/Detail.html:61
+}
+
+//line views/vbasic/Detail.html:63
+func StreamDetailRelations(qw422016 *qt422016.Writer, as *app.State, p *Detail, ps *cutil.PageState) {
+//line views/vbasic/Detail.html:63
+	qw422016.N().S(`
+`)
+//line views/vbasic/Detail.html:64
 	relationHelper := basic.Basics{p.Model}
 
-//line views/vbasic/Detail.html:55
+//line views/vbasic/Detail.html:64
 	qw422016.N().S(`  <div class="card">
     <h3 class="mb">Relations</h3>
     <ul class="accordion">
       <li>
         <input id="accordion-RelationsByBasicID" type="checkbox" hidden="hidden"`)
-//line views/vbasic/Detail.html:60
+//line views/vbasic/Detail.html:69
 	if p.Params.Specifies(`relation`) {
-//line views/vbasic/Detail.html:60
+//line views/vbasic/Detail.html:69
 		qw422016.N().S(` checked="checked"`)
-//line views/vbasic/Detail.html:60
+//line views/vbasic/Detail.html:69
 	}
-//line views/vbasic/Detail.html:60
+//line views/vbasic/Detail.html:69
 	qw422016.N().S(` />
         <label for="accordion-RelationsByBasicID">
           `)
-//line views/vbasic/Detail.html:62
+//line views/vbasic/Detail.html:71
 	components.StreamExpandCollapse(qw422016, 3, ps)
-//line views/vbasic/Detail.html:62
+//line views/vbasic/Detail.html:71
 	qw422016.N().S(`
           `)
-//line views/vbasic/Detail.html:63
+//line views/vbasic/Detail.html:72
 	components.StreamSVGInline(qw422016, `star`, 16, ps)
-//line views/vbasic/Detail.html:63
+//line views/vbasic/Detail.html:72
 	qw422016.N().S(`
           `)
-//line views/vbasic/Detail.html:64
+//line views/vbasic/Detail.html:73
 	qw422016.E().S(util.StringPlural(len(p.RelRelationsByBasicID), "Relation"))
-//line views/vbasic/Detail.html:64
+//line views/vbasic/Detail.html:73
 	qw422016.N().S(` by [Basic ID]
         </label>
         <div class="bd"><div><div>
 `)
-//line views/vbasic/Detail.html:67
+//line views/vbasic/Detail.html:76
 	if len(p.RelRelationsByBasicID) == 0 {
-//line views/vbasic/Detail.html:67
+//line views/vbasic/Detail.html:76
 		qw422016.N().S(`          <em>no related Relations</em>
 `)
-//line views/vbasic/Detail.html:69
+//line views/vbasic/Detail.html:78
 	} else {
-//line views/vbasic/Detail.html:69
+//line views/vbasic/Detail.html:78
 		qw422016.N().S(`          <div class="overflow clear">
             `)
-//line views/vbasic/Detail.html:71
+//line views/vbasic/Detail.html:80
 		vrelation.StreamTable(qw422016, p.RelRelationsByBasicID, relationHelper, p.Params, as, ps)
-//line views/vbasic/Detail.html:71
+//line views/vbasic/Detail.html:80
 		qw422016.N().S(`
           </div>
 `)
-//line views/vbasic/Detail.html:73
+//line views/vbasic/Detail.html:82
 	}
-//line views/vbasic/Detail.html:73
+//line views/vbasic/Detail.html:82
 	qw422016.N().S(`        </div></div></div>
       </li>
     </ul>
   </div>
-  `)
-//line views/vbasic/Detail.html:78
-	components.StreamJSONModal(qw422016, "basic", "Basic JSON", p.Model, 1)
-//line views/vbasic/Detail.html:78
-	qw422016.N().S(`
 `)
-//line views/vbasic/Detail.html:79
+//line views/vbasic/Detail.html:87
 }
 
-//line views/vbasic/Detail.html:79
-func (p *Detail) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vbasic/Detail.html:79
+//line views/vbasic/Detail.html:87
+func WriteDetailRelations(qq422016 qtio422016.Writer, as *app.State, p *Detail, ps *cutil.PageState) {
+//line views/vbasic/Detail.html:87
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vbasic/Detail.html:79
-	p.StreamBody(qw422016, as, ps)
-//line views/vbasic/Detail.html:79
+//line views/vbasic/Detail.html:87
+	StreamDetailRelations(qw422016, as, p, ps)
+//line views/vbasic/Detail.html:87
 	qt422016.ReleaseWriter(qw422016)
-//line views/vbasic/Detail.html:79
+//line views/vbasic/Detail.html:87
 }
 
-//line views/vbasic/Detail.html:79
-func (p *Detail) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vbasic/Detail.html:79
+//line views/vbasic/Detail.html:87
+func DetailRelations(as *app.State, p *Detail, ps *cutil.PageState) string {
+//line views/vbasic/Detail.html:87
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vbasic/Detail.html:79
-	p.WriteBody(qb422016, as, ps)
-//line views/vbasic/Detail.html:79
+//line views/vbasic/Detail.html:87
+	WriteDetailRelations(qb422016, as, p, ps)
+//line views/vbasic/Detail.html:87
 	qs422016 := string(qb422016.B)
-//line views/vbasic/Detail.html:79
+//line views/vbasic/Detail.html:87
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vbasic/Detail.html:79
+//line views/vbasic/Detail.html:87
 	return qs422016
-//line views/vbasic/Detail.html:79
+//line views/vbasic/Detail.html:87
 }

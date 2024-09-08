@@ -69,78 +69,117 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
 	qw422016.E().S(seed.Route(p.Paths...))
 //line views/vseed/Detail.html:23
 	qw422016.N().S(`"><em>Seed</em></a></div>
-    <div class="mt overflow full-width">
-      <table>
-        <tbody>
-          <tr>
-            <th class="shrink" title="UUID in format (00000000-0000-0000-0000-000000000000)">ID</th>
-            <td>`)
-//line views/vseed/Detail.html:29
-	view.StreamUUID(qw422016, &p.Model.ID)
-//line views/vseed/Detail.html:29
-	qw422016.N().S(`</td>
-          </tr>
-          <tr>
-            <th class="shrink" title="String text">Name</th>
-            <td><strong>`)
-//line views/vseed/Detail.html:33
-	view.StreamString(qw422016, p.Model.Name)
-//line views/vseed/Detail.html:33
-	qw422016.N().S(`</strong></td>
-          </tr>
-          <tr>
-            <th class="shrink" title="Integer">Size</th>
-            <td>`)
-//line views/vseed/Detail.html:37
-	qw422016.N().D(p.Model.Size)
-//line views/vseed/Detail.html:37
-	qw422016.N().S(`</td>
-          </tr>
-          <tr>
-            <th class="shrink" title="JSON object">Obj</th>
-            <td>`)
-//line views/vseed/Detail.html:41
-	components.StreamJSON(qw422016, p.Model.Obj)
-//line views/vseed/Detail.html:41
-	qw422016.N().S(`</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    `)
+//line views/vseed/Detail.html:24
+	StreamDetailTable(qw422016, p, ps)
+//line views/vseed/Detail.html:24
+	qw422016.N().S(`
   </div>
 `)
-//line views/vseed/Detail.html:48
+//line views/vseed/Detail.html:27
 	qw422016.N().S(`  `)
-//line views/vseed/Detail.html:49
+//line views/vseed/Detail.html:28
 	components.StreamJSONModal(qw422016, "seed", "Seed JSON", p.Model, 1)
-//line views/vseed/Detail.html:49
+//line views/vseed/Detail.html:28
 	qw422016.N().S(`
 `)
-//line views/vseed/Detail.html:50
+//line views/vseed/Detail.html:29
 }
 
-//line views/vseed/Detail.html:50
+//line views/vseed/Detail.html:29
 func (p *Detail) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vseed/Detail.html:50
+//line views/vseed/Detail.html:29
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vseed/Detail.html:50
+//line views/vseed/Detail.html:29
 	p.StreamBody(qw422016, as, ps)
-//line views/vseed/Detail.html:50
+//line views/vseed/Detail.html:29
 	qt422016.ReleaseWriter(qw422016)
-//line views/vseed/Detail.html:50
+//line views/vseed/Detail.html:29
 }
 
-//line views/vseed/Detail.html:50
+//line views/vseed/Detail.html:29
 func (p *Detail) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vseed/Detail.html:50
+//line views/vseed/Detail.html:29
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vseed/Detail.html:50
+//line views/vseed/Detail.html:29
 	p.WriteBody(qb422016, as, ps)
-//line views/vseed/Detail.html:50
+//line views/vseed/Detail.html:29
 	qs422016 := string(qb422016.B)
-//line views/vseed/Detail.html:50
+//line views/vseed/Detail.html:29
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vseed/Detail.html:50
+//line views/vseed/Detail.html:29
 	return qs422016
-//line views/vseed/Detail.html:50
+//line views/vseed/Detail.html:29
+}
+
+//line views/vseed/Detail.html:31
+func StreamDetailTable(qw422016 *qt422016.Writer, p *Detail, ps *cutil.PageState) {
+//line views/vseed/Detail.html:31
+	qw422016.N().S(`
+  <div class="mt overflow full-width">
+    <table>
+      <tbody>
+        <tr>
+          <th class="shrink" title="UUID in format (00000000-0000-0000-0000-000000000000)">ID</th>
+          <td>`)
+//line views/vseed/Detail.html:37
+	view.StreamUUID(qw422016, &p.Model.ID)
+//line views/vseed/Detail.html:37
+	qw422016.N().S(`</td>
+        </tr>
+        <tr>
+          <th class="shrink" title="String text">Name</th>
+          <td><strong>`)
+//line views/vseed/Detail.html:41
+	view.StreamString(qw422016, p.Model.Name)
+//line views/vseed/Detail.html:41
+	qw422016.N().S(`</strong></td>
+        </tr>
+        <tr>
+          <th class="shrink" title="Integer">Size</th>
+          <td>`)
+//line views/vseed/Detail.html:45
+	qw422016.N().D(p.Model.Size)
+//line views/vseed/Detail.html:45
+	qw422016.N().S(`</td>
+        </tr>
+        <tr>
+          <th class="shrink" title="JSON object">Obj</th>
+          <td>`)
+//line views/vseed/Detail.html:49
+	components.StreamJSON(qw422016, p.Model.Obj)
+//line views/vseed/Detail.html:49
+	qw422016.N().S(`</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+`)
+//line views/vseed/Detail.html:54
+}
+
+//line views/vseed/Detail.html:54
+func WriteDetailTable(qq422016 qtio422016.Writer, p *Detail, ps *cutil.PageState) {
+//line views/vseed/Detail.html:54
+	qw422016 := qt422016.AcquireWriter(qq422016)
+//line views/vseed/Detail.html:54
+	StreamDetailTable(qw422016, p, ps)
+//line views/vseed/Detail.html:54
+	qt422016.ReleaseWriter(qw422016)
+//line views/vseed/Detail.html:54
+}
+
+//line views/vseed/Detail.html:54
+func DetailTable(p *Detail, ps *cutil.PageState) string {
+//line views/vseed/Detail.html:54
+	qb422016 := qt422016.AcquireByteBuffer()
+//line views/vseed/Detail.html:54
+	WriteDetailTable(qb422016, p, ps)
+//line views/vseed/Detail.html:54
+	qs422016 := string(qb422016.B)
+//line views/vseed/Detail.html:54
+	qt422016.ReleaseByteBuffer(qb422016)
+//line views/vseed/Detail.html:54
+	return qs422016
+//line views/vseed/Detail.html:54
 }

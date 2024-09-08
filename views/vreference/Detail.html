@@ -21,30 +21,34 @@
     </div>
     <h3>{%= components.SVGIcon(`star`, ps) %} {%s p.Model.TitleString() %}</h3>
     <div><a href="{%s reference.Route(p.Paths...) %}"><em>Reference</em></a></div>
-    <div class="mt overflow full-width">
-      <table>
-        <tbody>
-          <tr>
-            <th class="shrink" title="UUID in format (00000000-0000-0000-0000-000000000000)">ID</th>
-            <td>{%= view.UUID(&p.Model.ID) %}</td>
-          </tr>
-          <tr>
-            <th class="shrink" title="[Custom], as a JSON object">Custom</th>
-            <td>{%= components.JSON(p.Model.Custom) %}</td>
-          </tr>
-          <tr>
-            <th class="shrink" title="[SelfCustom], as a JSON object">Self</th>
-            <td>{%= components.JSON(p.Model.Self) %}</td>
-          </tr>
-          <tr>
-            <th class="shrink" title="Date and time, in almost any format">Created</th>
-            <td>{%= view.Timestamp(&p.Model.Created) %}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    {%= DetailTable(p, ps) %}
   </div>
   {%- comment %}$PF_SECTION_START(extra)${% endcomment -%}
   {%- comment %}$PF_SECTION_END(extra)${% endcomment -%}
   {%= components.JSONModal("reference", "Reference JSON", p.Model, 1) %}
+{% endfunc %}
+
+{% func DetailTable(p *Detail, ps *cutil.PageState) %}
+  <div class="mt overflow full-width">
+    <table>
+      <tbody>
+        <tr>
+          <th class="shrink" title="UUID in format (00000000-0000-0000-0000-000000000000)">ID</th>
+          <td>{%= view.UUID(&p.Model.ID) %}</td>
+        </tr>
+        <tr>
+          <th class="shrink" title="[Custom], as a JSON object">Custom</th>
+          <td>{%= components.JSON(p.Model.Custom) %}</td>
+        </tr>
+        <tr>
+          <th class="shrink" title="[SelfCustom], as a JSON object">Self</th>
+          <td>{%= components.JSON(p.Model.Self) %}</td>
+        </tr>
+        <tr>
+          <th class="shrink" title="Date and time, in almost any format">Created</th>
+          <td>{%= view.Timestamp(&p.Model.Created) %}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 {% endfunc %}

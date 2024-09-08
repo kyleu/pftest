@@ -69,78 +69,117 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
 	qw422016.E().S(path.Route(p.Paths...))
 //line views/vg1/vg2/vpath/Detail.html:23
 	qw422016.N().S(`"><em>Path</em></a></div>
-    <div class="mt overflow full-width">
-      <table>
-        <tbody>
-          <tr>
-            <th class="shrink" title="UUID in format (00000000-0000-0000-0000-000000000000)">ID</th>
-            <td>`)
-//line views/vg1/vg2/vpath/Detail.html:29
-	view.StreamUUID(qw422016, &p.Model.ID)
-//line views/vg1/vg2/vpath/Detail.html:29
-	qw422016.N().S(`</td>
-          </tr>
-          <tr>
-            <th class="shrink" title="String text">Name</th>
-            <td><strong>`)
-//line views/vg1/vg2/vpath/Detail.html:33
-	view.StreamString(qw422016, p.Model.Name)
-//line views/vg1/vg2/vpath/Detail.html:33
-	qw422016.N().S(`</strong></td>
-          </tr>
-          <tr>
-            <th class="shrink" title="String text">Status</th>
-            <td><strong>`)
-//line views/vg1/vg2/vpath/Detail.html:37
-	qw422016.E().S(p.Model.Status)
-//line views/vg1/vg2/vpath/Detail.html:37
-	qw422016.N().S(`</strong></td>
-          </tr>
-          <tr>
-            <th class="shrink" title="Date and time, in almost any format">Created</th>
-            <td>`)
-//line views/vg1/vg2/vpath/Detail.html:41
-	view.StreamTimestamp(qw422016, &p.Model.Created)
-//line views/vg1/vg2/vpath/Detail.html:41
-	qw422016.N().S(`</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    `)
+//line views/vg1/vg2/vpath/Detail.html:24
+	StreamDetailTable(qw422016, p, ps)
+//line views/vg1/vg2/vpath/Detail.html:24
+	qw422016.N().S(`
   </div>
 `)
-//line views/vg1/vg2/vpath/Detail.html:48
+//line views/vg1/vg2/vpath/Detail.html:27
 	qw422016.N().S(`  `)
-//line views/vg1/vg2/vpath/Detail.html:49
+//line views/vg1/vg2/vpath/Detail.html:28
 	components.StreamJSONModal(qw422016, "path", "Path JSON", p.Model, 1)
-//line views/vg1/vg2/vpath/Detail.html:49
+//line views/vg1/vg2/vpath/Detail.html:28
 	qw422016.N().S(`
 `)
-//line views/vg1/vg2/vpath/Detail.html:50
+//line views/vg1/vg2/vpath/Detail.html:29
 }
 
-//line views/vg1/vg2/vpath/Detail.html:50
+//line views/vg1/vg2/vpath/Detail.html:29
 func (p *Detail) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vg1/vg2/vpath/Detail.html:50
+//line views/vg1/vg2/vpath/Detail.html:29
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vg1/vg2/vpath/Detail.html:50
+//line views/vg1/vg2/vpath/Detail.html:29
 	p.StreamBody(qw422016, as, ps)
-//line views/vg1/vg2/vpath/Detail.html:50
+//line views/vg1/vg2/vpath/Detail.html:29
 	qt422016.ReleaseWriter(qw422016)
-//line views/vg1/vg2/vpath/Detail.html:50
+//line views/vg1/vg2/vpath/Detail.html:29
 }
 
-//line views/vg1/vg2/vpath/Detail.html:50
+//line views/vg1/vg2/vpath/Detail.html:29
 func (p *Detail) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vg1/vg2/vpath/Detail.html:50
+//line views/vg1/vg2/vpath/Detail.html:29
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vg1/vg2/vpath/Detail.html:50
+//line views/vg1/vg2/vpath/Detail.html:29
 	p.WriteBody(qb422016, as, ps)
-//line views/vg1/vg2/vpath/Detail.html:50
+//line views/vg1/vg2/vpath/Detail.html:29
 	qs422016 := string(qb422016.B)
-//line views/vg1/vg2/vpath/Detail.html:50
+//line views/vg1/vg2/vpath/Detail.html:29
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vg1/vg2/vpath/Detail.html:50
+//line views/vg1/vg2/vpath/Detail.html:29
 	return qs422016
-//line views/vg1/vg2/vpath/Detail.html:50
+//line views/vg1/vg2/vpath/Detail.html:29
+}
+
+//line views/vg1/vg2/vpath/Detail.html:31
+func StreamDetailTable(qw422016 *qt422016.Writer, p *Detail, ps *cutil.PageState) {
+//line views/vg1/vg2/vpath/Detail.html:31
+	qw422016.N().S(`
+  <div class="mt overflow full-width">
+    <table>
+      <tbody>
+        <tr>
+          <th class="shrink" title="UUID in format (00000000-0000-0000-0000-000000000000)">ID</th>
+          <td>`)
+//line views/vg1/vg2/vpath/Detail.html:37
+	view.StreamUUID(qw422016, &p.Model.ID)
+//line views/vg1/vg2/vpath/Detail.html:37
+	qw422016.N().S(`</td>
+        </tr>
+        <tr>
+          <th class="shrink" title="String text">Name</th>
+          <td><strong>`)
+//line views/vg1/vg2/vpath/Detail.html:41
+	view.StreamString(qw422016, p.Model.Name)
+//line views/vg1/vg2/vpath/Detail.html:41
+	qw422016.N().S(`</strong></td>
+        </tr>
+        <tr>
+          <th class="shrink" title="String text">Status</th>
+          <td><strong>`)
+//line views/vg1/vg2/vpath/Detail.html:45
+	qw422016.E().S(p.Model.Status)
+//line views/vg1/vg2/vpath/Detail.html:45
+	qw422016.N().S(`</strong></td>
+        </tr>
+        <tr>
+          <th class="shrink" title="Date and time, in almost any format">Created</th>
+          <td>`)
+//line views/vg1/vg2/vpath/Detail.html:49
+	view.StreamTimestamp(qw422016, &p.Model.Created)
+//line views/vg1/vg2/vpath/Detail.html:49
+	qw422016.N().S(`</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+`)
+//line views/vg1/vg2/vpath/Detail.html:54
+}
+
+//line views/vg1/vg2/vpath/Detail.html:54
+func WriteDetailTable(qq422016 qtio422016.Writer, p *Detail, ps *cutil.PageState) {
+//line views/vg1/vg2/vpath/Detail.html:54
+	qw422016 := qt422016.AcquireWriter(qq422016)
+//line views/vg1/vg2/vpath/Detail.html:54
+	StreamDetailTable(qw422016, p, ps)
+//line views/vg1/vg2/vpath/Detail.html:54
+	qt422016.ReleaseWriter(qw422016)
+//line views/vg1/vg2/vpath/Detail.html:54
+}
+
+//line views/vg1/vg2/vpath/Detail.html:54
+func DetailTable(p *Detail, ps *cutil.PageState) string {
+//line views/vg1/vg2/vpath/Detail.html:54
+	qb422016 := qt422016.AcquireByteBuffer()
+//line views/vg1/vg2/vpath/Detail.html:54
+	WriteDetailTable(qb422016, p, ps)
+//line views/vg1/vg2/vpath/Detail.html:54
+	qs422016 := string(qb422016.B)
+//line views/vg1/vg2/vpath/Detail.html:54
+	qt422016.ReleaseByteBuffer(qb422016)
+//line views/vg1/vg2/vpath/Detail.html:54
+	return qs422016
+//line views/vg1/vg2/vpath/Detail.html:54
 }

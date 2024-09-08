@@ -69,94 +69,133 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
 	qw422016.E().S(trouble.Route(p.Paths...))
 //line views/vtrouble/Detail.html:23
 	qw422016.N().S(`"><em>Trouble</em></a></div>
-    <div class="mt overflow full-width">
-      <table>
-        <tbody>
-          <tr>
-            <th class="shrink" title="String text">From</th>
-            <td>`)
-//line views/vtrouble/Detail.html:29
-	view.StreamString(qw422016, p.Model.From)
-//line views/vtrouble/Detail.html:29
-	qw422016.N().S(`</td>
-          </tr>
-          <tr>
-            <th class="shrink" title="Comma-separated list of values">Where</th>
-            <td>`)
-//line views/vtrouble/Detail.html:33
-	view.StreamStringArray(qw422016, p.Model.Where)
-//line views/vtrouble/Detail.html:33
-	qw422016.N().S(`</td>
-          </tr>
-          <tr>
-            <th class="shrink" title="Integer">Selectcol</th>
-            <td>`)
-//line views/vtrouble/Detail.html:37
-	qw422016.N().D(p.Model.Selectcol)
-//line views/vtrouble/Detail.html:37
-	qw422016.N().S(`</td>
-          </tr>
-          <tr>
-            <th class="shrink" title="String text">Limit</th>
-            <td>`)
-//line views/vtrouble/Detail.html:41
-	view.StreamString(qw422016, p.Model.Limit)
-//line views/vtrouble/Detail.html:41
-	qw422016.N().S(`</td>
-          </tr>
-          <tr>
-            <th class="shrink" title="String text">Group</th>
-            <td>`)
-//line views/vtrouble/Detail.html:45
-	view.StreamString(qw422016, p.Model.Group)
-//line views/vtrouble/Detail.html:45
-	qw422016.N().S(`</td>
-          </tr>
-          <tr>
-            <th class="shrink" title="Date and time, in almost any format (optional)">Delete</th>
-            <td>`)
-//line views/vtrouble/Detail.html:49
-	view.StreamTimestamp(qw422016, p.Model.Delete)
-//line views/vtrouble/Detail.html:49
-	qw422016.N().S(`</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    `)
+//line views/vtrouble/Detail.html:24
+	StreamDetailTable(qw422016, p, ps)
+//line views/vtrouble/Detail.html:24
+	qw422016.N().S(`
   </div>
 `)
-//line views/vtrouble/Detail.html:56
+//line views/vtrouble/Detail.html:27
 	qw422016.N().S(`  `)
-//line views/vtrouble/Detail.html:57
+//line views/vtrouble/Detail.html:28
 	components.StreamJSONModal(qw422016, "trouble", "Trouble JSON", p.Model, 1)
-//line views/vtrouble/Detail.html:57
+//line views/vtrouble/Detail.html:28
 	qw422016.N().S(`
 `)
-//line views/vtrouble/Detail.html:58
+//line views/vtrouble/Detail.html:29
 }
 
-//line views/vtrouble/Detail.html:58
+//line views/vtrouble/Detail.html:29
 func (p *Detail) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vtrouble/Detail.html:58
+//line views/vtrouble/Detail.html:29
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vtrouble/Detail.html:58
+//line views/vtrouble/Detail.html:29
 	p.StreamBody(qw422016, as, ps)
-//line views/vtrouble/Detail.html:58
+//line views/vtrouble/Detail.html:29
 	qt422016.ReleaseWriter(qw422016)
-//line views/vtrouble/Detail.html:58
+//line views/vtrouble/Detail.html:29
 }
 
-//line views/vtrouble/Detail.html:58
+//line views/vtrouble/Detail.html:29
 func (p *Detail) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vtrouble/Detail.html:58
+//line views/vtrouble/Detail.html:29
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vtrouble/Detail.html:58
+//line views/vtrouble/Detail.html:29
 	p.WriteBody(qb422016, as, ps)
-//line views/vtrouble/Detail.html:58
+//line views/vtrouble/Detail.html:29
 	qs422016 := string(qb422016.B)
-//line views/vtrouble/Detail.html:58
+//line views/vtrouble/Detail.html:29
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vtrouble/Detail.html:58
+//line views/vtrouble/Detail.html:29
 	return qs422016
-//line views/vtrouble/Detail.html:58
+//line views/vtrouble/Detail.html:29
+}
+
+//line views/vtrouble/Detail.html:31
+func StreamDetailTable(qw422016 *qt422016.Writer, p *Detail, ps *cutil.PageState) {
+//line views/vtrouble/Detail.html:31
+	qw422016.N().S(`
+  <div class="mt overflow full-width">
+    <table>
+      <tbody>
+        <tr>
+          <th class="shrink" title="String text">From</th>
+          <td>`)
+//line views/vtrouble/Detail.html:37
+	view.StreamString(qw422016, p.Model.From)
+//line views/vtrouble/Detail.html:37
+	qw422016.N().S(`</td>
+        </tr>
+        <tr>
+          <th class="shrink" title="Comma-separated list of values">Where</th>
+          <td>`)
+//line views/vtrouble/Detail.html:41
+	view.StreamStringArray(qw422016, p.Model.Where)
+//line views/vtrouble/Detail.html:41
+	qw422016.N().S(`</td>
+        </tr>
+        <tr>
+          <th class="shrink" title="Integer">Selectcol</th>
+          <td>`)
+//line views/vtrouble/Detail.html:45
+	qw422016.N().D(p.Model.Selectcol)
+//line views/vtrouble/Detail.html:45
+	qw422016.N().S(`</td>
+        </tr>
+        <tr>
+          <th class="shrink" title="String text">Limit</th>
+          <td>`)
+//line views/vtrouble/Detail.html:49
+	view.StreamString(qw422016, p.Model.Limit)
+//line views/vtrouble/Detail.html:49
+	qw422016.N().S(`</td>
+        </tr>
+        <tr>
+          <th class="shrink" title="String text">Group</th>
+          <td>`)
+//line views/vtrouble/Detail.html:53
+	view.StreamString(qw422016, p.Model.Group)
+//line views/vtrouble/Detail.html:53
+	qw422016.N().S(`</td>
+        </tr>
+        <tr>
+          <th class="shrink" title="Date and time, in almost any format (optional)">Delete</th>
+          <td>`)
+//line views/vtrouble/Detail.html:57
+	view.StreamTimestamp(qw422016, p.Model.Delete)
+//line views/vtrouble/Detail.html:57
+	qw422016.N().S(`</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+`)
+//line views/vtrouble/Detail.html:62
+}
+
+//line views/vtrouble/Detail.html:62
+func WriteDetailTable(qq422016 qtio422016.Writer, p *Detail, ps *cutil.PageState) {
+//line views/vtrouble/Detail.html:62
+	qw422016 := qt422016.AcquireWriter(qq422016)
+//line views/vtrouble/Detail.html:62
+	StreamDetailTable(qw422016, p, ps)
+//line views/vtrouble/Detail.html:62
+	qt422016.ReleaseWriter(qw422016)
+//line views/vtrouble/Detail.html:62
+}
+
+//line views/vtrouble/Detail.html:62
+func DetailTable(p *Detail, ps *cutil.PageState) string {
+//line views/vtrouble/Detail.html:62
+	qb422016 := qt422016.AcquireByteBuffer()
+//line views/vtrouble/Detail.html:62
+	WriteDetailTable(qb422016, p, ps)
+//line views/vtrouble/Detail.html:62
+	qs422016 := string(qb422016.B)
+//line views/vtrouble/Detail.html:62
+	qt422016.ReleaseByteBuffer(qb422016)
+//line views/vtrouble/Detail.html:62
+	return qs422016
+//line views/vtrouble/Detail.html:62
 }
