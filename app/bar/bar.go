@@ -47,8 +47,8 @@ func (b Bar) MarshalJSON() ([]byte, error) {
 }
 
 func (b *Bar) UnmarshalJSON(data []byte) error {
-	var key string
-	if err := util.FromJSON(data, &key); err != nil {
+	key, err := util.FromJSONString(data)
+	if err != nil {
 		return err
 	}
 	*b = AllBars.Get(key, nil)
