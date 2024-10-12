@@ -43,6 +43,7 @@ The following modules were used to build this project:
 - [search](./doc/module/search.md)
 - [sqlite](./doc/module/sqlite.md)
 - [sqlserver](./doc/module/sqlserver.md)
+- [task](./doc/module/task.md)
 - [themecatalog](./doc/module/themecatalog.md)
 - [types](./doc/module/types.md)
 - [upgrade](./doc/module/upgrade.md)
