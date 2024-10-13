@@ -12,16 +12,16 @@ import (
 type TaskFn func(ctx context.Context, res *Result, logger util.Logger) error
 
 type Task struct {
-	Key           string                 `json:"key"`
-	Title         string                 `json:"title,omitempty"`
-	Category      string                 `json:"category,omitempty"`
-	Icon          string                 `json:"icon,omitempty"`
-	Description   string                 `json:"description,omitempty"`
-	Tags          []string               `json:"tags,omitempty"`
-	Fields        func() util.FieldDescs `json:"args,omitempty"`
-	Dangerous     string                 `json:"dangerous,omitempty"`
-	WebURL        string                 `json:"webURL,omitempty"`
-	MaxConcurrent int                    `json:"maxConcurrent,omitempty"`
+	Key           string          `json:"key"`
+	Title         string          `json:"title,omitempty"`
+	Category      string          `json:"category,omitempty"`
+	Icon          string          `json:"icon,omitempty"`
+	Description   string          `json:"description,omitempty"`
+	Tags          []string        `json:"tags,omitempty"`
+	Fields        util.FieldDescs `json:"fields,omitempty"`
+	Dangerous     string          `json:"dangerous,omitempty"`
+	WebURL        string          `json:"webURL,omitempty"`
+	MaxConcurrent int             `json:"maxConcurrent,omitempty"`
 	fns           []TaskFn
 }
 
@@ -59,8 +59,20 @@ func (t *Task) WebPath() string {
 func (t *Task) Clone() *Task {
 	return &Task{
 		Key: t.Key, Title: t.Title, Category: t.Category, Icon: t.Icon, Description: t.Description, Tags: t.Tags,
-		Fields: t.Fields, Dangerous: t.Dangerous, MaxConcurrent: t.MaxConcurrent,
+		Fields: t.Fields, Dangerous: t.Dangerous, WebURL: t.WebURL, MaxConcurrent: t.MaxConcurrent, fns: t.fns,
 	}
+}
+
+func (t *Task) WithFunction(fn TaskFn) *Task {
+	ret := t.Clone()
+	ret.fns = append(ret.fns, fn)
+	return ret
+}
+
+func (t *Task) WithoutFunctions(fn TaskFn) *Task {
+	ret := t.Clone()
+	t.fns = nil
+	return ret
 }
 
 func (t *Task) WithTags(tags []string) *Task {
@@ -69,8 +81,8 @@ func (t *Task) WithTags(tags []string) *Task {
 	return ret
 }
 
-func (t *Task) Run(ctx context.Context, args util.ValueMap, logger util.Logger, fns ...exec.OutFn) *Result {
-	ret := NewResult(t, args, t.resultLogFn(logger, fns...))
+func (t *Task) Run(ctx context.Context, runner string, args util.ValueMap, logger util.Logger, fns ...exec.OutFn) *Result {
+	ret := NewResult(t, runner, args, t.resultLogFn(logger, fns...))
 	return t.RunWithResult(ctx, ret, logger)
 }
 
@@ -85,7 +97,7 @@ func (t *Task) RunWithResult(ctx context.Context, res *Result, logger util.Logge
 			return res.CompleteError(errors.Wrapf(err, "unable to run task [%s]", t.Key))
 		}
 	}
-	return res.Complete("OK")
+	return res
 }
 
 func (t *Task) resultLogFn(logger util.Logger, fns ...exec.OutFn) ResultLogFn {
