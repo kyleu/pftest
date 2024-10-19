@@ -5,23 +5,30 @@
 package components
 
 //line views/components/WASM.html:1
+import "github.com/kyleu/pftest/assets"
+
+//line views/components/WASM.html:3
 import (
 	qtio422016 "io"
 
 	qt422016 "github.com/valyala/quicktemplate"
 )
 
-//line views/components/WASM.html:1
+//line views/components/WASM.html:3
 var (
 	_ = qtio422016.Copy
 	_ = qt422016.AcquireByteBuffer
 )
 
-//line views/components/WASM.html:1
+//line views/components/WASM.html:3
 func StreamWASMScript(qw422016 *qt422016.Writer) {
-//line views/components/WASM.html:1
+//line views/components/WASM.html:3
 	qw422016.N().S(`
-<script src="/assets/wasm/wasm_exec.js" defer="defer"></script>
+`)
+//line views/components/WASM.html:4
+	qw422016.N().S(assets.ScriptElement(`wasm/wasm_exec.js`, true))
+//line views/components/WASM.html:4
+	qw422016.N().S(`
 <script>
   document.addEventListener("DOMContentLoaded", function() {
     if (!WebAssembly.instantiateStreaming) {
@@ -33,38 +40,42 @@ func StreamWASMScript(qw422016 *qt422016.Writer) {
 
     const start = new Date().getTime();
     const go = new Go();
-    WebAssembly.instantiateStreaming(fetch("/assets/wasm/pftest.wasm"), go.importObject).then((result) => {
+    WebAssembly.instantiateStreaming(fetch("`)
+//line views/components/WASM.html:16
+	qw422016.E().S(assets.URL(`wasm/pftest.wasm`))
+//line views/components/WASM.html:16
+	qw422016.N().S(`"), go.importObject).then((result) => {
       go.run(result.instance);
       wasmInit(new Date().getTime() - start);
     });
   });
 </script>
 `)
-//line views/components/WASM.html:20
+//line views/components/WASM.html:22
 }
 
-//line views/components/WASM.html:20
+//line views/components/WASM.html:22
 func WriteWASMScript(qq422016 qtio422016.Writer) {
-//line views/components/WASM.html:20
+//line views/components/WASM.html:22
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/components/WASM.html:20
+//line views/components/WASM.html:22
 	StreamWASMScript(qw422016)
-//line views/components/WASM.html:20
+//line views/components/WASM.html:22
 	qt422016.ReleaseWriter(qw422016)
-//line views/components/WASM.html:20
+//line views/components/WASM.html:22
 }
 
-//line views/components/WASM.html:20
+//line views/components/WASM.html:22
 func WASMScript() string {
-//line views/components/WASM.html:20
+//line views/components/WASM.html:22
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/components/WASM.html:20
+//line views/components/WASM.html:22
 	WriteWASMScript(qb422016)
-//line views/components/WASM.html:20
+//line views/components/WASM.html:22
 	qs422016 := string(qb422016.B)
-//line views/components/WASM.html:20
+//line views/components/WASM.html:22
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/components/WASM.html:20
+//line views/components/WASM.html:22
 	return qs422016
-//line views/components/WASM.html:20
+//line views/components/WASM.html:22
 }

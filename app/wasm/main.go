@@ -4,14 +4,22 @@
 package main
 
 import (
-	lg "github.com/kyleu/pftest/app/lib/log"
+	"time"
+
+	"github.com/kyleu/pftest/app/lib/log"
 	"github.com/kyleu/pftest/app/util"
 )
 
-var _rootLogger util.Logger
+var (
+	_rootLogger util.Logger
+	_close      chan struct{}
+)
 
 func main() {
-	l, err := lg.InitLogging(true)
+	logFn := func(level string, occurred time.Time, loggerName string, message string, caller util.ValueMap, stack string, fields util.ValueMap) {
+		Log(level, occurred, loggerName, message, caller, stack, fields)
+	}
+	l, err := log.InitLogging(true, logFn)
 	if err != nil {
 		println(err)
 	}
@@ -23,5 +31,6 @@ func main() {
 	initWASM(l)
 
 	l.Infof("[%s] started in [%s]", util.AppName, t.EndString())
-	<-make(chan struct{})
+	_close = make(chan struct{})
+	<-_close
 }
