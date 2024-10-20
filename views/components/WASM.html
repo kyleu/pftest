@@ -1,6 +1,9 @@
-{% import "github.com/kyleu/pftest/assets" %}
+{% import (
+  "github.com/kyleu/pftest/app/util"
+  "github.com/kyleu/pftest/assets"
+) %}
 
-{% func WASMScript() %}
+{% func WASMScript(cfg any) %}
 {%s= assets.ScriptElement(`wasm/wasm_exec.js`, true) %}
 <script>
   document.addEventListener("DOMContentLoaded", function() {
@@ -15,7 +18,7 @@
     const go = new Go();
     WebAssembly.instantiateStreaming(fetch("{%s assets.URL(`wasm/pftest.wasm`) %}"), go.importObject).then((result) => {
       go.run(result.instance);
-      wasmInit(new Date().getTime() - start);
+      wasmInit(new Date().getTime() - start, {%s= util.ToJSONCompact(cfg) %});
     });
   });
 </script>

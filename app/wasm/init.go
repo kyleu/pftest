@@ -1,6 +1,7 @@
 //go:build js
+// +build js
 
-package main
+package wasm
 
 import (
 	"github.com/kyleu/pftest/app/util"
