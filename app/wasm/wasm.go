@@ -12,11 +12,11 @@ import (
 
 type WASM struct {
 	logger  util.Logger
-	CloseCh chan struct{}
+	closeCh chan struct{}
 }
 
 func NewWASM() (*WASM, error) {
-	ret := &WASM{CloseCh: make(chan struct{})}
+	ret := &WASM{closeCh: make(chan struct{})}
 
 	logFn := func(level string, occurred time.Time, loggerName string, message string, caller util.ValueMap, stack string, fields util.ValueMap) {
 		ret.Log(level, occurred, loggerName, message, caller, stack, fields)
@@ -32,4 +32,9 @@ func NewWASM() (*WASM, error) {
 	l.Infof("[%s] started in [%s]", util.AppName, t.EndString())
 
 	return ret, nil
+}
+
+func (w *WASM) Run() error {
+	<-w.closeCh
+	return nil
 }
