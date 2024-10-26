@@ -5,6 +5,10 @@ import (
 	"github.com/kyleu/pftest/app/util"
 )
 
+func (r *Reference) ToMap() util.ValueMap {
+	return util.ValueMap{"id": r.ID, "custom": r.Custom, "self": r.Self, "created": r.Created}
+}
+
 func FromMap(m util.ValueMap, setPK bool) (*Reference, util.ValueMap, error) {
 	ret := &Reference{}
 	extra := util.ValueMap{}

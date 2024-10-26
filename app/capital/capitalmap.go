@@ -2,6 +2,10 @@ package capital
 
 import "github.com/kyleu/pftest/app/util"
 
+func (c *Capital) ToMap() util.ValueMap {
+	return util.ValueMap{"id": c.ID, "name": c.Name, "birthday": c.Birthday, "deathday": c.Deathday}
+}
+
 func FromMap(m util.ValueMap, setPK bool) (*Capital, util.ValueMap, error) {
 	ret := &Capital{}
 	extra := util.ValueMap{}

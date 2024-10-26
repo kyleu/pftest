@@ -2,6 +2,10 @@ package softdel
 
 import "github.com/kyleu/pftest/app/util"
 
+func (s *Softdel) ToMap() util.ValueMap {
+	return util.ValueMap{"id": s.ID, "created": s.Created, "updated": s.Updated, "deleted": s.Deleted}
+}
+
 func FromMap(m util.ValueMap, setPK bool) (*Softdel, util.ValueMap, error) {
 	ret := &Softdel{}
 	extra := util.ValueMap{}

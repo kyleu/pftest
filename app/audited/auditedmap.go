@@ -2,6 +2,10 @@ package audited
 
 import "github.com/kyleu/pftest/app/util"
 
+func (a *Audited) ToMap() util.ValueMap {
+	return util.ValueMap{"id": a.ID, "name": a.Name}
+}
+
 func FromMap(m util.ValueMap, setPK bool) (*Audited, util.ValueMap, error) {
 	ret := &Audited{}
 	extra := util.ValueMap{}

@@ -32,10 +32,14 @@ type Bar struct {
 }
 
 func (b Bar) String() string {
+	return b.Key
+}
+
+func (b Bar) NameSafe() string {
 	if b.Name != "" {
 		return b.Name
 	}
-	return b.Key
+	return b.String()
 }
 
 func (b Bar) Matches(xx Bar) bool {

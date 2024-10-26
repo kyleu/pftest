@@ -2,6 +2,10 @@ package mixedcase
 
 import "github.com/kyleu/pftest/app/util"
 
+func (m *MixedCase) ToMap() util.ValueMap {
+	return util.ValueMap{"id": m.ID, "testField": m.TestField, "anotherField": m.AnotherField}
+}
+
 func FromMap(m util.ValueMap, setPK bool) (*MixedCase, util.ValueMap, error) {
 	ret := &MixedCase{}
 	extra := util.ValueMap{}

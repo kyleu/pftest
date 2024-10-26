@@ -19,14 +19,14 @@ func (w *WASM) OnMessage(typ string, msg any) js.Value {
 }
 
 func (w *WASM) Log(level string, occurred time.Time, loggerName string, message string, caller util.ValueMap, stack string, fields util.ValueMap) js.Value {
-	m := util.ValueMap{"level": level, "message": message, "caller": caller.AsMap(), "occurred": util.TimeToJS(&occurred)}
+	m := util.ValueMap{"level": level, "message": message, "caller": caller, "occurred": util.TimeToJS(&occurred)}
 	if stack != "" {
 		m["stack"] = stack
 	}
 	if len(fields) > 0 {
-		m["fields"] = fields.AsMap()
+		m["fields"] = fields
 	}
-	return w.OnMessage("log", m.AsMap())
+	return w.OnMessage("log", m.AsMap(true))
 }
 
 func (w *WASM) call(fn string, args ...any) js.Value {

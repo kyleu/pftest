@@ -2,6 +2,10 @@ package relation
 
 import "github.com/kyleu/pftest/app/util"
 
+func (r *Relation) ToMap() util.ValueMap {
+	return util.ValueMap{"id": r.ID, "basicID": r.BasicID, "name": r.Name, "created": r.Created}
+}
+
 func FromMap(m util.ValueMap, setPK bool) (*Relation, util.ValueMap, error) {
 	ret := &Relation{}
 	extra := util.ValueMap{}
