@@ -42,7 +42,7 @@ func SoftdelCreateForm(w http.ResponseWriter, r *http.Request) {
 	Act("softdel.create.form", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &softdel.Softdel{}
 		if r.URL.Query().Get("prototype") == util.KeyRandom {
-			ret = softdel.Random()
+			ret = softdel.RandomSoftdel()
 		}
 		ps.SetTitleAndData("Create [Softdel]", ret)
 		ps.Data = ret
@@ -135,6 +135,6 @@ func softdelFromForm(r *http.Request, b []byte, setPK bool) (*softdel.Softdel, e
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to parse form")
 	}
-	ret, _, err := softdel.FromMap(frm, setPK)
+	ret, _, err := softdel.SoftdelFromMap(frm, setPK)
 	return ret, err
 }

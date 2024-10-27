@@ -61,7 +61,7 @@ func AuditedCreateForm(w http.ResponseWriter, r *http.Request) {
 	Act("audited.create.form", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &audited.Audited{}
 		if r.URL.Query().Get("prototype") == util.KeyRandom {
-			ret = audited.Random()
+			ret = audited.RandomAudited()
 		}
 		ps.SetTitleAndData("Create [Audited]", ret)
 		ps.Data = ret
@@ -158,6 +158,6 @@ func auditedFromForm(r *http.Request, b []byte, setPK bool) (*audited.Audited, e
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to parse form")
 	}
-	ret, _, err := audited.FromMap(frm, setPK)
+	ret, _, err := audited.AuditedFromMap(frm, setPK)
 	return ret, err
 }

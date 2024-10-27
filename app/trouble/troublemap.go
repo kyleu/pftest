@@ -6,7 +6,7 @@ func (t *Trouble) ToMap() util.ValueMap {
 	return util.ValueMap{"from": t.From, "where": t.Where, "selectcol": t.Selectcol, "limit": t.Limit, "group": t.Group, "delete": t.Delete}
 }
 
-func FromMap(m util.ValueMap, setPK bool) (*Trouble, util.ValueMap, error) {
+func TroubleFromMap(m util.ValueMap, setPK bool) (*Trouble, util.ValueMap, error) {
 	ret := &Trouble{}
 	extra := util.ValueMap{}
 	for k, v := range m {

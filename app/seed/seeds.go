@@ -58,7 +58,7 @@ func (s Seeds) GetByIDs(ids ...uuid.UUID) Seeds {
 }
 
 func (s Seeds) ToCSV() ([]string, [][]string) {
-	return FieldDescs.Keys(), lo.Map(s, func(x *Seed, _ int) []string {
+	return SeedFieldDescs.Keys(), lo.Map(s, func(x *Seed, _ int) []string {
 		return x.Strings()
 	})
 }

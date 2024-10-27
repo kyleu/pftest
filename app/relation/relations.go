@@ -76,7 +76,7 @@ func (r Relations) GetByBasicIDs(basicIDs ...uuid.UUID) Relations {
 }
 
 func (r Relations) ToCSV() ([]string, [][]string) {
-	return FieldDescs.Keys(), lo.Map(r, func(x *Relation, _ int) []string {
+	return RelationFieldDescs.Keys(), lo.Map(r, func(x *Relation, _ int) []string {
 		return x.Strings()
 	})
 }

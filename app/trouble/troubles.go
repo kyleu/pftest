@@ -80,7 +80,7 @@ func (t Troubles) GetByFroms(froms ...string) Troubles {
 }
 
 func (t Troubles) ToCSV() ([]string, [][]string) {
-	return FieldDescs.Keys(), lo.Map(t, func(x *Trouble, _ int) []string {
+	return TroubleFieldDescs.Keys(), lo.Map(t, func(x *Trouble, _ int) []string {
 		return x.Strings()
 	})
 }

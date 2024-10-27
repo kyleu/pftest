@@ -42,7 +42,7 @@ func TimestampCreateForm(w http.ResponseWriter, r *http.Request) {
 	Act("timestamp.create.form", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &timestamp.Timestamp{}
 		if r.URL.Query().Get("prototype") == util.KeyRandom {
-			ret = timestamp.Random()
+			ret = timestamp.RandomTimestamp()
 		}
 		ps.SetTitleAndData("Create [Timestamp]", ret)
 		ps.Data = ret
@@ -135,6 +135,6 @@ func timestampFromForm(r *http.Request, b []byte, setPK bool) (*timestamp.Timest
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to parse form")
 	}
-	ret, _, err := timestamp.FromMap(frm, setPK)
+	ret, _, err := timestamp.TimestampFromMap(frm, setPK)
 	return ret, err
 }

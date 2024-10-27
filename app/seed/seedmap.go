@@ -6,7 +6,7 @@ func (s *Seed) ToMap() util.ValueMap {
 	return util.ValueMap{"id": s.ID, "name": s.Name, "size": s.Size, "obj": s.Obj}
 }
 
-func FromMap(m util.ValueMap, setPK bool) (*Seed, util.ValueMap, error) {
+func SeedFromMap(m util.ValueMap, setPK bool) (*Seed, util.ValueMap, error) {
 	ret := &Seed{}
 	extra := util.ValueMap{}
 	for k, v := range m {

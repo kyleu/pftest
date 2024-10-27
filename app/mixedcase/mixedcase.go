@@ -25,7 +25,7 @@ type MixedCase struct {
 	AnotherField string `json:"anotherField,omitempty"`
 }
 
-func New(id string) *MixedCase {
+func NewMixedCase(id string) *MixedCase {
 	return &MixedCase{ID: id}
 }
 
@@ -41,7 +41,7 @@ func (m *MixedCase) TitleString() string {
 	return m.String()
 }
 
-func Random() *MixedCase {
+func RandomMixedCase() *MixedCase {
 	return &MixedCase{
 		ID:           util.RandomString(12),
 		TestField:    util.RandomString(12),
@@ -54,7 +54,7 @@ func (m *MixedCase) Strings() []string {
 }
 
 func (m *MixedCase) ToCSV() ([]string, [][]string) {
-	return FieldDescs.Keys(), [][]string{m.Strings()}
+	return MixedCaseFieldDescs.Keys(), [][]string{m.Strings()}
 }
 
 func (m *MixedCase) WebPath(paths ...string) string {
@@ -68,7 +68,7 @@ func (m *MixedCase) ToData() []any {
 	return []any{m.ID, m.TestField, m.AnotherField}
 }
 
-var FieldDescs = util.FieldDescs{
+var MixedCaseFieldDescs = util.FieldDescs{
 	{Key: "id", Title: "ID", Description: "", Type: "string"},
 	{Key: "testField", Title: "Test Field", Description: "", Type: "string"},
 	{Key: "anotherField", Title: "Another Field", Description: "", Type: "string"},

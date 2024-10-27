@@ -27,7 +27,7 @@ type Timestamp struct {
 	Deleted *time.Time `json:"deleted,omitempty"`
 }
 
-func New(id string) *Timestamp {
+func NewTimestamp(id string) *Timestamp {
 	return &Timestamp{ID: id}
 }
 
@@ -43,7 +43,7 @@ func (t *Timestamp) TitleString() string {
 	return t.String()
 }
 
-func Random() *Timestamp {
+func RandomTimestamp() *Timestamp {
 	return &Timestamp{
 		ID:      util.RandomString(12),
 		Created: util.TimeCurrent(),
@@ -57,7 +57,7 @@ func (t *Timestamp) Strings() []string {
 }
 
 func (t *Timestamp) ToCSV() ([]string, [][]string) {
-	return FieldDescs.Keys(), [][]string{t.Strings()}
+	return TimestampFieldDescs.Keys(), [][]string{t.Strings()}
 }
 
 func (t *Timestamp) WebPath(paths ...string) string {
@@ -71,7 +71,7 @@ func (t *Timestamp) ToData() []any {
 	return []any{t.ID, t.Created, t.Updated, t.Deleted}
 }
 
-var FieldDescs = util.FieldDescs{
+var TimestampFieldDescs = util.FieldDescs{
 	{Key: "id", Title: "ID", Description: "", Type: "string"},
 	{Key: "created", Title: "Created", Description: "", Type: "timestamp"},
 	{Key: "updated", Title: "Updated", Description: "", Type: "timestamp"},

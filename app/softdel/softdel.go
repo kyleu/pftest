@@ -27,7 +27,7 @@ type Softdel struct {
 	Deleted *time.Time `json:"deleted,omitempty"`
 }
 
-func New(id string) *Softdel {
+func NewSoftdel(id string) *Softdel {
 	return &Softdel{ID: id}
 }
 
@@ -43,7 +43,7 @@ func (s *Softdel) TitleString() string {
 	return s.String()
 }
 
-func Random() *Softdel {
+func RandomSoftdel() *Softdel {
 	return &Softdel{
 		ID:      util.RandomString(12),
 		Created: util.TimeCurrent(),
@@ -57,7 +57,7 @@ func (s *Softdel) Strings() []string {
 }
 
 func (s *Softdel) ToCSV() ([]string, [][]string) {
-	return FieldDescs.Keys(), [][]string{s.Strings()}
+	return SoftdelFieldDescs.Keys(), [][]string{s.Strings()}
 }
 
 func (s *Softdel) WebPath(paths ...string) string {
@@ -71,7 +71,7 @@ func (s *Softdel) ToData() []any {
 	return []any{s.ID, s.Created, s.Updated, s.Deleted}
 }
 
-var FieldDescs = util.FieldDescs{
+var SoftdelFieldDescs = util.FieldDescs{
 	{Key: "id", Title: "ID", Description: "", Type: "string"},
 	{Key: "created", Title: "Created", Description: "", Type: "timestamp"},
 	{Key: "updated", Title: "Updated", Description: "", Type: "timestamp"},

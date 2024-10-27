@@ -6,7 +6,7 @@ func (c *Capital) ToMap() util.ValueMap {
 	return util.ValueMap{"id": c.ID, "name": c.Name, "birthday": c.Birthday, "deathday": c.Deathday}
 }
 
-func FromMap(m util.ValueMap, setPK bool) (*Capital, util.ValueMap, error) {
+func CapitalFromMap(m util.ValueMap, setPK bool) (*Capital, util.ValueMap, error) {
 	ret := &Capital{}
 	extra := util.ValueMap{}
 	for k, v := range m {

@@ -67,7 +67,7 @@ func RelationCreateForm(w http.ResponseWriter, r *http.Request) {
 	Act("relation.create.form", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &relation.Relation{}
 		if r.URL.Query().Get("prototype") == util.KeyRandom {
-			ret = relation.Random()
+			ret = relation.RandomRelation()
 			randomBasic, err := as.Services.Basic.Random(ps.Context, nil, ps.Logger)
 			if err == nil && randomBasic != nil {
 				ret.BasicID = randomBasic.ID
@@ -168,6 +168,6 @@ func relationFromForm(r *http.Request, b []byte, setPK bool) (*relation.Relation
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to parse form")
 	}
-	ret, _, err := relation.FromMap(frm, setPK)
+	ret, _, err := relation.RelationFromMap(frm, setPK)
 	return ret, err
 }

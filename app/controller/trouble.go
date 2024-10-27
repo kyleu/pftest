@@ -42,7 +42,7 @@ func TroubleCreateForm(w http.ResponseWriter, r *http.Request) {
 	Act("trouble.create.form", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &trouble.Trouble{}
 		if r.URL.Query().Get("prototype") == util.KeyRandom {
-			ret = trouble.Random()
+			ret = trouble.RandomTrouble()
 		}
 		ps.SetTitleAndData("Create [Trouble]", ret)
 		ps.Data = ret
@@ -140,6 +140,6 @@ func troubleFromForm(r *http.Request, b []byte, setPK bool) (*trouble.Trouble, e
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to parse form")
 	}
-	ret, _, err := trouble.FromMap(frm, setPK)
+	ret, _, err := trouble.TroubleFromMap(frm, setPK)
 	return ret, err
 }

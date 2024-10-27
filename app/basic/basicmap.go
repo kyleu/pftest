@@ -6,7 +6,7 @@ func (b *Basic) ToMap() util.ValueMap {
 	return util.ValueMap{"id": b.ID, "name": b.Name, "status": b.Status, "created": b.Created}
 }
 
-func FromMap(m util.ValueMap, setPK bool) (*Basic, util.ValueMap, error) {
+func BasicFromMap(m util.ValueMap, setPK bool) (*Basic, util.ValueMap, error) {
 	ret := &Basic{}
 	extra := util.ValueMap{}
 	for k, v := range m {

@@ -42,7 +42,7 @@ func MixedCaseCreateForm(w http.ResponseWriter, r *http.Request) {
 	Act("mixedcase.create.form", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &mixedcase.MixedCase{}
 		if r.URL.Query().Get("prototype") == util.KeyRandom {
-			ret = mixedcase.Random()
+			ret = mixedcase.RandomMixedCase()
 		}
 		ps.SetTitleAndData("Create [MixedCase]", ret)
 		ps.Data = ret
@@ -134,6 +134,6 @@ func mixedcaseFromForm(r *http.Request, b []byte, setPK bool) (*mixedcase.MixedC
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to parse form")
 	}
-	ret, _, err := mixedcase.FromMap(frm, setPK)
+	ret, _, err := mixedcase.MixedCaseFromMap(frm, setPK)
 	return ret, err
 }

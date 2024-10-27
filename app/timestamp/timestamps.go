@@ -57,7 +57,7 @@ func (t Timestamps) GetByIDs(ids ...string) Timestamps {
 }
 
 func (t Timestamps) ToCSV() ([]string, [][]string) {
-	return FieldDescs.Keys(), lo.Map(t, func(x *Timestamp, _ int) []string {
+	return TimestampFieldDescs.Keys(), lo.Map(t, func(x *Timestamp, _ int) []string {
 		return x.Strings()
 	})
 }

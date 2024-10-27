@@ -66,7 +66,7 @@ func BasicCreateForm(w http.ResponseWriter, r *http.Request) {
 	Act("basic.create.form", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &basic.Basic{}
 		if r.URL.Query().Get("prototype") == util.KeyRandom {
-			ret = basic.Random()
+			ret = basic.RandomBasic()
 		}
 		ps.SetTitleAndData("Create [Basic]", ret)
 		ps.Data = ret
@@ -163,6 +163,6 @@ func basicFromForm(r *http.Request, b []byte, setPK bool) (*basic.Basic, error) 
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to parse form")
 	}
-	ret, _, err := basic.FromMap(frm, setPK)
+	ret, _, err := basic.BasicFromMap(frm, setPK)
 	return ret, err
 }

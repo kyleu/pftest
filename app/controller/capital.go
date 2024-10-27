@@ -42,7 +42,7 @@ func CapitalCreateForm(w http.ResponseWriter, r *http.Request) {
 	Act("capital.create.form", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &capital.Capital{}
 		if r.URL.Query().Get("prototype") == util.KeyRandom {
-			ret = capital.Random()
+			ret = capital.RandomCapital()
 		}
 		ps.SetTitleAndData("Create [Capital]", ret)
 		ps.Data = ret
@@ -134,6 +134,6 @@ func capitalFromForm(r *http.Request, b []byte, setPK bool) (*capital.Capital, e
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to parse form")
 	}
-	ret, _, err := capital.FromMap(frm, setPK)
+	ret, _, err := capital.CapitalFromMap(frm, setPK)
 	return ret, err
 }

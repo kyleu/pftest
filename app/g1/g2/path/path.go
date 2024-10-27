@@ -29,7 +29,7 @@ type Path struct {
 	Created time.Time `json:"created,omitempty"`
 }
 
-func New(id uuid.UUID) *Path {
+func NewPath(id uuid.UUID) *Path {
 	return &Path{ID: id}
 }
 
@@ -48,7 +48,7 @@ func (p *Path) TitleString() string {
 	return p.String()
 }
 
-func Random() *Path {
+func RandomPath() *Path {
 	return &Path{
 		ID:      util.UUID(),
 		Name:    util.RandomString(12),
@@ -62,7 +62,7 @@ func (p *Path) Strings() []string {
 }
 
 func (p *Path) ToCSV() ([]string, [][]string) {
-	return FieldDescs.Keys(), [][]string{p.Strings()}
+	return PathFieldDescs.Keys(), [][]string{p.Strings()}
 }
 
 func (p *Path) WebPath(paths ...string) string {
@@ -76,7 +76,7 @@ func (p *Path) ToData() []any {
 	return []any{p.ID, p.Name, p.Status, p.Created}
 }
 
-var FieldDescs = util.FieldDescs{
+var PathFieldDescs = util.FieldDescs{
 	{Key: "id", Title: "ID", Description: "", Type: "uuid"},
 	{Key: "name", Title: "Name", Description: "", Type: "string"},
 	{Key: "status", Title: "Status", Description: "", Type: "string"},

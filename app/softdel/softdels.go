@@ -57,7 +57,7 @@ func (s Softdels) GetByIDs(ids ...string) Softdels {
 }
 
 func (s Softdels) ToCSV() ([]string, [][]string) {
-	return FieldDescs.Keys(), lo.Map(s, func(x *Softdel, _ int) []string {
+	return SoftdelFieldDescs.Keys(), lo.Map(s, func(x *Softdel, _ int) []string {
 		return x.Strings()
 	})
 }

@@ -6,7 +6,7 @@ func (p *Path) ToMap() util.ValueMap {
 	return util.ValueMap{"id": p.ID, "name": p.Name, "status": p.Status, "created": p.Created}
 }
 
-func FromMap(m util.ValueMap, setPK bool) (*Path, util.ValueMap, error) {
+func PathFromMap(m util.ValueMap, setPK bool) (*Path, util.ValueMap, error) {
 	ret := &Path{}
 	extra := util.ValueMap{}
 	for k, v := range m {

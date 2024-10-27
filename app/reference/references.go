@@ -58,7 +58,7 @@ func (r References) GetByIDs(ids ...uuid.UUID) References {
 }
 
 func (r References) ToCSV() ([]string, [][]string) {
-	return FieldDescs.Keys(), lo.Map(r, func(x *Reference, _ int) []string {
+	return ReferenceFieldDescs.Keys(), lo.Map(r, func(x *Reference, _ int) []string {
 		return x.Strings()
 	})
 }

@@ -6,7 +6,7 @@ func (s *Softdel) ToMap() util.ValueMap {
 	return util.ValueMap{"id": s.ID, "created": s.Created, "updated": s.Updated, "deleted": s.Deleted}
 }
 
-func FromMap(m util.ValueMap, setPK bool) (*Softdel, util.ValueMap, error) {
+func SoftdelFromMap(m util.ValueMap, setPK bool) (*Softdel, util.ValueMap, error) {
 	ret := &Softdel{}
 	extra := util.ValueMap{}
 	for k, v := range m {

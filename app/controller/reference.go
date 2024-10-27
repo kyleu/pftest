@@ -56,7 +56,7 @@ func ReferenceCreateForm(w http.ResponseWriter, r *http.Request) {
 	Act("reference.create.form", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &reference.Reference{}
 		if r.URL.Query().Get("prototype") == util.KeyRandom {
-			ret = reference.Random()
+			ret = reference.RandomReference()
 		}
 		ps.SetTitleAndData("Create [Reference]", ret)
 		ps.Data = ret
@@ -153,6 +153,6 @@ func referenceFromForm(r *http.Request, b []byte, setPK bool) (*reference.Refere
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to parse form")
 	}
-	ret, _, err := reference.FromMap(frm, setPK)
+	ret, _, err := reference.ReferenceFromMap(frm, setPK)
 	return ret, err
 }

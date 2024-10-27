@@ -57,7 +57,7 @@ func PathCreateForm(w http.ResponseWriter, r *http.Request) {
 	controller.Act("path.create.form", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &path.Path{}
 		if r.URL.Query().Get("prototype") == util.KeyRandom {
-			ret = path.Random()
+			ret = path.RandomPath()
 		}
 		ps.SetTitleAndData("Create [Path]", ret)
 		ps.Data = ret
@@ -154,6 +154,6 @@ func pathFromForm(r *http.Request, b []byte, setPK bool) (*path.Path, error) {
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to parse form")
 	}
-	ret, _, err := path.FromMap(frm, setPK)
+	ret, _, err := path.PathFromMap(frm, setPK)
 	return ret, err
 }

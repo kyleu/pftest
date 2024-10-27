@@ -58,7 +58,7 @@ func (p Paths) GetByIDs(ids ...uuid.UUID) Paths {
 }
 
 func (p Paths) ToCSV() ([]string, [][]string) {
-	return FieldDescs.Keys(), lo.Map(p, func(x *Path, _ int) []string {
+	return PathFieldDescs.Keys(), lo.Map(p, func(x *Path, _ int) []string {
 		return x.Strings()
 	})
 }

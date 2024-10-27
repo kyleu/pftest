@@ -58,7 +58,7 @@ func (b Basics) GetByIDs(ids ...uuid.UUID) Basics {
 }
 
 func (b Basics) ToCSV() ([]string, [][]string) {
-	return FieldDescs.Keys(), lo.Map(b, func(x *Basic, _ int) []string {
+	return BasicFieldDescs.Keys(), lo.Map(b, func(x *Basic, _ int) []string {
 		return x.Strings()
 	})
 }

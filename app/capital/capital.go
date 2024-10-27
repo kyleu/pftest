@@ -27,7 +27,7 @@ type Capital struct {
 	Deathday *time.Time `json:"deathday,omitempty"`
 }
 
-func New(id string) *Capital {
+func NewCapital(id string) *Capital {
 	return &Capital{ID: id}
 }
 
@@ -46,7 +46,7 @@ func (c *Capital) TitleString() string {
 	return c.String()
 }
 
-func Random() *Capital {
+func RandomCapital() *Capital {
 	return &Capital{
 		ID:       util.RandomString(12),
 		Name:     util.RandomString(12),
@@ -60,7 +60,7 @@ func (c *Capital) Strings() []string {
 }
 
 func (c *Capital) ToCSV() ([]string, [][]string) {
-	return FieldDescs.Keys(), [][]string{c.Strings()}
+	return CapitalFieldDescs.Keys(), [][]string{c.Strings()}
 }
 
 func (c *Capital) WebPath(paths ...string) string {
@@ -74,7 +74,7 @@ func (c *Capital) ToData() []any {
 	return []any{c.ID, c.Name, c.Birthday, c.Deathday}
 }
 
-var FieldDescs = util.FieldDescs{
+var CapitalFieldDescs = util.FieldDescs{
 	{Key: "id", Title: "ID", Description: "", Type: "string"},
 	{Key: "name", Title: "Name", Description: "", Type: "string"},
 	{Key: "birthday", Title: "Birthday", Description: "", Type: "timestamp"},

@@ -29,7 +29,7 @@ type Seed struct {
 	Obj  util.ValueMap `json:"obj,omitempty"`
 }
 
-func New(id uuid.UUID) *Seed {
+func NewSeed(id uuid.UUID) *Seed {
 	return &Seed{ID: id}
 }
 
@@ -48,7 +48,7 @@ func (s *Seed) TitleString() string {
 	return s.String()
 }
 
-func Random() *Seed {
+func RandomSeed() *Seed {
 	return &Seed{
 		ID:   util.UUID(),
 		Name: util.RandomString(12),
@@ -62,7 +62,7 @@ func (s *Seed) Strings() []string {
 }
 
 func (s *Seed) ToCSV() ([]string, [][]string) {
-	return FieldDescs.Keys(), [][]string{s.Strings()}
+	return SeedFieldDescs.Keys(), [][]string{s.Strings()}
 }
 
 func (s *Seed) WebPath(paths ...string) string {
@@ -76,7 +76,7 @@ func (s *Seed) ToData() []any {
 	return []any{s.ID, s.Name, s.Size, s.Obj}
 }
 
-var FieldDescs = util.FieldDescs{
+var SeedFieldDescs = util.FieldDescs{
 	{Key: "id", Title: "ID", Description: "", Type: "uuid"},
 	{Key: "name", Title: "Name", Description: "", Type: "string"},
 	{Key: "size", Title: "Size", Description: "", Type: "int"},

@@ -40,7 +40,7 @@ type Trouble struct {
 	Delete    *time.Time `json:"delete,omitempty"`
 }
 
-func New(from string, where []string) *Trouble {
+func NewTrouble(from string, where []string) *Trouble {
 	return &Trouble{From: from, Where: where}
 }
 
@@ -63,7 +63,7 @@ func (t *Trouble) ToPK() *PK {
 	}
 }
 
-func Random() *Trouble {
+func RandomTrouble() *Trouble {
 	return &Trouble{
 		From:      util.RandomString(12),
 		Where:     []string{util.RandomString(12), util.RandomString(12)},
@@ -79,7 +79,7 @@ func (t *Trouble) Strings() []string {
 }
 
 func (t *Trouble) ToCSV() ([]string, [][]string) {
-	return FieldDescs.Keys(), [][]string{t.Strings()}
+	return TroubleFieldDescs.Keys(), [][]string{t.Strings()}
 }
 
 func (t *Trouble) WebPath(paths ...string) string {
@@ -93,7 +93,7 @@ func (t *Trouble) ToData() []any {
 	return []any{t.From, t.Where, t.Selectcol, t.Limit, t.Group, t.Delete}
 }
 
-var FieldDescs = util.FieldDescs{
+var TroubleFieldDescs = util.FieldDescs{
 	{Key: "from", Title: "From", Description: "", Type: "string"},
 	{Key: "where", Title: "Where", Description: "", Type: "[]string"},
 	{Key: "selectcol", Title: "Selectcol", Description: "", Type: "int"},

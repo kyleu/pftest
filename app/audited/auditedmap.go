@@ -6,7 +6,7 @@ func (a *Audited) ToMap() util.ValueMap {
 	return util.ValueMap{"id": a.ID, "name": a.Name}
 }
 
-func FromMap(m util.ValueMap, setPK bool) (*Audited, util.ValueMap, error) {
+func AuditedFromMap(m util.ValueMap, setPK bool) (*Audited, util.ValueMap, error) {
 	ret := &Audited{}
 	extra := util.ValueMap{}
 	for k, v := range m {

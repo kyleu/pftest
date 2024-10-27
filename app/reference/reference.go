@@ -30,7 +30,7 @@ type Reference struct {
 	Created time.Time   `json:"created,omitempty"`
 }
 
-func New(id uuid.UUID) *Reference {
+func NewReference(id uuid.UUID) *Reference {
 	return &Reference{ID: id}
 }
 
@@ -46,7 +46,7 @@ func (r *Reference) TitleString() string {
 	return r.String()
 }
 
-func Random() *Reference {
+func RandomReference() *Reference {
 	return &Reference{
 		ID:      util.UUID(),
 		Custom:  nil,
@@ -60,7 +60,7 @@ func (r *Reference) Strings() []string {
 }
 
 func (r *Reference) ToCSV() ([]string, [][]string) {
-	return FieldDescs.Keys(), [][]string{r.Strings()}
+	return ReferenceFieldDescs.Keys(), [][]string{r.Strings()}
 }
 
 func (r *Reference) WebPath(paths ...string) string {
@@ -74,7 +74,7 @@ func (r *Reference) ToData() []any {
 	return []any{r.ID, r.Custom, r.Self, r.Created}
 }
 
-var FieldDescs = util.FieldDescs{
+var ReferenceFieldDescs = util.FieldDescs{
 	{Key: "id", Title: "ID", Description: "", Type: "uuid"},
 	{Key: "custom", Title: "Custom", Description: "", Type: "ref:github.com/kyleu/pftest/app/foo/Custom"},
 	{Key: "self", Title: "Self", Description: "", Type: "ref:github.com/kyleu/pftest/app/reference/SelfCustom"},

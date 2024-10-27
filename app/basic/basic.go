@@ -29,7 +29,7 @@ type Basic struct {
 	Created time.Time `json:"created,omitempty"`
 }
 
-func New(id uuid.UUID) *Basic {
+func NewBasic(id uuid.UUID) *Basic {
 	return &Basic{ID: id}
 }
 
@@ -48,7 +48,7 @@ func (b *Basic) TitleString() string {
 	return b.String()
 }
 
-func Random() *Basic {
+func RandomBasic() *Basic {
 	return &Basic{
 		ID:      util.UUID(),
 		Name:    util.RandomString(12),
@@ -62,7 +62,7 @@ func (b *Basic) Strings() []string {
 }
 
 func (b *Basic) ToCSV() ([]string, [][]string) {
-	return FieldDescs.Keys(), [][]string{b.Strings()}
+	return BasicFieldDescs.Keys(), [][]string{b.Strings()}
 }
 
 func (b *Basic) WebPath(paths ...string) string {
@@ -76,7 +76,7 @@ func (b *Basic) ToData() []any {
 	return []any{b.ID, b.Name, b.Status, b.Created}
 }
 
-var FieldDescs = util.FieldDescs{
+var BasicFieldDescs = util.FieldDescs{
 	{Key: "id", Title: "ID", Description: "", Type: "uuid"},
 	{Key: "name", Title: "Name", Description: "", Type: "string"},
 	{Key: "status", Title: "Status", Description: "", Type: "string"},

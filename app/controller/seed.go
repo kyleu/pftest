@@ -42,7 +42,7 @@ func SeedCreateForm(w http.ResponseWriter, r *http.Request) {
 	Act("seed.create.form", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &seed.Seed{}
 		if r.URL.Query().Get("prototype") == util.KeyRandom {
-			ret = seed.Random()
+			ret = seed.RandomSeed()
 		}
 		ps.SetTitleAndData("Create [Seed]", ret)
 		ps.Data = ret
@@ -139,6 +139,6 @@ func seedFromForm(r *http.Request, b []byte, setPK bool) (*seed.Seed, error) {
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to parse form")
 	}
-	ret, _, err := seed.FromMap(frm, setPK)
+	ret, _, err := seed.SeedFromMap(frm, setPK)
 	return ret, err
 }

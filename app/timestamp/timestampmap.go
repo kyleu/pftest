@@ -6,7 +6,7 @@ func (t *Timestamp) ToMap() util.ValueMap {
 	return util.ValueMap{"id": t.ID, "created": t.Created, "updated": t.Updated, "deleted": t.Deleted}
 }
 
-func FromMap(m util.ValueMap, setPK bool) (*Timestamp, util.ValueMap, error) {
+func TimestampFromMap(m util.ValueMap, setPK bool) (*Timestamp, util.ValueMap, error) {
 	ret := &Timestamp{}
 	extra := util.ValueMap{}
 	for k, v := range m {

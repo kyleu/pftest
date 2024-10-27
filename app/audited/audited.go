@@ -26,7 +26,7 @@ type Audited struct {
 	Name string    `json:"name,omitempty"`
 }
 
-func New(id uuid.UUID) *Audited {
+func NewAudited(id uuid.UUID) *Audited {
 	return &Audited{ID: id}
 }
 
@@ -45,7 +45,7 @@ func (a *Audited) TitleString() string {
 	return a.String()
 }
 
-func Random() *Audited {
+func RandomAudited() *Audited {
 	return &Audited{
 		ID:   util.UUID(),
 		Name: util.RandomString(12),
@@ -57,7 +57,7 @@ func (a *Audited) Strings() []string {
 }
 
 func (a *Audited) ToCSV() ([]string, [][]string) {
-	return FieldDescs.Keys(), [][]string{a.Strings()}
+	return AuditedFieldDescs.Keys(), [][]string{a.Strings()}
 }
 
 func (a *Audited) WebPath(paths ...string) string {
@@ -71,7 +71,7 @@ func (a *Audited) ToData() []any {
 	return []any{a.ID, a.Name}
 }
 
-var FieldDescs = util.FieldDescs{
+var AuditedFieldDescs = util.FieldDescs{
 	{Key: "id", Title: "ID", Description: "", Type: "uuid"},
 	{Key: "name", Title: "Name", Description: "", Type: "string"},
 }

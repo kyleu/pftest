@@ -29,7 +29,7 @@ type Relation struct {
 	Created time.Time `json:"created,omitempty"`
 }
 
-func New(id uuid.UUID) *Relation {
+func NewRelation(id uuid.UUID) *Relation {
 	return &Relation{ID: id}
 }
 
@@ -48,7 +48,7 @@ func (r *Relation) TitleString() string {
 	return r.String()
 }
 
-func Random() *Relation {
+func RandomRelation() *Relation {
 	return &Relation{
 		ID:      util.UUID(),
 		BasicID: util.UUID(),
@@ -62,7 +62,7 @@ func (r *Relation) Strings() []string {
 }
 
 func (r *Relation) ToCSV() ([]string, [][]string) {
-	return FieldDescs.Keys(), [][]string{r.Strings()}
+	return RelationFieldDescs.Keys(), [][]string{r.Strings()}
 }
 
 func (r *Relation) WebPath(paths ...string) string {
@@ -76,7 +76,7 @@ func (r *Relation) ToData() []any {
 	return []any{r.ID, r.BasicID, r.Name, r.Created}
 }
 
-var FieldDescs = util.FieldDescs{
+var RelationFieldDescs = util.FieldDescs{
 	{Key: "id", Title: "ID", Description: "", Type: "uuid"},
 	{Key: "basicID", Title: "Basic ID", Description: "", Type: "uuid"},
 	{Key: "name", Title: "Name", Description: "", Type: "string"},
