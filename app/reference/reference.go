@@ -56,7 +56,7 @@ func RandomReference() *Reference {
 }
 
 func (r *Reference) Strings() []string {
-	return []string{r.ID.String(), r.Custom.String(), r.Self.String(), util.TimeToFull(&r.Created)}
+	return []string{r.ID.String(), util.ToJSONCompact(r.Custom), util.ToJSONCompact(r.Self), util.TimeToFull(&r.Created)}
 }
 
 func (r *Reference) ToCSV() ([]string, [][]string) {
@@ -76,7 +76,7 @@ func (r *Reference) ToData() []any {
 
 var ReferenceFieldDescs = util.FieldDescs{
 	{Key: "id", Title: "ID", Description: "", Type: "uuid"},
-	{Key: "custom", Title: "Custom", Description: "", Type: "ref:github.com/kyleu/pftest/app/foo/Custom"},
-	{Key: "self", Title: "Self", Description: "", Type: "ref:github.com/kyleu/pftest/app/reference/SelfCustom"},
+	{Key: "custom", Title: "Custom", Description: "", Type: "Custom"},
+	{Key: "self", Title: "Self", Description: "", Type: "SelfCustom"},
 	{Key: "created", Title: "Created", Description: "", Type: "timestamp"},
 }

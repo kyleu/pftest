@@ -75,7 +75,7 @@ func RandomTrouble() *Trouble {
 }
 
 func (t *Trouble) Strings() []string {
-	return []string{t.From, util.ToJSON(t.Where), fmt.Sprint(t.Selectcol), t.Limit, t.Group, util.TimeToFull(t.Delete)}
+	return []string{t.From, util.ToJSONCompact(t.Where), fmt.Sprint(t.Selectcol), t.Limit, t.Group, util.TimeToFull(t.Delete)}
 }
 
 func (t *Trouble) ToCSV() ([]string, [][]string) {

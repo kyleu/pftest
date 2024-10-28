@@ -31,7 +31,7 @@
             "app",
             "foo"
           ],
-          "k": "Custom"
+          "k": "*Custom"
         }
       },
       "search": true
@@ -48,7 +48,7 @@
             "app",
             "reference"
           ],
-          "k": "SelfCustom"
+          "k": "*SelfCustom"
         }
       },
       "search": true

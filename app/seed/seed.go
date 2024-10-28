@@ -58,7 +58,7 @@ func RandomSeed() *Seed {
 }
 
 func (s *Seed) Strings() []string {
-	return []string{s.ID.String(), s.Name, fmt.Sprint(s.Size), util.ToJSON(s.Obj)}
+	return []string{s.ID.String(), s.Name, fmt.Sprint(s.Size), util.ToJSONCompact(s.Obj)}
 }
 
 func (s *Seed) ToCSV() ([]string, [][]string) {
