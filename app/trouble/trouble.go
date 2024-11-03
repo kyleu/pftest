@@ -45,7 +45,7 @@ func NewTrouble(from string, where []string) *Trouble {
 }
 
 func (t *Trouble) Clone() *Trouble {
-	return &Trouble{t.From, t.Where, t.Selectcol, t.Limit, t.Group, t.Delete}
+	return &Trouble{t.From, t.Where[:], t.Selectcol, t.Limit, t.Group, t.Delete}
 }
 
 func (t *Trouble) String() string {
