@@ -1,8 +1,6 @@
 package capital
 
 import (
-	"slices"
-
 	"github.com/samber/lo"
 
 	"github.com/kyleu/pftest/app/util"
@@ -67,5 +65,7 @@ func (c Capitals) Random() *Capital {
 }
 
 func (c Capitals) Clone() Capitals {
-	return slices.Clone(c)
+	return lo.Map(c, func(xx *Capital, _ int) *Capital {
+		return xx.Clone()
+	})
 }

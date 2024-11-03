@@ -35,18 +35,18 @@ func ToGoType(t types.Type, nullable bool, pkg string, enums enum.Enums) (string
 			ret = e.Package + "." + e.Proper()
 		}
 	case types.KeyInt:
-		ret = types.KeyInt
+		ret = t.String()
 	case types.KeyFloat:
 		ret = "float64"
 	case types.KeyList:
-		lt := types.TypeAs[*types.List](t)
-		switch lt.V.Key() {
+		lt := types.Wrap(t).ListType()
+		switch lt.Key() {
 		case types.KeyString:
 			ret = goTypeStringArray
 		case types.KeyInt:
 			ret = goTypeIntArray
 		case types.KeyEnum:
-			e, err := AsEnumInstance(lt.V, enums)
+			e, err := AsEnumInstance(lt, enums)
 			if err != nil {
 				return "", err
 			}

@@ -1,8 +1,6 @@
 package mixedcase
 
 import (
-	"slices"
-
 	"github.com/samber/lo"
 
 	"github.com/kyleu/pftest/app/util"
@@ -67,5 +65,7 @@ func (m MixedCases) Random() *MixedCase {
 }
 
 func (m MixedCases) Clone() MixedCases {
-	return slices.Clone(m)
+	return lo.Map(m, func(xx *MixedCase, _ int) *MixedCase {
+		return xx.Clone()
+	})
 }

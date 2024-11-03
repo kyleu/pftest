@@ -1,8 +1,6 @@
 package audited
 
 import (
-	"slices"
-
 	"github.com/google/uuid"
 	"github.com/samber/lo"
 
@@ -68,5 +66,7 @@ func (a Auditeds) Random() *Audited {
 }
 
 func (a Auditeds) Clone() Auditeds {
-	return slices.Clone(a)
+	return lo.Map(a, func(xx *Audited, _ int) *Audited {
+		return xx.Clone()
+	})
 }

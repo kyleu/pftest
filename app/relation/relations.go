@@ -1,8 +1,6 @@
 package relation
 
 import (
-	"slices"
-
 	"github.com/google/uuid"
 	"github.com/samber/lo"
 
@@ -86,5 +84,7 @@ func (r Relations) Random() *Relation {
 }
 
 func (r Relations) Clone() Relations {
-	return slices.Clone(r)
+	return lo.Map(r, func(xx *Relation, _ int) *Relation {
+		return xx.Clone()
+	})
 }

@@ -1,8 +1,6 @@
 package basic
 
 import (
-	"slices"
-
 	"github.com/google/uuid"
 	"github.com/samber/lo"
 
@@ -68,5 +66,7 @@ func (b Basics) Random() *Basic {
 }
 
 func (b Basics) Clone() Basics {
-	return slices.Clone(b)
+	return lo.Map(b, func(xx *Basic, _ int) *Basic {
+		return xx.Clone()
+	})
 }

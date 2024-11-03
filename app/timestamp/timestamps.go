@@ -1,8 +1,6 @@
 package timestamp
 
 import (
-	"slices"
-
 	"github.com/samber/lo"
 
 	"github.com/kyleu/pftest/app/util"
@@ -67,5 +65,7 @@ func (t Timestamps) Random() *Timestamp {
 }
 
 func (t Timestamps) Clone() Timestamps {
-	return slices.Clone(t)
+	return lo.Map(t, func(xx *Timestamp, _ int) *Timestamp {
+		return xx.Clone()
+	})
 }

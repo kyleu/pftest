@@ -1,8 +1,6 @@
 package softdel
 
 import (
-	"slices"
-
 	"github.com/samber/lo"
 
 	"github.com/kyleu/pftest/app/util"
@@ -67,5 +65,7 @@ func (s Softdels) Random() *Softdel {
 }
 
 func (s Softdels) Clone() Softdels {
-	return slices.Clone(s)
+	return lo.Map(s, func(xx *Softdel, _ int) *Softdel {
+		return xx.Clone()
+	})
 }

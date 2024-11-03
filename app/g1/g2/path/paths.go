@@ -1,8 +1,6 @@
 package path
 
 import (
-	"slices"
-
 	"github.com/google/uuid"
 	"github.com/samber/lo"
 
@@ -68,5 +66,7 @@ func (p Paths) Random() *Path {
 }
 
 func (p Paths) Clone() Paths {
-	return slices.Clone(p)
+	return lo.Map(p, func(xx *Path, _ int) *Path {
+		return xx.Clone()
+	})
 }

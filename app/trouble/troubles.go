@@ -90,5 +90,7 @@ func (t Troubles) Random() *Trouble {
 }
 
 func (t Troubles) Clone() Troubles {
-	return slices.Clone(t)
+	return lo.Map(t, func(xx *Trouble, _ int) *Trouble {
+		return xx.Clone()
+	})
 }

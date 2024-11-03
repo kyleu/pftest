@@ -1,8 +1,6 @@
 package reference
 
 import (
-	"slices"
-
 	"github.com/google/uuid"
 	"github.com/samber/lo"
 
@@ -68,5 +66,7 @@ func (r References) Random() *Reference {
 }
 
 func (r References) Clone() References {
-	return slices.Clone(r)
+	return lo.Map(r, func(xx *Reference, _ int) *Reference {
+		return xx.Clone()
+	})
 }
