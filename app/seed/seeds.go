@@ -55,6 +55,18 @@ func (s Seeds) GetByIDs(ids ...uuid.UUID) Seeds {
 	})
 }
 
+func (s Seeds) ToMaps() []util.ValueMap {
+	return lo.Map(s, func(x *Seed, _ int) util.ValueMap {
+		return x.ToMap()
+	})
+}
+
+func (s Seeds) ToOrderedMaps() util.OrderedMaps[any] {
+	return lo.Map(s, func(x *Seed, _ int) *util.OrderedMap[any] {
+		return x.ToOrderedMap()
+	})
+}
+
 func (s Seeds) ToCSV() ([]string, [][]string) {
 	return SeedFieldDescs.Keys(), lo.Map(s, func(x *Seed, _ int) []string {
 		return x.Strings()

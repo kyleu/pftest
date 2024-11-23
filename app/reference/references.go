@@ -55,6 +55,18 @@ func (r References) GetByIDs(ids ...uuid.UUID) References {
 	})
 }
 
+func (r References) ToMaps() []util.ValueMap {
+	return lo.Map(r, func(x *Reference, _ int) util.ValueMap {
+		return x.ToMap()
+	})
+}
+
+func (r References) ToOrderedMaps() util.OrderedMaps[any] {
+	return lo.Map(r, func(x *Reference, _ int) *util.OrderedMap[any] {
+		return x.ToOrderedMap()
+	})
+}
+
 func (r References) ToCSV() ([]string, [][]string) {
 	return ReferenceFieldDescs.Keys(), lo.Map(r, func(x *Reference, _ int) []string {
 		return x.Strings()

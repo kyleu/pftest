@@ -29,6 +29,7 @@
     "mysql",
     "notarize",
     "notebook",
+    "numeric",
     "oauth",
     "openapi",
     "playwright",

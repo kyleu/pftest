@@ -54,6 +54,18 @@ func (s Softdels) GetByIDs(ids ...string) Softdels {
 	})
 }
 
+func (s Softdels) ToMaps() []util.ValueMap {
+	return lo.Map(s, func(x *Softdel, _ int) util.ValueMap {
+		return x.ToMap()
+	})
+}
+
+func (s Softdels) ToOrderedMaps() util.OrderedMaps[any] {
+	return lo.Map(s, func(x *Softdel, _ int) *util.OrderedMap[any] {
+		return x.ToOrderedMap()
+	})
+}
+
 func (s Softdels) ToCSV() ([]string, [][]string) {
 	return SoftdelFieldDescs.Keys(), lo.Map(s, func(x *Softdel, _ int) []string {
 		return x.Strings()

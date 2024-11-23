@@ -38,6 +38,8 @@ func Help(t types.Type, f string, nullable bool, enums enum.Enums) (string, erro
 		return q("Comma-separated list of values"), nil
 	case types.KeyMap, types.KeyValueMap:
 		return q("JSON object"), nil
+	case types.KeyNumeric:
+		return q("Large numeric value"), nil
 	case types.KeyReference:
 		return q("[" + strings.TrimPrefix(asRefK(t), "*") + "], as a JSON object"), nil
 	case types.KeyString:

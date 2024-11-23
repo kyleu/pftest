@@ -54,6 +54,18 @@ func (t Timestamps) GetByIDs(ids ...string) Timestamps {
 	})
 }
 
+func (t Timestamps) ToMaps() []util.ValueMap {
+	return lo.Map(t, func(x *Timestamp, _ int) util.ValueMap {
+		return x.ToMap()
+	})
+}
+
+func (t Timestamps) ToOrderedMaps() util.OrderedMaps[any] {
+	return lo.Map(t, func(x *Timestamp, _ int) *util.OrderedMap[any] {
+		return x.ToOrderedMap()
+	})
+}
+
 func (t Timestamps) ToCSV() ([]string, [][]string) {
 	return TimestampFieldDescs.Keys(), lo.Map(t, func(x *Timestamp, _ int) []string {
 		return x.Strings()

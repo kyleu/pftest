@@ -42,3 +42,9 @@ func TroubleFromMap(m util.ValueMap, setPK bool) (*Trouble, util.ValueMap, error
 	// $PF_SECTION_END(extrachecks)$
 	return ret, extra, nil
 }
+
+//nolint:lll
+func (t *Trouble) ToOrderedMap() *util.OrderedMap[any] {
+	pairs := util.OrderedPairs[any]{{K: "from", V: t.From}, {K: "where", V: t.Where}, {K: "selectcol", V: t.Selectcol}, {K: "limit", V: t.Limit}, {K: "group", V: t.Group}, {K: "delete", V: t.Delete}}
+	return util.NewOrderedMap[any](false, 4, pairs...)
+}

@@ -58,3 +58,8 @@ func ReferenceFromMap(m util.ValueMap, setPK bool) (*Reference, util.ValueMap, e
 	// $PF_SECTION_END(extrachecks)$
 	return ret, extra, nil
 }
+
+func (r *Reference) ToOrderedMap() *util.OrderedMap[any] {
+	pairs := util.OrderedPairs[any]{{K: "id", V: r.ID}, {K: "custom", V: r.Custom}, {K: "self", V: r.Self}, {K: "created", V: r.Created}}
+	return util.NewOrderedMap[any](false, 4, pairs...)
+}

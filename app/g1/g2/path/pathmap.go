@@ -37,3 +37,8 @@ func PathFromMap(m util.ValueMap, setPK bool) (*Path, util.ValueMap, error) {
 	// $PF_SECTION_END(extrachecks)$
 	return ret, extra, nil
 }
+
+func (p *Path) ToOrderedMap() *util.OrderedMap[any] {
+	pairs := util.OrderedPairs[any]{{K: "id", V: p.ID}, {K: "name", V: p.Name}, {K: "status", V: p.Status}, {K: "created", V: p.Created}}
+	return util.NewOrderedMap[any](false, 4, pairs...)
+}

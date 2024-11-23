@@ -29,3 +29,8 @@ func SoftdelFromMap(m util.ValueMap, setPK bool) (*Softdel, util.ValueMap, error
 	// $PF_SECTION_END(extrachecks)$
 	return ret, extra, nil
 }
+
+func (s *Softdel) ToOrderedMap() *util.OrderedMap[any] {
+	pairs := util.OrderedPairs[any]{{K: "id", V: s.ID}, {K: "created", V: s.Created}, {K: "updated", V: s.Updated}, {K: "deleted", V: s.Deleted}}
+	return util.NewOrderedMap[any](false, 4, pairs...)
+}

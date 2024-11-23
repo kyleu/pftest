@@ -73,6 +73,18 @@ func (r Relations) GetByBasicIDs(basicIDs ...uuid.UUID) Relations {
 	})
 }
 
+func (r Relations) ToMaps() []util.ValueMap {
+	return lo.Map(r, func(x *Relation, _ int) util.ValueMap {
+		return x.ToMap()
+	})
+}
+
+func (r Relations) ToOrderedMaps() util.OrderedMaps[any] {
+	return lo.Map(r, func(x *Relation, _ int) *util.OrderedMap[any] {
+		return x.ToOrderedMap()
+	})
+}
+
 func (r Relations) ToCSV() ([]string, [][]string) {
 	return RelationFieldDescs.Keys(), lo.Map(r, func(x *Relation, _ int) []string {
 		return x.Strings()

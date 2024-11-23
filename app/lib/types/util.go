@@ -17,3 +17,5 @@ func Bits(t Type) int {
 	}
 	return 0
 }
+
+const KeyNumeric = "numeric"

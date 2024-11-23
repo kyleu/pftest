@@ -55,6 +55,18 @@ func (a Auditeds) GetByIDs(ids ...uuid.UUID) Auditeds {
 	})
 }
 
+func (a Auditeds) ToMaps() []util.ValueMap {
+	return lo.Map(a, func(x *Audited, _ int) util.ValueMap {
+		return x.ToMap()
+	})
+}
+
+func (a Auditeds) ToOrderedMaps() util.OrderedMaps[any] {
+	return lo.Map(a, func(x *Audited, _ int) *util.OrderedMap[any] {
+		return x.ToOrderedMap()
+	})
+}
+
 func (a Auditeds) ToCSV() ([]string, [][]string) {
 	return AuditedFieldDescs.Keys(), lo.Map(a, func(x *Audited, _ int) []string {
 		return x.Strings()

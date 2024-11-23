@@ -79,6 +79,18 @@ func (t Troubles) GetByFroms(froms ...string) Troubles {
 	})
 }
 
+func (t Troubles) ToMaps() []util.ValueMap {
+	return lo.Map(t, func(x *Trouble, _ int) util.ValueMap {
+		return x.ToMap()
+	})
+}
+
+func (t Troubles) ToOrderedMaps() util.OrderedMaps[any] {
+	return lo.Map(t, func(x *Trouble, _ int) *util.OrderedMap[any] {
+		return x.ToOrderedMap()
+	})
+}
+
 func (t Troubles) ToCSV() ([]string, [][]string) {
 	return TroubleFieldDescs.Keys(), lo.Map(t, func(x *Trouble, _ int) []string {
 		return x.Strings()

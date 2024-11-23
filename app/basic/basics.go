@@ -55,6 +55,18 @@ func (b Basics) GetByIDs(ids ...uuid.UUID) Basics {
 	})
 }
 
+func (b Basics) ToMaps() []util.ValueMap {
+	return lo.Map(b, func(x *Basic, _ int) util.ValueMap {
+		return x.ToMap()
+	})
+}
+
+func (b Basics) ToOrderedMaps() util.OrderedMaps[any] {
+	return lo.Map(b, func(x *Basic, _ int) *util.OrderedMap[any] {
+		return x.ToOrderedMap()
+	})
+}
+
 func (b Basics) ToCSV() ([]string, [][]string) {
 	return BasicFieldDescs.Keys(), lo.Map(b, func(x *Basic, _ int) []string {
 		return x.Strings()

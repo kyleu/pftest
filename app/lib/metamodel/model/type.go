@@ -62,6 +62,8 @@ func ToGoType(t types.Type, nullable bool, pkg string, enums enum.Enums) (string
 		}
 	case types.KeyMap, types.KeyValueMap:
 		ret = "util.ValueMap"
+	case types.KeyNumeric:
+		ret = "numeric.Numeric"
 	case types.KeyReference:
 		ref, err := AsRef(t)
 		if err != nil {
@@ -97,7 +99,7 @@ func ToGoString(t types.Type, nullable bool, prop string, alwaysString bool) str
 			return fmt.Sprintf("%s.String()", prop)
 		}
 		return prop
-	case types.KeyMap, types.KeyValueMap:
+	case types.KeyMap, types.KeyValueMap, types.KeyNumeric:
 		return fmt.Sprintf("util.ToJSONCompact(%s)", prop)
 	case types.KeyDate:
 		if alwaysString {

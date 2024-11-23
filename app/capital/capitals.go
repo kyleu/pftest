@@ -54,6 +54,18 @@ func (c Capitals) GetByIDs(ids ...string) Capitals {
 	})
 }
 
+func (c Capitals) ToMaps() []util.ValueMap {
+	return lo.Map(c, func(x *Capital, _ int) util.ValueMap {
+		return x.ToMap()
+	})
+}
+
+func (c Capitals) ToOrderedMaps() util.OrderedMaps[any] {
+	return lo.Map(c, func(x *Capital, _ int) *util.OrderedMap[any] {
+		return x.ToOrderedMap()
+	})
+}
+
 func (c Capitals) ToCSV() ([]string, [][]string) {
 	return CapitalFieldDescs.Keys(), lo.Map(c, func(x *Capital, _ int) []string {
 		return x.Strings()

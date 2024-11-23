@@ -54,6 +54,18 @@ func (m MixedCases) GetByIDs(ids ...string) MixedCases {
 	})
 }
 
+func (m MixedCases) ToMaps() []util.ValueMap {
+	return lo.Map(m, func(x *MixedCase, _ int) util.ValueMap {
+		return x.ToMap()
+	})
+}
+
+func (m MixedCases) ToOrderedMaps() util.OrderedMaps[any] {
+	return lo.Map(m, func(x *MixedCase, _ int) *util.OrderedMap[any] {
+		return x.ToOrderedMap()
+	})
+}
+
 func (m MixedCases) ToCSV() ([]string, [][]string) {
 	return MixedCaseFieldDescs.Keys(), lo.Map(m, func(x *MixedCase, _ int) []string {
 		return x.Strings()

@@ -39,3 +39,8 @@ func SeedFromMap(m util.ValueMap, setPK bool) (*Seed, util.ValueMap, error) {
 	// $PF_SECTION_END(extrachecks)$
 	return ret, extra, nil
 }
+
+func (s *Seed) ToOrderedMap() *util.OrderedMap[any] {
+	pairs := util.OrderedPairs[any]{{K: "id", V: s.ID}, {K: "name", V: s.Name}, {K: "size", V: s.Size}, {K: "obj", V: s.Obj}}
+	return util.NewOrderedMap[any](false, 4, pairs...)
+}

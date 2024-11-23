@@ -55,6 +55,18 @@ func (p Paths) GetByIDs(ids ...uuid.UUID) Paths {
 	})
 }
 
+func (p Paths) ToMaps() []util.ValueMap {
+	return lo.Map(p, func(x *Path, _ int) util.ValueMap {
+		return x.ToMap()
+	})
+}
+
+func (p Paths) ToOrderedMaps() util.OrderedMaps[any] {
+	return lo.Map(p, func(x *Path, _ int) *util.OrderedMap[any] {
+		return x.ToOrderedMap()
+	})
+}
+
 func (p Paths) ToCSV() ([]string, [][]string) {
 	return PathFieldDescs.Keys(), lo.Map(p, func(x *Path, _ int) []string {
 		return x.Strings()

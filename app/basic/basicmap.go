@@ -37,3 +37,8 @@ func BasicFromMap(m util.ValueMap, setPK bool) (*Basic, util.ValueMap, error) {
 	// $PF_SECTION_END(extrachecks)$
 	return ret, extra, nil
 }
+
+func (b *Basic) ToOrderedMap() *util.OrderedMap[any] {
+	pairs := util.OrderedPairs[any]{{K: "id", V: b.ID}, {K: "name", V: b.Name}, {K: "status", V: b.Status}, {K: "created", V: b.Created}}
+	return util.NewOrderedMap[any](false, 4, pairs...)
+}
