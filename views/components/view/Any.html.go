@@ -69,33 +69,33 @@ func StreamAny(qw422016 *qt422016.Writer, x any, ps *cutil.PageState) {
 //line views/components/view/Any.html:31
 			StreamInt(qw422016, t)
 //line views/components/view/Any.html:32
-		case util.ValueMap:
+		case util.ToOrderedMap[any]:
 //line views/components/view/Any.html:33
-			StreamMap(qw422016, false, t, ps)
+			StreamOrderedMap(qw422016, false, t.ToOrderedMap(), ps)
 //line views/components/view/Any.html:34
 		case util.ToMap:
 //line views/components/view/Any.html:35
 			StreamMap(qw422016, false, t.ToMap(), ps)
 //line views/components/view/Any.html:36
-		case map[string]any:
+		case util.ValueMap:
 //line views/components/view/Any.html:37
 			StreamMap(qw422016, false, t, ps)
 //line views/components/view/Any.html:38
-		case util.ToOrderedMap[any]:
+		case map[string]any:
 //line views/components/view/Any.html:39
-			StreamOrderedMap(qw422016, false, t.ToOrderedMap(), ps)
+			StreamMap(qw422016, false, t, ps)
 //line views/components/view/Any.html:40
-		case []util.ValueMap:
+		case util.ToOrderedMaps[any]:
 //line views/components/view/Any.html:41
-			StreamMapArray(qw422016, false, ps, t...)
+			StreamOrderedMapArray(qw422016, false, ps, t.ToOrderedMaps()...)
 //line views/components/view/Any.html:42
 		case util.ToMaps:
 //line views/components/view/Any.html:43
 			StreamMapArray(qw422016, false, ps, t.ToMaps()...)
 //line views/components/view/Any.html:44
-		case util.ToOrderedMaps[any]:
+		case []util.ValueMap:
 //line views/components/view/Any.html:45
-			StreamOrderedMapArray(qw422016, false, ps, t.ToOrderedMaps()...)
+			StreamMapArray(qw422016, false, ps, t...)
 //line views/components/view/Any.html:46
 		case numeric.Numeric:
 //line views/components/view/Any.html:47
@@ -109,107 +109,111 @@ func StreamAny(qw422016 *qt422016.Writer, x any, ps *cutil.PageState) {
 //line views/components/view/Any.html:51
 			StreamString(qw422016, t)
 //line views/components/view/Any.html:52
-		case time.Time:
+		case []string:
 //line views/components/view/Any.html:53
-			StreamTimestamp(qw422016, &t)
+			StreamStringArray(qw422016, t)
 //line views/components/view/Any.html:54
-		case *time.Time:
+		case time.Time:
 //line views/components/view/Any.html:55
-			StreamTimestamp(qw422016, t)
+			StreamTimestamp(qw422016, &t)
 //line views/components/view/Any.html:56
-		case url.URL:
+		case *time.Time:
 //line views/components/view/Any.html:57
-			StreamURL(qw422016, t, "", true, ps)
+			StreamTimestamp(qw422016, t)
 //line views/components/view/Any.html:58
-		case *url.URL:
+		case url.URL:
 //line views/components/view/Any.html:59
 			StreamURL(qw422016, t, "", true, ps)
 //line views/components/view/Any.html:60
-		case uuid.UUID:
+		case *url.URL:
 //line views/components/view/Any.html:61
-			StreamUUID(qw422016, &t)
+			StreamURL(qw422016, t, "", true, ps)
 //line views/components/view/Any.html:62
-		case *uuid.UUID:
+		case uuid.UUID:
 //line views/components/view/Any.html:63
-			StreamUUID(qw422016, t)
+			StreamUUID(qw422016, &t)
 //line views/components/view/Any.html:64
+		case *uuid.UUID:
+//line views/components/view/Any.html:65
+			StreamUUID(qw422016, t)
+//line views/components/view/Any.html:66
 		case []any:
-//line views/components/view/Any.html:65
-			if len(t) == 0 {
-//line views/components/view/Any.html:65
-				qw422016.N().S(`<em>empty array</em>`)
 //line views/components/view/Any.html:67
+			if len(t) == 0 {
+//line views/components/view/Any.html:67
+				qw422016.N().S(`<em>empty array</em>`)
+//line views/components/view/Any.html:69
 			} else {
-//line views/components/view/Any.html:68
+//line views/components/view/Any.html:70
 				arr, extra := util.ArrayLimit(t, 8)
 
-//line views/components/view/Any.html:69
+//line views/components/view/Any.html:71
 				for idx, e := range arr {
-//line views/components/view/Any.html:69
+//line views/components/view/Any.html:71
 					qw422016.N().S(`<div class="flex bt"><div class="mrs mts"><em>`)
-//line views/components/view/Any.html:71
+//line views/components/view/Any.html:73
 					qw422016.N().D(idx + 1)
-//line views/components/view/Any.html:71
+//line views/components/view/Any.html:73
 					qw422016.N().S(`</em></div><div class="">`)
-//line views/components/view/Any.html:72
-					StreamAny(qw422016, e, ps)
-//line views/components/view/Any.html:72
-					qw422016.N().S(`</div></div>`)
 //line views/components/view/Any.html:74
+					StreamAny(qw422016, e, ps)
+//line views/components/view/Any.html:74
+					qw422016.N().S(`</div></div>`)
+//line views/components/view/Any.html:76
 				}
-//line views/components/view/Any.html:75
-				if extra > 0 {
-//line views/components/view/Any.html:75
-					qw422016.N().S(`<div class="bb"><em>...and`)
-//line views/components/view/Any.html:76
-					qw422016.N().S(` `)
-//line views/components/view/Any.html:76
-					qw422016.N().D(extra)
-//line views/components/view/Any.html:76
-					qw422016.N().S(` `)
-//line views/components/view/Any.html:76
-					qw422016.N().S(`more</em></div>`)
 //line views/components/view/Any.html:77
-				}
+				if extra > 0 {
+//line views/components/view/Any.html:77
+					qw422016.N().S(`<div class="bb"><em>...and`)
 //line views/components/view/Any.html:78
+					qw422016.N().S(` `)
+//line views/components/view/Any.html:78
+					qw422016.N().D(extra)
+//line views/components/view/Any.html:78
+					qw422016.N().S(` `)
+//line views/components/view/Any.html:78
+					qw422016.N().S(`more</em></div>`)
+//line views/components/view/Any.html:79
+				}
+//line views/components/view/Any.html:80
 			}
-//line views/components/view/Any.html:79
-		default:
-//line views/components/view/Any.html:79
-			qw422016.N().S(`unhandled type [`)
-//line views/components/view/Any.html:80
-			qw422016.E().S(fmt.Sprintf("%T", x))
-//line views/components/view/Any.html:80
-			qw422016.N().S(`]`)
 //line views/components/view/Any.html:81
-		}
+		default:
+//line views/components/view/Any.html:81
+			qw422016.N().S(`unhandled type [`)
 //line views/components/view/Any.html:82
+			qw422016.E().S(fmt.Sprintf("%T", x))
+//line views/components/view/Any.html:82
+			qw422016.N().S(`]`)
+//line views/components/view/Any.html:83
+		}
+//line views/components/view/Any.html:84
 	}
-//line views/components/view/Any.html:83
+//line views/components/view/Any.html:85
 }
 
-//line views/components/view/Any.html:83
+//line views/components/view/Any.html:85
 func WriteAny(qq422016 qtio422016.Writer, x any, ps *cutil.PageState) {
-//line views/components/view/Any.html:83
+//line views/components/view/Any.html:85
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/components/view/Any.html:83
+//line views/components/view/Any.html:85
 	StreamAny(qw422016, x, ps)
-//line views/components/view/Any.html:83
+//line views/components/view/Any.html:85
 	qt422016.ReleaseWriter(qw422016)
-//line views/components/view/Any.html:83
+//line views/components/view/Any.html:85
 }
 
-//line views/components/view/Any.html:83
+//line views/components/view/Any.html:85
 func Any(x any, ps *cutil.PageState) string {
-//line views/components/view/Any.html:83
+//line views/components/view/Any.html:85
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/components/view/Any.html:83
+//line views/components/view/Any.html:85
 	WriteAny(qb422016, x, ps)
-//line views/components/view/Any.html:83
+//line views/components/view/Any.html:85
 	qs422016 := string(qb422016.B)
-//line views/components/view/Any.html:83
+//line views/components/view/Any.html:85
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/components/view/Any.html:83
+//line views/components/view/Any.html:85
 	return qs422016
-//line views/components/view/Any.html:83
+//line views/components/view/Any.html:85
 }
