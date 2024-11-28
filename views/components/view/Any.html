@@ -31,14 +31,18 @@
       {%= Int(t) %}
     {% case util.ToOrderedMap[any] %}
       {%= OrderedMap(false, t.ToOrderedMap(), ps) %}
+    {% case *util.OrderedMap[any] %}
+      {%= OrderedMap(false, t, ps) %}
+    {% case util.ToOrderedMaps[any] %}
+      {%= OrderedMapArray(false, ps, t.ToOrderedMaps()...) %}
+    {% case []*util.OrderedMap[any] %}
+      {%= OrderedMapArray(false, ps, t...) %}
     {% case util.ToMap %}
       {%= Map(false, t.ToMap(), ps) %}
     {% case util.ValueMap %}
       {%= Map(false, t, ps) %}
     {% case map[string]any %}
       {%= Map(false, t, ps) %}
-    {% case util.ToOrderedMaps[any] %}
-      {%= OrderedMapArray(false, ps, t.ToOrderedMaps()...) %}
     {% case util.ToMaps %}
       {%= MapArray(false, ps, t.ToMaps()...) %}
     {% case []util.ValueMap %}
@@ -78,6 +82,8 @@
           <div class="bb"><em>...and{% space %}{%d extra %}{% space %}more</em></div>
         {% endif %}
       {%- endif -%}
+    {% case fmt.Stringer %}
+      {%= String(t.String()) %}
     {% default %}
       unhandled type [{%s fmt.Sprintf("%T", x) %}]
     {% endswitch %}

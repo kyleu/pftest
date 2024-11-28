@@ -9,6 +9,7 @@ require (
 	github.com/alecthomas/chroma v0.10.0
 	github.com/andybalholm/brotli v1.1.1
 	github.com/araddon/dateparse v0.0.0-20210429162001-6b43995a97de
+	github.com/buger/jsonparser v1.1.1
 	github.com/buildkite/shellwords v0.0.0-20180315110454-59467a9b8e10
 	github.com/coreos/go-semver v0.3.1
 	github.com/denisenkom/go-mssqldb v0.12.3
