@@ -33,6 +33,7 @@
     "oauth",
     "openapi",
     "playwright",
+    "plot",
     "postgres",
     "process",
     "proxy",

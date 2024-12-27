@@ -32,6 +32,7 @@ The following modules were used to build this project:
 - [oauth](./doc/module/oauth.md)
 - [openapi](./doc/module/openapi.md)
 - [playwright](./doc/module/playwright.md)
+- [plot](./doc/module/plot.md)
 - [postgres](./doc/module/postgres.md)
 - [process](./doc/module/process.md)
 - [proxy](./doc/module/proxy.md)

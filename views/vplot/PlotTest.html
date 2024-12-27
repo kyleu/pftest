@@ -1,0 +1,17 @@
+{% import (
+  "github.com/kyleu/pftest/app"
+  "github.com/kyleu/pftest/app/controller/cutil"
+  "github.com/kyleu/pftest/views/components"
+  "github.com/kyleu/pftest/views/layout"
+) %}
+
+{% code type PlotTest struct {
+  layout.Basic
+} %}
+
+{% func (p *PlotTest) Body(as *app.State, ps *cutil.PageState) %}
+  <div class="card">
+    <h3>{%= components.SVGIcon(`chart`, ps) %} Plot Test</h3>
+    <div class="mt">TODO</div>
+  </div>
+{% endfunc %}
