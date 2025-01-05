@@ -1,7 +1,7 @@
 package queue
 
 import (
-	"golang.org/x/exp/maps"
+	"maps"
 
 	"github.com/kyleu/pftest/app/util"
 )
