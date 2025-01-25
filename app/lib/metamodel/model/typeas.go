@@ -7,16 +7,17 @@ import (
 
 	"github.com/kyleu/pftest/app/lib/metamodel/enum"
 	"github.com/kyleu/pftest/app/lib/types"
+	"github.com/kyleu/pftest/app/util"
 )
 
 func AsEnum(t types.Type) (*types.Enum, error) {
-	w, ok := t.(*types.Wrapped)
-	if ok {
+	w, err := util.Cast[*types.Wrapped](t)
+	if err == nil {
 		t = w.T
 	}
-	ref, ok := t.(*types.Enum)
-	if !ok {
-		return nil, errors.Errorf("InvalidType(%T)", w.T)
+	ref, err := util.Cast[*types.Enum](t)
+	if err != nil {
+		return nil, errors.Wrapf(err, "InvalidType(%T)", w.T)
 	}
 	return ref, nil
 }
@@ -34,13 +35,13 @@ func AsEnumInstance(t types.Type, enums enum.Enums) (*enum.Enum, error) {
 }
 
 func AsRef(t types.Type) (*types.Reference, error) {
-	w, ok := t.(*types.Wrapped)
-	if ok {
+	w, err := util.Cast[*types.Wrapped](t)
+	if err == nil {
 		t = w.T
 	}
-	ref, ok := t.(*types.Reference)
-	if !ok {
-		return nil, errors.Errorf("InvalidType(%T)", w.T)
+	ref, err := util.Cast[*types.Reference](t)
+	if err != nil {
+		return nil, errors.Wrapf(err, "InvalidType(%T)", w.T)
 	}
 	if ref.K == "" {
 		return nil, errors.New("invalid empty reference")
