@@ -33,7 +33,7 @@ func (s *Service) IconSafe() string {
 }
 
 func (s *Service) Camel() string {
-	return util.StringToLowerCamel(s.Name)
+	return util.StringToCamel(s.Name)
 }
 
 func (s *Service) CamelLower() string {

@@ -1,4 +1,6 @@
 {% import (
+  "strings"
+
   "github.com/kyleu/pftest/app"
   "github.com/kyleu/pftest/app/controller/cutil"
   "github.com/kyleu/pftest/app/lib/exec"
@@ -85,7 +87,7 @@
 {% func ExecScript(debug bool, id string, connectURL string, terminal bool, ps *cutil.PageState, extraHandlers ...string) %}
   <script>
     window.addEventListener('load', () => {
-      pftest.socketLog({%v debug %}, document.getElementById("{%s id %}"), {%v terminal %}, "{%s= connectURL %}");
+      pftest.socketLog({%v debug %}, document.getElementById("{%s id %}"), {%v terminal %}, "{%s= connectURL %}", [{%s= strings.Join(extraHandlers, `, `) %}]);
     })
   </script>
 {% endfunc %}
