@@ -1,9 +1,7 @@
 // Content managed by Project Forge, see [projectforge.md] for details.
 module github.com/kyleu/pftest/tools/desktop
 
-go 1.22.7
-
-toolchain go1.22.9
+go 1.24.0
 
 require (
 	github.com/kyleu/pftest v0.0.0
