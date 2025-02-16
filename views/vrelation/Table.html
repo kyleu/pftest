@@ -25,8 +25,11 @@
         <tr>
           <td><a href="{%s model.WebPath(paths...) %}">{%= view.UUID(&model.ID) %}</a></td>
           <td class="nowrap">
-            {%= view.UUID(&model.BasicID) %}{% if x := basicsByBasicID.Get(model.BasicID); x != nil %} ({%s x.TitleString() %}){% endif %}
-            <a title="Basic" href="{% if x := basicsByBasicID.Get(model.BasicID); x != nil %}{%s x.WebPath(paths...) %}{% endif %}">{%= components.SVGLink(`star`, ps) %}</a>
+            {% if x := basicsByBasicID.Get(model.BasicID); x != nil %}
+            {%s x.TitleString() %} <a title="Basic" href="{%s x.WebPath(paths...) %}">{%= components.SVGLink(`star`, ps) %}</a>
+            {% else %}
+            {%= view.UUID(&model.BasicID) %}
+            {% endif %}
           </td>
           <td><strong>{%= view.String(model.Name) %}</strong></td>
           <td>{%= view.Timestamp(&model.Created) %}</td>
