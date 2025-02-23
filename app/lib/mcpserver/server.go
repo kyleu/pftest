@@ -5,7 +5,14 @@ import (
 
 	"github.com/mark3labs/mcp-go/server"
 
+	"github.com/kyleu/pftest/app"
 	"github.com/kyleu/pftest/app/util"
+)
+
+var (
+	BuildInfo *app.BuildInfo
+	ConfigDir string
+	Debug     bool
 )
 
 type Server struct {

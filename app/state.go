@@ -3,6 +3,7 @@ package app
 import (
 	"context"
 	"fmt"
+	"strings"
 	"sync"
 	"time"
 
@@ -93,4 +94,53 @@ func (s State) User(ctx context.Context, id uuid.UUID, logger util.Logger) (*use
 		return nil, nil
 	}
 	return s.Services.User.Get(ctx, nil, id, logger)
+}
+
+func Bootstrap(bi *BuildInfo, cfgDir string, port uint16, debug bool, logger util.Logger) (*State, error) {
+	fs, err := filesystem.NewFileSystem(cfgDir, false, "")
+	if err != nil {
+		return nil, err
+	}
+
+	telemetryDisabled := util.GetEnvBool("disable_telemetry", false)
+	st, err := NewState(debug, bi, fs, !telemetryDisabled, port, logger)
+	if err != nil {
+		return nil, err
+	}
+
+	ctx, span, logger := telemetry.StartSpan(context.Background(), "app:init", logger)
+	defer span.Complete()
+	t := util.TimerStart()
+
+	db, err := database.OpenDefaultPostgres(ctx, logger)
+	if err != nil {
+		logger.Errorf("unable to open default database: %+v", err)
+	}
+	st.DB = db
+	roSuffix := "_readonly"
+	rKey := util.AppKey + roSuffix
+	if x := util.GetEnv("read_db_host", ""); x != "" {
+		paramsR := database.PostgresParamsFromEnv(rKey, rKey, "read_")
+		logger.Infof("using [%s:%s] for read-only database pool", paramsR.Host, paramsR.Database)
+		st.DBRead, err = database.OpenPostgresDatabase(ctx, rKey, paramsR, logger)
+	} else {
+		paramsR := database.PostgresParamsFromEnv(rKey, util.AppKey, "")
+		if strings.HasSuffix(paramsR.Database, roSuffix) {
+			paramsR.Database = util.AppKey
+		}
+		logger.Infof("using default database as read-only database pool")
+		st.DBRead, err = database.OpenPostgresDatabase(ctx, rKey, paramsR, logger)
+	}
+	if err != nil {
+		logger.Errorf("unable to open default read-only database: %v", err)
+	}
+	st.DBRead.ReadOnly = true
+	svcs, err := NewServices(ctx, st, logger)
+	if err != nil {
+		return nil, err
+	}
+	logger.Debugf("created app state in [%s]", util.MicrosToMillis(t.End()))
+	st.Services = svcs
+
+	return st, nil
 }
