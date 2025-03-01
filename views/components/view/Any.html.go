@@ -158,11 +158,11 @@ func StreamAny(qw422016 *qt422016.Writer, x any, ps *cutil.PageState) {
 //line views/components/view/Any.html:75
 				for idx, e := range arr {
 //line views/components/view/Any.html:75
-					qw422016.N().S(`<div class="flex bt"><div class="mrs mts"><em>`)
+					qw422016.N().S(`<div class="flex bb"><div class="mts mrs mbs"><em>`)
 //line views/components/view/Any.html:77
 					qw422016.N().D(idx + 1)
 //line views/components/view/Any.html:77
-					qw422016.N().S(`</em></div><div class="">`)
+					qw422016.N().S(`</em></div><div class="mts mbs">`)
 //line views/components/view/Any.html:78
 					StreamAny(qw422016, e, ps)
 //line views/components/view/Any.html:78
@@ -172,7 +172,7 @@ func StreamAny(qw422016 *qt422016.Writer, x any, ps *cutil.PageState) {
 //line views/components/view/Any.html:81
 				if extra > 0 {
 //line views/components/view/Any.html:81
-					qw422016.N().S(`<div class="bb"><em>...and`)
+					qw422016.N().S(`<div class="mts"><em>...and`)
 //line views/components/view/Any.html:82
 					qw422016.N().S(` `)
 //line views/components/view/Any.html:82
