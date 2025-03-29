@@ -28,6 +28,9 @@ func NewServer(ctx context.Context, version string) (*Server, error) {
 	ms := server.NewMCPServer(util.AppName, version)
 	mcp := &Server{MCP: ms, Tools: make(map[string]*Tool)}
 	// $PF_SECTION_START(tools)$
+	if err := mcp.AddTools(ExampleTool); err != nil {
+		return nil, err
+	}
 	// $PF_SECTION_END(tools)$
 	return mcp, nil
 }

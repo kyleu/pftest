@@ -13,6 +13,7 @@ import (
 	"github.com/kyleu/pftest/app/lib/database"
 	"github.com/kyleu/pftest/app/lib/filesystem"
 	"github.com/kyleu/pftest/app/lib/graphql"
+	"github.com/kyleu/pftest/app/lib/log"
 	"github.com/kyleu/pftest/app/lib/telemetry"
 	"github.com/kyleu/pftest/app/lib/theme"
 	"github.com/kyleu/pftest/app/user"
@@ -143,4 +144,24 @@ func Bootstrap(bi *BuildInfo, cfgDir string, port uint16, debug bool, logger uti
 	st.Services = svcs
 
 	return st, nil
+}
+
+func BootstrapRunDefault[T any](bi *BuildInfo, fn func(as *State, logger util.Logger) (T, error)) (T, error) {
+	logger, _ := log.InitLogging(false)
+	as, err := Bootstrap(bi, util.ConfigDir, 0, false, logger)
+	if err != nil {
+		var dflt T
+		return dflt, err
+	}
+	ret, err := fn(as, logger)
+	if err != nil {
+		var dflt T
+		return dflt, err
+	}
+	err = as.Close(context.Background(), logger)
+	if err != nil {
+		var dflt T
+		return dflt, err
+	}
+	return ret, nil
 }
