@@ -10,11 +10,13 @@
 -- {%= BasicDrop() %}
 -- {%= AuditedDrop() %}
 -- {%= CapitalDrop() %}
+-- {%= AuditDrop() %}
 -- {%= TypesDrop() %}
 -- {% endfunc %}
 
 -- {% func CreateAll() %}
 -- {%= TypesCreate() %}
+-- {%= AuditCreate() %}
 -- {%= CapitalCreate() %}
 -- {%= AuditedCreate() %}
 -- {%= BasicCreate() %}

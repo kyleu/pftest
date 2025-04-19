@@ -28,7 +28,7 @@ type PK struct {
 }
 
 func (p *PK) String() string {
-	return fmt.Sprintf("%s::%v", p.From, p.Where)
+	return fmt.Sprintf("%s • %v", p.From, p.Where)
 }
 
 type Trouble struct {
@@ -49,7 +49,7 @@ func (t *Trouble) Clone() *Trouble {
 }
 
 func (t *Trouble) String() string {
-	return fmt.Sprintf("%s::%s", t.From, t.Where)
+	return fmt.Sprintf("%s • %s", t.From, t.Where)
 }
 
 func (t *Trouble) TitleString() string {
