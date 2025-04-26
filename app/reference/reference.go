@@ -70,6 +70,10 @@ func (r *Reference) WebPath(paths ...string) string {
 	return path.Join(append(paths, url.QueryEscape(r.ID.String()))...)
 }
 
+func (r *Reference) Breadcrumb(extra ...string) string {
+	return r.TitleString() + "||" + r.WebPath(extra...) + "**star"
+}
+
 func (r *Reference) ToData() []any {
 	return []any{r.ID, r.Custom, r.Self, r.Created}
 }

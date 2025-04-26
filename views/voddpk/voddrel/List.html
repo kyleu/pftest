@@ -1,0 +1,40 @@
+{% import (
+  "github.com/kyleu/pftest/app"
+  "github.com/kyleu/pftest/app/controller/cutil"
+  "github.com/kyleu/pftest/app/lib/filter"
+  "github.com/kyleu/pftest/app/oddpk/oddrel"
+  "github.com/kyleu/pftest/views/components"
+  "github.com/kyleu/pftest/views/components/edit"
+  "github.com/kyleu/pftest/views/layout"
+) %}
+
+{% code type List struct {
+  layout.Basic
+  Models oddrel.Oddrels
+  Params filter.ParamSet
+  Paths []string
+  SearchQuery string
+} %}
+
+{% func (p *List) Body(as *app.State, ps *cutil.PageState) %}
+  <div class="card">
+    <div class="right">{%= edit.SearchForm("", "q", "Search Oddrels", p.SearchQuery, ps) %}</div>
+    <div class="right mrs large-buttons">
+      {%- if len(p.Models) > 1 -%}<a href="{%s oddrel.Route(p.Paths...) %}/_random"><button>{%= components.SVGButton("gift", ps) %} Random</button></a>{%- endif -%}
+      <a href="{%s oddrel.Route(p.Paths...) %}/_new"><button>{%= components.SVGButton("plus", ps) %} New</button></a>
+    </div>
+    <h3>{%= components.SVGIcon(`star`, ps) %} {%s ps.Title %}</h3>
+    <div class="clear"></div>
+    {%- if p.SearchQuery != "" -%}
+    <hr />
+    <em>Search results for [{%s p.SearchQuery %}]</em> (<a href="?">clear</a>)
+    {%- endif -%}
+    {%- if len(p.Models) == 0 -%}
+    <div class="mt"><em>No oddrels available</em></div>
+    {%- else -%}
+    <div class="mt">
+      {%= Table(p.Models, p.Params, as, ps, p.Paths...) %}
+    </div>
+    {%- endif -%}
+  </div>
+{% endfunc %}

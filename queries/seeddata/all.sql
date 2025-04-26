@@ -1,3 +1,5 @@
 -- {% func SeedDataAll() %}
+-- {%= OddPKSeedData() %}
+-- {%= OddrelSeedData() %}
 -- {%= SeedSeedData() %}
 -- {% endfunc %}

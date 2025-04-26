@@ -1,0 +1,48 @@
+{
+  "name": "oddpk",
+  "package": "oddpk",
+  "description": "Odd PK",
+  "icon": "star",
+  "ordering": [
+    {
+      "column": "name"
+    }
+  ],
+  "search": [
+    "lower(project::text)",
+    "lower(path)",
+    "lower(name)"
+  ],
+  "columns": [
+    {
+      "name": "project",
+      "type": "uuid",
+      "pk": true,
+      "search": true
+    },
+    {
+      "name": "path",
+      "type": "string",
+      "pk": true,
+      "search": true,
+      "tags": [
+        "path"
+      ]
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "search": true,
+      "tags": [
+        "title"
+      ]
+    }
+  ],
+  "seedData": [
+    [
+      "90000000-0000-0000-0000-000000000000",
+      "foo/bar",
+      "Project 1"
+    ]
+  ]
+}

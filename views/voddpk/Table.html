@@ -1,0 +1,37 @@
+{% import (
+  "github.com/kyleu/pftest/app"
+  "github.com/kyleu/pftest/app/controller/cutil"
+  "github.com/kyleu/pftest/app/lib/filter"
+  "github.com/kyleu/pftest/app/oddpk"
+  "github.com/kyleu/pftest/views/components"
+  "github.com/kyleu/pftest/views/components/view"
+) %}
+
+{% func Table(models oddpk.OddPKs, params filter.ParamSet, as *app.State, ps *cutil.PageState, paths ...string) %}
+  {%- code prms := params.Sanitized("oddpk", ps.Logger) -%}
+  <div class="overflow clear">
+    <table>
+      <thead>
+        <tr>
+          {%= components.TableHeaderSimple("oddpk", "project", "Project", "UUID in format (00000000-0000-0000-0000-000000000000)", prms, ps.URI, ps) %}
+          {%= components.TableHeaderSimple("oddpk", "path", "Path", "String text", prms, ps.URI, ps) %}
+          {%= components.TableHeaderSimple("oddpk", "name", "Name", "String text", prms, ps.URI, ps) %}
+        </tr>
+      </thead>
+      <tbody>
+        {%- for _, model := range models -%}
+        <tr>
+          <td><a href="{%s model.WebPath(paths...) %}">{%= view.UUID(&model.Project) %}</a></td>
+          <td><a href="{%s model.WebPath(paths...) %}">{%= view.String(model.Path) %}</a></td>
+          <td><strong>{%= view.String(model.Name) %}</strong></td>
+        </tr>
+        {%- endfor -%}
+      </tbody>
+    </table>
+  </div>
+  {%- if prms.HasNextPage(len(models) + prms.Offset) || prms.HasPreviousPage() -%}
+  <hr />
+  {%= components.Pagination(len(models) + prms.Offset, prms, ps.URI) %}
+  <div class="clear"></div>
+  {%- endif -%}
+{% endfunc %}

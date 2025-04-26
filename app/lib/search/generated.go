@@ -24,6 +24,20 @@ func generatedSearch() []Provider {
 		prm := params.PS.Sanitized("basic", logger).WithLimit(5)
 		return as.Services.Basic.SearchEntries(ctx, params.Q, nil, prm, logger)
 	}
+	oddpkFunc := func(ctx context.Context, params *Params, as *app.State, page *cutil.PageState, logger util.Logger) (result.Results, error) {
+		if !page.Admin {
+			return nil, nil
+		}
+		prm := params.PS.Sanitized("oddpk", logger).WithLimit(5)
+		return as.Services.OddPK.SearchEntries(ctx, params.Q, nil, prm, logger)
+	}
+	oddrelFunc := func(ctx context.Context, params *Params, as *app.State, page *cutil.PageState, logger util.Logger) (result.Results, error) {
+		if !page.Admin {
+			return nil, nil
+		}
+		prm := params.PS.Sanitized("oddrel", logger).WithLimit(5)
+		return as.Services.Oddrel.SearchEntries(ctx, params.Q, nil, prm, logger)
+	}
 	pathFunc := func(ctx context.Context, params *Params, as *app.State, page *cutil.PageState, logger util.Logger) (result.Results, error) {
 		if !page.Admin {
 			return nil, nil
@@ -45,5 +59,5 @@ func generatedSearch() []Provider {
 		prm := params.PS.Sanitized("relation", logger).WithLimit(5)
 		return as.Services.Relation.SearchEntries(ctx, params.Q, nil, prm, logger)
 	}
-	return []Provider{auditedFunc, basicFunc, pathFunc, referenceFunc, relationFunc}
+	return []Provider{auditedFunc, basicFunc, oddpkFunc, oddrelFunc, pathFunc, referenceFunc, relationFunc}
 }

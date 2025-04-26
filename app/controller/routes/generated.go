@@ -7,6 +7,7 @@ import (
 
 	"github.com/kyleu/pftest/app/controller"
 	"github.com/kyleu/pftest/app/controller/cg1/cg2"
+	"github.com/kyleu/pftest/app/controller/coddpk"
 )
 
 const routeNew, routeRandom, routeEdit, routeDelete = "/_new", "/_random", "/edit", "/delete"
@@ -18,6 +19,8 @@ func generatedRoutes(r *mux.Router) {
 	generatedRoutesSeed(r, "/seed")
 	generatedRoutesRelation(r, "/relation")
 	generatedRoutesReference(r, "/reference")
+	generatedRoutesOddrel(r, "/oddpk/oddrel")
+	generatedRoutesOddPK(r, "/oddpk")
 	generatedRoutesMixedCase(r, "/mixedcase")
 	generatedRoutesPath(r, "/g1/g2/path")
 	generatedRoutesCapital(r, "/capital")
@@ -95,6 +98,30 @@ func generatedRoutesReference(r *mux.Router, prefix string) {
 	makeRoute(r, http.MethodGet, prefix+pkn+routeEdit, controller.ReferenceEditForm)
 	makeRoute(r, http.MethodPost, prefix+pkn+routeEdit, controller.ReferenceEdit)
 	makeRoute(r, http.MethodGet, prefix+pkn+routeDelete, controller.ReferenceDelete)
+}
+
+func generatedRoutesOddrel(r *mux.Router, prefix string) {
+	const pkn = "/{id}"
+	makeRoute(r, http.MethodGet, prefix, coddpk.OddrelList)
+	makeRoute(r, http.MethodGet, prefix+routeNew, coddpk.OddrelCreateForm)
+	makeRoute(r, http.MethodPost, prefix+routeNew, coddpk.OddrelCreate)
+	makeRoute(r, http.MethodGet, prefix+routeRandom, coddpk.OddrelRandom)
+	makeRoute(r, http.MethodGet, prefix+pkn, coddpk.OddrelDetail)
+	makeRoute(r, http.MethodGet, prefix+pkn+routeEdit, coddpk.OddrelEditForm)
+	makeRoute(r, http.MethodPost, prefix+pkn+routeEdit, coddpk.OddrelEdit)
+	makeRoute(r, http.MethodGet, prefix+pkn+routeDelete, coddpk.OddrelDelete)
+}
+
+func generatedRoutesOddPK(r *mux.Router, prefix string) {
+	const pkn = "/{project}/{path}"
+	makeRoute(r, http.MethodGet, prefix, controller.OddPKList)
+	makeRoute(r, http.MethodGet, prefix+routeNew, controller.OddPKCreateForm)
+	makeRoute(r, http.MethodPost, prefix+routeNew, controller.OddPKCreate)
+	makeRoute(r, http.MethodGet, prefix+routeRandom, controller.OddPKRandom)
+	makeRoute(r, http.MethodGet, prefix+pkn, controller.OddPKDetail)
+	makeRoute(r, http.MethodGet, prefix+pkn+routeEdit, controller.OddPKEditForm)
+	makeRoute(r, http.MethodPost, prefix+pkn+routeEdit, controller.OddPKEdit)
+	makeRoute(r, http.MethodGet, prefix+pkn+routeDelete, controller.OddPKDelete)
 }
 
 func generatedRoutesMixedCase(r *mux.Router, prefix string) {

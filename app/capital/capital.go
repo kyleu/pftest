@@ -70,6 +70,10 @@ func (c *Capital) WebPath(paths ...string) string {
 	return path.Join(append(paths, url.QueryEscape(c.ID))...)
 }
 
+func (c *Capital) Breadcrumb(extra ...string) string {
+	return c.TitleString() + "||" + c.WebPath(extra...) + "**star"
+}
+
 func (c *Capital) ToData() []any {
 	return []any{c.ID, c.Name, c.Birthday, c.Deathday}
 }

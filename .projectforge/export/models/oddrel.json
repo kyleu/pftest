@@ -1,0 +1,47 @@
+{
+  "name": "oddrel",
+  "package": "oddrel",
+  "group": [
+    "oddpk"
+  ],
+  "description": "Odd Rel",
+  "icon": "star",
+  "ordering": [
+    {
+      "column": "name"
+    }
+  ],
+  "search": [
+    "lower(id::text)",
+    "lower(project::text)",
+    "lower(path)"
+  ],
+  "columns": [
+    {
+      "name": "id",
+      "type": "uuid",
+      "pk": true,
+      "search": true
+    },
+    {
+      "name": "project",
+      "type": "uuid",
+      "search": true
+    },
+    {
+      "name": "path",
+      "type": "string",
+      "search": true,
+      "tags": [
+        "path"
+      ]
+    }
+  ],
+  "seedData": [
+    [
+      "90000000-0000-0000-0000-100000000000",
+      "90000000-0000-0000-0000-000000000000",
+      "foo/bar"
+    ]
+  ]
+}

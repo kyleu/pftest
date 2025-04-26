@@ -64,6 +64,10 @@ func (m *MixedCase) WebPath(paths ...string) string {
 	return path.Join(append(paths, url.QueryEscape(m.ID))...)
 }
 
+func (m *MixedCase) Breadcrumb(extra ...string) string {
+	return m.TitleString() + "||" + m.WebPath(extra...) + "**star"
+}
+
 func (m *MixedCase) ToData() []any {
 	return []any{m.ID, m.TestField, m.AnotherField}
 }

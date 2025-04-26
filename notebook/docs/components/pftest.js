@@ -54,6 +54,14 @@ export async function mixedCases(opts) {
   return await load(urlFor("mixedcase", "mixedcase", opts), opts?.t);
 }
 
+export async function oddPKs(opts) {
+  return await load(urlFor("oddpk", "oddpk", opts), opts?.t);
+}
+
+export async function oddrels(opts) {
+  return await load(urlFor("oddrel", "oddpk/oddrel", opts), opts?.t);
+}
+
 export async function paths(opts) {
   return await load(urlFor("path", "g1/g2/path", opts), opts?.t);
 }

@@ -67,6 +67,10 @@ func (t *Timestamp) WebPath(paths ...string) string {
 	return path.Join(append(paths, url.QueryEscape(t.ID))...)
 }
 
+func (t *Timestamp) Breadcrumb(extra ...string) string {
+	return t.TitleString() + "||" + t.WebPath(extra...) + "**star"
+}
+
 func (t *Timestamp) ToData() []any {
 	return []any{t.ID, t.Created, t.Updated, t.Deleted}
 }

@@ -72,6 +72,10 @@ func (s *Seed) WebPath(paths ...string) string {
 	return path.Join(append(paths, url.QueryEscape(s.ID.String()))...)
 }
 
+func (s *Seed) Breadcrumb(extra ...string) string {
+	return s.TitleString() + "||" + s.WebPath(extra...) + "**star"
+}
+
 func (s *Seed) ToData() []any {
 	return []any{s.ID, s.Name, s.Size, s.Obj}
 }

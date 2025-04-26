@@ -68,7 +68,7 @@ func initIfNeeded() error {
 	if _flags.ConfigDir == "" {
 		_flags.ConfigDir = configdir.LocalConfig(util.AppName)
 	}
-	err := util.InitAcronyms()
+	err := util.InitAcronyms("pk")
 	if err != nil {
 		return err
 	}

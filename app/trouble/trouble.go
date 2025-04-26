@@ -89,6 +89,10 @@ func (t *Trouble) WebPath(paths ...string) string {
 	return path.Join(append(paths, url.QueryEscape(t.From), url.QueryEscape(strings.Join(t.Where, ",")))...)
 }
 
+func (t *Trouble) Breadcrumb(extra ...string) string {
+	return t.TitleString() + "||" + t.WebPath(extra...) + "**star"
+}
+
 func (t *Trouble) ToData() []any {
 	return []any{t.From, t.Where, t.Selectcol, t.Limit, t.Group, t.Delete}
 }

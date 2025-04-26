@@ -1,0 +1,50 @@
+{% import (
+  "github.com/kyleu/pftest/app"
+  "github.com/kyleu/pftest/app/controller/cutil"
+  "github.com/kyleu/pftest/app/oddpk/oddrel"
+  "github.com/kyleu/pftest/views/components"
+  "github.com/kyleu/pftest/views/components/view"
+  "github.com/kyleu/pftest/views/layout"
+) %}
+
+{% code type Detail struct {
+  layout.Basic
+  Model *oddrel.Oddrel
+  Paths []string
+} %}
+
+{% func (p *Detail) Body(as *app.State, ps *cutil.PageState) %}
+  <div class="card">
+    <div class="right">
+      <a href="#modal-oddrel"><button type="button" title="JSON">{%= components.SVGButton("code", ps) %}</button></a>
+      <a href="{%s p.Model.WebPath(p.Paths...) %}/edit" title="Edit"><button>{%= components.SVGButton("edit", ps) %}</button></a>
+    </div>
+    <h3>{%= components.SVGIcon(`star`, ps) %} {%s p.Model.TitleString() %}</h3>
+    <div><a href="{%s oddrel.Route(p.Paths...) %}"><em>Oddrel</em></a></div>
+    {%= DetailTable(p, ps) %}
+  </div>
+  {%- comment %}$PF_SECTION_START(extra)${% endcomment -%}
+  {%- comment %}$PF_SECTION_END(extra)${% endcomment -%}
+  {%= components.JSONModal("oddrel", "Oddrel JSON", p.Model, 1) %}
+{% endfunc %}
+
+{% func DetailTable(p *Detail, ps *cutil.PageState) %}
+  <div class="mt overflow full-width">
+    <table>
+      <tbody>
+        <tr>
+          <th class="shrink" title="UUID in format (00000000-0000-0000-0000-000000000000)">ID</th>
+          <td>{%= view.UUID(&p.Model.ID) %}</td>
+        </tr>
+        <tr>
+          <th class="shrink" title="UUID in format (00000000-0000-0000-0000-000000000000)">Project</th>
+          <td>{%= view.UUID(&p.Model.Project) %}</td>
+        </tr>
+        <tr>
+          <th class="shrink" title="String text">Path</th>
+          <td>{%= view.String(p.Model.Path) %}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+{% endfunc %}

@@ -67,6 +67,10 @@ func (s *Softdel) WebPath(paths ...string) string {
 	return path.Join(append(paths, url.QueryEscape(s.ID))...)
 }
 
+func (s *Softdel) Breadcrumb(extra ...string) string {
+	return s.TitleString() + "||" + s.WebPath(extra...) + "**star"
+}
+
 func (s *Softdel) ToData() []any {
 	return []any{s.ID, s.Created, s.Updated, s.Deleted}
 }
