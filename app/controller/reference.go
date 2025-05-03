@@ -59,7 +59,6 @@ func ReferenceCreateForm(w http.ResponseWriter, r *http.Request) {
 			ret = reference.RandomReference()
 		}
 		ps.SetTitleAndData("Create [Reference]", ret)
-		ps.Data = ret
 		return Render(r, as, &vreference.Edit{Model: ret, IsNew: true}, ps, "reference", "Create")
 	})
 }

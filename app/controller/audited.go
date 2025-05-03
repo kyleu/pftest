@@ -64,7 +64,6 @@ func AuditedCreateForm(w http.ResponseWriter, r *http.Request) {
 			ret = audited.RandomAudited()
 		}
 		ps.SetTitleAndData("Create [Audited]", ret)
-		ps.Data = ret
 		return Render(r, as, &vaudited.Edit{Model: ret, IsNew: true}, ps, "audited", "Create")
 	})
 }

@@ -59,7 +59,6 @@ func OddPKCreateForm(w http.ResponseWriter, r *http.Request) {
 			ret = oddpk.RandomOddPK()
 		}
 		ps.SetTitleAndData("Create [OddPK]", ret)
-		ps.Data = ret
 		return Render(r, as, &voddpk.Edit{Model: ret, IsNew: true}, ps, "oddpk", "Create")
 	})
 }

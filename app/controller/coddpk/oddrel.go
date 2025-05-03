@@ -60,7 +60,6 @@ func OddrelCreateForm(w http.ResponseWriter, r *http.Request) {
 			ret = oddrel.RandomOddrel()
 		}
 		ps.SetTitleAndData("Create [Oddrel]", ret)
-		ps.Data = ret
 		return controller.Render(r, as, &voddrel.Edit{Model: ret, IsNew: true}, ps, "oddpk", "oddrel", "Create")
 	})
 }

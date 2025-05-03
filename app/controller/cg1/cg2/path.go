@@ -60,7 +60,6 @@ func PathCreateForm(w http.ResponseWriter, r *http.Request) {
 			ret = path.RandomPath()
 		}
 		ps.SetTitleAndData("Create [Path]", ret)
-		ps.Data = ret
 		return controller.Render(r, as, &vpath.Edit{Model: ret, IsNew: true}, ps, "g1", "g2", "path", "Create")
 	})
 }

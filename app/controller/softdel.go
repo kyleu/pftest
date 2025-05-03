@@ -45,7 +45,6 @@ func SoftdelCreateForm(w http.ResponseWriter, r *http.Request) {
 			ret = softdel.RandomSoftdel()
 		}
 		ps.SetTitleAndData("Create [Softdel]", ret)
-		ps.Data = ret
 		return Render(r, as, &vsoftdel.Edit{Model: ret, IsNew: true}, ps, "softdel", "Create")
 	})
 }

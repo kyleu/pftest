@@ -45,7 +45,6 @@ func SeedCreateForm(w http.ResponseWriter, r *http.Request) {
 			ret = seed.RandomSeed()
 		}
 		ps.SetTitleAndData("Create [Seed]", ret)
-		ps.Data = ret
 		return Render(r, as, &vseed.Edit{Model: ret, IsNew: true}, ps, "seed", "Create")
 	})
 }

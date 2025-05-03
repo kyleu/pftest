@@ -69,7 +69,6 @@ func BasicCreateForm(w http.ResponseWriter, r *http.Request) {
 			ret = basic.RandomBasic()
 		}
 		ps.SetTitleAndData("Create [Basic]", ret)
-		ps.Data = ret
 		return Render(r, as, &vbasic.Edit{Model: ret, IsNew: true}, ps, "basic", "Create")
 	})
 }

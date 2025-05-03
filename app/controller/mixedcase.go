@@ -45,7 +45,6 @@ func MixedCaseCreateForm(w http.ResponseWriter, r *http.Request) {
 			ret = mixedcase.RandomMixedCase()
 		}
 		ps.SetTitleAndData("Create [MixedCase]", ret)
-		ps.Data = ret
 		return Render(r, as, &vmixedcase.Edit{Model: ret, IsNew: true}, ps, "mixedcase", "Create")
 	})
 }

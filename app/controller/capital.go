@@ -45,7 +45,6 @@ func CapitalCreateForm(w http.ResponseWriter, r *http.Request) {
 			ret = capital.RandomCapital()
 		}
 		ps.SetTitleAndData("Create [Capital]", ret)
-		ps.Data = ret
 		return Render(r, as, &vcapital.Edit{Model: ret, IsNew: true}, ps, "capital", "Create")
 	})
 }

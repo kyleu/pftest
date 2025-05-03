@@ -45,7 +45,6 @@ func TimestampCreateForm(w http.ResponseWriter, r *http.Request) {
 			ret = timestamp.RandomTimestamp()
 		}
 		ps.SetTitleAndData("Create [Timestamp]", ret)
-		ps.Data = ret
 		return Render(r, as, &vtimestamp.Edit{Model: ret, IsNew: true}, ps, "timestamp", "Create")
 	})
 }

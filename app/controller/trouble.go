@@ -45,7 +45,6 @@ func TroubleCreateForm(w http.ResponseWriter, r *http.Request) {
 			ret = trouble.RandomTrouble()
 		}
 		ps.SetTitleAndData("Create [Trouble]", ret)
-		ps.Data = ret
 		return Render(r, as, &vtrouble.Edit{Model: ret, IsNew: true}, ps, "trouble", "Create")
 	})
 }

@@ -74,7 +74,6 @@ func RelationCreateForm(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 		ps.SetTitleAndData("Create [Relation]", ret)
-		ps.Data = ret
 		return Render(r, as, &vrelation.Edit{Model: ret, IsNew: true}, ps, "relation", "Create")
 	})
 }
