@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"net/url"
 	"path"
-	"strings"
 	"time"
 
 	"github.com/kyleu/pftest/app/lib/svc"
@@ -86,7 +85,7 @@ func (t *Trouble) WebPath(paths ...string) string {
 	if len(paths) == 0 {
 		paths = []string{DefaultRoute}
 	}
-	return path.Join(append(paths, url.QueryEscape(t.From), url.QueryEscape(strings.Join(t.Where, ",")))...)
+	return path.Join(append(paths, url.QueryEscape(t.From), url.QueryEscape(util.StringJoin(t.Where, ",")))...)
 }
 
 func (t *Trouble) Breadcrumb(extra ...string) string {

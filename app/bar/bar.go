@@ -113,7 +113,7 @@ func (b Bars) Strings() []string {
 }
 
 func (b Bars) Help() string {
-	return "Available bar options: [" + strings.Join(b.Strings(), ", ") + "]"
+	return "Available bar options: [" + util.StringJoin(b.Strings(), ", ") + "]"
 }
 
 func (b Bars) Get(key string, logger util.Logger) Bar {

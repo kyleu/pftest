@@ -6,8 +6,6 @@ package vadmin
 
 //line views/vadmin/ScheduleDetail.html:1
 import (
-	"strings"
-
 	"github.com/kyleu/pftest/app"
 	"github.com/kyleu/pftest/app/controller/cutil"
 	"github.com/kyleu/pftest/app/lib/schedule"
@@ -16,20 +14,20 @@ import (
 	"github.com/kyleu/pftest/views/layout"
 )
 
-//line views/vadmin/ScheduleDetail.html:12
+//line views/vadmin/ScheduleDetail.html:10
 import (
 	qtio422016 "io"
 
 	qt422016 "github.com/valyala/quicktemplate"
 )
 
-//line views/vadmin/ScheduleDetail.html:12
+//line views/vadmin/ScheduleDetail.html:10
 var (
 	_ = qtio422016.Copy
 	_ = qt422016.AcquireByteBuffer
 )
 
-//line views/vadmin/ScheduleDetail.html:12
+//line views/vadmin/ScheduleDetail.html:10
 type ScheduleDetail struct {
 	layout.Basic
 	Job       *schedule.Job
@@ -37,20 +35,20 @@ type ScheduleDetail struct {
 	ExecCount int
 }
 
-//line views/vadmin/ScheduleDetail.html:19
+//line views/vadmin/ScheduleDetail.html:17
 func (p *ScheduleDetail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vadmin/ScheduleDetail.html:19
+//line views/vadmin/ScheduleDetail.html:17
 	qw422016.N().S(`
   <div class="card">
     <div class="right">`)
-//line views/vadmin/ScheduleDetail.html:21
+//line views/vadmin/ScheduleDetail.html:19
 	qw422016.E().S(util.StringPlural(p.ExecCount, "runs"))
-//line views/vadmin/ScheduleDetail.html:21
+//line views/vadmin/ScheduleDetail.html:19
 	qw422016.N().S(`</div>
     <h3>Scheduled Job [`)
-//line views/vadmin/ScheduleDetail.html:22
+//line views/vadmin/ScheduleDetail.html:20
 	qw422016.E().S(p.Job.String())
-//line views/vadmin/ScheduleDetail.html:22
+//line views/vadmin/ScheduleDetail.html:20
 	qw422016.N().S(`]</h3>
     <div class="mt overflow full-width">
       <table class="min-200 expanded">
@@ -58,49 +56,49 @@ func (p *ScheduleDetail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps
           <tr>
             <th class="shrink">ID</th>
             <td>`)
-//line views/vadmin/ScheduleDetail.html:28
+//line views/vadmin/ScheduleDetail.html:26
 	qw422016.E().S(p.Job.ID.String())
-//line views/vadmin/ScheduleDetail.html:28
+//line views/vadmin/ScheduleDetail.html:26
 	qw422016.N().S(`</td>
           </tr>
           <tr>
             <th class="shrink">Name</th>
             <td>`)
-//line views/vadmin/ScheduleDetail.html:32
+//line views/vadmin/ScheduleDetail.html:30
 	qw422016.E().S(p.Job.Name)
-//line views/vadmin/ScheduleDetail.html:32
+//line views/vadmin/ScheduleDetail.html:30
 	qw422016.N().S(`</td>
           </tr>
           <tr>
             <th class="shrink">Tags</th>
             <td>`)
-//line views/vadmin/ScheduleDetail.html:36
-	qw422016.E().S(strings.Join(p.Job.Tags, ", "))
-//line views/vadmin/ScheduleDetail.html:36
+//line views/vadmin/ScheduleDetail.html:34
+	qw422016.E().S(util.StringJoin(p.Job.Tags, ", "))
+//line views/vadmin/ScheduleDetail.html:34
 	qw422016.N().S(`</td>
           </tr>
           <tr>
             <th class="shrink">Last Run</th>
             <td>`)
-//line views/vadmin/ScheduleDetail.html:40
+//line views/vadmin/ScheduleDetail.html:38
 	qw422016.E().S(util.TimeToFullMS(p.Job.Last))
-//line views/vadmin/ScheduleDetail.html:40
+//line views/vadmin/ScheduleDetail.html:38
 	qw422016.N().S(`</td>
           </tr>
           <tr>
             <th class="shrink">Next Run</th>
             <td>`)
-//line views/vadmin/ScheduleDetail.html:44
+//line views/vadmin/ScheduleDetail.html:42
 	qw422016.E().S(util.TimeToFullMS(p.Job.Next))
-//line views/vadmin/ScheduleDetail.html:44
+//line views/vadmin/ScheduleDetail.html:42
 	qw422016.N().S(`</td>
           </tr>
           <tr>
             <th class="shrink">Runs</th>
             <td>`)
-//line views/vadmin/ScheduleDetail.html:48
+//line views/vadmin/ScheduleDetail.html:46
 	qw422016.N().D(p.ExecCount)
-//line views/vadmin/ScheduleDetail.html:48
+//line views/vadmin/ScheduleDetail.html:46
 	qw422016.N().S(`</td>
           </tr>
         </tbody>
@@ -108,55 +106,55 @@ func (p *ScheduleDetail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps
     </div>
   </div>
 `)
-//line views/vadmin/ScheduleDetail.html:54
+//line views/vadmin/ScheduleDetail.html:52
 	if p.Result != nil {
-//line views/vadmin/ScheduleDetail.html:54
+//line views/vadmin/ScheduleDetail.html:52
 		qw422016.N().S(`  <div class="card">
     <div class="right">`)
-//line views/vadmin/ScheduleDetail.html:56
+//line views/vadmin/ScheduleDetail.html:54
 		qw422016.E().S(util.MicrosToMillis(p.Result.DurationMicro))
-//line views/vadmin/ScheduleDetail.html:56
+//line views/vadmin/ScheduleDetail.html:54
 		qw422016.N().S(`</div>
     <h3>Most Recent Result</h3>
     <em>`)
-//line views/vadmin/ScheduleDetail.html:58
+//line views/vadmin/ScheduleDetail.html:56
 		qw422016.E().S(util.TimeToFull(&p.Result.Occurred))
-//line views/vadmin/ScheduleDetail.html:58
+//line views/vadmin/ScheduleDetail.html:56
 		qw422016.N().S(`</em>
     <div class="mt">`)
-//line views/vadmin/ScheduleDetail.html:59
+//line views/vadmin/ScheduleDetail.html:57
 		components.StreamJSON(qw422016, p.Result.Returned)
-//line views/vadmin/ScheduleDetail.html:59
+//line views/vadmin/ScheduleDetail.html:57
 		qw422016.N().S(`</div>
   </div>
 `)
-//line views/vadmin/ScheduleDetail.html:61
+//line views/vadmin/ScheduleDetail.html:59
 	}
-//line views/vadmin/ScheduleDetail.html:62
+//line views/vadmin/ScheduleDetail.html:60
 }
 
-//line views/vadmin/ScheduleDetail.html:62
+//line views/vadmin/ScheduleDetail.html:60
 func (p *ScheduleDetail) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vadmin/ScheduleDetail.html:62
+//line views/vadmin/ScheduleDetail.html:60
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vadmin/ScheduleDetail.html:62
+//line views/vadmin/ScheduleDetail.html:60
 	p.StreamBody(qw422016, as, ps)
-//line views/vadmin/ScheduleDetail.html:62
+//line views/vadmin/ScheduleDetail.html:60
 	qt422016.ReleaseWriter(qw422016)
-//line views/vadmin/ScheduleDetail.html:62
+//line views/vadmin/ScheduleDetail.html:60
 }
 
-//line views/vadmin/ScheduleDetail.html:62
+//line views/vadmin/ScheduleDetail.html:60
 func (p *ScheduleDetail) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vadmin/ScheduleDetail.html:62
+//line views/vadmin/ScheduleDetail.html:60
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vadmin/ScheduleDetail.html:62
+//line views/vadmin/ScheduleDetail.html:60
 	p.WriteBody(qb422016, as, ps)
-//line views/vadmin/ScheduleDetail.html:62
+//line views/vadmin/ScheduleDetail.html:60
 	qs422016 := string(qb422016.B)
-//line views/vadmin/ScheduleDetail.html:62
+//line views/vadmin/ScheduleDetail.html:60
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vadmin/ScheduleDetail.html:62
+//line views/vadmin/ScheduleDetail.html:60
 	return qs422016
-//line views/vadmin/ScheduleDetail.html:62
+//line views/vadmin/ScheduleDetail.html:60
 }

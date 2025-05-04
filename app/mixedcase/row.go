@@ -2,7 +2,6 @@ package mixedcase
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/samber/lo"
 
@@ -14,7 +13,7 @@ var (
 	tableQuoted   = fmt.Sprintf("%q", table)
 	columns       = []string{"id", "test_field", "another_field"}
 	columnsQuoted = util.StringArrayQuoted(columns)
-	columnsString = strings.Join(columnsQuoted, ", ")
+	columnsString = util.StringJoin(columnsQuoted, ", ")
 )
 
 type row struct {

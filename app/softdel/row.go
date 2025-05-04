@@ -2,7 +2,6 @@ package softdel
 
 import (
 	"fmt"
-	"strings"
 	"time"
 
 	"github.com/samber/lo"
@@ -15,7 +14,7 @@ var (
 	tableQuoted   = fmt.Sprintf("%q", table)
 	columns       = []string{"id", "created", "updated", "deleted"}
 	columnsQuoted = util.StringArrayQuoted(columns)
-	columnsString = strings.Join(columnsQuoted, ", ")
+	columnsString = util.StringJoin(columnsQuoted, ", ")
 )
 
 type row struct {

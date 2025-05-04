@@ -6,8 +6,6 @@ package vadmin
 
 //line views/vadmin/Schedule.html:1
 import (
-	"strings"
-
 	"github.com/google/uuid"
 
 	"github.com/kyleu/pftest/app"
@@ -17,71 +15,71 @@ import (
 	"github.com/kyleu/pftest/views/layout"
 )
 
-//line views/vadmin/Schedule.html:13
+//line views/vadmin/Schedule.html:11
 import (
 	qtio422016 "io"
 
 	qt422016 "github.com/valyala/quicktemplate"
 )
 
-//line views/vadmin/Schedule.html:13
+//line views/vadmin/Schedule.html:11
 var (
 	_ = qtio422016.Copy
 	_ = qt422016.AcquireByteBuffer
 )
 
-//line views/vadmin/Schedule.html:13
+//line views/vadmin/Schedule.html:11
 type Schedule struct {
 	layout.Basic
 	Jobs       schedule.Jobs
 	ExecCounts map[uuid.UUID]int
 }
 
-//line views/vadmin/Schedule.html:19
+//line views/vadmin/Schedule.html:17
 func (p *Schedule) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vadmin/Schedule.html:19
+//line views/vadmin/Schedule.html:17
 	qw422016.N().S(`
   <div class="card">
     <h3>Scheduled Jobs</h3>
     `)
-//line views/vadmin/Schedule.html:22
+//line views/vadmin/Schedule.html:20
 	streamjobTable(qw422016, p.Jobs, p.ExecCounts)
-//line views/vadmin/Schedule.html:22
+//line views/vadmin/Schedule.html:20
 	qw422016.N().S(`
   </div>
 `)
-//line views/vadmin/Schedule.html:24
+//line views/vadmin/Schedule.html:22
 }
 
-//line views/vadmin/Schedule.html:24
+//line views/vadmin/Schedule.html:22
 func (p *Schedule) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vadmin/Schedule.html:24
+//line views/vadmin/Schedule.html:22
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vadmin/Schedule.html:24
+//line views/vadmin/Schedule.html:22
 	p.StreamBody(qw422016, as, ps)
-//line views/vadmin/Schedule.html:24
+//line views/vadmin/Schedule.html:22
 	qt422016.ReleaseWriter(qw422016)
-//line views/vadmin/Schedule.html:24
+//line views/vadmin/Schedule.html:22
 }
 
-//line views/vadmin/Schedule.html:24
+//line views/vadmin/Schedule.html:22
 func (p *Schedule) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vadmin/Schedule.html:24
+//line views/vadmin/Schedule.html:22
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vadmin/Schedule.html:24
+//line views/vadmin/Schedule.html:22
 	p.WriteBody(qb422016, as, ps)
-//line views/vadmin/Schedule.html:24
+//line views/vadmin/Schedule.html:22
 	qs422016 := string(qb422016.B)
-//line views/vadmin/Schedule.html:24
+//line views/vadmin/Schedule.html:22
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vadmin/Schedule.html:24
+//line views/vadmin/Schedule.html:22
 	return qs422016
-//line views/vadmin/Schedule.html:24
+//line views/vadmin/Schedule.html:22
 }
 
-//line views/vadmin/Schedule.html:26
+//line views/vadmin/Schedule.html:24
 func streamjobTable(qw422016 *qt422016.Writer, jobs schedule.Jobs, ecs map[uuid.UUID]int) {
-//line views/vadmin/Schedule.html:26
+//line views/vadmin/Schedule.html:24
 	qw422016.N().S(`
     <div class="overflow full-width">
       <table class="mt min-200 expanded">
@@ -97,78 +95,78 @@ func streamjobTable(qw422016 *qt422016.Writer, jobs schedule.Jobs, ecs map[uuid.
         </thead>
         <tbody>
 `)
-//line views/vadmin/Schedule.html:40
+//line views/vadmin/Schedule.html:38
 	for _, j := range jobs {
-//line views/vadmin/Schedule.html:40
+//line views/vadmin/Schedule.html:38
 		qw422016.N().S(`          <tr>
             <td class="shrink"><a href="/admin/schedule/`)
-//line views/vadmin/Schedule.html:42
+//line views/vadmin/Schedule.html:40
 		qw422016.E().S(j.ID.String())
-//line views/vadmin/Schedule.html:42
+//line views/vadmin/Schedule.html:40
 		qw422016.N().S(`">`)
-//line views/vadmin/Schedule.html:42
+//line views/vadmin/Schedule.html:40
 		qw422016.E().S(j.ID.String())
-//line views/vadmin/Schedule.html:42
+//line views/vadmin/Schedule.html:40
 		qw422016.N().S(`</a></td>
             <td>`)
-//line views/vadmin/Schedule.html:43
+//line views/vadmin/Schedule.html:41
 		qw422016.E().S(j.Name)
+//line views/vadmin/Schedule.html:41
+		qw422016.N().S(`</td>
+            <td>`)
+//line views/vadmin/Schedule.html:42
+		qw422016.E().S(util.StringJoin(j.Tags, ", "))
+//line views/vadmin/Schedule.html:42
+		qw422016.N().S(`</td>
+            <td>`)
+//line views/vadmin/Schedule.html:43
+		qw422016.E().S(util.TimeToFullMS(j.Last))
 //line views/vadmin/Schedule.html:43
 		qw422016.N().S(`</td>
             <td>`)
 //line views/vadmin/Schedule.html:44
-		qw422016.E().S(strings.Join(j.Tags, ", "))
+		qw422016.E().S(util.TimeToFullMS(j.Next))
 //line views/vadmin/Schedule.html:44
 		qw422016.N().S(`</td>
             <td>`)
 //line views/vadmin/Schedule.html:45
-		qw422016.E().S(util.TimeToFullMS(j.Last))
-//line views/vadmin/Schedule.html:45
-		qw422016.N().S(`</td>
-            <td>`)
-//line views/vadmin/Schedule.html:46
-		qw422016.E().S(util.TimeToFullMS(j.Next))
-//line views/vadmin/Schedule.html:46
-		qw422016.N().S(`</td>
-            <td>`)
-//line views/vadmin/Schedule.html:47
 		qw422016.N().D(ecs[j.ID])
-//line views/vadmin/Schedule.html:47
+//line views/vadmin/Schedule.html:45
 		qw422016.N().S(`</td>
           </tr>
 `)
-//line views/vadmin/Schedule.html:49
+//line views/vadmin/Schedule.html:47
 	}
-//line views/vadmin/Schedule.html:49
+//line views/vadmin/Schedule.html:47
 	qw422016.N().S(`        </tbody>
       </table>
     </div>
 `)
-//line views/vadmin/Schedule.html:53
+//line views/vadmin/Schedule.html:51
 }
 
-//line views/vadmin/Schedule.html:53
+//line views/vadmin/Schedule.html:51
 func writejobTable(qq422016 qtio422016.Writer, jobs schedule.Jobs, ecs map[uuid.UUID]int) {
-//line views/vadmin/Schedule.html:53
+//line views/vadmin/Schedule.html:51
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vadmin/Schedule.html:53
+//line views/vadmin/Schedule.html:51
 	streamjobTable(qw422016, jobs, ecs)
-//line views/vadmin/Schedule.html:53
+//line views/vadmin/Schedule.html:51
 	qt422016.ReleaseWriter(qw422016)
-//line views/vadmin/Schedule.html:53
+//line views/vadmin/Schedule.html:51
 }
 
-//line views/vadmin/Schedule.html:53
+//line views/vadmin/Schedule.html:51
 func jobTable(jobs schedule.Jobs, ecs map[uuid.UUID]int) string {
-//line views/vadmin/Schedule.html:53
+//line views/vadmin/Schedule.html:51
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vadmin/Schedule.html:53
+//line views/vadmin/Schedule.html:51
 	writejobTable(qb422016, jobs, ecs)
-//line views/vadmin/Schedule.html:53
+//line views/vadmin/Schedule.html:51
 	qs422016 := string(qb422016.B)
-//line views/vadmin/Schedule.html:53
+//line views/vadmin/Schedule.html:51
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vadmin/Schedule.html:53
+//line views/vadmin/Schedule.html:51
 	return qs422016
-//line views/vadmin/Schedule.html:53
+//line views/vadmin/Schedule.html:51
 }
