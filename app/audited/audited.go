@@ -2,7 +2,6 @@ package audited
 
 import (
 	"net/url"
-	"path"
 
 	"github.com/google/uuid"
 
@@ -16,7 +15,7 @@ func Route(paths ...string) string {
 	if len(paths) == 0 {
 		paths = []string{DefaultRoute}
 	}
-	return path.Join(paths...)
+	return util.StringPath(paths...)
 }
 
 var _ svc.Model = (*Audited)(nil)
@@ -64,7 +63,7 @@ func (a *Audited) WebPath(paths ...string) string {
 	if len(paths) == 0 {
 		paths = []string{DefaultRoute}
 	}
-	return path.Join(append(paths, url.QueryEscape(a.ID.String()))...)
+	return util.StringPath(append(paths, url.QueryEscape(a.ID.String()))...)
 }
 
 func (a *Audited) Breadcrumb(extra ...string) string {

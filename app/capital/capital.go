@@ -2,7 +2,6 @@ package capital
 
 import (
 	"net/url"
-	"path"
 	"time"
 
 	"github.com/kyleu/pftest/app/lib/svc"
@@ -15,7 +14,7 @@ func Route(paths ...string) string {
 	if len(paths) == 0 {
 		paths = []string{DefaultRoute}
 	}
-	return path.Join(paths...)
+	return util.StringPath(paths...)
 }
 
 var _ svc.Model = (*Capital)(nil)
@@ -67,7 +66,7 @@ func (c *Capital) WebPath(paths ...string) string {
 	if len(paths) == 0 {
 		paths = []string{DefaultRoute}
 	}
-	return path.Join(append(paths, url.QueryEscape(c.ID))...)
+	return util.StringPath(append(paths, url.QueryEscape(c.ID))...)
 }
 
 func (c *Capital) Breadcrumb(extra ...string) string {

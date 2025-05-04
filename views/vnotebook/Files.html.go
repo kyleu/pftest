@@ -6,12 +6,12 @@ package vnotebook
 
 //line views/vnotebook/Files.html:1
 import (
-	"path/filepath"
 	"strings"
 
 	"github.com/kyleu/pftest/app"
 	"github.com/kyleu/pftest/app/controller/cutil"
 	"github.com/kyleu/pftest/app/lib/filesystem"
+	"github.com/kyleu/pftest/app/util"
 	"github.com/kyleu/pftest/views/components"
 	"github.com/kyleu/pftest/views/layout"
 	"github.com/kyleu/pftest/views/vfile"
@@ -44,9 +44,9 @@ func (p *Files) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.P
 `)
 //line views/vnotebook/Files.html:21
 	u := "/notebook/files"
-	editPath := filepath.Join(p.Path...)
+	editPath := util.StringFilePath(p.Path...)
 	hasView := strings.HasSuffix(editPath, ".md")
-	isDir := p.FS.IsDir(filepath.Join(p.Path...))
+	isDir := p.FS.IsDir(util.StringFilePath(p.Path...))
 
 //line views/vnotebook/Files.html:25
 	qw422016.N().S(`  <div class="card">
@@ -102,7 +102,7 @@ func (p *Files) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.P
 //line views/vnotebook/Files.html:42
 	} else {
 //line views/vnotebook/Files.html:44
-		b, err := p.FS.ReadFile(filepath.Join(p.Path...))
+		b, err := p.FS.ReadFile(util.StringFilePath(p.Path...))
 		if err != nil {
 			panic(err)
 		}

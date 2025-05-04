@@ -2,7 +2,6 @@ package timestamp
 
 import (
 	"net/url"
-	"path"
 	"time"
 
 	"github.com/kyleu/pftest/app/lib/svc"
@@ -15,7 +14,7 @@ func Route(paths ...string) string {
 	if len(paths) == 0 {
 		paths = []string{DefaultRoute}
 	}
-	return path.Join(paths...)
+	return util.StringPath(paths...)
 }
 
 var _ svc.Model = (*Timestamp)(nil)
@@ -64,7 +63,7 @@ func (t *Timestamp) WebPath(paths ...string) string {
 	if len(paths) == 0 {
 		paths = []string{DefaultRoute}
 	}
-	return path.Join(append(paths, url.QueryEscape(t.ID))...)
+	return util.StringPath(append(paths, url.QueryEscape(t.ID))...)
 }
 
 func (t *Timestamp) Breadcrumb(extra ...string) string {

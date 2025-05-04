@@ -3,7 +3,6 @@ package oddpk
 import (
 	"fmt"
 	"net/url"
-	"path"
 	"strings"
 
 	"github.com/google/uuid"
@@ -18,7 +17,7 @@ func Route(paths ...string) string {
 	if len(paths) == 0 {
 		paths = []string{DefaultRoute}
 	}
-	return path.Join(paths...)
+	return util.StringPath(paths...)
 }
 
 var _ svc.Model = (*OddPK)(nil)
@@ -84,7 +83,7 @@ func (o *OddPK) WebPath(paths ...string) string {
 	if len(paths) == 0 {
 		paths = []string{DefaultRoute}
 	}
-	return path.Join(append(paths, url.QueryEscape(o.Project.String()), url.QueryEscape(strings.ReplaceAll(o.Path, "/", "||")))...)
+	return util.StringPath(append(paths, url.QueryEscape(o.Project.String()), url.QueryEscape(strings.ReplaceAll(o.Path, "/", "||")))...)
 }
 
 func (o *OddPK) Breadcrumb(extra ...string) string {

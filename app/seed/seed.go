@@ -3,7 +3,6 @@ package seed
 import (
 	"fmt"
 	"net/url"
-	"path"
 
 	"github.com/google/uuid"
 
@@ -17,7 +16,7 @@ func Route(paths ...string) string {
 	if len(paths) == 0 {
 		paths = []string{DefaultRoute}
 	}
-	return path.Join(paths...)
+	return util.StringPath(paths...)
 }
 
 var _ svc.Model = (*Seed)(nil)
@@ -69,7 +68,7 @@ func (s *Seed) WebPath(paths ...string) string {
 	if len(paths) == 0 {
 		paths = []string{DefaultRoute}
 	}
-	return path.Join(append(paths, url.QueryEscape(s.ID.String()))...)
+	return util.StringPath(append(paths, url.QueryEscape(s.ID.String()))...)
 }
 
 func (s *Seed) Breadcrumb(extra ...string) string {

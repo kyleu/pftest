@@ -2,7 +2,6 @@ package softdel
 
 import (
 	"net/url"
-	"path"
 	"time"
 
 	"github.com/kyleu/pftest/app/lib/svc"
@@ -15,7 +14,7 @@ func Route(paths ...string) string {
 	if len(paths) == 0 {
 		paths = []string{DefaultRoute}
 	}
-	return path.Join(paths...)
+	return util.StringPath(paths...)
 }
 
 var _ svc.Model = (*Softdel)(nil)
@@ -64,7 +63,7 @@ func (s *Softdel) WebPath(paths ...string) string {
 	if len(paths) == 0 {
 		paths = []string{DefaultRoute}
 	}
-	return path.Join(append(paths, url.QueryEscape(s.ID))...)
+	return util.StringPath(append(paths, url.QueryEscape(s.ID))...)
 }
 
 func (s *Softdel) Breadcrumb(extra ...string) string {

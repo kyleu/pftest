@@ -6,99 +6,98 @@ package vnotebook
 
 //line views/vnotebook/FileEdit.html:1
 import (
-	"path/filepath"
-
 	"github.com/kyleu/pftest/app"
 	"github.com/kyleu/pftest/app/controller/cutil"
+	"github.com/kyleu/pftest/app/util"
 	"github.com/kyleu/pftest/views/components"
 	"github.com/kyleu/pftest/views/layout"
 )
 
-//line views/vnotebook/FileEdit.html:10
+//line views/vnotebook/FileEdit.html:9
 import (
 	qtio422016 "io"
 
 	qt422016 "github.com/valyala/quicktemplate"
 )
 
-//line views/vnotebook/FileEdit.html:10
+//line views/vnotebook/FileEdit.html:9
 var (
 	_ = qtio422016.Copy
 	_ = qt422016.AcquireByteBuffer
 )
 
-//line views/vnotebook/FileEdit.html:10
+//line views/vnotebook/FileEdit.html:9
 type FileEdit struct {
 	layout.Basic
 	Path    []string
 	Content string
 }
 
-//line views/vnotebook/FileEdit.html:16
+//line views/vnotebook/FileEdit.html:15
 func (p *FileEdit) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vnotebook/FileEdit.html:16
+//line views/vnotebook/FileEdit.html:15
 	qw422016.N().S(`
 `)
-//line views/vnotebook/FileEdit.html:18
-	pth := filepath.Join(p.Path...)
+//line views/vnotebook/FileEdit.html:17
+	pth := util.StringFilePath(p.Path...)
 
-//line views/vnotebook/FileEdit.html:19
+//line views/vnotebook/FileEdit.html:18
 	qw422016.N().S(`  <div class="card">
     <h3>`)
-//line views/vnotebook/FileEdit.html:21
+//line views/vnotebook/FileEdit.html:20
 	components.StreamSVGIcon(qw422016, `notebook`, ps)
-//line views/vnotebook/FileEdit.html:21
+//line views/vnotebook/FileEdit.html:20
 	qw422016.N().S(` Edit Notebook File [`)
-//line views/vnotebook/FileEdit.html:21
+//line views/vnotebook/FileEdit.html:20
 	qw422016.E().S(pth)
-//line views/vnotebook/FileEdit.html:21
+//line views/vnotebook/FileEdit.html:20
 	qw422016.N().S(`]</h3>
     <form class="mt expanded" action="" method="post">
       <textarea name="content" rows="`)
-//line views/vnotebook/FileEdit.html:23
+//line views/vnotebook/FileEdit.html:22
 	qw422016.N().D(32)
-//line views/vnotebook/FileEdit.html:23
+//line views/vnotebook/FileEdit.html:22
 	qw422016.N().S(`">`)
-//line views/vnotebook/FileEdit.html:23
+//line views/vnotebook/FileEdit.html:22
 	qw422016.E().S(p.Content)
-//line views/vnotebook/FileEdit.html:23
+//line views/vnotebook/FileEdit.html:22
 	qw422016.N().S(`</textarea>
       <div class="mt">
         <button type="submit">Save Changes</button>
         <a href="/notebook/files/`)
-//line views/vnotebook/FileEdit.html:26
+//line views/vnotebook/FileEdit.html:25
 	qw422016.E().S(pth)
-//line views/vnotebook/FileEdit.html:26
+//line views/vnotebook/FileEdit.html:25
 	qw422016.N().S(`"><button type="button">Cancel</button></a>
       </div>
     </form>
   </div>
 `)
-//line views/vnotebook/FileEdit.html:30
+//line views/vnotebook/FileEdit.html:29
 }
 
-//line views/vnotebook/FileEdit.html:30
+//line views/vnotebook/FileEdit.html:29
 func (p *FileEdit) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vnotebook/FileEdit.html:30
+//line views/vnotebook/FileEdit.html:29
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vnotebook/FileEdit.html:30
+//line views/vnotebook/FileEdit.html:29
 	p.StreamBody(qw422016, as, ps)
-//line views/vnotebook/FileEdit.html:30
+//line views/vnotebook/FileEdit.html:29
 	qt422016.ReleaseWriter(qw422016)
-//line views/vnotebook/FileEdit.html:30
+//line views/vnotebook/FileEdit.html:29
 }
 
-//line views/vnotebook/FileEdit.html:30
+//line views/vnotebook/FileEdit.html:29
 func (p *FileEdit) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vnotebook/FileEdit.html:30
+//line views/vnotebook/FileEdit.html:29
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vnotebook/FileEdit.html:30
+//line views/vnotebook/FileEdit.html:29
 	p.WriteBody(qb422016, as, ps)
-//line views/vnotebook/FileEdit.html:30
+//line views/vnotebook/FileEdit.html:29
 	qs422016 := string(qb422016.B)
-//line views/vnotebook/FileEdit.html:30
+//line views/vnotebook/FileEdit.html:29
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vnotebook/FileEdit.html:30
+//line views/vnotebook/FileEdit.html:29
 	return qs422016
-//line views/vnotebook/FileEdit.html:30
+//line views/vnotebook/FileEdit.html:29
 }

@@ -2,7 +2,6 @@ package oddrel
 
 import (
 	"net/url"
-	"path"
 
 	"github.com/google/uuid"
 
@@ -16,7 +15,7 @@ func Route(paths ...string) string {
 	if len(paths) == 0 {
 		paths = []string{DefaultRoute}
 	}
-	return path.Join(paths...)
+	return util.StringPath(paths...)
 }
 
 var _ svc.Model = (*Oddrel)(nil)
@@ -63,7 +62,7 @@ func (o *Oddrel) WebPath(paths ...string) string {
 	if len(paths) == 0 {
 		paths = []string{DefaultRoute}
 	}
-	return path.Join(append(paths, url.QueryEscape(o.ID.String()))...)
+	return util.StringPath(append(paths, url.QueryEscape(o.ID.String()))...)
 }
 
 func (o *Oddrel) Breadcrumb(extra ...string) string {

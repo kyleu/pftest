@@ -3,7 +3,6 @@ package trouble
 import (
 	"fmt"
 	"net/url"
-	"path"
 	"time"
 
 	"github.com/kyleu/pftest/app/lib/svc"
@@ -16,7 +15,7 @@ func Route(paths ...string) string {
 	if len(paths) == 0 {
 		paths = []string{DefaultRoute}
 	}
-	return path.Join(paths...)
+	return util.StringPath(paths...)
 }
 
 var _ svc.Model = (*Trouble)(nil)
@@ -85,7 +84,7 @@ func (t *Trouble) WebPath(paths ...string) string {
 	if len(paths) == 0 {
 		paths = []string{DefaultRoute}
 	}
-	return path.Join(append(paths, url.QueryEscape(t.From), url.QueryEscape(util.StringJoin(t.Where, ",")))...)
+	return util.StringPath(append(paths, url.QueryEscape(t.From), url.QueryEscape(util.StringJoin(t.Where, ",")))...)
 }
 
 func (t *Trouble) Breadcrumb(extra ...string) string {

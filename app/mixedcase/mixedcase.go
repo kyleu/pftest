@@ -2,7 +2,6 @@ package mixedcase
 
 import (
 	"net/url"
-	"path"
 
 	"github.com/kyleu/pftest/app/lib/svc"
 	"github.com/kyleu/pftest/app/util"
@@ -14,7 +13,7 @@ func Route(paths ...string) string {
 	if len(paths) == 0 {
 		paths = []string{DefaultRoute}
 	}
-	return path.Join(paths...)
+	return util.StringPath(paths...)
 }
 
 var _ svc.Model = (*MixedCase)(nil)
@@ -61,7 +60,7 @@ func (m *MixedCase) WebPath(paths ...string) string {
 	if len(paths) == 0 {
 		paths = []string{DefaultRoute}
 	}
-	return path.Join(append(paths, url.QueryEscape(m.ID))...)
+	return util.StringPath(append(paths, url.QueryEscape(m.ID))...)
 }
 
 func (m *MixedCase) Breadcrumb(extra ...string) string {
