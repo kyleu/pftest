@@ -22,6 +22,7 @@ The following modules were used to build this project:
 - [har](./doc/module/har.md)
 - [help](./doc/module/help.md)
 - [ios](./doc/module/ios.md)
+- [jsonschema](./doc/module/jsonschema.md)
 - [jsx](./doc/module/jsx.md)
 - [marketing](./doc/module/marketing.md)
 - [mcp](./doc/module/mcp.md)
