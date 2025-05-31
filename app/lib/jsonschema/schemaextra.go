@@ -8,6 +8,8 @@ import (
 	"github.com/kyleu/pftest/app/util"
 )
 
+const KeyExtension = ".schema.json"
+
 func (s *Schema) String() string {
 	ret := fmt.Sprint(s.Type)
 	if s.Format != "" {
