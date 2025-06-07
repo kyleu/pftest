@@ -26,6 +26,7 @@ func adminRoutes(r *mux.Router) {
 	makeRoute(r, http.MethodGet, "/admin/database/{key}/tables/{schema}/{table}/stats", clib.DatabaseTableStats)
 	makeRoute(r, http.MethodPost, "/admin/database/{key}/sql", clib.DatabaseSQLRun)
 	makeRoute(r, http.MethodGet, "/admin/mcp", clib.MCPIndex)
+	makeRoute(r, http.MethodPost, "/admin/mcp", clib.MCPTaskSSE)
 	makeRoute(r, http.MethodGet, "/admin/mcp/tool/{tool}", clib.MCPTask)
 	makeRoute(r, http.MethodPost, "/admin/mcp/tool/{tool}", clib.MCPTaskRun)
 	makeRoute(r, http.MethodGet, "/admin/schedule", clib.ScheduleList)

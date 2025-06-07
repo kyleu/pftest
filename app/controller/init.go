@@ -16,7 +16,7 @@ func initApp(ctx context.Context, as *app.State, logger util.Logger) error {
 	if err != nil {
 		return err
 	}
-	_, err = mcpserver.NewServer(ctx, "0")
+	_, err = mcpserver.NewServer(ctx, as, logger)
 	if err != nil {
 		logger.Errorf("unable to start MCP server: %v", err)
 	}
