@@ -46,5 +46,5 @@ func OddrelFromMap(m util.ValueMap, setPK bool) (*Oddrel, util.ValueMap, error) 
 
 func (o *Oddrel) ToOrderedMap() *util.OrderedMap[any] {
 	pairs := util.OrderedPairs[any]{{K: "id", V: o.ID}, {K: "project", V: o.Project}, {K: "path", V: o.Path}}
-	return util.NewOrderedMap[any](false, 4, pairs...)
+	return util.NewOrderedMap(false, 4, pairs...)
 }

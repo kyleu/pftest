@@ -34,5 +34,5 @@ func MixedCaseFromMap(m util.ValueMap, setPK bool) (*MixedCase, util.ValueMap, e
 
 func (m *MixedCase) ToOrderedMap() *util.OrderedMap[any] {
 	pairs := util.OrderedPairs[any]{{K: "id", V: m.ID}, {K: "testField", V: m.TestField}, {K: "anotherField", V: m.AnotherField}}
-	return util.NewOrderedMap[any](false, 4, pairs...)
+	return util.NewOrderedMap(false, 4, pairs...)
 }

@@ -5,6 +5,7 @@ const (
 	AppName    = "Test Project"
 	AppSummary = "A Test application, built with Project Forge"
 	AppPort    = 41000
+	AppCmd     = AppKey
 	AppContact = "Kyle U <projectforge@kyleu.com>"
 	AppURL     = "https://github.com/kyleu/pftest"
 	AppSource  = "https://github.com/kyleu/pftest"

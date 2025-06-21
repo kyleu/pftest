@@ -38,5 +38,5 @@ func AuditedFromMap(m util.ValueMap, setPK bool) (*Audited, util.ValueMap, error
 
 func (a *Audited) ToOrderedMap() *util.OrderedMap[any] {
 	pairs := util.OrderedPairs[any]{{K: "id", V: a.ID}, {K: "name", V: a.Name}}
-	return util.NewOrderedMap[any](false, 4, pairs...)
+	return util.NewOrderedMap(false, 4, pairs...)
 }
