@@ -11,13 +11,16 @@ import (
 )
 
 type Server struct {
-	MCP   *server.MCPServer `json:"-"`
-	State *app.State        `json:"-"`
-	Tools Tools
-	HTTP  http.Handler `json:"-"`
+	MCP       *server.MCPServer `json:"-"`
+	State     *app.State        `json:"-"`
+	Resources Resources         `json:"resources"`
+	Prompts   Prompts           `json:"prompts"`
+	Tools     Tools             `json:"tools"`
+	HTTP      http.Handler      `json:"-"`
 }
 
-func NewServer(ctx context.Context, as *app.State, logger util.Logger, tools ...*Tool) (*Server, error) {
+func NewServer(ctx context.Context, as *app.State, logger util.Logger) (*Server, error) {
+	t := util.TimerStart()
 	ms := server.NewMCPServer(util.AppName, as.BuildInfo.Version,
 		server.WithResourceCapabilities(true, true),
 		server.WithPromptCapabilities(true),
@@ -29,22 +32,8 @@ func NewServer(ctx context.Context, as *app.State, logger util.Logger, tools ...
 		return nil, err
 	}
 	// $PF_SECTION_END(tools)$
-	if err := mcp.AddTools(as, logger, tools...); err != nil {
-		return nil, err
-	}
+	logger.Debugf("MCP server initialized in [%s] with [%d] resources, [%d] tools, and [%d] prompts", t.EndString(), len(mcp.Resources), len(mcp.Tools), len(mcp.Prompts))
 	return mcp, nil
-}
-
-func (s *Server) AddTools(as *app.State, logger util.Logger, tools ...*Tool) error {
-	for _, tl := range tools {
-		s.Tools = append(s.Tools, tl)
-		m, err := tl.ToMCP()
-		if err != nil {
-			return err
-		}
-		s.MCP.AddTool(m, tl.Handler(as, logger))
-	}
-	return nil
 }
 
 func (s *Server) ServeCLI(ctx context.Context) error {
