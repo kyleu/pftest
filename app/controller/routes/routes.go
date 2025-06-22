@@ -31,6 +31,7 @@ func AppRoutes(as *app.State, logger util.Logger) (http.Handler, error) {
 	makeRoute(r, http.MethodGet, "/auth/logout/{key}", clib.AuthLogout)
 	makeRoute(r, http.MethodGet, cutil.DefaultSearchPath, clib.Search)
 
+	mcpRoutes("", r)
 	themeRoutes(r)
 	generatedRoutes(r)
 

@@ -2,6 +2,7 @@ package mcpserver
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/kyleu/pftest/app"
 	"github.com/kyleu/pftest/app/util"
@@ -28,4 +29,34 @@ func GetDefaultServer(ctx context.Context, as *app.State, logger util.Logger) (*
 	}
 	defaultServer = ret
 	return defaultServer, nil
+}
+
+func CurrentDefaultServer() *Server {
+	return defaultServer
+}
+
+const usageCLI = `{
+  "mcpServers": {
+    "%s": {
+      "command": "%s",
+      "args": ["mcp"]
+    }
+  }
+}`
+
+func UsageCLI() string {
+	return fmt.Sprintf(usageCLI, util.AppCmd, util.AppCmd)
+}
+
+const usageHTTP = `{
+  "mcpServers": {
+    "%s": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "http://localhost:%d/admin/mcp"]
+    }
+  }
+}`
+
+func UsageHTTP() string {
+	return fmt.Sprintf(usageHTTP, util.AppCmd, util.AppPort)
 }
