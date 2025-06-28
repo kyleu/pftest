@@ -157,193 +157,188 @@ func (p *Settings) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cuti
 	qw422016.N().S(`
     `)
 //line views/vadmin/Settings.html:50
-	streamsettingsLink(qw422016, "/admin/mcp", "mcp", "Model Context Protocol", "Manage the available tasks for MCP", ps)
+	streamsettingsLink(qw422016, "/admin/logs", "folder", "Recent Logs", "Displays the 100 most recent app logs", ps)
 //line views/vadmin/Settings.html:50
 	qw422016.N().S(`
-    `)
-//line views/vadmin/Settings.html:51
-	streamsettingsLink(qw422016, "/admin/logs", "folder", "Recent Logs", "Displays the 100 most recent app logs", ps)
-//line views/vadmin/Settings.html:51
-	qw422016.N().S(`
     <div class="clear"></div>
   </div>
   <div class="card">
     <h3>`)
-//line views/vadmin/Settings.html:55
+//line views/vadmin/Settings.html:54
 	components.StreamSVGIcon(qw422016, `bolt`, ps)
-//line views/vadmin/Settings.html:55
+//line views/vadmin/Settings.html:54
 	qw422016.N().S(` HTTP Methods</h3>
     `)
-//line views/vadmin/Settings.html:56
+//line views/vadmin/Settings.html:55
 	streamsettingsLink(qw422016, "/admin/sitemap", "graph", "Sitemap", "Displays the HTTP actions that are available, with documentation", ps)
+//line views/vadmin/Settings.html:55
+	qw422016.N().S(`
+    `)
+//line views/vadmin/Settings.html:56
+	streamsettingsLink(qw422016, "/admin/routes", "folder", "HTTP routes", "Enumerates all registered HTTP routes, by method", ps)
 //line views/vadmin/Settings.html:56
 	qw422016.N().S(`
     `)
 //line views/vadmin/Settings.html:57
-	streamsettingsLink(qw422016, "/admin/routes", "folder", "HTTP routes", "Enumerates all registered HTTP routes, by method", ps)
+	streamsettingsLink(qw422016, "/admin/session", "play", "User Session", "View the user session, including all cookies and settings", ps)
 //line views/vadmin/Settings.html:57
 	qw422016.N().S(`
     `)
 //line views/vadmin/Settings.html:58
-	streamsettingsLink(qw422016, "/admin/session", "play", "User Session", "View the user session, including all cookies and settings", ps)
+	streamsettingsLink(qw422016, "/admin/request", "download", "Debug HTTP Request", "Full debug view of an HTTP request from your browser", ps)
 //line views/vadmin/Settings.html:58
 	qw422016.N().S(`
     `)
 //line views/vadmin/Settings.html:59
-	streamsettingsLink(qw422016, "/admin/request", "download", "Debug HTTP Request", "Full debug view of an HTTP request from your browser", ps)
+	streamsettingsLink(qw422016, "/admin/sockets", "cog", "Active WebSockets", "Manage the active WebSockets in this server", ps)
 //line views/vadmin/Settings.html:59
 	qw422016.N().S(`
     `)
 //line views/vadmin/Settings.html:60
-	streamsettingsLink(qw422016, "/admin/sockets", "cog", "Active WebSockets", "Manage the active WebSockets in this server", ps)
-//line views/vadmin/Settings.html:60
-	qw422016.N().S(`
-    `)
-//line views/vadmin/Settings.html:61
 	streamsettingsLink(qw422016, "/admin/brands", "bolt", "Brand Icons", "Displays the brand icons that are available to this application", ps)
-//line views/vadmin/Settings.html:61
+//line views/vadmin/Settings.html:60
 	qw422016.N().S(`
     <div class="clear"></div>
   </div>
   <div class="card">
     <h3>`)
-//line views/vadmin/Settings.html:65
+//line views/vadmin/Settings.html:64
 	components.StreamSVGIcon(qw422016, `cog`, ps)
-//line views/vadmin/Settings.html:65
+//line views/vadmin/Settings.html:64
 	qw422016.N().S(` App Profiling</h3>
     `)
-//line views/vadmin/Settings.html:66
+//line views/vadmin/Settings.html:65
 	streamsettingsLink(qw422016, "/admin/memusage", "desktop", "Memory Usage", "Detailed memory usage statistics for this application", ps)
+//line views/vadmin/Settings.html:65
+	qw422016.N().S(`
+    `)
+//line views/vadmin/Settings.html:66
+	streamsettingsLink(qw422016, "/admin/gc", "cog", "Collect Garbage", "Runs the Go garbage collector", ps)
 //line views/vadmin/Settings.html:66
 	qw422016.N().S(`
     `)
 //line views/vadmin/Settings.html:67
-	streamsettingsLink(qw422016, "/admin/gc", "cog", "Collect Garbage", "Runs the Go garbage collector", ps)
+	streamsettingsLink(qw422016, "/admin/heap", "cog", "Write Memory Dump", "Writes a memory dump to <em>./tmp/mem.pprof</em>, use script to view", ps)
 //line views/vadmin/Settings.html:67
 	qw422016.N().S(`
     `)
 //line views/vadmin/Settings.html:68
-	streamsettingsLink(qw422016, "/admin/heap", "cog", "Write Memory Dump", "Writes a memory dump to <em>./tmp/mem.pprof</em>, use script to view", ps)
+	streamsettingsLink(qw422016, "/admin/cpu/start", "cog", "Start CPU Profile", "Profiles the CPU using <em>./tmp/cpu.pprof</em>, use script to view", ps)
 //line views/vadmin/Settings.html:68
 	qw422016.N().S(`
     `)
 //line views/vadmin/Settings.html:69
-	streamsettingsLink(qw422016, "/admin/cpu/start", "cog", "Start CPU Profile", "Profiles the CPU using <em>./tmp/cpu.pprof</em>, use script to view", ps)
-//line views/vadmin/Settings.html:69
-	qw422016.N().S(`
-    `)
-//line views/vadmin/Settings.html:70
 	streamsettingsLink(qw422016, "/admin/cpu/stop", "cog", "Stop CPU Profile", "Stops the active CPU profile", ps)
-//line views/vadmin/Settings.html:70
+//line views/vadmin/Settings.html:69
 	qw422016.N().S(`
     <div class="clear"></div>
   </div>
   <div class="card">
     <h3>`)
-//line views/vadmin/Settings.html:74
+//line views/vadmin/Settings.html:73
 	components.StreamSVGIcon(qw422016, `database`, ps)
-//line views/vadmin/Settings.html:74
+//line views/vadmin/Settings.html:73
 	qw422016.N().S(` Database Management</h3>
     `)
-//line views/vadmin/Settings.html:75
+//line views/vadmin/Settings.html:74
 	streamsettingsLink(qw422016, "/admin/database", "database", "Database Management", "Tools for exploring and manipulating your database", ps)
-//line views/vadmin/Settings.html:75
+//line views/vadmin/Settings.html:74
 	qw422016.N().S(`
     `)
-//line views/vadmin/Settings.html:76
+//line views/vadmin/Settings.html:75
 	streamsettingsLink(qw422016, "/admin/migrations", "archive", "Migrations", "Shows the full content of all database SQL migrations", ps)
-//line views/vadmin/Settings.html:76
+//line views/vadmin/Settings.html:75
 	qw422016.N().S(`
   </div>
 
   `)
-//line views/vadmin/Settings.html:79
+//line views/vadmin/Settings.html:78
 	vauth.StreamAuthentication(qw422016, as, ps)
-//line views/vadmin/Settings.html:79
+//line views/vadmin/Settings.html:78
 	qw422016.N().S(`
 
   `)
-//line views/vadmin/Settings.html:81
+//line views/vadmin/Settings.html:80
 	vauth.StreamPermissions(qw422016, p.Perms, as)
-//line views/vadmin/Settings.html:81
+//line views/vadmin/Settings.html:80
 	qw422016.N().S(`
 `)
-//line views/vadmin/Settings.html:82
+//line views/vadmin/Settings.html:81
 }
 
-//line views/vadmin/Settings.html:82
+//line views/vadmin/Settings.html:81
 func (p *Settings) WriteBody(qq422016 qtio422016.Writer, as *app.State, ps *cutil.PageState) {
-//line views/vadmin/Settings.html:82
+//line views/vadmin/Settings.html:81
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vadmin/Settings.html:82
+//line views/vadmin/Settings.html:81
 	p.StreamBody(qw422016, as, ps)
-//line views/vadmin/Settings.html:82
+//line views/vadmin/Settings.html:81
 	qt422016.ReleaseWriter(qw422016)
-//line views/vadmin/Settings.html:82
+//line views/vadmin/Settings.html:81
 }
 
-//line views/vadmin/Settings.html:82
+//line views/vadmin/Settings.html:81
 func (p *Settings) Body(as *app.State, ps *cutil.PageState) string {
-//line views/vadmin/Settings.html:82
+//line views/vadmin/Settings.html:81
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vadmin/Settings.html:82
+//line views/vadmin/Settings.html:81
 	p.WriteBody(qb422016, as, ps)
-//line views/vadmin/Settings.html:82
+//line views/vadmin/Settings.html:81
 	qs422016 := string(qb422016.B)
-//line views/vadmin/Settings.html:82
+//line views/vadmin/Settings.html:81
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vadmin/Settings.html:82
+//line views/vadmin/Settings.html:81
 	return qs422016
-//line views/vadmin/Settings.html:82
+//line views/vadmin/Settings.html:81
 }
 
-//line views/vadmin/Settings.html:84
+//line views/vadmin/Settings.html:83
 func streamsettingsLink(qw422016 *qt422016.Writer, href string, icon string, title string, description string, ps *cutil.PageState) {
-//line views/vadmin/Settings.html:84
+//line views/vadmin/Settings.html:83
 	qw422016.N().S(`<hr class="clear" /><div class="mts ml"><a href="`)
-//line views/vadmin/Settings.html:87
+//line views/vadmin/Settings.html:86
 	qw422016.E().S(href)
-//line views/vadmin/Settings.html:87
+//line views/vadmin/Settings.html:86
 	qw422016.N().S(`">`)
-//line views/vadmin/Settings.html:87
+//line views/vadmin/Settings.html:86
 	components.StreamSVGInline(qw422016, icon, 16, ps)
-//line views/vadmin/Settings.html:87
+//line views/vadmin/Settings.html:86
 	qw422016.N().S(` `)
-//line views/vadmin/Settings.html:87
+//line views/vadmin/Settings.html:86
 	qw422016.N().S(`<strong>`)
-//line views/vadmin/Settings.html:87
+//line views/vadmin/Settings.html:86
 	qw422016.E().S(title)
-//line views/vadmin/Settings.html:87
+//line views/vadmin/Settings.html:86
 	qw422016.N().S(`</strong></a><div><em>`)
-//line views/vadmin/Settings.html:88
+//line views/vadmin/Settings.html:87
 	qw422016.N().S(description)
-//line views/vadmin/Settings.html:88
+//line views/vadmin/Settings.html:87
 	qw422016.N().S(`</em></div></div>`)
-//line views/vadmin/Settings.html:90
+//line views/vadmin/Settings.html:89
 }
 
-//line views/vadmin/Settings.html:90
+//line views/vadmin/Settings.html:89
 func writesettingsLink(qq422016 qtio422016.Writer, href string, icon string, title string, description string, ps *cutil.PageState) {
-//line views/vadmin/Settings.html:90
+//line views/vadmin/Settings.html:89
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vadmin/Settings.html:90
+//line views/vadmin/Settings.html:89
 	streamsettingsLink(qw422016, href, icon, title, description, ps)
-//line views/vadmin/Settings.html:90
+//line views/vadmin/Settings.html:89
 	qt422016.ReleaseWriter(qw422016)
-//line views/vadmin/Settings.html:90
+//line views/vadmin/Settings.html:89
 }
 
-//line views/vadmin/Settings.html:90
+//line views/vadmin/Settings.html:89
 func settingsLink(href string, icon string, title string, description string, ps *cutil.PageState) string {
-//line views/vadmin/Settings.html:90
+//line views/vadmin/Settings.html:89
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vadmin/Settings.html:90
+//line views/vadmin/Settings.html:89
 	writesettingsLink(qb422016, href, icon, title, description, ps)
-//line views/vadmin/Settings.html:90
+//line views/vadmin/Settings.html:89
 	qs422016 := string(qb422016.B)
-//line views/vadmin/Settings.html:90
+//line views/vadmin/Settings.html:89
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vadmin/Settings.html:90
+//line views/vadmin/Settings.html:89
 	return qs422016
-//line views/vadmin/Settings.html:90
+//line views/vadmin/Settings.html:89
 }
