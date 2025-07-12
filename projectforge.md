@@ -27,6 +27,7 @@ The following modules were used to build this project:
 - [marketing](./doc/module/marketing.md)
 - [mcp](./doc/module/mcp.md)
 - [metamodel](./doc/module/metamodel.md)
+- [metaschema](./doc/module/metaschema.md)
 - [migration](./doc/module/migration.md)
 - [mysql](./doc/module/mysql.md)
 - [notarize](./doc/module/notarize.md)
