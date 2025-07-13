@@ -8,6 +8,7 @@ import (
 	"github.com/kyleu/pftest/app/lib/expression"
 	"github.com/kyleu/pftest/app/lib/git"
 	"github.com/kyleu/pftest/app/lib/grep"
+	"github.com/kyleu/pftest/app/lib/metamodel/metaschema"
 	"github.com/kyleu/pftest/app/lib/proxy"
 	"github.com/kyleu/pftest/app/util"
 	"github.com/kyleu/pftest/queries/migrations"
@@ -33,6 +34,7 @@ func NewServices(ctx context.Context, st *State, logger util.Logger) (*Services,
 	g := git.NewService(util.AppKey, ".")
 	_ = grep.NewRequest("", "", true) // to typecheck package
 	_ = expression.Expression{}       // to typecheck package
+	_ = metaschema.KeyNilString       // to typecheck package
 
 	core := initCoreServices(ctx, st, aud, logger)
 	gen := initGeneratedServices(ctx, st, aud, logger)
