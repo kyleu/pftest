@@ -42,6 +42,7 @@
     "process",
     "proxy",
     "queue",
+    "reactive",
     "readonlydb",
     "richedit",
     "sandbox",

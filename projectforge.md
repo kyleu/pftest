@@ -41,6 +41,7 @@ The following modules were used to build this project:
 - [process](./doc/module/process.md)
 - [proxy](./doc/module/proxy.md)
 - [queue](./doc/module/queue.md)
+- [reactive](./doc/module/reactive.md)
 - [readonlydb](./doc/module/readonlydb.md)
 - [richedit](./doc/module/richedit.md)
 - [sandbox](./doc/module/sandbox.md)
