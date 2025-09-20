@@ -1,7 +1,6 @@
 package reference
 
 import (
-	"encoding/json"
 	"fmt"
 	"time"
 
@@ -21,10 +20,10 @@ var (
 )
 
 type row struct {
-	ID      uuid.UUID       `db:"id" json:"id"`
-	Custom  json.RawMessage `db:"custom" json:"custom"`
-	Self    json.RawMessage `db:"self" json:"self"`
-	Created time.Time       `db:"created" json:"created"`
+	ID      uuid.UUID `db:"id" json:"id"`
+	Custom  []byte    `db:"custom" json:"custom"`
+	Self    []byte    `db:"self" json:"self"`
+	Created time.Time `db:"created" json:"created"`
 }
 
 func (r *row) ToReference() *Reference {

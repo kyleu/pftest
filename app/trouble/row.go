@@ -1,7 +1,6 @@
 package trouble
 
 import (
-	"encoding/json"
 	"fmt"
 	"time"
 
@@ -19,12 +18,12 @@ var (
 )
 
 type row struct {
-	From      string          `db:"from" json:"from"`
-	Where     json.RawMessage `db:"where" json:"where"`
-	Selectcol int             `db:"selectcol" json:"selectcol"`
-	Limit     string          `db:"limit" json:"limit"`
-	Group     string          `db:"group" json:"group"`
-	Delete    *time.Time      `db:"delete" json:"delete"`
+	From      string     `db:"from" json:"from"`
+	Where     []byte     `db:"where" json:"where"`
+	Selectcol int        `db:"selectcol" json:"selectcol"`
+	Limit     string     `db:"limit" json:"limit"`
+	Group     string     `db:"group" json:"group"`
+	Delete    *time.Time `db:"delete" json:"delete"`
 }
 
 func (r *row) ToTrouble() *Trouble {

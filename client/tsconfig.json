@@ -4,6 +4,7 @@
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "alwaysStrict": true,
+    "baseUrl": "./src",
     "declaration": true,
     "esModuleInterop": true,
     "jsx": "react",
@@ -17,6 +18,9 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "outFile": "../assets/client.js",
+    "paths": {
+      "@numeric/*": ["numeric/*"]
+    },
     "removeComments": true,
     "preserveConstEnums": true,
     "preserveWatchOutput": true,

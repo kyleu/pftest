@@ -1,7 +1,6 @@
 package seed
 
 import (
-	"encoding/json"
 	"fmt"
 
 	"github.com/google/uuid"
@@ -19,10 +18,10 @@ var (
 )
 
 type row struct {
-	ID   uuid.UUID       `db:"id" json:"id"`
-	Name string          `db:"name" json:"name"`
-	Size int             `db:"size" json:"size"`
-	Obj  json.RawMessage `db:"obj" json:"obj"`
+	ID   uuid.UUID `db:"id" json:"id"`
+	Name string    `db:"name" json:"name"`
+	Size int       `db:"size" json:"size"`
+	Obj  []byte    `db:"obj" json:"obj"`
 }
 
 func (r *row) ToSeed() *Seed {
