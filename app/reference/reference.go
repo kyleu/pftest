@@ -23,10 +23,10 @@ func Route(paths ...string) string {
 var _ svc.Model = (*Reference)(nil)
 
 type Reference struct {
-	ID      uuid.UUID   `json:"id,omitempty"`
-	Custom  *foo.Custom `json:"custom,omitempty"`
-	Self    *SelfCustom `json:"self,omitempty"`
-	Created time.Time   `json:"created,omitempty"`
+	ID      uuid.UUID   `json:"id,omitzero"`
+	Custom  *foo.Custom `json:"custom,omitzero"`
+	Self    *SelfCustom `json:"self,omitzero"`
+	Created time.Time   `json:"created,omitzero"`
 }
 
 func NewReference(id uuid.UUID) *Reference {

@@ -21,8 +21,8 @@ func Route(paths ...string) string {
 var _ svc.Model = (*Audited)(nil)
 
 type Audited struct {
-	ID   uuid.UUID `json:"id,omitempty"`
-	Name string    `json:"name,omitempty"`
+	ID   uuid.UUID `json:"id,omitzero"`
+	Name string    `json:"name,omitzero"`
 }
 
 func NewAudited(id uuid.UUID) *Audited {

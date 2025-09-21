@@ -20,10 +20,10 @@ func Route(paths ...string) string {
 var _ svc.Model = (*Softdel)(nil)
 
 type Softdel struct {
-	ID      string     `json:"id,omitempty"`
-	Created time.Time  `json:"created,omitempty"`
-	Updated *time.Time `json:"updated,omitempty"`
-	Deleted *time.Time `json:"deleted,omitempty"`
+	ID      string     `json:"id,omitzero"`
+	Created time.Time  `json:"created,omitzero"`
+	Updated *time.Time `json:"updated,omitzero"`
+	Deleted *time.Time `json:"deleted,omitzero"`
 }
 
 func NewSoftdel(id string) *Softdel {

@@ -22,10 +22,10 @@ func Route(paths ...string) string {
 var _ svc.Model = (*Relation)(nil)
 
 type Relation struct {
-	ID      uuid.UUID `json:"id,omitempty"`
-	BasicID uuid.UUID `json:"basicID,omitempty"`
-	Name    string    `json:"name,omitempty"`
-	Created time.Time `json:"created,omitempty"`
+	ID      uuid.UUID `json:"id,omitzero"`
+	BasicID uuid.UUID `json:"basicID,omitzero"`
+	Name    string    `json:"name,omitzero"`
+	Created time.Time `json:"created,omitzero"`
 }
 
 func NewRelation(id uuid.UUID) *Relation {

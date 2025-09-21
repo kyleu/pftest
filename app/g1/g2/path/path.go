@@ -22,10 +22,10 @@ func Route(paths ...string) string {
 var _ svc.Model = (*Path)(nil)
 
 type Path struct {
-	ID      uuid.UUID `json:"id,omitempty"`
-	Name    string    `json:"name,omitempty"`
-	Status  string    `json:"status,omitempty"`
-	Created time.Time `json:"created,omitempty"`
+	ID      uuid.UUID `json:"id,omitzero"`
+	Name    string    `json:"name,omitzero"`
+	Status  string    `json:"status,omitzero"`
+	Created time.Time `json:"created,omitzero"`
 }
 
 func NewPath(id uuid.UUID) *Path {

@@ -20,10 +20,10 @@ func Route(paths ...string) string {
 var _ svc.Model = (*Capital)(nil)
 
 type Capital struct {
-	ID       string     `json:"id,omitempty"`
-	Name     string     `json:"name,omitempty"`
-	Birthday time.Time  `json:"birthday,omitempty"`
-	Deathday *time.Time `json:"deathday,omitempty"`
+	ID       string     `json:"id,omitzero"`
+	Name     string     `json:"name,omitzero"`
+	Birthday time.Time  `json:"birthday,omitzero"`
+	Deathday *time.Time `json:"deathday,omitzero"`
 }
 
 func NewCapital(id string) *Capital {

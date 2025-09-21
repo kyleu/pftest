@@ -21,7 +21,7 @@ func Route(paths ...string) string {
 var _ svc.Model = (*Trouble)(nil)
 
 type PK struct {
-	From  string   `json:"from,omitempty"`
+	From  string   `json:"from,omitzero"`
 	Where []string `json:"where,omitempty"`
 }
 
@@ -30,12 +30,12 @@ func (p *PK) String() string {
 }
 
 type Trouble struct {
-	From      string     `json:"from,omitempty"`
+	From      string     `json:"from,omitzero"`
 	Where     []string   `json:"where,omitempty"`
-	Selectcol int        `json:"selectcol,omitempty"`
-	Limit     string     `json:"limit,omitempty"`
-	Group     string     `json:"group,omitempty"`
-	Delete    *time.Time `json:"delete,omitempty"`
+	Selectcol int        `json:"selectcol,omitzero"`
+	Limit     string     `json:"limit,omitzero"`
+	Group     string     `json:"group,omitzero"`
+	Delete    *time.Time `json:"delete,omitzero"`
 }
 
 func NewTrouble(from string, where []string) *Trouble {

@@ -19,9 +19,9 @@ func Route(paths ...string) string {
 var _ svc.Model = (*MixedCase)(nil)
 
 type MixedCase struct {
-	ID           string `json:"id,omitempty"`
-	TestField    string `json:"testField,omitempty"`
-	AnotherField string `json:"anotherField,omitempty"`
+	ID           string `json:"id,omitzero"`
+	TestField    string `json:"testField,omitzero"`
+	AnotherField string `json:"anotherField,omitzero"`
 }
 
 func NewMixedCase(id string) *MixedCase {

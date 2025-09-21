@@ -22,10 +22,10 @@ func Route(paths ...string) string {
 var _ svc.Model = (*Seed)(nil)
 
 type Seed struct {
-	ID   uuid.UUID     `json:"id,omitempty"`
-	Name string        `json:"name,omitempty"`
-	Size int           `json:"size,omitempty"`
-	Obj  util.ValueMap `json:"obj,omitempty"`
+	ID   uuid.UUID     `json:"id,omitzero"`
+	Name string        `json:"name,omitzero"`
+	Size int           `json:"size,omitzero"`
+	Obj  util.ValueMap `json:"obj,omitzero"`
 }
 
 func NewSeed(id uuid.UUID) *Seed {

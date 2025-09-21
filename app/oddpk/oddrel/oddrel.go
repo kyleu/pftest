@@ -21,9 +21,9 @@ func Route(paths ...string) string {
 var _ svc.Model = (*Oddrel)(nil)
 
 type Oddrel struct {
-	ID      uuid.UUID `json:"id,omitempty"`
-	Project uuid.UUID `json:"project,omitempty"`
-	Path    string    `json:"path,omitempty"`
+	ID      uuid.UUID `json:"id,omitzero"`
+	Project uuid.UUID `json:"project,omitzero"`
+	Path    string    `json:"path,omitzero"`
 }
 
 func NewOddrel(id uuid.UUID) *Oddrel {

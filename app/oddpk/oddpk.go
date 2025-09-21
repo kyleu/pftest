@@ -23,8 +23,8 @@ func Route(paths ...string) string {
 var _ svc.Model = (*OddPK)(nil)
 
 type PK struct {
-	Project uuid.UUID `json:"project,omitempty"`
-	Path    string    `json:"path,omitempty"`
+	Project uuid.UUID `json:"project,omitzero"`
+	Path    string    `json:"path,omitzero"`
 }
 
 func (p *PK) String() string {
@@ -32,9 +32,9 @@ func (p *PK) String() string {
 }
 
 type OddPK struct {
-	Project uuid.UUID `json:"project,omitempty"`
-	Path    string    `json:"path,omitempty"`
-	Name    string    `json:"name,omitempty"`
+	Project uuid.UUID `json:"project,omitzero"`
+	Path    string    `json:"path,omitzero"`
+	Name    string    `json:"name,omitzero"`
 }
 
 func NewOddPK(project uuid.UUID, path string) *OddPK {
