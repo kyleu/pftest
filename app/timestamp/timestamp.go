@@ -31,7 +31,7 @@ func NewTimestamp(id string) *Timestamp {
 }
 
 func (t *Timestamp) Clone() *Timestamp {
-	return &Timestamp{t.ID, t.Created, t.Updated, t.Deleted}
+	return &Timestamp{ID: t.ID, Created: t.Created, Updated: t.Updated, Deleted: t.Deleted}
 }
 
 func (t *Timestamp) String() string {

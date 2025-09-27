@@ -31,7 +31,7 @@ func NewOddrel(id uuid.UUID) *Oddrel {
 }
 
 func (o *Oddrel) Clone() *Oddrel {
-	return &Oddrel{o.ID, o.Project, o.Path}
+	return &Oddrel{ID: o.ID, Project: o.Project, Path: o.Path}
 }
 
 func (o *Oddrel) String() string {

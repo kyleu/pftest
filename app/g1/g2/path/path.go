@@ -33,7 +33,7 @@ func NewPath(id uuid.UUID) *Path {
 }
 
 func (p *Path) Clone() *Path {
-	return &Path{p.ID, p.Name, p.Status, p.Created}
+	return &Path{ID: p.ID, Name: p.Name, Status: p.Status, Created: p.Created}
 }
 
 func (p *Path) String() string {

@@ -42,7 +42,7 @@ func NewOddPK(project uuid.UUID, path string) *OddPK {
 }
 
 func (o *OddPK) Clone() *OddPK {
-	return &OddPK{o.Project, o.Path, o.Name}
+	return &OddPK{Project: o.Project, Path: o.Path, Name: o.Name}
 }
 
 func (o *OddPK) String() string {

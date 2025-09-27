@@ -30,7 +30,7 @@ func NewAudited(id uuid.UUID) *Audited {
 }
 
 func (a *Audited) Clone() *Audited {
-	return &Audited{a.ID, a.Name}
+	return &Audited{ID: a.ID, Name: a.Name}
 }
 
 func (a *Audited) String() string {

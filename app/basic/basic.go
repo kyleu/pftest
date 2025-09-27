@@ -33,7 +33,7 @@ func NewBasic(id uuid.UUID) *Basic {
 }
 
 func (b *Basic) Clone() *Basic {
-	return &Basic{b.ID, b.Name, b.Status, b.Created}
+	return &Basic{ID: b.ID, Name: b.Name, Status: b.Status, Created: b.Created}
 }
 
 func (b *Basic) String() string {

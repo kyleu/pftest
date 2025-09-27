@@ -29,7 +29,7 @@ func NewMixedCase(id string) *MixedCase {
 }
 
 func (m *MixedCase) Clone() *MixedCase {
-	return &MixedCase{m.ID, m.TestField, m.AnotherField}
+	return &MixedCase{ID: m.ID, TestField: m.TestField, AnotherField: m.AnotherField}
 }
 
 func (m *MixedCase) String() string {

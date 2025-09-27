@@ -31,7 +31,7 @@ func NewSoftdel(id string) *Softdel {
 }
 
 func (s *Softdel) Clone() *Softdel {
-	return &Softdel{s.ID, s.Created, s.Updated, s.Deleted}
+	return &Softdel{ID: s.ID, Created: s.Created, Updated: s.Updated, Deleted: s.Deleted}
 }
 
 func (s *Softdel) String() string {

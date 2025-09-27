@@ -33,7 +33,7 @@ func NewRelation(id uuid.UUID) *Relation {
 }
 
 func (r *Relation) Clone() *Relation {
-	return &Relation{r.ID, r.BasicID, r.Name, r.Created}
+	return &Relation{ID: r.ID, BasicID: r.BasicID, Name: r.Name, Created: r.Created}
 }
 
 func (r *Relation) String() string {
