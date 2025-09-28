@@ -25,7 +25,7 @@ type Seed struct {
 	ID   uuid.UUID     `json:"id,omitzero"`
 	Name string        `json:"name,omitzero"`
 	Size int           `json:"size,omitzero"`
-	Obj  util.ValueMap `json:"obj,omitzero"`
+	Obj  util.ValueMap `json:"obj,omitempty"`
 }
 
 func NewSeed(id uuid.UUID) *Seed {
