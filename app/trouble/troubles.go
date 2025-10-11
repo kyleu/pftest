@@ -80,8 +80,8 @@ func (t Troubles) GetByFroms(froms ...string) Troubles {
 }
 
 func (t Troubles) ToMaps() []util.ValueMap {
-	return lo.Map(t, func(x *Trouble, _ int) util.ValueMap {
-		return x.ToMap()
+	return lo.Map(t, func(xx *Trouble, _ int) util.ValueMap {
+		return xx.ToMap()
 	})
 }
 

@@ -74,8 +74,8 @@ func (r Relations) GetByBasicIDs(basicIDs ...uuid.UUID) Relations {
 }
 
 func (r Relations) ToMaps() []util.ValueMap {
-	return lo.Map(r, func(x *Relation, _ int) util.ValueMap {
-		return x.ToMap()
+	return lo.Map(r, func(xx *Relation, _ int) util.ValueMap {
+		return xx.ToMap()
 	})
 }
 

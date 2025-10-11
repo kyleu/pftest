@@ -91,8 +91,8 @@ func (o OddPKs) GetByPaths(paths ...string) OddPKs {
 }
 
 func (o OddPKs) ToMaps() []util.ValueMap {
-	return lo.Map(o, func(x *OddPK, _ int) util.ValueMap {
-		return x.ToMap()
+	return lo.Map(o, func(xx *OddPK, _ int) util.ValueMap {
+		return xx.ToMap()
 	})
 }
 

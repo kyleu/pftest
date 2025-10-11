@@ -56,8 +56,8 @@ func (r References) GetByIDs(ids ...uuid.UUID) References {
 }
 
 func (r References) ToMaps() []util.ValueMap {
-	return lo.Map(r, func(x *Reference, _ int) util.ValueMap {
-		return x.ToMap()
+	return lo.Map(r, func(xx *Reference, _ int) util.ValueMap {
+		return xx.ToMap()
 	})
 }
 

@@ -56,8 +56,8 @@ func (a Auditeds) GetByIDs(ids ...uuid.UUID) Auditeds {
 }
 
 func (a Auditeds) ToMaps() []util.ValueMap {
-	return lo.Map(a, func(x *Audited, _ int) util.ValueMap {
-		return x.ToMap()
+	return lo.Map(a, func(xx *Audited, _ int) util.ValueMap {
+		return xx.ToMap()
 	})
 }
 

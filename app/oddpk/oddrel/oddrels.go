@@ -56,8 +56,8 @@ func (o Oddrels) GetByIDs(ids ...uuid.UUID) Oddrels {
 }
 
 func (o Oddrels) ToMaps() []util.ValueMap {
-	return lo.Map(o, func(x *Oddrel, _ int) util.ValueMap {
-		return x.ToMap()
+	return lo.Map(o, func(xx *Oddrel, _ int) util.ValueMap {
+		return xx.ToMap()
 	})
 }
 

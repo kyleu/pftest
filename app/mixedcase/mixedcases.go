@@ -55,8 +55,8 @@ func (m MixedCases) GetByIDs(ids ...string) MixedCases {
 }
 
 func (m MixedCases) ToMaps() []util.ValueMap {
-	return lo.Map(m, func(x *MixedCase, _ int) util.ValueMap {
-		return x.ToMap()
+	return lo.Map(m, func(xx *MixedCase, _ int) util.ValueMap {
+		return xx.ToMap()
 	})
 }
 
