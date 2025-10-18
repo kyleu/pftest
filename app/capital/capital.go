@@ -78,8 +78,8 @@ func (c *Capital) ToData() []any {
 }
 
 var CapitalFieldDescs = util.FieldDescs{
-	{Key: "id", Title: "ID", Description: "", Type: "string"},
-	{Key: "name", Title: "Name", Description: "", Type: "string"},
-	{Key: "birthday", Title: "Birthday", Description: "", Type: "timestamp"},
-	{Key: "deathday", Title: "Deathday", Description: "", Type: "timestamp"},
+	{Key: "id", Title: "ID", Type: "string"},
+	{Key: "name", Title: "Name", Type: "string"},
+	{Key: "birthday", Title: "Birthday", Type: "timestamp"},
+	{Key: "deathday", Title: "Deathday", Type: "timestamp"},
 }

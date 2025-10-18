@@ -74,7 +74,7 @@ func (o *Oddrel) ToData() []any {
 }
 
 var OddrelFieldDescs = util.FieldDescs{
-	{Key: "id", Title: "ID", Description: "", Type: "uuid"},
-	{Key: "project", Title: "Project", Description: "", Type: "uuid"},
-	{Key: "path", Title: "Path", Description: "", Type: "string"},
+	{Key: "id", Title: "ID", Type: "uuid"},
+	{Key: "project", Title: "Project", Type: "uuid"},
+	{Key: "path", Title: "Path", Type: "string"},
 }

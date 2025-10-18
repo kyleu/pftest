@@ -80,8 +80,8 @@ func (b *Basic) ToData() []any {
 }
 
 var BasicFieldDescs = util.FieldDescs{
-	{Key: "id", Title: "ID", Description: "", Type: "uuid"},
-	{Key: "name", Title: "Name", Description: "", Type: "string"},
-	{Key: "status", Title: "Status", Description: "", Type: "string"},
-	{Key: "created", Title: "Created", Description: "", Type: "timestamp"},
+	{Key: "id", Title: "ID", Type: "uuid"},
+	{Key: "name", Title: "Name", Type: "string"},
+	{Key: "status", Title: "Status", Type: "string"},
+	{Key: "created", Title: "Created", Type: "timestamp"},
 }

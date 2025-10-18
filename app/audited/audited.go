@@ -75,6 +75,6 @@ func (a *Audited) ToData() []any {
 }
 
 var AuditedFieldDescs = util.FieldDescs{
-	{Key: "id", Title: "ID", Description: "", Type: "uuid"},
-	{Key: "name", Title: "Name", Description: "", Type: "string"},
+	{Key: "id", Title: "ID", Type: "uuid"},
+	{Key: "name", Title: "Name", Type: "string"},
 }

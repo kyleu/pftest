@@ -78,8 +78,8 @@ func (r *Reference) ToData() []any {
 }
 
 var ReferenceFieldDescs = util.FieldDescs{
-	{Key: "id", Title: "ID", Description: "", Type: "uuid"},
-	{Key: "custom", Title: "Custom", Description: "", Type: "Custom"},
-	{Key: "self", Title: "Self", Description: "", Type: "SelfCustom"},
-	{Key: "created", Title: "Created", Description: "", Type: "timestamp"},
+	{Key: "id", Title: "ID", Type: "uuid"},
+	{Key: "custom", Title: "Custom", Type: "Custom"},
+	{Key: "self", Title: "Self", Type: "SelfCustom"},
+	{Key: "created", Title: "Created", Type: "timestamp"},
 }

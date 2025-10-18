@@ -72,7 +72,7 @@ func (m *MixedCase) ToData() []any {
 }
 
 var MixedCaseFieldDescs = util.FieldDescs{
-	{Key: "id", Title: "ID", Description: "", Type: "string"},
-	{Key: "testField", Title: "Test Field", Description: "", Type: "string"},
-	{Key: "anotherField", Title: "Another Field", Description: "", Type: "string"},
+	{Key: "id", Title: "ID", Type: "string"},
+	{Key: "testField", Title: "Test Field", Type: "string"},
+	{Key: "anotherField", Title: "Another Field", Type: "string"},
 }

@@ -75,8 +75,8 @@ func (t *Timestamp) ToData() []any {
 }
 
 var TimestampFieldDescs = util.FieldDescs{
-	{Key: "id", Title: "ID", Description: "", Type: "string"},
-	{Key: "created", Title: "Created", Description: "", Type: "timestamp"},
-	{Key: "updated", Title: "Updated", Description: "", Type: "timestamp"},
-	{Key: "deleted", Title: "Deleted", Description: "", Type: "timestamp"},
+	{Key: "id", Title: "ID", Type: "string"},
+	{Key: "created", Title: "Created", Type: "timestamp"},
+	{Key: "updated", Title: "Updated", Type: "timestamp"},
+	{Key: "deleted", Title: "Deleted", Type: "timestamp"},
 }

@@ -98,10 +98,10 @@ func (t *Trouble) ToData() []any {
 }
 
 var TroubleFieldDescs = util.FieldDescs{
-	{Key: "from", Title: "From", Description: "", Type: "string"},
-	{Key: "where", Title: "Where", Description: "", Type: "[]string"},
-	{Key: "selectcol", Title: "Selectcol", Description: "", Type: "int"},
-	{Key: "limit", Title: "Limit", Description: "", Type: "string"},
-	{Key: "group", Title: "Group", Description: "", Type: "string"},
-	{Key: "delete", Title: "Delete", Description: "", Type: "timestamp"},
+	{Key: "from", Title: "From", Type: "string"},
+	{Key: "where", Title: "Where", Type: "[]string"},
+	{Key: "selectcol", Title: "Selectcol", Type: "int"},
+	{Key: "limit", Title: "Limit", Type: "string"},
+	{Key: "group", Title: "Group", Type: "string"},
+	{Key: "delete", Title: "Delete", Type: "timestamp"},
 }

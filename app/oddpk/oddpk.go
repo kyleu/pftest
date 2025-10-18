@@ -95,7 +95,7 @@ func (o *OddPK) ToData() []any {
 }
 
 var OddPKFieldDescs = util.FieldDescs{
-	{Key: "project", Title: "Project", Description: "", Type: "uuid"},
-	{Key: "path", Title: "Path", Description: "", Type: "string"},
-	{Key: "name", Title: "Name", Description: "", Type: "string"},
+	{Key: "project", Title: "Project", Type: "uuid"},
+	{Key: "path", Title: "Path", Type: "string"},
+	{Key: "name", Title: "Name", Type: "string"},
 }

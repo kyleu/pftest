@@ -80,8 +80,8 @@ func (r *Relation) ToData() []any {
 }
 
 var RelationFieldDescs = util.FieldDescs{
-	{Key: "id", Title: "ID", Description: "", Type: "uuid"},
-	{Key: "basicID", Title: "Basic ID", Description: "", Type: "uuid"},
-	{Key: "name", Title: "Name", Description: "", Type: "string"},
-	{Key: "created", Title: "Created", Description: "", Type: "timestamp"},
+	{Key: "id", Title: "ID", Type: "uuid"},
+	{Key: "basicID", Title: "Basic ID", Type: "uuid"},
+	{Key: "name", Title: "Name", Type: "string"},
+	{Key: "created", Title: "Created", Type: "timestamp"},
 }

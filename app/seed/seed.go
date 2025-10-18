@@ -80,8 +80,8 @@ func (s *Seed) ToData() []any {
 }
 
 var SeedFieldDescs = util.FieldDescs{
-	{Key: "id", Title: "ID", Description: "", Type: "uuid"},
-	{Key: "name", Title: "Name", Description: "", Type: "string"},
-	{Key: "size", Title: "Size", Description: "", Type: "int"},
-	{Key: "obj", Title: "Obj", Description: "", Type: "map"},
+	{Key: "id", Title: "ID", Type: "uuid"},
+	{Key: "name", Title: "Name", Type: "string"},
+	{Key: "size", Title: "Size", Type: "int"},
+	{Key: "obj", Title: "Obj", Type: "map"},
 }
