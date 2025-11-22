@@ -28,107 +28,143 @@ var (
 )
 
 //line views/vmixedcase/Table.html:10
-func StreamTable(qw422016 *qt422016.Writer, models mixedcase.MixedCases, params filter.ParamSet, as *app.State, ps *cutil.PageState, paths ...string) {
+func StreamTableRow(qw422016 *qt422016.Writer, model *mixedcase.MixedCase, ps *cutil.PageState, paths ...string) {
 //line views/vmixedcase/Table.html:10
 	qw422016.N().S(`
+  <tr>
+    <td><a href="`)
+//line views/vmixedcase/Table.html:12
+	qw422016.E().S(model.WebPath(paths...))
+//line views/vmixedcase/Table.html:12
+	qw422016.N().S(`">`)
+//line views/vmixedcase/Table.html:12
+	view.StreamString(qw422016, model.ID)
+//line views/vmixedcase/Table.html:12
+	qw422016.N().S(`</a></td>
+    <td>`)
+//line views/vmixedcase/Table.html:13
+	view.StreamString(qw422016, model.TestField)
+//line views/vmixedcase/Table.html:13
+	qw422016.N().S(`</td>
+    <td>`)
+//line views/vmixedcase/Table.html:14
+	view.StreamString(qw422016, model.AnotherField)
+//line views/vmixedcase/Table.html:14
+	qw422016.N().S(`</td>
+  </tr>
 `)
-//line views/vmixedcase/Table.html:11
+//line views/vmixedcase/Table.html:16
+}
+
+//line views/vmixedcase/Table.html:16
+func WriteTableRow(qq422016 qtio422016.Writer, model *mixedcase.MixedCase, ps *cutil.PageState, paths ...string) {
+//line views/vmixedcase/Table.html:16
+	qw422016 := qt422016.AcquireWriter(qq422016)
+//line views/vmixedcase/Table.html:16
+	StreamTableRow(qw422016, model, ps, paths...)
+//line views/vmixedcase/Table.html:16
+	qt422016.ReleaseWriter(qw422016)
+//line views/vmixedcase/Table.html:16
+}
+
+//line views/vmixedcase/Table.html:16
+func TableRow(model *mixedcase.MixedCase, ps *cutil.PageState, paths ...string) string {
+//line views/vmixedcase/Table.html:16
+	qb422016 := qt422016.AcquireByteBuffer()
+//line views/vmixedcase/Table.html:16
+	WriteTableRow(qb422016, model, ps, paths...)
+//line views/vmixedcase/Table.html:16
+	qs422016 := string(qb422016.B)
+//line views/vmixedcase/Table.html:16
+	qt422016.ReleaseByteBuffer(qb422016)
+//line views/vmixedcase/Table.html:16
+	return qs422016
+//line views/vmixedcase/Table.html:16
+}
+
+//line views/vmixedcase/Table.html:18
+func StreamTable(qw422016 *qt422016.Writer, models mixedcase.MixedCases, params filter.ParamSet, as *app.State, ps *cutil.PageState, paths ...string) {
+//line views/vmixedcase/Table.html:18
+	qw422016.N().S(`
+`)
+//line views/vmixedcase/Table.html:19
 	prms := params.Sanitized("mixedcase", ps.Logger)
 
-//line views/vmixedcase/Table.html:11
+//line views/vmixedcase/Table.html:19
 	qw422016.N().S(`  <div class="overflow clear">
     <table>
       <thead>
         <tr>
           `)
-//line views/vmixedcase/Table.html:16
+//line views/vmixedcase/Table.html:24
 	components.StreamTableHeaderSimple(qw422016, "mixedcase", "id", "ID", "String text", prms, ps.URI, ps)
-//line views/vmixedcase/Table.html:16
+//line views/vmixedcase/Table.html:24
 	qw422016.N().S(`
           `)
-//line views/vmixedcase/Table.html:17
+//line views/vmixedcase/Table.html:25
 	components.StreamTableHeaderSimple(qw422016, "mixedcase", "test_field", "Test Field", "String text", prms, ps.URI, ps)
-//line views/vmixedcase/Table.html:17
+//line views/vmixedcase/Table.html:25
 	qw422016.N().S(`
           `)
-//line views/vmixedcase/Table.html:18
+//line views/vmixedcase/Table.html:26
 	components.StreamTableHeaderSimple(qw422016, "mixedcase", "another_field", "Another Field", "String text", prms, ps.URI, ps)
-//line views/vmixedcase/Table.html:18
+//line views/vmixedcase/Table.html:26
 	qw422016.N().S(`
         </tr>
       </thead>
       <tbody>
 `)
-//line views/vmixedcase/Table.html:22
+//line views/vmixedcase/Table.html:30
 	for _, model := range models {
-//line views/vmixedcase/Table.html:22
-		qw422016.N().S(`        <tr>
-          <td><a href="`)
-//line views/vmixedcase/Table.html:24
-		qw422016.E().S(model.WebPath(paths...))
-//line views/vmixedcase/Table.html:24
-		qw422016.N().S(`">`)
-//line views/vmixedcase/Table.html:24
-		view.StreamString(qw422016, model.ID)
-//line views/vmixedcase/Table.html:24
-		qw422016.N().S(`</a></td>
-          <td>`)
-//line views/vmixedcase/Table.html:25
-		view.StreamString(qw422016, model.TestField)
-//line views/vmixedcase/Table.html:25
-		qw422016.N().S(`</td>
-          <td>`)
-//line views/vmixedcase/Table.html:26
-		view.StreamString(qw422016, model.AnotherField)
-//line views/vmixedcase/Table.html:26
-		qw422016.N().S(`</td>
-        </tr>
-`)
-//line views/vmixedcase/Table.html:28
+//line views/vmixedcase/Table.html:30
+		qw422016.N().S(`        `)
+//line views/vmixedcase/Table.html:31
+		StreamTableRow(qw422016, model, ps, paths...)
+//line views/vmixedcase/Table.html:32
 	}
-//line views/vmixedcase/Table.html:28
+//line views/vmixedcase/Table.html:32
 	qw422016.N().S(`      </tbody>
     </table>
   </div>
 `)
-//line views/vmixedcase/Table.html:32
+//line views/vmixedcase/Table.html:36
 	if prms.HasNextPage(len(models)+prms.Offset) || prms.HasPreviousPage() {
-//line views/vmixedcase/Table.html:32
+//line views/vmixedcase/Table.html:36
 		qw422016.N().S(`  <hr />
   `)
-//line views/vmixedcase/Table.html:34
+//line views/vmixedcase/Table.html:38
 		components.StreamPagination(qw422016, len(models)+prms.Offset, prms, ps.URI)
-//line views/vmixedcase/Table.html:34
+//line views/vmixedcase/Table.html:38
 		qw422016.N().S(`
   <div class="clear"></div>
 `)
-//line views/vmixedcase/Table.html:36
+//line views/vmixedcase/Table.html:40
 	}
-//line views/vmixedcase/Table.html:37
+//line views/vmixedcase/Table.html:41
 }
 
-//line views/vmixedcase/Table.html:37
+//line views/vmixedcase/Table.html:41
 func WriteTable(qq422016 qtio422016.Writer, models mixedcase.MixedCases, params filter.ParamSet, as *app.State, ps *cutil.PageState, paths ...string) {
-//line views/vmixedcase/Table.html:37
+//line views/vmixedcase/Table.html:41
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vmixedcase/Table.html:37
+//line views/vmixedcase/Table.html:41
 	StreamTable(qw422016, models, params, as, ps, paths...)
-//line views/vmixedcase/Table.html:37
+//line views/vmixedcase/Table.html:41
 	qt422016.ReleaseWriter(qw422016)
-//line views/vmixedcase/Table.html:37
+//line views/vmixedcase/Table.html:41
 }
 
-//line views/vmixedcase/Table.html:37
+//line views/vmixedcase/Table.html:41
 func Table(models mixedcase.MixedCases, params filter.ParamSet, as *app.State, ps *cutil.PageState, paths ...string) string {
-//line views/vmixedcase/Table.html:37
+//line views/vmixedcase/Table.html:41
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vmixedcase/Table.html:37
+//line views/vmixedcase/Table.html:41
 	WriteTable(qb422016, models, params, as, ps, paths...)
-//line views/vmixedcase/Table.html:37
+//line views/vmixedcase/Table.html:41
 	qs422016 := string(qb422016.B)
-//line views/vmixedcase/Table.html:37
+//line views/vmixedcase/Table.html:41
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vmixedcase/Table.html:37
+//line views/vmixedcase/Table.html:41
 	return qs422016
-//line views/vmixedcase/Table.html:37
+//line views/vmixedcase/Table.html:41
 }

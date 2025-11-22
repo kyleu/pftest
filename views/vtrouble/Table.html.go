@@ -28,141 +28,177 @@ var (
 )
 
 //line views/vtrouble/Table.html:10
-func StreamTable(qw422016 *qt422016.Writer, models trouble.Troubles, params filter.ParamSet, as *app.State, ps *cutil.PageState, paths ...string) {
+func StreamTableRow(qw422016 *qt422016.Writer, model *trouble.Trouble, ps *cutil.PageState, paths ...string) {
 //line views/vtrouble/Table.html:10
 	qw422016.N().S(`
+  <tr>
+    <td><a href="`)
+//line views/vtrouble/Table.html:12
+	qw422016.E().S(model.WebPath(paths...))
+//line views/vtrouble/Table.html:12
+	qw422016.N().S(`">`)
+//line views/vtrouble/Table.html:12
+	view.StreamString(qw422016, model.From)
+//line views/vtrouble/Table.html:12
+	qw422016.N().S(`</a></td>
+    <td><a href="`)
+//line views/vtrouble/Table.html:13
+	qw422016.E().S(model.WebPath(paths...))
+//line views/vtrouble/Table.html:13
+	qw422016.N().S(`">`)
+//line views/vtrouble/Table.html:13
+	view.StreamStringArray(qw422016, model.Where)
+//line views/vtrouble/Table.html:13
+	qw422016.N().S(`</a></td>
+    <td>`)
+//line views/vtrouble/Table.html:14
+	qw422016.N().D(model.Selectcol)
+//line views/vtrouble/Table.html:14
+	qw422016.N().S(`</td>
+    <td>`)
+//line views/vtrouble/Table.html:15
+	view.StreamString(qw422016, model.Limit)
+//line views/vtrouble/Table.html:15
+	qw422016.N().S(`</td>
+    <td>`)
+//line views/vtrouble/Table.html:16
+	view.StreamString(qw422016, model.Group)
+//line views/vtrouble/Table.html:16
+	qw422016.N().S(`</td>
+    <td>`)
+//line views/vtrouble/Table.html:17
+	view.StreamTimestamp(qw422016, model.Delete)
+//line views/vtrouble/Table.html:17
+	qw422016.N().S(`</td>
+  </tr>
 `)
-//line views/vtrouble/Table.html:11
+//line views/vtrouble/Table.html:19
+}
+
+//line views/vtrouble/Table.html:19
+func WriteTableRow(qq422016 qtio422016.Writer, model *trouble.Trouble, ps *cutil.PageState, paths ...string) {
+//line views/vtrouble/Table.html:19
+	qw422016 := qt422016.AcquireWriter(qq422016)
+//line views/vtrouble/Table.html:19
+	StreamTableRow(qw422016, model, ps, paths...)
+//line views/vtrouble/Table.html:19
+	qt422016.ReleaseWriter(qw422016)
+//line views/vtrouble/Table.html:19
+}
+
+//line views/vtrouble/Table.html:19
+func TableRow(model *trouble.Trouble, ps *cutil.PageState, paths ...string) string {
+//line views/vtrouble/Table.html:19
+	qb422016 := qt422016.AcquireByteBuffer()
+//line views/vtrouble/Table.html:19
+	WriteTableRow(qb422016, model, ps, paths...)
+//line views/vtrouble/Table.html:19
+	qs422016 := string(qb422016.B)
+//line views/vtrouble/Table.html:19
+	qt422016.ReleaseByteBuffer(qb422016)
+//line views/vtrouble/Table.html:19
+	return qs422016
+//line views/vtrouble/Table.html:19
+}
+
+//line views/vtrouble/Table.html:21
+func StreamTable(qw422016 *qt422016.Writer, models trouble.Troubles, params filter.ParamSet, as *app.State, ps *cutil.PageState, paths ...string) {
+//line views/vtrouble/Table.html:21
+	qw422016.N().S(`
+`)
+//line views/vtrouble/Table.html:22
 	prms := params.Sanitized("trouble", ps.Logger)
 
-//line views/vtrouble/Table.html:11
+//line views/vtrouble/Table.html:22
 	qw422016.N().S(`  <div class="overflow clear">
     <table>
       <thead>
         <tr>
           `)
-//line views/vtrouble/Table.html:16
+//line views/vtrouble/Table.html:27
 	components.StreamTableHeaderSimple(qw422016, "trouble", "from", "From", "String text", prms, ps.URI, ps)
-//line views/vtrouble/Table.html:16
+//line views/vtrouble/Table.html:27
 	qw422016.N().S(`
           `)
-//line views/vtrouble/Table.html:17
+//line views/vtrouble/Table.html:28
 	components.StreamTableHeaderSimple(qw422016, "trouble", "where", "Where", "Comma-separated list of values", prms, ps.URI, ps)
-//line views/vtrouble/Table.html:17
+//line views/vtrouble/Table.html:28
 	qw422016.N().S(`
           `)
-//line views/vtrouble/Table.html:18
+//line views/vtrouble/Table.html:29
 	components.StreamTableHeaderSimple(qw422016, "trouble", "selectcol", "Selectcol", "Integer", prms, ps.URI, ps)
-//line views/vtrouble/Table.html:18
+//line views/vtrouble/Table.html:29
 	qw422016.N().S(`
           `)
-//line views/vtrouble/Table.html:19
+//line views/vtrouble/Table.html:30
 	components.StreamTableHeaderSimple(qw422016, "trouble", "limit", "Limit", "String text", prms, ps.URI, ps)
-//line views/vtrouble/Table.html:19
+//line views/vtrouble/Table.html:30
 	qw422016.N().S(`
           `)
-//line views/vtrouble/Table.html:20
+//line views/vtrouble/Table.html:31
 	components.StreamTableHeaderSimple(qw422016, "trouble", "group", "Group", "String text", prms, ps.URI, ps)
-//line views/vtrouble/Table.html:20
+//line views/vtrouble/Table.html:31
 	qw422016.N().S(`
           `)
-//line views/vtrouble/Table.html:21
+//line views/vtrouble/Table.html:32
 	components.StreamTableHeaderSimple(qw422016, "trouble", "delete", "Delete", "Date and time, in almost any format (optional)", prms, ps.URI, ps)
-//line views/vtrouble/Table.html:21
+//line views/vtrouble/Table.html:32
 	qw422016.N().S(`
         </tr>
       </thead>
       <tbody>
 `)
-//line views/vtrouble/Table.html:25
+//line views/vtrouble/Table.html:36
 	for _, model := range models {
-//line views/vtrouble/Table.html:25
-		qw422016.N().S(`        <tr>
-          <td><a href="`)
-//line views/vtrouble/Table.html:27
-		qw422016.E().S(model.WebPath(paths...))
-//line views/vtrouble/Table.html:27
-		qw422016.N().S(`">`)
-//line views/vtrouble/Table.html:27
-		view.StreamString(qw422016, model.From)
-//line views/vtrouble/Table.html:27
-		qw422016.N().S(`</a></td>
-          <td><a href="`)
-//line views/vtrouble/Table.html:28
-		qw422016.E().S(model.WebPath(paths...))
-//line views/vtrouble/Table.html:28
-		qw422016.N().S(`">`)
-//line views/vtrouble/Table.html:28
-		view.StreamStringArray(qw422016, model.Where)
-//line views/vtrouble/Table.html:28
-		qw422016.N().S(`</a></td>
-          <td>`)
-//line views/vtrouble/Table.html:29
-		qw422016.N().D(model.Selectcol)
-//line views/vtrouble/Table.html:29
-		qw422016.N().S(`</td>
-          <td>`)
-//line views/vtrouble/Table.html:30
-		view.StreamString(qw422016, model.Limit)
-//line views/vtrouble/Table.html:30
-		qw422016.N().S(`</td>
-          <td>`)
-//line views/vtrouble/Table.html:31
-		view.StreamString(qw422016, model.Group)
-//line views/vtrouble/Table.html:31
-		qw422016.N().S(`</td>
-          <td>`)
-//line views/vtrouble/Table.html:32
-		view.StreamTimestamp(qw422016, model.Delete)
-//line views/vtrouble/Table.html:32
-		qw422016.N().S(`</td>
-        </tr>
-`)
-//line views/vtrouble/Table.html:34
+//line views/vtrouble/Table.html:36
+		qw422016.N().S(`        `)
+//line views/vtrouble/Table.html:37
+		StreamTableRow(qw422016, model, ps, paths...)
+//line views/vtrouble/Table.html:38
 	}
-//line views/vtrouble/Table.html:34
+//line views/vtrouble/Table.html:38
 	qw422016.N().S(`      </tbody>
     </table>
   </div>
 `)
-//line views/vtrouble/Table.html:38
+//line views/vtrouble/Table.html:42
 	if prms.HasNextPage(len(models)+prms.Offset) || prms.HasPreviousPage() {
-//line views/vtrouble/Table.html:38
+//line views/vtrouble/Table.html:42
 		qw422016.N().S(`  <hr />
   `)
-//line views/vtrouble/Table.html:40
+//line views/vtrouble/Table.html:44
 		components.StreamPagination(qw422016, len(models)+prms.Offset, prms, ps.URI)
-//line views/vtrouble/Table.html:40
+//line views/vtrouble/Table.html:44
 		qw422016.N().S(`
   <div class="clear"></div>
 `)
-//line views/vtrouble/Table.html:42
+//line views/vtrouble/Table.html:46
 	}
-//line views/vtrouble/Table.html:43
+//line views/vtrouble/Table.html:47
 }
 
-//line views/vtrouble/Table.html:43
+//line views/vtrouble/Table.html:47
 func WriteTable(qq422016 qtio422016.Writer, models trouble.Troubles, params filter.ParamSet, as *app.State, ps *cutil.PageState, paths ...string) {
-//line views/vtrouble/Table.html:43
+//line views/vtrouble/Table.html:47
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vtrouble/Table.html:43
+//line views/vtrouble/Table.html:47
 	StreamTable(qw422016, models, params, as, ps, paths...)
-//line views/vtrouble/Table.html:43
+//line views/vtrouble/Table.html:47
 	qt422016.ReleaseWriter(qw422016)
-//line views/vtrouble/Table.html:43
+//line views/vtrouble/Table.html:47
 }
 
-//line views/vtrouble/Table.html:43
+//line views/vtrouble/Table.html:47
 func Table(models trouble.Troubles, params filter.ParamSet, as *app.State, ps *cutil.PageState, paths ...string) string {
-//line views/vtrouble/Table.html:43
+//line views/vtrouble/Table.html:47
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vtrouble/Table.html:43
+//line views/vtrouble/Table.html:47
 	WriteTable(qb422016, models, params, as, ps, paths...)
-//line views/vtrouble/Table.html:43
+//line views/vtrouble/Table.html:47
 	qs422016 := string(qb422016.B)
-//line views/vtrouble/Table.html:43
+//line views/vtrouble/Table.html:47
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vtrouble/Table.html:43
+//line views/vtrouble/Table.html:47
 	return qs422016
-//line views/vtrouble/Table.html:43
+//line views/vtrouble/Table.html:47
 }

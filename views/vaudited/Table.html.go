@@ -28,97 +28,133 @@ var (
 )
 
 //line views/vaudited/Table.html:10
-func StreamTable(qw422016 *qt422016.Writer, models audited.Auditeds, params filter.ParamSet, as *app.State, ps *cutil.PageState, paths ...string) {
+func StreamTableRow(qw422016 *qt422016.Writer, model *audited.Audited, ps *cutil.PageState, paths ...string) {
 //line views/vaudited/Table.html:10
 	qw422016.N().S(`
+  <tr>
+    <td><a href="`)
+//line views/vaudited/Table.html:12
+	qw422016.E().S(model.WebPath(paths...))
+//line views/vaudited/Table.html:12
+	qw422016.N().S(`">`)
+//line views/vaudited/Table.html:12
+	view.StreamUUID(qw422016, &model.ID)
+//line views/vaudited/Table.html:12
+	qw422016.N().S(`</a></td>
+    <td><strong>`)
+//line views/vaudited/Table.html:13
+	view.StreamString(qw422016, model.Name)
+//line views/vaudited/Table.html:13
+	qw422016.N().S(`</strong></td>
+  </tr>
 `)
-//line views/vaudited/Table.html:11
+//line views/vaudited/Table.html:15
+}
+
+//line views/vaudited/Table.html:15
+func WriteTableRow(qq422016 qtio422016.Writer, model *audited.Audited, ps *cutil.PageState, paths ...string) {
+//line views/vaudited/Table.html:15
+	qw422016 := qt422016.AcquireWriter(qq422016)
+//line views/vaudited/Table.html:15
+	StreamTableRow(qw422016, model, ps, paths...)
+//line views/vaudited/Table.html:15
+	qt422016.ReleaseWriter(qw422016)
+//line views/vaudited/Table.html:15
+}
+
+//line views/vaudited/Table.html:15
+func TableRow(model *audited.Audited, ps *cutil.PageState, paths ...string) string {
+//line views/vaudited/Table.html:15
+	qb422016 := qt422016.AcquireByteBuffer()
+//line views/vaudited/Table.html:15
+	WriteTableRow(qb422016, model, ps, paths...)
+//line views/vaudited/Table.html:15
+	qs422016 := string(qb422016.B)
+//line views/vaudited/Table.html:15
+	qt422016.ReleaseByteBuffer(qb422016)
+//line views/vaudited/Table.html:15
+	return qs422016
+//line views/vaudited/Table.html:15
+}
+
+//line views/vaudited/Table.html:17
+func StreamTable(qw422016 *qt422016.Writer, models audited.Auditeds, params filter.ParamSet, as *app.State, ps *cutil.PageState, paths ...string) {
+//line views/vaudited/Table.html:17
+	qw422016.N().S(`
+`)
+//line views/vaudited/Table.html:18
 	prms := params.Sanitized("audited", ps.Logger)
 
-//line views/vaudited/Table.html:11
+//line views/vaudited/Table.html:18
 	qw422016.N().S(`  <div class="overflow clear">
     <table>
       <thead>
         <tr>
           `)
-//line views/vaudited/Table.html:16
+//line views/vaudited/Table.html:23
 	components.StreamTableHeaderSimple(qw422016, "audited", "id", "ID", "UUID in format (00000000-0000-0000-0000-000000000000)", prms, ps.URI, ps)
-//line views/vaudited/Table.html:16
+//line views/vaudited/Table.html:23
 	qw422016.N().S(`
           `)
-//line views/vaudited/Table.html:17
+//line views/vaudited/Table.html:24
 	components.StreamTableHeaderSimple(qw422016, "audited", "name", "Name", "String text", prms, ps.URI, ps)
-//line views/vaudited/Table.html:17
+//line views/vaudited/Table.html:24
 	qw422016.N().S(`
         </tr>
       </thead>
       <tbody>
 `)
-//line views/vaudited/Table.html:21
+//line views/vaudited/Table.html:28
 	for _, model := range models {
-//line views/vaudited/Table.html:21
-		qw422016.N().S(`        <tr>
-          <td><a href="`)
-//line views/vaudited/Table.html:23
-		qw422016.E().S(model.WebPath(paths...))
-//line views/vaudited/Table.html:23
-		qw422016.N().S(`">`)
-//line views/vaudited/Table.html:23
-		view.StreamUUID(qw422016, &model.ID)
-//line views/vaudited/Table.html:23
-		qw422016.N().S(`</a></td>
-          <td><strong>`)
-//line views/vaudited/Table.html:24
-		view.StreamString(qw422016, model.Name)
-//line views/vaudited/Table.html:24
-		qw422016.N().S(`</strong></td>
-        </tr>
-`)
-//line views/vaudited/Table.html:26
+//line views/vaudited/Table.html:28
+		qw422016.N().S(`        `)
+//line views/vaudited/Table.html:29
+		StreamTableRow(qw422016, model, ps, paths...)
+//line views/vaudited/Table.html:30
 	}
-//line views/vaudited/Table.html:26
+//line views/vaudited/Table.html:30
 	qw422016.N().S(`      </tbody>
     </table>
   </div>
 `)
-//line views/vaudited/Table.html:30
+//line views/vaudited/Table.html:34
 	if prms.HasNextPage(len(models)+prms.Offset) || prms.HasPreviousPage() {
-//line views/vaudited/Table.html:30
+//line views/vaudited/Table.html:34
 		qw422016.N().S(`  <hr />
   `)
-//line views/vaudited/Table.html:32
+//line views/vaudited/Table.html:36
 		components.StreamPagination(qw422016, len(models)+prms.Offset, prms, ps.URI)
-//line views/vaudited/Table.html:32
+//line views/vaudited/Table.html:36
 		qw422016.N().S(`
   <div class="clear"></div>
 `)
-//line views/vaudited/Table.html:34
+//line views/vaudited/Table.html:38
 	}
-//line views/vaudited/Table.html:35
+//line views/vaudited/Table.html:39
 }
 
-//line views/vaudited/Table.html:35
+//line views/vaudited/Table.html:39
 func WriteTable(qq422016 qtio422016.Writer, models audited.Auditeds, params filter.ParamSet, as *app.State, ps *cutil.PageState, paths ...string) {
-//line views/vaudited/Table.html:35
+//line views/vaudited/Table.html:39
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vaudited/Table.html:35
+//line views/vaudited/Table.html:39
 	StreamTable(qw422016, models, params, as, ps, paths...)
-//line views/vaudited/Table.html:35
+//line views/vaudited/Table.html:39
 	qt422016.ReleaseWriter(qw422016)
-//line views/vaudited/Table.html:35
+//line views/vaudited/Table.html:39
 }
 
-//line views/vaudited/Table.html:35
+//line views/vaudited/Table.html:39
 func Table(models audited.Auditeds, params filter.ParamSet, as *app.State, ps *cutil.PageState, paths ...string) string {
-//line views/vaudited/Table.html:35
+//line views/vaudited/Table.html:39
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vaudited/Table.html:35
+//line views/vaudited/Table.html:39
 	WriteTable(qb422016, models, params, as, ps, paths...)
-//line views/vaudited/Table.html:35
+//line views/vaudited/Table.html:39
 	qs422016 := string(qb422016.B)
-//line views/vaudited/Table.html:35
+//line views/vaudited/Table.html:39
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vaudited/Table.html:35
+//line views/vaudited/Table.html:39
 	return qs422016
-//line views/vaudited/Table.html:35
+//line views/vaudited/Table.html:39
 }

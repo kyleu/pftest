@@ -28,117 +28,153 @@ var (
 )
 
 //line views/vreference/Table.html:10
-func StreamTable(qw422016 *qt422016.Writer, models reference.References, params filter.ParamSet, as *app.State, ps *cutil.PageState, paths ...string) {
+func StreamTableRow(qw422016 *qt422016.Writer, model *reference.Reference, ps *cutil.PageState, paths ...string) {
 //line views/vreference/Table.html:10
 	qw422016.N().S(`
+  <tr>
+    <td><a href="`)
+//line views/vreference/Table.html:12
+	qw422016.E().S(model.WebPath(paths...))
+//line views/vreference/Table.html:12
+	qw422016.N().S(`">`)
+//line views/vreference/Table.html:12
+	view.StreamUUID(qw422016, &model.ID)
+//line views/vreference/Table.html:12
+	qw422016.N().S(`</a></td>
+    <td>`)
+//line views/vreference/Table.html:13
+	components.StreamJSON(qw422016, model.Custom)
+//line views/vreference/Table.html:13
+	qw422016.N().S(`</td>
+    <td>`)
+//line views/vreference/Table.html:14
+	components.StreamJSON(qw422016, model.Self)
+//line views/vreference/Table.html:14
+	qw422016.N().S(`</td>
+    <td>`)
+//line views/vreference/Table.html:15
+	view.StreamTimestamp(qw422016, &model.Created)
+//line views/vreference/Table.html:15
+	qw422016.N().S(`</td>
+  </tr>
 `)
-//line views/vreference/Table.html:11
+//line views/vreference/Table.html:17
+}
+
+//line views/vreference/Table.html:17
+func WriteTableRow(qq422016 qtio422016.Writer, model *reference.Reference, ps *cutil.PageState, paths ...string) {
+//line views/vreference/Table.html:17
+	qw422016 := qt422016.AcquireWriter(qq422016)
+//line views/vreference/Table.html:17
+	StreamTableRow(qw422016, model, ps, paths...)
+//line views/vreference/Table.html:17
+	qt422016.ReleaseWriter(qw422016)
+//line views/vreference/Table.html:17
+}
+
+//line views/vreference/Table.html:17
+func TableRow(model *reference.Reference, ps *cutil.PageState, paths ...string) string {
+//line views/vreference/Table.html:17
+	qb422016 := qt422016.AcquireByteBuffer()
+//line views/vreference/Table.html:17
+	WriteTableRow(qb422016, model, ps, paths...)
+//line views/vreference/Table.html:17
+	qs422016 := string(qb422016.B)
+//line views/vreference/Table.html:17
+	qt422016.ReleaseByteBuffer(qb422016)
+//line views/vreference/Table.html:17
+	return qs422016
+//line views/vreference/Table.html:17
+}
+
+//line views/vreference/Table.html:19
+func StreamTable(qw422016 *qt422016.Writer, models reference.References, params filter.ParamSet, as *app.State, ps *cutil.PageState, paths ...string) {
+//line views/vreference/Table.html:19
+	qw422016.N().S(`
+`)
+//line views/vreference/Table.html:20
 	prms := params.Sanitized("reference", ps.Logger)
 
-//line views/vreference/Table.html:11
+//line views/vreference/Table.html:20
 	qw422016.N().S(`  <div class="overflow clear">
     <table>
       <thead>
         <tr>
           `)
-//line views/vreference/Table.html:16
+//line views/vreference/Table.html:25
 	components.StreamTableHeaderSimple(qw422016, "reference", "id", "ID", "UUID in format (00000000-0000-0000-0000-000000000000)", prms, ps.URI, ps)
-//line views/vreference/Table.html:16
+//line views/vreference/Table.html:25
 	qw422016.N().S(`
           `)
-//line views/vreference/Table.html:17
+//line views/vreference/Table.html:26
 	components.StreamTableHeaderSimple(qw422016, "reference", "custom", "Custom", "[Custom], as a JSON object", prms, ps.URI, ps)
-//line views/vreference/Table.html:17
+//line views/vreference/Table.html:26
 	qw422016.N().S(`
           `)
-//line views/vreference/Table.html:18
+//line views/vreference/Table.html:27
 	components.StreamTableHeaderSimple(qw422016, "reference", "self", "Self", "[SelfCustom], as a JSON object", prms, ps.URI, ps)
-//line views/vreference/Table.html:18
+//line views/vreference/Table.html:27
 	qw422016.N().S(`
           `)
-//line views/vreference/Table.html:19
+//line views/vreference/Table.html:28
 	components.StreamTableHeaderSimple(qw422016, "reference", "created", "Created", "Date and time, in almost any format", prms, ps.URI, ps)
-//line views/vreference/Table.html:19
+//line views/vreference/Table.html:28
 	qw422016.N().S(`
         </tr>
       </thead>
       <tbody>
 `)
-//line views/vreference/Table.html:23
+//line views/vreference/Table.html:32
 	for _, model := range models {
-//line views/vreference/Table.html:23
-		qw422016.N().S(`        <tr>
-          <td><a href="`)
-//line views/vreference/Table.html:25
-		qw422016.E().S(model.WebPath(paths...))
-//line views/vreference/Table.html:25
-		qw422016.N().S(`">`)
-//line views/vreference/Table.html:25
-		view.StreamUUID(qw422016, &model.ID)
-//line views/vreference/Table.html:25
-		qw422016.N().S(`</a></td>
-          <td>`)
-//line views/vreference/Table.html:26
-		components.StreamJSON(qw422016, model.Custom)
-//line views/vreference/Table.html:26
-		qw422016.N().S(`</td>
-          <td>`)
-//line views/vreference/Table.html:27
-		components.StreamJSON(qw422016, model.Self)
-//line views/vreference/Table.html:27
-		qw422016.N().S(`</td>
-          <td>`)
-//line views/vreference/Table.html:28
-		view.StreamTimestamp(qw422016, &model.Created)
-//line views/vreference/Table.html:28
-		qw422016.N().S(`</td>
-        </tr>
-`)
-//line views/vreference/Table.html:30
+//line views/vreference/Table.html:32
+		qw422016.N().S(`        `)
+//line views/vreference/Table.html:33
+		StreamTableRow(qw422016, model, ps, paths...)
+//line views/vreference/Table.html:34
 	}
-//line views/vreference/Table.html:30
+//line views/vreference/Table.html:34
 	qw422016.N().S(`      </tbody>
     </table>
   </div>
 `)
-//line views/vreference/Table.html:34
+//line views/vreference/Table.html:38
 	if prms.HasNextPage(len(models)+prms.Offset) || prms.HasPreviousPage() {
-//line views/vreference/Table.html:34
+//line views/vreference/Table.html:38
 		qw422016.N().S(`  <hr />
   `)
-//line views/vreference/Table.html:36
+//line views/vreference/Table.html:40
 		components.StreamPagination(qw422016, len(models)+prms.Offset, prms, ps.URI)
-//line views/vreference/Table.html:36
+//line views/vreference/Table.html:40
 		qw422016.N().S(`
   <div class="clear"></div>
 `)
-//line views/vreference/Table.html:38
+//line views/vreference/Table.html:42
 	}
-//line views/vreference/Table.html:39
+//line views/vreference/Table.html:43
 }
 
-//line views/vreference/Table.html:39
+//line views/vreference/Table.html:43
 func WriteTable(qq422016 qtio422016.Writer, models reference.References, params filter.ParamSet, as *app.State, ps *cutil.PageState, paths ...string) {
-//line views/vreference/Table.html:39
+//line views/vreference/Table.html:43
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line views/vreference/Table.html:39
+//line views/vreference/Table.html:43
 	StreamTable(qw422016, models, params, as, ps, paths...)
-//line views/vreference/Table.html:39
+//line views/vreference/Table.html:43
 	qt422016.ReleaseWriter(qw422016)
-//line views/vreference/Table.html:39
+//line views/vreference/Table.html:43
 }
 
-//line views/vreference/Table.html:39
+//line views/vreference/Table.html:43
 func Table(models reference.References, params filter.ParamSet, as *app.State, ps *cutil.PageState, paths ...string) string {
-//line views/vreference/Table.html:39
+//line views/vreference/Table.html:43
 	qb422016 := qt422016.AcquireByteBuffer()
-//line views/vreference/Table.html:39
+//line views/vreference/Table.html:43
 	WriteTable(qb422016, models, params, as, ps, paths...)
-//line views/vreference/Table.html:39
+//line views/vreference/Table.html:43
 	qs422016 := string(qb422016.B)
-//line views/vreference/Table.html:39
+//line views/vreference/Table.html:43
 	qt422016.ReleaseByteBuffer(qb422016)
-//line views/vreference/Table.html:39
+//line views/vreference/Table.html:43
 	return qs422016
-//line views/vreference/Table.html:39
+//line views/vreference/Table.html:43
 }

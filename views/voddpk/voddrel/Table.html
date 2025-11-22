@@ -7,6 +7,14 @@
   "github.com/kyleu/pftest/views/components/view"
 ) %}
 
+{% func TableRow(model *oddrel.Oddrel, ps *cutil.PageState, paths ...string) %}
+  <tr>
+    <td><a href="{%s model.WebPath(paths...) %}">{%= view.UUID(&model.ID) %}</a></td>
+    <td>{%= view.UUID(&model.Project) %}</td>
+    <td>{%= view.String(model.Path) %}</td>
+  </tr>
+{% endfunc %}
+
 {% func Table(models oddrel.Oddrels, params filter.ParamSet, as *app.State, ps *cutil.PageState, paths ...string) %}
   {%- code prms := params.Sanitized("oddrel", ps.Logger) -%}
   <div class="overflow clear">
@@ -20,11 +28,7 @@
       </thead>
       <tbody>
         {%- for _, model := range models -%}
-        <tr>
-          <td><a href="{%s model.WebPath(paths...) %}">{%= view.UUID(&model.ID) %}</a></td>
-          <td>{%= view.UUID(&model.Project) %}</td>
-          <td>{%= view.String(model.Path) %}</td>
-        </tr>
+        {%= TableRow(model, ps, paths...) -%}
         {%- endfor -%}
       </tbody>
     </table>

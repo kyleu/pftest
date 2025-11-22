@@ -7,6 +7,14 @@
   "github.com/kyleu/pftest/views/components/view"
 ) %}
 
+{% func TableRow(model *mixedcase.MixedCase, ps *cutil.PageState, paths ...string) %}
+  <tr>
+    <td><a href="{%s model.WebPath(paths...) %}">{%= view.String(model.ID) %}</a></td>
+    <td>{%= view.String(model.TestField) %}</td>
+    <td>{%= view.String(model.AnotherField) %}</td>
+  </tr>
+{% endfunc %}
+
 {% func Table(models mixedcase.MixedCases, params filter.ParamSet, as *app.State, ps *cutil.PageState, paths ...string) %}
   {%- code prms := params.Sanitized("mixedcase", ps.Logger) -%}
   <div class="overflow clear">
@@ -20,11 +28,7 @@
       </thead>
       <tbody>
         {%- for _, model := range models -%}
-        <tr>
-          <td><a href="{%s model.WebPath(paths...) %}">{%= view.String(model.ID) %}</a></td>
-          <td>{%= view.String(model.TestField) %}</td>
-          <td>{%= view.String(model.AnotherField) %}</td>
-        </tr>
+        {%= TableRow(model, ps, paths...) -%}
         {%- endfor -%}
       </tbody>
     </table>

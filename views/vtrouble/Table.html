@@ -7,6 +7,17 @@
   "github.com/kyleu/pftest/views/components/view"
 ) %}
 
+{% func TableRow(model *trouble.Trouble, ps *cutil.PageState, paths ...string) %}
+  <tr>
+    <td><a href="{%s model.WebPath(paths...) %}">{%= view.String(model.From) %}</a></td>
+    <td><a href="{%s model.WebPath(paths...) %}">{%= view.StringArray(model.Where) %}</a></td>
+    <td>{%d model.Selectcol %}</td>
+    <td>{%= view.String(model.Limit) %}</td>
+    <td>{%= view.String(model.Group) %}</td>
+    <td>{%= view.Timestamp(model.Delete) %}</td>
+  </tr>
+{% endfunc %}
+
 {% func Table(models trouble.Troubles, params filter.ParamSet, as *app.State, ps *cutil.PageState, paths ...string) %}
   {%- code prms := params.Sanitized("trouble", ps.Logger) -%}
   <div class="overflow clear">
@@ -23,14 +34,7 @@
       </thead>
       <tbody>
         {%- for _, model := range models -%}
-        <tr>
-          <td><a href="{%s model.WebPath(paths...) %}">{%= view.String(model.From) %}</a></td>
-          <td><a href="{%s model.WebPath(paths...) %}">{%= view.StringArray(model.Where) %}</a></td>
-          <td>{%d model.Selectcol %}</td>
-          <td>{%= view.String(model.Limit) %}</td>
-          <td>{%= view.String(model.Group) %}</td>
-          <td>{%= view.Timestamp(model.Delete) %}</td>
-        </tr>
+        {%= TableRow(model, ps, paths...) -%}
         {%- endfor -%}
       </tbody>
     </table>
