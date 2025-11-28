@@ -46,8 +46,8 @@ cp -R "./template/darwin/icons.icns" "./Test Project.app/Contents/Resources/icon
 cp "pftest.darwin" "./Test Project.app/Contents/MacOS/pftest"
 
 echo "signing amd64 desktop binary..."
-codesign -f --options=runtime --verbose=4 --deep --force --strict -s 'Developer ID Application: Kyle Unverferth (C6S478FYLD)' "./Test Project.app/Contents/MacOS/pftest"
-codesign -f --options=runtime --verbose=4 --deep --force --strict -s 'Developer ID Application: Kyle Unverferth (C6S478FYLD)' "./Test Project.app"
+codesign -f --options=runtime --verbose=4 --deep --force --strict -s "${APPLE_SIGNING_IDENTITY}" "./Test Project.app/Contents/MacOS/pftest"
+codesign -f --options=runtime --verbose=4 --deep --force --strict -s "${APPLE_SIGNING_IDENTITY}" "./Test Project.app"
 
 cp "./template/darwin/appdmg.config.json" "./appdmg.config.json"
 
@@ -59,8 +59,8 @@ zip -r "pftest_${TGT}_darwin_amd64_desktop.zip" "./Test Project.app"
 cp "pftest.darwin.arm64" "./Test Project.app/Contents/MacOS/pftest"
 
 echo "signing arm64 desktop binary..."
-codesign -f --options=runtime --verbose=4 --deep --force --strict -s 'Developer ID Application: Kyle Unverferth (C6S478FYLD)' "./Test Project.app/Contents/MacOS/pftest"
-codesign -f --options=runtime --verbose=4 --deep --force --strict -s 'Developer ID Application: Kyle Unverferth (C6S478FYLD)' "./Test Project.app"
+codesign -f --options=runtime --verbose=4 --deep --force --strict -s "${APPLE_SIGNING_IDENTITY}" "./Test Project.app/Contents/MacOS/pftest"
+codesign -f --options=runtime --verbose=4 --deep --force --strict -s "${APPLE_SIGNING_IDENTITY}" "./Test Project.app"
 
 echo "building macOS arm64 DMG..."
 appdmg "appdmg.config.json" "./pftest_${TGT}_darwin_arm64_desktop.dmg"
@@ -71,8 +71,8 @@ rm "./Test Project.app/Contents/MacOS/pftest"
 lipo -create -output "./Test Project.app/Contents/MacOS/pftest" pftest.darwin pftest.darwin.arm64
 
 echo "signing universal desktop binary..."
-codesign -f --options=runtime --verbose=4 --deep --force --strict -s 'Developer ID Application: Kyle Unverferth (C6S478FYLD)' "./Test Project.app/Contents/MacOS/pftest"
-codesign -f --options=runtime --verbose=4 --deep --force --strict -s 'Developer ID Application: Kyle Unverferth (C6S478FYLD)' "./Test Project.app"
+codesign -f --options=runtime --verbose=4 --deep --force --strict -s "${APPLE_SIGNING_IDENTITY}" "./Test Project.app/Contents/MacOS/pftest"
+codesign -f --options=runtime --verbose=4 --deep --force --strict -s "${APPLE_SIGNING_IDENTITY}" "./Test Project.app"
 
 echo "building macOS universal DMG..."
 appdmg "appdmg.config.json" "./pftest_${TGT}_darwin_all_desktop.dmg"

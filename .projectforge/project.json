@@ -75,7 +75,7 @@
     "description": "This app is pretty much totally generated via Project Forge",
     "ci": "versions",
     "bundle": "com.kyleu.projectforge.pftest",
-    "signingIdentity": "Developer ID Application: Kyle Unverferth (C6S478FYLD)",
+    "signingIdentity": "${APPLE_SIGNING_IDENTITY}",
     "javaPackage": "com.kyleu.pftest",
     "acronyms": [
       "pk"
