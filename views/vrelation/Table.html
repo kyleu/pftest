@@ -18,7 +18,7 @@
       {%= view.UUID(&model.BasicID) %}
       {% endif %}
     </td>
-    <td><strong>{%= view.String(model.Name) %}</strong></td>
+    <td><a href="{%s model.WebPath(paths...) %}"><strong>{%= view.String(model.Name) %}</strong></a></td>
     <td>{%= view.Timestamp(&model.Created) %}</td>
   </tr>
 {% endfunc %}

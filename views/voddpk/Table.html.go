@@ -50,11 +50,15 @@ func StreamTableRow(qw422016 *qt422016.Writer, model *oddpk.OddPK, ps *cutil.Pag
 	view.StreamString(qw422016, model.Path)
 //line views/voddpk/Table.html:13
 	qw422016.N().S(`</a></td>
-    <td><strong>`)
+    <td><a href="`)
+//line views/voddpk/Table.html:14
+	qw422016.E().S(model.WebPath(paths...))
+//line views/voddpk/Table.html:14
+	qw422016.N().S(`"><strong>`)
 //line views/voddpk/Table.html:14
 	view.StreamString(qw422016, model.Name)
 //line views/voddpk/Table.html:14
-	qw422016.N().S(`</strong></td>
+	qw422016.N().S(`</strong></a></td>
   </tr>
 `)
 //line views/voddpk/Table.html:16

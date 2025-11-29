@@ -61,7 +61,7 @@ func (p *Edit) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
 //line views/vg1/vg2/vpath/Edit.html:24
 		qw422016.N().S(`/delete" data-message="Are you sure you wish to delete path [`)
 //line views/vg1/vg2/vpath/Edit.html:24
-		qw422016.E().S(p.Model.String())
+		qw422016.E().S(p.Model.TitleString())
 //line views/vg1/vg2/vpath/Edit.html:24
 		qw422016.N().S(`]?"><button>`)
 //line views/vg1/vg2/vpath/Edit.html:24
@@ -74,7 +74,7 @@ func (p *Edit) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.Pa
 //line views/vg1/vg2/vpath/Edit.html:25
 		qw422016.N().S(` Edit Path [`)
 //line views/vg1/vg2/vpath/Edit.html:25
-		qw422016.E().S(p.Model.String())
+		qw422016.E().S(p.Model.TitleString())
 //line views/vg1/vg2/vpath/Edit.html:25
 		qw422016.N().S(`]</h3>
 `)

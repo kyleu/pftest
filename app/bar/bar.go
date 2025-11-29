@@ -112,6 +112,12 @@ func (b Bars) Strings() []string {
 	})
 }
 
+func (b Bars) NamesSafe() []string {
+	return lo.Map(b, func(x Bar, _ int) string {
+		return x.NameSafe()
+	})
+}
+
 func (b Bars) Help() string {
 	return "Available bar options: [" + util.StringJoin(b.Strings(), ", ") + "]"
 }

@@ -83,7 +83,7 @@ func ReferenceCreate(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return "", errors.Wrap(err, "unable to save newly-created Reference")
 		}
-		msg := fmt.Sprintf("Reference [%s] created", ret.String())
+		msg := fmt.Sprintf("Reference [%s] created", ret.TitleString())
 		return FlashAndRedir(true, msg, ret.WebPath(), ps)
 	})
 }
@@ -114,7 +114,7 @@ func ReferenceEdit(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to update Reference [%s]", frm.String())
 		}
-		msg := fmt.Sprintf("Reference [%s] updated", frm.String())
+		msg := fmt.Sprintf("Reference [%s] updated", frm.TitleString())
 		return FlashAndRedir(true, msg, frm.WebPath(), ps)
 	})
 }
@@ -129,7 +129,7 @@ func ReferenceDelete(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to delete reference [%s]", ret.String())
 		}
-		msg := fmt.Sprintf("Reference [%s] deleted", ret.String())
+		msg := fmt.Sprintf("Reference [%s] deleted", ret.TitleString())
 		return FlashAndRedir(true, msg, "/reference", ps)
 	})
 }

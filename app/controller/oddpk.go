@@ -83,7 +83,7 @@ func OddPKCreate(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return "", errors.Wrap(err, "unable to save newly-created OddPK")
 		}
-		msg := fmt.Sprintf("OddPK [%s] created", ret.String())
+		msg := fmt.Sprintf("OddPK [%s] created", ret.TitleString())
 		return FlashAndRedir(true, msg, ret.WebPath(), ps)
 	})
 }
@@ -115,7 +115,7 @@ func OddPKEdit(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to update OddPK [%s]", frm.String())
 		}
-		msg := fmt.Sprintf("OddPK [%s] updated", frm.String())
+		msg := fmt.Sprintf("OddPK [%s] updated", frm.TitleString())
 		return FlashAndRedir(true, msg, frm.WebPath(), ps)
 	})
 }
@@ -130,7 +130,7 @@ func OddPKDelete(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to delete odd pk [%s]", ret.String())
 		}
-		msg := fmt.Sprintf("OddPK [%s] deleted", ret.String())
+		msg := fmt.Sprintf("OddPK [%s] deleted", ret.TitleString())
 		return FlashAndRedir(true, msg, "/oddpk", ps)
 	})
 }

@@ -10,7 +10,7 @@
 {% func TableRow(model *seed.Seed, ps *cutil.PageState, paths ...string) %}
   <tr>
     <td><a href="{%s model.WebPath(paths...) %}">{%= view.UUID(&model.ID) %}</a></td>
-    <td><strong>{%= view.String(model.Name) %}</strong></td>
+    <td><a href="{%s model.WebPath(paths...) %}"><strong>{%= view.String(model.Name) %}</strong></a></td>
     <td>{%d model.Size %}</td>
     <td>{%= components.JSON(model.Obj) %}</td>
   </tr>

@@ -41,11 +41,15 @@ func StreamTableRow(qw422016 *qt422016.Writer, model *audited.Audited, ps *cutil
 	view.StreamUUID(qw422016, &model.ID)
 //line views/vaudited/Table.html:12
 	qw422016.N().S(`</a></td>
-    <td><strong>`)
+    <td><a href="`)
+//line views/vaudited/Table.html:13
+	qw422016.E().S(model.WebPath(paths...))
+//line views/vaudited/Table.html:13
+	qw422016.N().S(`"><strong>`)
 //line views/vaudited/Table.html:13
 	view.StreamString(qw422016, model.Name)
 //line views/vaudited/Table.html:13
-	qw422016.N().S(`</strong></td>
+	qw422016.N().S(`</strong></a></td>
   </tr>
 `)
 //line views/vaudited/Table.html:15

@@ -84,7 +84,7 @@ func PathCreate(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return "", errors.Wrap(err, "unable to save newly-created Path")
 		}
-		msg := fmt.Sprintf("Path [%s] created", ret.String())
+		msg := fmt.Sprintf("Path [%s] created", ret.TitleString())
 		return controller.FlashAndRedir(true, msg, ret.WebPath(), ps)
 	})
 }
@@ -115,7 +115,7 @@ func PathEdit(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to update Path [%s]", frm.String())
 		}
-		msg := fmt.Sprintf("Path [%s] updated", frm.String())
+		msg := fmt.Sprintf("Path [%s] updated", frm.TitleString())
 		return controller.FlashAndRedir(true, msg, frm.WebPath(), ps)
 	})
 }
@@ -130,7 +130,7 @@ func PathDelete(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to delete path [%s]", ret.String())
 		}
-		msg := fmt.Sprintf("Path [%s] deleted", ret.String())
+		msg := fmt.Sprintf("Path [%s] deleted", ret.TitleString())
 		return controller.FlashAndRedir(true, msg, "/g1/g2/path", ps)
 	})
 }

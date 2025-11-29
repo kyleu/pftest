@@ -77,11 +77,15 @@ func StreamTableRow(qw422016 *qt422016.Writer, model *relation.Relation, basicsB
 //line views/vrelation/Table.html:19
 	qw422016.N().S(`
     </td>
-    <td><strong>`)
+    <td><a href="`)
+//line views/vrelation/Table.html:21
+	qw422016.E().S(model.WebPath(paths...))
+//line views/vrelation/Table.html:21
+	qw422016.N().S(`"><strong>`)
 //line views/vrelation/Table.html:21
 	view.StreamString(qw422016, model.Name)
 //line views/vrelation/Table.html:21
-	qw422016.N().S(`</strong></td>
+	qw422016.N().S(`</strong></a></td>
     <td>`)
 //line views/vrelation/Table.html:22
 	view.StreamTimestamp(qw422016, &model.Created)

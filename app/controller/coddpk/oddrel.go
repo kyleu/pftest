@@ -84,7 +84,7 @@ func OddrelCreate(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return "", errors.Wrap(err, "unable to save newly-created Oddrel")
 		}
-		msg := fmt.Sprintf("Oddrel [%s] created", ret.String())
+		msg := fmt.Sprintf("Oddrel [%s] created", ret.TitleString())
 		return controller.FlashAndRedir(true, msg, ret.WebPath(), ps)
 	})
 }
@@ -115,7 +115,7 @@ func OddrelEdit(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to update Oddrel [%s]", frm.String())
 		}
-		msg := fmt.Sprintf("Oddrel [%s] updated", frm.String())
+		msg := fmt.Sprintf("Oddrel [%s] updated", frm.TitleString())
 		return controller.FlashAndRedir(true, msg, frm.WebPath(), ps)
 	})
 }
@@ -130,7 +130,7 @@ func OddrelDelete(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to delete oddrel [%s]", ret.String())
 		}
-		msg := fmt.Sprintf("Oddrel [%s] deleted", ret.String())
+		msg := fmt.Sprintf("Oddrel [%s] deleted", ret.TitleString())
 		return controller.FlashAndRedir(true, msg, "/oddpk/oddrel", ps)
 	})
 }

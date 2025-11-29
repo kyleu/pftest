@@ -93,7 +93,7 @@ func BasicCreate(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return "", errors.Wrap(err, "unable to save newly-created Basic")
 		}
-		msg := fmt.Sprintf("Basic [%s] created", ret.String())
+		msg := fmt.Sprintf("Basic [%s] created", ret.TitleString())
 		return FlashAndRedir(true, msg, ret.WebPath(), ps)
 	})
 }
@@ -124,7 +124,7 @@ func BasicEdit(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to update Basic [%s]", frm.String())
 		}
-		msg := fmt.Sprintf("Basic [%s] updated", frm.String())
+		msg := fmt.Sprintf("Basic [%s] updated", frm.TitleString())
 		return FlashAndRedir(true, msg, frm.WebPath(), ps)
 	})
 }
@@ -139,7 +139,7 @@ func BasicDelete(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to delete basic [%s]", ret.String())
 		}
-		msg := fmt.Sprintf("Basic [%s] deleted", ret.String())
+		msg := fmt.Sprintf("Basic [%s] deleted", ret.TitleString())
 		return FlashAndRedir(true, msg, "/basic", ps)
 	})
 }

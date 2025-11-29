@@ -69,7 +69,7 @@ func SeedCreate(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return "", errors.Wrap(err, "unable to save newly-created Seed")
 		}
-		msg := fmt.Sprintf("Seed [%s] created", ret.String())
+		msg := fmt.Sprintf("Seed [%s] created", ret.TitleString())
 		return FlashAndRedir(true, msg, ret.WebPath(), ps)
 	})
 }
@@ -100,7 +100,7 @@ func SeedEdit(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to update Seed [%s]", frm.String())
 		}
-		msg := fmt.Sprintf("Seed [%s] updated", frm.String())
+		msg := fmt.Sprintf("Seed [%s] updated", frm.TitleString())
 		return FlashAndRedir(true, msg, frm.WebPath(), ps)
 	})
 }
@@ -115,7 +115,7 @@ func SeedDelete(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to delete seed [%s]", ret.String())
 		}
-		msg := fmt.Sprintf("Seed [%s] deleted", ret.String())
+		msg := fmt.Sprintf("Seed [%s] deleted", ret.TitleString())
 		return FlashAndRedir(true, msg, "/seed", ps)
 	})
 }

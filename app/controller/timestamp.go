@@ -69,7 +69,7 @@ func TimestampCreate(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return "", errors.Wrap(err, "unable to save newly-created Timestamp")
 		}
-		msg := fmt.Sprintf("Timestamp [%s] created", ret.String())
+		msg := fmt.Sprintf("Timestamp [%s] created", ret.TitleString())
 		return FlashAndRedir(true, msg, ret.WebPath(), ps)
 	})
 }
@@ -100,7 +100,7 @@ func TimestampEdit(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to update Timestamp [%s]", frm.String())
 		}
-		msg := fmt.Sprintf("Timestamp [%s] updated", frm.String())
+		msg := fmt.Sprintf("Timestamp [%s] updated", frm.TitleString())
 		return FlashAndRedir(true, msg, frm.WebPath(), ps)
 	})
 }
@@ -115,7 +115,7 @@ func TimestampDelete(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to delete timestamp [%s]", ret.String())
 		}
-		msg := fmt.Sprintf("Timestamp [%s] deleted", ret.String())
+		msg := fmt.Sprintf("Timestamp [%s] deleted", ret.TitleString())
 		return FlashAndRedir(true, msg, "/timestamp", ps)
 	})
 }

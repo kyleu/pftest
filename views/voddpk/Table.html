@@ -11,7 +11,7 @@
   <tr>
     <td><a href="{%s model.WebPath(paths...) %}">{%= view.UUID(&model.Project) %}</a></td>
     <td><a href="{%s model.WebPath(paths...) %}">{%= view.String(model.Path) %}</a></td>
-    <td><strong>{%= view.String(model.Name) %}</strong></td>
+    <td><a href="{%s model.WebPath(paths...) %}"><strong>{%= view.String(model.Name) %}</strong></a></td>
   </tr>
 {% endfunc %}
 

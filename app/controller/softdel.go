@@ -69,7 +69,7 @@ func SoftdelCreate(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return "", errors.Wrap(err, "unable to save newly-created Softdel")
 		}
-		msg := fmt.Sprintf("Softdel [%s] created", ret.String())
+		msg := fmt.Sprintf("Softdel [%s] created", ret.TitleString())
 		return FlashAndRedir(true, msg, ret.WebPath(), ps)
 	})
 }
@@ -100,7 +100,7 @@ func SoftdelEdit(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to update Softdel [%s]", frm.String())
 		}
-		msg := fmt.Sprintf("Softdel [%s] updated", frm.String())
+		msg := fmt.Sprintf("Softdel [%s] updated", frm.TitleString())
 		return FlashAndRedir(true, msg, frm.WebPath(), ps)
 	})
 }
@@ -115,7 +115,7 @@ func SoftdelDelete(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to delete softdel [%s]", ret.String())
 		}
-		msg := fmt.Sprintf("Softdel [%s] deleted", ret.String())
+		msg := fmt.Sprintf("Softdel [%s] deleted", ret.TitleString())
 		return FlashAndRedir(true, msg, "/softdel", ps)
 	})
 }

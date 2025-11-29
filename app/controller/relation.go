@@ -98,7 +98,7 @@ func RelationCreate(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return "", errors.Wrap(err, "unable to save newly-created Relation")
 		}
-		msg := fmt.Sprintf("Relation [%s] created", ret.String())
+		msg := fmt.Sprintf("Relation [%s] created", ret.TitleString())
 		return FlashAndRedir(true, msg, ret.WebPath(), ps)
 	})
 }
@@ -129,7 +129,7 @@ func RelationEdit(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to update Relation [%s]", frm.String())
 		}
-		msg := fmt.Sprintf("Relation [%s] updated", frm.String())
+		msg := fmt.Sprintf("Relation [%s] updated", frm.TitleString())
 		return FlashAndRedir(true, msg, frm.WebPath(), ps)
 	})
 }
@@ -144,7 +144,7 @@ func RelationDelete(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to delete relation [%s]", ret.String())
 		}
-		msg := fmt.Sprintf("Relation [%s] deleted", ret.String())
+		msg := fmt.Sprintf("Relation [%s] deleted", ret.TitleString())
 		return FlashAndRedir(true, msg, "/relation", ps)
 	})
 }

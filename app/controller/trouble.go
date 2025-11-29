@@ -69,7 +69,7 @@ func TroubleCreate(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return "", errors.Wrap(err, "unable to save newly-created Trouble")
 		}
-		msg := fmt.Sprintf("Trouble [%s] created", ret.String())
+		msg := fmt.Sprintf("Trouble [%s] created", ret.TitleString())
 		return FlashAndRedir(true, msg, ret.WebPath(), ps)
 	})
 }
@@ -101,7 +101,7 @@ func TroubleEdit(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to update Trouble [%s]", frm.String())
 		}
-		msg := fmt.Sprintf("Trouble [%s] updated", frm.String())
+		msg := fmt.Sprintf("Trouble [%s] updated", frm.TitleString())
 		return FlashAndRedir(true, msg, frm.WebPath(), ps)
 	})
 }
@@ -116,7 +116,7 @@ func TroubleDelete(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to delete trouble [%s]", ret.String())
 		}
-		msg := fmt.Sprintf("Trouble [%s] deleted", ret.String())
+		msg := fmt.Sprintf("Trouble [%s] deleted", ret.TitleString())
 		return FlashAndRedir(true, msg, "/troub/le", ps)
 	})
 }

@@ -88,7 +88,7 @@ func AuditedCreate(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return "", errors.Wrap(err, "unable to save newly-created Audited")
 		}
-		msg := fmt.Sprintf("Audited [%s] created", ret.String())
+		msg := fmt.Sprintf("Audited [%s] created", ret.TitleString())
 		return FlashAndRedir(true, msg, ret.WebPath(), ps)
 	})
 }
@@ -119,7 +119,7 @@ func AuditedEdit(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to update Audited [%s]", frm.String())
 		}
-		msg := fmt.Sprintf("Audited [%s] updated", frm.String())
+		msg := fmt.Sprintf("Audited [%s] updated", frm.TitleString())
 		return FlashAndRedir(true, msg, frm.WebPath(), ps)
 	})
 }
@@ -134,7 +134,7 @@ func AuditedDelete(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to delete audited [%s]", ret.String())
 		}
-		msg := fmt.Sprintf("Audited [%s] deleted", ret.String())
+		msg := fmt.Sprintf("Audited [%s] deleted", ret.TitleString())
 		return FlashAndRedir(true, msg, "/audited", ps)
 	})
 }

@@ -69,7 +69,7 @@ func CapitalCreate(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return "", errors.Wrap(err, "unable to save newly-created Capital")
 		}
-		msg := fmt.Sprintf("Capital [%s] created", ret.String())
+		msg := fmt.Sprintf("Capital [%s] created", ret.TitleString())
 		return FlashAndRedir(true, msg, ret.WebPath(), ps)
 	})
 }
@@ -100,7 +100,7 @@ func CapitalEdit(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to update Capital [%s]", frm.String())
 		}
-		msg := fmt.Sprintf("Capital [%s] updated", frm.String())
+		msg := fmt.Sprintf("Capital [%s] updated", frm.TitleString())
 		return FlashAndRedir(true, msg, frm.WebPath(), ps)
 	})
 }
@@ -115,7 +115,7 @@ func CapitalDelete(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return "", errors.Wrapf(err, "unable to delete capital [%s]", ret.String())
 		}
-		msg := fmt.Sprintf("Capital [%s] deleted", ret.String())
+		msg := fmt.Sprintf("Capital [%s] deleted", ret.TitleString())
 		return FlashAndRedir(true, msg, "/capital", ps)
 	})
 }
