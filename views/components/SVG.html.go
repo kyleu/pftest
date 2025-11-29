@@ -500,3 +500,56 @@ func IconGallery(as *app.State, ps *cutil.PageState) string {
 	return qs422016
 //line views/components/SVG.html:84
 }
+
+//line views/components/SVG.html:86
+func StreamImage(qw422016 *qt422016.Writer, u string, w string, h string) {
+//line views/components/SVG.html:87
+	if u == "" {
+//line views/components/SVG.html:87
+		qw422016.N().S(`<em>no image</em>`)
+//line views/components/SVG.html:89
+	} else {
+//line views/components/SVG.html:89
+		qw422016.N().S(`<img style="max-width:`)
+//line views/components/SVG.html:90
+		qw422016.E().S(w)
+//line views/components/SVG.html:90
+		qw422016.N().S(`; max-height:`)
+//line views/components/SVG.html:90
+		qw422016.E().S(h)
+//line views/components/SVG.html:90
+		qw422016.N().S(`" src="`)
+//line views/components/SVG.html:90
+		qw422016.E().S(u)
+//line views/components/SVG.html:90
+		qw422016.N().S(`" />`)
+//line views/components/SVG.html:91
+	}
+//line views/components/SVG.html:92
+}
+
+//line views/components/SVG.html:92
+func WriteImage(qq422016 qtio422016.Writer, u string, w string, h string) {
+//line views/components/SVG.html:92
+	qw422016 := qt422016.AcquireWriter(qq422016)
+//line views/components/SVG.html:92
+	StreamImage(qw422016, u, w, h)
+//line views/components/SVG.html:92
+	qt422016.ReleaseWriter(qw422016)
+//line views/components/SVG.html:92
+}
+
+//line views/components/SVG.html:92
+func Image(u string, w string, h string) string {
+//line views/components/SVG.html:92
+	qb422016 := qt422016.AcquireByteBuffer()
+//line views/components/SVG.html:92
+	WriteImage(qb422016, u, w, h)
+//line views/components/SVG.html:92
+	qs422016 := string(qb422016.B)
+//line views/components/SVG.html:92
+	qt422016.ReleaseByteBuffer(qb422016)
+//line views/components/SVG.html:92
+	return qs422016
+//line views/components/SVG.html:92
+}
