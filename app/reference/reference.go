@@ -34,6 +34,9 @@ func NewReference(id uuid.UUID) *Reference {
 }
 
 func (r *Reference) Clone() *Reference {
+	if r == nil {
+		return nil
+	}
 	return &Reference{ID: r.ID, Custom: r.Custom.Clone(), Self: r.Self.Clone(), Created: r.Created}
 }
 

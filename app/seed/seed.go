@@ -33,6 +33,9 @@ func NewSeed(id uuid.UUID) *Seed {
 }
 
 func (s *Seed) Clone() *Seed {
+	if s == nil {
+		return nil
+	}
 	return &Seed{ID: s.ID, Name: s.Name, Size: s.Size, Obj: s.Obj.Clone()}
 }
 

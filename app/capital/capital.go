@@ -31,6 +31,9 @@ func NewCapital(id string) *Capital {
 }
 
 func (c *Capital) Clone() *Capital {
+	if c == nil {
+		return nil
+	}
 	return &Capital{ID: c.ID, Name: c.Name, Birthday: c.Birthday, Deathday: c.Deathday}
 }
 

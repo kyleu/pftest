@@ -33,6 +33,9 @@ func NewBasic(id uuid.UUID) *Basic {
 }
 
 func (b *Basic) Clone() *Basic {
+	if b == nil {
+		return nil
+	}
 	return &Basic{ID: b.ID, Name: b.Name, Status: b.Status, Created: b.Created}
 }
 

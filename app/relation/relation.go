@@ -33,6 +33,9 @@ func NewRelation(id uuid.UUID) *Relation {
 }
 
 func (r *Relation) Clone() *Relation {
+	if r == nil {
+		return nil
+	}
 	return &Relation{ID: r.ID, BasicID: r.BasicID, Name: r.Name, Created: r.Created}
 }
 

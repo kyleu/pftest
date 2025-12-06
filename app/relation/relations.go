@@ -73,6 +73,12 @@ func (r Relations) GetByBasicIDs(basicIDs ...uuid.UUID) Relations {
 	})
 }
 
+func (r Relations) ToMap() map[uuid.UUID]*Relation {
+	return lo.SliceToMap(r, func(xx *Relation) (uuid.UUID, *Relation) {
+		return xx.ID, xx
+	})
+}
+
 func (r Relations) ToMaps() []util.ValueMap {
 	return lo.Map(r, func(xx *Relation, _ int) util.ValueMap {
 		return xx.ToMap()

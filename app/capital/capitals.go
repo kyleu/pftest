@@ -54,6 +54,12 @@ func (c Capitals) GetByIDs(ids ...string) Capitals {
 	})
 }
 
+func (c Capitals) ToMap() map[string]*Capital {
+	return lo.SliceToMap(c, func(xx *Capital) (string, *Capital) {
+		return xx.ID, xx
+	})
+}
+
 func (c Capitals) ToMaps() []util.ValueMap {
 	return lo.Map(c, func(xx *Capital, _ int) util.ValueMap {
 		return xx.ToMap()

@@ -55,6 +55,12 @@ func (s Seeds) GetByIDs(ids ...uuid.UUID) Seeds {
 	})
 }
 
+func (s Seeds) ToMap() map[uuid.UUID]*Seed {
+	return lo.SliceToMap(s, func(xx *Seed) (uuid.UUID, *Seed) {
+		return xx.ID, xx
+	})
+}
+
 func (s Seeds) ToMaps() []util.ValueMap {
 	return lo.Map(s, func(xx *Seed, _ int) util.ValueMap {
 		return xx.ToMap()

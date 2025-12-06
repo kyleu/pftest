@@ -30,6 +30,9 @@ func NewAudited(id uuid.UUID) *Audited {
 }
 
 func (a *Audited) Clone() *Audited {
+	if a == nil {
+		return nil
+	}
 	return &Audited{ID: a.ID, Name: a.Name}
 }
 

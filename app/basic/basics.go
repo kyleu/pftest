@@ -55,6 +55,12 @@ func (b Basics) GetByIDs(ids ...uuid.UUID) Basics {
 	})
 }
 
+func (b Basics) ToMap() map[uuid.UUID]*Basic {
+	return lo.SliceToMap(b, func(xx *Basic) (uuid.UUID, *Basic) {
+		return xx.ID, xx
+	})
+}
+
 func (b Basics) ToMaps() []util.ValueMap {
 	return lo.Map(b, func(xx *Basic, _ int) util.ValueMap {
 		return xx.ToMap()

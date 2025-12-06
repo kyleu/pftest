@@ -33,6 +33,9 @@ func NewPath(id uuid.UUID) *Path {
 }
 
 func (p *Path) Clone() *Path {
+	if p == nil {
+		return nil
+	}
 	return &Path{ID: p.ID, Name: p.Name, Status: p.Status, Created: p.Created}
 }
 

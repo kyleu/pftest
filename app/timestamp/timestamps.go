@@ -54,6 +54,12 @@ func (t Timestamps) GetByIDs(ids ...string) Timestamps {
 	})
 }
 
+func (t Timestamps) ToMap() map[string]*Timestamp {
+	return lo.SliceToMap(t, func(xx *Timestamp) (string, *Timestamp) {
+		return xx.ID, xx
+	})
+}
+
 func (t Timestamps) ToMaps() []util.ValueMap {
 	return lo.Map(t, func(xx *Timestamp, _ int) util.ValueMap {
 		return xx.ToMap()

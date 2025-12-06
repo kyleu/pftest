@@ -79,6 +79,12 @@ func (t Troubles) GetByFroms(froms ...string) Troubles {
 	})
 }
 
+func (t Troubles) ToMap() map[*PK]*Trouble {
+	return lo.SliceToMap(t, func(xx *Trouble) (*PK, *Trouble) {
+		return xx.ToPK(), xx
+	})
+}
+
 func (t Troubles) ToMaps() []util.ValueMap {
 	return lo.Map(t, func(xx *Trouble, _ int) util.ValueMap {
 		return xx.ToMap()

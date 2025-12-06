@@ -55,6 +55,12 @@ func (o Oddrels) GetByIDs(ids ...uuid.UUID) Oddrels {
 	})
 }
 
+func (o Oddrels) ToMap() map[uuid.UUID]*Oddrel {
+	return lo.SliceToMap(o, func(xx *Oddrel) (uuid.UUID, *Oddrel) {
+		return xx.ID, xx
+	})
+}
+
 func (o Oddrels) ToMaps() []util.ValueMap {
 	return lo.Map(o, func(xx *Oddrel, _ int) util.ValueMap {
 		return xx.ToMap()

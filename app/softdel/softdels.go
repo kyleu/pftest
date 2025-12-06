@@ -54,6 +54,12 @@ func (s Softdels) GetByIDs(ids ...string) Softdels {
 	})
 }
 
+func (s Softdels) ToMap() map[string]*Softdel {
+	return lo.SliceToMap(s, func(xx *Softdel) (string, *Softdel) {
+		return xx.ID, xx
+	})
+}
+
 func (s Softdels) ToMaps() []util.ValueMap {
 	return lo.Map(s, func(xx *Softdel, _ int) util.ValueMap {
 		return xx.ToMap()

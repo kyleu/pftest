@@ -43,6 +43,9 @@ func NewTrouble(from string, where []string) *Trouble {
 }
 
 func (t *Trouble) Clone() *Trouble {
+	if t == nil {
+		return nil
+	}
 	return &Trouble{
 		From: t.From, Where: util.ArrayCopy(t.Where), Selectcol: t.Selectcol, Limit: t.Limit, Group: t.Group, Delete: t.Delete,
 	}

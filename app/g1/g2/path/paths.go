@@ -55,6 +55,12 @@ func (p Paths) GetByIDs(ids ...uuid.UUID) Paths {
 	})
 }
 
+func (p Paths) ToMap() map[uuid.UUID]*Path {
+	return lo.SliceToMap(p, func(xx *Path) (uuid.UUID, *Path) {
+		return xx.ID, xx
+	})
+}
+
 func (p Paths) ToMaps() []util.ValueMap {
 	return lo.Map(p, func(xx *Path, _ int) util.ValueMap {
 		return xx.ToMap()
