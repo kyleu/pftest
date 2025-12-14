@@ -1,2 +1,2 @@
 cd ..
-npm run dev -- --port 41010
+npx npm run dev -- --port 41010

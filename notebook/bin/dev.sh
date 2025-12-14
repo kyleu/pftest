@@ -14,4 +14,4 @@ if [ -f ".env" ]; then
   done < ".env"
 fi
 
-npm run dev -- --port 41010
+npx npm run dev -- --port 41010
