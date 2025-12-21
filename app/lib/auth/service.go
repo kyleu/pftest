@@ -1,8 +1,6 @@
 package auth
 
-import (
-	"github.com/kyleu/pftest/app/util"
-)
+import "github.com/kyleu/pftest/app/util"
 
 type Service struct {
 	baseURL   string

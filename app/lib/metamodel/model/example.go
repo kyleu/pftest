@@ -1,8 +1,6 @@
 package model
 
-import (
-	"github.com/kyleu/pftest/app/lib/types"
-)
+import "github.com/kyleu/pftest/app/lib/types"
 
 var (
 	ExampleColumns = Columns{

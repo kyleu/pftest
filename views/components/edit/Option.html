@@ -1,6 +1,4 @@
-{% import (
-  "github.com/kyleu/pftest/app/lib/types"
-) %}
+{% import "github.com/kyleu/pftest/app/lib/types" %}
 
 {% func Option(key string, id string, x any, t *types.Option) %}{% stripspace %}
   {% switch t.V.Key() %}

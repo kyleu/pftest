@@ -126,10 +126,11 @@ func troubleFromPath(r *http.Request, as *app.State, ps *cutil.PageState) (*trou
 	if err != nil {
 		return nil, errors.Wrap(err, "must provide [from] as a string argument")
 	}
-	whereArg, err := cutil.PathArray(r, "where")
+	whereStringsArg, err := cutil.PathArray(r, "where")
 	if err != nil {
 		return nil, errors.Wrap(err, "must provide [where] as an comma-separated argument")
 	}
+	whereArg := whereStringsArg.Strings()
 	includeDeleted := cutil.QueryStringBool(r, "includeDeleted")
 	return as.Services.Trouble.Get(ps.Context, nil, fromArg, whereArg, includeDeleted, ps.Logger)
 }
