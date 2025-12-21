@@ -51,6 +51,7 @@ require (
 	golang.org/x/oauth2 v0.34.0
 	gopkg.in/yaml.v2 v2.4.0
 	modernc.org/sqlite v1.41.0
+	projectforge.dev/projectforge v1.9.6
 )
 
 require (
