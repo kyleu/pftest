@@ -12,7 +12,9 @@ import (
 )
 
 type Schema struct {
+	Key string `json:"-"`
 	data
+	bytes []byte
 }
 
 func NewRefSchema(s string) *Schema {
@@ -23,7 +25,7 @@ func (s *Schema) Clone() *Schema {
 	if s == nil {
 		return nil
 	}
-	return &Schema{data: s.data.Clone()}
+	return &Schema{data: s.data.Clone(), bytes: s.bytes}
 }
 
 func (s *Schema) IsEmpty() bool {
@@ -41,6 +43,9 @@ func (s *Schema) IsEmptyExceptNot() bool {
 }
 
 func (s *Schema) ID() string {
+	if s.Key != "" {
+		return s.Key
+	}
 	if s.MetaID != "" {
 		return s.MetaID
 	}
@@ -66,7 +71,7 @@ func (s *Schema) String() string {
 }
 
 func (s *Schema) Summary() string {
-	st := s.SchemaType()
+	st := s.DetectSchemaType()
 
 	ret := util.NewStringSlice("[" + st.String() + "]")
 	if l := s.Properties.Length(); l > 0 {
@@ -95,6 +100,13 @@ func (s *Schema) GetMetadata() util.ValueMap {
 		ret[key] = util.FromJSONAnyOK(v)
 	}
 	return ret
+}
+
+func (s *Schema) OriginalBytes() []byte {
+	if len(s.bytes) == 0 {
+		return util.ToJSONBytes(s, true)
+	}
+	return s.bytes
 }
 
 func (s *Schema) IsDeprecated() (bool, string) {
