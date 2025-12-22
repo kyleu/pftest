@@ -28,7 +28,7 @@ var (
 )
 
 //line views/vaudit/RecordTable.html:10
-func StreamRecordTable(qw422016 *qt422016.Writer, models audit.Records, params filter.ParamSet, as *app.State, ps *cutil.PageState) {
+func StreamRecordTable(qw422016 *qt422016.Writer, as *app.State, models audit.Records, params filter.ParamSet, ps *cutil.PageState) {
 //line views/vaudit/RecordTable.html:10
 	qw422016.N().S(`
 `)
@@ -146,22 +146,22 @@ func StreamRecordTable(qw422016 *qt422016.Writer, models audit.Records, params f
 }
 
 //line views/vaudit/RecordTable.html:43
-func WriteRecordTable(qq422016 qtio422016.Writer, models audit.Records, params filter.ParamSet, as *app.State, ps *cutil.PageState) {
+func WriteRecordTable(qq422016 qtio422016.Writer, as *app.State, models audit.Records, params filter.ParamSet, ps *cutil.PageState) {
 //line views/vaudit/RecordTable.html:43
 	qw422016 := qt422016.AcquireWriter(qq422016)
 //line views/vaudit/RecordTable.html:43
-	StreamRecordTable(qw422016, models, params, as, ps)
+	StreamRecordTable(qw422016, as, models, params, ps)
 //line views/vaudit/RecordTable.html:43
 	qt422016.ReleaseWriter(qw422016)
 //line views/vaudit/RecordTable.html:43
 }
 
 //line views/vaudit/RecordTable.html:43
-func RecordTable(models audit.Records, params filter.ParamSet, as *app.State, ps *cutil.PageState) string {
+func RecordTable(as *app.State, models audit.Records, params filter.ParamSet, ps *cutil.PageState) string {
 //line views/vaudit/RecordTable.html:43
 	qb422016 := qt422016.AcquireByteBuffer()
 //line views/vaudit/RecordTable.html:43
-	WriteRecordTable(qb422016, models, params, as, ps)
+	WriteRecordTable(qb422016, as, models, params, ps)
 //line views/vaudit/RecordTable.html:43
 	qs422016 := string(qb422016.B)
 //line views/vaudit/RecordTable.html:43

@@ -157,7 +157,7 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
 		qw422016.N().S(` Audit Records</h3>
     `)
 //line views/vaudit/Detail.html:77
-		StreamRecordTable(qw422016, p.Records, p.Params, as, ps)
+		StreamRecordTable(qw422016, as, p.Records, p.Params, ps)
 //line views/vaudit/Detail.html:77
 		qw422016.N().S(`
   </div>

@@ -94,7 +94,7 @@ func (p *Files) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.P
 		qw422016.N().S(`  <div class="card">
     `)
 //line views/vnotebook/Files.html:40
-		vfile.StreamList(qw422016, p.Path, files, p.FS, u, as, ps)
+		vfile.StreamList(qw422016, as, p.Path, files, p.FS, u, ps)
 //line views/vnotebook/Files.html:40
 		qw422016.N().S(`
   </div>
@@ -116,7 +116,7 @@ func (p *Files) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.P
 //line views/vnotebook/Files.html:50
 		qw422016.N().S(`    `)
 //line views/vnotebook/Files.html:51
-		vfile.StreamDetail(qw422016, p.Path, b, u, links, as, ps)
+		vfile.StreamDetail(qw422016, as, p.Path, b, u, links, ps)
 //line views/vnotebook/Files.html:51
 		qw422016.N().S(`
   </div>

@@ -33,7 +33,7 @@
   {%- if len(p.AuditRecords) > 0 -%}
   <div class="card">
     <h3>Audits</h3>
-    {%= vaudit.RecordTable(p.AuditRecords, p.Params, as, ps) %}
+    {%= vaudit.RecordTable(as, p.AuditRecords, p.Params, ps) %}
   </div>
   {%- endif -%}
   {%= components.JSONModal("audited", "Audited JSON", p.Model, 1) %}

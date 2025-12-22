@@ -28,7 +28,7 @@ var (
 )
 
 //line views/vaudit/Table.html:10
-func StreamTable(qw422016 *qt422016.Writer, models audit.Audits, params filter.ParamSet, as *app.State, ps *cutil.PageState) {
+func StreamTable(qw422016 *qt422016.Writer, as *app.State, models audit.Audits, params filter.ParamSet, ps *cutil.PageState) {
 //line views/vaudit/Table.html:10
 	qw422016.N().S(`
 `)
@@ -145,22 +145,22 @@ func StreamTable(qw422016 *qt422016.Writer, models audit.Audits, params filter.P
 }
 
 //line views/vaudit/Table.html:42
-func WriteTable(qq422016 qtio422016.Writer, models audit.Audits, params filter.ParamSet, as *app.State, ps *cutil.PageState) {
+func WriteTable(qq422016 qtio422016.Writer, as *app.State, models audit.Audits, params filter.ParamSet, ps *cutil.PageState) {
 //line views/vaudit/Table.html:42
 	qw422016 := qt422016.AcquireWriter(qq422016)
 //line views/vaudit/Table.html:42
-	StreamTable(qw422016, models, params, as, ps)
+	StreamTable(qw422016, as, models, params, ps)
 //line views/vaudit/Table.html:42
 	qt422016.ReleaseWriter(qw422016)
 //line views/vaudit/Table.html:42
 }
 
 //line views/vaudit/Table.html:42
-func Table(models audit.Audits, params filter.ParamSet, as *app.State, ps *cutil.PageState) string {
+func Table(as *app.State, models audit.Audits, params filter.ParamSet, ps *cutil.PageState) string {
 //line views/vaudit/Table.html:42
 	qb422016 := qt422016.AcquireByteBuffer()
 //line views/vaudit/Table.html:42
-	WriteTable(qb422016, models, params, as, ps)
+	WriteTable(qb422016, as, models, params, ps)
 //line views/vaudit/Table.html:42
 	qs422016 := string(qb422016.B)
 //line views/vaudit/Table.html:42
