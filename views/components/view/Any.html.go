@@ -98,7 +98,7 @@ func StreamAny(qw422016 *qt422016.Writer, x any, ps *cutil.PageState) {
 //line views/components/view/Any.html:47
 		case *jsonschema.Schema:
 //line views/components/view/Any.html:48
-			StreamJSONSchema(qw422016, t, true, ps)
+			StreamJSONSchema(qw422016, t, ps)
 //line views/components/view/Any.html:49
 		case jsonschema.Schemas:
 //line views/components/view/Any.html:50
