@@ -41,7 +41,7 @@ func CapitalDetail(w http.ResponseWriter, r *http.Request) {
 func CapitalCreateForm(w http.ResponseWriter, r *http.Request) {
 	Act("capital.create.form", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &capital.Capital{}
-		if r.URL.Query().Get("prototype") == util.KeyRandom {
+		if cutil.QueryStringString(r, "prototype") == util.KeyRandom {
 			ret = capital.RandomCapital()
 		}
 		ps.SetTitleAndData("Create [Capital]", ret)

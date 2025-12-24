@@ -16,7 +16,7 @@ import (
 
 func BasicList(w http.ResponseWriter, r *http.Request) {
 	Act("basic.list", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
-		q := strings.TrimSpace(r.URL.Query().Get("q"))
+		q := strings.TrimSpace(cutil.QueryStringString(r, "q"))
 		prms := ps.Params.Sanitized("basic", ps.Logger)
 		var ret basic.Basics
 		var err error
@@ -65,7 +65,7 @@ func BasicDetail(w http.ResponseWriter, r *http.Request) {
 func BasicCreateForm(w http.ResponseWriter, r *http.Request) {
 	Act("basic.create.form", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &basic.Basic{}
-		if r.URL.Query().Get("prototype") == util.KeyRandom {
+		if cutil.QueryStringString(r, "prototype") == util.KeyRandom {
 			ret = basic.RandomBasic()
 		}
 		ps.SetTitleAndData("Create [Basic]", ret)

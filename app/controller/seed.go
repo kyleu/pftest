@@ -41,7 +41,7 @@ func SeedDetail(w http.ResponseWriter, r *http.Request) {
 func SeedCreateForm(w http.ResponseWriter, r *http.Request) {
 	Act("seed.create.form", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &seed.Seed{}
-		if r.URL.Query().Get("prototype") == util.KeyRandom {
+		if cutil.QueryStringString(r, "prototype") == util.KeyRandom {
 			ret = seed.RandomSeed()
 		}
 		ps.SetTitleAndData("Create [Seed]", ret)

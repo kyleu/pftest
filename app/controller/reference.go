@@ -16,7 +16,7 @@ import (
 
 func ReferenceList(w http.ResponseWriter, r *http.Request) {
 	Act("reference.list", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
-		q := strings.TrimSpace(r.URL.Query().Get("q"))
+		q := strings.TrimSpace(cutil.QueryStringString(r, "q"))
 		prms := ps.Params.Sanitized("reference", ps.Logger)
 		var ret reference.References
 		var err error
@@ -55,7 +55,7 @@ func ReferenceDetail(w http.ResponseWriter, r *http.Request) {
 func ReferenceCreateForm(w http.ResponseWriter, r *http.Request) {
 	Act("reference.create.form", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &reference.Reference{}
-		if r.URL.Query().Get("prototype") == util.KeyRandom {
+		if cutil.QueryStringString(r, "prototype") == util.KeyRandom {
 			ret = reference.RandomReference()
 		}
 		ps.SetTitleAndData("Create [Reference]", ret)

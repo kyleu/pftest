@@ -18,7 +18,7 @@ import (
 
 func RelationList(w http.ResponseWriter, r *http.Request) {
 	Act("relation.list", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
-		q := strings.TrimSpace(r.URL.Query().Get("q"))
+		q := strings.TrimSpace(cutil.QueryStringString(r, "q"))
 		prms := ps.Params.Sanitized("relation", ps.Logger)
 		var ret relation.Relations
 		var err error
@@ -66,7 +66,7 @@ func RelationDetail(w http.ResponseWriter, r *http.Request) {
 func RelationCreateForm(w http.ResponseWriter, r *http.Request) {
 	Act("relation.create.form", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &relation.Relation{}
-		if r.URL.Query().Get("prototype") == util.KeyRandom {
+		if cutil.QueryStringString(r, "prototype") == util.KeyRandom {
 			ret = relation.RandomRelation()
 			randomBasic, err := as.Services.Basic.Random(ps.Context, nil, ps.Logger)
 			if err == nil && randomBasic != nil {

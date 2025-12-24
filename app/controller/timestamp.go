@@ -41,7 +41,7 @@ func TimestampDetail(w http.ResponseWriter, r *http.Request) {
 func TimestampCreateForm(w http.ResponseWriter, r *http.Request) {
 	Act("timestamp.create.form", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &timestamp.Timestamp{}
-		if r.URL.Query().Get("prototype") == util.KeyRandom {
+		if cutil.QueryStringString(r, "prototype") == util.KeyRandom {
 			ret = timestamp.RandomTimestamp()
 		}
 		ps.SetTitleAndData("Create [Timestamp]", ret)

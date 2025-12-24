@@ -41,7 +41,7 @@ func SoftdelDetail(w http.ResponseWriter, r *http.Request) {
 func SoftdelCreateForm(w http.ResponseWriter, r *http.Request) {
 	Act("softdel.create.form", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &softdel.Softdel{}
-		if r.URL.Query().Get("prototype") == util.KeyRandom {
+		if cutil.QueryStringString(r, "prototype") == util.KeyRandom {
 			ret = softdel.RandomSoftdel()
 		}
 		ps.SetTitleAndData("Create [Softdel]", ret)

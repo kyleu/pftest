@@ -41,7 +41,7 @@ func TroubleDetail(w http.ResponseWriter, r *http.Request) {
 func TroubleCreateForm(w http.ResponseWriter, r *http.Request) {
 	Act("trouble.create.form", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &trouble.Trouble{}
-		if r.URL.Query().Get("prototype") == util.KeyRandom {
+		if cutil.QueryStringString(r, "prototype") == util.KeyRandom {
 			ret = trouble.RandomTrouble()
 		}
 		ps.SetTitleAndData("Create [Trouble]", ret)
