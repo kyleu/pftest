@@ -39,6 +39,9 @@ func BasicFromMap(m util.ValueMap, setPK bool) (*Basic, util.ValueMap, error) {
 }
 
 func (b *Basic) ToOrderedMap() *util.OrderedMap[any] {
+	if b == nil {
+		return nil
+	}
 	pairs := util.OrderedPairs[any]{{K: "id", V: b.ID}, {K: "name", V: b.Name}, {K: "status", V: b.Status}, {K: "created", V: b.Created}}
 	return util.NewOrderedMap(false, 4, pairs...)
 }

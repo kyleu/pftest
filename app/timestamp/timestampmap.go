@@ -31,6 +31,9 @@ func TimestampFromMap(m util.ValueMap, setPK bool) (*Timestamp, util.ValueMap, e
 }
 
 func (t *Timestamp) ToOrderedMap() *util.OrderedMap[any] {
+	if t == nil {
+		return nil
+	}
 	pairs := util.OrderedPairs[any]{{K: "id", V: t.ID}, {K: "created", V: t.Created}, {K: "updated", V: t.Updated}, {K: "deleted", V: t.Deleted}}
 	return util.NewOrderedMap(false, 4, pairs...)
 }

@@ -45,6 +45,9 @@ func RelationFromMap(m util.ValueMap, setPK bool) (*Relation, util.ValueMap, err
 }
 
 func (r *Relation) ToOrderedMap() *util.OrderedMap[any] {
+	if r == nil {
+		return nil
+	}
 	pairs := util.OrderedPairs[any]{{K: "id", V: r.ID}, {K: "basicID", V: r.BasicID}, {K: "name", V: r.Name}, {K: "created", V: r.Created}}
 	return util.NewOrderedMap(false, 4, pairs...)
 }

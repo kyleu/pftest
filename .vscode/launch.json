@@ -16,7 +16,7 @@
     {
       "mode": "auto",
       "name": "Start Test Project",
-      "program": "Test Project",
+      "program": "main.go",
       "request": "launch",
       "substitutePath": [
         {
@@ -31,8 +31,8 @@
         "upgrade"
       ],
       "mode": "auto",
-      "name": "Start Test Project",
-      "program": "Test Project",
+      "name": "Upgrade Test Project",
+      "program": "main.go",
       "request": "launch",
       "substitutePath": [
         {

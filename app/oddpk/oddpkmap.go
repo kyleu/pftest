@@ -41,6 +41,9 @@ func OddPKFromMap(m util.ValueMap, setPK bool) (*OddPK, util.ValueMap, error) {
 }
 
 func (o *OddPK) ToOrderedMap() *util.OrderedMap[any] {
+	if o == nil {
+		return nil
+	}
 	pairs := util.OrderedPairs[any]{{K: "project", V: o.Project}, {K: "path", V: o.Path}, {K: "name", V: o.Name}}
 	return util.NewOrderedMap(false, 4, pairs...)
 }

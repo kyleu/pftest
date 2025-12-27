@@ -45,6 +45,9 @@ func TroubleFromMap(m util.ValueMap, setPK bool) (*Trouble, util.ValueMap, error
 
 //nolint:lll
 func (t *Trouble) ToOrderedMap() *util.OrderedMap[any] {
+	if t == nil {
+		return nil
+	}
 	pairs := util.OrderedPairs[any]{{K: "from", V: t.From}, {K: "where", V: t.Where}, {K: "selectcol", V: t.Selectcol}, {K: "limit", V: t.Limit}, {K: "group", V: t.Group}, {K: "delete", V: t.Delete}}
 	return util.NewOrderedMap(false, 4, pairs...)
 }

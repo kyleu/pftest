@@ -41,6 +41,9 @@ func CapitalFromMap(m util.ValueMap, setPK bool) (*Capital, util.ValueMap, error
 }
 
 func (c *Capital) ToOrderedMap() *util.OrderedMap[any] {
+	if c == nil {
+		return nil
+	}
 	pairs := util.OrderedPairs[any]{{K: "id", V: c.ID}, {K: "name", V: c.Name}, {K: "birthday", V: c.Birthday}, {K: "deathday", V: c.Deathday}}
 	return util.NewOrderedMap(false, 4, pairs...)
 }
