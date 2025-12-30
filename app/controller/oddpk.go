@@ -16,7 +16,7 @@ import (
 
 func OddPKList(w http.ResponseWriter, r *http.Request) {
 	Act("oddpk.list", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
-		q := strings.TrimSpace(cutil.QueryStringString(r, "q"))
+		q := strings.TrimSpace(cutil.QueryStringString(ps.URI, "q"))
 		prms := ps.Params.Sanitized("oddpk", ps.Logger)
 		var ret oddpk.OddPKs
 		var err error
@@ -55,7 +55,7 @@ func OddPKDetail(w http.ResponseWriter, r *http.Request) {
 func OddPKCreateForm(w http.ResponseWriter, r *http.Request) {
 	Act("oddpk.create.form", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &oddpk.OddPK{}
-		if cutil.QueryStringString(r, "prototype") == util.KeyRandom {
+		if cutil.QueryStringString(ps.URI, "prototype") == util.KeyRandom {
 			ret = oddpk.RandomOddPK()
 		}
 		ps.SetTitleAndData("Create [OddPK]", ret)

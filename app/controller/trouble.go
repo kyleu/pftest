@@ -16,7 +16,7 @@ import (
 func TroubleList(w http.ResponseWriter, r *http.Request) {
 	Act("trouble.list", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		prms := ps.Params.Sanitized("trouble", ps.Logger)
-		ret, err := as.Services.Trouble.List(ps.Context, nil, prms, cutil.QueryStringBool(r, "includeDeleted"), ps.Logger)
+		ret, err := as.Services.Trouble.List(ps.Context, nil, prms, cutil.QueryStringBool(ps.URI, "includeDeleted"), ps.Logger)
 		if err != nil {
 			return "", err
 		}
@@ -41,7 +41,7 @@ func TroubleDetail(w http.ResponseWriter, r *http.Request) {
 func TroubleCreateForm(w http.ResponseWriter, r *http.Request) {
 	Act("trouble.create.form", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &trouble.Trouble{}
-		if cutil.QueryStringString(r, "prototype") == util.KeyRandom {
+		if cutil.QueryStringString(ps.URI, "prototype") == util.KeyRandom {
 			ret = trouble.RandomTrouble()
 		}
 		ps.SetTitleAndData("Create [Trouble]", ret)
@@ -131,7 +131,7 @@ func troubleFromPath(r *http.Request, as *app.State, ps *cutil.PageState) (*trou
 		return nil, errors.Wrap(err, "must provide [where] as an comma-separated argument")
 	}
 	whereArg := whereStringsArg.Strings()
-	includeDeleted := cutil.QueryStringBool(r, "includeDeleted")
+	includeDeleted := cutil.QueryStringBool(ps.URI, "includeDeleted")
 	return as.Services.Trouble.Get(ps.Context, nil, fromArg, whereArg, includeDeleted, ps.Logger)
 }
 

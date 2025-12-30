@@ -16,7 +16,7 @@ import (
 func SoftdelList(w http.ResponseWriter, r *http.Request) {
 	Act("softdel.list", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		prms := ps.Params.Sanitized("softdel", ps.Logger)
-		ret, err := as.Services.Softdel.List(ps.Context, nil, prms, cutil.QueryStringBool(r, "includeDeleted"), ps.Logger)
+		ret, err := as.Services.Softdel.List(ps.Context, nil, prms, cutil.QueryStringBool(ps.URI, "includeDeleted"), ps.Logger)
 		if err != nil {
 			return "", err
 		}
@@ -41,7 +41,7 @@ func SoftdelDetail(w http.ResponseWriter, r *http.Request) {
 func SoftdelCreateForm(w http.ResponseWriter, r *http.Request) {
 	Act("softdel.create.form", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &softdel.Softdel{}
-		if cutil.QueryStringString(r, "prototype") == util.KeyRandom {
+		if cutil.QueryStringString(ps.URI, "prototype") == util.KeyRandom {
 			ret = softdel.RandomSoftdel()
 		}
 		ps.SetTitleAndData("Create [Softdel]", ret)
@@ -125,7 +125,7 @@ func softdelFromPath(r *http.Request, as *app.State, ps *cutil.PageState) (*soft
 	if err != nil {
 		return nil, errors.Wrap(err, "must provide [id] as a string argument")
 	}
-	includeDeleted := cutil.QueryStringBool(r, "includeDeleted")
+	includeDeleted := cutil.QueryStringBool(ps.URI, "includeDeleted")
 	return as.Services.Softdel.Get(ps.Context, nil, idArg, includeDeleted, ps.Logger)
 }
 

@@ -41,7 +41,7 @@ func MixedCaseDetail(w http.ResponseWriter, r *http.Request) {
 func MixedCaseCreateForm(w http.ResponseWriter, r *http.Request) {
 	Act("mixedcase.create.form", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &mixedcase.MixedCase{}
-		if cutil.QueryStringString(r, "prototype") == util.KeyRandom {
+		if cutil.QueryStringString(ps.URI, "prototype") == util.KeyRandom {
 			ret = mixedcase.RandomMixedCase()
 		}
 		ps.SetTitleAndData("Create [MixedCase]", ret)

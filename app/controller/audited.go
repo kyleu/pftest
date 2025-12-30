@@ -16,7 +16,7 @@ import (
 
 func AuditedList(w http.ResponseWriter, r *http.Request) {
 	Act("audited.list", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
-		q := strings.TrimSpace(cutil.QueryStringString(r, "q"))
+		q := strings.TrimSpace(cutil.QueryStringString(ps.URI, "q"))
 		prms := ps.Params.Sanitized("audited", ps.Logger)
 		var ret audited.Auditeds
 		var err error
@@ -60,7 +60,7 @@ func AuditedDetail(w http.ResponseWriter, r *http.Request) {
 func AuditedCreateForm(w http.ResponseWriter, r *http.Request) {
 	Act("audited.create.form", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &audited.Audited{}
-		if cutil.QueryStringString(r, "prototype") == util.KeyRandom {
+		if cutil.QueryStringString(ps.URI, "prototype") == util.KeyRandom {
 			ret = audited.RandomAudited()
 		}
 		ps.SetTitleAndData("Create [Audited]", ret)

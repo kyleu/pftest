@@ -17,7 +17,7 @@ import (
 
 func PathList(w http.ResponseWriter, r *http.Request) {
 	controller.Act("path.list", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
-		q := strings.TrimSpace(cutil.QueryStringString(r, "q"))
+		q := strings.TrimSpace(cutil.QueryStringString(ps.URI, "q"))
 		prms := ps.Params.Sanitized("path", ps.Logger)
 		var ret path.Paths
 		var err error
@@ -56,7 +56,7 @@ func PathDetail(w http.ResponseWriter, r *http.Request) {
 func PathCreateForm(w http.ResponseWriter, r *http.Request) {
 	controller.Act("path.create.form", w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		ret := &path.Path{}
-		if cutil.QueryStringString(r, "prototype") == util.KeyRandom {
+		if cutil.QueryStringString(ps.URI, "prototype") == util.KeyRandom {
 			ret = path.RandomPath()
 		}
 		ps.SetTitleAndData("Create [Path]", ret)
