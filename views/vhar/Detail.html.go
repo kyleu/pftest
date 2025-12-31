@@ -132,6 +132,8 @@ func (p *Detail) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.
 //line views/vhar/Detail.html:48
 		components.StreamExpandCollapse(qw422016, 3, ps)
 //line views/vhar/Detail.html:48
+		qw422016.N().S(` `)
+//line views/vhar/Detail.html:48
 		qw422016.E().S(e.String())
 //line views/vhar/Detail.html:48
 		qw422016.N().S(`
