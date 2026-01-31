@@ -261,7 +261,7 @@ func (p *DebugSocket) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *c
   </div>
   <script>
     window.addEventListener('load', () => {
-      projectforge.socketLog(true, document.getElementById("`)
+      pftest.socketLog(true, document.getElementById("`)
 //line views/Debug.html:76
 	qw422016.E().S(id)
 //line views/Debug.html:76
