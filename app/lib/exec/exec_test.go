@@ -2,9 +2,10 @@ package exec_test
 
 import (
 	"bytes"
-	"errors"
 	"testing"
 	"time"
+
+	"github.com/pkg/errors"
 
 	"github.com/kyleu/pftest/app/lib/exec"
 )
