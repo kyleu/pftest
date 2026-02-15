@@ -1,6 +1,6 @@
 module github.com/kyleu/pftest
 
-go 1.25.0
+go 1.25.7
 
 require (
 	github.com/CAFxX/httpcompression v0.0.9
