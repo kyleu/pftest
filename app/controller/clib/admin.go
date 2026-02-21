@@ -29,11 +29,26 @@ func Admin(w http.ResponseWriter, r *http.Request) {
 	}
 	controller.Act(key, w, r, func(as *app.State, ps *cutil.PageState) (string, error) {
 		if len(path) == 0 {
+			st := as.Services.Settings.Get()
 			ps.SetTitleAndData("Administration", "administration")
-			return controller.Render(r, as, &vadmin.Settings{BuildInfo: as.BuildInfo, Perms: user.GetPermissions()}, ps, keyAdmin)
+			return controller.Render(r, as, &vadmin.Settings{BuildInfo: as.BuildInfo, Perms: user.GetPermissions(), CurrentSettings: st}, ps, keyAdmin)
 		}
 		ps.DefaultNavIcon = "cog"
 		switch path[0] {
+		case "settings":
+			if r.Method == http.MethodPost {
+				frm, err := cutil.ParseForm(r, ps.RequestBody)
+				if err != nil {
+					return "", err
+				}
+				if err := as.Services.Settings.SetMap(frm); err != nil {
+					return "", err
+				}
+				return controller.FlashAndRedir(true, "saved app settings", "/admin", ps)
+			}
+			st := as.Services.Settings.Get()
+			ps.SetTitleAndData("App Settings", st)
+			return controller.Render(r, as, &vadmin.SettingsEdit{Settings: st}, ps, keyAdmin, "App Settings")
 		case "server":
 			info := util.DebugGetInfo(as.BuildInfo.Version, as.Started)
 			ps.SetTitleAndData("Server Info", info)

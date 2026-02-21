@@ -1,6 +1,7 @@
 {% import (
   "github.com/kyleu/pftest/app"
   "github.com/kyleu/pftest/app/controller/cutil"
+  "github.com/kyleu/pftest/app/lib/settings"
   "github.com/kyleu/pftest/app/lib/user"
   "github.com/kyleu/pftest/app/util"
   "github.com/kyleu/pftest/views/components"
@@ -13,6 +14,7 @@
   layout.Basic
   Perms user.Permissions
   BuildInfo *app.BuildInfo
+  CurrentSettings *settings.Settings
 } %}
 
 {% func (p *Settings) Body(as *app.State, ps *cutil.PageState) %}
@@ -36,6 +38,21 @@
       <li><a href="/admin/audit">{%= components.SVGIcon(`cog`, ps) %} View audit logs</a></li>
     </ul>
   </div>
+
+  {%- if p.CurrentSettings != nil -%}
+  <div class="card">
+    <div class="right"><a href="/admin/settings" title="edit settings"><button>{%= components.SVGButton(`edit`, ps) %}</button></a></div>
+    <h3>{%= components.SVGIcon(`cog`, ps) %} App Settings</h3>
+    <hr />
+    <div class="overflow full-width">
+      <table class="min-200 expanded">
+        <tbody>
+          {%= view.Fields(settings.SettingsFieldDescs, p.CurrentSettings.ToMap(), ps) %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {%- endif -%}
 
   <div class="card">
     <h3>{%= components.SVGIcon(`archive`, ps) %} Admin Functions</h3>

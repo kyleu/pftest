@@ -1,0 +1,23 @@
+{% import (
+  "net/http"
+
+  "github.com/kyleu/pftest/app"
+  "github.com/kyleu/pftest/app/controller/cutil"
+  "github.com/kyleu/pftest/app/lib/settings"
+  "github.com/kyleu/pftest/views/components"
+  "github.com/kyleu/pftest/views/components/edit"
+  "github.com/kyleu/pftest/views/layout"
+) %}
+
+{% code type SettingsEdit struct {
+  layout.Basic
+  Settings *settings.Settings
+} %}
+
+{% func (p *SettingsEdit) Body(as *app.State, ps *cutil.PageState) %}
+  <div class="card">
+    <h3>{%= components.SVGIcon("edit", ps) %} Edit App Settings</h3>
+    <div class="mts"><em>Changes will be saved as <code>settings.json</code> in the configuration directory</em></div>
+    {%= edit.TableEditor("settings", settings.SettingsFieldDescs, p.Settings.ToMap(), "", http.MethodPost, "Save Changes") %}
+  </div>
+{% endfunc %}
