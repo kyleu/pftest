@@ -38,4 +38,5 @@ All variable names can be set in uppercase or lowercase
 | `read_max_connections`        | int    | max connection count for the read-only PostgreSQL connection                     |
 | `telemetry_disabled`          | bool   | when set, disables all telemetry                                                 |
 | `telemetry_endpoint`          | string | address of OpenTelemetry collector (when enabled), defaults to `localhost:55681` |
+| `tui_theme_mode`              | string | theme mode for terminal UI, one of [`auto`, `dark`, `light`], defaults to `auto` |
 | `pftest_encryption_key`       | string | encryption key for web sessions, defaults to `pftest_secret`, warns if missing   |

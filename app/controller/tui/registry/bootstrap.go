@@ -3,6 +3,7 @@ package registry
 import (
 	"github.com/kyleu/pftest/app"
 	"github.com/kyleu/pftest/app/controller/tui/screens"
+	"github.com/kyleu/pftest/app/controller/tui/screens/settings"
 	"github.com/kyleu/pftest/app/lib/menu"
 	"github.com/kyleu/pftest/app/util"
 )
@@ -18,6 +19,8 @@ func Bootstrap(st *app.State, logger util.Logger) *screens.Registry {
 	reg.Register(aboutScreenItem, screens.NewAboutScreen())
 
 	// reg.AddScreen(SomeNewScreen())
+
+	settings.Register(reg)
 
 	return reg
 }

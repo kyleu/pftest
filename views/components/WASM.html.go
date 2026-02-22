@@ -24,12 +24,12 @@ var (
 )
 
 //line views/components/WASM.html:6
-func StreamWASMScript(qw422016 *qt422016.Writer, cfg any) {
+func StreamWASMScript(qw422016 *qt422016.Writer, cfg any, logger util.Logger) {
 //line views/components/WASM.html:6
 	qw422016.N().S(`
 `)
 //line views/components/WASM.html:7
-	qw422016.N().S(assets.ScriptElement(`wasm/wasm_exec.js`, true))
+	qw422016.N().S(assets.ScriptElement(`wasm/wasm_exec.js`, true, logger))
 //line views/components/WASM.html:7
 	qw422016.N().S(`
 <script>
@@ -45,7 +45,7 @@ func StreamWASMScript(qw422016 *qt422016.Writer, cfg any) {
     const go = new Go();
     WebAssembly.instantiateStreaming(fetch("`)
 //line views/components/WASM.html:19
-	qw422016.E().S(assets.URL(`wasm/pftest.wasm`))
+	qw422016.E().S(assets.URL(`wasm/pftest.wasm`, logger))
 //line views/components/WASM.html:19
 	qw422016.N().S(`"), go.importObject).then((result) => {
       go.run(result.instance);
@@ -62,22 +62,22 @@ func StreamWASMScript(qw422016 *qt422016.Writer, cfg any) {
 }
 
 //line views/components/WASM.html:25
-func WriteWASMScript(qq422016 qtio422016.Writer, cfg any) {
+func WriteWASMScript(qq422016 qtio422016.Writer, cfg any, logger util.Logger) {
 //line views/components/WASM.html:25
 	qw422016 := qt422016.AcquireWriter(qq422016)
 //line views/components/WASM.html:25
-	StreamWASMScript(qw422016, cfg)
+	StreamWASMScript(qw422016, cfg, logger)
 //line views/components/WASM.html:25
 	qt422016.ReleaseWriter(qw422016)
 //line views/components/WASM.html:25
 }
 
 //line views/components/WASM.html:25
-func WASMScript(cfg any) string {
+func WASMScript(cfg any, logger util.Logger) string {
 //line views/components/WASM.html:25
 	qb422016 := qt422016.AcquireByteBuffer()
 //line views/components/WASM.html:25
-	WriteWASMScript(qb422016, cfg)
+	WriteWASMScript(qb422016, cfg, logger)
 //line views/components/WASM.html:25
 	qs422016 := string(qb422016.B)
 //line views/components/WASM.html:25
