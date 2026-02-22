@@ -14,6 +14,7 @@ import (
 	"go.uber.org/zap/zapcore"
 
 	"github.com/kyleu/pftest/app/controller/tui"
+	"github.com/kyleu/pftest/app/controller/tui/registry"
 	"github.com/kyleu/pftest/app/lib/log"
 	"github.com/kyleu/pftest/app/util"
 )
@@ -79,7 +80,8 @@ func runTUI(ctx context.Context, flags *Flags) error {
 		}
 	}
 
-	t, err = tui.NewTUI(st, serverURL, serverErr, logger)
+	reg := registry.Bootstrap(st, logger)
+	t, err = tui.NewTUI(st, serverURL, serverErr, reg, logger)
 	if err != nil {
 		return err
 	}
