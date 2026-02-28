@@ -5,33 +5,17 @@ import (
 
 	"github.com/kyleu/pftest/app/controller/tui/components"
 	"github.com/kyleu/pftest/app/controller/tui/layout"
+	"github.com/kyleu/pftest/app/controller/tui/screens"
 	"github.com/kyleu/pftest/app/controller/tui/style"
 	"github.com/kyleu/pftest/app/lib/menu"
 )
 
 func menuClamp(cursor int, count int) int {
-	if count <= 0 || cursor < 0 {
-		return 0
-	}
-	if cursor >= count {
-		return count - 1
-	}
-	return cursor
+	return screens.MenuClampCursor(cursor, count)
 }
 
 func menuDelta(msg tea.Msg) (int, bool) {
-	m, ok := msg.(tea.KeyMsg)
-	if !ok {
-		return 0, false
-	}
-	switch m.String() {
-	case "up", "k":
-		return -1, true
-	case "down", "j":
-		return 1, true
-	default:
-		return 0, false
-	}
+	return screens.MenuMoveDelta(msg)
 }
 
 func menuWindow(items menu.Items, cursor int, height int) (menu.Items, int) {

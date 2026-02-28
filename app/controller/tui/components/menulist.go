@@ -7,6 +7,7 @@ import (
 
 	"github.com/kyleu/pftest/app/controller/tui/style"
 	"github.com/kyleu/pftest/app/lib/menu"
+	"github.com/kyleu/pftest/app/util"
 )
 
 func RenderMenuList(items menu.Items, cursor int, st style.Styles, width int) string {
@@ -68,9 +69,9 @@ func truncateEllipsis(s string, width int) string {
 		return s
 	}
 	if width <= 3 {
-		return "…"
+		return util.KeyEllipsis
 	}
-	return string(r[:width-3]) + "…"
+	return string(r[:width-3]) + util.KeyEllipsis
 }
 
 func singleLine(s string) string {
