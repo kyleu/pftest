@@ -116,7 +116,7 @@ func (p *Files) StreamBody(qw422016 *qt422016.Writer, as *app.State, ps *cutil.P
 //line views/vnotebook/Files.html:50
 		qw422016.N().S(`    `)
 //line views/vnotebook/Files.html:51
-		vfile.StreamDetail(qw422016, as, p.Path, b, u, links, ps)
+		vfile.StreamDetail(qw422016, as, p.Path, 0, b, u, links, ps)
 //line views/vnotebook/Files.html:51
 		qw422016.N().S(`
   </div>
