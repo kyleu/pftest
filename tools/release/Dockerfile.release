@@ -17,4 +17,6 @@ WORKDIR /
 
 ENTRYPOINT ["/pftest", "-a", "0.0.0.0"]
 
-COPY pftest /
+ARG TARGETPLATFORM
+
+COPY $TARGETPLATFORM/pftest /
